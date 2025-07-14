@@ -1,0 +1,892 @@
+
+<html><head><title>EM Analysis</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="pallabi" />
+<meta name="CreateDate" content="2020-09-11" />
+<meta name="CreateTime" content="1599809748" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to perform power-grid and electromigration analysis using the Virtuoso Power System Product, Power IR/EM." />
+<meta name="DocTitle" content="Power IR/EM User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="EM Analysis" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2" />
+<meta name="Keyword" content="vpsl" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-11" />
+<meta name="ModifiedTime" content="1599809748" />
+<meta name="NextFile" content="vsaPlot.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Digital IC Design" />
+<meta name="PrevFile" content="irdrop.html" />
+<meta name="c_product" content="Virtuoso Power System" />
+<meta name="Product" content="Virtuoso Power System" />
+<meta name="ProductFamily" content="Virtuoso Power System" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Power IR/EM User Guide -- EM Analysis" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vpslICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vpslTOC.html">Contents</a></li><li><a class="prev" href="irdrop.html" title="IR Drop Analysis">IR Drop Analysis</a></li><li style="float: right;"><a class="viewPrint" href="vpsl.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="vsaPlot.html" title="Viewing Results in vsaPlot">Viewing Results in vsaPlot</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Power IR/EM User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>6
+<a id="pgfId-15296784"></a></h1>
+<h1>
+<a id="pgfId-15296785"></a><hr />
+<a id="38776"></a>EM Analysis<hr />
+</h1>
+
+<ul><li>
+<a id="pgfId-15296789"></a><a href="emanalysis.html#95352">Overview</a></li><li>
+<a id="pgfId-15215970"></a><a href="emanalysis.html#14755">EM Analysis of the Power Grid</a><ul><li>
+<a id="pgfId-15332445"></a><a href="emanalysis.html#29750">Layermap File for EM Analysis</a></li><li>
+<a id="pgfId-15321239"></a><a href="emanalysis.html#86360">Analyzing EM Across Design Resistors</a></li><li>
+<a id="pgfId-15297024"></a><a href="emanalysis.html#17726">Writing Out an EM Command File</a></li><li>
+<a id="pgfId-15297034"></a><a href="emanalysis.html#53518">Opening Power IR/EM Directly from Extracted View</a></li></ul></li><li>
+<a id="pgfId-15297044"></a><a href="emanalysis.html#43431">EM Analysis of Signal Nets</a></li><li>
+<a id="pgfId-15297580"></a><a href="emanalysis.html#66510">EM Analysis Results</a><ul><li>
+<a id="pgfId-15332263"></a><a href="emanalysis.html#87089">Importing Results of a Previous EM Analysis</a></li><li>
+<a id="pgfId-15332324"></a><a href="emanalysis.html#29054">Viewing Electromigration Analysis Results for the Current Run</a></li><li>
+<a id="pgfId-15327240"></a><a href="emanalysis.html#91571">Customizing Error Layer Display for EM Analysis Results</a></li><li>
+<a id="pgfId-15297590"></a><a href="emanalysis.html#63073">Customizing the EM Analysis Results Display</a></li><li>
+<a id="pgfId-15332434"></a><a href="emanalysis.html#76603">Using EM Analysis Results for Cross-Probing in Power IR/EM</a></li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-15297484"></a><a id="95352"></a><a id="21647"></a><a id="28799"></a><a id="14512"></a>Overview</h2>
+
+<p>
+<a id="pgfId-15331570"></a><a id="marker-15301766"></a><a id="marker-15329981"></a>Electromigration (EM) is used as a general term to describe failure mechanisms in the metal wires of a computer chip caused by the movement of metal atoms in a wire because of high current stress. As electrons move through a metal wire, they collide with the atoms in that wire. These collisions cause wires to become heated, and if enough electrons collide with a metal atom over a period of time, the metal atom can move in the direction of the electron flow, causing the following failure mechanisms:</p>
+<ul><li>
+<a id="pgfId-15331571"></a>First, if enough atoms move, the wire breaks and becomes an open circuit.</li><li>
+<a id="pgfId-15331572"></a>Second, if enough atoms move to the same location, a short to an adjacent metal wire is created. This phenomenon is commonly known as fusing.</li></ul>
+
+<p>
+<a id="pgfId-15331573"></a>Either of these mechanisms changes the functionality of the chip.</p>
+<p>
+<a id="pgfId-15331575"></a><a id="marker-15331574"></a>EM analysis is performed to analyze the power grid and signals of the design for any current density violations of the<em><a actuate="user" class="URL" href="../vpsl/glossary.html#DCcurrent" show="replace" xml:link="simple"> DC current </a></em>through the metal conductor lines, vias, and contacts. These violations can then be corrected by limiting the current density in metal conductor lines, vias, and contacts. </p>
+
+<h2>
+<a id="pgfId-15330179"></a><a id="39927"></a><a id="14755"></a>EM Analysis of the <a id="vsaElectromigrationHelp"></a>Power Grid</h2>
+
+<p>
+<a id="pgfId-15330264"></a>Before running Electromigration Analysis, the EM reliability rules need to be specified. </p>
+<p>
+<a id="pgfId-15330265"></a>These rules are read either from the QRC technology file (<code>qrcTechFile</code>) or from the <code>emDatafile</code>, which includes user-specified rules. For more information, see &#8220;Reading EM Rules from qrcTechFile&#8221; and &#8220;Reading EM Rules from emDataFile&#8221; sections in the &#8220;<h-hot><a actuate="user" class="URL" href="../vpsl/emrulespec.html#firstpage" show="replace" xml:link="simple">EM Rules Specification</a></h-hot>&#8221; chapter.</p>
+<p>
+<a id="pgfId-15330267"></a>By default, in Power IR/EM, the extraction, simulation, and EM analysis flows are run at the same temperature, which is called the nominal temperature. However, you can choose to perform simulation at non-nominal temperatures using <code>TC1</code> and <code>TC2</code>. You can also perform IR/EM analysis without creating multiple <code>emDataFiles</code> for different temperature ranges.</p>
+<p>
+<a id="pgfId-15330268"></a>This is possible because even while performing extraction at nominal temperature, you can store the <code>TC1</code> and <code>TC2</code> (non-nominal temperature) values. The simulation and analysis flows then modify the resistance values internally as per the temperature values specified by you. So, when you perform EM analysis, the software reads in the data and calculates the new resistance using the temperature values specified by you and uses this resistance value for EM analysis.</p>
+<p>
+<a id="pgfId-15330269"></a>This means that you only need to maintain one <code>emDataFile</code> corresponding to nominal temperature and you can use the same file for all temperature ranges.</p>
+<p>
+<a id="pgfId-15330270"></a>To store <code>TC1</code> and <code>TC2</code> parameters in the extracted view, select <em>Parasitic Resistance Temperature Coefficient</em> in the <em>Netlisting</em> tab of the Quantus (Pegasus) Parasitic Extraction Run form while generating the extracted view.</p>
+<p>
+<a id="pgfId-15330271"></a>For details, see the <em>QRC Extraction Users Manual.</em></p>
+<p>
+<a id="pgfId-15304386"></a>To perform EM analysis of the power grid from the <a id="marker-15302289"></a>Virtuoso layout window, follow these steps:</p>
+<ol><li>
+<a id="pgfId-15298527"></a>In the Main menu, choose <em>VPS-L. </em><a id="marker-15298526"></a>Two options<em>, </em><em>Analyze Extracted View Pin(s)</em><a id="marker-15302294"></a> and <em>Analyze Extracted View Signal(s), </em><a id="marker-15302299"></a>appear in the drop-down list.<em> </em></li><li>
+<a id="pgfId-15298528"></a>Choose <em>Analyze Extracted View Pin(s) </em>for analyzing the power pins of the design and <em>Analyze Extracted View Signal(s) </em>to analyze the signals of the design.</li><li>
+<a id="pgfId-15298880"></a>The procedure below is detailed for EM power-grid analysis. Choose <em>Analyze Extracted View Pin(s) -</em> <em>Electromigration Power Analysis </em><a id="marker-15302304"></a>from the drop-down list. This is shown below.<br /><strong class="webflare-fig-line-height">Figure 6-1
+<a id="pgfId-15314849"></a>Opening Electromigration Power Grid Analysis Form</strong>
+<a id="pgfId-15314853"></a><div class="webflare-div-image">
+<img width="625" height="108" src="images/emanalysis-2.gif" /></div></li><li>
+<a id="pgfId-15314984"></a>The Electromigration Power Grid Analysis form opens. This form is shown below.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15314987"></a>For information about performing EM analysis on signal nets, see <a href="emanalysis.html#43431">EM Analysis of Signal Nets</a>.</div><strong>Figure 6-2
+<a id="pgfId-15314991"></a><a id="69785"></a><a id="76926"></a>Running Electromigration Power Grid Analysis</strong>
+<a id="pgfId-15305906"></a><div class="webflare-div-image">
+<img width="671" height="494" src="images/emanalysis-3.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15329769"></a>When the above form opens, the fields are prefilled with the settings that were specified in the previous session. These settings are saved in the <code>vsaEMLast.cfg</code> file that is created for every session by default. However, if you do not want the software to load the settings of the previous session by default, then set the <a href="../vpsl/setenv.html#vsaDisableLastConfig">-vsaDisableLastConfig</a> environment variable to <code>true</code>.</div>
+<ul><li>
+<a id="pgfId-15329759"></a>In the <em>QRC extracted cellview</em>, you can view the <em>Extracted Library</em>, <em>Extracted Cell</em>, and <em>Extracted View</em> name created during the extraction run. See <a actuate="user" class="URL" href="../vpsl/analysisflow.html#RunningPVSQRC" show="replace" xml:link="simple">Running Pegasus Quantus QRC</a> in the &#8220;IR/EM Analysis Flow&#8221;<em> </em>chapter. The default view name for an extracted view is <code>av_extracted</code>.</li><li>
+<a id="pgfId-15297644"></a>Alternatively, you can select <em>Use</em><a id="marker-15302325"></a><a id="marker-15302330"></a> <em>RCXspiceINIT for layer info </em>so that Power IR/EM can read the RCXspiceINIT file instead of the extracted view. </li><li>
+<a id="pgfId-15326772"></a>Click <em>All pins</em> to perform EM analysis on all pins. Click <em>Select pins</em> to select the pin names on which the EM analysis should be performed. You can also search for pin names by typing the name in the search field. The search field also accepts SKILL regular expressions.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15326773"></a>When you open the Electromigration Power Grid analysis form, all pins listed in the list box are selected by default. This is shown in the image below. </div><strong>Figure 6-3
+<a id="pgfId-15326774"></a>Selecting Pins from the Extracted Cellview</strong>
+<a id="pgfId-15326778"></a><div class="webflare-div-image">
+<img width="575" height="172" src="images/emanalysis-4.gif" /></div></li><li>
+<a id="pgfId-15328168"></a>In the <em>Extraction</em> group box:<ul><li>
+<a id="pgfId-15328170"></a>Specify the directory name in the <em>QRC Results Directory</em><a id="marker-15328169"></a> where the RCXspiceINIT file exists. Select the signal names on which the EM analysis is to be performed. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15328176"></a>The <em>Example Directory</em> field shows you how to specify this value.</div></li><li>
+<a id="pgfId-15328178"></a>Click <em>Select QRC Directory</em><a id="vsaElectromigrationBrowseAssuraQrcDirHelp"></a> to open the Select QRC Directory form. This form is shown below.<br /><strong class="webflare-fig-line-height">Figure 6-4
+<a id="pgfId-15317948"></a>Select QRC Directory</strong>
+<a id="pgfId-15317952"></a><div class="webflare-div-image">
+<img width="594" height="456" src="images/emanalysis-5.gif" /></div></li></ul>
+<a id="pgfId-15317954"></a>For more information, see <a actuate="user" class="URL" href="../vpsl/analysisflow.html#RunningPVSLVS" show="replace" xml:link="simple">Running Pegasus or PVS LVS</a> in the &#8220;IR/EM Analysis Flow&#8221;<em> </em>chapter. <ul><li>
+<a id="pgfId-15317956"></a>Specify the name of the QRC run in the <em>QRC Runname</em> cyclic field. See <a actuate="user" class="URL" href="../vpsl/analysisflow.html#RunningPVSQRC" show="replace" xml:link="simple">Running Pegasus/PVS Quantus QRC</a> in the &#8220;IR/EM Analysis Flow&#8221;<em> </em>chapter.</li><li>
+<a id="pgfId-15317985"></a>Click<a id="EditViewCustomParameters"></a> <em>Edit/View Custom Parameters</em><a id="vsaElectromigrationsEditViewCustomParametersCHelp"></a> to specify custom parameters during the run time and set their values in the <code>emDataFile</code>. The Electromigration Edit/View Custom Parameters form opens. This form is shown below. <br /><strong class="webflare-fig-line-height">Figure 6-5
+<a id="pgfId-15317988"></a>Opening the Electromigration Edit/View Custom Parameters Form</strong>
+<a id="pgfId-15318083"></a><div class="webflare-div-image">
+<img width="375" height="433" src="images/emanalysis-6.gif" /></div></li><li>
+<a id="pgfId-15321519"></a>This form lists parameter names and their values. You can change the value of a parameter in the text field provided at the bottom of the form and click <em>Update</em>. <ul><li>
+<a id="pgfId-15330435"></a>The <code>BulkTerminal</code> parameter is only applicable to the design resistor flow. This parameter is used to specify the bulk terminals of the design resistors that are to be ignored while performing EM analysis. You can provide the names of multiple terminals separated by a comma. You can also specify the terminals by using the <a href="../vpsl/setenv.html#vsaBulkTerminal">_vsaBulkTerminal</a> environmental variable. When this environment variable is specified, the value of the <code>BulkTerminal</code> parameter in the GUI is updated.</li><li>
+<a id="pgfId-15332818"></a>The <code>EnableDesignResAnalysis</code> parameter is used to enable or disable the analysis of all design resistors. It is set to <code>true</code> by default. Set to <code>nil</code> to disable analysis of all design resistors.</li><li>
+<a id="pgfId-15332847"></a><code>JmaxLife</code> is used to specify the scaling factor that applies to the current density limits for different lifetimes. You can also specify the lifetime value using the environment variable, <a href="../vpsl/setenv.html#vsaJmaxLife">_vsaJmaxLife</a>.</li><li>
+<a id="pgfId-15332795"></a>The <code>RMSMultiplierPin</code> and <code>RMSMultiplierSignal</code> parameters are used to specify the RMS relaxation factor for EM power-grid and signal analysis respectively. You can also set the <a href="../vpsl/setenv.html#vsaRMSMultiplierPin">_vsaRMSMultiplierPin</a><code> </code>and<code> </code><a href="../vpsl/setenv.html#vsaRMSMultiplierSignal">_vsaRMSMultiplierSignal</a><code> </code>environment variables to <code>true.</code></li><li>
+<a id="pgfId-15332865"></a><code>SimTemperature</code> parameter is used to specify the simulation temperature to be used for EM analysis. When this temperature value is specified, it overrides the temperature value specified in the simulation directory.</li><li>
+<a id="pgfId-15330726"></a>The <code>applyRThreshold </code>parameter is used to specify the threshold ratio &#8220;r&#8221; for AC-Peak analysis. You can also specify the ratio using the <a href="../vpsl/setenv.html#vsaApplyRThreshold">_vsaApplyRThreshold</a><code> </code>environment variable.</li><li>
+<a id="pgfId-15330548"></a><code>deltaT</code> is used to specify the maximum rise in temperature in degree Celsius, caused due to Joule Heating. For details, see <a href="../vpsl/emrulespec.html#deltaT">deltaT</a> it in the EM Rules Specification chapter.</li></ul></li><li>
+<a id="pgfId-15318005"></a>Click <em>OK</em>. EM analysis will be performed using the new values. </li></ul><br />
+<a id="pgfId-15317997"></a>For details, see <a actuate="user" class="URL" href="../vpsl/emrulespec.html#RulesDefiningLimitBasedParams" show="replace" xml:link="simple">Rules for Defining Limit-Based Parameters</a> in the &#8220;EM Rules Specification&#8221; chapter.</li><li>
+<a id="pgfId-15308363"></a>In the EM Rules group box:<ul><li>
+<a id="pgfId-15320237"></a>Click <em>Power Rail Rules</em> to enable power-grid analysis.</li><li>
+<a id="pgfId-15329364"></a>Click <em>qrcTechfile</em> to specify <code>qrcTechFile</code> flow. When you click <em>qrcTechfile, Technology file </em>and<em> Name Mapping File </em>cyclic fields appear in the form. Select the relevant technology file and name mapping file to be used for EM analysis<em>. </em>For details of the layermap file used for EM analysis, see<em> </em><a href="emanalysis.html#29750">Layermap File for EM Analysis</a>.</li><li>
+<a id="pgfId-15313057"></a>You can also click <em>Select qrcTechFile</em><a id="vsaElectromigrationBrowseQrcTechFileHelp"></a> to specify the relevant <code>qrcTechFile</code>. The Select Existing Technology File form opens<em>. </em><br /><strong class="webflare-fig-line-height">Figure 6-6
+<a id="pgfId-15315265"></a>Selecting the Existing Technology File</strong>
+<a id="pgfId-15315269"></a><div class="webflare-div-image">
+<img width="536" height="408" src="images/emanalysis-7.gif" /></div>
+<a id="pgfId-15315336"></a>In this form, select the file and click <em>OK.</em></li><li>
+<a id="pgfId-15326135"></a>Click <em>Select mapFile </em><a id="vsaElectromigrationBrowseMapFileHelp"></a>to select the relevant layermap file. The Select Existing Name Mapping File form opens. The form is shown below.<br /><strong class="webflare-fig-line-height">Figure 6-7
+<a id="pgfId-15325653"></a>Selecting an Existing Mapfile</strong>
+<a id="pgfId-15325664"></a><div class="webflare-div-image">
+<img width="574" height="437" src="images/emanalysis-8.gif" /></div>
+<a id="pgfId-15315340"></a>In this form, select the file and click <em>OK.</em></li><li>
+<a id="pgfId-15326205"></a>Click <em>emDataFile</em> to specify the <code>emDataFile</code> flow. When you click <em>emDataFile, the EM Data File </em>cyclic field appears in the form. From the cyclic field, specify an existing <code>emDataFile</code> &#8211; available from previous runs &#8211; for performing EM analysis. <br />
+<a id="pgfId-15330341"></a>When you select the <code>emDataFile</code> flow, a pop-up window with the duplicate via width information warning message appears. This is shown below.<br /><strong class="webflare-fig-line-height">Figure 6-8
+<a id="pgfId-15330342"></a>Duplicat<a id="vsaElectromigrationAppDBox3Help"></a>e Via Width Information Warning </strong>
+<a id="pgfId-15330346"></a><div class="webflare-div-image">
+<img width="418" height="189" src="images/emanalysis-9.gif" /></div>
+<a id="pgfId-15330347"></a>In the above pop-up window, click <em>OK </em>to use the via width information from the <code>emDataFile</code>. Click <em>Cancel</em> to use the via width values from <code>qrcTechFile</code>. To suppress this warning message, set the <a href="../vpsl/setenv.html#vsaMinWarning">_vsaMinWarning</a> environment variable to <code>true</code>. In this case, OK will be considered as default, which means that the via width information specified in the <code>emDataFile</code> will override that specified in <code>qrcTechFile</code>.</li><li>
+<a id="pgfId-15328549"></a>You can also click <em>Select emDatafile</em> to specify an existing <code>emDataFile</code>. The Select Ex<a id="vsaElectromigrationBrowseEMDataFileHelp"></a>isting EM Data File form opens. This form is shown below.<br /><strong class="webflare-fig-line-height">Figure 6-9
+<a id="pgfId-15325714"></a>Selecting an Existing EM Data File</strong>
+<a id="pgfId-15325725"></a><div class="webflare-div-image">
+<img width="573" height="441" src="images/emanalysis-10.gif" /></div></li><li>
+<a id="pgfId-15298112"></a>In this form, select the file and click <em>OK</em>.</li></ul></li><li>
+<a id="pgfId-15328607"></a>In the Simulation group box:<ul><li>
+<a id="pgfId-15328611"></a>Specify the <em>Simulation Directory</em><a id="marker-15328608"></a> to point to the results of the Spectre, UltraSim, or APS simulation that was performed on the extracted view. <a id="marker-15328609"></a><a id="marker-15328610"></a><a id="marker-15328612"></a></li><li>
+<a id="pgfId-15318216"></a>You can also click <em>Select Simulation Directory</em><a id="vsaElectromigrationBrowseSimDirHelp"></a> to open the Select Simulation Directory form. This form is shown below. <br /><strong class="webflare-fig-line-height">Figure 6-10
+<a id="pgfId-15315477"></a>Selecting the S<a id="SelectSimulationDirectory"></a>imulation Directory</strong>
+<a id="pgfId-15315481"></a><div class="webflare-div-image">
+<img width="551" height="418" src="images/emanalysis-11.gif" /></div>
+<a id="pgfId-15325294"></a>In this form, select the simulation directory and click OK.<br />
+<a id="pgfId-15307372"></a>For more information, see <a actuate="user" class="URL" href="../vpsl/analysisflow.html#RunningSpectreSimulation" show="replace" xml:link="simple">Running a Spectre Simulation</a>, <a actuate="user" class="URL" href="../vpsl/analysisflow.html#RunningUltrasimSimulation" show="replace" xml:link="simple">Running An UltraSim Simulation</a>, or <a actuate="user" class="URL" href="../vpsl/analysisflow.html#RunningAPSSimulation" show="replace" xml:link="simple">Running an APS Simulation</a> in the &#8220;IR/EM Analysis Flow&#8221;<em> </em>chapter. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15298691"></a>The <em>Example Directory</em> field shows you how to specify this value.</div></li><li>
+<a id="pgfId-15298124"></a>In the <em>Analyze results </em><a id="marker-15298150"></a>cyclic field, you can specify the following: <br /><strong class="webflare-fig-line-height">Figure 6-11
+<a id="pgfId-15332586"></a>Specifying the Type of Analysis</strong>
+<a id="pgfId-15331753"></a><div class="webflare-div-image">
+<img width="581" height="99" src="images/emanalysis-12.gif" /></div><ul><li>
+<a id="pgfId-15331794"></a>Select <a id="marker-15331792"></a><em>DCOP</em><a id="marker-15331793"></a> or DC operating point analysis, which is recommended for large analog designs that are difficult to simulate in Spectre using transient analysis, especially when all parasitics are included in the analysis.</li><li>
+<a id="pgfId-15321105"></a>Select <a id="marker-15331795"></a><em>TRANSIENT </em>analysis, which automatically sets the simulation time in seconds when the <em>from/to </em>fields are selected. You can select a subset of this value for transient analysis by changing the value in the <em>from/to</em> fields. <br />
+<a id="pgfId-15321106"></a>If the simulation data is in the <code>vavo.db</code> format, you cannot change the value in the <em>from/to</em> fields. This is because all currents are pre-processed and stored by the simulator before Power IR/EM is run. To change these values, change the <code>emirstart/emirstop</code> options in the simulator tran statement. For more information, see <a actuate="user" class="URL" href="../vpsl/analysisflow.html#RunningAPSSimulation" show="replace" xml:link="simple">Running an APS Simulation</a> in the &#8220;IR/EM Analysis Flow&#8221;<em> </em>chapter.</li><li>
+<a id="pgfId-15331816"></a>If your simulation data is in <code>vavo.db</code> format, the <em>vavo_db</em> option appears in the form. This option is selected by default. To use the PSF database, deselect this option. This option is available only if you are using <code>vavo.db</code>. You can also specify this option in the batch mode by using the <a href="../vpsl/batchmode.html#vsa_vavo_db_enable">_vsa_vavo_db_enable</a><code> </code>command<code>.</code></li></ul></li></ul></li><li>
+<a id="pgfId-15321129"></a>In the <em>Analysis </em>group box, specify the method for processing results. The available options are detailed below. <br /><strong class="webflare-fig-line-height">Figure 6-12
+<a id="pgfId-15315509"></a>Specifying the Electromigration Power Grid Analysis Options</strong>
+<a id="pgfId-15315614"></a><div class="webflare-div-image">
+<img width="667" height="49" src="images/emanalysis-13.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15321845"></a>If no analysis type is specified, the software performs <em>Average</em> and <em>Peak</em> analysis by default.</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15329431"></a><a id="29750"></a>Layermap File for EM Analysis</h3>
+
+<p>
+<a id="pgfId-15329432"></a>The layermap file or the mapping file specified for EM analysis, provides the mapping between the ICT file layer names, the extraction layer names and the DFII layer names. A sample layermap file is provided below.</p>
+
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a id="pgfId-15329433"></a>#ictName&#160;&#160;    #extractionName      #dfIIName</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a id="pgfId-15329434"></a>mt1&#160;&#160;            mt1                 Metal1</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a id="pgfId-15329435"></a>mt2&#160;&#160;            mt2                 Metal2</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a id="pgfId-15329436"></a>Via1&#160;&#160;           Via1                Via1</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a id="pgfId-15329437"></a>Via2&#160;&#160;           Via2                Via2</pre>
+
+<p>
+<a id="pgfId-15329438"></a>You can also provide the device resistor information in the layermap file. In this case, the &#8220;#<code>extractionName</code>&#8221; column will have the device resistor information in the following format:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15329439"></a>DEVICE_RES:&lt;<code><em>cellName of the device resistor&gt;:&lt;resistor propertyName&gt;:&lt;width property name&gt;:&lt;length property Name&gt;:&lt;width unit&gt;:&lt;length unit&gt;</em></code></pre>
+
+<p>
+<a id="pgfId-15329440"></a>It is important that all properties are specified in the order, from left to right, shown in the above format. This means, to specify a property listed on the right, you must first specify the properties listed on the left. For example, to specify the width property name, you must specify the resistor property name and to specify the length property name, you must specify both the width property name and the resistor property name. For example:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15329441"></a>mt1&#160;&#160;          DEVICE_RES:nplusres:r:wSim:lSim         Metal1</pre>
+
+<p>
+<a id="pgfId-15329442"></a>Where,</p>
+<p>
+<a id="pgfId-15329443"></a><code>nplusres</code> is the device resistor cell name</p>
+<p>
+<a id="pgfId-15329444"></a><code>r</code> is the resistor property name</p>
+<p>
+<a id="pgfId-15329445"></a><code>wSim</code> is the width property name</p>
+<p>
+<a id="pgfId-15329446"></a><code>lSim</code> is the length property name</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15329447"></a>All properties other than the resistor cell name are optional. When a property name or unit is not specified, the software uses the default value for that property. For example, if the unit for either the width or the length property name is not specified, the software will use the default unit, which is &#8220;meter&#8221;.</div>
+
+<h3>
+<a id="pgfId-15321291"></a><a id="86360"></a>Analyzing<a id="EMAcrossDesignResistors"></a> EM Across Design Resistors</h3>
+
+<p>
+<a id="pgfId-15321292"></a>Power IR/EM supports EM analysis of design resistors. This is done by specifying information in the <code>emDataFile</code>. </p>
+<p>
+<a id="pgfId-15327204"></a>You can use the <a href="../vpsl/emrulespec.html#DesignResistors">DesignResistors</a> parameter to provide the list of cell names. For each cell name, you can specify the resistance property name, width property name, length property name, and units of width and length property names of the design resistors for which you want EM to be analyzed. </p>
+<p>
+<a id="pgfId-15327188"></a>The width and length property names are specified when the names of these properties are different from the &#8220;w&#8221; and &#8220;l&#8221; in the extracted view.</p>
+<p>
+<a id="pgfId-15321300"></a>After specifying the above, append the details for current density specifications for the above design resistors in the <code>emDataFile</code> in the following manner.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15321301"></a>xrefLayers = (<br />( &quot;CellName&quot; (&quot;emruleName&quot; &quot;DFIILayer&quot;))<br />)</pre>
+
+<p>
+<a id="pgfId-15321302"></a>Example:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15321303"></a>xrefLayers&#160;&#160;= (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15321304"></a>( &#8220;nplusres&#8221; (&#8220;emrule_nplus&#8221; &#8220;diff&#8221;))<br />)</pre>
+
+<p>
+<a id="pgfId-15321305"></a>Add the rule for the design resistors in the current density rules specification section.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15321306"></a>avgPositiveCurrentDensSpecList = (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15321307"></a>(nil layer &#8220;emrule_nplus&quot; minW 0.0 maxW -1.0 currentDensity ((1.6, 20) (1.61,110) (1.62,125)) )</pre>
+
+<p>
+<a id="pgfId-15321308"></a>There can be some resistors in the design that do not belong to any of the pins selected for analysis. By default, all the design resistors are analyzed irrespective of the pins selected for analysis. To analyze only those design resistors that are connected to selected pins, set the <a href="../vpsl/setenv.html#vsaDisableAllDesignResistorAnalysis">_vsaDisableAllDesignResistorAnalysis</a> environment variable to <code>true</code>.</p>
+<p>
+<a id="pgfId-15330676"></a>To disable analysis of all design resistors, set the <code>EnableDesignResAnalysis</code> parameter in the Electromigration Edit/View Custom Parameters form to <code>nil</code>. This parameter is set to <code>true</code> by default.</p>
+<p>
+<a id="pgfId-15321310"></a>For details of the syntax and examples of the parameters to be added to the <code>emDataFile</code>, see <h-hot><a actuate="user" class="URL" href="../vpsl/emrulespec.html#ReadingEMRules" show="replace" xml:link="simple">Reading EM Rules from emDataFile</a></h-hot> in the &#8220;EM Rules Specification&#8221; chapter.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15321345"></a>Within the <code>PSF/PSF-XL</code> flow, the design resistor analysis is currently only supported for the <code>emDataFile</code> flow and not for <code>qrcTechFile</code> flow.</div>
+
+<h3>
+<a id="pgfId-15302582"></a><a id="17726"></a>Writing<a id="EMCommandFile"></a> Out an EM <a id="vsaIElectromigrationHelp"></a>Command File</h3>
+
+<p>
+<a id="pgfId-15302584"></a>To generate a batch mode command file, follow these steps:</p>
+<ul><li>
+<a id="pgfId-15305665"></a>In the <a id="marker-15305663"></a><a id="marker-15305664"></a>Electromigration Power Grid Analysis form, specify the <em>QRC Results Directory</em> and the pin name.</li><li>
+<a id="pgfId-15305670"></a>Click <em>Generate Command File.</em> The Save Selected EM Commands To a File form opens. This form is shown below. <br /><strong class="webflare-fig-line-height">Figure 6-13
+<a id="pgfId-15305587"></a>Save Selected <a id="WritingOutToEMCommand"></a>EM Comm<a id="vsaElectromigrationSaveCommandHelp"></a>ands To a File</strong>
+<a id="pgfId-15305597"></a><div class="webflare-div-image">
+<img width="622" height="231" src="images/emanalysis-20.gif" /></div></li><li>
+<a id="pgfId-15324477"></a>In this form, specify the <em>Command File Name</em>. If the command file name is not specified, the software either uses <code>&lt;Batch job Name&gt;.cmd</code>  as the default command file name or if the batch job name is not provided, then it uses <code>vsaEMBatch.cmd </code>as the default command file name.</li><li>
+<a id="pgfId-15324496"></a>Specify the<em> Batch Job Name</em>, which is a unique job name to distinguish between different jobs. This allows you to run multiple command files &#8211; generated by different job names &#8211; in the same working directory.</li><li>
+<a id="pgfId-15324478"></a>In the <em>Run Options</em> group box, click <em>Run file</em> to run the generated command file in the background.</li><li>
+<a id="pgfId-15324479"></a>Specify the Local Server Farm or the <em>LSF Command String </em>, which is the name of the wrapper string command that will launch Power IR/EM in the batch mode. For example, you can specify <code>bsub -q lnx64 </code>as the LSF command string. You can also specify the LSF string by using the environment variable, <a href="../vpsl/setenv.html#vsaLSFMachineString">_vsaLSFMachineString</a>. When this environment variable is set, the <em>LSF Command String</em> field is pre-filled with the specified command.</li><li>
+<a id="pgfId-15332230"></a>Click <em>Load GIF Viewer </em>to launch the vsaPlot, which is used for visualizing and customizing the IR drop and EM analysis results. For details, see the &#8220;<a actuate="user" class="URL" href="../vpsl/vsaPlot.html#firstpage" show="replace" xml:link="simple">Visualizing Results in vsaPlot</a>&#8221; chapter.</li><li>
+<a id="pgfId-15324481"></a>Click <em>View file</em> to view the command file. This option is selected by default. If you do not want to view the command file, you can change the default selection of this option by setting the <a href="../vpsl/setenv.html#vsaUncheckViewFile">_vsaUncheckViewFile</a><code> </code>environment variable to <code>true.</code></li><li>
+<a id="pgfId-15321764"></a>Click <em>OK</em>.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15297261"></a><a id="53518"></a>Opening Power IR/EM Directly from Extracted View</h3>
+
+<p>
+<a id="pgfId-15297262"></a>The procedure for opening Power IR/EM directly from extracted view for EM analysis is the same as described for IR Drop analysis. For detailed information, see the same section in the &#8220;IR Drop Analysis&#8221; chapter.</p>
+
+<h2>
+<a id="pgfId-15297270"></a><a id="43431"></a>EM Analysis o<a id="EMAnalysisofSignalNets"></a>f Signal Nets</h2>
+
+<p>
+<a id="pgfId-15297271"></a><a id="marker-15301833"></a>EM analysis of signal nets is similar to the EM analysis of power nets. </p>
+<p>
+<a id="pgfId-15299108"></a>To perform EM analysis on signal nets, follow these steps:</p>
+<ul><li>
+<a id="pgfId-15299135"></a>Choose <em>VPS-L &#8211; Electromigration Signal Analysis</em><a id="marker-15299134"></a><a id="marker-15301838"></a> from the menu bar in the extracted view. This is shown below.<br /><strong class="webflare-fig-line-height">Figure 6-14
+<a id="pgfId-15315722"></a>Opening Electromigration Signal Analysis Form</strong>
+<a id="pgfId-15315726"></a><div class="webflare-div-image">
+<img width="649" height="143" src="images/emanalysis-21.gif" /></div></li><li>
+<a id="pgfId-15315760"></a>The Electromigration Signal Analysis form opens. This is shown below.<br /><strong class="webflare-fig-line-height">Figure 6-15
+<a id="pgfId-15315763"></a><a id="86109"></a><a id="96923"></a>Running Electromigration Signal Analysis</strong>
+<a id="pgfId-15297278"></a><div class="webflare-div-image">
+<img width="670" height="493" src="images/emanalysis-22.gif" /></div></li><li>
+<a id="pgfId-15299145"></a>Click <em>All signals</em> to perform EM analysis on all signals.This is the default option. This does not include the power or ground nets that must be analyzed as part of the <em>Electromigration Power Analysis. </em><a id="marker-15326892"></a>See<em> </em><a href="emanalysis.html#14755">EM Analysis of the Power Grid</a>. </li><li>
+<a id="pgfId-15328772"></a>Click <em>Select signals</em> to specify signals on which EM analysis will be performed. Search for signal names by typing the signal name in the search field. The search field also accepts SKILL regular expressions. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15328781"></a>Any signal that is connected to a pin is considered a power net and should be analyzed using <em>Electromigration Power Grid Analysis.</em></div></li><li>
+<a id="pgfId-15327606"></a>When you click <em>Select signals</em>, a list box is enabled that shows all the signal names, the Show <em>Signal net(s) </em>option<em>,</em> and the <em>Select Signal nets(s)</em> option.<ul><li>
+<a id="pgfId-15327608"></a>Select the nets in the list box and click <em>Show Signal net(s) </em>to view the selected signals highlighted in the extracted view.</li><li>
+<a id="pgfId-15297286"></a>Click<em>Select Signal net(s)</em> to select signals from the extracted view. Click <em>Select Signal Net(s)</em> and then select the signals in the extracted view. The selected signals are highlighted. After selecting the signals, press the <code>Esc</code> key. The selected nets are highlighted in the list box. <br />
+<a id="pgfId-15297287"></a>EM analysis will be performed for only those <em><a href="glossary.html# presistor">presistors</a></em> that are on the selected signal nets. </li></ul></li><li>
+<a id="pgfId-15299167"></a>The remaining fields to be filled out in the Electromigration Signal Analysis form are the same as those explained in <a href="emanalysis.html#14755">EM Analysis of the Power Grid</a>.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-15315860"></a><a id="66510"></a>EM Ana<a id="vsaElectromigrationReadResultsHelp"></a>lysis Results</h2>
+
+<p>
+<a id="pgfId-15316240"></a>After completing EM analysis for pins or signals, the results can either be imported from the EM analysis performed earlier or they can be displayed by selecting options in the Electromigration Analysis Results form. Both methods are detailed below.</p>
+
+<h3>
+<a id="pgfId-15315862"></a><a id="87089"></a>Importing Results of a Previous EM Analysis</h3>
+
+<p>
+<a id="pgfId-15315863"></a>To import the results of an EM analysis performed earlier, perform the following steps:</p>
+<ul><li>
+<a id="pgfId-15315866"></a>Choose <em>Analyze Extracted View Pin(s) or Analyze Extracted View Signal(s) </em><a id="marker-15315864"></a><a id="marker-15315865"></a><em>&#8211;</em><em> Import Electromigration Results.</em><a id="marker-15315867"></a> <br /><strong class="webflare-fig-line-height">Figure 6-16
+<a id="pgfId-15315868"></a>Opening Import Electromigration Results Form</strong>
+<a id="pgfId-15315872"></a><div class="webflare-div-image">
+<img width="623" height="175" src="images/emanalysis-23.gif" /></div></li><li>
+<a id="pgfId-15315873"></a>The Select Existing Results File form opens. <br /><strong class="webflare-fig-line-height">Figure 6-17
+<a id="pgfId-15315874"></a>Importing Existing Electromigration Results</strong>
+<a id="pgfId-15315878"></a><div class="webflare-div-image">
+<img width="461" height="380" src="images/emanalysis-24.gif" /></div></li><li>
+<a id="pgfId-15315879"></a>In the above form, click<em> Load Only Failed Results</em> to view EM results for only failed resistors.</li><li>
+<a id="pgfId-15315880"></a>Select the file from the list and click <em>OK</em>. The Electromigration Analysis Results form opens.<br /><strong class="webflare-fig-line-height">Figure 6-18
+<a id="pgfId-15323500"></a>Opening Electromigration Analysis Results Form when EM Analysis Results are Imported</strong>
+<a id="pgfId-15323504"></a><div class="webflare-div-image">
+<img width="621" height="506" src="images/emanalysis-25.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15329711"></a>When existing results for EM analysis are imported, the Electromigration Analysis Results form provides a <em>Save Marking</em> button instead of <em>Save Results to A File</em> button. This is shown in the above form. </div><ul><li>
+<a id="pgfId-15329713"></a>Click <em>Save Marking</em><a id="vsaEMImportResultWriteOutputHelp"></a><a id="vsaElectromigrationResultsSaveMarking DataHelp"></a> to save the marked results in a file for future reference. The Save Marking Data form opens. The results can be reloaded in subsequent sessions. This is shown below.<br /><strong class="webflare-fig-line-height">Figure 6-19
+<a id="pgfId-15329714"></a>Saving the Marking Data</strong>
+<a id="pgfId-15329718"></a><div class="webflare-div-image">
+<img width="655" height="98" src="images/emanalysis-26.gif" /></div></li></ul>
+<a id="pgfId-15329719"></a>In this form, specify the <em>Output File Name</em> and click <em>OK</em>.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15315881"></a><a id="29054"></a>Viewing Electromigration Analysis Results for the Current Run</h3>
+
+<p>
+<a id="pgfId-15323582"></a>The EM analysis results for the current run can be viewed using the various options provided in the Electromigration Analysis Results form. </p>
+<p>
+<a id="pgfId-15315886"></a>After running EM analysis for either pins or signals, when you click <em>OK </em>on the Electromigration Power Grid Analysis or Electromigration Signal Analysis form, the Electromigration Analysis Results form opens. This form is shown below.<a id="marker-15323586"></a></p>
+
+<p><strong>Figure 6-20
+<a id="pgfId-15315890"></a><a id="27823"></a><a id="85624"></a><a id="61156"></a>Opening Electromigration Analysis Results Form for the Current EM Analysis Run</strong></p>
+<p>
+<a id="pgfId-15315894"></a></p>
+<div class="webflare-div-image">
+<img width="619" height="504" src="images/emanalysis-27.gif" /></div>
+
+<p>
+<a id="pgfId-15315895"></a>In this form, specify the following:</p>
+<ul><li>
+<a id="pgfId-15298294"></a>In this form, select the pin or signal for which you want to view the results, from the <em>Select Pin/Signal</em> cyclic field. You can search for pin or signal names by typing the name in the search field and pressing enter, the button with the green arrow. The search field also accepts SKILL regular expressions.</li><li>
+<a id="pgfId-15328981"></a>Click <em>Show passed results</em> to view the presistors that passed the current density limits. This field is enabled by default when the Electromigration Analysis Results form is opened after completing the Electromigration Power Grid Analysis or Electromigration Signal Analysis form and clicking <em>OK</em>. <br />
+<a id="pgfId-15329030"></a>When you deselect this option, the <em>Select Pin/Signal</em> cyclic field is updated to list only those pins and signals that have failed the current density limits. This is useful in reducing the debugging time when there are many pins or signals but only few have failed the current density limits. Instead of viewing all nets, both passed and failed, you can deselect this option to view only the failed nets and proceed with debugging.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15329031"></a>This field is disabled by default if <em>Import Electromigration Results</em> submenu is selected from the <em>VPS-L</em> menu.</div></li><li>
+<a id="pgfId-15301444"></a>In Layout Window, s<a id="marker-15301912"></a>pecify the window ID for the layout, if a layout is open for the design. Click <em>Get Layout Window Number </em><a id="marker-15302516"></a>to let the software get the layout window number automatically from an already open window. If no layout window is open, a new window will be created with a layout view and that one will be used.</li><li>
+<a id="pgfId-15333213"></a>Click <em>Connect to Gif Viewer</em> to open the vsaplot window.</li><li>
+<a id="pgfId-15318624"></a>From the <em>Type Of Results</em><a id="marker-15320792"></a> cyclic field, select <em>Average</em>, <em>RMS</em>, <em>PEAK, </em>or<em> AC-Peak </em>values of the current from the Spectre simulation. This field shows options based on the options selected for transient analysis in the Electromigration Signal Analysis or Electromigration Power Grid Analysis form.<a id="marker-15320794"></a></li><li>
+<a id="pgfId-15319605"></a>The <em>Simulated Temp</em><a id="marker-15319604"></a> field displays the simulation temperature in degree Celsius. In the above form, the simulated temperature is 27.0 degree celsius.</li><li>
+<a id="pgfId-15319610"></a>Click <em>Mark</em><a id="marker-15320831"></a> and Unmark for marking and unmarking presistors. Select the presistors and click <em>Mark</em>. A # symbol gets added at the beginning of the row in which the EM analysis result of the presistor is displayed. The result file displays the EM analysis results for all marked presistors. Similarly, click <em>Unmark</em> to unmark a presistor. Presistors showing false errors can be unmarked so that they are not reported in the result file. This helps save time spent viewing and debugging all the false errors reported in the result file.</li><li>
+<a id="pgfId-15319630"></a>A text box in the form provides information about the presistors on which the EM analysis is being performed. There are several columns in the text field. The<em>% Failed</em> column indicates whether a presistor passed or failed the current density limit (EM failure). The measured width is the width of the polygon, and the minimum width is the width that is required to avoid an EM failure. <a id="marker-15320845"></a><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15319644"></a>The fraction of presistors that failed the current density limits as compared to the total number of presistors and the percentage failure are displayed at the bottom-right corner of the form. For example, the form above shows <code>212/495 (43.23%) Failed</code>.</div><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-15319631"></a>
+In case all the presistors in the design pass the EM analysis, the results are sorted in descending order beginning with the presistors that come closest to the established threshold.</div></li><li>
+<a id="pgfId-15325165"></a>Click <em>Toggle Visibility for Hilights</em> to toggle the highlights of the selected presistors on and off. </li><li>
+<a id="pgfId-15325166"></a>Click <em>Select</em> to select a presistor of interest and highlight it. When a presistor is selected, all previous presistor highlights are removed and only the current selection is highlighted. The presistor is highlighted in white and blinks. However, you can set your color preference for highlighting a presistor. For this, use the <a href="../vpsl/setenv.html#vsaDrfFile">_vsaDrfFile</a><code> </code>environment variable to specify the <code>vavo8</code> highlight layer in the <code>vavo.drf</code> file. <br /><strong class="webflare-fig-line-height">Figure 6-21
+<a id="pgfId-15323705"></a>Selecting a Presistor and Highlighting it on the Layout</strong>
+<a id="pgfId-15323709"></a><div class="webflare-div-image">
+<img width="666" height="462" src="images/emanalysis-29.gif" /></div></li><li>
+<a id="pgfId-15324204"></a>Click <em>Select and Zoom </em><a id="marker-15324203"></a>to select a presistor of interest and zoom in on it. <br /><strong class="webflare-fig-line-height">Figure 6-22
+<a id="pgfId-15324232"></a>Selecting and Zooming into a Presistor on the Layout</strong>
+<a id="pgfId-15324236"></a><div class="webflare-div-image">
+<img width="666" height="464" src="images/emanalysis-30.gif" /></div>
+<a id="pgfId-15323697"></a>In the extracted view, when a selected net is zoomed into, the layout editor also zooms to the same location. Any layout editing to correct <a id="marker-15320861"></a>EM violations has to be done in the layout view, after which the design needs to be re-extracted to verify the corrections.</li><li>
+<a id="pgfId-15297314"></a>Click Display Netnames<a id="marker-15323759"></a> to display the net names for the selected parasitic resistors. For this, first click <em>Display Netnames</em>, then select the presistors and click <em>Select </em>or <em>Select and Zoom</em>. The PARASITIC RESISTOR NETNAMES form opens to list all the net names connected to the selected parasitic resistors. This form lists the presistor instance names and their corresponding net names.This is shown below.<a id="marker-15323761"></a><br /><strong class="webflare-fig-line-height">Figure 6-23
+<a id="pgfId-15324331"></a><a id="27678"></a>PARASITIC RESISTO<a id="vsaPresistorNameHelp"></a>R NETNAMES Form</strong>
+<a id="pgfId-15324336"></a><div class="webflare-div-image">
+<img width="422" height="172" src="images/emanalysis-31.gif" /></div></li><li>
+<a id="pgfId-15324348"></a>Click Display Times to find out when the <a id="marker-15324358"></a>current density violation occurs. This option is available only when the <em>Type of Results</em><a id="marker-15324360"></a> selected is <em>Peak</em>. For this, first click <em>Display Times</em>, then select the presistors and click <em>Select </em>or <em>Select and Zoom</em>.<br /><strong class="webflare-fig-line-height">Figure 6-24
+<a id="pgfId-15323787"></a>Displaying Times for Selected Presistors</strong>
+<a id="pgfId-15323791"></a><div class="webflare-div-image">
+<img width="581" height="493" src="images/emanalysis-32.gif" /></div>
+<a id="pgfId-15323792"></a>In the above form, the <em>Display Times</em> field is checked and the presistors are selected. When you click <em>Select</em> or <em>Select to Zoom</em>, the TRANSIENT TIME FOR PEAK VOLTAGE DROP<em></em>
+form opens. The form displays the transient times when the maximum current passes through each selected parasitic resistor. This form is shown below.<br /><strong class="webflare-fig-line-height">Figure 6-25
+<a id="pgfId-15323793"></a>Opening the TRANSIENT TIME FOR PEAK VOLTAGE DROP<em></em>
+Form</strong>
+<a id="pgfId-15323797"></a><div class="webflare-div-image">
+<img width="505" height="207" src="images/emanalysis-33.gif" /></div></li><li>
+<a id="pgfId-15323799"></a><em></em><a id="marker-15323798"></a>Click <em>Select presistors Inside A Window</em> to highlight a region of the design and select the parasitic resistors in that region. The corresponding lines are highlighted in the Electromigration Analysis Results form. This option allows you to locate all presistors within a region.</li><li>
+<a id="pgfId-15311687"></a>Click Plot waveforms<a id="marker-15323800"></a> to display the current waveform on the selected presistor in the Virtuoso (R) Visualization &amp; Analysis XL window. This is shown in the figure below.<br /><strong class="webflare-fig-line-height">Figure 6-26
+<a id="pgfId-15298341"></a>Displaying Current Waveforms for Selected Presistors in the Virtuoso (R) Visualization &amp; Analysis XL</strong>
+<a id="pgfId-15318907"></a><div class="webflare-div-image">
+<img width="659" height="634" src="images/emanalysis-34.gif" /></div></li><li>
+<a id="pgfId-15318911"></a>Click View PDK Current Density Limits<a id="marker-15318909"></a><a id="vsaElectromigrationAppDBox29Help"></a> to view the current density numbers from the <code>emDataFile</code>, as shown in the example below.<br />
+<a id="pgfId-15323076"></a><div class="webflare-div-image">
+<img width="390" height="369" src="images/emanalysis-35.gif" /></div></li><li>
+<a id="pgfId-15323077"></a>Click <em>Save Results To A File</em><a id="vsaElectromigrationResultsWriteOutputHelp"></a> to save the EM analysis results. The Save Electromigration Analysis to A File form opens. This is shown below. In this form, you can click <em>Save Only Failed Results </em>to save EM analysis results of only the failed nets.<br /><strong class="webflare-fig-line-height">Figure 6-27
+<a id="pgfId-15323080"></a><a id="42170"></a><a id="29169"></a>Saving Electromigration Analysis to A File </strong>
+<a id="pgfId-15318947"></a><div class="webflare-div-image">
+<img width="551" height="146" src="images/emanalysis-36.gif" /></div>
+<a id="pgfId-15323908"></a>In this form:<ul><li>
+<a id="pgfId-15323909"></a>Specify the <em>Output File Name</em> in which you want to save the results.</li><li>
+<a id="pgfId-15323910"></a>Click <em>Save Only Failed Results </em>option to save EM analysis results of only the failed nets.</li><li>
+<a id="pgfId-15323900"></a>Click <em>View file</em> to view the result file. This option is selected by default. If you do not want to view the result file, you can change the default selection of this option by setting the <a href="../vpsl/setenv.html#vsaUncheckViewFile">_vsaUncheckViewFile</a><code> </code>environment variable to <code>true.</code></li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15327099"></a><a id="91571"></a>Customizing Error Layer Displ<a id="vsaPlotsHelp"></a>ay for EM Analysis Results</h3>
+
+<p>
+<a id="pgfId-15327100"></a>In addition to viewing results as described above, Power IR/EM provides the option to customize EM analysis result displays.</p>
+<p>
+<a id="pgfId-15327101"></a>Click <em>Plots</em> in the Electromigration Analysis Results form. The Plots form opens. In this form, you can customize the EM violation ranges using a continuous RGB gradient. The vast range of color options provided by the RGB gradient makes it easier to view a specific range of violations. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15327103"></a>The forms for plotting IR drop and EM analysis results are similar. The options that are specific to the EM Plots are only detailed below. </div>
+<ul><li>
+<a id="pgfId-15327104"></a>For details of all the available options that you can set in the Plots form, see the section titled, <a href="irdrop.html#97306">Customizing Error Layer Display for IR Drop Results</a>, in the &#8220;IR Drop Analysis&#8221; chapter.<br /><strong class="webflare-fig-line-height">Figure 6-28
+<a id="pgfId-15327108"></a>Displaying Highlight Color Spectrum and Options for Customizing Display of EM Plots</strong>
+<a id="pgfId-15327112"></a><div class="webflare-div-image">
+<img width="516" height="470" src="images/emanalysis-37.gif" /></div></li><li>
+<a id="pgfId-15327113"></a>In this form, the following options are provided for the types of plots that can be displayed: <ul><li>
+<a id="pgfId-15327114"></a>Current: displays the current violations for all or selected layers</li><li>
+<a id="pgfId-15327115"></a>Current Density: displays the current density violations for all or selected layers</li><li>
+<a id="pgfId-15327116"></a>Current Density Ratio: displays the current density ratio violations for all or selected layers <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15327117"></a>The Current Density Ratio plot is selected by default.</div><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-15331183"></a>
+When you update the layers for which you want to view plots in the <em>Select Layers</em> cyclic field, the layers listed in the text box in the Electromigration Analysis Results form are updated to display information for only those layers that are selected in this form.</div><strong>Figure 6-29
+<a id="pgfId-15331247"></a>Layer Selection in Plots Form Updated in Results Form</strong>
+<a id="pgfId-15331269"></a><div class="webflare-div-image">
+<img width="668" height="470" src="images/emanalysis-38.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15327118"></a>For detailed descriptions of all the other fields and options available in the Plots<em> </em>form shown above, see the section titled, <a href="irdrop.html#97306">Customizing Error Layer Display for IR Drop Results</a>, in the &#8220;IR Drop Analysis&#8221; chapter.</div></li></ul></li><li>
+<a id="pgfId-15327122"></a>The last state for <em>All Layers</em> is saved for each plot type and switching back to the previous plot type when <em>All Layers</em> is selected will restore the last state.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15297378"></a><a id="63073"></a>Customizing the <a id="vsaCustomizeEMDisplayHelp"></a>EM Analysis Results Display</h3>
+
+<p>
+<a id="pgfId-15297379"></a>The information displayed in the list box of the <a id="marker-15302108"></a>Electromigration Analysis Results form can be customized to meet your specific needs, or display the information most important to you. In the form, click <em>Customized results display</em><a id="marker-15302113"></a>. The Customize display of EM results form opens. This form is shown below.</p>
+
+<p><strong>Figure 6-30
+<a id="pgfId-15297380"></a><a id="31484"></a>Customize display of EM results Form</strong></p>
+<p>
+<a id="pgfId-15297384"></a></p>
+<div class="webflare-div-image">
+<img width="343" height="360" src="images/emanalysis-39.gif" /></div>
+
+<p>
+<a id="pgfId-15316158"></a>This form lets you customize the information displayed in the Electromigration Analysis Results form. Any number of columns can be displayed in the result form.</p>
+<ul><li>
+<a id="pgfId-15319903"></a>Select the items in the <em>Columns</em> field and select the right arrow to add the items in the <em>Selected columns</em> field. Use the left arrow to remove items from the <em>Selected columns</em> list.</li><li>
+<a id="pgfId-15328059"></a>Click <em>Restore Default</em> to restore the default selected columns information in the form.</li><li>
+<a id="pgfId-15325550"></a>Click <em>Save Selection</em><a id="vsaElectromigrationSaveResColViewToFileHelp"></a> to save your customized selected columns, configuration to a file to be used later. The Save EM Result Column View To A File form opens.<br /><strong class="webflare-fig-line-height">Figure 6-31
+<a id="pgfId-15325551"></a>Saving the Customized Selection</strong>
+<a id="pgfId-15325555"></a><div class="webflare-div-image">
+<img width="623" height="91" src="images/emanalysis-40.gif" /></div></li><li>
+<a id="pgfId-15319905"></a>In this form, specify the <em>Output File Name</em> and click <em>OK</em>. </li><li>
+<a id="pgfId-15325587"></a>Click <em>Load Selection</em><a id="vsaElectromigrationColViewSelFileHelp"></a> to select a configuration file with the selected columns information saved earlier. The Select Existing Em Column View Select File form opens.<br /><strong class="webflare-fig-line-height">Figure 6-32
+<a id="pgfId-15325588"></a>Selecting Existing EM Column View Select File</strong></li><li>
+<a id="pgfId-15319906"></a><br /><div class="webflare-div-image">
+<img width="572" height="438" src="images/emanalysis-41.gif" /></div></li><li>
+<a id="pgfId-15325614"></a>In this form, select the file and click <em>OK</em>.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15307889"></a>The results of adding x and y coordinates can be viewed in the figure below. The x and y coordinates are always saved in the EM results file.</div><strong>Figure 6-33
+<a id="pgfId-15319314"></a>Customized EM Results Displaying x and y Coordinates</strong>
+<a id="pgfId-15319319"></a><a id="48232"></a><div class="webflare-div-image">
+<img width="559" height="455" src="images/emanalysis-42.gif" /></div>
+<a id="pgfId-15325222"></a>By default, for displaying column information in the Electromigration Analysis Results form, the software searches for the column configuration file at the following locations, in the order in which they are listed below:<ul><li>
+<a id="pgfId-15325223"></a>The configuration file specified using the <a href="../vpsl/setenv.html#vsaEMColumnViewConfigFile">_vsaEMColumnViewConfigFile</a><code> </code>environment variable</li><li>
+<a id="pgfId-15307714"></a>The <code>emColumnView.cfg</code> file in the current working directory</li><li>
+<a id="pgfId-15307723"></a>The <code>emColumnView.cfg</code> file in SKILL paths</li></ul><br />
+<a id="pgfId-15316211"></a>If the file is not available in any of the above three locations, the software uses the configuration from the previous customized display. </li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15332378"></a><a id="76603"></a>Using EM Analysis Results for Cross-Probing in Power IR/EM</h3>
+
+<p>
+<a id="pgfId-15332380"></a>The node 1 and node 2 columns in the <em>EM Analysis Results</em><a id="marker-15332379"></a> screen represent the actual nodes of the parasitic resistor. These are used for Power IR/EM cross -probing wherein Power IR/EM displays the location of the parasitic resistor as a white line in the extracted view. This is shown below.</p>
+
+<p><strong>Figure 6-34
+<a id="pgfId-15332382"></a><a id="86996"></a>Virtuoso Layout Suite - Displaying the Location of the Presistor</strong></p>
+<p>
+<a id="pgfId-15332394"></a></p>
+<div class="webflare-div-image">
+<img width="951" height="551" src="images/emanalysis-43.gif" /></div>
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="irdrop.html" id="prev" title="IR Drop Analysis">IR Drop Analysis</a></em></b><b><em><a href="vsaPlot.html" id="nex" title="Viewing Results in vsaPlot">Viewing Results in vsaPlot</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

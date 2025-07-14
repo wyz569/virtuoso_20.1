@@ -1,0 +1,141 @@
+
+<html><head><title>Using SystemVerilog in Batch Mode</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="rgirdhar" />
+<meta name="CreateDate" content="2020-09-19" />
+<meta name="CreateTime" content="1600542788" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to use the Virtuoso SystemVerilog Netlister to generate netlist views." />
+<meta name="DocTitle" content="Virtuoso SystemVerilog Netlister User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Using SystemVerilog in Batch Mode" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="vsvn" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-19" />
+<meta name="ModifiedTime" content="1600542788" />
+<meta name="NextFile" content="chap3.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="chap1.html" />
+<meta name="c_product" content="Virtuoso Schematic Editor" />
+<meta name="Product" content="Virtuoso Schematic Editor" />
+<meta name="ProductFamily" content="Virtuoso Schematic Editor" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso SystemVerilog Netlister User Guide -- Using SystemVerilog in Batch Mode" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vsvnICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vsvnTOC.html">Contents</a></li><li><a class="prev" href="chap1.html" title="Introducing Virtuoso SystemVerilog Netlister">Introducing Virtuoso SystemVer ...</a></li><li style="float: right;"><a class="viewPrint" href="vsvn.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="chap3.html" title="Managing Netlist Generation">Managing Netlist Generation</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso SystemVerilog Netlister User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>2
+<a id="pgfId-1064395"></a></h1>
+<h1>
+<a id="pgfId-1051076"></a><hr />
+<a id="98672"></a>Using SystemVerilog in Batch Mode<hr />
+</h1>
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1082672"></a>
+Before you launch SystemVerilog Netlister ensure that you meet all the prerequisites. See <a href="chap1.html#10185">Prerequisites for Using SystemVerilog Netlister</a>. </div>
+
+<p>
+<a id="pgfId-1082678"></a>SystemVerilog Netlister can be launched in batch mode by running the <code>runsv </code>command. This command supports the following options:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082680"></a>-lib &lt;<code><em>libName</em></code>&gt; <br />-cell &lt;<code><em>cellName</em></code>&gt; <br />-view &lt;<code><em>config_viewname</em></code>&gt;<br />-rundir &lt;<code><em>projectdir</em></code>&gt;<br />-netlist <br />-cdsenv &lt;<code><em>path of .cdsenvfile</em></code>&gt;<br />-state &lt;<code><em>saved SystemVerilog Netlister state (stateLib/stateCell/stateView)</em></code>&gt;</pre>
+
+<p>
+<a id="pgfId-1082681"></a>For example, if you have a design <code>topLib/topCell/config_sv</code> and you specify the project directory as <code>runsv_run</code>, use the following command to generate the netlist in batch mode:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080707"></a>runsv -lib topLib -cell topCell -view config_sv -netlist -rundir runsv_run</pre>
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1085890"></a>
+You can use <code>-cdsenv</code> optionally. However, if you want to enable data type propagation or create an additional argument file, set the following environment variables in the <code>.cdsenv</code> file: </div>
+
+<ul><li>
+<a id="pgfId-1086082"></a><a href="appEnvVars.html#20137">enableDataPropagate</a></li><li>
+<a id="pgfId-1086097"></a><a href="appEnvVars.html#25657">defaultNettype</a></li><li>
+<a id="pgfId-1086112"></a><a href="appEnvVars.html#94116">mergedNetlist</a></li><li>
+<a id="pgfId-1086127"></a><a href="appEnvVars.html#24803">createXrunArgs</a></li></ul>
+
+
+
+<p>
+<a id="pgfId-1086147"></a>The <code>-cdsenv </code>option lets you read the file. Alternatively, you can specify these environment variables in the <code>.cdsinit</code> file. </p>
+
+<h2>
+<a id="pgfId-1064628"></a><a id="63862"></a>Creating Config Views of SystemVerilog Designs</h2>
+
+<p>
+<a id="pgfId-1064629"></a>When using SystemVerilog Netlister, ensure that your specified design has a config view that contains only digital content. This digital content can be a SystemVerilog or Verilog text view, a schematic view, or a symbol view. If your design does not have a config view, you can use the <code>cdsCreateConfig</code> utility. Cadence provides this utility with SystemVerilog Netlister to help you create a config view. </p>
+<p>
+<a id="pgfId-1083637"></a>You can use the following options with the <code>cdsCreateConfig</code> utility:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083581"></a>cdsCreateConfig -lib topLibName -cell topCellName -view topViewName [-config newConfigName] [-liblist &#39;lib1 lib2&#39;] [-viewlist &#39;view1 view2&#39;] [-stoplist &#39;stopview1 stopview2&#39;]</pre>
+
+<p>
+<a id="pgfId-1083583"></a>For example, if you have a design <code>topLib/topCell/schematic</code>, use the following command in the terminal window to create a config view:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083584"></a>cdsCreateConfig -lib topLib -cell topCell -view schematic</pre>
+
+<p>
+<a id="pgfId-1064655"></a>To know more about <code>cdsCreateConfig</code>, type <code>cdsCreateConfig -help</code> in the terminal window for more details.</p>
+
+<h2>
+<a id="pgfId-1083666"></a><a id="25222"></a>Migrating SystemVerilog Integration Designs to SystemVerilog Designs</h2>
+
+<p>
+<a id="pgfId-1083711"></a>You can convert commands used in the Virtuoso Verilog Environment for SystemVerilog Integration Environment (SI) to a format supported by SystemVerilog Netlister by using the <code>si2runsv </code>utility.</p>
+<p>
+<a id="pgfId-1083712"></a>You run <h-hot><a actuate="user" class="URL" href="../sysverilog/sysverilogTOC.html" show="replace" xml:link="simple">SystemVerilog Integration netlister</a></h-hot> by using the following command:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083714"></a>si [run directory] [-batch [-command commandName]]</pre>
+
+<p>
+<a id="pgfId-1083738"></a>For example:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083740"></a>si dir1 -batch -command netlist</pre>
+
+<p>
+<a id="pgfId-1083715"></a>Alternatively, SystemVerilog Netlister uses the following command:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083667"></a>runsv -lib lib -cell cell -view configView -netlist -state stateName </pre>
+
+<p>
+<a id="pgfId-1083737"></a>To convert an SystemVerilog Integration environment command to a SystemVerilog Netlister command:</p>
+<ol><li>
+<a id="pgfId-1083944"></a>Run the following command to generate a script file: 
+<code>si2runsv</code> 
+This command generates a <code>runsv_xxxfile </code>script file. </li><li>
+<a id="pgfId-1093102"></a>Run the following command to run SystemVerilog Netlister using this script file:
+<code>si2runsv dir1 -batch -command netlist</code> <br />
+<a id="pgfId-1083736"></a>To know more about using <code>si2runsv</code>,use the following command:
+<code>si2runsv -help</code></li></ol>
+
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="chap1.html" id="prev" title="Introducing Virtuoso SystemVerilog Netlister">Introducing Virtuoso SystemVer ...</a></em></b><b><em><a href="chap3.html" id="nex" title="Managing Netlist Generation">Managing Netlist Generation</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

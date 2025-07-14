@@ -1,0 +1,241 @@
+
+<html><head><title>Interoperating with SiP</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="deeptig" />
+<meta name="CreateDate" content="2020-09-20" />
+<meta name="CreateTime" content="1600667230" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes Virtuoso RF solution that enables to create package layouts in Virtuoso." />
+<meta name="DocTitle" content="Virtuoso RF Solution Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Interoperating with SiP" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="vrf" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-20" />
+<meta name="ModifiedTime" content="1600667230" />
+<meta name="NextFile" content="form_desc.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="EM_extract.html" />
+<meta name="c_product" content="Cross-Platform Solutions" />
+<meta name="Product" content="Virtuoso System Design Environment" />
+<meta name="ProductFamily" content="Cross-Platform Solutions" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso RF Solution Guide -- Interoperating with SiP" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vrfICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vrfTOC.html">Contents</a></li><li><a class="prev" href="EM_extract.html" title="Performing 3D Electromagnetic Simulation">Performing 3D Electromagnetic  ...</a></li><li style="float: right;"><a class="viewPrint" href="vrf.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="form_desc.html" title="Virtuoso RF Solution User Interface Forms">Virtuoso RF Solution User Inte ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso RF Solution Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>9
+<a id="pgfId-857691"></a></h1>
+<h1>
+<a id="pgfId-878194"></a><hr />
+<a id="54131"></a>Interoperating with SiP<hr />
+</h1>
+
+<p>
+<a id="pgfId-902182"></a>The Virtuoso RF Solution is a schematic driven package layout flow in Virtuoso that provides the capability to finish the package in Allegro. Therefore, interoperability with Allegro for package design should be robust to support seamless data transfer. The data models in Allegro and Virtuoso have significant differences and the gap needs to be bridged. The Allegro translators are invoked from Virtuoso and require a license for the SPB tools based on the type of the input or output database.</p>
+<p>
+<a id="pgfId-911543"></a>The chapter includes the following sections:</p>
+<ul><li>
+<a id="pgfId-737043"></a><a href="chap5.html#74088">Exporting Package Layout</a></li><li>
+<a id="pgfId-918486"></a><a href="chap5.html#19658">Completing the Package Layout</a></li><li>
+<a id="pgfId-929073"></a><a href="chap5.html#12756">Importing the Package Layout</a></li><li>
+<a id="pgfId-937467"></a><a href="chap5.html#72676">Rebinding the Layout to the Schematic</a></li></ul>
+
+
+
+<p>
+<a id="pgfId-948342"></a><a id="58167"></a>Due to the differences in the underlying SiP and OA databases, the object representations in SiP and OA are sometimes not entirely equivalent. Once the object has been translated from SiP to OA, it might not restore to its original SiP representation from the OA representation. Consequently, the translation of a SiP design to OA and back to SiP might be different from the original one. However, the physical layouts created from the two design representations are equivalent from the manufacturing and analysis point of view up to a certain tolerance.</p>
+
+<p>
+<a id="pgfId-949073"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="703" src="images/chap5-2.gif" /></div>
+
+<p>
+<a id="pgfId-950856"></a>For details, refer to <h-hot><a actuate="user" class="URL" href="../transrefOA/allegro.html" show="replace" xml:link="simple">the Allegro translators</a></h-hot>.</p>
+<p>
+<a id="pgfId-946617"></a>The following SPB layout design tools are involved in the export and import of the layout information:</p>
+<ul><li>
+<a id="pgfId-946618"></a><code>.sip</code> file from Cadence SiP Layout (SiP)</li><li>
+<a id="pgfId-946619"></a><code>.mcm</code> file from Allegro Package Designer (APD)</li><li>
+<a id="pgfId-952636"></a><code>.brd</code> file from Allegro PCB Designer (Allegro)</li></ul>
+
+
+
+<h2>
+<a id="pgfId-737151"></a><a id="74088"></a>Exporting Package Layout</h2>
+
+<p>
+<a id="pgfId-946058"></a>When exporting the package layout, the Allegro translator creates a <code>.sip</code> file from the OA library (specified cellview) that has been created or modified to ensure it has the same structure.</p>
+<p>
+<a id="pgfId-946175"></a>During export to Allegro, the data is translated in the following two steps:</p>
+<ul><li>
+<a id="pgfId-946176"></a>Open the OA design and write its contents or just the updated content to an intermediate file.</li><li>
+<a id="pgfId-946177"></a>Read the intermediate file in the SPB tool and create or update the <code>.sip</code> design from its contents.<br />
+<a id="pgfId-940337"></a><div class="webflare-div-image">
+<img width="668" height="477" src="images/chap5-3.gif" /></div></li></ul>
+
+
+
+
+<h2>
+<a id="pgfId-940122"></a><a id="19658"></a>Completing the Package Layout</h2>
+
+<p>
+<a id="pgfId-949961"></a>Once the translation is done, launch Cadence SiP Layout XL to view and modify the package layout as needed. </p>
+<p>
+<a id="pgfId-940482"></a>Allegro layout editors provide manual and automatic tools for placing components, routing, and wire bonding. For details, refer to <h-hot><a actuate="user" class="URL" href="https://support.cadence.com/apex/techpubDocViewerPage?path=algroplace/algroplace17.2-2016/algroplaceTOC.html" show="replace" xml:link="simple">Placing the Elements</a></h-hot>.</p>
+
+<h3>
+<a id="pgfId-947419"></a>Manual and Automatic Placement</h3>
+
+<p>
+<a id="pgfId-947420"></a>With manual placement, you can place elements individually or place elements of the same type during one pass. </p>
+<p>
+<a id="pgfId-947421"></a>In automatic placement, the layout editor places elements based on placement properties you assign that restrict or influence component positioning and part packaging. </p>
+<p>
+<a id="pgfId-947422"></a>In either manual or automatic placement, you can:</p>
+<ul><li>
+<a id="pgfId-947423"></a>Selectively identify certain parts for placement by attaching a placement &#8220;tag&#8221; to them.</li><li>
+<a id="pgfId-947424"></a>Optionally create a floor plan, which is a block diagram of rooms in a design. Rooms are rectangular areas that you create.<br />
+<a id="pgfId-947425"></a>You can use rooms to keep specific logical functions or related elements together in specific areas.</li></ul>
+
+
+
+
+<p>
+<a id="pgfId-947426"></a>You may want to alternate manual placement with automatic placement. You can preplace sensitive or fixed parts manually, run automatic placement, and then rearrange some autoplaced parts. You could finish by optimizing the overall placement of a design with manual placement.</p>
+
+<h3>
+<a id="pgfId-947427"></a>Placement Tasks</h3>
+
+<p>
+<a id="pgfId-947428"></a>You can use any combination of placement and swap tools. For example, component placement typically involves the following activities:</p>
+<ul><li>
+<a id="pgfId-947429"></a>Determining design requirements.</li><li>
+<a id="pgfId-947430"></a>Creating the items required for placement processing (such as grids or package keepin and keepout areas).</li><li>
+<a id="pgfId-947431"></a>Setting basic placement controls, such as package keepout and keepin areas, placement properties, and automatic placement parameters.</li><li>
+<a id="pgfId-947432"></a>Running manual placement alternately with automatic placement. You can run different iterations of automatic placement and view the placement results.</li><li>
+<a id="pgfId-947433"></a>Reviewing placement status and automatic placement results.</li></ul>
+
+
+
+
+
+<h3>
+<a id="pgfId-947616"></a>Routing Tasks</h3>
+
+<p>
+<a id="pgfId-947689"></a>The PCB layout editor provides tools that help you perform the following when routing physical designs:</p>
+<ul><li>
+<a id="pgfId-947690"></a>Interactive routing</li><li>
+<a id="pgfId-947691"></a>Automatic routing with Allegro PCB Router</li><li>
+<a id="pgfId-947692"></a>Glossing to improve the appearance and manufacturability of a physical design</li></ul>
+
+
+<p>
+<a id="pgfId-947693"></a>The following list describes a flowchart of the basic routing process. The basic routing flow&#8212;assuming automatic routing&#8212;is the following:</p>
+<ol><li>
+<a id="pgfId-947694"></a>Prepare for routing:<ul><li>
+<a id="pgfId-947695"></a>Check layers to see that layer types and photo film types are correct.</li><li>
+<a id="pgfId-947696"></a>Create internal shapes on planes.</li><li>
+<a id="pgfId-947697"></a>Create blind and buried vias.</li><li>
+<a id="pgfId-947698"></a>Set routing controls (routing areas, constraints and properties, grids, nets, and so on).</li></ul></li><li>
+<a id="pgfId-947699"></a>Manually route critical nets.</li><li>
+<a id="pgfId-947700"></a>Define routing parameters in Allegro PCB Router to control how automatic routing functions.</li><li>
+<a id="pgfId-947701"></a>Run Allegro PCB Router.</li><li>
+<a id="pgfId-947702"></a>Review routing results.</li><li>
+<a id="pgfId-947703"></a>Interactively finish or correct etch.</li><li>
+<a id="pgfId-947704"></a>Gloss the design.</li><li>
+<a id="pgfId-947705"></a>Optionally analyze the design for signal integrity or EMI.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-946873"></a>For details, refer to <h-hot><a actuate="user" class="URL" href="https://support.cadence.com/apex/techpubDocViewerPage?path=algroroute/algroroute17.2-2016/algrorouteTOC.html" show="replace" xml:link="simple">Routing the Design</a></h-hot>.</p>
+
+<h2>
+<a id="pgfId-946852"></a><a id="12756"></a>Importing the Package Layout</h2>
+
+<p>
+<a id="pgfId-952367"></a>When importing the package layout, the Allegro translator can be run in two modes, non-incremental and incremental mode.</p>
+<p>
+<a id="pgfId-952368"></a>In the non-incremental mode, it imports a <code>.sip</code> file to the OA library that has been created or modified to ensure it has the same structure as created during the export.</p>
+<p>
+<a id="pgfId-952370"></a>While importing, the translator creates an OA library file from an input database created by one of the SPB layout design tools. It translates the data in two steps:</p>
+<ul><li>
+<a id="pgfId-952371"></a>Open the design in the SPB tool and write its content (in incremental mode) to an intermediate file.</li><li>
+<a id="pgfId-952372"></a>Read the intermediate file in Virtuoso and create the OA data from its content (in incremental mode).</li></ul>
+
+<p>
+<a id="pgfId-948779"></a>You can import a <code>.sip</code>, <code>.mcm</code>,<code>.brd</code>, or a catalog of <code>.dra</code> files. During import, the translators create a layer stack up and constraints in techdb and TILPs for SMDs or dies.</p>
+<p>
+<a id="pgfId-946756"></a>When you translate the data from SiP into Virtuoso, the relevant file is created by a package designer. It contains the BGA cell, the vias to be used for package routing, and the technology file used in SIP. This technology file is compiled into the Virtuoso tech.db that is in the package library. The package technology file is not the same as the IC technology file. In contrast, Edit-in-Concert in the Virtuoso RF Solution lets you seamlessly switch between the different technology files. You can also import the locations of IO pads on a die. This information is stored in a bump location file, which can be used later to create and align IO pads in an adjacent die. </p>
+<p>
+<a id="pgfId-949209"></a>To import the SiP file to Virtuoso, which contains the BGA and package techfile: </p>
+<ol><li>
+<a id="pgfId-949251"></a>Click <em>CIW</em> &#8211; <em>File</em> &#8211; <em>Import</em> &#8211; <em>From Allegro&#8230;</em> <br />
+<a id="pgfId-949210"></a>The Import Allegro File form opens.<br />
+<a id="pgfId-949296"></a><div class="webflare-div-image">
+<img width="668" height="658" src="images/chap5-4.gif" /></div></li><li>
+<a id="pgfId-949293"></a>Specify <em>Import Mode</em> and <em>Library</em>.</li><li>
+<a id="pgfId-949214"></a>Select <em>Add Symbol cellview for new BGA Components</em>. </li><li>
+<a id="pgfId-949701"></a>Click OK.</li><li>
+<a id="pgfId-948337"></a>Check Library Manager to ensure that the cells have been added appropriately.</li></ol>
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-950099"></a><a id="72676"></a>Rebinding the Layout to the Schematic</h2>
+
+<p>
+<a id="pgfId-950233"></a>This section covers rebinding the updated layout to package schematic.</p>
+<ol><li>
+<a id="pgfId-950121"></a>Create the extracted view by clicking <em>Create Extracted View</em> in the <em>RF-Module</em> menu. <br />
+<a id="pgfId-950330"></a><div class="webflare-div-image">
+<img width="668" height="387" src="images/chap5-5.gif" /></div></li><li>
+<a id="pgfId-950134"></a>Back annotate the parasitic models from the extracted view on the master schematic by using <em>Annotate from Extracted View</em>. </li></ol>
+
+
+
+
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="EM_extract.html" id="prev" title="Performing 3D Electromagnetic Simulation">Performing 3D Electromagnetic  ...</a></em></b><b><em><a href="form_desc.html" id="nex" title="Virtuoso RF Solution User Interface Forms">Virtuoso RF Solution User Inte ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

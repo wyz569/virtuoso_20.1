@@ -1,0 +1,91 @@
+
+<html><head><title>CCRs</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="pallabi" />
+<meta name="CreateDate" content="2020-09-11" />
+<meta name="CreateTime" content="1599808985" />
+<meta name="DataType" content="KP&amp;S" />
+<meta name="Description" content="Describes important Cadence Change Requests (CCRs) for Power IR/EM and tells you how to work around these problems." />
+<meta name="DocTitle" content="Power IR/EM Known Problems and Solutions" />
+<meta name="DocType" content="Known Problems and Solutions" />
+<meta name="FileTitle" content="CCRs" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2" />
+<meta name="Keyword" content="vpslKPNS" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-11" />
+<meta name="ModifiedTime" content="1599808985" />
+<meta name="NextFile" content="" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Digital IC Design" />
+<meta name="PrevFile" content="preface.html" />
+<meta name="c_product" content="Virtuoso Power System" />
+<meta name="Product" content="Virtuoso Power System" />
+<meta name="ProductFamily" content="Virtuoso Power System" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Power IR/EM Known Problems and Solutions -- CCRs" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vpslKPNSICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vpslKPNSTOC.html">Contents</a></li><li><a class="prev" href="preface.html" title="About This Manual">About This Manual</a></li><li style="float: right;"><a class="viewPrint" href="vpslKPNS.pdf">View/Print PDF</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Power IR/EM Known Problems and Solutions<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>
+<a id="pgfId-1027839"></a><hr />
+CCRs<hr />
+</h1>
+<h2>
+<a id="pgfId-1027846"></a>Identified in Previous Releases</h2>
+<h3>
+<a id="pgfId-1027841"></a>CCR 1131619: VPSL interpolation has big deviation at 107 degree for EM analysis!!</h3>
+
+<p>
+<a id="pgfId-1027347"></a><strong>D</strong>escription: Earlier, Power IR/EM only used&#160;&#160;the linear interpolation method for temperature derating factor. Now, the software is enhanced so that the interpolation can be done exponentially using the TTF=A*J^(-n)*exp(Ea/kT) formula.&#160;&#160;However, using the new formula might show a difference in the EM results generated using earlier versions of Power IR/EM. </p>
+<p>
+<a id="pgfId-1027348"></a>Solution: To verify your EM results, you can revert to the linear interpolation method by setting the <a href="../vpsl/setenv.html#vsaLinearInterpolation">_vsaLinearInterpolation</a> variable to <code>true</code>.</p>
+
+<h3>
+<a id="pgfId-1026837"></a><a id="46467"></a>CCR 1015157: Provide extra parameters  related to 28nm support (e.g Lu, Lb) in userDefined current calculation functions</h3>
+
+<p>
+<a id="pgfId-1026838"></a><strong>Description:When the following user-defined functions are specified, <em>Power IR/EM</em><strong> gives runtime error for missing parameters. </strong></strong></p>
+<p>
+<a id="pgfId-1026839"></a><code>vsaGetRmsJmax<br />vsaGetAvgJmax<br />vsaGetAvgAbsJmax<br />vsaGetPeakJmax<br />vsaGetPeakACJmax<br />vsaGetCustomJmax<br />vsaUserDefinedICalc</code></p>
+<p>
+<a id="pgfId-1026840"></a>Solution: For all of the above functions, a new argument &#8220;<code>parameters</code>&#8221; is provided. To avoid the runtime error for missing paramaters, you must update the existing definitions of your functions to include this argument.</p>
+<p>
+<a id="pgfId-1026842"></a>For more information about the parameters, see <h-hot><a actuate="user" class="URL" href="../vpsl/emrulespec.html#JMAXChecking" show="replace" xml:link="simple">User Procedures for Electromigration JMAX Checking</a></h-hot> in the EM Rules Specification chapter of <em>Power IR/EM User Guide</em>.</p>
+
+<h3>
+<a id="pgfId-1026843"></a>CCR 665300: J/Jmax plot indicates voltage drop in zero voltage drop region</h3>
+
+<p>
+<a id="pgfId-1025356"></a><strong>Description:</strong> When plotting the <em>J/Jmax</em> graph during electromigration (EM) analysis, the color of each shape in the plot is the color assigned to the maximum <em>J/Jmax</em> ratio on any resistor within that shape. In some cases, even the region that is marked as the zero-voltage drop region indicates voltage drop as described in the example below. </p>
+
+<p>
+<a id="pgfId-1025428"></a></p>
+<div class="webflare-div-image">
+<img width="602" height="463" src="images/vpslKPNS1-2.gif" /></div>
+
+<p>
+<a id="pgfId-1025429"></a>This, however, is a false alarm and occurs on the shape that has connectivity between the PADS and the rest of the design.</p>
+<p>
+<a id="pgfId-1025373"></a><strong>Solution:</strong> Locate the resistors that fall within the shape and verify the current density values from the <em>Electromigration Analysis Results</em> form. The values in the result form indicate the correct current density in such cases.</p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="preface.html" id="prev" title="About This Manual">About This Manual</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

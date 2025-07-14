@@ -1,0 +1,3044 @@
+
+<html><head><title>EM Rules Specification</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="pallabi" />
+<meta name="CreateDate" content="2020-09-11" />
+<meta name="CreateTime" content="1599809754" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to perform power-grid and electromigration analysis using the Virtuoso Power System Product, Power IR/EM." />
+<meta name="DocTitle" content="Power IR/EM User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="EM Rules Specification" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2" />
+<meta name="Keyword" content="vpsl" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-11" />
+<meta name="ModifiedTime" content="1599809754" />
+<meta name="NextFile" content="voltagesrc.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Digital IC Design" />
+<meta name="PrevFile" content="pgvcreation.html" />
+<meta name="c_product" content="Virtuoso Power System" />
+<meta name="Product" content="Virtuoso Power System" />
+<meta name="ProductFamily" content="Virtuoso Power System" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Power IR/EM User Guide -- EM Rules Specification" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vpslICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vpslTOC.html">Contents</a></li><li><a class="prev" href="pgvcreation.html" title="Power-Grid View Creation">Power-Grid View Creation</a></li><li style="float: right;"><a class="viewPrint" href="vpsl.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="voltagesrc.html" title="Voltage Source Regions">Voltage Source Regions</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Power IR/EM User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>9
+<a id="pgfId-15123250"></a></h1>
+<h1>
+<a id="pgfId-15123252"></a><hr />
+<a id="82564"></a>EM Rules Specification<hr />
+</h1>
+
+<ul><li>
+<a id="pgfId-15123147"></a><a href="emrulespec.html#35772">Overview</a></li><li>
+<a id="pgfId-15215970"></a><a href="emrulespec.html#35591">Reading EM Rules from qrcTechFile</a><ul><li>
+<a id="pgfId-15318089"></a><a href="emrulespec.html#83106">Supported Limit-Based Parameters</a></li><li>
+<a id="pgfId-15318107"></a><a href="emrulespec.html#37966">Supported JMAX Parameters</a></li><li>
+<a id="pgfId-15318118"></a><a href="emrulespec.html#38406">Rules for Defining Limit-Based Parameters</a></li></ul></li><li>
+<a id="pgfId-15318129"></a><a href="emrulespec.html#51348">EM Rule Selection</a></li><li>
+<a id="pgfId-15315018"></a><a href="emrulespec.html#81312">Reading EM Rules from emDataFile</a></li><li>
+<a id="pgfId-15315022"></a><a href="emrulespec.html#63339">User Procedures for Electromigration JMAX Checking</a></li><li>
+<a id="pgfId-15315026"></a><a href="emrulespec.html#25129">Custom Parameters in emDataFile</a></li><li>
+<a id="pgfId-15307493"></a><a href="emrulespec.html#98772">SKILL Functions</a><ul><li>
+<a id="pgfId-15314757"></a><a href="emrulespec.html#19032">vsaDefVariable</a></li><li>
+<a id="pgfId-15314774"></a><a href="emrulespec.html#87044">vsaGetVariable</a></li><li>
+<a id="pgfId-15314784"></a><a href="emrulespec.html#96512">vsaWarn</a></li><li>
+<a id="pgfId-15314794"></a><a href="emrulespec.html#94579">vsaError</a></li><li>
+<a id="pgfId-15314804"></a><a href="emrulespec.html#44331">vsaDbType</a></li><li>
+<a id="pgfId-15314825"></a><a href="emrulespec.html#46424">vsaRegisterEMDataFile</a></li><li>
+<a id="pgfId-15314836"></a><a href="emrulespec.html#58597">vsaRegisterQrcTechFile</a></li><li>
+<a id="pgfId-15314846"></a><a href="emrulespec.html#23259">vsaRegisterLayerMapFile</a></li><li>
+<a id="pgfId-15317472"></a><a href="emrulespec.html#60196">vsaGetR</a></li><li>
+<a id="pgfId-15317486"></a><a href="emrulespec.html#64151">vsaResGetIrms</a></li><li>
+<a id="pgfId-15317496"></a><a href="emrulespec.html#56690">vsaResGetIpeak</a></li><li>
+<a id="pgfId-15317506"></a><a href="emrulespec.html#80291">vsaResGetIavg</a></li><li>
+<a id="pgfId-15317516"></a><a href="emrulespec.html#56295">vsaResGetX</a></li><li>
+<a id="pgfId-15317526"></a><a href="emrulespec.html#59051">vsaResGetY</a></li><li>
+<a id="pgfId-15317543"></a><a href="emrulespec.html#62464">vsaResGetLayer</a></li><li>
+<a id="pgfId-15317553"></a><a href="emrulespec.html#70685">vsaGetNode</a></li><li>
+<a id="pgfId-15317563"></a><a href="emrulespec.html#27531">vsaNodeGetIR</a></li><li>
+<a id="pgfId-15318437"></a><a href="emrulespec.html#77436">vsaEMGetQRCDirAndRunName</a></li><li>
+<a id="pgfId-15318447"></a><a href="emrulespec.html#84434">vsaEMGetSimDirAndAnalysisType</a></li><li>
+<a id="pgfId-15318467"></a><a href="emrulespec.html#29476">vsaIRGetSimDirAndAnalysisType</a></li></ul></li><li>
+<a id="pgfId-15319812"></a><a href="emrulespec.html#62934">Call-Back Functions</a><ul><li>
+<a id="pgfId-15319830"></a><a href="emrulespec.html#23412">vsaEMInitUserCallBack</a></li><li>
+<a id="pgfId-15319847"></a><a href="emrulespec.html#62077">vsaEMUserCallBack</a></li><li>
+<a id="pgfId-15319857"></a><a href="emrulespec.html#40337">vsaIRUserCallBack</a></li></ul></li><li>
+<a id="pgfId-15302709"></a><a href="emrulespec.html#51679">Sample emDataFile</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-15308590"></a><a id="35772"></a>Overview</h2>
+
+<p>
+<a id="pgfId-15308648"></a>Before running Power EM analysis, the EM reliability rules need to be specified. For example, the rule specifying different current densities with respect to width, length, and temperature. </p>
+<p>
+<a id="pgfId-15308674"></a>These rules can either be read from the QRC technology file (<code>qrcTechFile</code>) or from the <code>emDatafile</code>, which includes user-specified rules. </p>
+<p>
+<a id="pgfId-15308597"></a>For more information about the syntax of limit-based EM models, refer to the EM_Models section in the &#8220;Creating the ICT File&#8221; chapter in <em>QRC Techgen Reference Manual</em>.</p>
+
+<h2>
+<a id="pgfId-15308709"></a><a id="35591"></a>Readi<a id="ReadingEMRulesFromqrcTechFile"></a>ng EM Rules from qrcTechFile</h2>
+
+<p>
+<a id="pgfId-15308727"></a>Currently, Power IR/EM only supports parameters for limit-based EM analysis. </p>
+<p>
+<a id="pgfId-15310998"></a>For more information about the syntax of limit-based EM models, refer to the section titled, EM_Models, in the &#8220;Creating the ICT File&#8221; chapter in <em>QRC Techgen Reference Manual</em>.</p>
+
+<h3>
+<a id="pgfId-15310990"></a><a id="83106"></a>Supported Limit-Based Parameters</h3>
+
+<p>
+<a id="pgfId-15310977"></a>The following parameters are supported:</p>
+<ul><li>
+<a id="pgfId-15311026"></a><code>em_vcwidth &lt;value&gt;</code><br />
+<a id="pgfId-15311012"></a>Optional parameter for via layers that defines the width of an individual standard via layer in microns. This parameter is similar to the <code>viaWidthList</code> parameter in <code>emDataFile</code>.</li><li>
+<a id="pgfId-15311073"></a><code>em_W_n</code><br />
+<a id="pgfId-15311119"></a>Optional parameter that specifies the wire width in microns below which a line is considered narrow. All lines are considered wide unless you specify otherwise using this parameter.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15311120"></a>It helps to select the rule between <code>em_jmax_*_w</code> and <code>em_jmax_*_n</code>. If <code>w &lt; em_W_n</code> ,   then <code>em_jmax_*_n</code> is selected, otherwise <code>em_jmax_*_w</code> selected.</div></li><li>
+<a id="pgfId-15312571"></a><code>em_segment_length</code><br />
+<a id="pgfId-15316032"></a>A process definition parameter that determines how to calculate the length of a wire segment. This parameter determines whether the segment length is of the type <code>perimeter</code> or <code>centerline</code>. The difference between the perimeter and centerline segment length types is as follows:<ul><li>
+<a id="pgfId-15316033"></a><code>perimeter</code>&#8212;specifies that the length calculation is along the wire outer edge boundary. This value is used for 28nm process nodes.</li><li>
+<a id="pgfId-15312620"></a><code>centerline</code>&#8212;specifies that the length is extended to the edge of the segment along the centerline path. This value is used for 20nm process nodes.</li></ul><br />
+<a id="pgfId-15312622"></a>The following example shows how to use the <code>em_segment_length</code> parameter:<pre class="webflare-pre-block webflare-courier-new" id="#id15312603">
+<a id="pgfId-15312603"></a>em_segment_length centerline</pre></li><li>
+<a id="pgfId-15319096"></a><code>em_recover</code><br />
+<a id="pgfId-15319097"></a>Optional parameter that specifies the recovery factor used for calculating the average current density with recovery. You can set the recovery factor to -1.0 when you want to account for the average of the absolute current (<code>avg(abs(current))</code>) so that the negative current does not cancel the positive current values in arriving at the average current result.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15310367"></a><a id="37966"></a>Support<a id="JMAXParameters"></a>ed JMAX Parameters</h3>
+
+<p>
+<a id="pgfId-15311140"></a>For current density limit (jmax) analysis, the following parameters are supported:</p>
+<ul><li>
+<a id="pgfId-15311155"></a><code>em_jmax_dc_avg*</code><br />
+<a id="pgfId-15311179"></a>Optional parameter that specifies the AVG analysis in Power IR/EM.</li><li>
+<a id="pgfId-15311189"></a>em_jmax_dc_peak*<br />
+<a id="pgfId-15311214"></a>Optional parameter that specifies PEAK analysis in Power IR/EM.</li><li>
+<a id="pgfId-15318980"></a><code>em_jmax_dc_rms*</code><br />
+<a id="pgfId-15318997"></a>Optional parameter that specifies DC RMS analysis in Power IR/EM.</li><li>
+<a id="pgfId-15311238"></a>em_jmax_ac_rms*<br />
+<a id="pgfId-15311264"></a>Optional parameter that specifies AC RMS analysis in Power IR/EM.</li><li>
+<a id="pgfId-15311288"></a>em_jmax_ac_peak*<br />
+<a id="pgfId-15311310"></a>Optional parameter that specifies AC_PEAK analysis in Power IR/EM.</li></ul>
+
+
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15311335"></a>Star &#8216; * &#8217; implies that &#8216;<code>_w</code>&#8217; and &#8216;<code>_n</code>&#8217; rules are also supported.</div>
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-15311348"></a>
+jmax parameter, <code>em_jmax_ac_rec*</code> is not currently supported in Power IR/EM. </div>
+<h3>
+<a id="pgfId-15310098"></a><a id="38406"></a>R<a id="RulesDefiningLimitBasedParams"></a>ules for Defining Limit-Based Parameters</h3>
+
+<p>
+<a id="pgfId-15310282"></a>Below is an example of the EM rule for defining the <code>em_jmax_ac_avg</code> parameter.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15310256"></a>[em_jmax_ac_avg &lt;value&gt; | &lt;value_1&gt; &lt;area_1/width_1&gt; [...] | EQU &lt;fn(E)&gt;]</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15310257"></a>[jmax_factor &lt;temp1&gt; &lt;scale1&gt; [&lt;temp2&gt; &lt;scale2&gt; ...]]</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15311379"></a>[jmax_life &lt;life1&gt; &lt;scale1&gt; [&lt;life2&gt; &lt;scale2&gt;.......]]</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15311380"></a>[current_direction up|down|both] </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15311371"></a>[via_range &lt;value&gt;]</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15310261"></a>[conditions]</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15312725"></a>[single]</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15314484"></a>[power_rail]</pre>
+
+<p>
+<a id="pgfId-15310425"></a>All limit-based parameters are defined with the same structure but apply to different characteristics of the <code>em_model</code> (peak current versus average for instance). The following rules apply to all the limit-based <code>em_model</code> parameters:</p>
+<ul><li>
+<a id="pgfId-15310793"></a>Equations in EM Model<br />
+<a id="pgfId-15310628"></a>An end of line (EOL) or one of the qualifiers (<code>jmax_factor</code>, <code>current_direction, single,</code> or <code>via_range</code>) marks the end of an equation specifying the current density limit. If the equation resolves into two separate equations, this will result in an error.<br />
+<a id="pgfId-15310617"></a>For EQU, the following operators (case-insensitive) are supported:<ul><li>
+<a id="pgfId-15310660"></a><code>SQRT</code></li><li>
+<a id="pgfId-15310661"></a><code>LOG</code></li><li>
+<a id="pgfId-15310662"></a><code>EXP</code></li><li>
+<a id="pgfId-15310687"></a><code>* / + -</code></li><li>
+<a id="pgfId-15310688"></a><code>()</code></li><li>
+<a id="pgfId-15310689"></a><code>e</code></li><li>
+<a id="pgfId-15310666"></a><code>^</code><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15310704"></a>Square brackets &#8216;[ ]&#8217; are not supported. A comma &#8216;,&#8217; implies multiple equations, and results in an error. The period &#8216;.&#8217; is ambiguous and should not be used to indicate multiplication (use * instead). </div></li></ul>
+<a id="pgfId-15310707"></a>Spaces are permitted to make an equation more readable.<br />
+<a id="pgfId-15310708"></a>Variables within equations (such as <code>deltaT</code>, <code>w</code>, and <code>l</code>) will be populated by the analysis tool at run-time. Use the <code>em_variables </code>parameter in the process definition to globally declare variables that are used within the various em_models.<br />
+<a id="pgfId-15310711"></a>The equation definition ends when reaching the EOL or another keyword (<code>jmax_factor, current_direction</code>, <code>single, </code>or <code>via_range</code>).<br />
+<a id="pgfId-15310858"></a>Order Dependency<br />
+<a id="pgfId-15310859"></a>The actual current density limit (value, PWL pairs, or equation) should follow immediately after the current density keyword (<code>em_jmax_ac_avg</code>). Any of the qualifiers (<code>jmax_factor</code>, <code>current_direction</code>, <code>single,</code> or <code>via_range</code>) will come after that. The order of the qualifiers is not important.</li><li>
+<a id="pgfId-15310775"></a>Units of Values<br />
+<a id="pgfId-15311402"></a>The unit should be specified in accordance with the setting defined by the <code>em_conductor_unit</code>, <code>em_via_unit</code>, and <code>em_via_area_unit</code> parameters defined in the process definition. Units are specified as:<ul><li>
+<a id="pgfId-15310777"></a>For a single value or an equation:<ul><li>
+<a id="pgfId-15310778"></a>A/cm2 or mA/um for metal layers (width based)</li><li>
+<a id="pgfId-15319352"></a>A/via or mA/via for via layers (per via)<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15319353"></a>You can also specify the current density of metal layers in mA instead of in A/cm2 or mA/um by using the environment variable,<a href="../vpsl/setenv.html#vsaICTConductorUnit">_vsaICTConductorUnit</a>.</div></li></ul></li><li>
+<a id="pgfId-15319355"></a>For a PWL table:<ul><li>
+<a id="pgfId-15310781"></a>A/cm2 or mA/um, with the width specified in microns for metal layers</li><li>
+<a id="pgfId-15310782"></a>A/cm2 or mA, with the area specified in square microns for via layers<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15318737"></a>By Default, PWL points are discrete points and not a continuous line. Therefore, the area values that fall between the two points do not match the rule. To apply PWL rules to intermediate area values, use the environment variable, <a href="../vpsl/setenv.html#vsaEnablePWL">_vsaEnablePWL</a>. In this case, the tool interpolates the value for the intermediate area. For area values above the maximum area defined in the PWL, the tool will do constant interpolation. For area values below the minimum area defined in the PWL, the tool will do linear interpolation from &lt;0 0&gt; to the minimum value pair that is specified.</div></li></ul></li></ul></li><li>
+<a id="pgfId-15313600"></a>JMAX Factors<br />
+<a id="pgfId-15313601"></a><code>jmax_factor &lt;temp1&gt; &lt;scale1&gt; [&lt;temp2&gt; &lt;scale2&gt; ...]</code><br />
+<a id="pgfId-15311489"></a><code>jmax_factor </code>is the optional scaling factor to use at different temperatures as compared to the reference temperature (defined by <code>em_tref</code> in the process definition). The temperature for <code>jmax_factor</code> should be specified in degree Celsius.<br />
+<a id="pgfId-15311492"></a>Scaling factor is a positive integer: &gt;1 to scale up, &lt;1 to scale down, or 1 for no scale effect.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15311494"></a>When setting scale factors for multiple temperatures, they should be specified in an ascending sequence to enable interpolation.</div></li><li>
+<a id="pgfId-15317969"></a>JMAX Life<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15317970">
+<a id="pgfId-15317970"></a>jmax_life &lt;life1&gt; &lt;scale1&gt; [&lt;life2&gt; &lt;scale2&gt;.......]</pre>
+<a id="pgfId-15317971"></a><code>jmax_life</code> provides the ability to set the scaling factor that applies to the current density limits for different lifetimes. Based on the lifetime value that you specify (using the <code>em_lifetime_units </code>parameter defined in the process section of the ICT file), the appropriate multiplication factor is applied to the nominal current density limit. <br />
+<a id="pgfId-15317957"></a>For more information, see the Rules for Defining Limit-Based Parameters section in the &#8220;Creating the ICT File&#8221; chapter in <em>QRC Techgen Reference Manual</em>.<br />
+<a id="pgfId-15318188"></a>You can specify the lifetime value by using the <code>JmaxLife</code> custom variable in the Electromigration Edit/View Custom Parameters form. <br />
+<a id="pgfId-15318190"></a>You can also specify the lifetime value using the environment variable, <a href="../vpsl/setenv.html#vsaJmaxLife">_vsaJmaxLife</a>.</li><li>
+<a id="pgfId-15311544"></a>Format of the Conditions<br />
+<a id="pgfId-15314495"></a><code>Condition = [L/W/Lu/Wu/Lb/Wb/Lv2v/Td/r &lt; | &lt;= | &gt; | &gt;= &lt;value in microns&gt;] | [Itolerance &lt; | &lt;= | &gt; | &gt;= &lt;</code><span class="webflare-courier-new" style="white-space:pre"><em>value in percentage</em></span><code>&gt;]</code><br />
+<a id="pgfId-15311577"></a>Conditions = <code>[condition]*</code><br />
+<a id="pgfId-15311619"></a>The <code>L </code>parameter specifies the length-based jmax values in microns.<br />
+<a id="pgfId-15311627"></a>The <code>W </code>parameter specifies the width-based jmax values in microns.<br />
+<a id="pgfId-15311658"></a><code>L</code> and <code>W </code>are applicable for both metals and vias.<br />
+<a id="pgfId-15311659"></a><code>Lu, Lb, Wu, </code>and <code>Wb</code> are applicable only for vias.<br />
+<a id="pgfId-15314517"></a><code>Lv2v</code> and <code>Itolerance</code> are applicable for <code>power_rail</code> only.<br />
+<a id="pgfId-15314562"></a>Where,<br />
+<a id="pgfId-15314563"></a><code>L</code> = length
+<code>W </code>= Width
+<code>Lu</code> = Upper metal length
+<code>Lb</code> = Bottom metal length
+<code>Wu</code> = Upper metal width
+<code>Wb</code> = lower metal width
+<code>Lv2v</code> = Distance between terminal vias
+<code>Itolerance</code> = Difference in the current values of terminal vias. For example, if a difference of up to 5 percent is acceptable, then specify &#39;Itolerance &lt;= 0.05&#39;.
+<code>Td<code><sub> </sub></code></code>= Time duration in micro second or total &#8216;On Time&#8221; period
+<code>r </code>= Duty ratio<br />
+<a id="pgfId-15312681"></a>Power IR/EM supports metal length or width rules above and below vias where the dimensions to be checked for the rules are different for the metal above and the metal below. In this case, <code>Lu/Wu</code> refers to dimensions of the metal above the via and <code>Lb/Wb</code> refers to dimensions of the metal below the via.<br />
+<a id="pgfId-15312669"></a>For more information, refer to the Rules for Defining Limit-Based Parameters section in the &#8220;Creating the ICT File&#8221; chapter in <em>QRC Techgen Reference Manual</em>.</li><li>
+<a id="pgfId-15312756"></a>Single<br />
+<a id="pgfId-15317992"></a>The keyword <code>single</code> can be specified to differentiate between a single square cut via and a square viaarray. The following example shows how to use the <code>single</code> keyword:<pre class="webflare-pre-block webflare-courier-new" id="#id15313675">
+<a id="pgfId-15313675"></a>em_jmax_dc_avg PWL 0.022  0.01  jmax_factor 105 1.1  110 1.0 115</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15313676">
+<a id="pgfId-15313676"></a>0.9 120 0.8 125 0.7 130 0.6 140 0.5 150 0.4  current_direction up</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15313677">
+<a id="pgfId-15313677"></a>Lb &gt; 4 Wb &gt;= 0.05  current_direction up single</pre></li><li>
+<a id="pgfId-15312741"></a>Current Direction<br />
+<a id="pgfId-15318006"></a><code>current_direction [up | down | both]</code> <br />
+<a id="pgfId-15318022"></a><code>current_direction</code> can be specified for via current direction. The syntax of <code>current_direction</code> is:<ul><li>
+<a id="pgfId-15312815"></a><code>up</code> - means the current is from down to top and specifies how to use the length and width of the metal below Lb/Wb for the VIA Jmax factor</li><li>
+<a id="pgfId-15312837"></a><code>down</code> - means the current is from top to down and specifies how to use the length and width of the metal above Lu/Wu for VIA Jmax factor</li><li>
+<a id="pgfId-15312879"></a><code>both</code> - This rule is only applicable when the current direction is uncertain. This rule is unlikely to be applied since the software calculates the current direction</li></ul></li><li>
+<a id="pgfId-15318040"></a>Via Range<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15318041">
+<a id="pgfId-15318041"></a>via_range &lt;<code><em>value</em></code>&gt;</pre>
+<a id="pgfId-15318042"></a><code>via_range</code> is an optional parameter which can be used with the via layers. The value of <code>via_range</code> denotes the number of vias for which the calculated limits are valid. <code>via_range</code> is specified as a positive integer.<br />
+<a id="pgfId-15318953"></a>Example:<pre class="webflare-pre-block webflare-courier-new" id="#id15318954">
+<a id="pgfId-15318954"></a>via Via1 {</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15318955">
+<a id="pgfId-15318955"></a>   em_model {</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15318956">
+<a id="pgfId-15318956"></a>      em_jmax_dc_avg 1.11 via_range 1</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15318957">
+<a id="pgfId-15318957"></a>      em_jmax_dc_avg 2.22 via_range 4</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15318958">
+<a id="pgfId-15318958"></a>      em_jmax_dc_avg 3.33 via_range 8</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15318959">
+<a id="pgfId-15318959"></a>   }</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15318960">
+<a id="pgfId-15318960"></a>   ...</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15318961">
+<a id="pgfId-15318961"></a>}</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15318962">
+<a id="pgfId-15318962"></a>Current density value of 1.11 mA/via will be applied for viaCount=1</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15318963">
+<a id="pgfId-15318963"></a>Current density value of 2.22 mA/via will be applied for viaCount=4</pre>
+<a id="pgfId-15318941"></a>Current density value of 3.33 mA/via will be applied for viaCount=8</li><li>
+<a id="pgfId-15314585"></a>The keyword <code>power_rail</code> can be specified to enable the particular rule for power-rail analysis. When power-rail analysis is enabled, a rule with the <code>power_rail </code>keyword will have a higher priority than any other rule.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15314586">
+<a id="pgfId-15314586"></a>em_jmax_dc_avg PWL 0.022 0.01 jmax_factor 105 1.1 110 1.0 115</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15314587">
+<a id="pgfId-15314587"></a>0.9 120 0.8 125 0.7 130 0.6 140 0.5 150 0.4 </pre><pre class="webflare-pre-block webflare-courier-new" id="#id15314588">
+<a id="pgfId-15314588"></a>Lb &gt; 4 Wb &gt;= 0.05 current_direction up  </pre><pre class="webflare-pre-block webflare-courier-new" id="#id15314589">
+<a id="pgfId-15314589"></a>power_rail  Lv2v &lt;= 5 Itolerance &lt;= 0.05</pre></li><li>
+<a id="pgfId-15316881"></a>The keyword <code>applyR</code> can be used to modify the threshold value of ratio &#8220;r&#8217; in AC-Peak analysis. The default value of this parameter is 0.05. Modifying this parameter is useful in scenarios where the value of &#8220;r&#8217; is very small. A small &#8220;r&#8221; value results in an unreasonable increase in the I<code><sub>peak_ac </sub></code>limit. You can avoid such scenarios by resetting the value of &#8220;r&#8221; in the ICT file. For example:<br />
+<a id="pgfId-15316882"></a><code>em_jmax_ac_peak EQ 4.0 r &lt; 0.01 applyR 0.01</code><br />
+<a id="pgfId-15316883"></a>You can specify the threshold ratio by using the <code>applyRThreshold</code> custom variable in the Electromigration Edit/View Custom Parameters form . <br />
+<a id="pgfId-15316844"></a>You can also specify the threshold ratio using the environment variable, <a href="../vpsl/setenv.html#vsaApplyRThreshold">_vsaApplyRThreshold</a><code>.</code></li><li>
+<a id="pgfId-15312748"></a>In <code>qrcTechFile</code> flow, <code></code><code>deltaT</code><code> </code><a id="deltaT"></a>can be specified in the GUI using the Edit/View Custom Parameters form. This is used to specify the maximum rise in temperature in degree Celsius, caused due to Joule Heating. It must be a positive value. <br />
+<a id="pgfId-15312201"></a>If you do not specify the rise in temperature, Power IR/EM considers a default temperature of 5 degrees Celsius.
+<br />
+<a id="pgfId-15312191"></a>For more information, see the <a actuate="user" class="URL" href="../vpsl/emanalysis.html#EditViewCustomParameters" show="replace" xml:link="simple">Edit/View Custom Parameters</a> section in the &#8220;EM Analysis&#8221; chapter.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-15318674"></a>
+Advanced EM rules with <code>power_rail</code> and <code>current_direction</code> keywords require a VPS-XL license.</div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-15312991"></a><a id="51348"></a>EM Rule Selection</h2>
+
+<p>
+<a id="pgfId-15313095"></a>The earlier EM selection rule was that the software matched rules in the top-to-bottom order in a given sequence. The first rule that matched was selected. This behavior is changed to support the 20NM rules. </p>
+<p>
+<a id="pgfId-15313096"></a>The following diagrams outline the flow of EM selection rule in Power IR/EM.</p>
+
+<p><strong>Figure 9-1
+<a id="pgfId-15315400"></a>EM Rule Selection Flow </strong></p>
+<p>
+<a id="pgfId-15315596"></a></p>
+<div class="webflare-div-image">
+<img width="429" height="699" src="images/emrulespec-3.gif" /></div>
+<p><strong>Figure 9-2
+<a id="pgfId-15315735"></a>EM Rule Selection Flow (continued)</strong></p>
+<p>
+<a id="pgfId-15315752"></a></p>
+<div class="webflare-div-image">
+<img width="571" height="649" src="images/emrulespec-4.gif" /></div>
+<h2>
+<a id="pgfId-15315742"></a><a id="81312"></a>Reading<a id="ReadingEMRules"></a> EM Rules from emDataFile</h2>
+
+<p>
+<a id="pgfId-15312290"></a>The following sections detail the EM Rules specification file syntax.</p>
+
+<h3>
+<a id="pgfId-15302605"></a><a id="33444"></a>EM Rules<a id="EMRulesSpecificationFileSyntax"></a> Specification File Syntax</h3>
+
+<ul><li>
+<a id="pgfId-15296561"></a>Single line comments can be added by beginning the line with a semicolon (&#8216;<code>;</code>&#8217;). For example:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15301181">
+<a id="pgfId-15301181"></a>; This is a comment line</pre></li><li>
+<a id="pgfId-15301182"></a>The Current Density Milliamps Per Via keyword (<code>currentDensityMPV</code>) allows you to define the current density specifications in terms of milliamps per via instead of the standard milliamps per micron. Most foundries specify via and contact current densities in milliamps per via, and the use of this keyword saves you from having to manually convert the foundry specification.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15296564">
+<a id="pgfId-15296564"></a>currentDensityMPV = true</pre><br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-15296565"></a>
+If the keyword <code>currentDensityMPV</code> is used, then all current density specifications must be stated in terms of milliamps per via.</div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15319473"></a>When <code>currentDensityMPV</code> is enabled, <code>minW</code> and <code>maxW</code> are defined as the number of vias. For example, </div><pre class="webflare-pre-block webflare-courier-new" id="#id15319474">
+<a id="pgfId-15319474"></a>(nil layer &quot;myVia&quot; minW 1 maxW 4 currentDensity ((10,85)) 
+(nil layer &quot;myVia&quot; minW 4 maxW 8 currentDensity ((20,85))</pre>
+<a id="pgfId-15319475"></a>Current density=<code>10mA/um</code> if number of vias is<code> &gt;=1 </code>and<code> &lt;4</code> 
+Current density=<code>20mA/um</code> if number of vias is <code>&gt;=4 </code>and <code>&lt;8</code><br />
+<a id="pgfId-15319476"></a>When <code>currentDensityMPV</code> is disabled, <code>minW</code> and <code>maxW</code> are defined as the total width of a via array. For example,<br />
+<a id="pgfId-15319477"></a>Current density=<code>10mA/um</code> if width of via array is<code> &gt;=1 </code>and<code> &lt;4</code> 
+Current density=<code>20mA/um</code> if width of via array is <code>&gt;=4 </code>and <code>&lt;8</code><br />
+<a id="pgfId-15319491"></a>Width of via array is calculated as (<code>number of vias</code> x <code>minimum width of via</code>)</li><li>
+<a id="pgfId-15319155"></a>The <code>meshR </code>keyword is set to <code>true </code>when the extraction is done using the <code>meshR</code> option. This option is used to specify regions for mesh resistance extraction. When <code>meshR</code> is specified, the software evaluates the node current direction based on this flag.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15319156">
+<a id="pgfId-15319156"></a>meshR = true</pre></li><li>
+<a id="pgfId-15319137"></a><code>deltaT</code><a id="deltaT"></a> is used to specify the maximum rise in temperature in degree Celsius, caused due to Joule Heating. It must be a positive value.<br />
+<a id="pgfId-15296567"></a>If you do not specify the rise in temperature, Power IR/EM considers a default temperature of 5 degrees Celsius. This is an ideal condition where the design must be EM free.<br />
+<a id="pgfId-15296568"></a><code>deltaT</code> can be used in defining the current density limit: <code>Irms </code><br />
+<a id="pgfId-15296569"></a>For example, <pre class="webflare-pre-block webflare-courier-new" id="#id15296570">
+<a id="pgfId-15296570"></a>(nil layer &quot;M1&quot;   minW 0.09 maxW 12.0 currentDensity (((sqrt(18.33*deltaT*(w-.016)*(w-.016)*(w-.016+.352)/(w-.016+.0443) )/w) , 110)))</pre></li><li>
+<a id="pgfId-15312220"></a><code>preExecuteFiles</code><br />
+<a id="pgfId-15313890"></a>Takes the list of custom files that are pre-loaded when reading the <code>emDataFile</code>.<br />
+<a id="pgfId-15313898"></a>Examples:</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<pro2-prog-in-2- id="#id15313899">
+<a id="pgfId-15313899"></a>preExecuteFiles=(&#8220;custom.il&#8221;)</pro2-prog-in-2->
+<pro2-prog-in-2- id="#id15313900">
+<a id="pgfId-15313900"></a>preExecuteFiles=( getShellEnvVar(&quot;myPreExecuteFile&quot;)) </pro2-prog-in-2->
+<p class="webflare-indent1">
+<a id="pgfId-15313901"></a>where the filename is defined in the environment variable as <code>&#8220;myPreExecuteFile&#8221;</code>. You can specify any name as the environment filename.</p>
+<p class="webflare-indent1">
+<a id="pgfId-15313891"></a>preExecuteFiles=(&#8220;customFile1.il&#8221; &#8220;customFile2.il&#8221;)</p>
+<ul><li>
+<a id="pgfId-15313892"></a>Minimum Current (<code>minI</code>) can be used to limit the reporting of small currents which are of little or no interest during either Power or Signal EM analysis. The value of <code>minI</code> is specified in Amps (A). Any wire segments that have current values less than <code>minI</code> will not be displayed in the EM results windows or reported in the EM result file. The default value of <code>minI</code> is 0, so if it is not specified in the <code>emDataFile</code> it will have no effect on the analysis.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15296572">
+<a id="pgfId-15296572"></a>minI = 1e-9</pre></li><li>
+<a id="pgfId-15305349"></a>The EM <code>recoveryFactor</code> is used to calculate the effective DC electromigration in bipolar current wave forms. This accounts for some &#39;sweep back recovery&#39; of EM during the negative portion of the current wave form. The recovery factor is specified in the EM Rules specification file as:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15305255">
+<a id="pgfId-15305255"></a>recoveryFactor = &lt;value&gt;</pre>
+<a id="pgfId-15305484"></a>where the user-specified value ranges from 0 to 1.0<br />
+<a id="pgfId-15305265"></a>The following equation shows how the recovery factor is used by the software while calculating the total average EM current:<pre class="webflare-pre-block webflare-courier-new" id="#id15305312">
+<a id="pgfId-15305312"></a>I (avg) = max( I+, I- ) - (recovery factor)* min( I+, I-) </pre>
+<a id="pgfId-15305409"></a>where <code>I+</code> is the average of <code>I</code> in the positive direction and <code>I-</code> is the average of <code>I</code> in the negative direction<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15308143"></a>The tool errors out if the <code>recoveryFactor</code> value is not equal to 1.0 and when simulation data is in the Power IR/EM-specific format. This is because there is not enough simulation data available in this format for calculating the <code>recoveryFactor</code>. However, <code>recoveryFactor</code> is supported with simulation data in the Power IR/EM-specific format if the simulator version used is Spectre/APS 11.1 ISR19 and above.</div></li><li>
+<a id="pgfId-15319174"></a>The <code>recoveryFactorList </code>is used to specify the list of layers and the corresponding recovery factors to be used for these layers during EM analysis. The following example shows how different recovery factors are specified for layers, <code>Via1</code> and <code>mt1</code>.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15319175">
+<a id="pgfId-15319175"></a>recoveryFactorList = ((&quot;Via1&quot; 0.7) (&quot;mt1&quot; 0.3))</pre><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15319056"></a>If both <code>recoveryFactor</code> and <code>recoveryFactorList</code> are specified, the list of layers and their corresponding values specified using the <code>recoveryFactorList </code>keyword will get preference.</div></li><li>
+<a id="pgfId-15305540"></a>The <code>durationTime </code>is used to specify the maximum time period for which a violation is allowed. For example, if you set the duration time to 1u(sec), then any violations that occur for durations less than 1u are ignored. This helps you eliminate short duration violations that do not have an impact on electromigration. This, in turn, reduces the verification time taken for EM analysis.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15305623">
+<a id="pgfId-15305623"></a>durationTime = &lt;value&gt;</pre></li><li>
+<a id="pgfId-15305522"></a>The <code>cadGrid</code><a href="glossary.html#presistor"> specifies the minimum width that Power IR/EM uses when a parasitic resistor (</a><em><a href="glossary.html#15879">presistor</a><em></em></em>) does not contain width information or has a width that is less than the specified <code>cadGrid</code>. This ensures that no <code>presistor</code> will have a width less than <code>cadGrid</code>. When Power IR/EM changes the width of a <code>presistor</code> to meet the <code>cadGrid</code> a warning message is written to the <code>cds.log</code>. The <code>cadGrid</code> can also be specified in the tech lib. Syntax to specify <code>cadGrid</code> is:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15296577">
+<a id="pgfId-15296577"></a>cadGrid = 0.002</pre>
+<a id="pgfId-15319509"></a>The unit of measurement is micrometer (um) or micron.</li><li>
+<a id="pgfId-15296580"></a>The <a id="marker-15296578"></a>routing layers are the names of the <a id="marker-15296579"></a>DFII layers that are used for routing. Include only the poly and metals. An example follows:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15296581">
+<a id="pgfId-15296581"></a>routingLayers = (&quot;poly1&quot; &quot;m1&quot; &quot;m2&quot; &quot;m3&quot; &quot;m4&quot; &quot;m5&quot; &quot;m6&quot; &quot;m7&quot; &quot;m8&quot; &quot;m9&quot; &quot;MD&quot;)</pre></li><li>
+<a id="pgfId-15296583"></a>The <a id="marker-15296582"></a>via layers are the names of the DFII layers. Look for <code>viaLayers</code> in the Virtuoso technology file, for example:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15296584">
+<a id="pgfId-15296584"></a>( Metal1      Cont            Poly       )  // the via layer is Cont</pre>
+<a id="pgfId-15296585"></a>An example of the viaLayers syntax follows:<pre class="webflare-pre-block webflare-courier-new" id="#id15296586">
+<a id="pgfId-15296586"></a>viaLayers = ( &quot;cw&quot; &quot;v1&quot; &quot;v2&quot; &quot;v3&quot; &quot;v4&quot; &quot;v5&quot; &quot;v6&quot; &quot;v7&quot; &quot;v8&quot;)</pre></li><li>
+<a id="pgfId-15296587"></a>The cross-reference layers (<code>xrefLayers</code>) contain a list of layer names in the following format:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15296588">
+<a id="pgfId-15296588"></a>( ( &quot;<code><em>QRCName</em></code>&quot; ( &quot;<code><em>currentDensityName</em></code>&quot; &quot;<code><em>DFIIName</em></code>&quot; ) )</pre><ul><li>
+<a id="pgfId-15316439"></a>For conductor layers, <span class="webflare-courier-new" style="white-space:pre"><em>QRCName</em></span> refers to the <code>pro_layer</code> name in the QRC <code>layerSetupFile</code> or <code>p2lvsfile</code>. For via layers, <span class="webflare-courier-new" style="white-space:pre"><em>QRCName</em></span> refers to the <code>ext_cont </code>layer names. For example:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15316441">
+<a id="pgfId-15316441"></a><code>=== layerSetupFile ===</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316442">
+<a id="pgfId-15316442"></a>pro_layer=myM1 ext_layer=m1_par, m1</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316443">
+<a id="pgfId-15316443"></a>pro_layer=myM2 ext_layer=m2_par,m2 model=M2mod</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316444">
+<a id="pgfId-15316444"></a>pro_cont=myV1 ext_cont=v1_par, v1</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316445">
+<a id="pgfId-15316445"></a>pro_cont=myV2 ext_cont=v2_par, v2 model=V2mod</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316446">
+<a id="pgfId-15316446"></a></pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316447">
+<a id="pgfId-15316447"></a>=== emDataFile ===</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316448">
+<a id="pgfId-15316448"></a>xrefLayers=(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316449">
+<a id="pgfId-15316449"></a>( myM1 (M1 M1))</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316450">
+<a id="pgfId-15316450"></a>( M2mod (M2 M2))</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316451">
+<a id="pgfId-15316451"></a>( v1_par (V1 V1))</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316452">
+<a id="pgfId-15316452"></a>( v1 (V1 V1))</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316453">
+<a id="pgfId-15316453"></a>( V2mod (V2 V2))</pre></li><li>
+<a id="pgfId-15316455"></a><span class="webflare-courier-new" style="white-space:pre"><em>currentDensityName</em></span> is the layer name used in the current density specification declared by the foundry.<a id="marker-15316454"></a></li><li>
+<a id="pgfId-15316457"></a><span class="webflare-courier-new" style="white-space:pre"><em>DFIIName</em></span> is the layer name in the DFII technology directory.<a id="marker-15316456"></a></li></ul><br />
+<a id="pgfId-15316458"></a>The above three layer names might all be same or different depending on how the rules files are written. For example:<pre class="webflare-pre-block webflare-courier-new" id="#id15316459">
+<a id="pgfId-15316459"></a>xrefLayers = (
+( &quot;poly1con&quot; (&quot;cw&quot; &quot;cw&quot;))
+( &quot;poly&quot; (&quot;poly1&quot; &quot;poly1&quot;)))</pre><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15316460"></a>In general, <span class="webflare-courier-new" style="white-space:pre"><em>QRCName</em></span> should match the parasitic resistor model names that are found in the <code>extview.tmp</code> file in the QRC run directory. However, if the layer name matching fails for the specified <span class="webflare-courier-new" style="white-space:pre"><em>QRCName</em></span>, the matching will be done using <span class="webflare-courier-new" style="white-space:pre"><em>currentDensityName</em></span> and <span class="webflare-courier-new" style="white-space:pre"><em>DFIIName</em></span>.</div>
+<a id="pgfId-15316506"></a>If the same via layer has different resistance values, for example, diffusion contact and poly contact, then they should be mapped under different <code>currentDensityNames</code> so that the software can use the appropriate resistance values. For example:<pre class="webflare-pre-block webflare-courier-new" id="#id15316507">
+<a id="pgfId-15316507"></a>xrefLayers(
+(diffCont (CONTdiff CONT))
+(pcCont (CONTpc CONT))
+)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316508">
+<a id="pgfId-15316508"></a><code>(nil layer &quot;CONTdiff&quot; minW 0.0 maxW -1.0 minL 0.0 maxL 1.0 res 2.0 currentDensity ((1.0, 27))</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316509">
+<a id="pgfId-15316509"></a><code>(nil layer &quot;CONTpc&quot; minW 0.0 maxW -1.0 minL 0.0 maxL 1.0 res 3.0 currentDensity ((1.0, 27))</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316510">
+<a id="pgfId-15316510"></a>OR</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316511">
+<a id="pgfId-15316511"></a>(nil layer &quot;CONTdiff&quot; minW 0.0 maxW -1.0 minL 0.0 maxL 1.0 currentDensity</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316512">
+<a id="pgfId-15316512"></a>((1.0, 27))</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316513">
+<a id="pgfId-15316513"></a>(nil layer &quot;CONTpc&quot; minW 0.0 maxW -1.0 minL 0.0 maxL 1.0 currentDensity ((1.0, 27))</pre><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15316555"></a>If &quot;res&quot; is not explicitly specified, it will be retrieved from the QRC run directory which is assumed to be within the specified LVS run directory.</div></li><li>
+<a id="pgfId-15296600"></a><code>CurrentDensSpecList</code><a id="marker-15296598"></a> refers to the current density specification declared by the foundry. The syntax allows one layer to support two different current density specifications according to the width of the material. <a id="marker-15296599"></a><br />
+<a id="pgfId-15302389"></a>There are seven Current Density Specifications in the <code>emDataFile</code>: <code>avgCurrentDensSpecList, avgAbsCurrentDensSpecList, rmsCurrentDensSpecList, DCrmsCurrentDensSpecList, peakCurrentDensSpecList,</code> <code>ACpeakCurrentDensSpecList, </code>and <code>userDefinedCurrentDensSpecList. </code><br />
+<a id="pgfId-15314669"></a>The DC operating point (DCOP) analysis will use the <code>avgCurrentDensSpecList</code>. <code>ACpeakCurrentDensSpecList</code> is used when you select <em>AC-Peak </em>analysis on the EM form. See EM Analysis of the Power Grid<a id="message URL ../vpsl/emanalysis.html#vsaIElectromigrationHelp"></a>, in the &#8220;EM Analysis&#8221;<em> </em>chapter. Each specification in the <code>emDataFile</code> can be unique with its own currentDensity and temperature. <br />
+<a id="pgfId-15296604"></a>An example of a current density specification for a given layer is as follows:<pre class="webflare-pre-block webflare-courier-new" id="#id15296605">
+<a id="pgfId-15296605"></a>(nil layer &quot;v1&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre><ul><li>
+<a id="pgfId-15296606"></a><span class="webflare-courier-new" style="white-space:pre"><em>nil</em></span> is a reserved keyword indicating the start of the line.</li><li>
+<a id="pgfId-15296607"></a><span class="webflare-courier-new" style="white-space:pre"><em>layer &#8220;poly1&#8221;</em></span> is the <code>layer</code> keyword followed by the specific layer name to apply the current density line. The layer name is the current density layer name from the layer cross-reference section of the <code>emDataFile</code>.</li><li>
+<a id="pgfId-15296608"></a><span class="webflare-courier-new" style="white-space:pre"><em>minW</em></span> is the minimum line width in microns. </li><li>
+<a id="pgfId-15296609"></a><span class="webflare-courier-new" style="white-space:pre"><em>maxW</em></span> is the maximum line width. When set to -1.0, it represents infinity. </li><li>
+<a id="pgfId-15296610"></a><span class="webflare-courier-new" style="white-space:pre"><em>res</em></span> is the resistance in ohms. <ul><li>
+<a id="pgfId-15296611"></a>For contacts and via layers res should be set to the total resistance of a minimum width contact. </li></ul></li><li>
+<a id="pgfId-15296612"></a><span class="webflare-courier-new" style="white-space:pre"><em>currentDensity</em></span> is specified in milliamps per micron at a specified junction temperature. This can be represented in multiple (currentDensity, temperature) pairs.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15296613">
+<a id="pgfId-15296613"></a><strong>currentDensity ((1.2100,100) (1.2110,110) (1.2125,125))</strong></pre><ul><li>
+<a id="pgfId-15296614"></a>Most foundries specify via and contact current densities in milliamps per contact or milliamps per square micron. The foundry specification must be converted to milliamps per micron. For example, if the foundry specification provides a current density of 0.4<code>mA/via</code> and the via is 0.2micron X 0.2micron, then the currentDensity value is 0.4 / 0.2 = 2mA/um<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15296615"></a>With the introduction of the <code>currentDensityMPV</code> keyword, current densities can now be specified in milliamps per contact as provided by the foundry so no manual conversion is required.</div></li></ul></li><li>
+<a id="pgfId-15296616"></a><span class="webflare-courier-new" style="white-space:pre"><em>temperature</em></span> is specified in degree Celsius.<br />
+<a id="pgfId-15315119"></a>The software compares the simulation temperature with this temperature. When the simulation temperature is not in the temperature range specified above, the software behaves in the following manner:<ul><li>
+<a id="pgfId-15315120"></a>If the simulation temperature is less than the specified minimum temperature, the current density value is picked for the specified minimum temperature and not for the simulation temperature. </li><li>
+<a id="pgfId-15315121"></a>If the simulation temperature is greater than the specified maximum temperature, the current density value is picked for the specified maximum temperature and not for the simulation temperature.</li></ul><br />
+<a id="pgfId-15315122"></a>When the simulation temperature falls within the specified temperature range, the software interpolates the value using a formula that is provided in the example below.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15319977"></a>The tool uses temperature in Kelvin while doing the calculation using the interpolation equation.</div>
+<a id="pgfId-15315123"></a>Examples:<br />
+<a id="pgfId-15315124"></a>In these examples, <code>T</code> is the simulation temperature, <code>T1</code> is the specified minimum temperature, and <code>T2 </code>is the specified maximum temperature.<br /><span class="indent-as-level3">
+<a id="pgfId-15315125"></a>currentDensity (( RT1, T1) (RT2, T2))    where T1 &lt; T2 </span><br /><span class="indent-as-level3">
+<a id="pgfId-15315126"></a>If <code>T &lt; T1</code>; current density will be taken for temperature T1</span><br /><span class="indent-as-level3">
+<a id="pgfId-15315127"></a>If <code>T &gt; T2</code>; current density will be taken for temperature T2</span><br /><span class="indent-as-level3">
+<a id="pgfId-15315128"></a>If <code>T1 &lt; T &lt; T2</code>;   The tool will interpolate for the temperature derating factor that is derived from the formula: <code>TTF=A*J^(-n)*exp(Ea/kT)</code> </span><br /><span class="indent-as-level3">
+<a id="pgfId-15315129"></a><code>RT = RT1*exp((Ea/kT)*(1/T-1/T1))</code></span><br /><span class="indent-as-level3">
+<a id="pgfId-15315130"></a>where <code>Ea/kT=(T1*T2/(T1-T2))*ln(RT2/RT1)</code> </span><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15315175"></a>You can enable linear interpolation for RT factor at temperature T by setting the <a href="../vpsl/setenv.html#vsaLinearInterpolation">_vsaLinearInterpolation</a> variable to true.</div></li></ul>
+<a id="pgfId-15296629"></a>The following is an example of the <code>peakCurrentDensSpecList</code> parameter, where the currentDensity is dependent on the width of the presistor:<pre class="webflare-pre-block webflare-courier-new" id="#id15302802">
+<a id="pgfId-15302802"></a>peakCurrentDensSpecList = (</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15302803">
+<a id="pgfId-15302803"></a>(nil layer &quot;m1&quot; minW 0.0 maxW 0.16 currentDensity ( (1.434*3.9*w,100) (3.9,110)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15302804">
+<a id="pgfId-15302804"></a>(0.387*3.9,125)))</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15302805">
+<a id="pgfId-15302805"></a>(nil layer &quot;m1&quot; minW 0.16 maxW -1.0 currentDensity ( (14*w*deltaT,100) (7.0-</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15296633">
+<a id="pgfId-15296633"></a>0.16,110) (5.3,125)))</pre>
+<a id="pgfId-15302821"></a>In the preceding example, the <code>currentDensity</code> for layer &#8220;m1&#8221; will be calculated by the equation using the actual line width depending upon whether it is greater than the 0.16 maxW specified as the breakpoint between the two lines.<br />
+<a id="pgfId-15305001"></a>The following is an example of the <code>peakCurrentDensSpecList</code> parameter, where the currentDensity is dependent on length of the presistor:<pre class="webflare-pre-block webflare-courier-new" id="#id15305003">
+<a id="pgfId-15305003"></a>(nil layer &quot;Metal1&quot; minW 0.0 maxW -1.0 minL 0.0 maxL 1.0 </pre><pre class="webflare-pre-block webflare-courier-new" id="#id15302833">
+<a id="pgfId-15302833"></a>currentDensity ((1.0, 27) (1.01,110) (1.02,125)) )  </pre><pre class="webflare-pre-block webflare-courier-new" id="#id15302834">
+<a id="pgfId-15302834"></a>(nil layer &quot;Metal1&quot; minW 0.0 maxW -1.0 minL 1.0 maxL 2.0</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15302835">
+<a id="pgfId-15302835"></a>currentDensity ((3.1*L*deltaT, 27) (4.11*L*deltaT,110) (4.32,125)) )  </pre><pre class="webflare-pre-block webflare-courier-new" id="#id15302836">
+<a id="pgfId-15302836"></a>(nil layer &quot;Metal1&quot; minW 0.0 maxW -1.0 minL 2.0 maxL -1.0</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15302837">
+<a id="pgfId-15302837"></a>currentDensity ((1.2, 27) (1.21,110) (1.22,125)) )  </pre>
+<a id="pgfId-15304984"></a>The following is an example of the <code>peakCurrentDensSpecList</code> parameter, where the currentDensity is dependent on the length of the routing layers connecting to the via:<br />
+<a id="pgfId-15302838"></a>In the following example, the <code>minW</code> and <code>maxW</code> values are for Via layers while <code>minL</code> and <code>maxL</code> values are for the metal layers adjacent to the via layers:<pre class="webflare-pre-block webflare-courier-new" id="#id15304836">
+<a id="pgfId-15304836"></a>(nil layer &quot;Via1&quot; minW 0.0 maxW -1.0 minL 0.0 maxL 1.0 </pre><pre class="webflare-pre-block webflare-courier-new" id="#id15304837">
+<a id="pgfId-15304837"></a>res 2.0 currentDensity ((1.0, 27) (1.01,110) (1.02,125)) )  </pre><pre class="webflare-pre-block webflare-courier-new" id="#id15304838">
+<a id="pgfId-15304838"></a>(nil layer &quot;Via1&quot; minW 0.0 maxW -1.0 minL 1.0 maxL 2.0</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15304839">
+<a id="pgfId-15304839"></a>res 2.0 currentDensity ((3.1*L*deltaT, 27) (4.11*L*deltaT,110) (4.32,125)) )  </pre><pre class="webflare-pre-block webflare-courier-new" id="#id15304840">
+<a id="pgfId-15304840"></a>(nil layer &quot;Via1&quot; minW 0.0 maxW -1.0 minL 2.0 maxL -1.0</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15304841">
+<a id="pgfId-15304841"></a>res 2.0 currentDensity ((1.2, 27) (1.21,110) (1.22,125)) )  </pre><pre class="webflare-pre-block webflare-courier-new" id="#id15304824">
+<a id="pgfId-15304824"></a>)</pre>
+<a id="pgfId-15296640"></a>The <code>minL</code> and <code>maxL</code> specified in the <code>emDataFile</code> refer to the effective path length and not to the individual presistor length. The Jmax will be picked based on the path length of presistor and temperature. In case the Jmax equation contains the L variable it will be replaced with the path length.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15308208"></a>Effective path length is the longest path length in a segment. If there is a loop in the segment, the total length of the segment is taken as the effective path length.</div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p class="webflare-indent1">
+<a id="pgfId-15296641"></a>The current density rules can be specified in terms of both width and length. For example the current limits for layer M1 can be described as below:</p>
+<p class="webflare-indent1">
+<a id="pgfId-15296642"></a>Metal length in um        Jmax</p>
+<p class="webflare-indent1">
+<a id="pgfId-15296643"></a>L &gt;= 20um                      1.509 x (w-0.016)</p>
+<p class="webflare-indent1">
+<a id="pgfId-15296644"></a>20 &gt; L &gt; 5                       (20/L) x 1.509 x (w-0.016)</p>
+<p class="webflare-indent1">
+<a id="pgfId-15296645"></a>L &lt;= 5                              4 x 1.509 x (w-0.016)</p>
+<p class="webflare-indent1">
+<a id="pgfId-15296646"></a>In the above case, the &#8220;<code>w</code>&#8221; will be replaced with the presistor width and &#8220;<code>L</code>&#8221; will be replaced with the path length of the metal route of which the presistor is a part. </p>
+<ul><li>
+<a id="pgfId-15314355"></a>Use the <code>technologyNode = 40 </code>parameter to<code> </code>specify the technology-dependent calculation. If the <code>technologyNode &gt;= 40</code> then the effective length is calculated by the earlier method in which all the lengths are added. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15314356"></a>You can also specify this using the environment variable, <a href="../vpsl/setenv.html#vsaTechnologyNode">_vsaTechnologyNode</a><code> 40</code>. If both are specified, the <code>technologyNode</code> parameter specified in the <code>emDataFile</code> will have a higher priority than the corresponding environment variable. </div></li><li>
+<a id="pgfId-15314343"></a>In case of via, you can specify upper metal layers and bottom metal layers in terms of both length and width. For example:<br />
+<a id="pgfId-15308760"></a>Metal length/width in um        jmax<pre class="webflare-pre-block webflare-courier-new" id="#id15308785">
+<a id="pgfId-15308785"></a>Lu &lt; 5.0um                            1.2</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15308822">
+<a id="pgfId-15308822"></a>Lb &lt; 7.0um                             1.2</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15308841">
+<a id="pgfId-15308841"></a>Wu &lt; 4.0um                             1.2</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15308860">
+<a id="pgfId-15308860"></a>Wb &lt; 6.0um                            1.2</pre>
+<a id="pgfId-15308968"></a>where:<br />
+<a id="pgfId-15309135"></a>Lu = Upper metal length<br />
+<a id="pgfId-15309136"></a>Lb = Bottom metal length<br />
+<a id="pgfId-15309137"></a>Wu = Upper metal width<br />
+<a id="pgfId-15309127"></a>Wb = lower metal width<br />
+<a id="pgfId-15309116"></a>For example:<pre class="webflare-pre-block webflare-courier-new" id="#id15308969">
+<a id="pgfId-15308969"></a>(nil layer &quot;Via1&quot; minW 0.0 maxW -1.0 minL 2.0 maxL -1.0 </pre><pre class="webflare-pre-block webflare-courier-new" id="#id15308970">
+<a id="pgfId-15308970"></a>minLu 0.0 maxLu 5.0 minLb 0.0 maxLb 7.0 minWu 0.0 maxWu 4.0 minWb 0.0 maxWb 6.0</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15308926">
+<a id="pgfId-15308926"></a>res 2.0 currentDensity ((1.2, 27) (1.21,110) (1.22,125)) )</pre><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15308929"></a>The (min/max) and (Lu/Lb/Wu/Wb) are optional parameters. If not specified, than min* is taken as 0.0 and max* is -1.0.</div></li><li>
+<a id="pgfId-15308746"></a>The layerstack contains a list of layer names and corresponding upper metal and bottom metal layer names.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15309000">
+<a id="pgfId-15309000"></a>( ( &quot;<code><em>LayerName</em></code>&quot; ( &quot;<code><em>upperMetalLayerName</em></code>&quot; &quot;b<code><em>ottomMetalLayerName</em></code>&quot; ) )</pre><ul><li>
+<a id="pgfId-15309036"></a><span class="webflare-courier-new" style="white-space:pre"><em>LayerName</em></span><code> </code>is the layer name specified in the extracted view</li><li>
+<a id="pgfId-15309069"></a><span class="webflare-courier-new" style="white-space:pre"><em>upperMetalLayerName</em></span> is the upper metal layer name in the extracted view</li><li>
+<a id="pgfId-15309080"></a><span class="webflare-courier-new" style="white-space:pre"><em>bottomMetalLayerName </em></span>is the bottom metal layer name in the extracted view</li></ul></li><li>
+<a id="pgfId-15308982"></a>The Ignore Missing Spec (<code>ignoreMissingSpec</code>) flag helps you to ignore layers for which current densities are missing.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15308428">
+<a id="pgfId-15308428"></a>ignoreMissingSpec= true</pre>
+<a id="pgfId-15308461"></a>The default value of the flag is <code>false</code>.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15308483"></a>If <code>ignoreMissingSpec</code> is not specified, the tool selects the default current density as 0.9 for missing current densities.</div></li><li>
+<a id="pgfId-15308735"></a>The <a id="marker-15296647"></a>Via Width list (<code>viaWidthList</code>) specifies the minimum via width. In the following example:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15296649">
+<a id="pgfId-15296649"></a>viaWidthList = ( ( &quot;Cont&quot; 0.2 ) ( &quot;Via1&quot; 0.2 ) )</pre><ul><li>
+<a id="pgfId-15296650"></a><span class="webflare-courier-new" style="white-space:pre"><em>Cont</em></span> is the DFII name of the via layer.</li><li>
+<a id="pgfId-15296651"></a>0.2 is the minimum width of the default via for this layer.<br /><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-15296658"></a>
+If the via width information is not found in the DFII technology file, it must be included in the <code>emDataFile</code>. In this case, it must include all of the vias specified in the <code>viaLayers</code> section of the <code>emDataFile</code> or an error will occur.</div></li></ul></li><li>
+<a id="pgfId-15312316"></a>The <a id="marker-15312314"></a>Via Width list (<code>extViaWidthList</code><a id="extViaWidthList"></a>) specifies the minimum via width. In the following example:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15312317">
+<a id="pgfId-15312317"></a>extViaWidthList = ( ( &quot;extCont&quot; 0.2 ) ( &quot;extVia1&quot; 0.2 ) )</pre><ul><li>
+<a id="pgfId-15312318"></a><span class="webflare-courier-new" style="white-space:pre"><em>extCont</em></span> is the QRC (Extraction) name of the via layer.</li><li>
+<a id="pgfId-15312319"></a>0.2 is the minimum width of the default via for this layer.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15312321"></a><code>viaWidthList</code> will be ignored if <code>extViaWidthList</code> is specified.</div></li></ul></li><li>
+<a id="pgfId-15312322"></a>The Via Length list (<code>viaLengthList</code>) specifies the via length for use in calculating the area of vias that are not square. This feature is only required when <code>currentDensityMPV</code> is set to &#8220;<code>true</code>&#8221;. If the vias in the design are square, then you can specify <code>viaWidthList/extViaWidthList </code>without<code> viaLengthList </code>or<code> extViaLengthList</code>.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15312323">
+<a id="pgfId-15312323"></a>viaLengthList = (Via1 0.12)</pre><ul><li>
+<a id="pgfId-15312324"></a><code>Via1</code> is the DFII name of the via layer.</li></ul></li><li>
+<a id="pgfId-15312325"></a>The Via Length List (<code>extViaLengthList</code>) specifies the via length for use in calculating the area of vias that are not square. This feature is only required when currentDensityMPV is set to &quot;<code>true</code>&quot;. If the vias in the design are square, then you can specify <code>viaWidthList/extViaWidthList </code>without<code> viaLengthList </code>or<code> extViaLengthList</code>.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15312326">
+<a id="pgfId-15312326"></a>extViaLengthList = (extVia1 0.12)</pre><ul><li>
+<a id="pgfId-15312327"></a><code>extVia1</code> is the QRC (Extraction) name of the via layer.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15312328"></a><code>viaLengthList</code> will be ignored if <code>extViaLengthList</code> is specified.</div></li></ul></li><li>
+<a id="pgfId-15307975"></a>The <code>dfiiUnits </code>variable specifies the units of the via length to the tool, if the tool is unable to identify the length units by itself. Valid values for this variable are &#8220;<code>micron</code>&#8221;<code> </code>and<code> </code>&#8220;<code>meter</code>&#8221;.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id15308022">
+<a id="pgfId-15308022"></a>dfiiUnits = &#8220;micron&#8221; or dfiiUnits = &#8220;meter&#8221;</pre></li><li>
+<a id="pgfId-15312493"></a>The following filtering options allow you to filter resistors based on either resistor names or layer names:<ul><li>
+<a id="pgfId-15312495"></a><code>selectLayers</code><a id="selectLayers"></a><br />
+<a id="pgfId-15312496"></a>Selects resistors based on the extracted layer name. All resistors on other layers will be ignored for the analysis.<br />
+<a id="pgfId-15312497"></a>Example:<pre class="webflare-pre-block webflare-courier-new" id="#id15312498">
+<a id="pgfId-15312498"></a>selectLayers  =  (&#8220;Via1&#8221; &#8220;mt1&#8221; &#8220;mt2&#8221;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15312499">
+<a id="pgfId-15312499"></a>selectLayers  =  (&#8220;Via1&#8221; &#8220;m.*&#8221;)               </pre>
+<a id="pgfId-15312500"></a>SKILL regular expressions are supported.<br />
+<a id="pgfId-15312502"></a>You can also provide the list of selected layers using the <a href="../vpsl/setenv.html#vsaSelectLayers">_vsaSelectLayers</a> environment variable.</li><li>
+<a id="pgfId-15312504"></a><code>selectResistors</code><a id="selectResistors"></a><br />
+<a id="pgfId-15312505"></a>Selects resistors by their names. All other resistors will be ignored for the analysis.<br />
+<a id="pgfId-15312506"></a>Example:<pre class="webflare-pre-block webflare-courier-new" id="#id15312507">
+<a id="pgfId-15312507"></a>selectResistors  =  (&#8220;rh12&#8221; &#8220;re45&#8221; &#8220;rf25&#8221;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15312508">
+<a id="pgfId-15312508"></a>selectResistors  =  (&#8220;rh.*&#8221; &#8220;re.*&#8221;)               </pre>
+<a id="pgfId-15312509"></a>SKILL regular expressions are supported.<br />
+<a id="pgfId-15312510"></a>You can also provide the list of selected resistors using the <a href="../vpsl/setenv.html#vsaSelectResistors">_vsaSelectResistors</a> environment variable.</li><li>
+<a id="pgfId-15312513"></a><code>ignoreLayers</code><a id="ignoreLayers"></a><br />
+<a id="pgfId-15312514"></a>Ignores resistors based on the extracted layer name. All resistors on other layer will be selected for the analysis.<br />
+<a id="pgfId-15312515"></a>Example:<pre class="webflare-pre-block webflare-courier-new" id="#id15312516">
+<a id="pgfId-15312516"></a>ignoreLayers  =  (&#8220;Via1&#8221; &#8220;mt1&#8221; &#8220;mt2&#8221;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15312517">
+<a id="pgfId-15312517"></a>ignoreLayers  =  (&#8220;Via1&#8221; &#8220;m.*&#8221;)   </pre>
+<a id="pgfId-15312518"></a>SKILL regular expressions are supported.<br />
+<a id="pgfId-15312520"></a>You can also provide the list of ignored layers using the <a href="../vpsl/setenv.html#vsaIgnoreLayers">_vsaIgnoreLayers</a> environment variable.</li><li>
+<a id="pgfId-15312522"></a><code>ignoreResistors</code><a id="ignoreResistors"></a><br />
+<a id="pgfId-15312523"></a>Ignore resistors by their name. All other resistors will be selected for the analysis.<br />
+<a id="pgfId-15312524"></a>Example:<pre class="webflare-pre-block webflare-courier-new" id="#id15312525">
+<a id="pgfId-15312525"></a>selectResistors  =  (&#8220;rh12&#8221; &#8220;re45&#8221; &#8220;rf25&#8221;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15312526">
+<a id="pgfId-15312526"></a>selectResistors  =  (&#8220;rh.*&#8221; &#8220;re.*&#8221;)</pre>
+<a id="pgfId-15312527"></a>SKILL regular expressions are supported.<br />
+<a id="pgfId-15312529"></a>You can also provide the list of ignored resistors using the <a href="../vpsl/setenv.html#vsaIgnoreLayers">_vsaIgnoreLayers</a> environment variable.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15312530"></a>The parameters specified in <code>emDataFile</code> have higher priority than their corresponding environment variables. If both are specified, the parameters specified in the <code>emDataFile</code> will be selected over the corresponding environment variable values. </div>
+<a id="pgfId-15312531"></a>Also, the selection list has a higher priority than the ignore list. If <code>selectLayers </code>or <code>selectResistors</code> parameters are already provided, then the values specified using <code>ignoreLayers</code> and <code>ignoreResistors</code> parameters will be ignored.</li><li>
+<a id="pgfId-15316623"></a><code>DesignResistors</code><a id="DesignResistors"></a><br />
+<a id="pgfId-15316684"></a>Specifies the list of design resistor cell names. For each cell name, you can specify the resistor property name, width property name, length property name, and units for width and length property names for which the design resistors are to be analyzed. Specifying the resistor property name, width property name, length property name, and unit name is optional. If any of these property names is not specified, the software uses &#8220;r&#8221;, &#8220;w&#8221;, l&#8221;, and &#8220;meter&#8221;, respectively, as the default values for these properties. <br />
+<a id="pgfId-15316624"></a>The width and length property names are specified when the names of these properties are different from the &#8220;w&#8221; and &#8220;l&#8221; in the extracted view.<br />
+<a id="pgfId-15316625"></a>Syntax:<pre class="webflare-pre-block webflare-courier-new" id="#id15316626">
+<a id="pgfId-15316626"></a>DesignResistors  =  (&#8220;CellName1&#8221; &#8220;CellName2&#8221; &#8220;CellName3&#8221;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15317941">
+<a id="pgfId-15317941"></a>DesignResistors  =  (&#8220;CellName.*&#8221;) 
+</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15317929">
+<a id="pgfId-15317929"></a>SKILL regular expressions are supported.</pre>
+<a id="pgfId-15316627"></a>Example:<pre class="webflare-pre-block webflare-courier-new" id="#id15316628">
+<a id="pgfId-15316628"></a>DesignResistors = (</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316629">
+<a id="pgfId-15316629"></a>                (&quot;nplusres&quot;         &quot;r&quot; (&quot;wSim&quot; &quot;meter&quot;) (&quot;lSim&quot; &quot;meter&quot;))</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316630">
+<a id="pgfId-15316630"></a>                (&quot;pplusres&quot;        &quot;r&quot; &quot;wSim&quot; &quot;lSim&quot;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316631">
+<a id="pgfId-15316631"></a>                (&quot;qplusres&quot;         )</pre><pre class="webflare-pre-block webflare-courier-new" id="#id15316632">
+<a id="pgfId-15316632"></a>)</pre>
+<a id="pgfId-15316633"></a>
+Where:
+<code>nplusres, pplusres,</code> and<code> qplusres </code>refer to the design resistor cell names
+<code>r</code> = resistor property name
+<code>wSim =</code> width property name
+<code>meter</code> = unit for width
+<code>lSim =</code> length property name
+<code>meter</code> = unit for length<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15315235"></a>The default unit for both the width and length property name is meter. However, the software also accepts &#8220;micron&#8221;, &#8220;millimeter&#8221;, &#8220;centimeter&#8221;, &#8220;mill&#8221;, and &#8220;inch&#8221; as units for these property names.
+</div>
+<a id="pgfId-15315272"></a>For details, see <a actuate="user" class="URL" href="../vpsl/emanalysis.html#EMAcrossDesignResistors" show="replace" xml:link="simple">Analyzing EM Across Design Resistors</a> in the &#8220;EM Analysis&#8221; chapter.</li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-15296662"></a><a id="63339"></a>User<a id="JMAXChecking"></a> Procedures for Electromigration JMAX Checking</h2>
+
+<p>
+<a id="pgfId-15297027"></a>Power IR/EM has its own methodology to perform average, peak, and RMS analyses. But it also provides you options to define your own methodology to calculate current densities.</p>
+<p>
+<a id="pgfId-15303409"></a>In EM flow, after you calculate the <a id="marker-15302422"></a>current density of a presistor, you can compare it with the current density limits to find violations. The current density limits are read from the <code>emDataFile</code><a id="marker-15302431"></a> that you provide. In addition to providing the <code>emDataFile</code>, you can also specify that the current density limits be calculated dynamically.</p>
+<p>
+<a id="pgfId-15303420"></a>Power IR/EM provides the following procedures to the users for <code>rms, DCrms, avg, avgAbs, peak, peakAC, and custom </code>analysis respectively:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303429"></a><code>vsaGetRmsJmax</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319227"></a><code>vsaGetDCRmsJmax</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303438"></a><code>vsaGetAvgJmax</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303446"></a><code>vsaGetAvgAbsJmax</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303454"></a><code>vsaGetPeakJmax</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303462"></a><code>vsaGetPeakACJmax</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303470"></a><code>vsaGetCustomJmax </code></pre>
+
+<p>
+<a id="pgfId-15296665"></a>For example, if you think that peak current density limits cannot be specified using the <code>emDataFile</code>, you can write a SKILL function <code>vsaGetPeakJmax</code>() in a .il file and load that before starting the EM analysis. The parameters passed to this function are fixed and the function returns a float value for Jmax. Also, this function will be called for each <a id="marker-15302436"></a>presistor so that you can specify different values for Jmax. </p>
+<p>
+<a id="pgfId-15297180"></a>An example of a SKILL function is shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296666"></a>procedure(vsaGetPeakJmax(@key</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296667"></a>(r 1.0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296668"></a>(w 1.0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296669"></a>(temp 25)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302656"></a>(layer &quot;METAL1&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302657"></a>(pResistorName lowerCase(resName) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15312350"></a>(Hierarchy hierarchy)<br />(parameters &#8217;nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303773"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302658"></a>; 1.0, 1.0, 25, METAL1, lowerCase(resName), and hierarchy are default values used only for SKILL syntax</pre>
+<p>
+<a id="pgfId-15296714"></a></p>
+<table class="webflareTable" id="#id15296673">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296675"></a><strong>Argument</strong></p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296677"></a><strong>Description</strong></p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296679"></a><strong>Type</strong></p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296681"></a><strong>Units</strong></p>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296683"></a>r</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296685"></a>resistor value</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296687"></a>float</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296689"></a>Ohm</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296691"></a>w</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296693"></a>width</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296695"></a>float</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296697"></a>Micron</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296699"></a>temp</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296701"></a>simulation temperature</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296703"></a>float</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296705"></a>Centigrade</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296707"></a>layer</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296709"></a>layer name</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296711"></a>string</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15296713"></a>Text</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15303518"></a>pResistorName</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15303520"></a>presistor name</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15303522"></a>string</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15303524"></a>Text</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15303526"></a>Hierarchy</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15303528"></a> hierarchy</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15303530"></a>string </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15303532"></a>Text</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312360"></a>parameters</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312362"></a>extra property of resistance</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312364"></a>table</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312366"></a>-</p>
+</td>
+</tr>
+</tbody></table>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296716"></a> ; Following code is the body of procedure</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296717"></a> prog((</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296718"></a>  ; define local variables here</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296719"></a>  cdLimit</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296720"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296721"></a>  ; start writing the logic and equations using r,w, temp and layer</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296722"></a>  ; to calculate the Jmax</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296723"></a>  ; an example formula is used below</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296724"></a>  if(layer == &quot;METAL2&quot; then</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296725"></a>   cdLimit = sqrt(w) + r</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296726"></a>  else</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296727"></a>   cdLimit = sqrt(w) / r </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296728"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296729"></a>  return(cdLimit)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296730"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296731"></a>)</pre>
+
+<p>
+<a id="pgfId-15296732"></a>You can define the logic inside the function to calculate Jmax based on your requirements. The function returns a float value that will be used by Power IR/EM to get the EM violations.</p>
+<p>
+<a id="pgfId-15296733"></a>An example of a custom function for providing Jmax is shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296734"></a>procedure vsaGetCustomJmax(@key</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296735"></a>(r 0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296736"></a>(w 0 )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296737"></a>(layer &#8217;nil )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296738"></a>(temp 0 )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296739"></a>(pResistorName &#8217;nil )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15312392"></a>(Hierarchy &#8217;nil)<br />(paramaters &#8217;nil)</pre>
+
+<p>
+<a id="pgfId-15312393"></a>The extra properties of resistance are provided as a <code>skillTable</code>. You can access the value of a property by specifying <code>parameters[&quot;property_name&quot;]</code>. If the entry is not present with a particular <code>&#39;property_name&#39;, </code>the tool will return <code>&#39;nil</code>.</p>
+<p>
+<a id="pgfId-15313834"></a>By default, the parameter table is not passed to the custom function in order to improve the run time and memory efficiency of the tool. You can enable this by setting the environment variable, <a href="../vpsl/setenv.html#vsaSupport28nmRules">vsaSupport28nmRules</a> to &#8220;<code>true&#8221;</code>. The tool enables this automatically when the EM rules specified in the <code>emDataFile</code> have conditions specific to 28nm.</p>
+<p>
+<a id="pgfId-15312394"></a>Example: </p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15312395"></a>Upper_metal_length = parameters[&quot;Lu&quot;]</pre>
+
+<p>
+<a id="pgfId-15312396"></a>The list of properties include:</p>
+<p>
+<a id="pgfId-15312446"></a></p>
+<table class="webflareTable" id="#id15312397">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312399"></a><strong>Property Name</strong></p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312401"></a><strong>Description</strong></p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312403"></a><strong>Type</strong></p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312405"></a><strong>Units</strong></p>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312407"></a>Lu</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312409"></a>Upper Metal Segment Length</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312411"></a>Float</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312413"></a>Micron</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312415"></a>Lb</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312417"></a>Lower Metal Segment Length</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312419"></a>Float</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312421"></a>Micron</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312423"></a>Wu</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312425"></a>Upper Metal Segment Width</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312427"></a>Float</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312429"></a>Micron</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312431"></a>Wb</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312433"></a>Lower Metal Segment Width</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312435"></a>Float</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312437"></a>Micron</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312439"></a>a</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312441"></a>Via Area</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15312443"></a>Float</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-15312445"></a>Micron <sup>2 </sup>or cm<sup>2</sup></p>
+
+</td>
+</tr>
+</tbody></table>
+
+<h2>
+<a id="pgfId-15306149"></a><a id="25129"></a>Custom<a id="CustomParametersInEmdatafile"></a> Parameters in emDataFile</h2>
+
+<p>
+<a id="pgfId-15306259"></a>You can specify the custom parameters or define the variables for use at run time to set values being used in the <code>emDataFile</code>. You can also edit or view custom parameters in the GUI. An <em>Edit/View Custom Parameters</em> button is provided in the EM Analysis form. </p>
+<p>
+<a id="pgfId-15306658"></a>For details, see<h-hot> <a actuate="user" class="URL" href="../vpsl/emanalysis.html#vsaIElectromigrationHelp" show="replace" xml:link="simple">EM Analysis of the Power Grid</a></h-hot> in the &#8220;EM Analysis&#8221; chapter.</p>
+<p>
+<a id="pgfId-15306666"></a>Example: Provided below is an example to set the via resistance based on a min, typ, max corner parameter:</p>
+
+<a id="pgfId-15306668"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+--- User file ( test.il )  ---</pre>
+<a id="pgfId-15306670"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ vsaDefVariable(&#8220;Corner&#8221; &#8220;nominal&#8221;)</pre>
+<a id="pgfId-15306763"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ vsaDefVariable(&#8220;CDM&#8221;      1.0)</pre>
+<a id="pgfId-15306764"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+</pre>
+<a id="pgfId-15306973"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+procedure( getResPerCut()    ; user defined skill function</pre>
+<a id="pgfId-15306974"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ prog( (</pre>
+<a id="pgfId-15306975"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+  resVal  </pre>
+<a id="pgfId-15306760"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ )</pre>
+<a id="pgfId-15306678"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ case( vsaGetVariable(&#8220;Corner&#8221;)</pre>
+<a id="pgfId-15306679"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+  (&#8220;min&#8221;    resVal = 0.25)</pre>
+<a id="pgfId-15306680"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+  (&#8220;max&#8221;    resVal = 0.35)</pre>
+<a id="pgfId-15306681"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+  (t              resVal = 0.30)</pre>
+<a id="pgfId-15306682"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ ) ; case</pre>
+<a id="pgfId-15306683"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+</pre>
+<a id="pgfId-15306684"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ return( resVal ) </pre>
+<a id="pgfId-15306791"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ )</pre>
+<a id="pgfId-15307536"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ )</pre>
+<a id="pgfId-15306806"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+</pre>
+<a id="pgfId-15307551"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+procedure( getCurrDensityMultiplier()    ; user defined skill function</pre>
+<a id="pgfId-15306807"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ prog( (</pre>
+<a id="pgfId-15306808"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+  )</pre>
+<a id="pgfId-15306809"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+</pre>
+<a id="pgfId-15306810"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ </pre>
+<a id="pgfId-15306816"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ return( evalstring(vsaGetVariable(&#8220;CDM&#8221;)</pre>
+<a id="pgfId-15306818"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ )</pre>
+<a id="pgfId-15306917"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ )</pre>
+<a id="pgfId-15306918"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+--- emdataFile.txt   ---</pre>
+<a id="pgfId-15306919"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+(</pre>
+<a id="pgfId-15306850"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+preExecuteFiles = (&quot;test.il&quot;)   ;  Read user files only once.</pre>
+<a id="pgfId-15306851"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+</pre>
+<a id="pgfId-15306880"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+res_per_cut                        =  getResPerCut()</pre>
+<a id="pgfId-15306881"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+curr_density_multiplier =  getCurrDensityMultiplier()</pre>
+<a id="pgfId-15306855"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+&#8230;&#8230;</pre>
+<a id="pgfId-15306857"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+avgCurrentDensSpecList = (</pre>
+<a id="pgfId-15306858"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+            ...</pre>
+<a id="pgfId-15306859"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+            (nil layer &quot;via1&quot; minW  0.000 maxW -1.000 res res_per_cut  currentDensity  (0.335 *  curr_density_multiplier * w), 100)</pre>
+<a id="pgfId-15306860"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+...</pre>
+<a id="pgfId-15306861"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+)</pre>
+<a id="pgfId-15306862"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+&#8230;&#8230;</pre>
+<a id="pgfId-15306946"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+)</pre>
+<h2>
+<a id="pgfId-15307434"></a><a id="98772"></a>SKILL Functions</h2>
+
+<ul><li>
+<a id="pgfId-15314022"></a><a href="emrulespec.html#19032">vsaDefVariable</a></li><li>
+<a id="pgfId-15314040"></a><a href="emrulespec.html#87044">vsaGetVariable</a></li><li>
+<a id="pgfId-15314051"></a><a href="emrulespec.html#96512">vsaWarn</a></li><li>
+<a id="pgfId-15314062"></a><a href="emrulespec.html#94579">vsaError</a></li><li>
+<a id="pgfId-15314073"></a><a href="emrulespec.html#44331">vsaDbType</a></li><li>
+<a id="pgfId-15314095"></a><a href="emrulespec.html#46424">vsaRegisterEMDataFile</a></li><li>
+<a id="pgfId-15314106"></a><a href="emrulespec.html#58597">vsaRegisterQrcTechFile</a></li><li>
+<a id="pgfId-15314117"></a><a href="emrulespec.html#23259">vsaRegisterLayerMapFile</a></li><li>
+<a id="pgfId-15316949"></a><a href="emrulespec.html#60196">vsaGetR</a></li><li>
+<a id="pgfId-15318774"></a><a href="emrulespec.html#64151">vsaResGetIrms</a></li><li>
+<a id="pgfId-15318784"></a><a href="emrulespec.html#56690">vsaResGetIpeak</a></li><li>
+<a id="pgfId-15318794"></a><a href="emrulespec.html#80291">vsaResGetIavg</a></li><li>
+<a id="pgfId-15318804"></a><a href="emrulespec.html#56295">vsaResGetX</a></li><li>
+<a id="pgfId-15318814"></a><a href="emrulespec.html#59051">vsaResGetY</a></li><li>
+<a id="pgfId-15318824"></a><a href="emrulespec.html#62464">vsaResGetLayer</a></li><li>
+<a id="pgfId-15318834"></a><a href="emrulespec.html#70685">vsaGetNode</a></li><li>
+<a id="pgfId-15318844"></a><a href="emrulespec.html#27531">vsaNodeGetIR</a></li><li>
+<a id="pgfId-15318864"></a><a href="emrulespec.html#77436">vsaEMGetQRCDirAndRunName</a></li><li>
+<a id="pgfId-15318874"></a><a href="emrulespec.html#84434">vsaEMGetSimDirAndAnalysisType</a></li><li>
+<a id="pgfId-15318901"></a><a href="emrulespec.html#29476">vsaIRGetSimDirAndAnalysisType</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15306537"></a><a id="19032"></a>v<a id="vsaDefVariable"></a>saDefVariable</h3>
+<a id="pgfId-15306539"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaDefVariable(
+<code><em>?varName parameter_name
+?value parameter_value
+</em></code>)</pre>
+<h4>
+<a id="pgfId-15306540"></a><strong>Description</strong></h4>
+
+<p>
+<a id="pgfId-15306542"></a>Defines a new variable or custom parameter and provides its value. If the variable is already defined, this variable overwrites the current value of the variable with the new value.</p>
+
+<h4>
+<a id="pgfId-15307034"></a><strong>Argument</strong></h4>
+<p>
+<a id="pgfId-15307040"></a></p>
+<table class="webflareTable" id="#id15307035">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307037"></a><span class="webflare-courier-new" style="white-space:pre"><em>varName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307039"></a>Specifies the name of the variable.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307055"></a>value</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307057"></a>Specifies the value of the variable.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15307068"></a><strong>Values Returned</strong></h4>
+
+<p>
+<a id="pgfId-15307069"></a>None.</p>
+
+<h3>
+<a id="pgfId-15307100"></a><a id="87044"></a>vs<a id="vsaGetVariable"></a>aGetVariable</h3>
+<a id="pgfId-15307102"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaGetVariable(
+<code><em>?varName parameter_name
+</em></code>)
+=&gt; string | <code>nil</code></pre>
+<h4>
+<a id="pgfId-15307103"></a><strong>Description</strong></h4>
+
+<p>
+<a id="pgfId-15307104"></a>Gets the value of the variable or custom parameter.</p>
+
+<h4>
+<a id="pgfId-15307106"></a><strong>Argument</strong></h4>
+<p>
+<a id="pgfId-15307116"></a></p>
+<table class="webflareTable" id="#id15307107">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307109"></a><span class="webflare-courier-new" style="white-space:pre"><em>varName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307111"></a>Specifies the name of the variable.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15307170"></a><strong>Value Returned</strong></h4>
+<p>
+<a id="pgfId-15307176"></a></p>
+<table class="webflareTable" id="#id15307171">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307173"></a><code>string</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307175"></a>Returns the value of the custom parameter as a string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307237"></a>nil</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307239"></a>Returns <code>nil</code> when the custom parameter is not defined.</p>
+</td>
+</tr>
+</tbody></table>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15307251"></a>Here custom parameters are different from the SKILL variables. You can access it only through the APIs <code>vsaDefVariable</code> and <code>vsaGetVariable</code>.</div>
+<h3>
+<a id="pgfId-15307201"></a><a id="96512"></a>vs<a id="vsaWarn"></a>aWarn</h3>
+<a id="pgfId-15307203"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaWarn(
+<code><em>?message warning_message
+?mode display_mode
+</em></code>)</pre>
+<h4>
+<a id="pgfId-15307204"></a><strong>Description</strong></h4>
+
+<p>
+<a id="pgfId-15307206"></a>Creates a warning message in the command interpreter window (CIW) or the dialog box, or both.</p>
+
+<h4>
+<a id="pgfId-15307207"></a><strong>Arguments</strong></h4>
+<p>
+<a id="pgfId-15307213"></a></p>
+<table class="webflareTable" id="#id15307208">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307210"></a><span class="webflare-courier-new" style="white-space:pre"><em>message</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307212"></a>Displays the warning message as a string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307299"></a>mode</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307301"></a>Specifies the display mode (<code>&#8220;all&#8221;/ &#8221;ciw&#8221; / &#8221;dbox&#8221;</code>). Default mode is <code>all</code>.</p>
+<p>
+<a id="pgfId-15307322"></a><code>all </code>- message is displayed in the CIW and the dialog box</p>
+<p>
+<a id="pgfId-15307323"></a><code>ciw</code> - message is displayed in the CIW</p>
+<p>
+<a id="pgfId-15307314"></a><code>dBox</code> - message is displayed in the dialog box</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15307359"></a><strong>Values Returned</strong></h4>
+
+<p>
+<a id="pgfId-15307360"></a>None.</p>
+
+<h3>
+<a id="pgfId-15307372"></a><a id="94579"></a>vs<a id="vsaError"></a>aError</h3>
+<a id="pgfId-15307374"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaError(
+<code><em>?message error_message
+?mode display_mode
+</em></code>)</pre>
+<h4>
+<a id="pgfId-15307375"></a><strong>Description</strong></h4>
+
+<p>
+<a id="pgfId-15307377"></a>Creates an error message in the CIW or the dialog box, or both.</p>
+
+<h4>
+<a id="pgfId-15307378"></a><strong>Arguments</strong></h4>
+<p>
+<a id="pgfId-15307391"></a></p>
+<table class="webflareTable" id="#id15307379">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307381"></a><span class="webflare-courier-new" style="white-space:pre"><em>message</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307383"></a>Displays the error message as a string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307385"></a>mode</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15307387"></a>Specifies the display mode (<code>&#8221;all&#8221;/ &#8221;ciw&#8221;/ &#8221;dbox&#8221;</code>). Default mode is <code>all</code>.</p>
+<p>
+<a id="pgfId-15307388"></a><code>all </code>- message is displayed in the CIW and the dialog box</p>
+<p>
+<a id="pgfId-15307389"></a><code>ciw</code> - message is displayed in the CIW</p>
+<p>
+<a id="pgfId-15307390"></a><code>dBox</code> - message is displayed in the dialog box</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15316958"></a><strong>Values Returned</strong></h4>
+
+<p>
+<a id="pgfId-15316959"></a>None.</p>
+
+<h3>
+<a id="pgfId-15316962"></a><a id="44331"></a>vs<a id="vsaDbType"></a>aDbType</h3>
+<a id="pgfId-15308258"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaDbType(
+<code><em>?simDir simulation_dir
+</em></code>)
+=&gt; 32/64/-1</pre>
+<h4>
+<a id="pgfId-15308259"></a><strong>Description</strong></h4>
+
+<p>
+<a id="pgfId-15308261"></a>Considers the simulation directory as the input and returns the mode of <code>vavo.db</code> file.</p>
+
+<h4>
+<a id="pgfId-15308262"></a><strong>Argument</strong></h4>
+<p>
+<a id="pgfId-15308275"></a></p>
+<table class="webflareTable" id="#id15308263">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15308265"></a><span class="webflare-courier-new" style="white-space:pre"><em>simDir</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15308267"></a>Specifies the simulation directory path. This is the same as the one entered in the <em>Simulation Directory</em> field in the EM analysis form.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15308276"></a><strong>Values Returned</strong></h4>
+<p>
+<a id="pgfId-15308336"></a></p>
+<table class="webflareTable" id="#id15308347">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15308349"></a>32</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15308351"></a>If vavo-db is in 32 bit mode</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15308374"></a>64</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15308376"></a>If vavo-db is in 64 bit mode</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15308378"></a>-1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15308380"></a>If there is any error or the software is unable to detect any mode</p>
+</td>
+</tr>
+</tbody></table>
+<h3>
+<a id="pgfId-15313946"></a><a id="46424"></a>vs<a id="vsaRegisterEMDataFile"></a>aRegisterEMDataFile</h3>
+<a id="pgfId-15313948"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaRegisterEMDataFile(
+<code><em>?emDataFile file_name
+</em></code>)</pre>
+<h4>
+<a id="pgfId-15313949"></a><strong>Description</strong></h4>
+
+<p>
+<a id="pgfId-15313950"></a>Adds the specified <code>emDataFile</code> to the list of available <code>emDataFiles</code>. The specified <code>emDataFile</code> will appear in the drop-down list in the Electromigration Power Grid Analysis and Electromigration Signal Analysis forms for the user to select for EM analysis.</p>
+
+<h4>
+<a id="pgfId-15313952"></a><strong>Argument</strong></h4>
+<p>
+<a id="pgfId-15313958"></a></p>
+<table class="webflareTable" id="#id15313953">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15313955"></a><span class="webflare-courier-new" style="white-space:pre"><em>emDataFile</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15313957"></a>Specifies the name of the <code>emDataFile</code> to be added to the list of available emDataFiles. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15313959"></a><strong>Values Returned</strong></h4>
+
+<p>
+<a id="pgfId-15313960"></a>None.</p>
+
+<h3>
+<a id="pgfId-15313962"></a><a id="58597"></a>vs<a id="vsaRegisterQrcTechFile"></a>aRegisterQrcTechFile</h3>
+<a id="pgfId-15313964"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaRegisterQrcTechFile(
+<code><em>?qrcTechFile @optional (mapFile nil)
+</em></code>)</pre>
+<h4>
+<a id="pgfId-15313965"></a><strong>Description</strong></h4>
+
+<p>
+<a id="pgfId-15313966"></a>Adds the specified <code>qrcTechfile</code> to the list of available QRC technology files. You can also add the corresponding <code>mapFile</code>. The specified <code>qrcTechfile</code> and <code>mapFile</code> will appear in the drop-down list in the Electromigration Power Grid Analysis and Electromigration Signal Analysis forms for you to select for EM analysis. </p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15313967"></a>Specifying the <code>mapFile</code> is optional. If the <code>mapFile</code> is specified here, the tool will auto-sync the <code>mapFile</code> with <code>qrcTechFile</code> when <code>qrcTechFile</code> is changed in the GUI.</div>
+<h4>
+<a id="pgfId-15313969"></a><strong>Arguments</strong></h4>
+<p>
+<a id="pgfId-15313979"></a></p>
+<table class="webflareTable" id="#id15313970">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15313972"></a><span class="webflare-courier-new" style="white-space:pre"><em>qrcTechFile</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15313974"></a>Specifies the name of <code>qrcTechFile</code> to be added to the list of available QRC technology files. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15313976"></a><span class="webflare-courier-new" style="white-space:pre"><em>mapFile</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15313978"></a>Specifies the name of the corresponding <code>mapFile</code> to be added to the list of available map files.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15313980"></a><strong>Values Returned</strong></h4>
+
+<p>
+<a id="pgfId-15313981"></a>None.</p>
+
+<h3>
+<a id="pgfId-15313983"></a><a id="23259"></a>vs<a id="vsaRegisterLayerMapFile"></a>aRegisterLayerMapFile</h3>
+<a id="pgfId-15313985"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaRegisterLayerMapFile(
+<code><em>?mapFile file_name
+</em></code>)</pre>
+<h4>
+<a id="pgfId-15313986"></a><strong>Description</strong></h4>
+
+<p>
+<a id="pgfId-15313987"></a>Adds the specified <code>mapFile</code> to the list of available name mapping files. The specified <code>mapFile</code> will appear in the drop-down list in the Electromigration Power Grid Analysis and Electromigration Signal Analysis forms and can be selected for EM analysis.</p>
+
+<h4>
+<a id="pgfId-15313989"></a><strong>Argument</strong></h4>
+<p>
+<a id="pgfId-15313995"></a></p>
+<table class="webflareTable" id="#id15313990">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15313992"></a><span class="webflare-courier-new" style="white-space:pre"><em>mapFile</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15313994"></a>Specifies the name of the <code>mapFile</code> to be added to the list of available name mapping files. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15313996"></a><strong>Values Returned</strong></h4>
+
+<p>
+<a id="pgfId-15313913"></a>None.</p>
+
+<h3>
+<a id="pgfId-15317583"></a><a id="60196"></a>v<a id="vsaGetR"></a>saGetR</h3>
+<a id="pgfId-15317585"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaGetR(
+?x<code><em> x_coordinate
+</em></code>?y <code><em>y_coordinate
+</em></code>?layer<code><em> layerName
+</em></code>[?netName<code><em> netName</em></code>]
+)
+=&gt; string | <code>nil</code></pre>
+<h4>
+<a id="pgfId-15317586"></a>Description</h4>
+
+<p>
+<a id="pgfId-15317587"></a>Returns the name of the presistor of the specified net, on the specified layer, near the specified x and y coordinates.</p>
+
+<h4>
+<a id="pgfId-15317589"></a>Argument</h4>
+<p>
+<a id="pgfId-15317607"></a></p>
+<table class="webflareTable" id="#id15317590">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317592"></a><code>x</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317594"></a>Specifies the x coordinate of the search point.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317596"></a><code>y</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317598"></a>Specifies the y coordinate of the search point.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317600"></a><code>layer</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317602"></a>Specifies the name of the layer on which to search for the presistor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317604"></a><code>netName</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317606"></a>Filters the presistor based on the specified net name. This is an optional argument.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317608"></a>Values Returned</h4>
+<p>
+<a id="pgfId-15317618"></a></p>
+<table class="webflareTable" id="#id15317609">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317611"></a><code>string</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317613"></a>Returns the name of the presistor as a string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317615"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317617"></a>Returns <code>nil</code> when the presistor is not found.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317619"></a>Example<strong> </strong></h4>
+<a id="pgfId-15317620"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaGetR(1.1 2.2 &quot;M1&quot; &quot;VDD&quot;)   =&gt;  &#8220;R1&#8221;</pre>
+
+<p>
+<a id="pgfId-15317621"></a>In this example, the software returns the name of the presistor, R1, found on metal layer, M1, on net, VDD, at the specified x and y coordinates.</p>
+
+<h3>
+<a id="pgfId-15317624"></a><a id="64151"></a>v<a id="vsaResGetIrms"></a>saResGetIrms</h3>
+<a id="pgfId-15317626"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetIrms(
+?R<code><em> resistor_name
+</em></code>)
+=&gt; f_current | nil</pre>
+<h4>
+<a id="pgfId-15317627"></a>Description</h4>
+
+<p>
+<a id="pgfId-15317629"></a>Returns the value of the rms current for the specified presistor.</p>
+
+<h4>
+<a id="pgfId-15317630"></a>Argument</h4>
+<p>
+<a id="pgfId-15317636"></a></p>
+<table class="webflareTable" id="#id15317631">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317633"></a><code>R</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317635"></a>Specifies the name of the presistor for which the rms current value is to be returned.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317637"></a>Value Returned</h4>
+<p>
+<a id="pgfId-15317647"></a></p>
+<table class="webflareTable" id="#id15317638">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317640"></a><code>f_current</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317642"></a>Returns the value of rms current in ampere. This is a floating-point number.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317644"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317646"></a>Returns <code>nil</code> when no data is available.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317648"></a>Example<strong> </strong></h4>
+<a id="pgfId-15317649"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetIrms(&quot;R1&quot;)   =&gt;  1.23e-03</pre>
+<h3>
+<a id="pgfId-15317652"></a><a id="56690"></a>v<a id="vsaResGetIpeak"></a>saResGetIpeak</h3>
+<a id="pgfId-15317654"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetIpeak(
+<code>?R</code><code><em> resistor_name
+</em></code>)
+=&gt; f_current | nil</pre>
+<h4>
+<a id="pgfId-15317655"></a>Description</h4>
+
+<p>
+<a id="pgfId-15317657"></a>Returns the value of the peak current for the specified presistor.</p>
+
+<h4>
+<a id="pgfId-15317658"></a>Argument</h4>
+<p>
+<a id="pgfId-15317664"></a></p>
+<table class="webflareTable" id="#id15317659">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317661"></a><code>R</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317663"></a>Specifies the name of the presistor for which the peak current value is to be returned.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317665"></a>Value Returned</h4>
+<p>
+<a id="pgfId-15317675"></a></p>
+<table class="webflareTable" id="#id15317666">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317668"></a><code>f_current</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317670"></a>Returns the value of peak current in ampere. This is a floating-point number.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317672"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317674"></a>Returns <code>nil</code> when no data is available.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317676"></a>Example<strong> </strong></h4>
+<a id="pgfId-15317677"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetIpeak(&quot;R1&quot;)   =&gt;  1.23e-03</pre>
+<h3>
+<a id="pgfId-15317680"></a><a id="80291"></a>v<a id="vsaResGetIavg"></a>saResGetIavg</h3>
+<a id="pgfId-15317682"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetIavg(
+?R<code><em> resistor_name
+</em></code>)
+=&gt; f_current | nil</pre>
+<h4>
+<a id="pgfId-15317683"></a>Description</h4>
+
+<p>
+<a id="pgfId-15317685"></a>Returns the value of the average current for the specified presistor.</p>
+
+<h4>
+<a id="pgfId-15317686"></a>Argument</h4>
+<p>
+<a id="pgfId-15317692"></a></p>
+<table class="webflareTable" id="#id15317687">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317689"></a><code>R</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317691"></a>Specifies the name of the presistor for which the average current value is to be returned.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317693"></a>Value Returned</h4>
+<p>
+<a id="pgfId-15317703"></a></p>
+<table class="webflareTable" id="#id15317694">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317696"></a><code>f_current</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317698"></a>Returns the value of average current in ampere. This is a floating-point number.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317700"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317702"></a>Returns <code>nil</code> when no data is available.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317704"></a>Example<strong> </strong></h4>
+<a id="pgfId-15317705"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetIavg(&quot;R1&quot;)   =&gt;  1.23e-03</pre>
+<h3>
+<a id="pgfId-15317708"></a><a id="56295"></a>v<a id="vsaResGetX"></a>saResGetX</h3>
+<a id="pgfId-15317710"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetX(
+<code>?R </code><code><em>resistor_name
+</em></code>)
+=&gt; f_xcoordinate | nil</pre>
+<h4>
+<a id="pgfId-15317711"></a>Description</h4>
+
+<p>
+<a id="pgfId-15317713"></a>Returns the value of the x coordinate for the specified presistor.</p>
+
+<h4>
+<a id="pgfId-15317714"></a>Argument</h4>
+<p>
+<a id="pgfId-15317720"></a></p>
+<table class="webflareTable" id="#id15317715">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317717"></a><code>R</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317719"></a>Specifies the name of the presistor for which the value of the x coordinate is to be returned.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317721"></a>Value Returned</h4>
+<p>
+<a id="pgfId-15317731"></a></p>
+<table class="webflareTable" id="#id15317722">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317724"></a><code>f_xcoordinate</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317726"></a>Returns the value of the x coordinate for the specified presistor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317728"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317730"></a>Returns <code>nil</code> when no presistor is found.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317732"></a>Example<strong> </strong></h4>
+<a id="pgfId-15317733"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetX(&quot;R1&quot;)   =&gt;  1.23</pre>
+<h3>
+<a id="pgfId-15317736"></a><a id="59051"></a>v<a id="vsaResGetY"></a>saResGetY</h3>
+<a id="pgfId-15317738"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetY(
+<code>?R </code><code><em>resistor_name
+</em></code>)
+=&gt; f_ycoordinate</pre>
+<h4>
+<a id="pgfId-15317739"></a>Description</h4>
+
+<p>
+<a id="pgfId-15317741"></a>Returns the value of the y coordinate for the specified presistor.</p>
+
+<h4>
+<a id="pgfId-15317742"></a>Argument</h4>
+<p>
+<a id="pgfId-15317748"></a></p>
+<table class="webflareTable" id="#id15317743">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317745"></a><code>R</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317747"></a>Specifies the name of the presistor for which the value of the y coordinate is to be returned.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317749"></a>Value Returned</h4>
+<p>
+<a id="pgfId-15317759"></a></p>
+<table class="webflareTable" id="#id15317750">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317752"></a><code>f_ycoordinate</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317754"></a>Returns the value of the y coordinate for the specified presistor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317756"></a>nil</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317758"></a>Returns <code>nil</code> when no presistor is found.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317760"></a>Example<strong> </strong></h4>
+<a id="pgfId-15317761"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetY(&quot;R1&quot;)   =&gt;  4.56</pre>
+<h3>
+<a id="pgfId-15317764"></a><a id="62464"></a>v<a id="vsaResGetLayer"></a>saResGetLayer</h3>
+<a id="pgfId-15317766"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetLayer(
+?R <code><em>resistor_name
+</em></code>)
+=&gt; s_layername | nil</pre>
+<h4>
+<a id="pgfId-15317767"></a>Description</h4>
+
+<p>
+<a id="pgfId-15317769"></a>Returns the layer name for the specified presistor.</p>
+
+<h4>
+<a id="pgfId-15317770"></a>Argument</h4>
+<p>
+<a id="pgfId-15317776"></a></p>
+<table class="webflareTable" id="#id15317771">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317773"></a><code>R</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317775"></a>Specifies the name of the presistor for which the layer name is to be returned.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317777"></a>Value Returned</h4>
+<p>
+<a id="pgfId-15317787"></a></p>
+<table class="webflareTable" id="#id15317778">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317780"></a><code>s_layername</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317782"></a>Returns the name of the layer for the specified presistor as a string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317784"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317786"></a>Returns <code>nil</code> when no data is available.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317788"></a>Example<strong> </strong></h4>
+<a id="pgfId-15317789"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaResGetLayer(&quot;R1&quot;)   =&gt;  &#8220;M1&#8221;</pre>
+<h3>
+<a id="pgfId-15317792"></a><a id="70685"></a>v<a id="vsaGetNode"></a>saGetNode</h3>
+<a id="pgfId-15317794"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaGetNode(
+?x <code><em>x_coordinate
+</em></code>?y <code><em>y_coordinate
+</em></code>?layer<code><em> layerName
+</em></code>[?netName<code><em> netName</em></code>]
+)
+=&gt; s_nodename | <code>nil</code></pre>
+<h4>
+<a id="pgfId-15317795"></a><strong>Description</strong></h4>
+
+<p>
+<a id="pgfId-15317796"></a>Returns the name of the node of the specified net, on the specified layer, near the specified x and y coordinates.</p>
+
+<h4>
+<a id="pgfId-15317798"></a>Argument</h4>
+<p>
+<a id="pgfId-15317816"></a></p>
+<table class="webflareTable" id="#id15317799">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317801"></a><code>x</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317803"></a>Specifies the x coordinate of the search point.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317805"></a><code>y</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317807"></a>Specifies the y coordinate of the search point.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317809"></a><code>layer</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317811"></a>Specifies the name of the layer on which to search for the node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317813"></a><code>netName</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317815"></a>Filters the node based on the specified net name. This is an optional argument.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317817"></a>Values Returned</h4>
+<p>
+<a id="pgfId-15317827"></a></p>
+<table class="webflareTable" id="#id15317818">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317820"></a><code>s_nodename</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317822"></a>Returns the name of the node as a string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317824"></a>nil</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317826"></a>Returns <code>nil</code> when the node is not found.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317828"></a>Example<strong> </strong></h4>
+<a id="pgfId-15317829"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaGetNode(1.1 2.2 &quot;M1&quot; &quot;VDD&quot;)   =&gt;  &#8220;VDD:8&#8221;</pre>
+<h3>
+<a id="pgfId-15317832"></a><a id="27531"></a>v<a id="vsaNodeGetIR"></a>saNodeGetIR</h3>
+<a id="pgfId-15317834"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaNodeGetIR(
+?n <code><em>node_name
+</em></code>)
+=&gt; f_IRdrop | nil</pre>
+<h4>
+<a id="pgfId-15317835"></a>Description</h4>
+
+<p>
+<a id="pgfId-15317837"></a>Returns the IR drop value for the specified node in volts.</p>
+
+<h4>
+<a id="pgfId-15317838"></a>Argument</h4>
+<p>
+<a id="pgfId-15317844"></a></p>
+<table class="webflareTable" id="#id15317839">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317841"></a><code>n</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317843"></a>Specifies the name of the node for which the IR drop value is to be returned.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317845"></a>Value Returned</h4>
+<p>
+<a id="pgfId-15317855"></a></p>
+<table class="webflareTable" id="#id15317846">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317848"></a><code>f_IRdrop</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317850"></a>Returns the IR drop value for the specified node in volts. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317852"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15317854"></a>Returns <code>nil</code> when no data is available.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15317856"></a>Example<strong> </strong></h4>
+<a id="pgfId-15317857"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaNodeGetIR(&quot;VDD:8&quot;)   =&gt;  1.2</pre>
+<h3>
+<a id="pgfId-15318277"></a><a id="77436"></a>v<a id="vsaEMGetQRCDirAndRunName"></a>saEMGetQRCDirAndRunName</h3>
+<a id="pgfId-15318279"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaEMGetQRCDirAndRunName()
+=&gt; list (s_qrcDirPath s_qrcRunName) | nil</pre>
+<h4>
+<a id="pgfId-15318280"></a>Description</h4>
+
+<p>
+<a id="pgfId-15318281"></a>This function returns the name of the QRC directory and the corresponding QRC runname as a list.</p>
+
+<h4>
+<a id="pgfId-15318283"></a>Argument</h4>
+
+<p>
+<a id="pgfId-15318284"></a>None.</p>
+
+<h4>
+<a id="pgfId-15318285"></a>Values Returned</h4>
+<p>
+<a id="pgfId-15318299"></a></p>
+<table class="webflareTable" id="#id15318286">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318288"></a><code>s_qrcDirPath</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318290"></a>Returns the name of the QRC directory. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318292"></a><code>s_qrcRunName</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318294"></a>Returns the name of the QRC run.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318296"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318298"></a>Returns <code>nil</code> when no data is available.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15318300"></a>Example</h4>
+<a id="pgfId-15318301"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaEMGetQRCDirAndRunName() =&gt; (&quot;/anuk/VPSL/testcase/vco_lvs_oa2&quot; &quot;vco&quot;)</pre>
+<h3>
+<a id="pgfId-15318304"></a><a id="84434"></a>v<a id="vsaEMGetSimDirAndAnalysisType"></a>saEMGetSimDirAndAnalysisType</h3>
+<a id="pgfId-15318306"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaEMGetSimDirAndAnalysisType()
+=&gt; list (s_simDirPath s_simAnalysisType) | nil</pre>
+<h4>
+<a id="pgfId-15318307"></a>Description</h4>
+
+<p>
+<a id="pgfId-15318308"></a>This function returns the name of the simulation directory and the type of analysis being used for EM analysis as a list.</p>
+
+<h4>
+<a id="pgfId-15318310"></a>Argument</h4>
+
+<p>
+<a id="pgfId-15318311"></a>None.</p>
+
+<h4>
+<a id="pgfId-15318312"></a>Values Returned</h4>
+<p>
+<a id="pgfId-15318326"></a></p>
+<table class="webflareTable" id="#id15318313">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318315"></a><code>s_simDirPath</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318317"></a>Returns the name of the simulation directory. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318319"></a><code>s_simAnalysisType</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318321"></a>Returns the name of the analysis TYPE.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318323"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318325"></a>Returns <code>nil</code> when no data is available.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15318327"></a>Example</h4>
+<a id="pgfId-15318328"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaEMGetSimDirAndAnalysisType() =&gt; (&quot;/anuk/VPSL/testcase/usim_dy_runs&quot; &quot;TRANSIENT&quot;)</pre>
+<h3>
+<a id="pgfId-15318361"></a><a id="29476"></a>v<a id="vsaIRGetSimDirAndAnalysisType"></a>saIRGetSimDirAndAnalysisType</h3>
+<a id="pgfId-15318363"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaIRGetSimDirAndAnalysisType()
+=&gt; list (s_simDirPath s_simAnalysisType) | nil</pre>
+<h4>
+<a id="pgfId-15318364"></a>Description</h4>
+
+<p>
+<a id="pgfId-15318365"></a>This function returns the name of the simulation directory and the type of analysis being used for IR drop analysis as a list.</p>
+
+<h4>
+<a id="pgfId-15318367"></a>Argument</h4>
+
+<p>
+<a id="pgfId-15318368"></a>None.</p>
+
+<h4>
+<a id="pgfId-15318369"></a>Values Returned</h4>
+<p>
+<a id="pgfId-15318383"></a></p>
+<table class="webflareTable" id="#id15318370">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318372"></a><code>s_simDirPath</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318374"></a>Returns the name of the simulation directory. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318376"></a><code>s_simAnalysisType</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318378"></a>Returns the name of the analysis TYPE.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318380"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15318382"></a>Returns <code>nil</code> when no data is available.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-15318384"></a>Example</h4>
+<a id="pgfId-15318385"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vsaIRGetSimDirAndAnalysisType() =&gt; (&quot;/anuk/VPSL/testcase/usim_dy_runs&quot; &quot;TRANSIENT&quot;)</pre>
+<h3>
+<a id="pgfId-15319619"></a><a id="62934"></a>Call-Back Functions </h3>
+
+<p>
+<a id="pgfId-15319620"></a>These are pre-defined functions that can be set by the user in their code. You can use these functions to call some pre-processing functions within the tool. You can load these functions either through the <code>.cdsinit</code> file or through the CIW before invoking Power IR/EM. The following functions are provided:</p>
+<ul><li>
+<a id="pgfId-15319624"></a><a href="emrulespec.html#23412">vsaEMInitUserCallBack</a></li><li>
+<a id="pgfId-15319628"></a><a href="emrulespec.html#62077">vsaEMUserCallBack</a></li><li>
+<a id="pgfId-15319632"></a><a href="emrulespec.html#40337">vsaIRUserCallBack</a></li></ul>
+
+
+
+<h4>
+<a id="pgfId-15319635"></a><a id="23412"></a>v<a id="vsaEMInitUserCallBack"></a>saEMInitUserCallBack</h4>
+<a id="pgfId-15319636"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>vsaEMInitUserCallBack()</code></pre>
+
+<p>
+<a id="pgfId-15319638"></a>A callback function that is called when the EM Analysis form is invoked for the first time. </p>
+<p>
+<a id="pgfId-15319639"></a><strong>Example</strong></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319640"></a>----- preload.il ------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319641"></a>    procedure( vsaEMInitUserCallBack()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319642"></a>vsaRegisterEMDataFile(&#8220;/projects/technology1/emDataFile.txt&#8221;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319643"></a>vsaRegisterEMDataFile(&#8220;/projects/technology2/emDataFile.txt&#8221;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319644"></a>    ) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319645"></a>----- .cdsinit ------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319646"></a>   load(&#8220;preload.il&#8221;) </pre>
+
+<p>
+<a id="pgfId-15319647"></a><strong>Argument</strong></p>
+<p>
+<a id="pgfId-15319648"></a>None.</p>
+<p>
+<a id="pgfId-15319649"></a><strong>Values Returned</strong></p>
+<p>
+<a id="pgfId-15319650"></a>None.</p>
+
+<h4>
+<a id="pgfId-15319653"></a><a id="62077"></a>v<a id="vsaEMUserCallBack"></a>saEMUserCallBack</h4>
+<a id="pgfId-15319654"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>vsaEMUserCallBack()</code></pre>
+
+<p>
+<a id="pgfId-15319656"></a>A callback function that is called to load the user-specified SKILL functions at the time of clicking the Apply/OK buttons in the EM analysis form. </p>
+<p>
+<a id="pgfId-15319657"></a><strong>Argument</strong></p>
+<p>
+<a id="pgfId-15319658"></a>None.</p>
+<p>
+<a id="pgfId-15319659"></a><strong>Values Returned</strong></p>
+<p>
+<a id="pgfId-15319660"></a>None.</p>
+<p>
+<a id="pgfId-15319661"></a><strong>Example</strong></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319662"></a>----- preload.il ------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319663"></a>    procedure(vsaEMUserCallBack()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319664"></a>let(&#160;&#160;(a b)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319665"></a>a = vsaEMGetQRCDirAndRunName()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319666"></a> printf(&#8220;QRC Dir Name and Run Name: %L\n&#8221;, a)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319667"></a>b =&#160;&#160;vsaEMGetSimDirAndAnalysisType() </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319668"></a> printf(&#8220;Simulation Dir and Analysis Type: %L \n&#8221;, b)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319669"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319670"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319671"></a>----- .cdsinit ------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319672"></a>   load(&#8220;preload.il&#8221;) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319673"></a>--------CDS.log--------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319674"></a>&#8230;&#8230;&#8230;&#8230;..</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319675"></a>&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;..</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319676"></a>\a hiFormDone(_vsaElectromigrationForm)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319677"></a>\o&#160;&#160;QRC Dir Name and Run Name: (&quot;/VPSL/testcase/vco_lvs_oa2&quot; &quot;vco&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319678"></a>\o&#160;&#160;Simulation Dir and Analysis Type: (&quot;/VPSL/testcase/usim_dy_runs&quot; &quot;TRANSIENT&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319679"></a>&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319680"></a>&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.</pre>
+<h4>
+<a id="pgfId-15319683"></a><a id="40337"></a>v<a id="vsaIRUserCallBack"></a>saIRUserCallBack</h4>
+<a id="pgfId-15319684"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>vsaIRUserCallBack()</code></pre>
+
+<p>
+<a id="pgfId-15319686"></a>A callback function that is called to load the user-specified SKILL functions at the time of clicking the Apply/OK buttons in the IR drop analysis form. </p>
+<p>
+<a id="pgfId-15319687"></a><strong>Argument</strong></p>
+<p>
+<a id="pgfId-15319688"></a>None.</p>
+<p>
+<a id="pgfId-15319689"></a><strong>Values Returned</strong></p>
+<p>
+<a id="pgfId-15319690"></a>None.</p>
+<p>
+<a id="pgfId-15319691"></a><strong>Example</strong></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319692"></a>----- preload.il ------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319693"></a>    procedure(vsaIRUserCallBack()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319694"></a>let( ( a)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319695"></a> a = vsaIRGetSimDirAndAnalysisType()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319696"></a> printf(&quot; Simulation Dir and Analysis Type: %L\n&quot;, a)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319697"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319698"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319699"></a>----- .cdsinit ------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319700"></a>   load(&#8220;preload.il&#8221;) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319701"></a>------CDS.log------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319702"></a>&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319703"></a>&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319704"></a>\a hiFormDone(_vsaIRDropForm)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319705"></a>\o&#160;&#160;Simulation Dir and Analysis Type: (&quot;/VPSL/testcase/usim_dy_runs&quot; &quot;TRANSIENT&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319706"></a>\o&#160;&#160;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319707"></a>&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319708"></a>&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;</pre>
+<h2>
+<a id="pgfId-15307179"></a><a id="45579"></a><a id="51679"></a>Sample emDataFile</h2>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303104"></a>(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296803"></a>routingLayers = (&quot;poly1&quot; &quot;m1&quot; &quot;m2&quot; &quot;m3&quot; &quot;m4&quot; &quot;m5&quot; &quot;m6&quot; &quot;m7&quot; &quot;m8&quot; &quot;m9&quot; &quot;MD&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296804"></a>viaLayers = ( &quot;cw&quot; &quot;v1&quot; &quot;v2&quot; &quot;v3&quot; &quot;v4&quot; &quot;v5&quot; &quot;v6&quot; &quot;v7&quot; &quot;v8&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296805"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296806"></a>xrefLayers = (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296807"></a>( &quot;poly1con&quot; (&quot;cw&quot; &quot;cw&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296808"></a>( &quot;poly&quot; (&quot;poly1&quot; &quot;poly1&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296809"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296810"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296811"></a>avgCurrentDensSpecList = (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296812"></a>(nil layer &quot;poly1&quot; minW 0.0 maxW -1.0 currentDensity ((1.100,100) (1.110,110) (1.125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296813"></a>(nil layer &quot;m1&quot; minW 0.0 maxW 0.16 currentDensity ((1.434*3.9*(w-0.05)/w,100) (3.9,110) (0.387*3.9*(w-0.05)/w,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296814"></a>(nil layer &quot;m1&quot; minW 0.16 maxW -1.0 currentDensity ((14*(w-0.05)*deltaT/w,100) (1.434 *3.9*(w-0.05)/w, 110) (5.3,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296815"></a>(nil layer &quot;m2&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296816"></a>(nil layer &quot;m3&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296817"></a>(nil layer &quot;m4&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296818"></a>(nil layer &quot;m5&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296819"></a>(nil layer &quot;m6&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296820"></a>(nil layer &quot;m7&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296821"></a>(nil layer &quot;m8&quot; minW 0.0 maxW -1.0 currentDensity ((4.9100,100) (4.9110,110) (4.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296822"></a>(nil layer &quot;cw&quot; minW 0.0 maxW -1 res 11.04 currentDensity ((1.6100,100) (1.119,110) (1.119,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296823"></a>(nil layer &quot;v1&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296824"></a>(nil layer &quot;v2&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296825"></a>(nil layer &quot;v3&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296826"></a>(nil layer &quot;v4&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296827"></a>(nil layer &quot;v5&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296828"></a>(nil layer &quot;v6&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296829"></a>(nil layer &quot;v7&quot; minW 0.0 maxW -1 res 0.42 currentDensity ((1.8100,100) (1.8110,110) (1.8125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296830"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296831"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296832"></a>rmsCurrentDensSpecList = (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296833"></a>(nil layer &quot;poly1&quot; minW 0.0 maxW -1.0 currentDensity ((1.100,100) (1.110,110) (1.125,125))) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296834"></a>(nil layer &quot;m1&quot; minW 0.0 maxW 0.16 currentDensity ( (1.434 *3.9*(w-0.05)/w,100) (3.9,110) (0.387*3.9*(w-0.05)/w,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296835"></a>(nil layer &quot;m1&quot; minW 0.16 maxW -1.0 currentDensity ( (14*(w-0.05)*deltaT/w,100) (1.434 *3.9*(w-0.05)/w,110) (5.3,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296836"></a>(nil layer &quot;m2&quot; minW 0.0 maxW -1.0 currentDensity ((2.9100,100) (2.9110,110) (2.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296837"></a>(nil layer &quot;m3&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296838"></a>(nil layer &quot;m4&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296839"></a>(nil layer &quot;m5&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296840"></a>(nil layer &quot;m6&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296841"></a>(nil layer &quot;m7&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296842"></a>(nil layer &quot;m8&quot; minW 0.0 maxW -1.0 currentDensity ((4.9100,100) (4.9110,110) (4.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296843"></a>(nil layer &quot;cw&quot; minW 0.0 maxW -1 res 11.04 currentDensity ((1.6100,100) (1.119,110) (1.119,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296844"></a>(nil layer &quot;v1&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296845"></a>(nil layer &quot;v2&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296846"></a>(nil layer &quot;v3&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296847"></a>(nil layer &quot;v4&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296848"></a>(nil layer &quot;v5&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296849"></a>(nil layer &quot;v6&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296850"></a>(nil layer &quot;v7&quot; minW 0.0 maxW -1 res 0.42 currentDensity ((1.8100,100) (1.8110,110) (1.8125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296851"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296852"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319271"></a>DCrmsCurrentDensSpecList = (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319272"></a>(nil layer &quot;poly1&quot; minW 0.0 maxW -1.0 currentDensity ((1.100,100) (1.110,110) (1.125,125))) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319273"></a>(nil layer &quot;m1&quot; minW 0.0 maxW 0.16 currentDensity ( (1.434 *3.9*(w-0.05)/w,100) (3.9,110) (0.387*3.9*(w-0.05)/w,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319274"></a>(nil layer &quot;m1&quot; minW 0.16 maxW -1.0 currentDensity ( (14*(w-0.05)*deltaT/w,100) (1.434 *3.9*(w-0.05)/w,110) (5.3,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319275"></a>(nil layer &quot;m2&quot; minW 0.0 maxW -1.0 currentDensity ((2.9100,100) (2.9110,110) (2.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319276"></a>(nil layer &quot;m3&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319277"></a>(nil layer &quot;m4&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319278"></a>(nil layer &quot;m5&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319259"></a>(nil layer &quot;m6&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15319290"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296853"></a>peakCurrentDensSpecList = (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296854"></a>(nil layer &quot;poly1&quot; minW 0.0 maxW -1.0 currentDensity ((1.100,100) (1.110,110) (1.125,125))) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296855"></a>(nil layer &quot;m1&quot; minW 0.0 maxW 0.16 currentDensity ( (1.434 *3.9*(w-0.05)/w,100) (3.9,110) (0.387*3.9*(w-0.05)/w,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296856"></a>(nil layer &quot;m1&quot; minW 0.16 maxW -1.0 currentDensity ( (14*(w-0.05)*deltaT/w,100) (1.434 *3.9*(w-0.05)/w,110) (5.3,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296857"></a>(nil layer &quot;m2&quot; minW 0.0 maxW -1.0 currentDensity ((3.9100,100) (3.9110,110) (3.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296858"></a>(nil layer &quot;m3&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296859"></a>(nil layer &quot;m4&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296860"></a>(nil layer &quot;m5&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296861"></a>(nil layer &quot;m6&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296862"></a>(nil layer &quot;m7&quot; minW 0.0 maxW -1.0 currentDensity ((1.9100,100) (1.9110,110) (1.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296863"></a>(nil layer &quot;m8&quot; minW 0.0 maxW -1.0 currentDensity ((4.9100,100) (4.9110,110) (4.9125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296864"></a>(nil layer &quot;cw&quot; minW 0.0 maxW -1 res 11.04 currentDensity ((1.6100,100) (1.119,110) (1.119,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296865"></a>(nil layer &quot;v1&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296866"></a>(nil layer &quot;v2&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296867"></a>(nil layer &quot;v3&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296868"></a>(nil layer &quot;v4&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296869"></a>(nil layer &quot;v5&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296870"></a>(nil layer &quot;v6&quot; minW 0.0 maxW -1 res 0.68 currentDensity ((1.2100,100) (1.2110,110) (1.2125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296871"></a>(nil layer &quot;v7&quot; minW 0.0 maxW -1 res 0.42 currentDensity ((1.8100,100) (1.8110,110) (1.8125,125)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296872"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296873"></a>viaWidthList = ( ( &quot;Cont&quot; 0.2 ) ( &quot;Via1&quot; 0.2 ) ) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296874"></a> //This is optional, the software will try to get this info from the </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15296875"></a> // Virtuoso technology file</pre>
+
+<p>
+<a id="pgfId-15245004"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="pgvcreation.html" id="prev" title="Power-Grid View Creation">Power-Grid View Creation</a></em></b><b><em><a href="voltagesrc.html" id="nex" title="Voltage Source Regions">Voltage Source Regions</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>
