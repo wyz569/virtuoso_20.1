@@ -1,0 +1,2738 @@
+
+<html><head><title>Figure Set Database Access Functions</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="sumehta" />
+<meta name="CreateDate" content="2020-09-19" />
+<meta name="CreateTime" content="1600501606" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes SKILL functions that interface with Virtuoso design environment applications. These applications include the graphics editor, database access, design management, and design flow." />
+<meta name="DocTitle" content="Virtuoso Design Environment SKILL Reference" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Figure Set Database Access Functions" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="skdfref" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-19" />
+<meta name="ModifiedTime" content="1600501606" />
+<meta name="NextFile" content="mpt.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Cadence Shared Tools" />
+<meta name="PrevFile" content="figure.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="Virtuoso Shared Tools" />
+<meta name="ProductFamily" content="Virtuoso Shared Tools" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Design Environment SKILL Reference -- Figure Set Database Access Functions" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="skdfrefICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="skdfrefTOC.html">Contents</a></li><li><a class="prev" href="figure.html" title="Figure Database Access Functions">Figure Database Access Functio ...</a></li><li style="float: right;"><a class="viewPrint" href="skdfref.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="mpt.html" title="Multi-Patterning Technology Database Access Functions (ICADVM20.1 Only)">Multi-Patterning Technology Da ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Design Environment SKILL Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+
+<h1>12
+<a name="pgfId-1754444"></a></h1>
+
+<h1>
+<a name="pgfId-1754447"></a><hr />
+Figure Set Database Access Functions<hr />
+</h1>
+
+<p>
+<a name="pgfId-1754449"></a>This chapter <a name="figsetfunctions"></a>includes the following topics:</p>
+<ul><li>
+<a name="pgfId-1745054"></a><a href="figset.html#22077">FigSet Functions</a></li><li>
+<a name="pgfId-1743480"></a><a href="figset.html#72291">FigSetGroup Functions</a></li></ul>
+
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=FigSet Functions
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+<h2>
+<a name="pgfId-1743460"></a><a name="22077"></a>FigSet <a name="figset"></a>Functions</h2>
+
+<p>
+<a name="pgfId-1743455"></a>A FigSet is a high performance, ordered grouping of database geometric objects or other FigSets. A member of a FigSet is unique within that FigSet, but the same geometric object can be added to multiple FigSets. The name of a FigSet is unique within the cellview it is associated with. </p>
+<p>
+<a name="pgfId-1741742"></a>FigSets offer high performance because they are neither database objects nor saved to the disk. Consequently, operations performed on a FigSet cannot be undone. If you delete an object that is a member of a FigSet, the object is removed from the FigSet, and when you undo delete, the object is restored, but it is not added back to the FigSet. To store the contents of a FigSet to disk, you need to create a corresponding FigSetGroup. For information about FigSetGroups, see <a href="figset.html#72291">FigSetGroup Functions</a>.</p>
+<p>
+<a name="pgfId-1741746"></a>FigSet SKILL objects are like CDB SKILL objects on which certain &#8220;~&gt;&#8221; (squiggle-arrow) queries can be run:</p>
+<ul><li>
+<a name="pgfId-1741747"></a><code>figSet~&gt;objType</code> &#8212; Returns the object type, <code>figSet</code> in this case</li><li>
+<a name="pgfId-1741748"></a><code>figSet~&gt;name</code> &#8212; Returns the name of the FigSet</li><li>
+<a name="pgfId-1741749"></a><code>figSet~&gt;cellView</code> &#8212; Returns the ID of the cellview associated with the FigSet </li><li>
+<a name="pgfId-1741750"></a><code>figSet~&gt;length</code> &#8212; Returns the number of objects in the FigSet</li><li>
+<a name="pgfId-1741751"></a><code>figSet~&gt;members</code> &#8212; Returns the list of objects in the FigSet</li></ul>
+
+
+
+
+<p>
+<a name="pgfId-1741752"></a>FigSet functions are used to add, find, move, copy, append, prepend, clone, clear, and delete FigSet objects; access FigSet parameters; and iterate over the objects stored in a cellview.</p>
+<p>
+<a name="pgfId-1741753"></a>Supported functions include:</p>
+<ul><li>
+<a name="pgfId-1741757"></a><a href="figset.html#70640">txCreateFigSet</a></li><li>
+<a name="pgfId-1741761"></a><a href="figset.html#42660">txGetFigSetData</a></li><li>
+<a name="pgfId-1741765"></a><a href="figset.html#75007">txAppendObjectToFigSet</a></li><li>
+<a name="pgfId-1741769"></a><a href="figset.html#71599">txClearFigSet</a></li><li>
+<a name="pgfId-1741773"></a><a href="figset.html#49588">txCloneFigSet</a></li><li>
+<a name="pgfId-1741777"></a><a href="figset.html#83117">txConcatFigSet</a></li><li>
+<a name="pgfId-1741781"></a><a href="figset.html#18441">txCopyFigSet</a></li><li>
+<a name="pgfId-1741785"></a><a href="figset.html#73836">txFindFigSet</a></li><li>
+<a name="pgfId-1741789"></a><a href="figset.html#27001">txDeleteFigSet</a></li><li>
+<a name="pgfId-1741793"></a><a href="figset.html#21291">txGetCellViewFigSets</a></li><li>
+<a name="pgfId-1741797"></a><a href="figset.html#57453">txGetFigSetBBox</a></li><li>
+<a name="pgfId-1741801"></a><a href="figset.html#73987">txIsFigSet</a></li><li>
+<a name="pgfId-1741805"></a><a href="figset.html#46061">txMakeFigSet</a></li><li>
+<a name="pgfId-1741809"></a><a href="figset.html#93051">txMoveFigSet</a></li><li>
+<a name="pgfId-1741813"></a><a href="figset.html#97753">txPrependObjectToFigSet</a></li><li>
+<a name="pgfId-1741817"></a><a href="figset.html#80707">txRemoveFigSetData</a></li><li>
+<a name="pgfId-1741821"></a><a href="figset.html#82559">txRemoveObjectFromFigSet</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txCreateFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+<h3>
+<a name="pgfId-1741830"></a><a name="70640"></a>txCreate<a name="txCreateFigSet"></a>FigSet</h3>
+<a name="pgfId-1741832"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txCreateFigSet(
+<code><em>d_cellView
+</em></code>[ <code><em>t_name</em></code> ]
+)
+=&gt; <code><em>T_figSet</em></code> / nil</pre>
+
+<h4>
+<a name="pgfId-1741833"></a>Description</h4>
+
+<p>
+<a name="pgfId-1741835"></a>Creates an empty FigSet with the specified name in the given cellview. If the name is not specified, it will be generated automatically. If a FigSet with the specified name already exists, an error message is issued.</p>
+
+
+
+<h4>
+<a name="pgfId-1741836"></a>Arguments</h4>
+<table class="webflareTable" id="#id1741837">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741839"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellView</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741841"></a>ID of the cellview.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741843"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_name</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741845"></a>Name of the FigSet.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1741847"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1741848">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741850"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741852"></a>ID of the created FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741854"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741856"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1741858"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741859"></a>txCreateFigSet(cv &quot;figset0&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741860"></a>&gt; tx@02af68cf</pre>
+<p>
+<a name="pgfId-1741861"></a>Creates an empty FigSet with the name <code>figset0</code> in the cellview <code>cv</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txGetFigSetData
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1741870"></a><a name="42660"></a>txGetF<a name="txGetFigSetData"></a>igSetData</h3>
+<a name="pgfId-1741872"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txGetFigSetData(
+<code><em>T_figSet
+n_entry
+</em></code>)
+=&gt; <code><em>g_object</em></code> / nil</pre>
+
+<h4>
+<a name="pgfId-1741873"></a>Description</h4>
+
+<p>
+<a name="pgfId-1741875"></a>Returns the n<sup>th</sup> object from the specified FigSet. This object is either a dbObject (CDB figure) or txObject (a FigSet or a transient shape).</p>
+
+
+
+<h4>
+<a name="pgfId-1748470"></a>Arguments</h4>
+<table class="webflareTable" id="#id1748471">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1748473"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1748475"></a>ID of the FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1748477"></a><span class="webflare-courier-new" style="white-space:pre"><em>n_entry</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1748479"></a>Index of the object to return.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1748481"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1741888">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741890"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_object</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741892"></a>The n<sup>th</sup> object in the specified FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741894"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741896"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1741898"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741899"></a>id = txGetFigSetData(fs 0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741900"></a>&gt; tx@0x1fc106d0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741901"></a>id~&gt;objType</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741902"></a>&gt; &quot;FigSet&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741903"></a>id = txGetFigSetData(fs 1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741904"></a>&gt; db:0x27a9dc1a</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741905"></a>id~&gt;objType</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741906"></a>&gt; &quot;polygon&quot;</pre>
+<p>
+<a name="pgfId-1741907"></a>The above functions return the first and the second object from the FigSet <code>fs</code>, respectively.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txAppendObjectToFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1741916"></a><a name="75007"></a>txAppend<a name="txAppendObjectToFigSet"></a>ObjectToFigSet</h3>
+<a name="pgfId-1741918"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txAppendObjectToFigSet(
+<code><em>T_figSet
+g_figObject
+</em></code>)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1741919"></a>Description</h4>
+
+<p>
+<a name="pgfId-1741921"></a>Appends an object to the end of the specified FigSet. The object can be a figure or a FigSet.</p>
+
+
+
+<h4>
+<a name="pgfId-1741922"></a>Arguments</h4>
+<table class="webflareTable" id="#id1741923">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741925"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741927"></a>ID of the FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741929"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_figObject</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741931"></a>ID of the appended object.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1741933"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1741934">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741936"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741938"></a>The object was appended.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741940"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741942"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1741944"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741945"></a>fs12 = txCreateFigSet(cv &quot;fs12&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741946"></a>&gt; tx@0x19d35cf0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741947"></a>txAppendObjectToFigSet(fs12 txCreateFigSet(cv &quot;fs0&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741948"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741949"></a>txAppendObjectToFigSet(fs12 dbCreateRect(cv &#39;(0 &quot;drawing&quot;) &#39;((0 0) (200 100))))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741950"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741951"></a>fs12~&gt;length</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741952"></a>&gt; 2</pre>
+<p>
+<a name="pgfId-1741953"></a>Appends a FigSet object (<code>fs0</code>) and a CDB object (a rectangle) to the FigSet <code>fs12</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txClearFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1741962"></a><a name="71599"></a>txClear<a name="txClearFigSet"></a>FigSet</h3>
+<a name="pgfId-1741964"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txClearFigSet(
+T_figSet
+)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1741965"></a>Description</h4>
+
+<p>
+<a name="pgfId-1741967"></a>Clears the contents of the specified FigSet.</p>
+
+
+
+<h4>
+<a name="pgfId-1741968"></a>Arguments</h4>
+<table class="webflareTable" id="#id1741969">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741971"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741973"></a>ID of the FigSet.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1741975"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1741976">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741978"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741980"></a>The contents were cleared.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741982"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1741984"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1741986"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741987"></a>fs0 = txCreateFigSet(cv &quot;fs0&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741988"></a>&gt; tx@0x19d35cf0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741989"></a>fs1 = txCreateFigSet(cv &quot;fs1&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741990"></a>&gt; tx@0x19a46350</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741991"></a>txAppendObjectToFigSet(fs1 fs0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741992"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741993"></a>fs1~&gt;length </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741994"></a>&gt; 1</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741995"></a>txClearFigSet(fs1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741996"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741997"></a>fs1~&gt;length </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1741998"></a>&gt; 0</pre>
+<p>
+<a name="pgfId-1741999"></a>Clears the contents of the FigSet <code>fs1</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txCloneFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742008"></a><a name="49588"></a>txClon<a name="txCloneFigSet"></a>eFigSet</h3>
+<a name="pgfId-1742010"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txCloneFigSet(
+<code><em>T_figSet1
+T_figSet2
+</em></code>)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1742011"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742013"></a>Makes FigSet1 a clone of FigSet2 by replacing the contents of FigSet1with equivalent entries from FigSet2. It creates references to the objects; it does not make copies of the objects. The name of FigSet1 is preserved.</p>
+
+
+
+<h4>
+<a name="pgfId-1742014"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742015">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742017"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742019"></a>ID of the target FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742021"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742023"></a>ID of the source FigSet.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742025"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742026">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742028"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742030"></a>The cloning is successful.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742032"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742034"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742036"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742037"></a>fs_src = txCreateFigSet(cv &quot;fs_src&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742038"></a>&gt; tx@0x2294f7c0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742039"></a>fs_dest = txCreateFigSet(cv &quot;fs_dest&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742040"></a>&gt; tx@0x2294ff10</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742041"></a>txAppendObjectToFigSet(fs_src txCreateFigSet(cv &quot;fs0&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742042"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742043"></a>txCloneFigSet(fs_dest fs_src)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742044"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742045"></a>txGetFigSetData(fs_dest 0)~&gt;name</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742046"></a>&gt; &quot;fs0&quot;</pre>
+<p>
+<a name="pgfId-1742047"></a>Makes <code>fs_dest</code> a clone of <code>fs_src</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txConcatFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742056"></a><a name="83117"></a>txConcat<a name="txConcatFigSet"></a>FigSet</h3>
+<a name="pgfId-1742058"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txConcatFigSet(
+<code><em>T_figSet1
+T_figSet2
+</em></code>)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1742059"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742061"></a>Appends the contents of FigSet2 to the end of FigSet1.</p>
+
+
+
+<h4>
+<a name="pgfId-1742062"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742063">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742065"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742067"></a>ID of the target FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742069"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742071"></a>ID of the source FigSet.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742073"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742074">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742076"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742078"></a>The contents were appended successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742080"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742082"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742084"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742085"></a>fs_src = txCreateFigSet(cv &quot;fs_src&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742086"></a>&gt; tx@0x1fc106d0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742087"></a>fs_dest = txCreateFigSet(cv &quot;fs_dest&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742088"></a>&gt; tx@0x1fc10e20</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742089"></a>txAppendObjectToFigSet(fs_src txCreateFigSet(cv &quot;fs0&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742090"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742091"></a>txAppendObjectToFigSet(fs_src txCreateFigSet(cv &quot;fs1&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742092"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742093"></a>txConcatFigSet(fs_dest fs_src)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742094"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742095"></a>txGetFigSetData(fs_dest 0)~&gt;name</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742096"></a>&gt; &quot;fs0&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742097"></a>txGetFigSetData(fs_dest 1)~&gt;name</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742098"></a>&gt; &quot;fs1&quot;</pre>
+<p>
+<a name="pgfId-1742099"></a>Appends the contents of <code>fs_dest</code> to the end of <code>fs_src</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txCopyFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742108"></a><a name="18441"></a>txCopy<a name="txCopyFigSet"></a>FigSet</h3>
+<a name="pgfId-1742110"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txCopyFigSet(
+<code><em>T_srcFigSet
+l_transform
+</em></code>)
+=&gt; <code><em>T_newFigSet</em></code> / nil</pre>
+
+<h4>
+<a name="pgfId-1742111"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742113"></a>Copies each figure from the source FigSet and applies to it the specified transform to create a new FigSet with an automatically generated name.</p>
+
+
+
+<h4>
+<a name="pgfId-1742114"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742115">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742117"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_srcFigSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742119"></a>ID of the source FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742121"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_transform</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742123"></a><code>list(</code><span class="webflare-courier-new" style="white-space:pre"><em>g_offset</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>t_transform</em></span><code> [</code><span class="webflare-courier-new" style="white-space:pre"><em>f_scale</em></span><code>])<br /></code>A transformation object.</p>
+<p>
+<a name="pgfId-1742124"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-1742125"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_offset</em></span><code>: list(</code><span class="webflare-courier-new" style="white-space:pre"><em>f_offsetX</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>f_offsetY</em></span><code>)
+</code>An offset vector.</li><li>
+<a name="pgfId-1742126"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_transform
+</em></span>A transformation name. 
+Valid values are <code>&#8220;R0&#8221;</code>, <code>&#8220;R90&#8221;</code>, <code>&#8220;R180&#8221;</code>, <code>&#8220;R270&#8221;</code>, <code>&#8220;MX&#8221;</code>, <code>&#8220;MXR90&#8221;</code>, <code>&#8220;MY&#8221;</code>, and <code>&#8220;MYR90&#8221;</code>; or, their corresponding symbols such as <code>&#39;R0</code>, <code>&#39;R90</code>, <code>&#39;R180</code>, <code>&#39;R270</code>, <code>&#39;MX</code>, <code>&#39;MXR90</code>, <code>&#39;MY</code>, and <code>&#39;MYR90</code>.</li><li>
+<a name="pgfId-1742127"></a><span class="webflare-courier-new" style="white-space:pre"><em>f_scale
+</em></span>A scale ratio (optional). Default value is <code>1.0</code>.</li></ul>
+
+
+
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742129"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742130">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742132"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_newFigSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742134"></a>ID of the created FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742136"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742138"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742140"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742141"></a>fs0 = txCreateFigSet(cv &quot;fs0&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742142"></a>&gt; tx@0x2c0295c0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742143"></a>txAppendObjectToFigSet(fs0 dbCreateRect(cv &#39;(0 &quot;drawing&quot;) &#39;((0 0) (200 100))))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742144"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742145"></a>fs1 = txCopyFigSet(fs0 &#39;(((0 0) &quot;R90&quot;)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742146"></a>&gt; tx@0x2c04f190</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742147"></a>txGetFigSetData(fs1 0)~&gt;bBox</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742148"></a>&gt; ((-100.0 0.0) </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742149"></a>&gt;&#160;&#160;   (0.0 200.0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742150"></a>&gt; )</pre>
+<p>
+<a name="pgfId-1742151"></a>Copies the source FigSet <code>fs0</code> and applies to it the <code>R90</code> transform to create a new FigSet <code>fs1</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txFindFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742160"></a><a name="73836"></a>txFind<a name="txFindFigSet"></a>FigSet</h3>
+<a name="pgfId-1742162"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txFindFigSet(
+<code><em>d_cellView
+t_name
+</em></code>)
+=&gt; <code><em>T_figSet</em></code> / nil</pre>
+
+<h4>
+<a name="pgfId-1742163"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742165"></a>Searches for a FigSet with the given name in the specified cellview. This function also searches for a FigSetGroup with the same name and automatically resurrects the corresponding FigSet from it, if required.</p>
+
+
+
+<h4>
+<a name="pgfId-1742166"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742167">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742169"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellView</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742171"></a>ID of the cellview.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742173"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_name</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742175"></a>Name of the FigSet.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742177"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742178">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742180"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742182"></a>ID of the found FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742184"></a><span class="webflare-courier-new" style="white-space:pre"><em>nil</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742186"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742188"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742189"></a>txFindFigSet(cv &quot;FS_0&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742190"></a>&gt; tx@02af68ce</pre>
+<p>
+<a name="pgfId-1742191"></a>Searches for FigSet <code>FS_0</code> in the cellview <code>cv</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txDeleteFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742200"></a><a name="27001"></a>txDelete<a name="txDeleteFigSet"></a>FigSet</h3>
+<a name="pgfId-1742202"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txDeleteFigSet(
+<code><em>T_figSet
+</em></code>[ <code><em>g_deep</em></code> = nil ]
+)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1742203"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742205"></a>Deletes the specified FigSet. If the optional argument <code>g_deep</code> is set to true, then the FigSets referenced by the specified FigSet will also be recursively deleted.</p>
+
+
+
+<h4>
+<a name="pgfId-1742206"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742207">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742209"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742211"></a>ID of the FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742213"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_deep</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742215"></a>A flag that determines whether the FigSets referenced by the specified FigSet should be deleted.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742217"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742218">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742220"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742222"></a>The specified FigSet was deleted successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742224"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742226"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742228"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742229"></a>fs0 = txCreateFigSet(cv &quot;fs0&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742230"></a>&gt; tx@0x19d35cf0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742231"></a>fs1 = txCreateFigSet(cv &quot;fs1&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742232"></a>&gt; tx@0x19a46350</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742233"></a>txAppendObjectToFigSet(fs1 fs0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742234"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742235"></a>txDeleteFigSet(fs1 t)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742236"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742237"></a>txFindFigSet(cv &quot;fs0&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742238"></a>&gt; nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742239"></a>txFindFigSet(cv &quot;fs1&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742240"></a>&gt; nil</pre>
+<p>
+<a name="pgfId-1742241"></a>Deletes the FigSet <code>fs1</code> and the FigSet referenced by it, <code>fs0</code>, from the cellview <code>cv</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txGetCellViewFigSets
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742250"></a><a name="21291"></a>txGetCellV<a name="txGetCellViewFigSets"></a>iewFigSets</h3>
+<a name="pgfId-1742252"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txGetCellViewFigSets(
+<code><em>d_cellView
+</em></code>)
+=&gt; <code><em>l_figSets</em></code> / nil</pre>
+
+<h4>
+<a name="pgfId-1742253"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742255"></a>Returns the list of FigSets in the specified cellview.</p>
+
+
+
+<h4>
+<a name="pgfId-1742256"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742257">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742259"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellView</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742261"></a>ID of the cellview.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742263"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742264">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742266"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_figSets</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742268"></a>List of FigSets.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742270"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742272"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742274"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742275"></a>txGetCellViewFigSets(cv)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742276"></a>&gt; (tx@0x19d35cf0 tx@0x19a46350)</pre>
+<p>
+<a name="pgfId-1742277"></a>Returns the FigSets, <code>tx@0x19d35cf0</code> and <code>tx@0x19a46350</code>, in the cellview <code>cv</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txGetFigSetBBox
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742286"></a><a name="57453"></a>txGetFi<a name="txGetFigSetBBox"></a>gSetBBox</h3>
+<a name="pgfId-1742288"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txGetFigSetBBox(
+<code><em>T_figSet @key
+</em></code>(onlyTheseLayers<code><em> l_onlyTheseLayers</em></code>)
+(onlyTheseLPPs<code><em> l_onlyTheseLPPs</em></code>)
+(notTheseLayers<code><em> l_notTheseLayers</em></code>)
+(notTheseLPPs<code><em> l_notTheseLPPs</em></code>)
+(onlyTheseTypes <code><em>l_onlyTheseTypes</em></code>)
+(notTheseTypes <code><em>l_notTheseTypes</em></code>)
+)
+=&gt; <code><em>l_bBox</em></code> / nil </pre>
+
+<h4>
+<a name="pgfId-1742289"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742291"></a>Calculates the bounding box for the objects in the specified FigSet. The caller can optionally specify included and excluded layers, included and excluded layer-purpose pairs (LPPs), and included and excluded object types. The bounding box values are returned in user units.</p>
+
+
+
+<h4>
+<a name="pgfId-1742292"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742293">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742295"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742297"></a>ID of the FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742299"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_onlyTheseLayers</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742301"></a><code>list([</code><span class="webflare-courier-new" style="white-space:pre"><em>t_layerName</em></span><code> | </code><span class="webflare-courier-new" style="white-space:pre"><em>n_layerNum</em></span><code>] ...)<br /></code>A list of layer names or layer numbers. If specified, only the layers specified in the list are considered during the bounding box calculation.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742303"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_onlyTheseLPPs</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742305"></a><code>list([l_LPP] ...)<br /></code>A list of layer-purpose pairs. If specified, only the layer-purpose pairs specified in the list are considered during the bounding box calculation.</p>
+<p>
+<a name="pgfId-1742306"></a>where,</p>
+<p>
+<a name="pgfId-1742307"></a><code>l_LPP</code>: <code>list([t_layerName | n_layerNum] t_purposeName)<br /></code>A layer-purpose pair.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742309"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_notTheseLayers</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742311"></a><code>list([t_layerName | n_layerNum] ...)<br /></code>A list of layer names or layer numbers. If specified, the layers specified in the list are excluded from the bounding box calculation.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742313"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_notTheseLPPs</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742315"></a><code>list([l_LPP] ...)</code></p>
+<p>
+<a name="pgfId-1742316"></a>A list of layer-purpose pairs. If specified, the layer-purpose pairs specified in the list are excluded from the bounding box calculation.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742318"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_onlyTheseTypes</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742320"></a><code>list(t_typeName ...)</code></p>
+<p>
+<a name="pgfId-1742321"></a>A list of CDB type names. If specified, only the objects of the types specified in the list are considered during the bounding box calculation.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742323"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_notTheseTypes</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742325"></a><code>list(t_typeName ...)</code></p>
+<p>
+<a name="pgfId-1742326"></a>A list of CDB type names. If specified, the objects of the types specified in the list are excluded from the bounding box calculation.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742328"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742329">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742331"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_bBox</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742333"></a>Bounding box for the specified objects.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742335"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742337"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742339"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742340"></a>rect0 = dbCreateRect(top &#39;(0 &quot;drawing&quot;) &#39;((0 0) (100 100)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742341"></a>&gt; db:0x2e39ec9e</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742342"></a>ellipse0 = dbCreateEllipse(top &#39;(0 &quot;drawing&quot;) &#39;((0 0) (500 200)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742343"></a>&gt; db:0x2e39ec9f</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742344"></a>fs0 = txCreateFigSet(top &quot;fs0&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742345"></a>&gt; tx@0x318ce1a0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742346"></a>txAppendObjectToFigSet(fs0 rect0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742347"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742348"></a>txAppendObjectToFigSet(fs0 ellipse0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742349"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742350"></a>txGetFigSetBBox(fs0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742351"></a>&gt; ((0.0 0.0) </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742352"></a>&gt;&#160;&#160;   (500.0 200.0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742353"></a>&gt; )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742354"></a>Calculates the bounding box for the objects in the FigSet <code>fs0</code>.</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742355"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742356"></a>txGetFigSetBBox(fs0 ?onlyTheseTypes &#39;(&quot;rect&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742357"></a>&gt; ((0.0 0.0) </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742358"></a>&gt;&#160;&#160;   (100.0 100.0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742359"></a>&gt; )</pre>
+<p>
+<a name="pgfId-1742360"></a>Calculates the bounding box for the objects of type <code>rect</code> in the FigSet <code>fs0</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txIsFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742369"></a><a name="73987"></a>txIsF<a name="txIsFigSet"></a>igSet</h3>
+<a name="pgfId-1742371"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txIsFigSet(
+<code><em>g_object
+</em></code>)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1742372"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742374"></a>Determines whether the specified object is a FigSet object.</p>
+
+
+
+<h4>
+<a name="pgfId-1742375"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742376">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742378"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_object</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742380"></a>ID of the object.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742382"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742383">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742385"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742387"></a>The object is a FigSet object.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742389"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742391"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742393"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742394"></a>txIsFigSet(fs0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742395"></a>&gt; t</pre>
+<p>
+<a name="pgfId-1742396"></a>The object <code>fs0</code> is a FigSet object.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txMakeFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742405"></a><a name="46061"></a>txMake<a name="txMakeFigSet"></a>FigSet</h3>
+<a name="pgfId-1742407"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txMakeFigSet(
+<code><em>d_cellView
+d_figSetGroup
+</em></code>)
+=&gt; <code><em>T_figSet</em></code> / nil</pre>
+
+<h4>
+<a name="pgfId-1742408"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742410"></a>Creates a FigSet from the given FigSetGroup in the specified cellview. </p>
+<p>
+<a name="pgfId-1742411"></a>The function can be used to resurrect a FigSet that had been saved to a FigSetGroup earlier. The name and contents of the FigSet will be extracted from the specified FigSetGroup. If a FigSet with the specified name already exists, its contents will be replaced.</p>
+
+
+
+<h4>
+<a name="pgfId-1742412"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742413">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742415"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellView</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742417"></a>ID of the cellview.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742419"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_figSetGroup</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742421"></a>ID of the FigSetGroup.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742423"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742424">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742426"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742428"></a>ID of the created FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742430"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742432"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742434"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742435"></a>txAppendObjectToFigSet(figset12 txCreateFigSet(cv &quot;figset1&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742436"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742437"></a>txAppendObjectToFigSet(figset12 txCreateFigSet(cv &quot;figset2&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742438"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742439"></a>group0 = dbMakeFigSetGroup(cv figset12)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742440"></a>&gt; db:0x27a9ec1a</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742441"></a>txDeleteFigSet(figset12)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742442"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742443"></a>txFindFigSet(cv &quot;figset12&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742444"></a>&gt; nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742445"></a>fs = txMakeFigSet(cv group0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742446"></a>&gt; tx@0x2af32df0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742447"></a>txGetFigSetData(fs 0)~&gt;name</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742448"></a>&gt; &quot;figset1&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742449"></a>txGetFigSetData(fs 1)~&gt;name</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742450"></a>&gt; &quot;figset2&quot;</pre>
+
+<p>
+<a name="pgfId-1742451"></a>Creates a FigSet <code>fs</code> from the FigSetGroup <code>group0</code> in the cellview <code>cv</code>. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txMoveFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742460"></a><a name="93051"></a>txMove<a name="txMoveFigSet"></a>FigSet</h3>
+<a name="pgfId-1742462"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txMoveFigSet(
+<code><em>T_figSet
+l_transform
+</em></code>)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1742463"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742465"></a>Moves each figure in the given FigSet using the specified transform.</p>
+
+
+
+<h4>
+<a name="pgfId-1742466"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742467">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742469"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742471"></a>ID of the FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742473"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_transform</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742475"></a><code>list(</code><span class="webflare-courier-new" style="white-space:pre"><em>g_offset</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>t_transform</em></span><code> [</code><span class="webflare-courier-new" style="white-space:pre"><em>f_scale</em></span><code>])<br /></code>A transformation object.</p>
+<p>
+<a name="pgfId-1742476"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-1742477"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_offset</em></span><code>: list(</code><span class="webflare-courier-new" style="white-space:pre"><em>f_offsetX</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>f_offsetY</em></span><code>)
+</code>An offset vector.</li><li>
+<a name="pgfId-1742478"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_transform
+</em></span>A transformation name.
+Valid values are <code>&#8220;R0&#8221;</code>, <code>&#8220;R90&#8221;</code>, <code>&#8220;R180&#8221;</code>, <code>&#8220;R270&#8221;</code>, <code>&#8220;MX&#8221;</code>, <code>&#8220;MXR90&#8221;</code>, <code>&#8220;MY&#8221;</code>, and <code>&#8220;MYR90&#8221;</code>; or, their corresponding symbols such as <code>&#39;R0</code>, <code>&#39;R90</code>, <code>&#39;R180</code>, <code>&#39;R270</code>, <code>&#39;MX</code>, <code>&#39;MXR90</code>, <code>&#39;MY</code>, and <code>&#39;MYR90</code>.</li><li>
+<a name="pgfId-1742479"></a><span class="webflare-courier-new" style="white-space:pre"><em>f_scale
+</em></span>A scale ratio (optional). Default value is <code>1.0</code>.</li></ul>
+
+
+
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742481"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742482">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742484"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742486"></a>The figures were transformed successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742488"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742490"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742492"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742493"></a>fs0 = txCreateFigSet(cv &quot;fs0&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742494"></a>&gt; tx@0x254996a0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742495"></a>txAppendObjectToFigSet(fs0 dbCreateRect(cv &#39;(0 &quot;drawing&quot;) &#39;((0 0) (200 100))))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742496"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742497"></a>txMoveFigSet(fs0 &#39;(((0 0) &quot;R90&quot;)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742498"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742499"></a>txGetFigSetData(fs0 0)~&gt;bBox</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742500"></a>&gt; ((-100.0 0.0) </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742501"></a>&gt;&#160;&#160;   (0.0 200.0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742502"></a>&gt; )</pre>
+<p>
+<a name="pgfId-1742503"></a>Transforms the figures in the FigSet <code>fs0</code> by the transformation value of <code>R90</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txPrependObjectToFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742512"></a><a name="97753"></a>txPrependO<a name="txPrependObjectToFigSet"></a>bjectToFigSet</h3>
+<a name="pgfId-1742514"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txPrependObjectToFigSet(
+<code><em>T_figSet
+g_figObject
+</em></code>)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1742515"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742517"></a>Inserts an object in the beginning of the specified FigSet. The object may be a figure or a FigSet.</p>
+
+
+
+<h4>
+<a name="pgfId-1742518"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742519">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742521"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742523"></a>ID of the FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742525"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_figObject</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742527"></a>ID of the object.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742529"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742530">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742532"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742534"></a>The object was inserted.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742536"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742538"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742540"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742541"></a>fs12 = txCreateFigSet(cv &quot;fs12&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742542"></a>&gt; tx@0x19d35cf0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742543"></a>txAppendObjectToFigSet(fs12 txCreateFigSet(cv &quot;fs1&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742544"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742545"></a>txPrependObjectToFigSet(fs12 txCreateFigSet(cv &quot;fs0&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742546"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742547"></a>txGetFigSetData(fs12 0)~&gt;name</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742548"></a>&gt; &quot;fs0&quot;</pre>
+<p>
+<a name="pgfId-1742549"></a>Inserts the object <code>fs0</code> in the beginning of the FigSet <code>fs12</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txRemoveFigSetData
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742558"></a><a name="80707"></a>txRemove<a name="txRemoveFigSetData"></a>FigSetData</h3>
+<a name="pgfId-1742560"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txRemoveFigSetData(
+<code><em>T_figSet
+n_entry
+</em></code>)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1742561"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742563"></a>Removes the n<sup>th</sup> object from the specified FigSet.</p>
+
+
+
+<h4>
+<a name="pgfId-1742564"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742565">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742567"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742569"></a>ID of the FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742571"></a><span class="webflare-courier-new" style="white-space:pre"><em>n_entry</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742573"></a>The index of the object to remove.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742575"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742576">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742578"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742580"></a>The object was removed successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742582"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742584"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742586"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742587"></a>fs12 = txCreateFigSet(cv &quot;fs12&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742588"></a>&gt; tx@0x19d35cf0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742589"></a>txAppendObjectToFigSet(fs12 txCreateFigSet(cv &quot;fs0&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742590"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742591"></a>txAppendObjectToFigSet(fs12 txCreateFigSet(cv &quot;fs1&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742592"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742593"></a>txRemoveFigSetData(fs12 0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742594"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742595"></a>txGetFigSetData(fs12 0)~&gt;name</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742596"></a>&gt; &quot;fs1&quot;</pre>
+<p>
+<a name="pgfId-1742597"></a>Removes the object at the first position from the FigSet <code>fs12</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=txRemoveObjectFromFigSet
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742606"></a><a name="82559"></a>txRemove<a name="txRemoveObjectFromFigSet"></a>ObjectFromFigSet</h3>
+<a name="pgfId-1742608"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+txRemoveObjectFromFigSet(
+<code><em>T_figSet
+g_object
+</em></code>)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1742609"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742611"></a>Removes the specified object from the given FigSet, if the object is a member of this FigSet. This object can be a figure or a FigSet.</p>
+
+
+
+<h4>
+<a name="pgfId-1742612"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742613">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742615"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742617"></a>ID of the FigSet.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742619"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_object</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742621"></a>ID of the object.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742623"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742624">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742626"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742628"></a>The object was removed successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742630"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742632"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742634"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742635"></a>fs0 = txCreateFigSet(cv &quot;fs0&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742636"></a>&gt; tx@0x19d35cf0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742637"></a>fs1 = txCreateFigSet(cv &quot;fs1&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742638"></a>&gt; tx@0x19a46350</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742639"></a>txAppendObjectToFigSet(fs1 fs0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742640"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742641"></a>txRemoveObjectFromFigSet(fs1 fs0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742642"></a>&gt; t</pre>
+<p>
+<a name="pgfId-1742643"></a>Removes the object <code>fs0</code> from the FigSet <code>fs1</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=FigSetGroup Functions
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+
+<h2>
+<a name="pgfId-1742652"></a><a name="72291"></a>FigSetGroup<a name="figSetGroup"></a> Functions</h2>
+
+<p>
+<a name="pgfId-1742653"></a>The contents of a FigSetGroup are created from a FigSet. A FigSetGroup is a method to store the contents of a FigSet in database for use in a different session.</p>
+<p>
+<a name="pgfId-1742654"></a>FigSetGroup functions are used to create, delete, access, manage, and search the FigSetGroup objects. </p>
+<p>
+<a name="pgfId-1742655"></a>Supported functions include:</p>
+<ul><li>
+<a name="pgfId-1742659"></a><a href="figset.html#39193">dbMakeFigSetGroup</a></li><li>
+<a name="pgfId-1742663"></a><a href="figset.html#73292">dbFindFigSetGroup</a></li><li>
+<a name="pgfId-1742667"></a><a href="figset.html#10921">dbFindFigSetGroupByName</a></li><li>
+<a name="pgfId-1742671"></a><a href="figset.html#93396">dbGetFigSetGroupName</a></li><li>
+<a name="pgfId-1742675"></a><a href="figset.html#41947">dbGetCellViewFigSetGroups</a></li><li>
+<a name="pgfId-1742679"></a><a href="figset.html#62175">dbIsFigSetGroup</a></li><li>
+<a name="pgfId-1742683"></a><a href="figset.html#32389">dbDeleteFigSetGroup</a></li></ul>
+
+
+
+
+
+
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dbMakeFigSetGroup
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+<h3>
+<a name="pgfId-1742692"></a><a name="39193"></a><a name="dbMakeFigSetGroup"></a>dbMakeFigSetGroup</h3>
+<a name="pgfId-1742694"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dbMakeFigSetGroup(
+<code><em>d_cellView
+T_figSet
+</em></code>)
+=&gt; <code><em>d_figSetGroup</em></code> / nil</pre>
+
+<h4>
+<a name="pgfId-1742695"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742697"></a>Creates a FigSetGroup in the specified cellview and populates it with the contents of the specified FigSet.</p>
+<p>
+<a name="pgfId-1742698"></a>The name for this FigSetGroup is the same as that of the FigSet. If a FigSetGroup with this name already exists, its contents are cleared, and it is populated from the FigSet.</p>
+
+
+
+<h4>
+<a name="pgfId-1742699"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742700">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742702"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellview</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742704"></a>ID of the cellview.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742706"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742708"></a>ID of the FigSet.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742710"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742711">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742713"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_figSetGroup</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742715"></a>ID of the created FigSetGroup.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742717"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742719"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742721"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742722"></a>fs1 = txCreateFigSet(cv &quot;figSet1&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742723"></a>&gt; tx@0x362ed0d0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742724"></a>txAppendObjectToFigSet(fs1 txCreateFigSet(cv &quot;figSet2&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742725"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742726"></a>fsgroup1 = dbMakeFigSetGroup(cv fs1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742727"></a>&gt; db:0x32e3f19b</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742728"></a>(mapcar &#39;dbGetFigSetGroupName dbGetCellViewFigSetGroups(cv))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742729"></a>&gt; (&quot;figSet1&quot; &quot;figSet2&quot;)</pre>
+<p>
+<a name="pgfId-1742730"></a>Creates a FigSetGroup <code>fsgroup1</code> in the cellview <code>cv</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dbFindFigSetGroup
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742739"></a><a name="73292"></a>dbFindFi<a name="dbFindFigSetGroup"></a>gSetGroup</h3>
+<a name="pgfId-1742741"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dbFindFigSetGroup(
+<code><em>d_cellView
+T_figSet
+</em></code>)
+=&gt; <code><em>d_figSetGroup</em></code> / nil</pre>
+
+<h4>
+<a name="pgfId-1742742"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742744"></a>Searches the specified cellview for a FigSetGroup that has the same name as the specified FigSet.</p>
+
+
+
+<h4>
+<a name="pgfId-1742745"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742746">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742748"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellView</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742750"></a>ID of the cellview.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742752"></a><span class="webflare-courier-new" style="white-space:pre"><em>T_figSet</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742754"></a>ID of the FigSet.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742756"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742757">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742759"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_figSetGroup</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742761"></a>ID of the FigSetGroup found.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742763"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742765"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742767"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742768"></a>dbFindFigSetGroup(cv figset1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742769"></a>&gt; db:0x32e3f19b</pre>
+<p>
+<a name="pgfId-1742770"></a>Searches for the FigSet name <code>figset1</code> in the cellview <code>cv</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dbFindFigSetGroupByName
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742779"></a><a name="10921"></a>dbFindFigSe<a name="dbFindFigSetGroupByName"></a>tGroupByName</h3>
+<a name="pgfId-1742781"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dbFindFigSetGroupByName(
+<code><em>d_cellView
+t_name
+</em></code>)
+=&gt;<code><em>d_figSetGroup</em></code> / nil</pre>
+
+<h4>
+<a name="pgfId-1742782"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742784"></a>Searches for the specified FigSetGroup name in the given cellview.</p>
+
+
+
+<h4>
+<a name="pgfId-1742785"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742786">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742788"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellView</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742790"></a>ID of the cellview.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742792"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_name</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742794"></a>Name of the FigSetGroup.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742796"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742797">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742799"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_figSetGroup</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742801"></a>ID of the FigSetGroup found.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742803"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742805"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742807"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742808"></a>dbFindFigSetGroupByName(cv &quot;fs0&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742809"></a>&gt; db:0x32e3f19b</pre>
+<p>
+<a name="pgfId-1742810"></a>Searches for the FigSetGroup name <code>fs0</code> in the cellview <code>cv</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dbGetFigSetGroupName
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742819"></a><a name="93396"></a>dbGetFigSet<a name="dbGetFigSetGroupName"></a>GroupName</h3>
+<a name="pgfId-1742821"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dbGetFigSetGroupName(
+<code><em>d_figSetGroup
+</em></code>)
+=&gt; <code><em>t_name</em></code> / nil</pre>
+
+<h4>
+<a name="pgfId-1742822"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742824"></a>Returns the name of the specified FigSetGroup object.</p>
+
+
+
+<h4>
+<a name="pgfId-1742825"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742826">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742828"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_figSetGroup</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742830"></a>ID of the FigSetGroup object.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742832"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742833">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742835"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_name</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742837"></a>Name of the FigSetGroup object.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742839"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742841"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742843"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742844"></a>dbGetFigSetGroupName(fsg1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742845"></a>&gt; &quot;FS_0&quot;</pre>
+<p>
+<a name="pgfId-1742846"></a>The name of the <code>fsg1</code> object is <code>FS_0</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dbGetCellViewFigSetGroups
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742855"></a><a name="41947"></a>dbGetCellVie<a name="dbGetCellViewFigSetGroups"></a>wFigSetGroups</h3>
+<a name="pgfId-1742857"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dbGetCellViewFigSetGroups(
+<code><em>d_cellView
+</em></code>)
+=&gt; <code><em>l_figSetGroups</em></code> / nil</pre>
+
+<h4>
+<a name="pgfId-1742858"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742860"></a>Returns a list of FigSetGroups in the specified cellview.</p>
+
+
+
+<h4>
+<a name="pgfId-1742861"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742862">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742864"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellView</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742866"></a>ID of the cellview.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742868"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742869">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742871"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_figSetGroups</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742873"></a>The list of FigSetGroups.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742875"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742877"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742879"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742880"></a>dbGetCellViewFigSetGroups(cv)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742881"></a>&gt; (db:0x32e3f19b db:0x32e3f19c)</pre>
+<p>
+<a name="pgfId-1742882"></a>Returns the FigSetGroups <code>db:0x32e3f19b</code> and <code>db:0x32e3f19c</code> in the cellview <code>cv</code>.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dbIsFigSetGroup
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742891"></a><a name="62175"></a>dbIsFigS<a name="dbIsFigSetGroup"></a>etGroup</h3>
+<a name="pgfId-1742893"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dbIsFigSetGroup(
+<code><em>d_object
+</em></code>)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1742894"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742896"></a>Determines whether the specified object is a FigSetGroup.</p>
+
+
+
+<h4>
+<a name="pgfId-1742897"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742898">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742900"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_object</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742902"></a>ID of the object.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742904"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742905">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742907"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742909"></a>The object is a FigSetGroup.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742911"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742913"></a>The object is not a FigSetGroup.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742915"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742916"></a>dbIsFigSetGroup(dbId)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742917"></a>&gt; nil</pre>
+<p>
+<a name="pgfId-1742918"></a>The object <code>dbId</code> is not a FigSetGroup.</p>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dbDeleteFigSetGroup
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+
+
+
+<h3>
+<a name="pgfId-1742927"></a><a name="32389"></a>dbDelete<a name="dbDeleteFigSetGroup"></a>FigSetGroup</h3>
+<a name="pgfId-1742929"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dbDeleteFigSetGroup(
+<code><em>d_figSetGroup
+</em></code>)
+=&gt; t / nil</pre>
+
+<h4>
+<a name="pgfId-1742930"></a>Description</h4>
+
+<p>
+<a name="pgfId-1742932"></a>Deletes the specified FigSetGroup, including the hierarchy of FigSetGroups that may exist in this FigSetGroup.</p>
+
+
+
+<h4>
+<a name="pgfId-1742933"></a>Arguments</h4>
+<table class="webflareTable" id="#id1742934">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742936"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_figSetGroup</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742938"></a>ID of the FigSetGroup to delete.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742940"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1742941">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742943"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742945"></a>The FigSetGroup was deleted.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742947"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1742949"></a>Returned in case of failure.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a name="pgfId-1742951"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742952"></a>fs1 = txCreateFigSet(cv &quot;figSet1&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742953"></a>&gt; tx@0x362ed0d0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742954"></a>txAppendObjectToFigSet(fs1 txCreateFigSet(cv &quot;figSet2&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742955"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742956"></a>fsgroup1 = dbMakeFigSetGroup(cv fs1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742957"></a>&gt; db:0x32e3f19b</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742958"></a>dbGetCellViewFigSetGroups(cv)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742959"></a>&gt; (db:0x32e3f19b db:0x32e3f19c)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742960"></a>dbDeleteFigSetGroup(fsgroup1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742961"></a>&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742962"></a>dbGetCellViewFigSetGroups(cv)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1742963"></a>&gt; nil</pre>
+
+<p>
+<a name="pgfId-1747565"></a></p>
+
+<!-- [TOPIC_END] -->
+
+<p>
+<a name="pgfId-1755474"></a></p>
+
+
+
+
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="figure.html" id="prev" title="Figure Database Access Functions">Figure Database Access Functio ...</a></em></b><b><em><a href="mpt.html" id="nex" title="Multi-Patterning Technology Database Access Functions (ICADVM20.1 Only)">Multi-Patterning Technology Da ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

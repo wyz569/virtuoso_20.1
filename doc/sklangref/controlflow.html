@@ -1,0 +1,3657 @@
+
+<html><head><title>Flow Control Functions</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-08-16" />
+<meta name="CreateTime" content="1597634095" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes SKILL functions that are common to all of the Cadence tools used in a graphic or nongraphic environment." />
+<meta name="DocTitle" content="Cadence SKILL Language Reference" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Flow Control Functions" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="sklangref" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-16" />
+<meta name="ModifiedTime" content="1597634095" />
+<meta name="NextFile" content="inputoutput.html" />
+<meta name="Group" content="SKILL Language" />
+<meta name="Platform" content="Cadence Shared Tools" />
+<meta name="PrevFile" content="logicalrel.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="SKILL" />
+<meta name="ProductFamily" content="SKILL" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Cadence SKILL Language Reference -- Flow Control Functions" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="sklangrefICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="sklangrefTOC.html">Contents</a></li><li><a class="prev" href="logicalrel.html" title="Logical and Relational Functions">Logical and Relational Functio ...</a></li><li style="float: right;"><a class="viewPrint" href="sklangref.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="inputoutput.html" title="Input Output Functions">Input Output Functions</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Cadence SKILL Language Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>10
+<a name="pgfId-1008200"></a></h1>
+<h1>
+<a name="pgfId-1037758"></a><hr />
+Flow Control Functions<hr />
+</h1>
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=case
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1038670"></a><a name="case"></a><a name="11995"></a>case</h3>
+<a name="pgfId-1038673"></a><a name="marker-1038671"></a><a name="marker-1038674"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+case( 
+<code><em>g_keyForm</em></code> 
+<code><em>l_clause1</em></code> 
+[ <code><em>l_clause2</em></code> ... ] 
+) 
+=&gt; <code><em>g_result </em></code>/ <code>nil</code></pre>
+<h4>
+<a name="pgfId-1038675"></a>Description</h4>
+
+<p>
+<a name="pgfId-1038677"></a>Branches to one of the clauses depending on the value of the given expression. caseq() evaluates g_keyForm and matches the resulting value sequentially against the clauses until it finds a match. Once a match is found it stops searching the clauses, evaluates the forms in the matching clause, and returns the resulting value. This is a syntax function. </p>
+<p>
+<a name="pgfId-1038678"></a>Each l_clause is in turn a list of the form (g_keys g_expr1 [g_expr2 ...]) in which the first element, that is g_keys, is either an atom (that is, a scalar) of any data type or a list of keys (to be compared with the given expression). When using a list of keys, specify it as a list of one or more lists to distinguish it from a list of scalar keys, as shown in Example 2. If any of the keys matches the value from g_keyForm, that clause is selected. Keys are always treated as constants and are never evaluated. </p>
+<p>
+<a name="pgfId-1038679"></a>The symbol t has special meaning as a key in that it matches anything. It acts as a catch-all and should be handled last to serve as a default case when no other match is found. To match the value t, use a list of t as the key.</p>
+
+<h4>
+<a name="pgfId-1066146"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066177">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066179"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_keyForm</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066181"></a>An expression whose value is evaluated and tested for equality against the keys in each clause. </p>
+<p>
+<a name="pgfId-1066196"></a>A match occurs when either the selector is equal to the key or the selector is equal to one of the elements in the list of keys. If a match is found, the expressions in that clause and that clause only (that is, the first match) are executed. The value of case is then the value of the last expression evaluated (that is, the last expression in the clause selected). If there is no match, case returns nil.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066183"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_clause1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066185"></a>An expression whose first element is an atom or list of atoms to be compared against the value of <span class="webflare-courier-new" style="white-space:pre"><em>g_keyForm</em></span>. The remainder of the <span class="webflare-courier-new" style="white-space:pre"><em>l_clause</em></span> is evaluated if a match is found. </p>
+<p>
+<a name="pgfId-1066203"></a><strong>Note</strong>: Do not put quotes or use the list() function when specifying the lists in a clause.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066187"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_clause2 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066189"></a>Zero or more clauses of the same form as <span class="webflare-courier-new" style="white-space:pre"><em>l_clause1</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1066153"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066208">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066210"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_resultb</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066212"></a>Returns the value of the last expression evaluated in the matched clause, or <code>nil</code> if there is no match.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066214"></a><code>nil</code> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066216"></a>If there is no match.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1038690"></a>Example 1</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038691"></a>nameofmonth = &quot;February&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038692"></a>month = case( nameofmonth</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038693"></a>                (&quot;January&quot; 1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038694"></a>                (&quot;February&quot; 2)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038695"></a>                (t &#39;Other))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038696"></a>=&gt; 2</pre>
+<h4>
+<a name="pgfId-1038697"></a>Example 2</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038698"></a>listofnums = list(2 4 6)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038699"></a>case( listofnums</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038700"></a> (( (1 2 3) ) &#39;onetwothree)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038701"></a> (( (1 3 5)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038702"></a>    (7 9 11) ) &#39;odd)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038703"></a> (( (2 4 6)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038704"></a>    (8 10 12) ) &#39;even)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038705"></a> (t &#39;unknown))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038706"></a>=&gt; even</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038707"></a></pre>
+<h4>
+<a name="pgfId-1038708"></a>Example 3</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038709"></a>case( myBool</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038710"></a> (nil &#39;never)&#160;&#160;; this will never match, it is a list of no keys</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038711"></a> (( nil ) nil) ; matches nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038712"></a> (( t ) t)&#160;&#160;   ; matches t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038713"></a> (t (error &quot;Expected t or nil&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038714"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038715"></a></pre>
+<h4>
+<a name="pgfId-1038716"></a>Example 4</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038717"></a>shapeType=&quot;line&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038718"></a>rectCount=0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038719"></a>labelOrLineCount=0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038720"></a>miscount=0</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038721"></a>case( shapeType </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038722"></a>(&quot;rect&quot; ++rectCount println( &quot;Shape is a rectangle&quot; ))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038723"></a>(( &quot;label&quot; &quot;line&quot; ) ++labelOrLineCount println( &quot;Shape is a line or a label&quot; ))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038724"></a>(t ++miscount println( &quot;Shape is miscellaneous&quot; ))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038725"></a>) ; case</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038726"></a>=&gt; Shape is a line or a label</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038727"></a></pre>
+<h4>
+<a name="pgfId-1038728"></a>Example 5</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038729"></a>procedure(migrateShape(shape &quot;d&quot;)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-1038730"></a>case(list(shape-&gt;layerName shape-&gt;purpose)</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a name="pgfId-1038731"></a>(((&quot;POLY&quot; &quot;test1&quot;))</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a name="pgfId-1038732"></a> shape-&gt;layerName = &quot;CPO&quot;<br /> shape-&gt;purpose = &quot;drawing&quot;</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a name="pgfId-1038733"></a>)
+(((&quot;Oxide&quot; &quot;drawing&quot;) (&quot;abcd&quot; &quot;efgh&quot;))
+&#160;&#160;&#160;&#160;println(shape-&gt;layerName)
+)
+(((&quot;M1&quot; &quot;net&quot;))
+&#160;&#160;&#160;&#160;shape-&gt;purpose = &quot;label&quot;
+)
+(((&quot;M2&quot; &quot;net&quot;))
+&#160;&#160;&#160;&#160;shape-&gt;purpose = &quot;label&quot;
+)
+(((&quot;M3&quot; &quot;net&quot;))
+&#160;&#160;&#160;&#160;shape-&gt;purpose = &quot;label&quot;
+)
+(((&quot;M4&quot; &quot;net&quot;))
+&#160;&#160;&#160;&#160;shape-&gt;purpose = &quot;label&quot;<br />)<br />)<br />) ; </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038734"></a></pre>
+<h4>
+<a name="pgfId-1038735"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1038653"></a><a href="logicalrel.html#45931">eq</a>, <a href="logicalrel.html#54848">equal</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=caseq
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1038809"></a><a name="caseq"></a><a name="43885"></a>caseq</h3>
+<a name="pgfId-1038811"></a><a name="marker-1038812"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+caseq( 
+<code><em>g_keyForm</em></code> 
+<code><em>l_clause1</em></code> 
+[ <code><em>l_clause2</em></code> ... ] 
+) 
+=&gt; <code><em>g_result </em></code>/ <code>nil</code></pre>
+<h4>
+<a name="pgfId-1038813"></a>Description</h4>
+
+<p>
+<a name="pgfId-1038815"></a>Works like the case() function, but uses eq() to find a matching clause instead of the equal() function. The keys used with caseq() should therefore not be strings or lists. In case you want to use a string value or a list, SKILL recommends using the case() function. See <a href="logicalrel.html#45931">eq</a> for details on the difference between the eq() and equal() functions. </p>
+
+<h4>
+<a name="pgfId-1066259"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066266">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066268"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_keyForm</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066270"></a>An expression whose value is evaluated and tested for equality against the comparators in each clause. A match occurs when either the selector is equal to the comparator or the selector is equal to one of the elements in the list given as the comparator.</p>
+<p>
+<a name="pgfId-1066285"></a>If a match is found, the expressions in that clause and that clause only (that is, the first match) are executed. The value of case is then the value of the last expression evaluated (that is, the last expression in the clause selected). </p>
+<p>
+<a name="pgfId-1066292"></a>If there is no match, case returns nil.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066272"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_clause1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066274"></a>An expression whose first element is an atom or list of atoms to be compared against the value of <span class="webflare-courier-new" style="white-space:pre"><em>g_keyForm</em></span>. The remainder of the <span class="webflare-courier-new" style="white-space:pre"><em>l_clause</em></span> is evaluated if a match is found.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066276"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_clause2 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066278"></a>Zero or more clauses of the same form as <span class="webflare-courier-new" style="white-space:pre"><em>l_clause1</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1066263"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066297">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066299"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066301"></a>Returns the value of the last expression evaluated in the matched clause, or <code>nil</code> if there is no match.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066303"></a><code>nil</code> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066305"></a>If there is no match.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1038829"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038830"></a>caseq(value</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038831"></a>((nil) printf(&quot;Failed.\n&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038832"></a>(indeterminate printf(&quot;Indeterminate.\n&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038833"></a>((t) printf(&quot;Succeeded.\n&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038834"></a>(t printf(&quot;Default.\n&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038835"></a>)) </pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=catch
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1038880"></a>cat<a name="catch"></a>ch</h3>
+<a name="pgfId-1038881"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+catch(
+<code><em>s_tag
+g_form
+</em></code>) 
+=&gt; <code><em>g_result</em></code></pre>
+<h4>
+<a name="pgfId-1038883"></a>Description</h4>
+
+<p>
+<a name="pgfId-1038884"></a>Establishes a control transfer or a return point for the <code>throw</code> and <code>err</code> functions. The return point is identified with a <span class="webflare-courier-new" style="white-space:pre"><em>s_tag</em></span>. So, when a particular tag/exception is caught, <code>catch</code> evaluates <span class="webflare-courier-new" style="white-space:pre"><em>g_form</em></span>. If the forms execute normally (without error), the value of the last body form is returned from the <code>catch</code>. There can also be nested <code>catch</code> blocks and <span class="webflare-courier-new" style="white-space:pre"><em>s_tag</em></span> can be <code>t</code> (the value <code>t</code>  the <code>catch</code> function catch any condition thrown by <code>throw</code>).</p>
+
+<h4>
+<a name="pgfId-1038886"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066310">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066312"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_tag</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066314"></a>Identifies the return point for the <code>throw</code> and <code>err</code> functions</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066316"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_form</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066318"></a>Specifies the forms that are evaluated</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1038889"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066323">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066325"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066327"></a>Returns the value of the last form if the forms exit normally, otherwise, returns the values that are thrown if a <code>throw</code> or <code>err</code> occurs</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1038891"></a>Example</h4>
+
+<p>
+<a name="pgfId-1038892"></a>The following example describes a nested catch. The tag, &#39;<code>wrongPlat</code>, is caught by the default handler <code>catch(t . . .). </code></p>
+<p>
+<a name="pgfId-1038893"></a></p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038894"></a>catch(t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038895"></a>    catch(&#39;issue1
+&#160;&#160;&#160;&#160; printf(&quot;Hello &quot;)<br />   catch(&#39;issue2<br />    when(cdsPlat() == &quot;lnx86&quot;<br />     throw(&#39;wrongPlat printf(&quot;\n&quot;) nil); no exception is thrown on non-lnx86 platforms<br />     )<br />     printf(&quot;world\n&quot;)<br />    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038896"></a> &#160;&#160;&#160;&#160;  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038897"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038898"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038899"></a>Hello</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038900"></a>=&gt; nil </pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=cond
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1038931"></a><a name="cond"></a><a name="29071"></a>cond<a name="marker-1038930"></a></h3>
+<a name="pgfId-1038933"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+cond( 
+<code><em>l_clause1</em></code> ... 
+) 
+=&gt; <code><em>g_result</em></code></pre>
+<h4>
+<a name="pgfId-1038934"></a>Description</h4>
+
+<p>
+<a name="pgfId-1070335"></a>Examines conditional clauses from left to right until either a clause is satisfied or there are no more clauses remaining. This is a syntax function.</p>
+<p>
+<a name="pgfId-1070573"></a><code>cond</code> clauses can have one of the following forms:</p>
+<ul><li>
+<a name="pgfId-1070574"></a><code>(</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_condition g_expr1 </em></span><code>... )</code> where <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> is any expression</li><li>
+<a name="pgfId-1070632"></a><code>(</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> <code>)</code></li><li>
+<a name="pgfId-1070898"></a>Alternate clause, &#8220;<code>=&gt;</code> <code>clause&#8221;</code> where <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> =&gt; <span class="webflare-courier-new" style="white-space:pre"><em>u_expression</em></span></li><li>
+<a name="pgfId-1070899"></a>Else clause of the form (<span class="webflare-courier-new" style="white-space:pre"><em>else g_expr ...</em></span>), where the condition is replaced by the symbol <code>else</code>. This form is applicable only in SKILL++/Scheme mode.</li></ul>
+
+
+
+<p>
+<a name="pgfId-1070682"></a>Each clause is considered in succession. If <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> evaluates to non-<code>nil</code> then processing stops and the value of the clause is used for the whole <code>cond</code> form. If one or more <span class="webflare-courier-new" style="white-space:pre"><em>g_expr</em></span> forms are given, they are evaluated in order and the value of the final <span class="webflare-courier-new" style="white-space:pre"><em>g_expr</em></span> is used as the value of the whole <span class="webflare-courier-new" style="white-space:pre"><em>cond</em></span> form. If no <span class="webflare-courier-new" style="white-space:pre"><em>g_expr</em></span> forms are given, the value of <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> is used. </p>
+<p>
+<a name="pgfId-1070792"></a>If the clause uses the alternate clause form, &quot;<code>=&gt; clause</code>&quot;, <span class="webflare-courier-new" style="white-space:pre"><em>u_expression</em></span> must evaluate to a function, which is called with the value of <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> as a single argument. The value returned by this function is used as the value of the whole <code>cond</code> form. </p>
+<p>
+<a name="pgfId-1070917"></a>If an <code>else</code> clause is encountered, its <span class="webflare-courier-new" style="white-space:pre"><em>g_expr</em></span> forms are evaluated unconditionally and the value of the final <span class="webflare-courier-new" style="white-space:pre"><em>g_expr</em></span> is used as the value of the whole <code>cond</code> form.</p>
+
+<h4>
+<a name="pgfId-1038938"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066336">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066338"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_clause1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066340"></a>Each clause should be of the form (<span class="webflare-courier-new" style="white-space:pre"><em>g_condition g_expr1 ...</em></span>) where if <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> evaluates to non-<code>nil</code> then all the succeeding expressions are evaluated.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1038940"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066349">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066351"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066353"></a>Value of the last expression of the satisfied clause, or <code>nil</code> if no clause is satisfied.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1038942"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038943"></a>procedure( test(x)<br />    cond(((null x) (println &quot;Arg is null&quot;))<br />            ((numberp x)(println &quot;Arg is a number&quot;))<br />            ((stringp x)(println &quot;Arg is a string&quot;))<br />            (t (println &quot;Arg is an unknown type&quot;))))<br /></pre>
+
+<p>
+<a name="pgfId-1038872"></a>test( nil )          =&gt; nil; Prints &quot;Arg is null&quot;.<br />test( 5 )            =&gt; nil; Prints &quot;Arg is a number&quot;.<br />test( &#39;sym )         =&gt; nil; Prints &quot;Arg is an unknown type&quot;.<br /></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=decode
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1071153"></a>decode</h3>
+<a name="pgfId-1071156"></a><a name="marker-1071154"></a><a name="marker-1071157"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+decode( 
+<code><em>g_keyForm</em></code> 
+<code><em>l_clause1</em></code> 
+[ <code><em>l_clause2</em></code> ... ] 
+) 
+=&gt; <code><em>g_result </em></code>/ <code>nil</code></pre>
+<h4>
+<a name="pgfId-1071158"></a>Description</h4>
+
+<p>
+<a name="pgfId-1071160"></a>Branches to one of the clauses depending on the value of the given expression. decode() evaluates <span class="webflare-courier-new" style="white-space:pre"><em>g_keyForm</em></span> and matches the resulting value sequentially against the clauses until it finds a match. Once a match is found it stops searching the clauses, evaluates the forms in the matching clause, and returns the resulting value.</p>
+
+<h4>
+<a name="pgfId-1071178"></a>Arguments</h4>
+<table class="webflareTable" id="#id1071163">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071165"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_keyForm</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071167"></a>An expression whose value is evaluated and tested for equality against the key in each clause. </p>
+<p>
+<a name="pgfId-1071168"></a>A match occurs when either the selector is equal to the key. If a match is found, the expressions in that clause and that clause only (that is, the first match) are executed. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071170"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_clause1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071266"></a>A list of the form (<span class="webflare-courier-new" style="white-space:pre"><em>g_keys g_expr1</em></span> [<span class="webflare-courier-new" style="white-space:pre"><em>g_expr2</em></span> ...]) in which the first element, that is <span class="webflare-courier-new" style="white-space:pre"><em>g_keys</em></span>, is an atom (that is, a scalar) of any data type. If any of the keys matches the value from <span class="webflare-courier-new" style="white-space:pre"><em>g_keyForm</em></span>, the clause that contains it is selected. Keys are always treated as constants and are never evaluated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071175"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_clause2 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071177"></a>Any other clauses in the same form as <span class="webflare-courier-new" style="white-space:pre"><em>l_clause1</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1071188"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1071179">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071181"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071183"></a>Returns the value of the last expression evaluated in the matched clause.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071185"></a><code>nil</code> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071187"></a>If there is no match.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1071189"></a>Example 1</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1071190"></a>v = &quot;test&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1071347"></a>decode(v
+&#160;&#160;&#160;&#160;  (1 nil)<br />   (&quot;test&quot; printf(&quot;test found\n&quot;))<br />   (2 t)<br />   (t nil)<br />  )</pre>
+
+<p>
+<a name="pgfId-1071149"></a>=&gt; 2</p>
+
+<h4>
+<a name="pgfId-1071398"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1071405"></a><a href="controlflow.html#11995">case</a>, <a href="controlflow.html#43885">caseq</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=do
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039511"></a><a name="do"></a>do</h3>
+<a name="pgfId-1039513"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+do( 
+( 
+( 
+<code><em>s_var1</em></code> 
+<code><em>g_initExp1</em></code> 
+[ <code><em>g_stepExp1</em></code> ] 
+)
+( 
+<code><em>s_var2</em></code> 
+<code><em>g_initExp2</em></code> 
+[ <code><em>g_stepExp2</em></code> ] 
+) ... 
+)
+( 
+<code><em>g_terminationExp</em></code> 
+<code><em>g_terminationExp1</em></code> ... 
+)
+            <code><em>g_loopExp1</em></code> 
+            <code><em>g_loopExp2</em></code> ... 
+)
+=&gt; <code><em>g_value</em></code></pre>
+<h4>
+<a name="pgfId-1039514"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039517"></a>Iteratively <a name="marker-1039516"></a>executes one or more expressions. Used in SKILL++ mode only.</p>
+<p>
+<a name="pgfId-1039518"></a>Use <code>do</code> to iteratively execute one or more expressions. The <code>do</code> expression provides a <code>do-while</code> facility allowing multiple loop variables with arbitrary variable initializations and step expressions. You can declare</p>
+<ul><li>
+<a name="pgfId-1039519"></a>One or more loop variables, specifying for each variable both its initial value and how it gets updated each time around the loop. </li><li>
+<a name="pgfId-1039520"></a>A termination condition which is evaluated before the body expressions are executed.</li><li>
+<a name="pgfId-1039521"></a>One or more termination expressions to be evaluated upon termination to determine a return value.</li></ul>
+
+
+<p>
+<a name="pgfId-1039522"></a><strong>A do Expression Evaluates in Two Phases</strong></p>
+<ul><li>
+<a name="pgfId-1039523"></a><strong>Initialization phase</strong><br />
+<a name="pgfId-1039524"></a>The initialization expressions <span class="webflare-courier-new" style="white-space:pre"><em>g_initExp1</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>g_initExp2</em></span>, ... are evaluated in an unspecified order and the results bound to the local variables <span class="webflare-courier-new" style="white-space:pre"><em>var1</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>var2</em></span>, ... </li><li>
+<a name="pgfId-1039525"></a><strong>Iteration phase</strong><br />
+<a name="pgfId-1039526"></a>This phase is a sequence of steps, informally described as going around the loop zero or more times with the exit determined by the termination condition. </li></ul>
+
+
+
+<p>
+<a name="pgfId-1039527"></a>More formally stated:</p>
+<ol><li>
+<a name="pgfId-1039528"></a>Each iteration begins by evaluating the termination condition. <br />
+<a name="pgfId-1039529"></a>If the termination condition evaluates to a non-<code>nil</code> value, the <code>do</code> expression exits with a return value computed as follows:</li><li>
+<a name="pgfId-1039530"></a>The termination expressions <span class="webflare-courier-new" style="white-space:pre"><em>terminationExp1</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>terminationExp2</em></span>, ... are evaluated in order. The value of the last termination condition is returned as the value of the <code>do</code> expression. <br />
+<a name="pgfId-1039531"></a>Otherwise, the <code>do</code> expression continues with the next iteration as follows.</li><li>
+<a name="pgfId-1039532"></a>The loop body expressions <span class="webflare-courier-new" style="white-space:pre"><em>g_loopExp1</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>g_loopExp2</em></span>, ... are evaluated in order.</li><li>
+<a name="pgfId-1039533"></a>The step expressions <span class="webflare-courier-new" style="white-space:pre"><em>g_stepExp1</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>g_stepExp2</em></span>, ..., if given, are evaluated in an unspecified order.</li><li>
+<a name="pgfId-1039534"></a>The local variables <span class="webflare-courier-new" style="white-space:pre"><em>var1</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>var2</em></span>, ... are bound to the above results. Reiterate from step one.</li></ol>
+
+
+
+
+
+
+
+<h4>
+<a name="pgfId-1039535"></a>Example</h4>
+
+<p>
+<a name="pgfId-1039536"></a>By definition, the sum of the integers <em>1</em>, ..., <em>N</em> is the <em>Nth</em> triangular number. The following example finds the first triangular number greater than a given limit.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039537"></a>procedure( trTriangularNumber( limit )<br />    do(<br />        (                   ;;; start loop variables<br />            ( i 0 i+1 )<br />            ( sum 0 )       ;;; no step expression<br />                            ;;; same as ( sum 0 sum )<br />        )                   ;;; end loop variables<br />        ( sum &gt; limit       ;;; test<br />            sum             ;;; return result<br />            ) <br />        sum = sum+i         ;;; body<br />        )                     ; do<br />    )                         ; procedure<br />
+trTriangularNumber( 4 ) =&gt; 6
+trTriangularNumber( 5 ) =&gt; 6
+trTriangularNumber( 6 ) =&gt; 10</pre>
+<h4>
+<a name="pgfId-1039538"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1039492"></a><a href="controlflow.html#79647">while</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=exists
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1046360"></a><a name="exists"></a>exists</h3>
+<a name="pgfId-1046363"></a><a name="marker-1046361"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+exists( 
+<code><em>s_formalVar</em></code> 
+<code><em>l_valueList</em></code> 
+<code><em>g_predicateExpr</em></code> 
+)
+=&gt; <code><em>g_result
+</em></code>exists( 
+<code><em>s_key</em></code> 
+<code><em>o_table</em></code> 
+<code><em>g_predicateExpr</em></code> 
+)
+=&gt; <code>t</code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-1046364"></a>Description</h4>
+
+<p>
+<a name="pgfId-1046366"></a>Returns the first tail of <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> whose <code>car</code> satisfies a predicate expression. Also verifies whether an entry in an association table satisfies a predicate expression. This is a syntax form.</p>
+<p>
+<a name="pgfId-1046367"></a>This process continues to apply the <code>cdr</code> function successively through <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> until it finds a list element that causes <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span> to evaluate to non-<code>nil</code>. It then returns the tail that contains that list element as its first element.</p>
+<p>
+<a name="pgfId-1046368"></a>This function can also be used to verify whether an entry in an association table satisfies <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span>.</p>
+
+<h4>
+<a name="pgfId-1046369"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066358">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066360"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066362"></a>Local variable that is usually referenced in <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066364"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066366"></a>List of elements that are bound to <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span>, one at a time.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066368"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066370"></a>SKILL expression that usually uses the value of <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066372"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_key</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066374"></a>Key portion of an association table entry.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066376"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_table</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066378"></a>Association table containing the entries to be processed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1046375"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066387">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066389"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066391"></a>First tail of <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> whose <code>car</code> satisfies <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066393"></a><code>nil</code> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066395"></a>If none of the elements in <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> can satisfy it.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066397"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066399"></a>Entry in an association table satisfies <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1046379"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046380"></a>exists( x &#39;(1 2 3 4) (x &gt; 1) )  =&gt; (2 3 4)<br />exists( x &#39;(1 2 3 4) (x &gt; 4) ) =&gt; nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046381"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046382"></a>exists( key myTable (and (stringp key)<br />             (stringp myTable[key])))<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-1046383"></a>Tests an association table and verifies the existence of an entry where both the key and its corresponding value are of type <code>string</code>.</p>
+
+<h4>
+<a name="pgfId-1046384"></a>Reference</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046394"></a><a href="list.html#24905">car</a>, <a href="list.html#47242">cdr</a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=existss
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1046395"></a>exist<a name="existss"></a>ss</h3>
+<a name="pgfId-1046398"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+existss( 
+<code><em>s_formalVar</em></code> 
+<code><em>l_valueList</em></code> 
+<code><em>g_predicateExpr</em></code> 
+)
+=&gt; <code><em>g_result
+</em></code>existss( 
+<code><em>s_key</em></code> 
+<code><em>o_table</em></code> 
+<code><em>g_predicateExpr</em></code> 
+)
+=&gt; <code>t </code>/ <code>nil</code></pre>
+<h4>
+<a name="pgfId-1046399"></a>Description</h4>
+
+<p>
+<a name="pgfId-1046401"></a>Returns the first tail of <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> whose <code>car</code> satisfies a predicate expression. Also verifies whether an entry in an association table satisfies a predicate expression. In the SKILL++ mode, this function always locally wraps the loop or iterator local variable (<span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span>) in a <code>let</code> block while compiling the code. Local wrapping preserves the lexical scope of the loop variable. This function may work slower than its non-wrapped counterpart <code>exists</code>. This is a syntax form.</p>
+<p>
+<a name="pgfId-1046402"></a>This process continues to apply the <code>cdr</code> function successively through <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> until it finds a list element that causes <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span> to evaluate to non-<code>nil</code>. It then returns the tail that contains that list element as its first element.</p>
+<p>
+<a name="pgfId-1046403"></a>This function can also be used to verify whether an entry in an association table satisfies <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span>.</p>
+
+<h4>
+<a name="pgfId-1046404"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066404">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066406"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066408"></a>Local variable that is usually referenced in <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066410"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066412"></a>List of elements that are bound to <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span>, one at a time.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066414"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066416"></a>SKILL expression that usually uses the value of <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066418"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_key</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066420"></a>Key portion of an association table entry.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066422"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_table</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066424"></a>Association table containing the entries to be processed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1046410"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066433">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066435"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066437"></a>First tail of <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> whose <code>car</code> satisfies <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066439"></a><code>nil</code> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066441"></a>If none of the elements in <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> can satisfy it.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066443"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066445"></a>Entry in an association table satisfies <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1046414"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046415"></a>(defun test_exists (x)
+&#160;&#160;&#160;&#160;existss( x (list x x+1 x+9) println(x))
+&#160;&#160;&#160;&#160;println(x)
+&#160;&#160;&#160;&#160;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046416"></a>test_exists(9)</pre>
+
+<p>
+<a name="pgfId-1046348"></a> =&gt; 9<br />10<br />18<br />9<br />nil</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=for
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039864"></a><a name="for"></a>for</h3>
+<a name="pgfId-1053843"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+for( 
+<code><em>s_loopVar
+x_initialValue
+x_finalValue
+g_expr1
+</em></code>[ <code><em>g_expr2 ...</em></code> ]
+)
+=&gt; <code>t</code></pre>
+<h4>
+<a name="pgfId-1039867"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039868"></a>Evaluates the sequence g_expr1, g_expr2 ... for each loop variable value, beginning with x_initialValue and ending with x_finalValue. This is a syntax form.</p>
+<p>
+<a name="pgfId-1039869"></a>First evaluates the initial and final values, which set the initial value and final limit for the local loop variable named s_loopVar. Both x_initialValue and x_finalValue must be integer expressions. During each iteration, the sequence of expressions g_expr1, g_expr2 ... is evaluated and the loop variable is then incremented by one. If the loop variable is still less than or equal to the final limit, another iteration is performed. The loop terminates when the loop variable reaches a value greater than the limit. The maximum value for the loop variable is INT_MAX-1. The loop variable must not be changed inside the loop. It is local to the for loop and would not retain any meaningful value upon exit from the for loop.</p>
+
+<h4>
+<a name="pgfId-1039870"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066450">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066452"></a>s_loopVar </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066454"></a>Name of the local loop variable that must not be changed inside the loop.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066456"></a>x_initialValue </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066458"></a>Integer expression setting the initial value for the local loop variable.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066460"></a>x_finalValue </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066462"></a>Integer expression giving final limit value for the loop.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066464"></a>g_expr1 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066466"></a>Expression to evaluate inside loop.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066468"></a>g_expr2 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066470"></a>Additional expression(s) to evaluate inside loop.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039876"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066475">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066477"></a>t </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066479"></a>This construct always returns t.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039878"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039879"></a>sum = 0<br />for( i 1 10<br />&#160;&#160;&#160;&#160;sum = sum + i<br />&#160;&#160;&#160;&#160;printf(&quot;%d\n&quot; sum))<br />=&gt; t&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;; Prints 10 numbers and returns t.</pre>
+<h4>
+<a name="pgfId-1039880"></a>Reference</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039884"></a><a href="controlflow.html#RTF340030003300300036003a00">foreach</a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=fors
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1053464"></a><a name="fors"></a>fors</h3>
+<a name="pgfId-1053549"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+fors( 
+<code><em>s_loopVar
+x_initialValue
+x_finalValue
+g_expr1
+</em></code>[ <code><em>g_expr2 ...</em></code> ]
+)
+=&gt; <code>t</code></pre>
+<h4>
+<a name="pgfId-1053565"></a>Description</h4>
+
+<p>
+<a name="pgfId-1053582"></a>Evaluates the sequence g_expr1, g_expr2 ... for each loop variable value, beginning with x_initialValue and ending with x_finalValue. In the SKILL++ mode, this function always locally wraps the loop or iterator local variable (s_loopVar) in a let() block while compiling the code. Local wrapping preserves the lexical scope of the loop variable. This function may work slower than its non-wrapped counterpart <code>for</code>. This is a syntax form.</p>
+<p>
+<a name="pgfId-1053574"></a>First evaluates the initial and final values, which set the initial value and final limit for the local loop variable named s_loopVar. Both x_initialValue and x_finalValue must be integer expressions. During each iteration, the sequence of expressions g_expr1, g_expr2 ... is evaluated and the loop variable is then incremented by one. If the loop variable is still less than or equal to the final limit, another iteration is performed. The loop terminates when the loop variable reaches a value greater than the limit. The maximum value for the loop variable is INT_MAX-1.The loop variable must not be changed inside the loop. It is local to the for loop and would not retain any meaningful value upon exit from the for loop.</p>
+
+<h4>
+<a name="pgfId-1039891"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066484">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066486"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_loopVar</em></span> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066488"></a>Name of the local loop variable that must not be changed inside the loop</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066490"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_initialValue</em></span> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066492"></a>Integer expression setting the initial value for the local loop variable</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066494"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_finalValue</em></span> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066496"></a>Integer expression giving final limit value for the loop</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066498"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_expr1</em></span> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066500"></a>Expression to evaluate inside loop</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066502"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_expr2</em></span> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066504"></a>Additional expression(s) to evaluate inside loop</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039897"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066513">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066515"></a><code>t</code> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066517"></a>This construct always returns <code>t</code></p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039899"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053770"></a>(defun test_for (x)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053771"></a> fors( x x+1 x+9 println(x))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053772"></a> println(x)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053773"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053774"></a>test_for(9)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053775"></a> =&gt; 10</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053776"></a>11</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053777"></a>12</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053778"></a>13</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053779"></a>14</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053780"></a>15</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053781"></a>16</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053782"></a>17</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053783"></a>18</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1053784"></a>9</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039902"></a>nil</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=forall
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1046465"></a><a name="forall"></a>forall</h3>
+<a name="pgfId-1046568"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+forall(
+<code><em>s_formalVar
+l_valueList
+g_predicateExpr
+</em></code>)
+=&gt; <code>t</code> / <code>nil
+</code>forall(
+<code><em>s_key
+o_table
+g_predicateExpr
+</em></code>)
+=&gt; <code>t</code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-1039908"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039909"></a>Checks if g_predicateExpr evaluates to non-nil for every element in l_valueList. This is a syntax form.</p>
+<p>
+<a name="pgfId-1062913"></a>Verifies that an expression remains true for every element in a list. The forall function can also be used to verify that an expression remains true for every key/value pair in an association table. The syntax for association table processing is provided in the second syntax statement.</p>
+
+<h4>
+<a name="pgfId-1039911"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066522">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066524"></a>s_formalVar</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066526"></a>Local variable usually referenced in g_predicateExpr.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066528"></a>l_valueList</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066530"></a>List of elements that are bound to s_formalVar one at a time.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066532"></a>g_predicateExpr</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066534"></a>A SKILL expression that usually uses the value of s_formalVar.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066536"></a>s_key</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066538"></a>Key portion of the table entry.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066540"></a>o_table</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066542"></a>Association table containing the entries to be processed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039917"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066551">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066553"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066555"></a>If g_predicateExpr evaluates to non-nil for every element in l_valueList or for every key in an association table.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066557"></a>nil </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066559"></a>Otherwise.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039920"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039921"></a>forall( x &#39;(1 2 3 4) (x &gt; 0) )=&gt; t<br />forall( x &#39;(1 2 3 4) (x &lt; 4) )=&gt; nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039922"></a>forall(key myTable (and (stringp key)(stringp myTable[key])))<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-1039923"></a>Returns t if each key and its value in the association table are of the type string.</p>
+
+<h4>
+<a name="pgfId-1039924"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1072204"></a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=foralls
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039927"></a><a name="foralls"></a>foralls</h3>
+<a name="pgfId-1046682"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+foralls( 
+<code><em>s_formalVar
+l_valueList
+g_predicateExpr
+</em></code>)
+=&gt; <code>t</code> / <code>nil
+</code>foralls(
+<code><em>s_key
+o_table
+g_predicateExpr
+</em></code>)
+=&gt; <code>t</code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-1039931"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039932"></a>Checks if <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span> evaluates to non-nil for every element in l_valueList. In the SKILL++ mode, this function always locally wraps the loop or iterator local variable (s_formalVar) in a let block while compiling the code. Local wrapping preserves the lexical scope of the loop variable. This function may work slower than its non-wrapped counterpart forall. This is a syntax form.</p>
+<p>
+<a name="pgfId-1039933"></a>Verifies that an expression remains true for every element in a list. The forall function can also be used to verify that an expression remains true for every key/value pair in an association table. The syntax for association table processing is provided in the second syntax statement.</p>
+
+<h4>
+<a name="pgfId-1039934"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066565">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066567"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066569"></a>Local variable usually referenced in g_predicateExpr.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066571"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066573"></a>List of elements that are bound to s_formalVar one at a time.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066575"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpr</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066577"></a>A SKILL expression that usually uses the value of s_formalVar.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066579"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_key</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066581"></a>Key portion of the table entry.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066583"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_table</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066585"></a>Association table containing the entries to be processed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039940"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066591">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066593"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066595"></a>If g_predicateExpr evaluates to non-nil for every element in l_valueList or for every key in an association table.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066597"></a><code>nil</code> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066599"></a>Otherwise.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039943"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039944"></a>(defun test_forall (x)
+&#160;&#160;&#160;&#160;foralls( x (list x x+1 x+9) println(x))
+&#160;&#160;&#160;&#160;println(x)
+&#160;&#160;&#160;&#160;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039945"></a>test_forall(9)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039946"></a> =&gt; 9<br />9<br />nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039947"></a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=foreach
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039950"></a><a name="foreach"></a>f<a name="RTF340030003300300036003a00"></a>oreach</h3>
+<a name="pgfId-1039952"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+foreach( 
+s_formalVar 
+g_exprList 
+g_expr1 
+[ g_expr2 ... ] 
+)
+=&gt; <code><em>l_valueList</em></code> / <code><em>l_result
+</em></code>foreach( 
+( 
+s_formalVar1... 
+s_formalVarN 
+) 
+g_exprList1... 
+g_exprListN 
+g_expr1 
+[ g_expr2 ... ] 
+)
+=&gt; <code><em>l_valueList</em></code> / <code><em>l_result
+</em></code>foreach( 
+s_formalVar 
+g_exprTable 
+g_expr1 
+[ g_expr2 ... ] 
+)
+=&gt; <code><em>o_valueTable</em></code> / <code><em>l_result</em></code></pre>
+<h4>
+<a name="pgfId-1039953"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039954"></a>Evaluates one or more expressions for each element of a list of values. This is a syntax form.</p>
+<p>
+<a name="pgfId-1039955"></a>foreach( s_formalVar g_exprList g_expr1 [ g_expr2 ... ] )<br />=&gt; l_valueList / l_result</p>
+<p>
+<a name="pgfId-1039956"></a>The first syntax form evaluates g_exprList, which returns a list l_valueList. It then assigns the first element from l_valueList to the formal variable s_formalVar and&#160;&#160;executes the expressions g_expr1, g_expr2 ... in sequence. The function then assigns the second element from l_valueList and repeats the process until l_valueList is exhausted.</p>
+<p>
+<a name="pgfId-1039957"></a>foreach( ( s_formalVar1...s_formalVarN ) g_exprList1... g_exprListN g_expr1 [ g_expr2 ... ] )<br />=&gt; l_valueList / l_result</p>
+<p>
+<a name="pgfId-1039958"></a>The second syntax form of foreach can iterate over multiple lists to perform vector operations. Instead of a single formal variable, the first argument is a list of formal variables followed by a corresponding number of expressions for value lists and the expressions to be evaluated. </p>
+<p>
+<a name="pgfId-1039959"></a>foreach( s_formalVar g_exprTable g_expr1 [ g_expr2 ... ])<br />=&gt; o_valueTable / l_result</p>
+<p>
+<a name="pgfId-1039960"></a>The third syntax form of foreach can be used to process the elements of an association table. In this case, s_formalVar is assigned each key of the association table one by one, and the body expressions are evaluated each iteration. The syntax for association table processing is provided in this syntax statement. </p>
+
+<h4>
+<a name="pgfId-1039961"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066609">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066611"></a>s_formalVar</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066613"></a>Name of the variable.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066615"></a>s_mappingFunction</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066617"></a>One of map, mapc, mapcan, mapcar, or maplist.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066619"></a>g_exprList</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066621"></a>Expression whose value is a list of elements to assign to the formal variable s_formalVar.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066623"></a>g_expr1, g_expr2 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066625"></a>Expressions to execute.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066627"></a>g_exprTable</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066629"></a>Association table whose elements are to be processed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039967"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066634">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066636"></a>l_valueList</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066638"></a>Value of the second argument, g_exprList. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066640"></a>l_result</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066642"></a>The result of the last expression evaluated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066644"></a>o_valueTable</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066646"></a>Value of g_exprTable.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039971"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039972"></a>foreach( x &#39;(1 2 3 4) println(x))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039973"></a>1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ; Prints the numbers 1 through 4.<br />2<br />3<br />4<br />=&gt; (1 2 3 4)&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;; Returns the second argument to foreach.</pre>
+
+<p>
+<a name="pgfId-1039974"></a>The next example shows foreach accessing an association table and printing each key and its associated data.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039975"></a>foreach(key myTable printf(&quot;%L : %L\n&quot; key myTable[key]))</pre>
+
+<p>
+<a name="pgfId-1039976"></a>Example with more than one loop variable:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039977"></a>(foreach (x y) &#39;(1 2 3) &#39;(4 5 6) (println x+y))<br />5<br />7<br />9<br />=&gt; (1 2 3)</pre>
+<h4>
+<a name="pgfId-1039992"></a>Errors and Warnings</h4>
+
+<p>
+<a name="pgfId-1039993"></a>The error messages from foreach might at times appear cryptic because some foreach forms get expanded to call the mapping functions mapc, mapcar, mapcan, and so forth. </p>
+
+<h4>
+<a name="pgfId-1039994"></a>Advanced Usage</h4>
+
+<p>
+<a name="pgfId-1039995"></a>The foreach function typically expands to call mapc; however, you can also request that a specific mapping function be applied by giving the name of the mapping function as the first argument to foreach. Thus, foreach can be used as an extremely powerful tool to construct new lists.</p>
+<p>
+<a name="pgfId-1039996"></a>Mapping functions are not accepted when this form is applied to association tables.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039997"></a>foreach( mapcar x &#39;(1 2 3) (x &gt;1))=&gt; (nil t t) <br />foreach( mapcan x &#39;(1 2 3) if((x &gt; 1) ncons(x))) =&gt; (2 3)<br />foreach( maplist x &#39;(1 2 3) length(x)) =&gt; (3 2 1)</pre>
+
+<p>
+<a name="pgfId-1039845"></a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=foreachs
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1040094"></a><a name="foreachs"></a>foreachs</h3>
+<a name="pgfId-1040098"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+foreachs( 
+<code><em>s_formalVar</em></code> 
+<code><em>g_exprList</em></code> 
+<code><em>g_expr1</em></code> 
+[ <code><em>g_expr2</em></code> ... ] 
+)
+=&gt; <code><em>l_valueList </em></code>/ <code><em>l_result
+</em></code>foreachs( 
+( 
+<code><em>s_formalVar1</em></code>... 
+<code><em>s_formalVarN 
+</em></code>) 
+<code><em>g_exprList1</em></code>... 
+<code><em>g_exprListN</em></code> 
+<code><em>g_expr1</em></code> 
+[ <code><em>g_expr2</em></code> ... ] 
+)
+=&gt; <code><em>l_valueList </em></code>/ <code><em>l_result
+</em></code>foreachs( 
+<code><em>s_formalVar</em></code> 
+<code><em>g_exprTable</em></code> 
+<code><em>g_expr1</em></code> 
+[ <code><em>g_expr2</em></code> ... ] 
+)
+=&gt; <code><em>o_valueTable / l_result</em></code></pre>
+<h4>
+<a name="pgfId-1040099"></a>Description</h4>
+
+<p>
+<a name="pgfId-1040101"></a>Evaluates one or more expressions for each element of a list of values. In the SKILL++ mode, this function always locally wraps the loop or iterator local variable, <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar,</em></span>in a <code>let</code> block while compiling the code. Local wrapping preserves the lexical scope of the loop variable. This function may work slower than its non-wrapped counterpart <code>foreach</code>. This is a syntax form.</p>
+<p>
+<a name="pgfId-1040102"></a>The first form shown in the syntax above evaluates <span class="webflare-courier-new" style="white-space:pre"><em>g_exprList</em></span>, which returns a list <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span>. It then assigns the first element from <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> to the formal variable <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span> and&#160;&#160;executes the expressions<em> </em><span class="webflare-courier-new" style="white-space:pre"><em>g_expr1</em></span><em>, </em><span class="webflare-courier-new" style="white-space:pre"><em>g_expr2 ...</em></span> in sequence. The function then assigns the second element from <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> and repeats the process until <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> is exhausted.</p>
+<p>
+<a name="pgfId-1040103"></a>The second form shown in the syntax above can iterate over multiple lists to perform vector operations. Instead of a single formal variable, the first argument is a list of formal variables followed by a corresponding number of expressions for value lists and the expressions to be evaluated. </p>
+<p>
+<a name="pgfId-1040104"></a>The third form shown in the syntax above can be used to process the elements of an association table. In this case, <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span> is assigned each key of the association table one by one, and the body expressions are evaluated each iteration. The syntax for association table processing is provided in this syntax statement. </p>
+
+<h4>
+<a name="pgfId-1040105"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066656">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066658"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066660"></a>Name of the local loop variable that must not be changed inside the loop</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1066662"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_mappingFunction</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067609"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067618"></a>One of <code>map</code>, <code>mapc</code>, <code>mapcan</code>, <code>mapcar</code>, or <code>maplist</code></p>
+<p>
+<a name="pgfId-1067611"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066666"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_exprList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066668"></a>Expression whose value is a list of elements to assign to the formal variable <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066670"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_expr1</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>g_expr2 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066672"></a>Expressions to execute</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066674"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_exprTable</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066676"></a>Association table whose elements are to be processed</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1040111"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066685">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066687"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066689"></a>Value of the second argument, <span class="webflare-courier-new" style="white-space:pre"><em>g_exprList</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066691"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066693"></a>The result of the last expression evaluated</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066695"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_valueTable</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066697"></a>Value of <span class="webflare-courier-new" style="white-space:pre"><em>g_exprTable</em></span></p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1040115"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040116"></a>toplevel(&#39;ils)
+(defun test_foreach (x)
+&#160;&#160;&#160;&#160;foreachs( x (list x x+1 x+9) println(x))
+&#160;&#160;&#160;&#160;println(x)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040117"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040118"></a>test_foreach(9)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040079"></a> =&gt; 9<br />10<br />18<br />9<br />nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1072282"></a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=if
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1042019"></a><a name="if"></a><a name="32493"></a>if</h3>
+<a name="pgfId-1040166"></a><a name="marker-1040164"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+if( 
+<code><em>g_condition</em></code> 
+<code><em>g_thenExpression</em></code> 
+[ <code><em>g_elseExpression</em></code> ] 
+) 
+=&gt; <code><em>g_result
+</em></code>if( 
+<code><em>g_condition</em></code> 
+then <code><em>g_thenExpr1</em></code> ... 
+[ else <code><em>g_elseExpr1</em></code> ... ] 
+) 
+=&gt; <code><em>g_result</em></code></pre>
+<h4>
+<a name="pgfId-1040167"></a>Description</h4>
+
+<p>
+<a name="pgfId-1040169"></a>Selectively evaluates two groups of one or more expressions. This is a syntax form.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040170"></a>if( <code><em>g_condition</em></code><em> </em><code><em>g_thenExpression</em></code> [ <code><em>g_elseExpression</em></code> ] ) <br />=&gt; <code><em>g_result</em></code></pre>
+
+<p>
+<a name="pgfId-1040171"></a>The <code>if</code> form evaluates <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span>, typically a relational expression, and executes <span class="webflare-courier-new" style="white-space:pre"><em>g_thenExpression</em></span> if the condition is true (that is, its value is non-<code>nil</code>); otherwise, <span class="webflare-courier-new" style="white-space:pre"><em>g_elseExpression</em></span> is executed. The value returned by <code>if</code> is the value of the corresponding expression evaluated. The <code>if</code> form can therefore be used to evaluate expressions conditionally.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040172"></a>if( <code><em>g_condition</em></code> then <code><em>g_thenExpr1</em></code> ... [ else <code><em>g_elseExpr1</em></code> ... ] ) <br />=&gt; <code><em>g_result</em></code></pre>
+
+<p>
+<a name="pgfId-1040173"></a>The second form of <code>if</code> uses the keywords <code>then</code> and <code>else</code> to group sequences of expressions for conditional execution. If the condition is true, the sequence of expressions between <code>then</code> and <code>else</code> (or the end of the <code>if</code> form) is evaluated, with the value of the last expression evaluated returned as the value of the form. If the condition is <code>nil</code> instead, the sequence of expressions following the <code>else</code> keyword (if any) is evaluated instead. Again, the value of the last expression evaluated is returned as the value of the form.</p>
+
+<h4>
+<a name="pgfId-1040174"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066707">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066709"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066711"></a>Any SKILL expression.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066713"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_thenExpression</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066715"></a>Any SKILL expression.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066717"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_elseExpression</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066719"></a>Any SKILL expression.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1040178"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066728">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066730"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066732"></a>The value of <span class="webflare-courier-new" style="white-space:pre"><em>g_thenExpression</em></span> if <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> has a non-<code>nil</code> value. The value of <span class="webflare-courier-new" style="white-space:pre"><em>g_elseExpression</em></span> is returned if the above condition is not true. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1040180"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040181"></a>x = 2<br />if( (x &gt; 5) 1 0)<br />=&gt; 0&#160;&#160;                   ; Returns 0 because x is less than 5.</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040182"></a>a = &quot;polygon&quot;<br />if( (a == &quot;polygon&quot;) print(a) ) <br />
+&quot;polygon&quot;&#160;&#160;               ; Prints the string polygon.<br />=&gt; nil                    ; Returns the result of print.<br /></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040183"></a>x = 5<br />if( x &quot;non-nil&quot; &quot;nil&quot; )<br />=&gt; &quot;non-nil&quot;              ; Returns &quot;non-nil&quot; because x was not<br />                          ; nil. If x was nil then &quot;nil&quot; would be<br />                          ; returned.<br /></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040184"></a>x = 7<br />if( (x &gt; 5) then 1 else 0)<br />=&gt; 1                      ; Returns 1 because x is greater than 5.<br /></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040185"></a>if( (x &gt; 5)<br />    then println(&quot;x is greater than 5&quot;)<br />        x + 1<br />    else print(&quot;x is less &quot;)<br />        x - 1)<br /></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1040186"></a>x is greater than 5       ; Printed if x was 7.<br />=&gt; 8&#160;&#160;                    ; Returned 8 if x was 7.</pre>
+<h4>
+<a name="pgfId-1040187"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1040151"></a><a href="controlflow.html#29071">cond</a>, <a href="controlflow.html#RTF340030003300300036003a00">foreach</a>, <a href="controlflow.html#14421">unless</a>, <a href="controlflow.html#79647">while</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=go
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1038977"></a><a name="go"></a><a name="16637"></a>go</h3>
+<a name="pgfId-1038980"></a><a name="marker-1038978"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+go( 
+<code><em>s_label</em></code> 
+)</pre>
+<h4>
+<a name="pgfId-1038981"></a>Description</h4>
+
+<p>
+<a name="pgfId-1038983"></a>Transfers control to the statement following the label argument. This is a syntax form.</p>
+<p>
+<a name="pgfId-1038984"></a>The <code>go</code> statement is only meaningful when it is used inside a <code>prog</code> statement. Control can be transferred to any labeled statement inside any <code>progs</code> that contain the <code>go</code> statement, but cannot be transferred to labeled statements in a <code>prog</code> that is not active at the time the <code>go</code> statement is executed. Usually, using <code>go</code> is considered poor programming style when higher level control structures such as <code>foreach</code> and <code>while</code> can be used.</p>
+
+<h4>
+<a name="pgfId-1038985"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066738">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066740"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_label</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066742"></a>Label you want to transfer control to inside a <code>prog</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1038987"></a>Value Returned</h4>
+
+<p>
+<a name="pgfId-1038988"></a>None</p>
+
+<h4>
+<a name="pgfId-1038989"></a>Example</h4>
+
+<p>
+<a name="pgfId-1038990"></a>The following example demonstrates how to use the <code>go</code> function form in a simple loop structure.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038991"></a>procedure( testGo( data )<br />    prog( ()<br />    start<br />        print( car( data ))<br />        data = cdr( data )<br />        if( data go( start )) ; go statement to jump to start.<br />))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1038992"></a>testGo( &#39;(a b c))<br />abc                           ; Prints the variable data.<br />=&gt; nil&#160;&#160;                      ; Returns nil.</pre>
+<h4>
+<a name="pgfId-1038993"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1038962"></a><a href="controlflow.html#RTF340030003300300036003a00">foreach</a>, <a href="controlflow.html#28115">return</a>, <a href="controlflow.html#79647">while</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=map
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1046981"></a><a name="map"></a><a name="59702"></a>map</h3>
+<a name="pgfId-1046984"></a><a name="marker-1046982"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+map( 
+<code><em>u_func</em></code> 
+<code><em>l_arg1</em></code> 
+[ <code><em>l_arg2</em></code> ... ] 
+) 
+=&gt; <code><em>l_arg1</em></code></pre>
+<h4>
+<a name="pgfId-1046985"></a>Description</h4>
+
+<p>
+<a name="pgfId-1046987"></a>Applies the given function to successive <em>sublists</em> of the argument lists and returns the first argument list. All of the lists should have the same length. This function is not the same as the standard Scheme <code>map</code> function. To get the behavior of the standard Scheme map function, use <code>mapcar</code> instead. </p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-1046988"></a>This function is usually used for its side effects, not its return value (see <code>mapc</code>). </div>
+<div class="webflare-information-macro webflare-macro-warning">
+<a name="pgfId-1046989"></a>
+This function is not the same as the standard Scheme map function. To get the behavior of the standard Scheme map function, use <a name="marker-1046990"></a>mapcar instead.</div>
+<h4>
+<a name="pgfId-1046991"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066752">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066754"></a><span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066756"></a>Function to apply to successive sublists. Must be a function that accepts lists as arguments.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066758"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066760"></a>Argument list.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066762"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066764"></a>Additional argument lists, which must be the same length as <span class="webflare-courier-new" style="white-space:pre"><em>l_arg1</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1046995"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066769">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066771"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066773"></a>The first argument list.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1046997"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046998"></a>map( &#39;list &#39;(1 2 3) &#39;(9 8 7) )<br />=&gt; (1 2 3)</pre>
+
+<p>
+<a name="pgfId-1046999"></a>No interesting side effect.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047000"></a>map( &#39;(lambda (x y) (print (append x y))) &#39;(1 2 3) &#39;(9 8 7) )<br />(1 2 3 9 8 7) (2 3 8 7) (3 7) <br />=&gt; (1 2 3)</pre>
+
+<p>
+<a name="pgfId-1047001"></a>Prints three lists as a side effect and returns the list <code>(1 2 3)</code>.</p>
+
+<h4>
+<a name="pgfId-1047002"></a>Reference</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047021"></a><a href="funcprog.html#11180">apply</a>, <a href="controlflow.html#RTF340030003300300036003a00">foreach</a>, <a href="controlflow.html#11262">mapc</a>, <a href="controlflow.html#24026">mapcar</a>, <a href="controlflow.html#51535">mapcan</a>, <a href="controlflow.html#62838">maplist</a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=mapc
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1047023"></a><a name="mapc"></a><a name="11262"></a>mapc</h3>
+<a name="pgfId-1047026"></a><a name="marker-1047024"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+mapc( 
+<code><em>u_func</em></code> 
+<code><em>l_arg1</em></code> 
+[ <code><em>l_arg2</em></code> ... ] 
+) 
+=&gt; <code><em>l_arg1</em></code></pre>
+<h4>
+<a name="pgfId-1047027"></a>Description</h4>
+
+<p>
+<a name="pgfId-1047029"></a>Applies a function to successive elements of the argument lists and returns the first argument list. All of the lists should have the same length. <code>mapc</code> returns <span class="webflare-courier-new" style="white-space:pre"><em>l_arg1</em></span>. </p>
+<p>
+<a name="pgfId-1047030"></a><code>mapc</code> is primarily used with a <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> that has side effects, because the values returned by the <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> are not preserved. <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> must be an object acceptable as the first argument to apply and it must accept as many arguments as there are lists. It is first passed the <code>car</code> of all the lists given as arguments. The elements are passed in the order in which the lists are specified. The second elements are passed to <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span>, and so on until the last element.</p>
+
+<h4>
+<a name="pgfId-1047031"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066779">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066781"></a><span class="webflare-courier-new" style="white-space:pre"><em>u_func </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066783"></a>Function to apply to argument lists.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066785"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg1 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066787"></a>Argument list.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066789"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg2 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066791"></a>Additional argument lists, which must be the same length as <span class="webflare-courier-new" style="white-space:pre"><em>l_arg1</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1047035"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066796">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066798"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg1 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066800"></a>The first argument list.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1047037"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047038"></a>mapc( &#39;list &#39;(1 2 3) &#39;(9 8 7) ) =&gt; (1 2 3)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047039"></a>mapc( &#39;(lambda (x y) (print (list x y))) &#39;(1 2 3) &#39;(9 8 7) )<br />(1 9) (2 8) (3 7) =&gt; (1 2 3)</pre>
+
+<p>
+<a name="pgfId-1047040"></a>Prints three lists as a side effect and returns the list <code>(1 2 3)</code>.</p>
+
+<h4>
+<a name="pgfId-1047041"></a>Reference</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047057"></a><a href="controlflow.html#RTF340030003300300036003a00">foreach</a>, <a href="controlflow.html#59702">map</a>, <a href="controlflow.html#24026">mapcar</a>, <a href="controlflow.html#51535">mapcan</a>, <a href="controlflow.html#62838">maplist</a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=mapcan
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1047059"></a><a name="mapcan"></a><a name="51535"></a>mapcan</h3>
+<a name="pgfId-1047062"></a><a name="marker-1047060"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+mapcan( 
+<code><em>u_func</em></code> 
+<code><em>l_arg1</em></code> 
+[ <code><em>l_arg2</em></code> ... ] 
+) 
+=&gt; <code><em>l_result</em></code></pre>
+<h4>
+<a name="pgfId-1047063"></a>Description</h4>
+
+<p>
+<a name="pgfId-1047065"></a>Applies a function to successive <em>elements</em> of the argument lists and returns the result of appending these intermediate results. All of the lists should have the same length.</p>
+<p>
+<a name="pgfId-1047066"></a>Specifically, a function is applied to the <code>car</code> of all the argument lists, passed in the same order as the argument lists. The second elements are processed next, continuing until the last element is processed. The result of each call to <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> must be a list. These lists are destructively modified and concatenated so that the resulting list of all the concatenations is the result of <code>mapcan</code>. The argument <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> must accept as many arguments as there are lists.</p>
+
+<h4>
+<a name="pgfId-1066853"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066840">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066842"></a><span class="webflare-courier-new" style="white-space:pre"><em>u_func </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066844"></a>Function to apply to argument lists.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066846"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg1 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066848"></a>Argument list.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066850"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg2 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066852"></a>Additional argument lists, which must be the same length as <span class="webflare-courier-new" style="white-space:pre"><em>l_arg1</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1066859"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066854">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066856"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_result </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066858"></a>List consisting of the concatenated results.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1066860"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047074"></a>mapcan( &#39;list &#39;(1 2 3) &#39;(a b c) )<br />=&gt; (1 a 2 b 3 c)<br />mapcan( (lambda (n) (and (plusp n) (list n))) &#39;(1 -2 3 -4 5))<br />=&gt; (1 3 5)</pre>
+<h4>
+<a name="pgfId-1047075"></a>Reference</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047094"></a><a href="controlflow.html#59702">map</a>, <a href="controlflow.html#11262">mapc</a>, <a href="controlflow.html#51535">mapcan</a>, <a href="controlflow.html#24026">mapcar</a>, <a href="controlflow.html#62838">maplist</a>, <a href="list.html#91969">nconc</a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=mapcar
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1047096"></a><a name="mapcar"></a><a name="24026"></a>mapcar</h3>
+<a name="pgfId-1047099"></a><a name="marker-1047097"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+mapcar( 
+<code><em>u_func</em></code> 
+<code><em>l_arg1</em></code> 
+[ <code><em>l_arg2</em></code> ... ] 
+) 
+=&gt; <code><em>l_result</em></code></pre>
+<h4>
+<a name="pgfId-1047100"></a>Description</h4>
+
+<p>
+<a name="pgfId-1063198"></a>Applies a function to successive <em>elements</em> of the argument lists and returns the list of the corresponding results. </p>
+<p>
+<a name="pgfId-1067480"></a>The values returned from successive calls to <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> are put into a list using the <code>list</code> function. If the argument lists are of different lengths, the <code>mapcar</code> function iterates till the end of the shortest list.</p>
+
+<h4>
+<a name="pgfId-1067494"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067481">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067483"></a><span class="webflare-courier-new" style="white-space:pre"><em>u_func </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067485"></a>Function to be applied to argument lists. The result of each call to <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> can be of any data type.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067487"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg1 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067489"></a>Argument list.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067491"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg2 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067493"></a>Additional argument lists.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1067500"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1067495">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067497"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_result </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067499"></a>A list of results from applying <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> to successive elements of the argument list.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1047110"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047111"></a>mapcar( &#39;plus &#39;(1 2 3) &#39;(9 8 7) )<br />=&gt; (10 10 10) </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1063217"></a>mapcar( &#39;plus &#39;(1 2 3 4) &#39;(4 5) &#39;(1 2 3 4 5 6) &#39;(1 2 3))<br />=&gt; (7 11)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1063101"></a>mapcar( &#39;list &#39;(a b c) &#39;(1 2 3) &#39;(x y z) )<br />=&gt; ((a 1 x) (b 2 y) (c 3 z)) </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047113"></a>mapcar( lambda( (x) plus( x 1 )) &#39;(2 4 6) )<br />=&gt; (3 5 7)</pre>
+<h4>
+<a name="pgfId-1047114"></a>Reference</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047133"></a><a href="controlflow.html#59702">map</a>, <a href="controlflow.html#11262">mapc</a>, <a href="controlflow.html#51535">mapcan</a>, <a href="controlflow.html#23189">mapcon</a>, <a href="controlflow.html#62838">maplist</a>, <a href="list.html#91969">nconc</a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=mapcon
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1047137"></a><a name="23189"></a>m<a name="mapcon"></a>apcon</h3>
+<a name="pgfId-1047140"></a><a name="marker-1047138"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+mapcon( 
+<code><em>u_func</em></code> 
+<code><em>l_arg1</em></code> 
+<code><em>[l_arg2]</em></code> 
+) 
+=&gt; <code><em>l_result</em></code></pre>
+<h4>
+<a name="pgfId-1047141"></a>Description</h4>
+
+<p>
+<a name="pgfId-1047143"></a>Applies the function <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> to successive sublists of the lists and returns a concatenated list.</p>
+
+<h4>
+<a name="pgfId-1047144"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066891">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066893"></a><span class="webflare-courier-new" style="white-space:pre"><em>u_func </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066895"></a>Specifies the function to be applied to the given list. Must accept lists as arguments. The result of calling <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> can be of any data type.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066897"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg1 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066899"></a>Specifies the argument list to be processed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066901"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg2 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066903"></a>Additional argument lists, which must be the same length as<em> </em><span class="webflare-courier-new" style="white-space:pre"><em>l_arg1</em></span></p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1047148"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066908">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066910"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_result </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066912"></a>Returns a concatenated list that results from calling the <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> on the cons cells of the given list</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1047150"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047151"></a>mapcon((lambda (x)<br />(printf &quot;x = %L\n&quot; x)<br />(list (car x) (add1 (car x)))) &#39;(1 2 3 4)); lambda: (u_func) with one argument</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047152"></a>x = (1 2 3 4)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047153"></a>x = (2 3 4)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047154"></a>x = (3 4)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047155"></a>x = (4)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047156"></a>result: (1 2 2 3 3 4 4 5)</pre>
+
+<p>
+<a name="pgfId-1047157"></a></p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047158"></a>mapcon((lambda (x y) (printf &quot;x = %L y = %L\n&quot; x y)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047159"></a>  (list (car x) (add1 (car y))))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047160"></a>  &#39;(1 2 3 4)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047161"></a>  &#39;(4 3 2 1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047162"></a>) ; lambda: (u_func) is with 2 arguments</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047163"></a>x = (1 2 3 4) y = (4 3 2 1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047164"></a>x = (2 3 4) y = (3 2 1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047165"></a>x = (3 4) y = (2 1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047166"></a>x = (4) y = (1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047167"></a>result : (1 5 2 4 3 3 4 2)</pre>
+
+<p>
+<a name="pgfId-1072492"></a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=mapinto
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1047169"></a><a name="mapinto"></a>mapinto</h3>
+<a name="pgfId-1047172"></a><a name="marker-1047170"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+mapinto( 
+<code><em>l_resultSequence</em></code> 
+<code><em>g_function</em></code> 
+({<code><em>l_sequences}*)
+</em></code>) 
+=&gt; <code><em>l_resultSequence</em></code></pre>
+<h4>
+<a name="pgfId-1047174"></a>Description</h4>
+
+<p>
+<a name="pgfId-1047176"></a>Applies <code>g_function</code> to the elements of <code>l_sequences</code> and destructively modifies the <code>l_resultSequence</code>. The first argument is a sequence that receives the results of the mapping. If <code>l_resultSequence</code> and the other argument sequences are not all of the same length, the mapping stops when the shortest of <code>l_resultSequence</code> or <code>l_sequences</code> is exhausted.</p>
+<p>
+<a name="pgfId-1047177"></a>If <code>l_resultSequence</code> is longer than <code>l_sequences</code>, extra elements at the end of <code>l_resultSequence</code> are unchanged.</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-1047178"></a>If you specify <code>nil</code> as the <code>l_resultSequence</code>, no mapping is performed since <code>nil</code> is a sequence of length zero.</div>
+<h4>
+<a name="pgfId-1047179"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066923">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066925"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_resultSequence </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066927"></a>A sequence that receives the results of the mapping.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066929"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_function </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066931"></a>Function (<code>symbol</code> or <code>funobj</code>) that takes as many arguments as there are sequences. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066933"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_sequences </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066935"></a>Several lists. Each element of these lists is used as an argument of <code>g_function</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1047183"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066940">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066942"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_resultSequence </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066944"></a>Updated first argument list.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1047185"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047186"></a>mapinto (&#39;(1 2 3 4) &#39;plus )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047187"></a>=&gt;(1 2 3 4)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047188"></a>mapinto (&#39; (1 2 3 4) &#39;plus ())</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047189"></a>=&gt;(1 2 3 4)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047190"></a>a = &#39;(1 2 3 4 5)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047191"></a>mapinto ( a &#39;plus &#39;(1 1 1) &#39;(1 1))</pre>
+
+<p>
+<a name="pgfId-1047192"></a>=&gt;(2 2 3 4 5)</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=maplist
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1047194"></a><a name="maplist"></a><a name="62838"></a>maplist</h3>
+<a name="pgfId-1047197"></a><a name="marker-1047195"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+maplist( 
+<code><em>u_func</em></code> 
+<code><em>l_arg1</em></code> 
+[ <code><em>l_arg2</em></code> ... ] 
+) 
+=&gt; <code><em>l_result</em></code></pre>
+<h4>
+<a name="pgfId-1047198"></a>Description</h4>
+
+<p>
+<a name="pgfId-1047200"></a>Applies a function to successive <em>sublists</em> of the argument lists and returns a list of the corresponding results. All of the lists should have the same length.</p>
+<p>
+<a name="pgfId-1047201"></a>The returned values of the successive function calls are concatenated using the function <code>list</code>.</p>
+
+<h4>
+<a name="pgfId-1047202"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066950">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066952"></a><span class="webflare-courier-new" style="white-space:pre"><em>u_func </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066954"></a>Function to be applied to argument lists. Must accept lists as arguments. The result of calling <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> can be of any data type.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066956"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg1 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066958"></a>Argument list.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066960"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_arg2 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066962"></a>Additional argument lists, which must be the same length as<em> </em><span class="webflare-courier-new" style="white-space:pre"><em>l_arg1</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1047206"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1066984">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066986"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_result </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1066988"></a>A list of the results returned from calling <span class="webflare-courier-new" style="white-space:pre"><em>u_func</em></span> on successive sublists of the argument list.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1047208"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047209"></a>maplist( &#39;length &#39;(1 2 3) )<br />=&gt; (3 2 1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047210"></a>maplist( &#39;list &#39;(a b c) &#39;(1 2 3) )<br />=&gt; (((a b c)(1 2 3))((b c)(2 3))((c)(3))) </pre>
+<h4>
+<a name="pgfId-1047211"></a>Reference</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1047227"></a><a href="controlflow.html#59702">map</a>, <a href="controlflow.html#11262">mapc</a>, <a href="controlflow.html#51535">mapcan</a>, <a href="controlflow.html#24026">mapcar</a>, <a href="list.html#91969">nconc</a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=not
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039033"></a><a name="not"></a><a name="28185"></a>not </h3>
+<a name="pgfId-1039036"></a><a name="marker-1039035"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+not( 
+<code><em>g_obj</em></code> 
+) 
+=&gt; <code>t</code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-1039037"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039039"></a>Same as the <code>!</code> operator. Returns <code>t</code> if the object is <code>nil</code>, and returns <code>nil</code> otherwise.</p>
+
+<h4>
+<a name="pgfId-1039040"></a>Arguments</h4>
+<table class="webflareTable" id="#id1066998">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067000"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_obj</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067002"></a>Any SKILL object.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039042"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1067007">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067009"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067011"></a>If <span class="webflare-courier-new" style="white-space:pre"><em>g_obj</em></span> is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067013"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067015"></a>Otherwise.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039045"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039046"></a>(not nil)        =&gt; t<br />(not 123)        =&gt; nil<br />(not t)&#160;&#160;        =&gt; nil</pre>
+<h4>
+<a name="pgfId-1039047"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1039024"></a><a href="logicalrel.html#87352">null</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=regExitAfter
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039077"></a><a name="regExitAfter"></a><a name="86135"></a>regExitAfter</h3>
+<a name="pgfId-1039080"></a><a name="marker-1039078"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+regExitAfter( 
+<code><em>s_name</em></code> 
+) 
+=&gt; <code>t</code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-1039081"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039083"></a>Registers the action to be taken after the <code>exit</code> function has performed its bookkeeping tasks but before it returns control to the operating system.</p>
+
+<h4>
+<a name="pgfId-1039084"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067020">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067022"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_name</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067024"></a>Name of the function that is to be added to the head of the list of functions to be performed after the <code>exit</code> function.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039086"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1067033">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067035"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067037"></a>The function is added to the list of functions.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067039"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067041"></a>Otherwise.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039089"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039090"></a>procedure( foo( @rest args) <br />            println( &quot;After proc being executed&quot;))<br />regExitAfter( &#39;foo) =&gt; t</pre>
+<h4>
+<a name="pgfId-1039091"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1039062"></a><a href="funcprog.html#25686">clearExitProcs</a>, <a href="environment.html#72854">exit</a>, <a href="controlflow.html#31457">regExitBefore</a>, <a href="controlflow.html#20484">remExitProc</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=regExitBefore
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039127"></a><a name="regExitBefore"></a><a name="31457"></a>regExitBefore</h3>
+<a name="pgfId-1039130"></a><a name="marker-1039128"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+regExitBefore( 
+<code><em>s_name</em></code> 
+) 
+=&gt; <code>t</code></pre>
+<h4>
+<a name="pgfId-1039131"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039133"></a>Registers the action to be taken before the <code>exit</code> function is executed. If the function registered returns the <code>ignoreExit</code> symbol, the exit is aborted.</p>
+
+<h4>
+<a name="pgfId-1039134"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067047">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067049"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_name</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067051"></a>Name of the function that is to be added to the head of the list of functions to be executed before the <code>exit</code> function.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039136"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1067060">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067062"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067064"></a>Always.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039138"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039139"></a>procedure( foo() println( &quot;Aborting exit&quot;) &#39;ignoreExit) <br />=&gt; foo<br />regExitBefore(&#39;foo) <br />=&gt; t<br />exit                                ;Does not exit.<br />&quot;Aborting exit&quot;<br />
+procedure( foo() println( &quot;Exiting&quot;))
+=&gt; foo
+exit&#160;&#160;                              ;Exits program.<br />&quot;Exiting&quot;</pre>
+<h4>
+<a name="pgfId-1039140"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1040499"></a><a href="funcprog.html#25686">clearExitProcs</a>, <a href="environment.html#72854">exit</a>, <a href="controlflow.html#31457">regExitBefore</a>, <a href="controlflow.html#20484">remExitProc</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=remExitProc
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039183"></a><a name="remExitProc"></a><a name="20484"></a>remExitProc</h3>
+<a name="pgfId-1039186"></a><a name="marker-1039184"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+remExitProc( 
+<code><em>s_name</em></code> 
+) 
+=&gt; <code>t</code></pre>
+<h4>
+<a name="pgfId-1039187"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039189"></a>Removes a registered exit procedure. </p>
+<p>
+<a name="pgfId-1039190"></a>When SKILL exits, the function is not called.</p>
+
+<h4>
+<a name="pgfId-1039191"></a>Prerequisites</h4>
+
+<p>
+<a name="pgfId-1039192"></a>The exit procedure must have been previously registered with the <code>regExitBefore</code> or <code>regExitAfter</code> function.</p>
+
+<h4>
+<a name="pgfId-1039193"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067069">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067071"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_name</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067073"></a>Name of the registered exit procedure to be removed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039195"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1067082">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067084"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067086"></a>Always.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039197"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039198"></a>remExitProc( &#39;endProc) =&gt; t</pre>
+<h4>
+<a name="pgfId-1039199"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1040528"></a><a href="environment.html#72854">exit</a>, <a href="controlflow.html#31457">regExitBefore</a>, <a href="controlflow.html#86135">regExitAfter</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=return
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039235"></a><a name="return"></a><a name="28115"></a>return</h3>
+<a name="pgfId-1039238"></a><a name="marker-1039236"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+return( 
+[ <code><em>g_result</em></code> ] 
+) 
+=&gt; <code><em>g_result</em></code> / <code>nil</code> </pre>
+<h4>
+<a name="pgfId-1039239"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039241"></a>Forces the enclosing <code>prog</code> to exit and returns the given value. The <code>return</code> statement has meaning only when used inside a <code>prog</code> statement.</p>
+<p>
+<a name="pgfId-1039242"></a>Both <code>go</code> and <code>return</code> are not purely functional in the sense that they transfer control in a non-standard way. That is, they don&#8217;t return to their caller.</p>
+
+<h4>
+<a name="pgfId-1039243"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067092">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067094"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067096"></a>Any SKILL object.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039245"></a>Value Returned</h4>
+
+<p>
+<a name="pgfId-1039246"></a>The enclosing <code>prog</code> statement exits with the value given to <code>return</code> as the <code>prog</code>&#8217;s value. If <code>return</code> is called with no arguments, <code>nil</code> is returned as the enclosing <code>prog</code>&#8217;s value.</p>
+
+<h4>
+<a name="pgfId-1039247"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039248"></a>procedure( summation(l)<br />    prog( (sum temp)<br />        sum = 0<br />        temp = l<br />        while( temp<br />            if( null(car(temp))<br />            then<br />                return(sum)<br />            else<br />                sum = sum + car(temp)<br />                temp = cdr(temp)<br />            )<br />        )<br />    )<br />) </pre>
+
+<p>
+<a name="pgfId-1039249"></a>Returns the summation of previous numbers if a <code>nil</code> is encountered.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039250"></a>summation( &#39;(1 2 3 nil 4)) <br />=&gt; 6                  ; 1+2+3<br />summation( &#39;(1 2 3 4)) <br />=&gt; nil&#160;&#160;              ; <code>prog</code> returns <code>nil</code> if no explicit <code>return</code>)</pre>
+<h4>
+<a name="pgfId-1039251"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1039227"></a><a href="funcprog.html#71799">nlambda</a>, <a href="controlflow.html#16637">go</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=setof
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1046270"></a><a name="setof"></a>setof</h3>
+<a name="pgfId-1046274"></a><a name="marker-1046271"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+setof( 
+<code><em>s_formalVar</em></code> 
+<code><em>l_valueList</em></code> 
+<code><em>g_predicateExpression</em></code> 
+)
+=&gt; <code><em>l_result
+</em></code>setof( 
+<code><em>s_formalVar</em></code> 
+<code><em>o_table</em></code> 
+<code><em>g_predicateExpression</em></code> 
+)
+=&gt; <code><em>l_result</em></code></pre>
+<h4>
+<a name="pgfId-1046275"></a>Description</h4>
+
+<p>
+<a name="pgfId-1046277"></a>Returns a new list containing only those elements in a list or the keys in an association table that satisfy an expression. This is a syntax form.</p>
+<p>
+<a name="pgfId-1046278"></a>The <code>setof</code> form can also be used to identify all keys in an association table that satisfy the specified expression.</p>
+
+<h4>
+<a name="pgfId-1067132"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067142">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067144"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067146"></a>Local variable that is usually referenced in <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpression</em></span>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067148"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067150"></a>List of elements that are bound to <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span> one at a time.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1067152"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpression</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067156"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067158"></a>SKILL expression that usually uses the value of <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067160"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_table</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067162"></a>Association table whose keys are bound to <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span> one at time.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1067137"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1067189">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067191"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067193"></a>New list containing only those elements in <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> that satisfy <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpression</em></span>, or list of all keys that satisfy the specified expression.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1046286"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046287"></a>setof( x &#39;(1 2 3 4) (x &gt; 2) )    =&gt; (3 4)<br />setof( x &#39;(1 2 3 4) (x &lt; 3) )&#160;&#160;  =&gt; (1 2)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046288"></a>myTable = makeTable(&quot;atable&quot; 0)  =&gt; table:atable<br />myTable[&quot;a&quot;]=&quot;first&quot;             =&gt; &quot;first&quot;<br />myTable[&quot;b&quot;]=2                   =&gt; 2<br />setof(key myTable (and (stringp key)(stringp myTable[key])))<br />                                 =&gt; (&quot;a&quot;)</pre>
+
+<p>
+<a name="pgfId-1072728"></a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=setofs
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1046290"></a><a name="setofs"></a>setofs</h3>
+<a name="pgfId-1046294"></a><a name="marker-1046291"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+setofs( 
+<code><em>s_formalVar</em></code> 
+<code><em>l_valueList</em></code> 
+<code><em>g_predicateExpression</em></code> 
+)
+=&gt; <code><em>l_result
+</em></code>setofs( 
+<code><em>s_formalVar</em></code> 
+<code><em>o_table</em></code> 
+<code><em>g_predicateExpression</em></code> 
+)
+=&gt; <code><em>l_result</em></code></pre>
+<h4>
+<a name="pgfId-1046295"></a>Description</h4>
+
+<p>
+<a name="pgfId-1046297"></a>Returns a new list containing only those elements in a list or the keys in an association table that satisfy an expression. In the SKILL++ mode, this function always locally wraps the loop or iterator local variable (<span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span>) in a <code>let</code> block while compiling the code. Local wrapping preserves the lexical scope of the loop variable. This function may work slower than its non-wrapped counterpart <code>setof</code>. This is a syntax form.</p>
+<p>
+<a name="pgfId-1046298"></a>The <code>setof</code> form can also be used to identify all keys in an association table that satisfy the specified expression.</p>
+
+<h4>
+<a name="pgfId-1046299"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067201">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067203"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067205"></a>Local variable that is usually referenced in <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpression</em></span>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067207"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067209"></a>List of elements that are bound to <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span> one at a time.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1067211"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpression</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067215"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067231"></a>SKILL expression that usually uses the value of <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067219"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_table</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067221"></a>Association table whose keys are bound to <span class="webflare-courier-new" style="white-space:pre"><em>s_formalVar</em></span> one at time.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1046304"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1067253">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067255"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067257"></a>New list containing only those elements in <span class="webflare-courier-new" style="white-space:pre"><em>l_valueList</em></span> that satisfy <span class="webflare-courier-new" style="white-space:pre"><em>g_predicateExpression</em></span>, or list of all keys that satisfy the specified expression.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1046306"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046307"></a>(defun test_setof (x)
+&#160;&#160;&#160;&#160;setofs( x (list x x+1 x+9) println(x))
+&#160;&#160;&#160;&#160;println(x)
+&#160;&#160;&#160;&#160;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046308"></a>test_setof(9)</pre>
+
+<p>
+<a name="pgfId-1046258"></a> =&gt; 9<br />10<br />18<br />9<br />nil</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=throw
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039294"></a>thr<a name="throw"></a>ow</h3>
+<a name="pgfId-1039295"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+throw(
+<code><em>s_tag
+g_value
+</em></code>) 
+=&gt; </pre>
+<h4>
+<a name="pgfId-1039296"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039297"></a>Transfers the control back to the return point established in a catch block. The argument value is used as the value to be passed. The <code>throw</code> function should always be used inside <code>catch(. . . g_form . . .).</code></p>
+
+<h4>
+<a name="pgfId-1039298"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067267">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067269"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_tag</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067271"></a>Specifies the return point in a catch block</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067273"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067275"></a>Evaluates forms and saves the results. If the form produces multiple values, then all the values are saved. The saved results are returned as the value or values of catch.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039301"></a>Value Returned</h4>
+
+<p>
+<a name="pgfId-1039302"></a>Transfers the control back to the return point in a catch block</p>
+
+<h4>
+<a name="pgfId-1039303"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039304"></a>catch( &#39;problem
+&#160;&#160;&#160;&#160;begin(
+&#160;&#160;&#160;&#160; throw( &#39;problem<br />    let( nil<br />    printf( &quot;Caught %L\n&quot; 1) 1 <br />   )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039305"></a>    )<br />   2<br />  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039306"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039307"></a>Caught 1&#160;&#160;;&#160;&#160;message is printed . . .</pre>
+
+<p>
+<a name="pgfId-1039286"></a>= &gt; 1&#160;&#160;;&#160;&#160;value returned by throw()</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=unless
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039335"></a><a name="unless"></a><a name="14421"></a>unless</h3>
+<a name="pgfId-1039338"></a><a name="marker-1039336"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+unless( 
+<code><em>g_condition</em></code> 
+<code><em>g_expr1</em></code> ... 
+) 
+=&gt; <code><em>g_result</em></code> / <code>nil</code> </pre>
+<h4>
+<a name="pgfId-1039339"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039341"></a>Evaluates a condition. If the result is true (non-<code>nil</code>), it returns <code>nil</code>; otherwise evaluates the body expressions in sequence and returns the value of the last expression. This is a syntax form.</p>
+<p>
+<a name="pgfId-1039342"></a>The semantics of this function can be read literally as &quot;unless the condition is true, evaluate the body expressions in sequence&quot;.</p>
+
+<h4>
+<a name="pgfId-1039343"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067281">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067283"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_condition </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067285"></a>Any SKILL expression.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067287"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_expr1 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067289"></a>Any SKILL expression.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039346"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1067298">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067300"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_result </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067302"></a>Value of the last expression of the sequence <span class="webflare-courier-new" style="white-space:pre"><em>g_expr1</em></span> if <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> evaluates to <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067304"></a><code>nil </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067306"></a>If <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> evaluates to non-<code>nil</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039349"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039350"></a>x = -123<br />unless( x &gt;= 0 println(&quot;x is negative&quot;) -x)<br />=&gt; 123&#160;&#160;          ;Prints &quot;x is negative&quot; as side effect.</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039351"></a>unless( x &lt; 0 println(&quot;x is positive&quot;) x)<br />=&gt; nil</pre>
+<h4>
+<a name="pgfId-1039352"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1039326"></a><a href="controlflow.html#29071">cond</a>, <a href="controlflow.html#32493">if</a>, <a href="controlflow.html#12444">when</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=when
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039395"></a><a name="when"></a><a name="12444"></a>when </h3>
+<a name="pgfId-1039398"></a><a name="marker-1039396"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+when( 
+<em>g_condition 
+g_expr1</em> ... 
+) 
+=&gt; <code><em>g_result</em></code> / <code>nil</code> </pre>
+<h4>
+<a name="pgfId-1039399"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039401"></a>Evaluates a condition. If the result is non-<code>nil</code>, evaluates the sequence of expressions and returns the value of the last expression. This is a syntax form.</p>
+<p>
+<a name="pgfId-1039402"></a>If the result of evaluating <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> is <code>nil</code>, <code>when</code> returns <code>nil</code>.</p>
+
+<h4>
+<a name="pgfId-1039403"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067323">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067325"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_condition </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067327"></a>Any SKILL expression.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067329"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_expr1 </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067331"></a>Any SKILL expression.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039406"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1067340">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067342"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_result </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067344"></a>Value of the last expression of the sequence <span class="webflare-courier-new" style="white-space:pre"><em>g_expr1</em></span> if <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> evaluates to non-<code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067346"></a><code>nil</code> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067348"></a>If the <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> expression evaluates to <code>nil</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039409"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039410"></a>x = -123<br />when( x &lt; 0 <br />   println(&quot;x is negative&quot;)<br />   -x)<br />=&gt; 123&#160;&#160;          ;Prints &quot;x is negative&quot; as side effect.</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039411"></a>when( x &gt;= 0<br />    println(&quot;x is positive&quot;)<br />    x)<br />=&gt; nil</pre>
+<h4>
+<a name="pgfId-1039412"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1039380"></a><a href="controlflow.html#29071">cond</a>, <a href="controlflow.html#32493">if</a>, <a href="controlflow.html#14421">unless</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=while
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1039449"></a><a name="while"></a><a name="79647"></a>while </h3>
+<a name="pgfId-1039452"></a><a name="marker-1039450"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+while( 
+<em>g_condition 
+g_expr1</em> ... 
+) 
+=&gt; <code>t</code></pre>
+<h4>
+<a name="pgfId-1039453"></a>Description</h4>
+
+<p>
+<a name="pgfId-1039455"></a>Repeatedly evaluates a condition and sequence of expressions until the condition evaluates to false. This is a syntax form.</p>
+<p>
+<a name="pgfId-1039456"></a>Repeatedly evaluates <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> and the sequence of expressions <span class="webflare-courier-new" style="white-space:pre"><em>g_expr1 ...</em></span> if the condition is true. This process is repeated until <span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span> evaluates to false (<code>nil</code>). Because this form always returns <code>t</code>, it is principally used for its side-effects.</p>
+
+<h4>
+<a name="pgfId-1039457"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067354">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067356"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_condition</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067358"></a>Any SKILL expression.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067360"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_expr1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067362"></a>Any SKILL expression.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039460"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1067367">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067369"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067371"></a>Always returns <code>t</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1039462"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1039463"></a>i = 0<br />while( (i &lt;= 10) printf(&quot;%d\n&quot; i++) ) <br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-1039464"></a>Prints the digits 0 through 10.</p>
+
+<h4>
+<a name="pgfId-1039465"></a>Reference</h4>
+
+<p>
+<a name="pgfId-1067381"></a><a href="controlflow.html#RTF340030003300300036003a00">foreach</a></p>
+<p>
+<a name="pgfId-1064722"></a></p>
+<p>
+<a name="pgfId-1072890"></a></p>
+
+<!-- [TOPIC_END] -->
+
+<p>
+<a name="pgfId-1068629"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="logicalrel.html" id="prev" title="Logical and Relational Functions">Logical and Relational Functio ...</a></em></b><b><em><a href="inputoutput.html" id="nex" title="Input Output Functions">Input Output Functions</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

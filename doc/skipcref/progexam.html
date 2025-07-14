@@ -1,0 +1,160 @@
+
+<html><head><title>Programming Examples</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-08-16" />
+<meta name="CreateTime" content="1597635890" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to create and communicate with child processes. This mechanism allows SKILL-based programs access to IPC and process control functionality that would normally require system level programming." />
+<meta name="DocTitle" content="Cadence Interprocess Communication SKILL Reference" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Programming Examples" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="skipcref" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-16" />
+<meta name="ModifiedTime" content="1597635890" />
+<meta name="NextFile" content="" />
+<meta name="Group" content="SKILL Language" />
+<meta name="Platform" content="Cadence Shared Tools" />
+<meta name="PrevFile" content="phoIPC.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="SKILL" />
+<meta name="ProductFamily" content="SKILL" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Cadence Interprocess Communication SKILL Reference -- Programming Examples" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="skipcrefICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="skipcrefTOC.html">Contents</a></li><li><a class="prev" href="phoIPC.html" title="Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)">Photonic Interprocess Communic ...</a></li><li style="float: right;"><a class="viewPrint" href="skipcref.pdf">View/Print PDF</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Cadence Interprocess Communication SKILL Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>4
+<a name="pgfId-1005655"></a></h1>
+<h1>
+<a name="pgfId-1028184"></a><hr />
+Programming Examples<hr />
+</h1>
+
+<p>
+<a name="pgfId-1008815"></a>The following programming examples deal with synchronous and asynchronous input and output.</p>
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Synchronous Input/Output
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1008816"></a>Synchronous Input/Output</h3>
+
+<p>
+<a name="pgfId-1008817"></a>The following example is a C program called <code>X</code> that reads from its <code>stdin</code>, converts every character in the buffer to uppercase, and writes the result back to <code>stdout</code>. SKILL puts this program to use by sending to it a string for conversion to uppercase. Copy this program into a file and compile it into a program called <code>upper.exe</code>.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008818"></a>#include &lt;stdio.h&gt;<br />#define bufflen 4096<br />int main(int argc, char* argv[]) <br />{<br />    char buff[bufflen];<br /></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1011886"></a>    while (1) {<br />        gets(buff);<br />        {   int i;<br />            for(i=0; i &lt; strlen(buff); i++)<br />                buff[i] = toupper(buff[i]);<br />        }<br />        printf(buff);<br />        fflush(stdio);<br />    }<br />}<br /></pre>
+
+<p>
+<a name="pgfId-1008819"></a>The SKILL program to use the previous program is as follows:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008820"></a>cid = ipcBeginProcess( &quot;upper.exe&quot; )<br />ipcWriteProcess( cid &quot;hello\n&quot; )<br />x = ipcReadProcess( cid 20 ) <br />when(x printf(&quot; New string : %s&quot;, x ))<br />ipcKillProcess( cid ) ;; Kill Or send another string </pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Asynchronous Input/Output
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1008821"></a>Asynchronous Input/Output</h3>
+
+<p>
+<a name="pgfId-1008822"></a>The example is that of a tool such as a simulator being invoked from SKILL and the results of the simulation displayed in the SKILL environment. </p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008823"></a>;SimCid</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008824"></a>procedure( dataH(cid data)<br />    (unless (displaySimResults data) <br />            error(&quot;Display failed \n&quot;))<br />)<br /></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008825"></a>procedure( simErr(cid err)<br />    printf(&quot;Error %L Msg: %s\n&quot; cid err)<br />    ipcKillProcess(cid) /* <br />)<br /></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008826"></a>procedure (simTerm(cid exit)<br />    printf(&quot;Simulator expired with exit status = %d\n&quot; exit)<br />)<br /></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008827"></a>procedure( initSym(symCommand networkNode)<br />    ipcBeginProcess(symCommand networkNode <br />        &quot;dataH&quot; &quot;simErr&quot; &quot;simTerm&quot;)<br />)</pre>
+
+<p>
+<a name="pgfId-1008828"></a>Assume that a function called <code>displaySimResults</code> takes a string of simulation results and displays it as appropriate output. Also, <code>simErr</code> and <code>simTerm</code> are functions that handle simulator errors and simulator termination condition. </p>
+<p>
+<a name="pgfId-1008829"></a>Once the above program, <code>SimCid</code>, is loaded into SKILL, the user can run the Verilog&#174; simulator on a powerful computer called <code>super</code> available on the network, as follows: </p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008830"></a>SimCid = initSym(&quot;verilog&quot; &quot;super&quot;)</pre>
+
+<p>
+<a name="pgfId-1008831"></a>Afterwards the user can continue working with SKILL without having to wait for the simulator. The results of simulation are displayed automatically whenever they become available and the evaluator is free to call the <code>dataH</code> function. In this case the simulator must write its output on <code>stdout</code> so results can get to the parent SKILL program. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Multiple UNIX Commands
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1008832"></a>Multiple UNIX Commands</h3>
+
+<p>
+<a name="pgfId-1008833"></a>Multiple UNIX commands can be invoked from within a SKILL program by using the <code>ipcBeginProcess</code> function, the <code>ipcBatchProcess</code> function, or the <code>ipcSkillProcess</code> function. For example, the following functions invoke UNIX commands to get a listing of the <code>tmp</code> directory. To signal to the operating system that another command follows, separate multiple UNIX commands with either two ampersands (&amp;&amp;) or a single semicolon (;).</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008834"></a>ipcBeginProcess( &quot;cd /tmp &amp;&amp; ls . &quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008835"></a>ipcSkillProcess( &quot;cd /tmp; ls . &quot;)</pre>
+<!-- [TOPIC_END] -->
+
+<p>
+<a name="pgfId-1028397"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="phoIPC.html" id="prev" title="Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)">Photonic Interprocess Communic ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

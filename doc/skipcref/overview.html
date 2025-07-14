@@ -1,0 +1,568 @@
+
+<html><head><title>Overview</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-08-16" />
+<meta name="CreateTime" content="1597635887" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to create and communicate with child processes. This mechanism allows SKILL-based programs access to IPC and process control functionality that would normally require system level programming." />
+<meta name="DocTitle" content="Cadence Interprocess Communication SKILL Reference" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Overview" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="skipcref" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-16" />
+<meta name="ModifiedTime" content="1597635887" />
+<meta name="NextFile" content="ipcskill.html" />
+<meta name="Group" content="SKILL Language" />
+<meta name="Platform" content="Cadence Shared Tools" />
+<meta name="PrevFile" content="preface.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="SKILL" />
+<meta name="ProductFamily" content="SKILL" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Cadence Interprocess Communication SKILL Reference -- Overview" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="skipcrefICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="skipcrefTOC.html">Contents</a></li><li><a class="prev" href="preface.html" title="Preface">Preface</a></li><li style="float: right;"><a class="viewPrint" href="skipcref.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="ipcskill.html" title="Interprocess Communication Functions">Interprocess Communication Fun ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Cadence Interprocess Communication SKILL Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>1
+<a name="pgfId-1005655"></a></h1>
+<h1>
+<a name="pgfId-1018400"></a><hr />
+Overview<hr />
+</h1>
+
+<p>
+<a name="pgfId-1008281"></a>The Interprocess Communication (IPC) SKILL functions allow you to create and <a name="marker-1008282"></a>communicate with child processes. This mechanism allows SKILL-based programs access to IPC and process control functionality that would normally require system level programming. </p>
+<p>
+<a name="pgfId-1008283"></a>Using this mechanism you can: </p>
+<ul><li>
+<a name="pgfId-1008284"></a>Create encapsulation tools or utility programs.</li><li>
+<a name="pgfId-1008285"></a>Communicate with encapsulated programs using standard IO channels.</li><li>
+<a name="pgfId-1008286"></a>Control the encapsulated programs by sending signals like kill, interrupt, stop, and continue.</li><li>
+<a name="pgfId-1008287"></a>Allow encapsulated programs to execute SKILL commands in the parent process.</li><li>
+<a name="pgfId-1008288"></a>Run child processes on remote hosts.</li></ul>
+
+
+
+
+<p>
+<a name="pgfId-1028888"></a>The ability to run child processes, establish communication channels and control the processes through a SKILL procedural interface is a powerful utility. Programmers are advised to familiarize themselves with the basic principles of network and distributed programming. </p>
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Installation
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1028890"></a>Installation</h3>
+
+<p>
+<a name="pgfId-1014774"></a>For SKILL-IPC to start a rem<a name="marker-1014809"></a>ote process, it must be able to locate the <code>cdsServIpc</code> program on the remote host. This is typically done by using the same filepath to the Cadence installation hierarchy on both the local and remote machines.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=cdsServIpc
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1014772"></a>cdsServIpc</h3>
+
+<p>
+<a name="pgfId-1014828"></a><code>cdsServIpc</code> is a program that is started by the <code>ipcBeginProcess</code> function. </p>
+<p>
+<a name="pgfId-1014862"></a><code>cdsServIpc</code> uses <code>setpgid</code> to create a new process group but it remains in the same session as the parent process (the software from which it was started). </p>
+<p>
+<a name="pgfId-1027993"></a>Therefore, the system resources used by the child processes will be included in the accounting for the parent process session.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-1014835"></a>In releases prior to 06.05 (IC 6.1.0), <code>cdsServIpc</code> used <code>setsid</code> to create both a new session group and a new process group.</div>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=cdsServIpc
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1032436"></a>cds<a name="cdsRemote"></a>Remote</h3>
+
+<p>
+<a name="pgfId-1033107"></a><code>cdsRemote</code> is used to start a program on a remote host. </p>
+<p>
+<a name="pgfId-1033108"></a><code>cdsRemote</code> Usage:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1033109"></a>cdsRemote shell [-n] hostname command [args ...] </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1032638"></a>cdsRemote copy srcFilename hostname:destFilename </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1032245"></a>cdsRemote copy -r srcPath [...] hostname:destDirectory </pre>
+
+<p>
+<a name="pgfId-1033006"></a>By default, the <code>cdsRemote</code> program works in the <code>rsh</code> or <code>rcp</code> environments. However, it can be modified to use <code>ssh</code> by copying <code>&lt;inst&gt;/share/cdssetup/cdsRemsh/cdsRemote.scr</code> to a directory with a higher search precedence (such as, <code>$HOME/cdssetup/cdsRemsh/cdsRemote.scr</code> or <code>$CDS_SITE/cdssetup/cdsRemsh/cdsRemote.scr</code>) and then modifying the copy. For more information on the Cadence search mechanism, see <h-hot>Search<a actuate="user" class="URL" href="../caiuser/chap3.html#searchMechanism" show="replace" xml:link="simple"></a> Mechanism</h-hot> in the <em>Cadence Application Infrastructure<a actuate="user" class="URL" href="../caiuser/caiuserTOC.html#firstpage" show="replace" xml:link="simple"></a> User Guide</em></p>
+<p>
+<a name="pgfId-1032983"></a>If you only have the <code>ssh</code> setup, modify the <code>cdsRemote.scr</code> file and uncomment the <code>#remoteSystem=ssh</code> entry.</p>
+<p>
+<a name="pgfId-1032734"></a>To use <code>ssh</code> with the DFII Distributed Processing feature, modify the <code>cdsRemote.scr</code> file and add the following in your <code>.cdsinit</code> file:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1032489"></a>envSetVal(&quot;asimenv.distributed&quot; &quot;remoteShell&quot; &#39;string &quot;ssh&quot;)</pre>
+
+<p>
+<a name="pgfId-1028942"></a>This chapter covers the following sections: </p>
+<ul><li>
+<a name="pgfId-1028910"></a><a href="overview.html#14560">&#8220;Communicating With Child Processes&#8221;</a></li><li>
+<a name="pgfId-1028914"></a><a href="overview.html#20057">&#8220;Copying and Pasting Code Examples&#8221;</a></li><li>
+<a name="pgfId-1028918"></a><a href="overview.html#84183">&#8220;Cadence SKILL Development Tools&#8221;</a></li><li>
+<a name="pgfId-1028935"></a><a href="overview.html#30109">&#8220;Quick Reference Tool - Finder&#8221;</a></li></ul>
+
+
+
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Communicating With Child Processes
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h2>
+<a name="pgfId-1008290"></a><a name="14560"></a>Communicating With Child Processes</h2>
+
+<p>
+<a name="pgfId-1008291"></a>A child process can be a program that executes normally under the given operating system. Design Framework II runs non-Cadence software as a child process. A child process can be as simple as execution of an Operating System utility, such as, <code>mail</code>,<em> </em><code>wc</code>,<em> </em><code>cat</code>,<em> </em><code>ls</code>, stand-alone simulator, a batch program, and so forth. Basically any process can be a child process, and run in parallel with the parent process that created it. </p>
+<p>
+<a name="pgfId-1008292"></a>The parent process communicates with a child process by writing to the child process&#8217;s <code>stdin</code> channel and reading from its <code>stdout</code> and <code>stderr</code> channels. Communication can be carried out in one of two modes: synchronous or asynchronous. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Handling Child Process Output
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1008293"></a>Handling Child Process Output</h3>
+
+<p>
+<a name="pgfId-1008294"></a>When using SKILL interprocess communication, you should be aware of two possible modes of dealing with output from a child process. You can synchronize the flow of a program with child process output by performing blocking read operations. A blocking read operation will wait until data arrives from the child process thereby guaranteeing sequential flow of your program. </p>
+<p>
+<a name="pgfId-1008295"></a>Alternatively, you can choose to deal with output from a child process by registering a call-back function (referred to in this document as <code>outputHandler</code>). This function will be called asynchronously whenever data is received from a child process and the event manager in the parent program is ready to handle the data.</p>
+<p>
+<a name="pgfId-1008296"></a>There is only one mode of operation for the write function. Write always returns with a success/failure status. When a call to write returns, it does not always mean that the child process received the data. It just means that the data was dispatched successfully. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Blocking Reads and the SKILL Evaluation Process
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1008297"></a>Blocking Reads and the SKILL Evaluation Process</h3>
+<div class="webflare-information-macro webflare-macro-warning">
+<a name="pgfId-1008300"></a>
+A <a name="marker-1008298"></a>blocking read overrides the <a name="marker-1008299"></a>outputHandler and data entered using one of the methods is never available again for the other method to retrieve. </div>
+
+<p>
+<a name="pgfId-1008301"></a>You should determine in advance whether the use for SKILL IPC requires synchronous or asynchronous input and output handling, in which case either blocking reads or handlers should be the mode of operation. Synchronous and asynchronous output handling should not be mixed. An<em> </em><code>errHandler</code><a name="marker-1008302"></a>, once defined for a process, always receives the error messages despite a blocking read. </p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a name="pgfId-1008303"></a>
+Remember when writing asynchronous data handling code that the <a name="marker-1008304"></a>SKILL evaluation process blocks out any incoming messages. These messages cannot be gathered until the evaluator winds down and control returns to the top level. </div>
+
+<p>
+<a name="pgfId-1008305"></a>It is sometimes necessary to open gaps in the evaluator to collect incoming messages. These gaps can be opened using one of the following methods:</p>
+<ul><li>
+<a name="pgfId-1008306"></a>Blocking read with a time-out greater than 0 (<code>dataHandlers</code> will not be called during a blocking read)</li><li>
+<a name="pgfId-1008307"></a><code>ipcSleep</code>,<em> </em><code>ipcWait</code>,<em> </em><code>ipcWaitForProcess</code> (<code>dataHandlers</code> will be called during these calls)</li></ul>
+
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Tuning the Handlers to Avoid Freezing Graphics
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1008308"></a>Tuning the Handlers to Avoid Freezing Graphics</h3>
+
+<p>
+<a name="pgfId-1008310"></a>The <a name="marker-1008309"></a>data handlers are routines invoked by the SKILL interpreter in a non-deterministic fashion. You must tune their performance with respect to the frequency of incoming data because their activation can disrupt the responsiveness of the user interface graphics. Remember, it can be annoying to a user when the system feels unresponsive during the time data handlers are executing. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Waiting for the Child to Become Active
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1008311"></a>Waiting for the Child to Become Active</h3>
+
+<p>
+<a name="pgfId-1008312"></a>The <code>ipcBeginProcess</code> and <code>ipcSkillProcess</code> function calls initiate a child process and return without waiting for that child to become active. </p>
+<p>
+<a name="pgfId-1008313"></a>To synchronize the activity of the parent process with that of the child process spawning and being ready for communication, use the <code>ipcWaitForProcess</code> function to force the parent process to wait until the child process is ready to communicate.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Data Buffers
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1008314"></a>Data Buffers</h3>
+
+<p>
+<a name="pgfId-1008315"></a>The input and output performed by child processes must take into account <a name="marker-1008316"></a>buffer limitations. The standard IO channels have a 4096 byte buffer. For example, a child process&#8217;s output may not always get flushed immediately after the child writes to <code>stdout</code>. A child process may have to flush data at appropriate points so the parent process can receive the data. </p>
+<p>
+<a name="pgfId-1008317"></a>Buffer limits do not apply to the SKILL-based parent process. For example, a child process&#8217;s data is buffered in the parent process using memory pools limited only by the availability of runtime memory. </p>
+<p>
+<a name="pgfId-1008318"></a>Data written to a child process&#8217;s <code>stdin</code> channel should be read by the child process frequently. When using the Windows Operating System, if the <code>stdin</code> channel buffer fills up then the parent process discards data to prevent blocking on write. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Child Process Handles
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1008319"></a>Child Process Handles</h3>
+
+<p>
+<a name="pgfId-1008320"></a>A child process handle returned from a call to <code>ipcBeginProcess</code>, <code>ipcSkillProcess</code>, or <code>ipcBatchProcess</code> is an opaque data structure. </p>
+
+<h4>
+<a name="pgfId-1008323"></a>Child Process Read-Only Properties</h4>
+
+<p>
+<a name="pgfId-1009117"></a>A child process handle has the following read-only properties that can be accessed programmatically using the <code>-&gt;</code> syntax. </p>
+
+<p>
+<a name="pgfId-1011976"></a></p>
+<table class="webflareTable" id="#id1011980">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1011982">
+<a name="pgfId-1011982"></a>Property</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1011984">
+<a name="pgfId-1011984"></a>Meaning</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011986"></a>command</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011988"></a>Name of the command</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011990"></a>host</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011992"></a>Name of the host machine running the process</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011994"></a>processPid</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011996"></a>Process id of the child process on host</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011998"></a>exitStatus</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012000"></a>Exit status of the child process</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012002"></a>priority</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012004"></a>Priority given to the child process</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012006"></a>type</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012008"></a>Begin, SKILL, or Batch process</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012010"></a>state</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012012"></a>Active, Dead, or Stopped</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-1009155"></a>Some of these properties are only meaningful if the child process is active. Once the child process expires, only <code>state</code> and <code>exitStatus</code> are guaranteed to have meaningful results. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Formatting Child to Parent SKILL Communication
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1008334"></a>Formatting Child to Parent SKILL Communication</h3>
+
+<p>
+<a name="pgfId-1008335"></a>Processes invoked using <code>ipcSkillProcess</code> send SKILL commands back to the parent for execution. Each command sent by the child must be formatted in the following way to ensure error-free execution. </p>
+
+<h4>
+<a name="pgfId-1008336"></a>Surround Each Command with Parentheses </h4>
+
+<p>
+<a name="pgfId-1008337"></a>For example, to send two <code>println</code> commands, format the string this way: </p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008338"></a>(println x) (println y) </pre>
+
+<p>
+<a name="pgfId-1008339"></a>When the child performs multiple print statements in sequence, the parentheses are needed: </p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1008340"></a>..printf(&quot;(println x) &quot;);printf(&quot;(println x) &quot;); </pre>
+<h4>
+<a name="pgfId-1008341"></a>Insert Spaces at the End of Each Command </h4>
+
+<p>
+<a name="pgfId-1008343"></a>Alternatively, use the SKILL <code>prog</code><a name="marker-1008342"></a> construct to send compound statements to SKILL. SKILL commands sent by a child process can become packed together in one string and sent to SKILL to evaluate. Therefore, exercise care in using the correct syntax as in the example above. </p>
+<p>
+<a name="pgfId-1008344"></a>This is similar to typing more than one command per line at the Command Interpreter Window. In fact, the CIW is a good place to experiment with formats of <a name="marker-1008345"></a>compound statements. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Detecting Child Process Termination
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1008346"></a>Detecting Child Process Termination</h3>
+
+<p>
+<a name="pgfId-1008348"></a>There are two ways of detecting <a name="marker-1008347"></a>child process termination: </p>
+<ul><li>
+<a name="pgfId-1008349"></a>The synchronous method using <code>ipcIsAliveProcess</code> or <code>ipcWait</code>.</li><li>
+<a name="pgfId-1008350"></a>The asynchronous method using <code>postFunc</code> at initiation time. </li></ul>
+
+<p>
+<a name="pgfId-1008351"></a>Behavior is undefined if you mix the use of synchronous and asynchronous child process exit detection.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Copying and Pasting Code Examples
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h2>
+<a name="pgfId-1011290"></a><a name="20057"></a>Copying and Pasting Code Examples</h2>
+
+<p>
+<a name="pgfId-1011292"></a>You can copy examples f<a name="marker-1011291"></a>rom CDSDoc windows and paste the code directly into the CIW or use the code in nongraphics SKILL mode.</p>
+<p>
+<a name="pgfId-1011293"></a>To select text, </p>
+<ul><li>
+<a name="pgfId-1011294"></a>Press <code>Control-drag left mouse</code> to select a text segment of any size. </li><li>
+<a name="pgfId-1011295"></a>Press <code>Control-double click left mouse</code> to select a word. </li><li>
+<a name="pgfId-1011296"></a>Press <code>Control-triple click left mouse</code> to select an entire section.</li></ul>
+
+
+
+<h2>
+<a name="pgfId-1030477"></a><a name="84183"></a>Cadence SKILL Development Tools</h2>
+<p>
+<a name="pgfId-1030479"></a>Information about the SKILL development tools is available in <em><a actuate="user" class="URL" href="../skillide/skillideTOC.html#firstpage" show="replace" xml:link="simple">Cadence SKILL IDE User Guide</a></em>.</p>
+
+<p>
+<a name="pgfId-1030481"></a>The <h-hot><a actuate="user" class="URL" href="../skillide/skillideTOC.html#firstpage" show="replace" xml:link="simple">Walkthrough</a></h-hot> topic in this help system identifies and explains the tasks you perform when you develop SKILL programs using the SKILL development tools. Using a demonstration program, it explains the various tools available to help you measure the performance of your code and also look for possible errors and inefficiencies in your code. It includes a section on working in the non-graphical environment.</p>
+<p>
+<a name="pgfId-1011361"></a>For a list of <h-hot><a actuate="user" class="URL" href="../skillide/skillideTOC.html#firstpage" show="replace" xml:link="simple">SKILL lint messages</a></h-hot>, and <h-hot><a actuate="user" class="URL" href="../skillide/skillideTOC.html#firstpage" show="replace" xml:link="simple">message groups</a></h-hot>, refer to the <em>Cadence SKILL IDE User Guide</em>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=Quick Reference Tool - Finder
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h2>
+<a name="pgfId-1011363"></a><a name="30109"></a>Quick Reference Tool - Finder</h2>
+
+<p>
+<a name="pgfId-1011365"></a>Quick reference information for syntax and abstract <a name="marker-1011364"></a>statements for SKILL language functions and application procedural interfaces (APIs) is available using the Finder, which is accessible from the SKILL IDE window, CIW or from the UNIX command line. </p>
+
+<p>
+<a name="pgfId-1011951"></a></p>
+<div class="webflare-div-image">
+<img src="images/formFinder.gif" /></div>
+
+<p>
+<a name="pgfId-1011385"></a>For more information, see the <em><a actuate="user" class="URL" href="../skillide/skillideTOC.html#firstpage" show="replace" xml:link="simple">Cadence SKILL IDE User Guide</a></em>. </p>
+
+<!-- [TOPIC_END] -->
+
+<p>
+<a name="pgfId-1031135"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="preface.html" id="prev" title="Preface">Preface</a></em></b><b><em><a href="ipcskill.html" id="nex" title="Interprocess Communication Functions">Interprocess Communication Fun ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

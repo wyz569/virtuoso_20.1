@@ -1,0 +1,1586 @@
+
+<html><head><title>Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-08-16" />
+<meta name="CreateTime" content="1597635889" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to create and communicate with child processes. This mechanism allows SKILL-based programs access to IPC and process control functionality that would normally require system level programming." />
+<meta name="DocTitle" content="Cadence Interprocess Communication SKILL Reference" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="skipcref" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-16" />
+<meta name="ModifiedTime" content="1597635889" />
+<meta name="NextFile" content="progexam.html" />
+<meta name="Group" content="SKILL Language" />
+<meta name="Platform" content="Cadence Shared Tools" />
+<meta name="PrevFile" content="ipcskill.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="SKILL" />
+<meta name="ProductFamily" content="SKILL" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Cadence Interprocess Communication SKILL Reference -- Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="skipcrefICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="skipcrefTOC.html">Contents</a></li><li><a class="prev" href="ipcskill.html" title="Interprocess Communication Functions">Interprocess Communication Fun ...</a></li><li style="float: right;"><a class="viewPrint" href="skipcref.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="progexam.html" title="Programming Examples">Programming Examples</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Cadence Interprocess Communication SKILL Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>3
+<a name="pgfId-1407741"></a> </h1>
+<h1>
+<a name="pgfId-1407743"></a><hr />
+<a name="89929"></a>Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)<hr />
+</h1>
+
+<p>
+<a name="pgfId-1653800"></a>This chapter describes the <code>phoIPC</code> functions, which are intended to help formalize the interface between an optical shape generator and Virtuoso. The shape generator is a standalone, exterior processor communicating through the IPC channel with Virtuoso. The <code>phoIPC</code> functions provide a set of Cadence-supported utilities to simplify some of the shape-generator integration tasks. In addition, these functions can help a PDK developer build some uniformity when using various third-party shape generators.</p>
+<p>
+<a name="pgfId-1653656"></a>The functions in this chapter do not replace the basic IPC SKILL interface. These functions are also not intended to remove the need for the integrator of a shape generator to create integration code.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-1653657"></a>To use the <code>phoIPC</code> functions, you need the <code>Virtuoso_Photonics_Option</code> license. For information about obtaining the required license, contact your local Cadence representative.</div>
+<p>
+<a name="pgfId-1041854"></a>Only the functions documented in this chapter are supported for public use. Any other functions, regardless of their name or prefix, and undocumented aspects of the functions described below, are private and subject to change at any time.</p>
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=List of Photonic Interprocess SKILL Functions
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1049536"></a><a name="ListofLayoutXLSKILLFunctions"></a>List of Photonic Interprocess SKILL Functions</h3>
+
+<p>
+<a name="pgfId-1656301"></a><a href="phoIPC.html#26556">Server Registration and Check Functions</a></p>
+<p class="webflare-indent1">
+<a name="pgfId-1654331"></a><a href="phoIPC.html#15437">phoIPCGetServerCheck</a></p>
+<p class="webflare-indent1">
+<a name="pgfId-1654338"></a><a href="phoIPC.html#40876">phoIPCRegisterServerCheck</a></p>
+<p class="webflare-indent1">
+<a name="pgfId-1660345"></a><a href="phoIPC.html#89697">phoIPCServerCheck</a></p>
+<p>
+<a name="pgfId-1656347"></a><a href="phoIPC.html#11248">Message Processor Functions</a></p>
+<p class="webflare-indent1">
+<a name="pgfId-1659294"></a><a href="phoIPC.html#24224">phoIPCGetMessageProcessor</a></p>
+<p class="webflare-indent1">
+<a name="pgfId-1658219"></a><a href="phoIPC.html#14797">phoIPCProcessMarkers</a></p>
+<p class="webflare-indent1">
+<a name="pgfId-1659284"></a><a href="phoIPC.html#18922">phoIPCProcessPorts</a></p>
+<p class="webflare-indent1">
+<a name="pgfId-1663298"></a><a href="phoIPC.html#82817">phoIPCProcessServerMessage</a></p>
+<p class="webflare-indent1">
+<a name="pgfId-1665245"></a><a href="phoIPC.html#83380">phoIPCProcessShapes</a></p>
+<p class="webflare-indent1">
+<a name="pgfId-1671640"></a><a href="phoIPC.html#47695">phoIPCRegisterMessageProcessor</a></p>
+
+<!-- [TOPIC_END] -->
+<h2>
+<a name="pgfId-1217184"></a><a name="26556"></a>Server Registration and Check Functions</h2>
+
+<p>
+<a name="pgfId-1657448"></a>Use the functions defined in this section to define the name of the tool to be used by the <code>phoIPC</code> interface. The tool name is a string, and most <code>phoIPC</code> functions require it as an argument. </p>
+<p>
+<a name="pgfId-1657558"></a>This section also describes the functions that you can register and use to check if the IPC channel is open and connected to the child process. </p>
+<p>
+<a name="pgfId-1656462"></a>Basic messaging for the supported server registration and check functions is handled by the <code>phoIPC</code> infrastructure.</p>
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=List of Server Registration and Check Functions
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1669253"></a>List of Server Registration and Check Functions</h3>
+
+<p>
+<a name="pgfId-1660360"></a><a href="phoIPC.html#15437">phoIPCGetServerCheck</a></p>
+<p>
+<a name="pgfId-1660364"></a><a href="phoIPC.html#40876">phoIPCRegisterServerCheck</a></p>
+<p>
+<a name="pgfId-1658144"></a><a href="phoIPC.html#89697">phoIPCServerCheck</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=phoIPCGetServerCheck
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1652942"></a><a name="15437"></a>phoIPCGetS<a name="phoIPCGetServerCheck"></a>erverCheck</h3>
+<a name="pgfId-1652943"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+phoIPCGetServerCheck(
+<code><em>t_toolName
+</em></code>)
+=&gt; <code><em>s_funcName</em></code> / nil</pre>
+<h4>
+<a name="pgfId-1652945"></a>Description</h4>
+
+<p>
+<a name="pgfId-1652947"></a>Gets the name of the registered function that can be called to check if the server associated with the specified tool is operating correctly.<em></em></p>
+
+<h4>
+<a name="pgfId-1652953"></a>Arguments</h4>
+<table class="webflareTable" id="#id1652948">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1652950"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_toolName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1652952"></a>Name of the tool.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1652963"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1652954">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1652956"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_funcName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1652958"></a>Name of the registered server check function.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1652960"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1652962"></a>The command failed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1652964"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1652937"></a>checkFn = phoIPCGetServerCheck(&quot;myIPCTool&quot;)</pre>
+<h4><em>
+<a name="pgfId-1665220"></a>Related Topics</em></h4>
+
+<p>
+<a name="pgfId-1665224"></a><a href="phoIPC.html#26556">Server Registration and Check Functions</a></p>
+<p>
+<a name="pgfId-1665228"></a><a href="phoIPC.html#89929">Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=phoIPCRegisterServerCheck
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1658248"></a><a name="40876"></a>phoIPCRegisterS<a name="phoIPCRegisterServerCheck"></a>erverCheck</h3>
+<a name="pgfId-1658249"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+phoIPCRegisterServerCheck(
+<code><em>t_toolName
+s_serverCheckFunc
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1658251"></a>Description</h4>
+
+<p>
+<a name="pgfId-1658420"></a>Registers a function that can be used to check if the server associated with the specified tool is operating correctly. The registered server check function is expected to have no argument. If the function is not specified, or it has an argument, registration fails. If the function is registered, it checks that the IPC channel is open and connected to the child process. Note that this function is intended to perform a quick check and is likely to be used inside a Pcell.<em></em></p>
+
+<h4>
+<a name="pgfId-1658259"></a>Arguments</h4>
+<table class="webflareTable" id="#id1658254">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1658256"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_toolName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1658258"></a>Name of the tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1658756"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_serverCheckFunc</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1658777"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1658779"></a>Name of the function to call to check if the server is operating correctly.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1658269"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1658260">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1658262"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1658264"></a>The server check function is registered.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1658266"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1658268"></a>The command failed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1658270"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1658271"></a>phoIPCRegisterServerCheck(&quot;phoIPCSample&quot; &#39;myCheckFn)</pre>
+<h4><em>
+<a name="pgfId-1665195"></a>Related Topics</em></h4>
+
+<p>
+<a name="pgfId-1665199"></a><a href="phoIPC.html#26556">Server Registration and Check Functions</a></p>
+<p>
+<a name="pgfId-1665203"></a><a href="phoIPC.html#89929">Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=phoIPCServerCheck
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1659514"></a><a name="89697"></a>phoIPCS<a name="phoIPCServerCheck"></a>erverCheck</h3>
+<a name="pgfId-1659515"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+phoIPCServerCheck(
+<code><em>t_toolName
+</em></code>[ ?cellViewID <code><em>d_cellViewID </em></code>]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1659517"></a>Description</h4>
+
+<p>
+<a name="pgfId-1659518"></a>Calls the registered server check function for the specified tool, and issues a warning in the CIW if the server is not running. In addition, when a valid cellview is specified, the function creates a label at the origin that displays the same message in the layout canvas.<em></em></p>
+
+<h4>
+<a name="pgfId-1659525"></a>Arguments</h4>
+<table class="webflareTable" id="#id1659520">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659522"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_toolName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659524"></a>Name of the tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1659842"></a>?<code>cellViewID</code> <span class="webflare-courier-new" style="white-space:pre"><em>d_cellViewID</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659876"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659878"></a>Name of the layout cellview ID in which a label is created on the canvas that displays the warning message.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1659535"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1659526">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659528"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659530"></a>The registered server check function is called.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659532"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659534"></a>The command failed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1659536"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1660168"></a>when(phoIPCServerCheck(&quot;phoIPCSample&quot; pcCellView)</pre>
+
+<p>
+<a name="pgfId-1672716"></a>Checks that the processor IPC channel is open and that the server is working and ready to process any commands.</p>
+
+<h4><em>
+<a name="pgfId-1665170"></a>Related Topics</em></h4>
+
+<p>
+<a name="pgfId-1665174"></a><a href="phoIPC.html#26556">Server Registration and Check Functions</a></p>
+<p>
+<a name="pgfId-1665178"></a><a href="phoIPC.html#89929">Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)</a></p>
+
+<!-- [TOPIC_END] -->
+<h2>
+<a name="pgfId-1656421"></a><a name="11248"></a>Message Processor Functions</h2>
+
+<p>
+<a name="pgfId-1671652"></a>Use the functions defined in this section to process a server message that is returned in the standard <code>phoIPC</code> format. </p>
+<p>
+<a name="pgfId-1665639"></a>A standard <code>phoIPC</code> message is a string containing a list of six sublists, as defined in <a href="phoIPC.html#43645">Standard phoIPC Message Format</a>. Each sublist in the message represents a different part of the element being built. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-1671759"></a>The message returned by the shape processor must exist in the standard <code>phoIPC</code> format for it to be used with the <code>phoIPC</code> shape-processing infrastructure. </div>
+
+<h4><em>
+<a name="pgfId-1669306"></a>Related Topics</em></h4>
+
+<p>
+<a name="pgfId-1669326"></a><a href="phoIPC.html#43645">Standard phoIPC Message Format</a></p>
+<p>
+<a name="pgfId-1669342"></a><a href="phoIPC.html#45591">Generic Message Processor Example</a></p>
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=List of Message Processor Functions
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1669151"></a>List of Message Processor Functions</h3>
+
+<p>
+<a name="pgfId-1669221"></a><a href="phoIPC.html#24224">phoIPCGetMessageProcessor</a></p>
+<p>
+<a name="pgfId-1669225"></a><a href="phoIPC.html#14797">phoIPCProcessMarkers</a></p>
+<p>
+<a name="pgfId-1669229"></a><a href="phoIPC.html#18922">phoIPCProcessPorts</a></p>
+<p>
+<a name="pgfId-1669233"></a><a href="phoIPC.html#82817">phoIPCProcessServerMessage</a></p>
+<p>
+<a name="pgfId-1669237"></a><a href="phoIPC.html#83380">phoIPCProcessShapes</a></p>
+<p>
+<a name="pgfId-1671174"></a><a href="phoIPC.html#47695">phoIPCRegisterMessageProcessor</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=phoIPCGetMessageProcessor
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1651694"></a><a name="24224"></a>phoIPCGetM<a name="phoIPCGetMessageProcessor"></a>essageProcessor</h3>
+<a name="pgfId-1651695"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+phoIPCGetMessageProcessor(
+<code><em>t_toolName
+</em></code>)
+=&gt; <code><em>s_msgProcessor</em></code> / nil</pre>
+<h4>
+<a name="pgfId-1651697"></a>Description</h4>
+
+<p>
+<a name="pgfId-1651698"></a>Gets the name of the message processor associated with the specified tool.<em></em></p>
+
+<h4>
+<a name="pgfId-1651918"></a>Arguments</h4>
+<table class="webflareTable" id="#id1659332">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1651704"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_toolName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1651706"></a>Name of the tool.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1651928"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1659338">
+<tbody><tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1651921"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_msgProcessor</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659379"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1651923"></a>Name of the message processor function associated with the specified tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1651925"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1651927"></a>The command failed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1651934"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1652741"></a>msgProcessor = phoIPCGetMessageProcessor(&quot;myIPCTool&quot;)</pre>
+<h4><em>
+<a name="pgfId-1665140"></a>Related Topics</em></h4>
+
+<p>
+<a name="pgfId-1665144"></a><a href="phoIPC.html#11248">Message Processor Functions</a></p>
+<p>
+<a name="pgfId-1665148"></a><a href="phoIPC.html#89929">Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=phoIPCProcessMarkers
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1653392"></a><a name="14797"></a>phoIPCProces<a name="phoIPCProcessMarkers"></a>sMarkers</h3>
+<a name="pgfId-1653393"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+phoIPCProcessMarkers(
+<code><em>d_cellviewID
+l_markerList
+s_displayToolName
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1653395"></a>Description</h4>
+
+<p>
+<a name="pgfId-1653396"></a>Specifies the default marker processor for the specified tool and generates markers in the Annotation Browser assistant, categorizing the markers based on the specified <a href="phoIPC.html#markerList">markerList</a>.<em></em></p>
+
+<h4>
+<a name="pgfId-1653403"></a>Arguments</h4>
+<table class="webflareTable" id="#id1658162">
+<tbody><tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1653400"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellviewID</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659423"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1653402"></a>Name of the cellview.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1654656"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_markerList</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659445"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1654658"></a>List of sublists, where each sublist represents a marker object that will be created in the layout.</p>
+<p>
+<a name="pgfId-1672028"></a>For more information, see <h-hot><a href="phoIPC.html#markerList">Additional Information</a></h-hot>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1655338"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_displayToolName</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1659467"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1655509"></a>Specifies the tool name to use for tagging the markers and categorizing them in the Annotation Browser assistant. </p>
+<p>
+<a name="pgfId-1659469"></a>The display tool name does not need to be the same as the tool name used internally for <code>phoIPC</code> registration functions.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1653413"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1658177">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1653406"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1653408"></a>The markers for the specified tool were generated in the Annotation Browser assistant.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1653410"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1653412"></a>The command failed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1654548"></a>Additional Infor<a name="markerList"></a>mation</h4>
+
+<p>
+<a name="pgfId-1654577"></a><strong>markerList</strong></p>
+<p>
+<a name="pgfId-1655367"></a>This is a list of sublists, where each sublist represents a marker object that is created in the layout Annotation Browser assistant. <code>markerList</code> is intended to convey visual messages to indicate issues, such as DRC violations, that are created by the shape generator as a result of the requested parameters for generation. </p>
+<p>
+<a name="pgfId-1655963"></a>The syntax of a marker processor function is:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1654677"></a>(</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1654678"></a>( s_severity s_msgText l_pointList [layerList] )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1654679"></a>...</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1654680"></a>)</pre>
+
+<p>
+<a name="pgfId-1654681"></a>where:</p>
+<ul><li>
+<a name="pgfId-1654801"></a><code>severity</code> is categorized as: <code>error</code>, <code>info</code>, or <code>warning.</code><br />
+<a name="pgfId-1654846"></a>Any other values are defined as <code>error</code>.</li><li>
+<a name="pgfId-1654683"></a><code>msgText</code> is a string that describes the issue and is displayed as the description for the marker generated in the layout canvas.</li><li>
+<a name="pgfId-1654684"></a><code>pointList</code> is used to generate the shape for the marker object in the canvas.</li><li>
+<a name="pgfId-1654685"></a><code>layerList</code> (<em>optional</em>) is a list of layers associated with the marker. <code>layerList</code> is used to provide additional information in the Annotation Browser assistant.</li></ul>
+
+
+
+
+
+<h4>
+<a name="pgfId-1653414"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1653387"></a>phoIPCProcessMarkers(cv markers &quot;My IPC Tool&quot;)</pre>
+<h4><em>
+<a name="pgfId-1665115"></a>Related Topics</em></h4>
+
+<p>
+<a name="pgfId-1665119"></a><a href="phoIPC.html#11248">Message Processor Functions</a></p>
+<p>
+<a name="pgfId-1665123"></a><a href="phoIPC.html#89929">Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=phoIPCProcessPorts
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1656037"></a><a name="18922"></a>phoIPCProces<a name="phoIPCProcessPorts"></a>sPorts</h3>
+<a name="pgfId-1656038"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+phoIPCProcessPorts(
+<code><em>d_cellviewID
+l_opticalPortList
+l_portMap
+</em></code>[ ?lppMap <code><em>l_lppMap </em></code>]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1656040"></a>Description</h4>
+
+<p>
+<a name="pgfId-1661741"></a>Creates optical ports in the specified cellview using the specfied <code>portList</code>. This is the default optical port processor. For more information about the required format of the optical port list and the port map, which can be used to override the direction of a port, see <h-hot><a href="phoIPC.html#portList">Additional Information</a></h-hot>.<em></em></p>
+
+<h4>
+<a name="pgfId-1656058"></a>Arguments</h4>
+<table class="webflareTable" id="#id1656044">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1656046"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellviewID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1656048"></a>Name of the cellview.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1656050"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_opticalPortList</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1656239"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1656243"></a>List of sublists, where each sublist represents an optical port that will be created for the waveguide in the specified cellview. </p>
+<p>
+<a name="pgfId-1661310"></a>By default, <code>portName</code> is used to determine the name for the optical net or terminal to be created. The port direction is determined from the argument, <code>l_portMap</code>.</p>
+<p>
+<a name="pgfId-1664257"></a>For more information, see <h-hot><a href="phoIPC.html#portList">Additional Information</a></h-hot>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1656054"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_portMap</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1656258"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1656260"></a>List of sublists, where each sublist is used to specify the optical or electrical port name-to-direction mapping. For more information, see <h-hot><a href="phoIPC.html#portList">Additional Information</a></h-hot>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1675494"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_lppMap</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1675496"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1675498"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1675500"></a><code>lppMap</code> is an optional argument that is used to specify the layer, purpose, or layer-purpose pair mapping to be used for generating optical ports. </p>
+<p>
+<a name="pgfId-1675889"></a>For more information, see <h-hot><a href="phoIPC.html#portList">Additional Information</a></h-hot>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1656068"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1656059">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1656061"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1656063"></a>Optical ports are created in the specified cellview.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1656065"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1656067"></a>The command failed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1656070"></a>Additional Infor<a name="portList"></a>mation</h4>
+
+<ul><li>
+<a name="pgfId-1656071"></a><strong>opticalPortList</strong><br />
+<a name="pgfId-1656072"></a><code>opticalPortList </code>is a list of sublists, where each sublist coincides with an optical port, and is represented in the following format:<pre class="webflare-pre-block webflare-courier-new" id="#id1660869">
+<a name="pgfId-1660869"></a>(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1660870">
+<a name="pgfId-1660870"></a>( (n_width n_angle n_radius t_name) g_pointList t_layerName)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1660871">
+<a name="pgfId-1660871"></a>&#8230;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1656077">
+<a name="pgfId-1656077"></a>)</pre>
+<a name="pgfId-1656078"></a>where:<ul><li>
+<a name="pgfId-1656079"></a><code>width</code> is a float value that represents the waveguide width in user-defined units.</li><li>
+<a name="pgfId-1656081"></a><code>angle</code> is a float value that represents the waveguide facet angle in degree.</li><li>
+<a name="pgfId-1656082"></a><code>radius</code> is a float value that represents the bend radius for the waveguide at the port.</li><li>
+<a name="pgfId-1656083"></a><code>pointList</code> is the coordinate that represents the center of the port measured in user-defined units.</li><li>
+<a name="pgfId-1661139"></a><code>layerName</code> is the name of the waveguide layer.</li></ul></li><li>
+<a name="pgfId-1673065"></a><strong>portMap</strong><br />
+<a name="pgfId-1662172"></a><code>portMap</code> is an optional argument that is used to specify the optical or electrical port name-to-direction mapping. A <code>portMap</code> can be useful to determine the new direction to use for a port when integrating with a PDK to match the simulator. A <code>portMap</code> is a list of sublists, represented in the following format:<pre class="webflare-pre-block webflare-courier-new" id="#id1662682">
+<a name="pgfId-1662682"></a>(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1662683">
+<a name="pgfId-1662683"></a>( t_serverPortName (t_newPortName [t_newPortDirection])</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1662684">
+<a name="pgfId-1662684"></a>&#8230;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1662630">
+<a name="pgfId-1662630"></a>)</pre>
+<a name="pgfId-1662181"></a>where:<ul><li>
+<a name="pgfId-1662182"></a><code>serverPortName</code> is the name for the port as returned by the server in the original message.</li><li>
+<a name="pgfId-1662890"></a><code>newPortName</code> is the new name for the port.</li><li>
+<a name="pgfId-1662927"></a><code>newPortDirection</code> is a valid port direction. If a port direction is not specified, the default direction used is <code>inputOutput</code>.</li></ul></li><li>
+<a name="pgfId-1675614"></a><strong>lppMap</strong><br />
+<a name="pgfId-1675616"></a><code>lppMap</code> is a list of layers, purposes, or a sublist that establishes the associations between the supported layer-purpose pairs (LPP). The second value in the association list must be of the same type as the key.<br />
+<a name="pgfId-1676568"></a>Mapping by layer-purpose pairs is given priority over mapping by layer names or purpose names. <br />
+<a name="pgfId-1676461"></a>An <code>lppMap</code> can be represented in the following format:<pre class="webflare-pre-block webflare-courier-new" id="#id1680201">
+<a name="pgfId-1680201"></a>list(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680202">
+<a name="pgfId-1680202"></a>list( list(&quot;src_layer&quot; &quot;src_purpose&quot;) list(&quot;dst_layer&quot; &quot;dst_purpose&quot;) ) ;LPP</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680203">
+<a name="pgfId-1680203"></a>list(&quot;src_layer&quot; &quot;dst_layer&quot;) ;layer</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680204">
+<a name="pgfId-1680204"></a>list(&quot;src_purpose&quot; &quot;dst_purpose&quot;) ;purpose</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680205">
+<a name="pgfId-1680205"></a>);list</pre>
+<a name="pgfId-1680206"></a>where:<ul><li>
+<a name="pgfId-1680207"></a>(&quot;<code>src_layer</code>&quot; &quot;<code>src_purpose</code>&quot;) and (&quot;<code>dst_layer</code>&quot; &quot;<code>dst_purpose</code>&quot;) represent the supported source and destination layer-purpose pair associations.</li><li>
+<a name="pgfId-1680208"></a>&quot;<code>src_layer</code>&quot; and &quot;<code>dst_layer</code>&quot; represent the source and destination layer names.</li><li>
+<a name="pgfId-1680209"></a>&quot;<code>src_purpose</code>&quot; and &quot;<code>dst_purpose</code>&quot; represent the source and destination purpose names.</li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a name="pgfId-1656084"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1656085"></a>phoIPCProcessPorts(cv1 portList1 portMap2 lppMap2)</pre>
+
+<p>
+<a name="pgfId-1663069"></a>Creates new ports in the cellview, <code>cv1</code>, using <code>portList1</code> and <code>portMap2.</code></p>
+
+<h4><em>
+<a name="pgfId-1680327"></a>Related Topics</em></h4>
+
+<p>
+<a name="pgfId-1665094"></a><a href="phoIPC.html#11248">Message Processor Functions</a></p>
+<p>
+<a name="pgfId-1665098"></a><a href="phoIPC.html#89929">Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=phoIPCProcessServerMessage
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1663307"></a><a name="82817"></a>phoIPCProces<a name="phoIPCProcessServerMessage"></a>sServerMessage</h3>
+<a name="pgfId-1663308"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+phoIPCProcessServerMessage(
+<code><em>d_cellviewID
+t_waveguideLayer
+t_serverMessage
+</em></code>[ ?dropPorts { t | nil }<code><em> </em></code>]
+[ ?portMap <code><em>l_portMap </em></code>]
+[ ?lppMap <code><em>l_lppMap </em></code>]
+)</pre>
+<h4>
+<a name="pgfId-1663310"></a>Description</h4>
+
+<p>
+<a name="pgfId-1663311"></a>Issues messages from the IPC processor, which can further be used in Pcells to create geometries.<em></em></p>
+
+<h4>
+<a name="pgfId-1663338"></a>Arguments</h4>
+<table class="webflareTable" id="#id1663314">
+<tbody><tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1663316"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellviewID</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1672185"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1663318"></a>Name of the cellview where the object needs to be created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1663320"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_waveguideLayer</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1663324"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1663326"></a>Default name for the waveguide layer.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1663329"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_serverMessage</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1663333"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1663337"></a>Message returned by the IPC server.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1663760"></a><span class="webflare-courier-new" style="white-space:pre"><em>?dropPorts</em></span> <span class="webflare-courier-new" style="white-space:pre"><em>b_dropPorts</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1663780"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1663782"></a>Specifies whether or not the specified electrical or optical ports must be retained. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1663787"></a><span class="webflare-courier-new" style="white-space:pre"><em>?portMap</em></span> <span class="webflare-courier-new" style="white-space:pre"><em>l_portMap</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1663806"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1664274"></a>List of sublists, where each sublist is used to specify the optical or electrical port name-to-direction mapping. </p>
+<p>
+<a name="pgfId-1675942"></a>For more information, see <h-hot><a href="phoIPC.html#portListMessage">Additional Information</a></h-hot>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1675963"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_lppMap</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1675965"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1675967"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1675969"></a><code>lppMap</code> is an optional argument that is used to specify the layer, purpose, or layer-purpose pair mapping to be used for generating shapes and electrical pins.</p>
+<p>
+<a name="pgfId-1675971"></a>For more information, see <h-hot><a href="phoIPC.html#portListMessage">Additional Information</a></h-hot>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1663348"></a>Value Returned</h4>
+
+<p>
+<a name="pgfId-1663721"></a>None</p>
+
+<h4>
+<a name="pgfId-1663350"></a>Additional Infor<a name="portListMessage"></a>mation</h4>
+
+<ul><li>
+<a name="pgfId-1663363"></a><strong>portMap</strong><br />
+<a name="pgfId-1663364"></a><code>portMap</code> is an optional argument that is used to specify the optical or electrical port name-to-direction mapping. A <code>portMap</code> can be useful to determine the new direction to use for a port when integrating with a PDK to match the simulator. A portMap is a list of sublists, represented in the following format:<pre class="webflare-pre-block webflare-courier-new" id="#id1678670">
+<a name="pgfId-1678670"></a>(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1678671">
+<a name="pgfId-1678671"></a>( t_serverPortName (t_newPortName [t_newPortDirection])</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1678672">
+<a name="pgfId-1678672"></a>&#8230;</pre>
+<a name="pgfId-1678666"></a>)<br />
+<a name="pgfId-1663369"></a>where:<ul><li>
+<a name="pgfId-1663370"></a><code>serverPortName</code> is the name for the port as returned by the server in the original message.</li><li>
+<a name="pgfId-1663371"></a><code>newPortName</code> is the desired new name for the port.</li><li>
+<a name="pgfId-1663372"></a><code>newPortDirection</code> is a valid port direction specified as a string value. If a port direction is not specified, the default direction used is <code>inputOutput</code>.</li></ul></li><li>
+<a name="pgfId-1678267"></a><strong>lppMap</strong><br />
+<a name="pgfId-1678268"></a><code>lppMap</code> is a list of layers, purposes, or a sublist that establishes the associations between the supported layer-purpose pairs (LPP). The second value in the association list must be of the same type as the key.<br />
+<a name="pgfId-1678269"></a>Mapping by layer-purpose pairs is given priority over mapping by layer names or purpose names. <br />
+<a name="pgfId-1678270"></a>An <code>lppMap</code> can be represented in the following format:<pre class="webflare-pre-block webflare-courier-new" id="#id1678271">
+<a name="pgfId-1678271"></a>list(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680224">
+<a name="pgfId-1680224"></a>list( list(&quot;src_layer&quot; &quot;src_purpose&quot;) list(&quot;dst_layer&quot; &quot;dst_purpose&quot;) ) ;LPP</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680225">
+<a name="pgfId-1680225"></a>list(&quot;src_layer&quot; &quot;dst_layer&quot;) ;layer</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680226">
+<a name="pgfId-1680226"></a>list(&quot;src_purpose&quot; &quot;dst_purpose&quot;) ;purpose</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680227">
+<a name="pgfId-1680227"></a>);list</pre>
+<a name="pgfId-1680228"></a>where:<ul><li>
+<a name="pgfId-1680287"></a>(&quot;<code>src_layer</code>&quot; &quot;<code>src_purpose</code>&quot;) and (&quot;<code>dst_layer</code>&quot; &quot;<code>dst_purpose</code>&quot;) represent the supported source and destination layer-purpose pair associations.</li><li>
+<a name="pgfId-1680288"></a>&quot;<code>src_layer</code>&quot; and &quot;<code>dst_layer</code>&quot; represent the source and destination layer names.</li><li>
+<a name="pgfId-1676042"></a>&quot;<code>src_purpose</code>&quot; and &quot;<code>dst_purpose</code>&quot; represent the source and destination purpose names.</li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a name="pgfId-1663373"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1664358"></a><code>phoIPCProcessServerMessage(pcCellView &quot;waveguide&quot; msg nil portMap lppMap2)</code></pre>
+
+<p>
+<a name="pgfId-1664531"></a>Creates the objects in the submaster. For a more detailed example illustrating the use of <code>phoIPCProcessServerMessage</code> and other related functions, see the generic message processor <h-hot><a href="phoIPC.html#messageProcessorFuncExamples">example</a></h-hot>.</p>
+
+<h4><em>
+<a name="pgfId-1665065"></a>Related Topics</em></h4>
+
+<p>
+<a name="pgfId-1665069"></a><a href="phoIPC.html#11248">Message Processor Functions</a></p>
+<p>
+<a name="pgfId-1665073"></a><a href="phoIPC.html#89929">Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=phoIPCProcessShapes
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1664926"></a><a name="83380"></a>phoIPCProces<a name="phoIPCProcessShapes"></a>sShapes</h3>
+<a name="pgfId-1664927"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+phoIPCProcessShapes(
+<code><em>d_cellviewID
+l_shapeList
+l_portMap
+</em></code>[ ?lppMap <code><em>l_lppMap </em></code>]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1664929"></a>Description</h4>
+
+<p>
+<a name="pgfId-1665340"></a>Uses <code>shapeList</code> to create shapes and electrical pins in the specified cellview. This is the default shape processor. For more information, see <h-hot><a href="phoIPC.html#shapeList">Additional Information</a></h-hot>.<em></em></p>
+
+<h4>
+<a name="pgfId-1664972"></a>Arguments</h4>
+<table class="webflareTable" id="#id1664933">
+<tbody><tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1664935"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellviewID</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1672215"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1664937"></a>Name of the cellview in which the object needs to be created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1664939"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_shapeList</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1664943"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1664945"></a>List of sublists, where each sublist defines a point list that is used to create a polygon on the specified layer using the purpose <code>drawing</code>.</p>
+<p>
+<a name="pgfId-1666055"></a>If the electrical port name is specified, it is used to create a pin with the corresponding polygon as the shape. </p>
+<p>
+<a name="pgfId-1666073"></a>For the format of the <code>shapeList</code>, see <h-hot><a href="phoIPC.html#shapeList">Additional Information</a></h-hot>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1664947"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_portMap</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1664951"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1664953"></a><code>portMap</code> is used to specify the optical or electrical port name-to-direction mapping.</p>
+<p>
+<a name="pgfId-1672289"></a>For more information, see <h-hot><a href="phoIPC.html#shapeList">Additional Information</a></h-hot>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1674462"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_lppMap</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1674464"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1674458"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1674487"></a><code>lppMap</code> is an optional argument that is used to specify the layer, purpose, or layer-purpose pair mapping to be used for generating shapes and electrical pins.</p>
+<p>
+<a name="pgfId-1675855"></a>For more information, see <h-hot><a href="phoIPC.html#shapeList">Additional Information</a></h-hot>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1664973"></a>Value Returned</h4>
+
+<p>
+<a name="pgfId-1664974"></a>None</p>
+
+<h4>
+<a name="pgfId-1664976"></a>Additional Infor<a name="shapeList"></a>mation</h4>
+
+<ul><li>
+<a name="pgfId-1664977"></a><strong>shapeList</strong><br />
+<a name="pgfId-1665858"></a>The required format for a <code>shapeList</code> is given below:<pre class="webflare-pre-block webflare-courier-new" id="#id1665859">
+<a name="pgfId-1665859"></a>(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1665861">
+<a name="pgfId-1665861"></a>(  t_layerName l_pointList [t_portName]] )</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1665862">
+<a name="pgfId-1665862"></a>&#8230;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1665863">
+<a name="pgfId-1665863"></a>)</pre>
+<a name="pgfId-1665864"></a>where:<ul><li>
+<a name="pgfId-1664984"></a><code>layerName</code> is the name of the waveguide layer.</li><li>
+<a name="pgfId-1664985"></a><code>pointList</code> is the list of points to be used for creating a polygon.</li><li>
+<a name="pgfId-1664986"></a><code>portName</code> is the name of the port as returned by the server in the original message.</li></ul></li><li>
+<a name="pgfId-1673084"></a><strong>portMap</strong><br />
+<a name="pgfId-1666995"></a><code>portMap</code> is used to specify the optical or electrical port name-to-direction mapping. A <code>portMap</code> can be useful to determine the new direction to use for a port when integrating with a PDK to match the simulator. A portMap is a list of sublists, represented in the following format:<pre class="webflare-pre-block webflare-courier-new" id="#id1666996">
+<a name="pgfId-1666996"></a>(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1666997">
+<a name="pgfId-1666997"></a>( t_serverPortName (t_newPortName [t_newPortDirection])</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1666998">
+<a name="pgfId-1666998"></a>&#8230;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1666999">
+<a name="pgfId-1666999"></a>)</pre>
+<a name="pgfId-1667000"></a>where:<ul><li>
+<a name="pgfId-1667001"></a><code>serverPortName</code> is the name for the port as returned by the server in the original message.</li><li>
+<a name="pgfId-1667002"></a><code>newPortName</code> is the desired new name for the port.</li><li>
+<a name="pgfId-1666987"></a><code>newPortDirection</code> is a valid port direction specified as a string value. If a port direction is not specified, the default direction used is <code>inputOutput</code>.</li></ul></li><li>
+<a name="pgfId-1678308"></a><strong>lppMap</strong><br />
+<a name="pgfId-1678309"></a><code>lppMap</code> is a list of layers, purposes, or a sublist that establishes the associations between the supported layer-purpose pairs (LPP). The second value in the association list must be of the same type as the key.<br />
+<a name="pgfId-1678310"></a>Mapping by layer-purpose pairs is given priority over mapping by layer names or purpose names. <br />
+<a name="pgfId-1678311"></a>An <code>lppMap</code> can be represented in the following format:<pre class="webflare-pre-block webflare-courier-new" id="#id1678312">
+<a name="pgfId-1678312"></a>list(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680243">
+<a name="pgfId-1680243"></a>list( list(&quot;src_layer&quot; &quot;src_purpose&quot;) list(&quot;dst_layer&quot; &quot;dst_purpose&quot;) ) ;LPP</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680244">
+<a name="pgfId-1680244"></a>list(&quot;src_layer&quot; &quot;dst_layer&quot;) ;layer</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680245">
+<a name="pgfId-1680245"></a>list(&quot;src_purpose&quot; &quot;dst_purpose&quot;) ;purpose</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1680246">
+<a name="pgfId-1680246"></a>);list</pre>
+<a name="pgfId-1680247"></a>where:<ul><li>
+<a name="pgfId-1680311"></a>(&quot;<code>src_layer</code>&quot; &quot;<code>src_purpose</code>&quot;) and (&quot;<code>dst_layer</code>&quot; &quot;<code>dst_purpose</code>&quot;) represent the supported source and destination layer-purpose pair associations.</li><li>
+<a name="pgfId-1680312"></a>&quot;<code>src_layer</code>&quot; and &quot;<code>dst_layer</code>&quot; represent the source and destination layer names.</li><li>
+<a name="pgfId-1675832"></a>&quot;<code>src_purpose</code>&quot; and &quot;<code>dst_purpose</code>&quot; represent the source and destination purpose names.</li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a name="pgfId-1664987"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1666900"></a>phoIPCProcessShapes(cv polygons portMap lppMap2)</pre>
+
+<p>
+<a name="pgfId-1680376"></a>Creates a polygon in the specified cellview. </p>
+
+<h4><em>
+<a name="pgfId-1664920"></a>Related Topics</em></h4>
+
+<p>
+<a name="pgfId-1665048"></a><a href="phoIPC.html#11248">Message Processor Functions</a></p>
+<p>
+<a name="pgfId-1665054"></a><a href="phoIPC.html#89929">Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)</a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=phoIPCRegisterMessageProcessor
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1671233"></a><a name="47695"></a>phoIPCRegisterM<a name="phoIPCRegisterMessageProcessor"></a>essageProcessor</h3>
+<a name="pgfId-1671234"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+phoIPCRegisterMessageProcessor(
+<code><em>t_toolName
+s_msgProcessor
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1671236"></a>Description</h4>
+
+<p>
+<a name="pgfId-1671238"></a>Registers the message processor corresponding to the specified tool. In addition, the function ensures that the message processor function is defined, and has the right number of arguments.<em></em></p>
+
+<h4>
+<a name="pgfId-1671244"></a>Arguments</h4>
+<table class="webflareTable" id="#id1671239">
+<tbody><tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1671241"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_toolName</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1672326"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1671243"></a>Name of the tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1671429"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_msgProcessor</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1671445"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1671447"></a>Name of the message processor function.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1671258"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1671245">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1671251"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1671253"></a>The message processor for the specified tool was registered.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1671255"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1671257"></a>The command failed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1671259"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1671260"></a>phoIPCRegisterMessageProcessor(&quot;phoIPCSample&quot; &#39;myMsgProc)</pre>
+<h4><em>
+<a name="pgfId-1671261"></a>Related Topics</em></h4>
+
+<p>
+<a name="pgfId-1671265"></a><a href="phoIPC.html#11248">Message Processor Functions</a></p>
+<p>
+<a name="pgfId-1671269"></a><a href="phoIPC.html#89929">Photonic Interprocess Communication Functions (ICADVM20.1 Photonics Only)</a></p>
+
+<!-- [TOPIC_END] -->
+<h2>
+<a name="pgfId-1665641"></a><a name="43645"></a>Standard phoIPC Message Format</h2>
+
+<p>
+<a name="pgfId-1667703"></a>The standard <code>phoIPC</code> message format is given below:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-1667686"></a>(<br /><code><em>t_toolName<br />l_shapeList<br />l_opticalPortList<br />l_markerList<br />l_attributeList<br />l_netList<br /></em></code>)</pre>
+<p>
+<a name="pgfId-1665648"></a>where:</p>
+<ul><li>
+<a name="pgfId-1665649"></a><strong>toolName</strong><br />
+<a name="pgfId-1665650"></a><code>toolName</code> is a string. <code>phoIPC</code> parses the <code>toolName</code> string and retains the first element as the <code>toolName</code> used by the <code>phoIPC</code> functions.</li><li>
+<a name="pgfId-1665654"></a><strong>shapeList</strong><br />
+<a name="pgfId-1668088"></a><code>shapeList</code> is a list of sublists. Each sublist in this list has the following format: <pre class="webflare-pre-block webflare-courier-new" id="#id1665657">
+<a name="pgfId-1665657"></a>(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1665658">
+<a name="pgfId-1665658"></a>(  t_layerName l_pointList [t_portName]])</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1665659">
+<a name="pgfId-1665659"></a>&#8230;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1665660">
+<a name="pgfId-1665660"></a>)</pre>
+<a name="pgfId-1665662"></a>The <code>shapeList</code> is used by the <a href="phoIPC.html#83380">phoIPCProcessShapes</a> function.</li><li>
+<a name="pgfId-1665665"></a><strong>opticalPortList</strong><br />
+<a name="pgfId-1668559"></a>An <code>opticalPortList</code> is a list of sublists, where each sublist coincides with an optical port, and is represented in the following format:<pre class="webflare-pre-block webflare-courier-new" id="#id1668560">
+<a name="pgfId-1668560"></a>(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1668561">
+<a name="pgfId-1668561"></a>( (n_width n_angle n_radius t_name) g_pointList t_layerName )</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1668562">
+<a name="pgfId-1668562"></a>&#8230;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1668563">
+<a name="pgfId-1668563"></a>)</pre>
+<a name="pgfId-1668564"></a>where:<ul><li>
+<a name="pgfId-1668565"></a><code>width</code> is a float value that represents the waveguide width in user-defined units.</li><li>
+<a name="pgfId-1668566"></a><code>angle</code> is a float value that represents the waveguide facet angle in degree.</li><li>
+<a name="pgfId-1668567"></a><code>radius</code> is a float value that represents the bend radius for the waveguide at the port.</li><li>
+<a name="pgfId-1668568"></a><code>pointList</code> is the coordinate that represents the center of the port measured in user-defined units.</li><li>
+<a name="pgfId-1668569"></a><code>layerName</code> is the name of the <code>waveguide</code> layer.</li></ul></li><li>
+<a name="pgfId-1673025"></a><strong>markerList</strong><br />
+<a name="pgfId-1673795"></a>This is a list of sublists, where each sublist represents a marker object that is created in the layout Annotation Browser assistant. <code>markerList</code> is intended to convey visual messages to indicate issues, such as DRC violations, that are created by the shape generator as a result of the requested parameters for generation. <br />
+<a name="pgfId-1673796"></a>The syntax of a marker processor function is:<pre class="webflare-pre-block webflare-courier-new" id="#id1673797">
+<a name="pgfId-1673797"></a>(</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1673798">
+<a name="pgfId-1673798"></a>( s_severity s_msgText l_pointList [layerList])</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1673799">
+<a name="pgfId-1673799"></a>...</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1673800">
+<a name="pgfId-1673800"></a>)</pre>
+<a name="pgfId-1673801"></a>where:<ul><li>
+<a name="pgfId-1673802"></a><code>severity</code> is categorized as: <code>error</code>, <code>info</code>, or <code>warning.</code><br />
+<a name="pgfId-1673803"></a>Any other values are defined as <code>error</code>.</li><li>
+<a name="pgfId-1673804"></a><code>msgText</code> is a string that describes the issue and is displayed as the description for the marker generated in the layout canvas.</li><li>
+<a name="pgfId-1673805"></a><code>pointList</code> is used to generate the shape for the marker object in the canvas.</li><li>
+<a name="pgfId-1668631"></a><code>layerList</code> (<em>optional</em>) is a list of layers associated with the marker. <code>layerList</code> is used to provide additional information in the Annotation Browser assistant.</li></ul></li><li>
+<a name="pgfId-1673033"></a><strong>attributeList</strong> and <strong>netlist</strong><br />
+<a name="pgfId-1669103"></a>Please contact your Cadence customer support representative, if you would like to use either of these two elements. Else, set them to <code>nil.</code></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-1669415"></a>For each sublist described above, the <code>phoIPC</code> infrastructure provides a default handling function.</div>
+
+<h2>
+<a name="pgfId-1665705"></a><a name="45591"></a>Generic Message Processor Example </h2>
+
+<p>
+<a name="pgfId-1664872"></a>Here is a simple IPC message processor, built using the <code>phoIPC</code> sublist processing functions. The message processor requires the following five arguments: </p>
+<ul><li>
+<a name="pgfId-1664874"></a><code>cv</code>: Cellview in which the objects specified in the message need to be created.</li><li>
+<a name="pgfId-1664875"></a><code>msg</code>: Message containing the sublists. It must be formatted as specified in the <a href="phoIPC.html#43645">Standard phoIPC Message Format</a>.</li><li>
+<a name="pgfId-1664876"></a><code>designIntentLayer</code>: Default waveguide layer.</li><li>
+<a name="pgfId-1664877"></a><code>dropPort</code>: Boolean value, if set to <code>nil</code>, the electrical or optical port is not created. <code>dropPort</code> can be used when creating a hierarchical Pcell, where the lower-level ports are not used by the tool, and therefore, can be skipped (or dropped) for improved performance.</li><li>
+<a name="pgfId-1664880"></a><code>portMap</code>: List representing the port mapping information.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1664882">
+<a name="pgfId-1664882"></a>procedure( myMsgProc( cv msg designIntentLayer dropPorts portMap)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1664884">
+<a name="pgfId-1664884"></a>let( (polygons ports markers)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1664886">
+<a name="pgfId-1664886"></a>; get the relevant parts from the server message</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1664887">
+<a name="pgfId-1664887"></a>polygons = car(msg)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1664888">
+<a name="pgfId-1664888"></a>ports = cadr(msg)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1664889">
+<a name="pgfId-1664889"></a>markers = caddr(msg)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1664891">
+<a name="pgfId-1664891"></a>; send each one to the appropriate default processor</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1664892">
+<a name="pgfId-1664892"></a>phoIPCProcessShapes( cv polygons portMap)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1664893">
+<a name="pgfId-1664893"></a>phoIPCProcessPorts( cv ports portMap)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1664894">
+<a name="pgfId-1664894"></a>phoIPCProcessMarkers(cv markers &quot;My IPC Tool&quot;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1664895">
+<a name="pgfId-1664895"></a>)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1664896">
+<a name="pgfId-1664896"></a>)</pre></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a name="pgfId-1660449"></a>Exa<a name="messageProcessorFuncExamples"></a>mple</h4>
+
+<p>
+<a name="pgfId-1670346"></a>Let us consider the following example that demonstrates the use of some functions described in this chapter. The code snippet displayed below is part of a Pcell code block and it illustrates at a high-level how the various <code>phoIPC</code> functions can be used.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1664324"></a><code>; make sure the communication is open for the </code>&quot;<code>phoIPCSample</code>&quot;<code> processor</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1664325"></a><code>when( phoIPCServerCheck(</code>&quot;<code>phoIPCSample</code>&quot;<code> pcCellView)</code></pre>
+
+<p>
+<a name="pgfId-1664327"></a>The server is started and working.</p>
+<ul><li>
+<a name="pgfId-1671050"></a>Modify the parameters, as required.</li><li>
+<a name="pgfId-1671122"></a>Prepare the call to the IPC server.</li></ul>
+
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1664332"></a><code>msg = </code></pre>
+
+<p>
+<a name="pgfId-1670993"></a>Calls the IPC server and gets the message back.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1664335"></a><code>portMap =</code></pre>
+
+<p>
+<a name="pgfId-1664334"></a>Creates a <code>portMap</code>, if required.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1664338"></a><code>phoIPCProcessServerMessage(pcCellView </code>&quot;<code>waveguide</code>&quot;<code> msg nil portMap)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1663375"></a><code>) ; done</code></pre>
+
+<p>
+<a name="pgfId-1664337"></a>Creates the objects in the submaster.</p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="ipcskill.html" id="prev" title="Interprocess Communication Functions">Interprocess Communication Fun ...</a></em></b><b><em><a href="progexam.html" id="nex" title="Programming Examples">Programming Examples</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>
