@@ -1,0 +1,1932 @@
+
+<html><head><title>Additional Information</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="rgirdhar" />
+<meta name="CreateDate" content="2020-09-21" />
+<meta name="CreateTime" content="1600714711" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso ADE Verifier SKILL functions." />
+<meta name="DocTitle" content="Virtuoso ADE Verifier SKILL Reference" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Additional Information" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="verifierSkillRef" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-21" />
+<meta name="ModifiedTime" content="1600714711" />
+<meta name="NextFile" content="" />
+<meta name="Group" content="ADE Verifier" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="debug.html" />
+<meta name="c_product" content="Virtuoso Analog Design Environment" />
+<meta name="Product" content="Virtuoso Analog Design Environment" />
+<meta name="ProductFamily" content="Virtuoso Analog Design Environment" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso ADE Verifier SKILL Reference -- Additional Information" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="verifierSkillRefICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="verifierSkillRefTOC.html">Contents</a></li><li><a class="prev" href="debug.html" title="Debugging Functions">Debugging Functions</a></li><li style="float: right;"><a class="viewPrint" href="verifierSkillRef.pdf">View/Print PDF</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso ADE Verifier SKILL Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>A
+<a id="pgfId-1032287"></a></h1>
+<h1>
+<a id="pgfId-1032288"></a><hr />
+<a id="39674"></a>Additional Information<hr />
+</h1>
+
+<p>
+<a id="pgfId-1055090"></a>This section illustrates the following information:</p>
+<ul><li>
+<a id="pgfId-1063291"></a>Examples:<ul><li>
+<a id="pgfId-1055108"></a><a href="appA_reports.html#30010">Custom Function to Copy Implementation Units to Requirements</a></li><li>
+<a id="pgfId-1058655"></a><a href="appA_reports.html#17808">Callback Function to Save Verifier Cellviews Automatically</a></li><li>
+<a id="pgfId-1084827"></a><a href="appA_reports.html#40154">Callback Function to Automatically Create Snapshots for Each Simulation Run</a></li><li>
+<a id="pgfId-1084849"></a><a href="appA_reports.html#12090">Callback Function to Automatically Create Snapshots for Backup</a></li><li>
+<a id="pgfId-1074537"></a><a href="appA_reports.html#11370">Function to Customize Menu Banners</a></li><li>
+<a id="pgfId-1076769"></a><a href="appA_reports.html#91118">Function to Customize Context Menus</a></li></ul></li><li>
+<a id="pgfId-1063303"></a><a href="appA_reports.html#36766">Removed SKILL functions</a></li></ul>
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1057872"></a><a id="30010"></a>Custom Function to Copy Implementation Units to Requirements</h2>
+
+<p>
+<a id="pgfId-1057873"></a>The following code illustrates a custom function to get the unit and mapping information from each output of an implementation cellview in a Verifier session. It then sets the unit in the requirements mapped to the output. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1057874"></a>This custom function does not copy the specification values set in the implementations to the requirements. To copy the specifications and units of the implementations to the mapped requirements, use the <em><a actuate="user" class="URL" href="../adeVerifier/implementations.html#overrideSpec" show="replace" xml:link="simple">Override Verifier Specification</a></em> feature. </div>
+<table class="webflareTable" id="#id1057876">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061855"></a>;; Overwrite the unit of requirements that are mapped to the specified implementation</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061856"></a>;; NOTE: This is not support for implementation with &#39;Run Plan&#39; mode</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061857"></a>procedure(copyUnitToReq(sessionId impLib impCell impView impHistory &quot;gt&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061858"></a>    let(((reqIds list()) mappedReqs unit)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061859"></a>        when(verifIsSessionReadOnly(sessionId)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061860"></a>            error(&quot;Cannot overwrite the unit of requirement because of read-only             verifier session&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061861"></a>        )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061862"></a>        ;; Iterate tests in the implementation</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061863"></a>        foreach(testName verifGetImpTests(sessionId impLib impCell impView         impHistory)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061864"></a>            ;; Iterate outputs in the test</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061865"></a>            foreach(outputName verifGetImpTestOutputs(sessionId impLib impCell             impView impHistory testName)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061866"></a>                ;; Get the list of requirements that are mapped to the output</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061867"></a>                mappedReqs = verifGetImpMapping(sessionId impLib impCell impView                 impHistory ?testName testName ?outputName outputName)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061868"></a>                when(listp(mappedReqs) &amp;&amp; mappedReqs</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061869"></a>                    ;; Get unit of output</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061870"></a>                    unit = verifGetImpData(sessionId impLib impCell impView                     impHistory ?testName testName ?outputName outputName                     ?dataName &quot;unit&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061871"></a>                    when(stringp(unit) &amp;&amp; unit != &quot;&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061872"></a>                        ;; Set unit to all the mapped requirements</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061873"></a>                        foreach(reqId mappedReqs</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061874"></a>                            when(verifSetReqProp(sessionId reqId &quot;Unit&quot; unit)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061875"></a>                                reqIds = append1(reqIds reqId)))))))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1057888"></a>        reqIds))</pre>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1057889"></a>Copy the given above code and paste it in Virtuoso CIW to register the procedure. Then, run the following function in Virtuoso CIW: </p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1057890"></a>copyUnitToReq(<code><em>sesssionId impLib impCell impView impHistory</em></code>)</pre>
+
+<p>
+<a id="pgfId-1057891"></a>For example:</p>
+<p>
+<a id="pgfId-1061487"></a>sess = verifOpenCellView(&quot;test&quot; &quot;sample&quot; &quot;verifier&quot;)<br />=&gt; 0<br />copyUnitToReq(sess &quot;&quot;)</p>
+
+<h2>
+<a id="pgfId-1055402"></a><a id="17808"></a>Callback Function to Save Verifier Cellviews Automatically</h2>
+
+<p>
+<a id="pgfId-1055426"></a>The following code illustrates a custom callback function that saves the active Verifier cellviews periodically. You can add such a function in your <code>.cdsinit</code> file to save your cellviews automatically. </p>
+<table class="webflareTable" id="#id1083252">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060088"></a>;; Callback function to save all the active Verifier cellviews automatically.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060089"></a>;; Specify the save interval in seconds as argument, like:</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060090"></a>;;&#160;&#160;     autoSaveVerifierCellView(300)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060091"></a>;; This will save all opened Verifier cellviews every 5 minutes.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060092"></a>;; To interrupt the auto saving, set the global variable</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060093"></a>;;&#160;&#160;     _stopAutoSaveVerifier = t</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060094"></a>procedure(autoSaveVerifierCellView(saveInterval &quot;x&quot;)</pre>
+
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1061209"></a>;; Get all opened Verifier sessions</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1061729"></a>foreach(sessionId verifGetAllSessions()</pre>
+
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a id="pgfId-1061229"></a>;; Don&#39;t save for the read-only session</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a id="pgfId-1061241"></a>unless(verifIsSessionReadOnly(sessionId)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1061246"></a>            verifSaveSession(sessionId)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060100"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060101"></a>    if((boundp(&#39;_stopAutoSaveVerifier) &amp;&amp; _stopAutoSaveVerifier) then</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060102"></a>        printf(&quot;Auto save interrupted. Set _stopAutoSaveVerifier = nil and start        autoSaveVerifierCellView %d again.\n&quot; saveInterval)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060103"></a>    else</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1060104"></a>        hiRegTimer(sprintf(nil &quot;autoSaveVerifierCellView(%d)&quot; saveInterval)         saveInterval*10)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1056144"></a>        printf(&quot;...done. Next auto save scheduled in %d seconds.\n&quot;         saveInterval)))</pre>
+</td>
+</tr>
+</tbody></table>
+
+<h2>
+<a id="pgfId-1083281"></a><a id="40154"></a>Callback Function to Automatically Create Snapshots for Each Simulation Run </h2>
+
+<p>
+<a id="pgfId-1083282"></a>The following code illustrates a custom callback function that automatically creates a snapshot for every simulation. You can add such a function in your <code>.cdsinit</code> file to automatically create a snapshot of the session before the simulation starts. </p>
+<table class="webflareTable" id="#id1083283">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083285"></a>;; Callback function to save create snapshots automatically for each simulation run.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083361"></a>verifRegisterCallback(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083362"></a>    lambda((sess sig args)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083363"></a>        when(sig == &#39;simulationsAdded</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083364"></a>            verifSetSnapshotsEnabled(sess t)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083365"></a>            verifCreateSnapshot(sess ?prefix &quot;sim&quot; ?comment &quot;Pre-simulation snapshot&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083366"></a>        )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083367"></a>    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083302"></a>)</pre>
+</td>
+</tr>
+</tbody></table>
+
+<h2>
+<a id="pgfId-1083494"></a><a id="12090"></a>Callback Function to Automatically Create Snapshots for Backup </h2>
+
+<p>
+<a id="pgfId-1083495"></a>The following code illustrates a custom callback function that automatically creates a snapshot for backup purposes. You can add such a function in your <code>.cdsinit</code> file to automatically create a snapshot of the session.&#160;&#160;</p>
+<table class="webflareTable" id="#id1083496">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083498"></a>;; Callback function to save create snapshots automatically for each simulation run.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083726"></a>;; Callback function to auto save all active Verifier cellviews.<br />;; Specify the save interval in seconds as argument, like:<br />;;    AutoCreateSnapshotForCellView(&quot;test&quot; &quot;run&quot; &quot;verifier&quot;)<br />;;    AutoCreateSnapshotForCellView(&quot;test&quot; &quot;run&quot; &quot;verifier&quot;)<br />;;    AutoCreateSnapshotForSession(sessionId 120)<br />;;    AutoCreateSnapshotForSession(sessionId)<br />;;    AutoCreateSnapshot(120 hiGetCurrentWindow())<br />;;    AutoCreateSnapshot(120)<br />;;    AutoCreateSnapshot()<br />;; This will auto create the snapshot for that cellview every 5 minutes.<br />;; To interrupt the auto creation, set the global variable<br />;;    StopCreateSnapshot = t<br />;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083739"></a>procedure(AutoCreateSnapshotForCellView(lib cell view @optional (interval 300) &quot;tttx&quot;)<br />    let((sess)<br />        when(_verifIsValidSession(sess = verifGetCellViewSession(lib cell view))<br />            printf(&quot;Starting to create snapshot automatically...\n&quot;)<br />            when(verifCreateSnapshot(sess)<br />                printf(&quot;Created new snapshot &#39;%s&#39; for Verifier cellview &#39;%s&#39;.\n&quot; cadr(reverse(verifGetSnapshots(sess))) buildString(verifGetSessionCellView(sess) &quot;/&quot;))<br />            )<br />            if(!(boundp(&#39;StopAutoCreateSnapshot) &amp;&amp; StopAutoCreateSnapshot) then<br />            hiRegTimer(sprintf(nil &quot;AutoCreateSnapshotForCellView(\&quot;%s\&quot; \&quot;%s\&quot; \&quot;%s\&quot; %d)&quot; lib cell view interval) interval*10)<br />                printf(&quot;Next auto creation scheduled in %d seconds.\n&quot; interval)<br />            else<br />                printf(&quot;Auto creation interrupted. Call unbindVar(StopAutoCreateSnapshot) and start AutoCreateSnapshotForCellView(&lt;lib&gt; &lt;cell&gt; &lt;view&gt; 300) again.\n&quot;)<br />            )<br />        )<br />    )<br />)<br /></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083794"></a>procedure(AutoCreateSnapshotForSession(sess @optional (interval 300) &quot;gx&quot;)<br />    when(_verifIsValidSession(sess)<br />        printf(&quot;Starting to create snapshot automatically...\n&quot;)<br />        when(verifCreateSnapshot(sess)<br />            printf(&quot;Created new snapshot &#39;%s&#39; for Verifier cellview &#39;%s&#39;.\n&quot; cadr(reverse(verifGetSnapshots(sess))) buildString(verifGetSessionCellView(sess) &quot;/&quot;))<br />        )<br />      if(!(boundp(&#39;StopAutoCreateSnapshot) &amp;&amp; StopAutoCreateSnapshot) then<br />          hiRegTimer(sprintf(nil &quot;AutoCreateSnapshot(%d)&quot; interval) interval*10)<br />            printf(&quot;Next auto creation scheduled in %d seconds.\n&quot; interval)<br />        else<br />            printf(&quot;Auto creation interrupted. Call unbindVar(StopAutoCreateSnapshot) and start AutoCreateSnapshotForSession(&lt;sess&gt; 300) again.\n&quot;)<br />        )<br />    )<br />)<br />
+procedure(AutoCreateSnapshot(@optional (interval 300) (win hiGetCurrentWindow()) &quot;xg&quot;)
+&#160;&#160;  let((sess)<br />        when(_verifIsValidSession(sess = win-&gt;verifSession)<br />            printf(&quot;Starting to create snapshot automatically...\n&quot;)<br />            when(verifCreateSnapshot(sess)<br />                printf(&quot;Created new snapshot &#39;%s&#39; for Verifier cellview &#39;%s&#39;.\n&quot; cadr(reverse(verifGetSnapshots(sess))) buildString(verifGetSessionCellView(sess) &quot;/&quot;))<br />            )<br />            if(!(boundp(&#39;StopAutoCreateSnapshot) &amp;&amp; StopAutoCreateSnapshot) then<br />               hiRegTimer(sprintf(nil &quot;AutoCreateSnapshot(%d)&quot; interval) interval*10)<br />                printf(&quot;Next auto creation scheduled in %d seconds.\n&quot; interval)<br />            else<br />                printf(&quot;Auto creation interrupted. Call unbindVar(StopAutoCreateSnapshot) and start AutoCreateSnapshot(300) again.\n&quot;)<br />            )<br />        )<br />    )<br />)<br /></pre>
+</td>
+</tr>
+</tbody></table>
+
+<h2>
+<a id="pgfId-1074568"></a><a id="11370"></a>Function to Customize Menu Banners </h2>
+
+<p>
+<a id="pgfId-1074569"></a>The following code illustrates menu customization in Verifier. The customization can be placed in different locations. See <h-hot><a actuate="user" class="URL" href="../wincfg/customize.html#firstpage" show="replace" xml:link="simple">Customizing the Menu Banner</a></h-hot>. </p>
+<p>
+<a id="pgfId-1074674"></a>Menu files are read in the following order:</p>
+<p>
+<a id="pgfId-1074675"></a><code>your_install_dir/etc/tools/menus/appName.menus<br />your_install_dir/local/menus/appName.menus<br />workOrProjectArea/menus/appName.menus<br />~/menus/appName.menus</code></p>
+<p>
+<a id="pgfId-1074681"></a>For example, you can place the attached file in <code>workOrProjectArea/menus/verifier.menus </code>and start a new Virtuoso session and launch Verifier. You find a new custom menu entry with two actions. </p>
+<table class="webflareTable" id="#id1074570">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1074748"></a>;; Verifier menu customization example</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1074849"></a>verifier.menus:<br />
+;; Load the existing Verifier menus in order to add to it instead of replacing it</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1074754"></a>loadi(prependInstallPath(&quot;etc/tools/menus/verifier.menus&quot;))<br />;; Define functions to be called by new menu entries<br />procedure(VerifPrintSess(sess)<br />    printf(&quot;%L\n&quot; sess)<br />)<br />procedure(VerifPrintReq(sess)<br />    let((reqIDs)<br />        reqIDs = verifGetReqs(sess)<br />        foreach(reqID reqIDs<br />            printf(&quot;%L -- \t%L  \t%L--%L\n&quot; <br />                reqID <br />                verifGetReqProp(sess reqID &quot;Title&quot;) <br />                verifGetReqProp(sess reqID &quot;MinSpec&quot;) <br />                verifGetReqProp(sess reqID &quot;MaxSpec&quot;) <br />            )<br />        )<br />    )<br />)<br />;; Define the new menu entries<br />myMenu = &#39;(MyMenu &quot;CustomMenu&quot;<br />    (<br />        (PrintSess &quot;Print Session Number&quot; &quot;VerifPrintSess(hiGetCurrentWindow()-&gt;verifSession)&quot;)<br />        (PrintReq &quot;Print Requirements&quot; &quot;VerifPrintReq(hiGetCurrentWindow()-&gt;verifSession)&quot;)<br />    )<br />)<br />;; Add new menus to the banner menus<br />verifMenus = append1(verifMenus &#39;myMenu)<br /></pre>
+</td>
+</tr>
+</tbody></table>
+
+<h2>
+<a id="pgfId-1076813"></a><a id="91118"></a>Fun<a id="contextMenus"></a>ction to Customize Context Menus </h2>
+
+<p>
+<a id="pgfId-1078107"></a>You can define customized context menu entries in ADE Verifier by including any of the variables &#8212;<code>verifImpContextMenu</code>&#8212;<code>verifReqContextMenu</code>&#8212;<code>verifRunContextMenu</code>&#8212;<code>verifResultsMenu</code>&#8212; in the <code>verifier.menus</code> file. By using any of these environment variables, you can create custom context menus in the <em>Implementations</em> or <em>Requirements</em> panes of the <em>Setup</em> tab or in the <em>Run</em> and <em>Results</em> tabs. Any definitions are added at the end of the respective context menu. For more information, see <a href="appA_reports.html#11370">Function to Customize Menu Banners</a>. You define these variables as a list of items that can be another list, a symbol, or a string in the following format: </p>
+<p>
+<a id="pgfId-1078206"></a><code>(id text tool-tip entry [enabled-fn] [show-fn])</code> </p>
+<p>
+<a id="pgfId-1078274"></a>Here, </p>
+<ul><li>
+<a id="pgfId-1081962"></a><code>id</code> is the symbol identifier, </li><li>
+<a id="pgfId-1081965"></a><code>text</code> denotes &lt;<span class="webflare-courier-new" style="white-space:pre"><em>menu text</em></span>&gt; with its corresponding &lt;<span class="webflare-courier-new" style="white-space:pre"><em>tool-tip</em></span>&gt;, </li><li>
+<a id="pgfId-1081971"></a><code>entry</code> is either a string with a SKILL callback, a symbol with the name of a function, or a list defining a sub-menu.</li><li>
+<a id="pgfId-1081981"></a><code>enabled-fn</code> and <code>shown-fn</code> are optional callbacks that specify if the items should be enabled and shown. </li></ul>
+
+
+
+<p>
+<a id="pgfId-1077059"></a>For example, you can place the following code in <code>work</code> Or <code>ProjectArea/menus/verifier.menus</code> and launch Verifier in a new Virtuoso session. You then find the new menu actions added to the context menus. </p>
+<p>
+<a id="pgfId-1080027"></a> </p>
+<table class="webflareTable" id="#id1080856">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1079999"></a>; The menu entry is a list of items that is a list, a string, or a symbol.<br />;<br />; If it is a string, a separator is placed at the menu entry location, and the<br />; contents of the string are ignored. <br />;<br />; If it is a symbol, then the menu entry is a reference to an existing menu entry/<br />; definition that can be defined elsewhere(for example, as myAbc and mySlider). <br />;<br />; If it is a list, then a menu action is created using the contained definition,<br />; which needs to be in the following format:<br />;<br />; (id menu-name menu-tooltip menu-entry menu-tooltip [menu-enabled-fn] <br />; [menu-item-shown-fn]).<br />;<br />; menu-name is the text that is displayed in the menu, and menu-tooltip is its<br />; corresponding tooltip.<br />; <br />; The menu-entry can be one of the following:<br />;   a) a string: It is evaluated as a callback and no arguments are passed on <br />;      to the callback.<br />;   b) a symbol: It is the name of a callable object (i.e. function-name or<br />;      lambda function) which takes two arguments - session, and selected. <br />;   c) a list: It defines the contents of a pull-right menu.<br />;<br />; The menu-enabled-fn is either nil, a string or a callable function which if <br />; non-nil, is evaluated to determine if the menu is enabled or not.<br />;<br />; The menu-item-shown-fn is either nil, a string or a callable function. If it is<br />; non-nil, it is evaluated to determine if the menu items are shown in the context<br />; menu or not. For example, you can use it to only show an item if there is at <br />; least one item selected, or only show an entry if a single implementation is <br />; selected .<br />;<br />; If the menu or the enabled callback function are not defined, or if the enabled<br />; function returns an error, then the menu is disabled.<br />;<br />; The menu-callback, enable-callback, and show-callback functions should take the<br />; following two arguments: <br />           a session-number + list-of-selected-items.<br />;<br />
+info(&quot;Loading custom menus...\n&quot;)
+
+custom1 = &#39;(custom1 &quot;My Impl 1&quot; &quot;Custom 1 Tooltip&quot; doImpl1CB1)
+
+;; Defines the custom context menu for the Implementations pane in the Setup tab. 
+verifImpContextMenu = 
+&#39;(
+&#160;&#160;  custom1<br />    (custom2 &quot;My Impl 2&quot; &quot;Do more custom stuff&quot; &quot;doImplCB2()&quot; doImplCB2Enabled isCustom2Shown)<br />    &quot;----&quot; ; separator<br />    (slider1 &quot;Slider&quot; &quot;Slide right for extra stuff&quot;<br />        (<br />            (item1 &quot;Item1&quot; &quot;Item1 Tooltip&quot; doImplCB1 item1Enabled)<br />         )<br />         isSlider1Enabled<br />    )<br />    slider2<br />)</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1078782"></a>slider2 = &#39;(slider2 &quot;Slider 2&quot; &quot;Yet another Slider&quot; <br />               ((item3 &quot;Item3&quot; &quot;Item3 Tooltip&quot; doImplCB1)) <br />               nil showSlider2)<br />
+;; Defines the custom context menu for the Requirements pane in the Setup tab.
+verifReqContextMenu =
+&#39;(
+&#160;&#160;  (req1 &quot;My Req Item&quot; &quot;Do req stuff&quot; doReqCB doReqEnabled isReqShown)<br />)<br />
+;; Defines the custom context menu for the run table in the Run tab.
+verifRunContextMenu =
+&#39;(
+&#160;&#160;  (run1 &quot;My Run Item&quot; &quot;Do run stuff&quot; doRunCB doRunEnabled isRunShown)<br />)<br />
+;; Defines the custom context menu for the results table in the Results tab. 
+
+verifResultsContextMenu =
+&#39;(
+&#160;&#160;(res1 &quot;My Res Item 1&quot; &quot;Do res stuff&quot; doResCB doResEnabled isResShown)<br />)<br />
+info(&quot;...finished loading custom menus.\n&quot;)</pre>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1077144"></a>Any callback takes two arguments: <code>(session-number list-of-selected-names)</code>. </p>
+<p>
+<a id="pgfId-1080165"></a>The following section describes the various callback functions:</p>
+<table class="webflareTable" id="#id1080878">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080880"></a>; Defines all the various callbacks for the custom menus in the Requirement, Run<br />; and Results hierarchies <br />defun( doImplCB1 (sess sel)<br />    info(&quot;doImplCB1 CB session: %L selected set: %L\n&quot; sess sel)<br />)<br />defun( doImplCB2 ()<br />    info(&quot;doImplCB2 CB called with no arguments&quot;)<br />)<br />defun( doImplCB2Enabled (sess sel)<br />    ;; custom2 is enabled only if more than 2 items are selected.<br />    length(sel)&gt;2<br />)<br />defun( isImpl2Shown (sess sel)<br />    ;; customer2 is shown only if more than 1 item is selected.<br />    length(sel)&gt;1<br />)<br />defun( item1Enabled (sess sel) <br />    length(sel)&gt;2 <br />)<br />defun( isSlider1Enabled (sess sel) <br />    ;; slider1 is always enabled.<br />    t <br />)<br />defun( showSlider2 (sess sel) <br />    ;; slider2 is visible only if more than 3 items are selected.<br />    length(sel)&gt;3 <br />)<br />
+defun( doReqCB (sess sel)
+&#160;&#160;  info(&quot;Req CB session: %L selected set: %L\n&quot; sess sel)<br />)<br />defun( doRunCB (sess sel)<br />    info(&quot;Run CB session: %L selected set: %L\n&quot; sess sel)<br />)<br />defun( doResCB (sess sel)<br />    info(&quot;Res CB session: %L selected set: %L\n&quot; sess sel)<br />)<br />defun(doReqEnabled (sess sel)<br />    info(&quot;Req Enabled session: %L selected set: %L\n&quot; sess sel)<br />    t<br />)<br />defun(doRunEnabled (sess sel)<br />    info(&quot;Run Enabled session: %L selected set: %L\n&quot; sess sel)<br />    t<br />)<br />defun(doResEnabled (sess sel)<br />    info(&quot;Res Enabled session: %L selected set: %L\n&quot; sess sel)<br />    t<br />)<br />defun(isReqShown (sess sel)<br />    info(&quot;Is Req shown session: %L selected set: %L\n&quot; sess sel)<br />    t<br />)<br />defun(isRunShown (sess sel)<br />     info(&quot;Is Run shown session: %L selected set: %L\n&quot; sess sel)<br />    t<br />)<br />defun(isResShown (sess sel)<br />    info(&quot;Is Res shown session: %L selected set: %L\n&quot; sess sel)<br />    t<br />)</pre>
+</td>
+</tr>
+</tbody></table>
+
+<h2>
+<a id="pgfId-1057915"></a><a id="36766"></a>Re<a id="removed"></a>moved SKILL functions</h2>
+
+<p>
+<a id="pgfId-1064449"></a>This section lists the SKILL functions that have been replaced by new or enhanced SKILL functions, or are no longer supported in Verifier:<br /></p>
+<table class="webflareTable" id="#id1065440">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1065442">
+<a id="pgfId-1065442"></a>Function</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1065444">
+<a id="pgfId-1065444"></a>Replaced by</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<span class="tbl-head" id="#id1065448">
+<a id="pgfId-1065448"></a>Implementation Functions</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1065452"></a>Data Extraction Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1065775"></a><code>verifGetAllImps</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066176"></a><code>verifGetImps</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1065802"></a><code>verifGetImpSimRunData</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066203"></a><code>verifGetResultDataForImp</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1065861"></a><code>verifGetImpSimRunDataByName</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066234"></a><code>verifGetResultDataForImp</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1065891"></a><code>verifGetImpTestOutputData</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066264"></a><code>verifGetImpData</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1065920"></a><code>verifGetImpTestOutputDataByName</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066293"></a><code>verifGetImpData</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1065948"></a><code>verifGetImpTestOutputs</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066321"></a><code>verifGetImpTestOutputs</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1065983"></a><code>verifGetImpTests</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066358"></a><code>verifGetImpTests</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066009"></a><code>verifGetImpsByCell</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066384"></a><code>verifGetImps</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066034"></a><code>verifGetImpsByHistory</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066409"></a><code>verifGetImps</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066058"></a><code>verifGetImpsByLib</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066433"></a><code>verifGetImps</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066081"></a><code>verifGetImpsByView</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066503"></a><code>verifGetImps</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1066114"></a>Implementation List Management Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066643"></a><code>verifAddImp</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066816"></a><code>verifAddImp</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066665"></a><code>verifCheckAllImps</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066817"></a><code>verifCheckForChanges</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066694"></a><code>verifDeleteImps</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066818"></a><code>verifRemoveImp</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066722"></a><code>verifMoveImp</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066819"></a><code>verifMoveImp</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066749"></a><code>verifPullSpecFromImplementation</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066820"></a><code>verifOverwriteSpec</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066775"></a><code>verifPushSpecToImplementation</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066821"></a><code>verifOverwriteSpec</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066776"></a><code>verifReloadAllRes</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066120"></a><code>verifReloadAllRes</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<span class="tbl-head" id="#id1066947">
+<a id="pgfId-1066947"></a>Requirement-Implementation Mapping Functions</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1066951"></a>Mapping Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067033"></a><code>verifGetAllMappingForReq</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067333"></a><code>verifGetReqMapping</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067034"></a><code>verifGetMappableReqs</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067334"></a><code>verifGetReqs</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067035"></a><code>verifGetMappedImpRunsForReq</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067335"></a><code>verifGetReqMapping</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067036"></a><code>verifGetMappedImpTestOutputsForReq</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067336"></a><code>verifGetReqMapping</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067037"></a><code>verifGetMappedImpTestsForReq</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067337"></a><code>verifGetReqMapping</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067038"></a><code>verifGetMappedImpsForReq</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067338"></a><code>verifGetReqMapping</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067039"></a><code>verifGetMappedReqs</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067339"></a><code>verifGetReqs</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067040"></a><code>verifGetMappedReqsForImp</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067340"></a><code>verifGetImpMapping</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067041"></a><code>verifGetMappedReqsForImpTest</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067341"></a><code>verifGetImpMapping</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067042"></a><code>verifGetMappedReqsForImpTestOutput</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067342"></a><code>verifGetImpMapping</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067043"></a><code>verifGetUnmappableReqs</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067343"></a><code>verifGetReqs</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067044"></a><code>verifGetUnmappedReqs</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067344"></a><code>verifGetReqs</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067045"></a><code>verifMapping</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066957"></a><code>verifMapping</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<span class="tbl-head" id="#id1067625">
+<a id="pgfId-1067625"></a>Requirements Functions</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1067629"></a>Addition and Deletion Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067675"></a><code>verifAddReq</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067693"></a><code>verifAddReq</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067637"></a><code>verifAddSubReq</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067639"></a><code>verifAddReq</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067641"></a><code>verifDeleteReq</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067643"></a><code>verifRemoveReq</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1067805"></a>Custom Fields Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067851"></a><code>verifGetCustomFieldNames</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068017"></a><code>verifGetCustomFieldNames</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067852"></a><code>verifGetCustomFieldValue</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067815"></a><code>verifGetCustomFieldValue</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067817"></a><code>verifGetReqCustomFieldNames</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067819"></a><code>verifGetReqCustomFieldNames</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067821"></a><code>verifGetReqCustomFieldValue</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067823"></a><code>verifGetReqCustomFieldValue</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067825"></a><code>verifSetCustomFieldValue</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067827"></a><code>verifSetCustomFieldValue</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067829"></a><code>verifSetReqCustomFieldValue</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067831"></a><code>verifSetReqCustomFieldValue</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067833"></a><code>verifGetAllReqProps</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1067835"></a><code>verifGetReqProps</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1068247"></a>Data Extraction Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068262"></a><code>verifGetReqProps</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068175"></a><code>verifGetReqProps</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068181"></a><code>verifGetAllReqs</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068183"></a><code>verifGetReqs</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068185"></a><code>verifGetReqHier</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068187"></a><code>verifGetReqParent</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068189"></a><code>verifGetReqPropByName</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068191"></a><code>verifGetReqProp</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068193"></a><code>verifGetReqStatus</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068195"></a><code>verifGetReqStatus</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068197"></a><code>verifGetReqsByGoalType</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068199"></a><code>verifGetReqs</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068209"></a><code>verifGetReqsByGroup</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068211"></a>verifGetReqs</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068205"></a><code>verifGetReqsByOwner</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068207"></a>verifGetReqs</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1068556"></a>Export and Import Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068610"></a><code>verifCompareImportedFiles</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069082"></a><code>verifCompareImportedFiles</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068589"></a><code>verifGetImportedFiles</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068591"></a><code>verifGetImportedFiles</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a id="pgfId-1068585"></a><code>verifMappingAndResExportToImportedFiles</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068736"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068738"></a><code>verifExportReqsToFile</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068581"></a><code>verifMergeImportedFiles</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068583"></a><code>verifMergeImportedFiles</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068577"></a><code>verifReqsExportToFile</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068579"></a><code>verifExportReqsToFile</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068573"></a><code>verifReqsImportFromCSVFile</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069127"></a><code>verifImportFile</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068569"></a><code>verifReqsImportFromExcelFile</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068571"></a><code>verifImportFilefileType</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1068595"></a>Manual Sign-off Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069580"></a><code>verifDeleteSignoff</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069655"></a><code>verifDeleteReqSignoff</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069597"></a><code>verifGetSignoffInfo</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069599"></a><code>verifGetReqSignoff</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069593"></a><code>verifSignoff</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069595"></a><code>verifSignOffReq</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1069770"></a>Requirement Setup Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069785"></a><code>verifCreateRandomID</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069947"></a><code>verifCreateRandomId</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069744"></a><code>verifGetReferencedCellViews</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069746"></a><code>verifGetReferencedCellViews</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069748"></a><code>verifModifyReqId</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069750"></a><code>verifSetReqId</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069752"></a><code>verifModifyReqTitle</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069754"></a><code>verifSetReqTitle</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069756"></a><code>verifSetReqGoalType</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069758"></a><code>verifSetReqGoalType</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069760"></a><code>verifSetupReqData</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069762"></a><code>verifSetReqProp</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069764"></a><code>verifUpdate</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1069766"></a><code>verifUpdate</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<span class="tbl-head" id="#id1070100">
+<a id="pgfId-1070100"></a>Simulation and Results Extraction Functions</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1070104"></a>Implementation Set Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070158"></a><code>verifAddImpToRunGroup</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070290"></a><code>verifAddImpToImpSet</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070112"></a><code>verifAddRunGroup</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070114"></a><code>verifAddImpSet</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070116"></a><code>verifDeleteImpFromRunGroup</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070118"></a><code>verifRemoveImpSet</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070120"></a><code>verifDeleteRunGroup</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070122"></a><code>verifRemoveImpSet</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070124"></a><code>verifGetAllRunGroups</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070126"></a><code>verifGetImpSets</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070128"></a><code>verifGetImpsInRunGroup</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070130"></a><code>verifGetImpsInImpSets</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1070457"></a>Results Extraction Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070500"></a><code>verifGetResultDataForImp</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070637"></a><code>verifGetResultDataForImp</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070449"></a><code>verifGetResultDataForImpTest</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070451"></a><code>verifGetResultDataForImp</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070445"></a><code>verifGetResultDataForImpTestOutput</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070447"></a><code>verifGetResultDataForImp</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070441"></a><code>verifGetResultDataForReq</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070443"></a><code>verifGetResultDataForReq</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1070774"></a>Simulation Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070789"></a><code>verifGetLoadImps</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071025"></a><code>verifGetImps</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070736"></a><code>verifGetRunImps</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070738"></a><code>verifGetImps</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070740"></a><code>verifIsImpRun</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070742"></a><code>verifImpIsRun</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070744"></a><code>verifRunAll</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070746"></a><code>verifRun</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070748"></a><code>verifRunGroup</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070750"></a><code>verifRunImpSet</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070752"></a><code>verifRunImps</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070754"></a><code>verifRun</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070768"></a><code>verifRunOrReloadAll</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070770"></a><code>verifRun</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070764"></a><code>verifRunOrReloadGroup</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070766"></a><code>verifRunImpSet</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070760"></a><code>verifRunOrReloadImps</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070762"></a><code>verifRun</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070756"></a><code>verifWaitUntilDone</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070758"></a><code>verifRun</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<span class="tbl-head" id="#id1071272">
+<a id="pgfId-1071272"></a>Verification Status and Reports Functions</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1071276"></a>HTML Report Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071838"></a><code>verifCreateHTMLReport</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071282"></a><code>verifPublishHTML</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072078"></a><code>verifInitialHTMLReport</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072080"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071284"></a><code>verifInsertHTMLEmptylines</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072203"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071288"></a><code>verifInsertHTMLFormattedText</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072205"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071292"></a><code>verifInsertHTMLImageFile</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072207"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071296"></a><code>verifInsertHTMLResultTable</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072209"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071300"></a><code>verifInsertHTMLRunTable</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072211"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071308"></a><code>verifInsertHierarchyHTMLResultTable</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072213"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071312"></a><code>verifInsertSignoffInfoTable</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072215"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071316"></a><code>verifOpenHTMLReport</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072217"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071320"></a><code>verifWriteHTMLToFile</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072219"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1072239"></a>Image Creation Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072260"></a><code>verifCreateSchematicImage</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072382"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072229"></a><code>verifCreateWaveformImage</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072354"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1072310"></a>Text Report Function</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072325"></a><code>verifCreateTextReport</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072366"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1072412"></a>Verification Status Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072427"></a><code>verifDefineReturnStatusSet</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072400"></a><code>verifGetReqs() </code>combined with<code> <br />verifGetReqStatus() </code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072402"></a><code>verifGetOverallInformation</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072514"></a><code>verifGetReqs() </code>combined with<code> <br />verifGetReqStatus() </code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072406"></a><code>verifGetOverallStatus</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072528"></a><code>verifGetReqs() </code>combined with<code> <br />verifGetReqStatus() </code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1072540"></a>XML Report Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072590"></a><code>verifCreateXMLReport</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072722"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072591"></a><code>verifFinishXMLReport</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072734"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072592"></a><code>verifInitialXMLReport</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072738"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072593"></a><code>verifInsertXMLResultInfo</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072742"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072594"></a><code>verifInsertXMLRunInfo</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072746"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072564"></a><code>verifInsertXMLUserInformation</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072750"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<span class="tbl-head" id="#id1072754">
+<a id="pgfId-1072754"></a>Verifier Session and Setup Functions</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1072758"></a>Batch Mode Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072812"></a><code>verifIsBatchMode</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072873"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072766"></a><code>verifResetBatchMode</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072875"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072770"></a><code>verifSetBatchMode</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072877"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1072879"></a>Menu Configuration Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072909"></a><code>verifDeregisterMenuItem</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072885"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072887"></a><code>verifGetRegisteredMenus</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072889"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072891"></a><code>verifRegisterMenuItem</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072893"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1072970"></a>Other Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072993"></a><code>verifGetErrors</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072976"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072978"></a><code>verifRegisterEventTrigger</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072980"></a><code>verifRegisterCallback</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1073057"></a>Preferences Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073078"></a><code>verifGetOptionVal</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073145"></a><code>verifGetOptionVal</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073049"></a><code>verifGetOptions</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073051"></a><code>verifGetOptions</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073045"></a><code>verifSetPreference</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073047"></a><code>verifSetOptionVal</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1073248"></a>Startup Exit and Session Information Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073266"></a><code>verifCloseSession</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073481"></a><code>verifCloseSession</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073214"></a><code>verifGetActiveSession</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1074222"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073422"></a><code>verifGetAllActiveSessions</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073220"></a><code>verifGetSessionIds</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073424"></a><code>verifGetSessionCell</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073224"></a><code>verifGetSessionCellView</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073426"></a><code>verifGetSessionLib</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073228"></a><code>verifGetSessionCellView</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073428"></a><code>verifGetSessionView</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073232"></a><code>verifGetSessionCellView</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073430"></a><code>verifIsWritableMode</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073236"></a><code>verifIsSessionReadOnly</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073432"></a><code>verifStart</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073240"></a><code>verifOpenCellView</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<h4>
+<a id="pgfId-1073696"></a>Verifier Setup File and Cellview Functions</h4>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073714"></a><code>verifOpenCellview</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073812"></a><code>verifOpenCell</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073715"></a><code>verifSaveAsCellview</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073690"></a><code>verifSaveSessionAs</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073716"></a><code>verifSaveAsFile</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073686"></a><code>_verifSaveAsFile</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073717"></a><code>verifSaveCellview</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073682"></a><code>verifSaveSession</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073676"></a><code>verifSaveFile</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1074240"></a>Removed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<span class="tbl-head" id="#id1073929">
+<a id="pgfId-1073929"></a>Deprecated Functions</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073975"></a><code>verifAddVariantToRunGroup</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073939"></a><code>verifCreateVariant</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1074022"></a><code>verifCreateVariantFromVariant</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073943"></a><code>verifDeleteVariantFromRunGroup</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1074050"></a><code>verifDeleteVariants</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1073947"></a><code>verifEditVariant</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1074120"></a><code>verifGetAllVariants</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072574"></a><code>verifGetVariantSetup</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072233"></a><code>verifMoveVariant</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072235"></a></p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1063541"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="debug.html" id="prev" title="Debugging Functions">Debugging Functions</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

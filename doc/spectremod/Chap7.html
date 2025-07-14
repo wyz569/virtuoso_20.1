@@ -1,0 +1,3612 @@
+
+<html><head><title>HiCUM Level-0 Model (bht0)</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jommy" />
+<meta name="CreateDate" content="2020-04-19" />
+<meta name="CreateTime" content="1587355930" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the model equations for Cadence circuit simulators" />
+<meta name="DocTitle" content="Spectre Circuit Simulator Components and Device Models Reference" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="HiCUM Level-0 Model (bht0)" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.1" />
+<meta name="Keyword" content="spectremod" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-04-19" />
+<meta name="ModifiedTime" content="1587355930" />
+<meta name="NextFile" content="Chap9.html" />
+<meta name="Group" content="Spectre Simulator" />
+<meta name="Platform" content="Analog RF  Mixed-Signal Design" />
+<meta name="PrevFile" content="Chap6.html" />
+<meta name="Product" content="Spectre" />
+<meta name="ProductFamily" content="Spectre" />
+<meta name="ProductVersion" content="19.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre Circuit Simulator Components and Device Models Reference -- HiCUM Level-0 Model (bht0)" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="product_feature" content="" />
+<meta name="product_subfeature" content="" />
+<meta name="Version" content="19.1" />
+<meta name="SpaceKey" content="spectremod191" />
+<meta name="webflare-version" content="1.5" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="spectremodTOC.html">Contents</a></li><li><a class="prev" href="Chap6.html" title="HiCUM Model (bht)">HiCUM Model (bht)</a></li><li style="float: right;"><a class="viewPrint" href="spectremod.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Chap9.html" title="VBIC Model (vbic)">VBIC Model (vbic)</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Spectre Circuit Simulator Components and Device Models Reference<br />Product Version 19.1, January 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>7
+<a id="pgfId-1032955"></a></h1>
+<h1>
+<a id="pgfId-1035250"></a><hr />
+<a id="16561"></a>HiCUM Level-0 Model (bht0)<hr />
+</h1>
+
+<p>
+<a id="pgfId-1035472"></a>The HiCUM Level0 model was developed by Professor M. Schroter. It combines the simplicity of the Spice Gummel Poon Model (SGPM) in terms of equivalent circuit and some of its model equations with several important features of HiCUM Level2. As a result, BHT0 is a more physics-based and accurate model than the SGPM and also reduces parameter extraction efforts, especially for single transistor sizes, compared to HiCUM Level2 and SGPM. The latest version of this model is 1.32, and all of previous versions are supported with setting model parameter VERSION.</p>
+<p>
+<a id="pgfId-1037046"></a><a id="12696"></a>This chapter contains the following information about the BHT0 model:</p>
+<ul><li>
+<a id="pgfId-1037050"></a><a href="Chap7.html#20086">Model Version Updates</a></li><li>
+<a id="pgfId-1038212"></a><a href="Chap7.html#57468">Equivalent Circuit</a></li><li>
+<a id="pgfId-1037054"></a><a href="Chap7.html#50819">Charge formulation of the internal transistor</a></li><li>
+<a id="pgfId-1037058"></a><a href="Chap7.html#77371">Derivation of the simplified transfer current equation</a></li><li>
+<a id="pgfId-1037062"></a><a href="Chap7.html#11705">Static base current components</a></li><li>
+<a id="pgfId-1037066"></a><a href="Chap7.html#59134">Depletion charges and capacitances</a></li><li>
+<a id="pgfId-1037070"></a><a href="Chap7.html#46100">Minority charges and capacitances</a></li><li>
+<a id="pgfId-1037074"></a><a href="Chap7.html#40072">Series Resistance</a></li><li>
+<a id="pgfId-1037078"></a><a href="Chap7.html#74569">Temperature Dependence</a></li><li>
+<a id="pgfId-1037082"></a><a href="Chap7.html#55166">Noise Model</a></li><li>
+<a id="pgfId-1037086"></a><a href="Chap7.html#45880">Charge Storage Elements</a></li><li>
+<a id="pgfId-1037090"></a><a href="Chap7.html#59187">Series Resistance</a></li><li>
+<a id="pgfId-1037094"></a><a href="Chap7.html#12066">Temperature Effects</a></li><li>
+<a id="pgfId-1037481"></a><a href="Chap7.html#93989">Models and Equations in Version 1.30</a></li><li>
+<a id="pgfId-1037098"></a><a href="Chap7.html#25279">Component Statements</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1038160"></a><a id="20086"></a>Model Version Updates</h2>
+<h3>
+<a id="pgfId-1038183"></a>Version 1.2:</h3>
+
+<ul><li>
+<a id="pgfId-1038170"></a>Upper limit of the model parameter FGEO is now infinity.</li><li>
+<a id="pgfId-1038171"></a>Four or five terminals can be used with the latest version model, corresponding &quot;tnode&quot;  is set as internal or external.</li><li>
+<a id="pgfId-1038172"></a>Flag FLSH introduced for controlling self-heating calculation.</li><li>
+<a id="pgfId-1038173"></a>All series resistors and RTH are limited to a minimum value.</li><li>
+<a id="pgfId-1038174"></a>ddx() operator used with QJMOD and QJMODF wherever required.</li><li>
+<a id="pgfId-1038175"></a>Substrate transistor transfer current has been added.</li><li>
+<a id="pgfId-1038176"></a>Hyperbolic smoothing is used in rbi computation to a void divide-by-zero.</li></ul>
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1038165"></a>Version 1.3</h3>
+
+<ul><li>
+<a id="pgfId-1038195"></a>Modification done at TUD: Third order polynomial is solved for transfer current. It can be turned on by setting <code>IT_MOD=1</code>.</li><li>
+<a id="pgfId-1038196"></a>Added voltage dependent Reverse Early voltage. Parameter <code>aver</code> describes voltage dependence.</li><li>
+<a id="pgfId-1038197"></a>Parameters <code>ZETAVER</code>, <code>ZETAVGBE</code>, <code>VGBE</code> describe temperature dependence of <code>VER</code> and <code>IQF</code>.</li><li>
+<a id="pgfId-1038198"></a>Added temperature dependence for <code>IQFH</code> and <code>TFH</code>. <code>ALIQFH</code> and <code>KIQFH</code> are used to model a second order temperature model. Parameter <code>TEF_TEMP=0</code> turns off the temperature dependence for <code>TEF0</code>.</li><li>
+<a id="pgfId-1038199"></a>Corrected SPICE name for <code>AHQ</code> and <code>ZETAIQF</code>. The original name is <code>AHQX</code> and <code>ZETIQF</code>, which are also valid aliases.</li><li>
+<a id="pgfId-1038200"></a>Implemented a <code>gmin</code> between nodes <code>CI</code> and <code>EI</code>.</li><li>
+<a id="pgfId-1038201"></a><code>qj</code> is now limited to positive values to improve convergence at negative bias.</li><li>
+<a id="pgfId-1038202"></a>Resolved a convergence issue for cc a calculation of voltage dependence of t0</li></ul>
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1038736"></a>Version 1.3.1</h3>
+
+<ul><li>
+<a id="pgfId-1038737"></a>NQS effects have been added and can be activated by using the flag FLNQS=1.</li><li>
+<a id="pgfId-1038738"></a>Some operating point outputs have been added to the Va code.</li></ul>
+
+
+<h3>
+<a id="pgfId-1041021"></a>Version 1.3.2</h3>
+
+<ul><li>
+<a id="pgfId-1041047"></a>A new parameter <code>type</code> has been implemented to specify the transistor type. This parameter replaces the <code>pnp</code> and <code>npn</code> model parameters, which are not supported in version 1.32. In addition, the <code>type</code> parameter is not supported in previous versions.</li><li>
+<a id="pgfId-1041797"></a>While lodading the parasitic substrate transistor transfer current, the current is multiplied by type in version 1.32. </li></ul>
+
+
+<h2>
+<a id="pgfId-1037101"></a><a id="57468"></a>Equivalent Circuit<a id="marker-1037100"></a></h2>
+<p><strong>Figure 7-1
+<a id="pgfId-1035538"></a>Large signal equivalent circuit of the simplified HICUM version, HICUM/L0</strong></p>
+<p>
+<a id="pgfId-1035542"></a></p>
+<div class="webflare-div-image">
+<img src="images/HICUM_Eqvt_Crkt.gif" /></div>
+<p><strong>Figure 7-2
+<a id="pgfId-1035543"></a>Small signal equivalent circuit of HICUM/L0</strong></p>
+<p>
+<a id="pgfId-1035547"></a></p>
+<div class="webflare-div-image">
+<img src="images/Eqvt_Ckt_small_sig.gif" /></div>
+<p>
+<a id="pgfId-1035549"></a><a id="98539"></a></p>
+<p><strong>Figure 7-3
+<a id="pgfId-1035550"></a>Small signal noise equivalent circuit of HICUM/L0 showing the noise sources with their RMS values used in a circuit simulator</strong></p>
+<p>
+<a id="pgfId-1035554"></a></p>
+<div class="webflare-div-image">
+<img src="images/Eqvt_Ckt_noise_sig.gif" /></div>
+<h2>
+<a id="pgfId-1035556"></a><a id="50819"></a>Charge formulation of the internal transistor</h2>
+
+<p>
+<a id="pgfId-1035557"></a>All depletion charges and capacitances are described with the same equations as HICUM/L2. The formulation of forward minority charge Q<sub>f</sub> is strongly based on the accurate description of the transit time <img width="18" height="23" src="images/Chap7-5.gif" />
+. Like in HICUM/L2, the bias dependent of <img width="18" height="23" src="images/Chap7-6.gif" />
+ is modelled as</p>
+
+
+<p>
+<a id="pgfId-1037139"></a></p>
+
+<div class="webflare-div-image">
+<img width="668" height="40" src="images/Chap7-7.gif" /></div>
+
+<p>
+<a id="pgfId-1035577"></a>with the low current component <img width="25" height="23" src="images/Chap7-8.gif" /><span>, the high-current component </span><img width="27" height="23" src="images/Chap7-9.gif" /><span> and the </span><img width="28" height="25" src="images/Chap7-10.gif" /><span> as the forward transfer current. The formulation of </span><img width="25" height="23" src="images/Chap7-11.gif" /><span> is same as in HICUM/L2.</span></p>
+<p>
+<a id="pgfId-1035584"></a></p>
+<div class="webflare-div-image">
+<img src="images/Int_trns_2.gif" /></div>
+
+<p>
+<a id="pgfId-1035585"></a>The minority charge Q<sub>f</sub> used for dynamic transistor operation is then obtained analytically by integrating <img width="18" height="23" src="images/Chap7-13.gif" />
+ over <img width="28" height="25" src="images/Chap7-14.gif" />
+.</p>
+
+<p>
+<a id="pgfId-1035595"></a></p>
+<div class="webflare-div-image">
+<img src="images/Int_trns_3.gif" /></div>
+<h2>
+<a id="pgfId-1035597"></a><a id="77371"></a>Derivation of the simplified transfer current equation</h2>
+<p>
+<a id="pgfId-1035601"></a></p>
+<div class="webflare-div-image">
+<img src="images/Simp_trnsf_current_1.gif" /></div>
+
+<p>
+<a id="pgfId-1035602"></a>The derivation starts with the transport related charge for low bias:</p>
+
+<p>
+<a id="pgfId-1035608"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="217" src="images/Chap7-17.gif" /></div>
+
+<p>
+<a id="pgfId-1035609"></a>The resulting transfer current expression reads</p>
+
+<p>
+<a id="pgfId-1035613"></a></p>
+<div class="webflare-div-image">
+<img src="images/Simp_trnsf_current_5.gif" /></div>
+
+<p>
+<a id="pgfId-1035614"></a>with a modified saturation current</p>
+
+<p>
+<a id="pgfId-1035618"></a></p>
+<div class="webflare-div-image">
+<img src="images/Simp_trnsf_current_6.gif" /></div>
+
+<p>
+<a id="pgfId-1035619"></a>The forward transfer current equation can be written in a more familiar form:</p>
+
+<p>
+<a id="pgfId-1035623"></a></p>
+<div class="webflare-div-image">
+<img src="images/Simp_trnsf_current_7.gif" /></div>
+
+<p>
+<a id="pgfId-1035624"></a>Where</p>
+
+<p>
+<a id="pgfId-1035628"></a></p>
+<div class="webflare-div-image">
+<img src="images/Simp_trnsf_current_8.gif" /></div>
+
+<p>
+<a id="pgfId-1035629"></a>the low-current transconductance at the selected bias point V<sub>B&#8217;E&#8217;,op </sub>is given by</p>
+
+<p>
+<a id="pgfId-1035633"></a></p>
+<div class="webflare-div-image">
+<img src="images/Simp_trnsf_current_9.gif" /></div>
+
+<p>
+<a id="pgfId-1035634"></a>The artificial Early Voltage is defined as:</p>
+
+<p>
+<a id="pgfId-1035638"></a></p>
+<div class="webflare-div-image">
+<img src="images/Simp_trnsf_current_10.gif" /></div>
+
+<p>
+<a id="pgfId-1035639"></a>The critical (or knee) current of the D.C. forward transfer curve is defined as:</p>
+
+<p>
+<a id="pgfId-1035644"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="125" src="images/Chap7-24.gif" /></div>
+
+<p>
+<a id="pgfId-1035645"></a>Quadratic equation for normalized charge:</p>
+
+<p>
+<a id="pgfId-1035649"></a></p>
+<div class="webflare-div-image">
+<img src="images/Simp_trnsf_current_13.gif" /></div>
+
+<p>
+<a id="pgfId-1035650"></a>The final formulation for the HICUM/L0 transfer current components:</p>
+
+<p>
+<a id="pgfId-1035654"></a></p>
+<div class="webflare-div-image">
+<img src="images/Simp_trnsf_current_14.gif" /></div>
+
+<p>
+<a id="pgfId-1035655"></a>The total transfer current in HICUM/L0 reads:</p>
+
+<p>
+<a id="pgfId-1035659"></a></p>
+<div class="webflare-div-image">
+<img src="images/Simp_trnsf_current_15.gif" /></div>
+<h2>
+<a id="pgfId-1035661"></a><a id="11705"></a>Static base current components</h2>
+<p>
+<a id="pgfId-1035668"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="312" src="images/Chap7-28.gif" /></div>
+<h2>
+<a id="pgfId-1035670"></a><a id="59134"></a>Depletion charges and capacitances</h2>
+<p>
+<a id="pgfId-1035675"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="176" src="images/Chap7-29.gif" /></div>
+<h2>
+<a id="pgfId-1035677"></a><a id="46100"></a>Minority charges and capacitances</h2>
+
+<p>
+<a id="pgfId-1035678"></a>The transit time consists of two components:</p>
+
+<p>
+<a id="pgfId-1035682"></a></p>
+<div class="webflare-div-image">
+<img src="images/Minor_chg_1.gif" /></div>
+<h3>
+<a id="pgfId-1035683"></a>Low current densities</h3>
+
+<p>
+<a id="pgfId-1035684"></a>The transit time reads:</p>
+
+<p>
+<a id="pgfId-1035688"></a></p>
+<div class="webflare-div-image">
+<img src="images/Minor_chg_2.gif" /></div>
+
+<p>
+<a id="pgfId-1035689"></a>The respective forward minority charge is given by:</p>
+
+<p>
+<a id="pgfId-1035693"></a></p>
+<div class="webflare-div-image">
+<img src="images/Minor_chg_3.gif" /></div>
+<h3>
+<a id="pgfId-1035694"></a>Medium and high current densities</h3>
+
+<p>
+<a id="pgfId-1035695"></a>The total increase in the (forward) transit time is given by:</p>
+
+<p>
+<a id="pgfId-1035702"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="259" src="images/Chap7-33.gif" /></div>
+
+<p>
+<a id="pgfId-1035703"></a>The critical current I<sub>CK</sub>is described by the same voltage dependence as for HICUM/L2.:</p>
+
+<p>
+<a id="pgfId-1035709"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="236" src="images/Chap7-34.gif" /></div>
+<h2>
+<a id="pgfId-1035711"></a><a id="40072"></a>Series Resistance</h2>
+<h3>
+<a id="pgfId-1035712"></a>Internal base resistance</h3>
+<p>
+<a id="pgfId-1035721"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="428" src="images/Chap7-35.gif" /></div>
+<h3>
+<a id="pgfId-1035722"></a>External series resistances</h3>
+<p>
+<a id="pgfId-1035726"></a></p>
+<div class="webflare-div-image">
+<img src="images/Ext_Series_Res.gif" /></div>
+<h2>
+<a id="pgfId-1035728"></a><a id="74569"></a>Temperature Dependence</h2>
+<p>
+<a id="pgfId-1035732"></a></p>
+<div class="webflare-div-image">
+<img src="images/Temp_dep_1.gif" /></div>
+
+<p>
+<a id="pgfId-1035733"></a>with the definitions</p>
+
+<p>
+<a id="pgfId-1035737"></a></p>
+<div class="webflare-div-image">
+<img src="images/Temp_dep_2.gif" /></div>
+
+<p>
+<a id="pgfId-1035738"></a>and the bandgap voltage at the measurement reference temperature</p>
+
+<p>
+<a id="pgfId-1035753"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="793" src="images/Chap7-39.gif" /></div>
+<p>
+<a id="pgfId-1035764"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="577" src="images/Chap7-40.gif" /></div>
+<h2>
+<a id="pgfId-1035766"></a><a id="55166"></a>Noise Model</h2>
+
+<p>
+<a id="pgfId-1035767"></a>The equivalent noise current source is used for thermal noise in ohmic resistance:</p>
+
+<p>
+<a id="pgfId-1035771"></a></p>
+<div class="webflare-div-image">
+<img src="images/Noise_model_1.gif" /></div>
+
+<p>
+<a id="pgfId-1035772"></a>For the transfer current, shot noise is assumes as:</p>
+
+<p>
+<a id="pgfId-1035776"></a></p>
+<div class="webflare-div-image">
+<img src="images/Noise_model_2.gif" /></div>
+
+<p>
+<a id="pgfId-1035777"></a></p>
+<p>
+<a id="pgfId-1035778"></a>The noise resulting from the current injected across the BE junction into the emitter</p>
+
+<p>
+<a id="pgfId-1035782"></a></p>
+<div class="webflare-div-image">
+<img src="images/Noise_model_3.gif" /></div>
+
+<p>
+<a id="pgfId-1035783"></a>The currents across the other junctions are assumed to have a shot noise component only</p>
+
+<p>
+<a id="pgfId-1035787"></a></p>
+<div class="webflare-div-image">
+<img src="images/Noise_model_4.gif" /></div>
+
+<p>
+<a id="pgfId-1035788"></a>Noise from avalanche generation within the internal BC depletion region is modelled as shot noise</p>
+
+<p>
+<a id="pgfId-1035792"></a></p>
+<div class="webflare-div-image">
+<img src="images/Noise_model_5.gif" /></div>
+
+<p>
+<a id="pgfId-1035793"></a>giving for the total noise contribution within the BC junction</p>
+
+<p>
+<a id="pgfId-1035797"></a></p>
+<div class="webflare-div-image">
+<img src="images/Noise_model_6.gif" /></div>
+<h2>
+<a id="pgfId-1035800"></a><a id="90797"></a>DC Characteristics<a id="marker-1035799"></a></h2>
+<p>
+<a id="pgfId-1035805"></a><img width="349" height="49" src="images/Chap7-47.gif" />
+<a id="marker-1035804"></a></p>
+<p>
+<a id="pgfId-1035811"></a><img width="342" height="74" src="images/Chap7-48.gif" />
+<a id="marker-1035809"></a><a id="marker-1035810"></a></p>
+<p>
+<a id="pgfId-1035816"></a><img width="372" height="27" src="images/Chap7-49.gif" />
+<a id="marker-1035815"></a></p>
+<p>
+<a id="pgfId-1035821"></a><img width="121" height="50" src="images/Chap7-50.gif" />
+<a id="marker-1035820"></a></p>
+<p>
+<a id="pgfId-1035826"></a><img width="196" height="27" src="images/Chap7-51.gif" />
+<a id="marker-1035825"></a></p>
+<p>
+<a id="pgfId-1035831"></a><img width="111" height="27" src="images/Chap7-52.gif" />
+<a id="marker-1035830"></a></p>
+<p>
+<a id="pgfId-1035836"></a><img width="338" height="61" src="images/Chap7-53.gif" />
+<a id="marker-1035835"></a></p>
+<p>
+<a id="pgfId-1035841"></a><img width="178" height="50" src="images/Chap7-54.gif" />
+<a id="marker-1035840"></a></p>
+<p>
+<a id="pgfId-1035845"></a><img width="290" height="50" src="images/Chap7-55.gif" /></p>
+<p>
+<a id="pgfId-1035850"></a><img width="143" height="49" src="images/Chap7-56.gif" />
+<a id="marker-1035849"></a></p>
+<h2>
+<a id="pgfId-1035852"></a><a id="45880"></a>Charge Storage Elements</h2>
+<p>
+<a id="pgfId-1035856"></a><img width="237" height="25" src="images/Chap7-57.gif" /></p>
+
+<p>
+<a id="pgfId-1035857"></a>The current dependence of Δτ<sub>f</sub> is simplified by neglecting the bias dependent collector current spreading formulation. However, the bias independent collector current spreading factor <em>fcs</em> remains included in the critical current ICK, resulting in a more physical geometry dependence of the low-field internal (epi-)collector resistance.</p>
+
+<p>
+<a id="pgfId-1035861"></a><img width="431" height="62" src="images/Chap7-58.gif" /></p>
+<p>
+<a id="pgfId-1035866"></a><img width="222" height="21" src="images/Chap7-59.gif" />
+ <a id="marker-1035865"></a></p>
+<p>
+<a id="pgfId-1035871"></a><img width="81" height="25" src="images/Chap7-60.gif" />
+<a id="marker-1035870"></a></p>
+<h2>
+<a id="pgfId-1035874"></a><a id="59187"></a>Series Resistance<a id="marker-1035873"></a></h2>
+
+<p>
+<a id="pgfId-1035875"></a>The internal base resistance can be strongly bias dependent and is modeled as</p>
+
+<p>
+<a id="pgfId-1035881"></a><img width="240" height="73" src="images/Chap7-61.gif" />
+<a id="marker-1035879"></a><a id="marker-1035880"></a></p>
+
+<p>
+<a id="pgfId-1035882"></a>where <em>rBi0</em> is the geometry dependent zero-bias value, and the denominator represents the conductivity modulation. The above equation has been derived from HICUM level-2 by introducing certain simplifications. Note, that <em>VroC</em> is close to the Early voltage <em>V</em><sub><em>Ef </em></sub>for BJTs but generally differs from <em>V</em><sub><em>Ef</em></sub> for HBTs.</p>
+
+<h2>
+<a id="pgfId-1035885"></a><a id="12066"></a>Temperature Effects<a id="marker-1035884"></a></h2>
+<p>
+<a id="pgfId-1035890"></a><img width="157" height="21" src="images/Chap7-62.gif" />
+<a id="marker-1035889"></a></p>
+<p>
+<a id="pgfId-1035895"></a><img width="440" height="23" src="images/Chap7-63.gif" />
+<a id="marker-1035894"></a></p>
+<p>
+<a id="pgfId-1035900"></a><img width="496" height="23" src="images/Chap7-64.gif" />
+<a id="marker-1035899"></a></p>
+<p>
+<a id="pgfId-1035905"></a><img width="494" height="23" src="images/Chap7-65.gif" />
+<a id="marker-1035904"></a></p>
+<p>
+<a id="pgfId-1035910"></a><img width="491" height="23" src="images/Chap7-66.gif" />
+<a id="marker-1035909"></a></p>
+<p>
+<a id="pgfId-1035916"></a><img width="495" height="23" src="images/Chap7-67.gif" />
+<a id="marker-1035914"></a><a id="marker-1035915"></a></p>
+<p>
+<a id="pgfId-1035921"></a><img width="446" height="23" src="images/Chap7-68.gif" />
+<a id="marker-1035920"></a></p>
+<p>
+<a id="pgfId-1035926"></a><img width="393" height="23" src="images/Chap7-69.gif" />
+<a id="marker-1035925"></a></p>
+<p>
+<a id="pgfId-1035931"></a><img width="465" height="23" src="images/Chap7-70.gif" />
+<a id="marker-1035930"></a></p>
+
+<p>
+<a id="pgfId-1035932"></a>where <em>vg</em> can be replaced with <em>vgbe</em>, <em>vgbc</em>, or <em>vgsc</em></p>
+
+<p>
+<a id="pgfId-1035937"></a><img width="324" height="23" src="images/Chap7-71.gif" />
+<a id="marker-1035936"></a></p>
+<p>
+<a id="pgfId-1035942"></a><img width="347" height="23" src="images/Chap7-72.gif" />
+<a id="marker-1035941"></a></p>
+<p>
+<a id="pgfId-1035947"></a><img width="374" height="23" src="images/Chap7-73.gif" />
+<a id="marker-1035946"></a></p>
+<p>
+<a id="pgfId-1035952"></a><img width="321" height="23" src="images/Chap7-74.gif" />
+<a id="marker-1035951"></a></p>
+<p>
+<a id="pgfId-1035957"></a><img width="310" height="23" src="images/Chap7-75.gif" />
+<a id="marker-1035956"></a></p>
+<p>
+<a id="pgfId-1035962"></a><img width="369" height="23" src="images/Chap7-76.gif" />
+<a id="marker-1035961"></a></p>
+<p>
+<a id="pgfId-1035967"></a><img width="271" height="23" src="images/Chap7-77.gif" />
+<a id="marker-1035966"></a></p>
+<p>
+<a id="pgfId-1035972"></a><img width="326" height="23" src="images/Chap7-78.gif" />
+<a id="marker-1035971"></a></p>
+<p>
+<a id="pgfId-1035977"></a><img width="349" height="23" src="images/Chap7-79.gif" />
+<a id="marker-1035976"></a></p>
+<p>
+<a id="pgfId-1035982"></a><img width="293" height="21" src="images/Chap7-80.gif" />
+<a id="marker-1035981"></a></p>
+<p>
+<a id="pgfId-1035987"></a><img width="149" height="21" src="images/Chap7-81.gif" />
+<a id="marker-1035986"></a></p>
+<p>
+<a id="pgfId-1035992"></a><img width="491" height="23" src="images/Chap7-82.gif" />
+<a id="marker-1035991"></a></p>
+<p>
+<a id="pgfId-1035997"></a><img width="323" height="23" src="images/Chap7-83.gif" />
+<a id="marker-1035996"></a></p>
+<p>
+<a id="pgfId-1036002"></a><img width="324" height="23" src="images/Chap7-84.gif" />
+<a id="marker-1036001"></a></p>
+<p>
+<a id="pgfId-1036007"></a><img width="316" height="23" src="images/Chap7-85.gif" />
+<a id="marker-1036006"></a></p>
+<p>
+<a id="pgfId-1036012"></a><img width="288" height="23" src="images/Chap7-86.gif" />
+<a id="marker-1036011"></a></p>
+<p>
+<a id="pgfId-1036017"></a><img width="269" height="23" src="images/Chap7-87.gif" />
+<a id="marker-1036016"></a>/</p>
+<p>
+<a id="pgfId-1036022"></a><img width="269" height="23" src="images/Chap7-88.gif" />
+<a id="marker-1036021"></a></p>
+<h3>
+<a id="pgfId-1036023"></a>Noise Model</h3>
+
+<p>
+<a id="pgfId-1036024"></a>The equivalent noise current source is used for thermal noise in ohmic resistance:</p>
+
+<p>
+<a id="pgfId-1036029"></a><img width="342" height="45" src="images/Chap7-89.gif" />
+ <a id="marker-1036028"></a></p>
+
+<p>
+<a id="pgfId-1036030"></a>Shot noise is assumed for transfer current</p>
+
+<p>
+<a id="pgfId-1039538"></a><img width="97" height="35" src="images/Chap7-90.gif" /></p>
+
+<p>
+<a id="pgfId-1039539"></a>Shot noise for current across BE junction is taken into account in the following equation</p>
+
+<p>
+<a id="pgfId-1039543"></a><img width="125" height="35" src="images/Chap7-91.gif" /></p>
+
+<p>
+<a id="pgfId-1036040"></a>A flicker noise source is implemented for the BE junction</p>
+
+<p>
+<a id="pgfId-1036044"></a><img width="120" height="41" src="images/Chap7-92.gif" /></p>
+<h3>
+<a id="pgfId-1036045"></a>Other Effects</h3>
+
+<p>
+<a id="pgfId-1036046"></a>Self-heating is included to overcome one of the most significant deficiencies of the SGPM for advanced processes including III-V HBTs.</p>
+
+<h2>
+<a id="pgfId-1037381"></a><a id="93989"></a>Models and Equations in Version 1.30</h2>
+<h3>
+<a id="pgfId-1037391"></a>Improved model formulations for the HICUM/L0 transfer current</h3>
+
+<p>
+<a id="pgfId-1037392"></a>The improvements can be categorized by:</p>
+<ul><li>
+<a id="pgfId-1037393"></a>Bias Dependence</li><li>
+<a id="pgfId-1037394"></a>Temperature Dependence</li></ul>
+
+
+<h4>
+<a id="pgfId-1037395"></a>Bias Dependence</h4>
+<h4><em>
+<a id="pgfId-1037396"></a>Low and Medium Current Range</em></h4>
+
+<p>
+<a id="pgfId-1037397"></a>The equation for reverse Early voltage is:</p>
+
+<p>
+<a id="pgfId-1037401"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="76" src="images/Chap7-93.gif" /></div>
+
+<p>
+<a id="pgfId-1037402"></a>where</p>
+
+<p>
+<a id="pgfId-1037406"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="61" src="images/Chap7-94.gif" /></div>
+
+<p>
+<a id="pgfId-1037407"></a>Here, VEr0 is the Early voltage for zero volt and aVEr the parameter describing the change of the Early voltage. The junction voltage is limited to the range (0, VDEi) as follows:</p>
+
+<p>
+<a id="pgfId-1037411"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="131" src="images/Chap7-95.gif" /></div>
+
+<p>
+<a id="pgfId-1037412"></a>rVErVT is used rather than VT since it allows a smooth transition to voltages larger than VDE.</p>
+<p>
+<a id="pgfId-1037413"></a>The limitation to values larger zero is realized by:</p>
+
+<p>
+<a id="pgfId-1037417"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="95" src="images/Chap7-96.gif" /></div>
+
+<p>
+<a id="pgfId-1037418"></a>The parameters VDE and j used here are the same as for the electrostatic capacitance. For simplification, the parameter rVEr is set to a fixed value of two, which is sufficient for all verifications. However, to allow full backward compatibility the parameter set for the DC charge VDEDC, zEDC and ajEDC is still kept separately from that of the AC charge, although the values may be the same. Therefore, the DC-charge formulation can still be used in the new version and the bias dependence of VEr can be turned off by settings aVEr to zero.</p>
+
+<h4><em>
+<a id="pgfId-1037419"></a>High Current</em></h4>
+
+<p>
+<a id="pgfId-1037420"></a>The transfer current equation for high current effects has been changed. In earlier versions, a second order polynomial (with bias dependent coefficients) was used for the whole range. However, a more physical description results in a third order polynomial function (resulting from g<img width="6" height="16" src="images/Chap7-97.gif" /><span>fE=1 in HICUM/L2). The third order polynomial reads:</span></p>
+<p>
+<a id="pgfId-1037427"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="61" src="images/Chap7-98.gif" /></div>
+
+<p>
+<a id="pgfId-1037428"></a>The above equation can be solved with respect to qpT.</p>
+<p>
+<a id="pgfId-1037429"></a>The following is the transfer current equation for modeling the high current effects:</p>
+
+<p>
+<a id="pgfId-1037433"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="89" src="images/Chap7-99.gif" /></div>
+
+<p>
+<a id="pgfId-1037434"></a>tfh can be calculated by:</p>
+
+<p>
+<a id="pgfId-1037438"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="55" src="images/Chap7-100.gif" /></div>
+<h4>
+<a id="pgfId-1037439"></a>Temperature Dependence</h4>
+<h4><em>
+<a id="pgfId-1037440"></a>Medium Bias Range</em></h4>
+
+<p>
+<a id="pgfId-1037441"></a>The medium bias range is dominated by the temperature dependence of the saturation current and reverse Early voltage. The temperature dependence of the saturation current is kept untouched. The reverse Early voltage itself becomes temperature dependent. Two effects need to be taken into account.</p>
+<p>
+<a id="pgfId-1037442"></a>First, the Early voltage at zero volt changes due to the different bandgap in the base and the BESCR. This bandgap difference is used as a parameter along with a non-idealitiy parameter. The equation itself reads:</p>
+
+<p>
+<a id="pgfId-1037446"></a></p>
+<div class="webflare-div-image">
+<img width="652" height="65" src="images/Chap7-101.gif" /></div>
+
+<p>
+<a id="pgfId-1037447"></a>Additional, the parameter describing the Early voltage change also changes due to the temperature voltage VT and the temperature induced moving of the SCR-boundary. Both effects are modelled using one temperature coefficient.</p>
+
+<p>
+<a id="pgfId-1037451"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="48" src="images/Chap7-102.gif" /></div>
+<h4><em>
+<a id="pgfId-1037452"></a>High Current Effects</em></h4>
+
+<p>
+<a id="pgfId-1038040"></a>The temperature dependence of IQf is given by:</p>
+
+<p>
+<a id="pgfId-1038044"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="66" src="images/Chap7-103.gif" /></div>
+
+<p>
+<a id="pgfId-1038045"></a>Due to different bandgap voltages in the transistor, high current effects may become also temperature dependent. Since for IQfh, minorities in different regions of the transistor are taken into account, a simple second order polynomial fit is applied, as follows:</p>
+
+<p>
+<a id="pgfId-1038049"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="53" src="images/Chap7-104.gif" /></div>
+<p>
+<a id="pgfId-1038053"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="65" src="images/Chap7-105.gif" /></div>
+
+<p>
+<a id="pgfId-1038054"></a>The temperature dependence of tfh is given by:</p>
+<p>
+<a id="pgfId-1038115"></a></p>
+
+<div class="webflare-div-image">
+<img width="668" height="56" src="images/Chap7-106.gif" /></div>
+<h2>
+<a id="pgfId-1036049"></a><a id="25279"></a>Component Statements<a id="marker-1036048"></a></h2>
+
+<p>
+<a id="pgfId-1036050"></a>The device is supported within altergroups.</p>
+
+<h3>
+<a id="pgfId-1036052"></a>Instance Definition<a id="marker-1036051"></a></h3>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1036053"></a>Name&#160;&#160;c&#160;&#160;b&#160;&#160;e&#160;&#160;s&#160;&#160;[tnode] ModelName parameter=value ...</pre>
+<h4>
+<a id="pgfId-1038989"></a>Instance Parameters</h4>
+<table class="webflareTable" id="#id1039952">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039954"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039956"></a><code>dt=0.0 K</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039958"></a>Temperature change for particular transistor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039960"></a>2 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039962"></a> <code>m=1</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039964"></a>Instance parameter mfactor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039966"></a>3 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039968"></a> <code>exp_cr=80</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039970"></a>Instance parameter exp_cr for limitexp.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039972"></a>4 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039974"></a> <code>isnoisy=yes</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039976"></a>Should device generate noise. Possible values are <code>no</code> and <code>yes</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h3>
+<a id="pgfId-1041058"></a><a id="35865"></a>Model Definition<a id="marker-1041057"></a></h3>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1041059"></a>model modelName bht0 parameter=value ...</pre>
+<h4>
+<a id="pgfId-1041704"></a><a id="78958"></a>Model Parameters</h4>
+<p>
+<a id="pgfId-1041722"></a></p>
+<table class="webflareTable" id="#id1041061">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041063"></a>1 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041065"></a><code>is=1.0e-16 A</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041067"></a>(Modified) saturation current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041069"></a>2 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041071"></a> <code>it_mod=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041073"></a>Flag for using third order solution for transfer current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041075"></a>3 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041077"></a> <code>mcf=1.00</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041079"></a>Non-ideality coefficient of forward collector current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041081"></a>4 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041083"></a> <code>mcr=1.00</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041085"></a>Non-ideality coefficient of reverse collector current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041087"></a>5 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041089"></a> <code>vef=1.0e6 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041091"></a>Forward Early voltage (normalization volt.).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041093"></a>6 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041095"></a> <code>ver=1.0e6 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041097"></a>rReverse Early voltage (normalization volt.).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041099"></a>7 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041101"></a> <code>aver=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041103"></a>Bias dependence for reverse Early voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041105"></a>8 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041107"></a> <code>iqf=1.0e6 A</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041109"></a>Forward d.c. high-injection toll-off current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041111"></a>9 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041113"></a> <code>fiqf=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041115"></a>Flag for turning on base related critical current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041117"></a>10</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041119"></a> <code>iqr=1.0e6 A</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041121"></a>Inverse d.c. high-injection roll-off current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041123"></a>11</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041125"></a> <code>iqfh=1.0e6 A</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041127"></a>High-injection correction current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041129"></a>12</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041131"></a> <code>tfh=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041133"></a>High-injection correction factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041135"></a>13</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041137"></a> <code>ahq=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041139"></a>Smoothing factor for the d.c. injection width.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041141"></a>14</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041143"></a> <code>ibes=1e-18 A</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041145"></a>BE saturation current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041147"></a>15</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041149"></a> <code>mbe=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041151"></a>BE non-ideality factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041153"></a>16</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041155"></a> <code>ires=0.0 A</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041157"></a>BE recombination saturation current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041159"></a>17</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041161"></a> <code>mre=2.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041163"></a>BE recombination non-ideality factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041165"></a>18</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041167"></a> <code>ibcs=0.0 A</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041169"></a>BC saturation current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041171"></a>19</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041173"></a> <code>mbc=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041175"></a>BC non-ideality factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041177"></a>20</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041179"></a> <code>cje0=1.0e-20 F</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041181"></a>Zero-bias BE depletion capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041183"></a>21</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041185"></a> <code>vde=0.9 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041187"></a>BE built-in voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041189"></a>22</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041191"></a> <code>ze=0.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041193"></a>BE exponent factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041195"></a>23</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041197"></a> <code>aje=2.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041199"></a>Ratio of maximum to zero-bias value.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041201"></a>24</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041203"></a> <code>vdedc=0.9 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041205"></a>BE charge built-in voltage for d.c. transfer current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041207"></a>25</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041209"></a> <code>zedc=0.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041211"></a>Charge BE exponent factor for d.c. transfer current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041213"></a>26</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041215"></a> <code>ajedc=2.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041217"></a>BE capacitance ratio Ratio maximum to zero-bias value for d.c. transfer current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041219"></a>27 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041221"></a><code>t0=0.0 s</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041223"></a>Low current transit time at Vbici=0.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041225"></a>28 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041227"></a> <code>dt0h=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041229"></a>Model parameter: no description.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041231"></a>29 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041233"></a> <code>tbvl=0.0 s</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041235"></a>SCR width modulation contribution.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041237"></a>30 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041239"></a> <code>tef0=0.0 s</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041241"></a>Storage time in neutral emitter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041243"></a>31 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041245"></a> <code>gte=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041247"></a>Exponent factor for emitter transit time.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041249"></a>32 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041251"></a> <code>thcs=0.0 s</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041253"></a>Saturation time at high current densities.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041255"></a>33 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041257"></a> <code>ahc=0.1</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041259"></a>Smoothing factor for current dependence.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041261"></a>34 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041263"></a> <code>tr=0.0 s</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041265"></a>Storage time at inverse operation.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041267"></a>35 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041269"></a> <code>rci0=150 </code>&#x2126;</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041271"></a>Low-field collector resistance under emitter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041273"></a>36 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041275"></a> <code>vlim=0.5 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041277"></a>Voltage dividing ohmic and saturation region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041279"></a>37 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041281"></a> <code>vpt=100 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041283"></a>Punch-through voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041285"></a>38 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041287"></a> <code>vces=0.1 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041289"></a>Saturation voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041291"></a>39 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041293"></a> <code>cjci0=1.0e-20 F</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041295"></a>Total zero-bias BC depletion capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041297"></a>40 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041299"></a> <code>vdci=0.7 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041301"></a>BC built-in voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041303"></a>41 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041305"></a> <code>zci=0.333</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041307"></a>BC exponent factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041309"></a>42 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041311"></a> <code>vptci=100 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041313"></a>Punch-through voltage of BC junction.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041315"></a>43 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041317"></a> <code>cjcx0=1.0e-20 F</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041319"></a>Zero-bias external BC depletion capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041321"></a>44 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041323"></a><code>vdcx=0.7 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041325"></a>External BC built-in voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041327"></a>45 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041329"></a> <code>zcx=0.333</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041331"></a>External BC exponent factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041333"></a>46 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041335"></a> <code>vptcx=100 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041337"></a>Punch-through voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041339"></a>47 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041341"></a> <code>fbc=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041343"></a>Split factor = Cjci0/Cjc0.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041345"></a>48 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041347"></a> <code>rbi0=0.0 </code>&#x2126;</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041349"></a>Internal base resistance at zero-bias.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041351"></a>49 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041353"></a> <code>vr0e=2.5 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041355"></a>Forward early voltage (normalization voltage).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041357"></a>50 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041359"></a> <code>vr0c=1.0e6 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041361"></a>Forward early voltage (normalization voltage).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041363"></a>51 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041365"></a> <code>fgeo=0.656</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041367"></a>Geometry factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041369"></a>52 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041371"></a> <code>rbx=0.0 </code>&#x2126;</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041373"></a>External base series resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041375"></a>53 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041377"></a> <code>rcx=0.0 </code>&#x2126;</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041379"></a>Emitter series resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041381"></a>54 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041383"></a> <code>re=0.0 </code>&#x2126;</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041385"></a>External collector series resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041387"></a>55 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041389"></a> <code>itss=0.0 A</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041391"></a>Substrate transistor transfer saturation current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041393"></a>56 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041395"></a> <code>msf=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041397"></a>Substrate transistor transfer current non-ideality factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041399"></a>57 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041401"></a> <code>iscs=0.0 A</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041403"></a>SC saturation current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041405"></a>58 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041407"></a> <code>msc=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041409"></a>SC non-ideality factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041411"></a>59 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041413"></a> <code>cjs0=1.0e-20 F</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041415"></a>Zero-bias SC depletion capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041417"></a>60 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041419"></a> <code>vds=0.3 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041421"></a>SC built-in voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041423"></a>61 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041425"></a> <code>zs=0.3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041427"></a>External SC exponent factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041429"></a>62 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041431"></a> <code>vpts=100 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041433"></a>SC punch-through voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041435"></a>63 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041437"></a> <code>cbcpar=0.0 F</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041439"></a>Collector-base isolation (overlap) capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041441"></a>64 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041443"></a> <code>cbepar=0.0 F</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041445"></a>Emitter-base oxide capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041447"></a>65 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041449"></a> <code>eavl=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041451"></a>Exponent factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041453"></a>66</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041455"></a><code>kavl=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041457"></a>Prefactor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041459"></a>67</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041461"></a> <code>kf=0.0 M^(1-AF)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041463"></a>Flicker noise coefficient.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041465"></a>68</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041467"></a> <code>af=2.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041469"></a>Flicker noise exponent factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041471"></a>69</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041473"></a> <code>alqf=0.167</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041475"></a>Factor for additional delay time of minority charge.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041477"></a>70</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041479"></a> <code>alit=0.333</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041481"></a>Factor for additional delay time of transfer current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041483"></a>71</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041485"></a> <code>flnqs=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041487"></a>Flag for turning on and off of vertical NQS effect.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041489"></a>72</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041491"></a> <code>vgb=1.2 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041493"></a>Bandgap-voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041495"></a>73</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041497"></a> <code>vge=1.17 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041499"></a>Effective emitter bandgap-voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041501"></a>74</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041503"></a> <code>vgc=1.17 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041505"></a>Effective collector bandgap-voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041507"></a>75</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041509"></a> <code>vgs=1.17 V</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041511"></a>Effective substrate bandgap-voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041513"></a>76</p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a id="pgfId-1041515"></a> <code>f1vg=(-1.02377e-4) V/K</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041519"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041521"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041523"></a>Coefficient K1 in T-dependent bandgap equation.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041525"></a>77</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041527"></a> <code>f2vg=4.3215e-4 V/K</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041529"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041531"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041533"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041535"></a>Coefficient K2 in T-dependent bandgap equation.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041537"></a>78</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041539"></a> <code>alt0=0.0 1/K</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041541"></a>First-order TC of tf0.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041543"></a>79</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041545"></a> <code>kt0=0.0 1/K</code><sup>2</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041547"></a>Second-order TC of tf0.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041549"></a>80</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041551"></a> <code>zetact=3.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041553"></a>Exponent coefficient in transfer current temperature dependence.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041555"></a>81</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041557"></a> <code>zetabet=3.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041559"></a>Exponent coefficient in BE junction current temperature dependence.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041561"></a>82</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041563"></a> <code>zetaci=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041565"></a>TC of epi-collector diffusivity.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041567"></a>83</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041569"></a> <code>alvs=0.0 1/K</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041571"></a>Relative TC of saturation drift velocity.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041573"></a>84</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041575"></a> <code>alces=0.0 1/K</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041577"></a>Relative TC of vces.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041579"></a>85</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041581"></a> <code>zetarbi=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041583"></a>TC of internal base resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041585"></a>86</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041587"></a> <code>zetarbx=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041589"></a>TC of external base resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041591"></a>87</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041593"></a> <code>zetarcx=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041595"></a>TC of external collector resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041597"></a>88</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041599"></a> <code>zetare=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041601"></a>TC of emitter resistances.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041603"></a>89</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041605"></a> <code>zetaiqf=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041607"></a>TC of iqf.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041609"></a>90</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041611"></a> <code>alkav=0.0 1/K</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041613"></a>TC of avalanche prefactor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041615"></a>91</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041617"></a> <code>aleav=0.0 1/K</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041619"></a>TC of avalanche exponential factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041621"></a>92</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041623"></a> <code>zetarth=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041625"></a>Exponent factor for temperature dependent thermal resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041627"></a>93</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041629"></a> <code>tef_temp=1</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041631"></a>Flag for turning temperature dependence of tef0 on and off.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041633"></a>94</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041635"></a> <code>zetaver=(-1.0)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041637"></a>TC of Reverse Early voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041639"></a>95</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041641"></a> <code>zetavgbe=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041643"></a>TC of AVER.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041645"></a>96</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041647"></a> <code>dvgbe=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041649"></a>Bandgap difference between base and BE-junction.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041651"></a>97</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041653"></a> <code>aliqfh=0 1/K</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041655"></a>First-order TC of iqfh.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041657"></a>98</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041659"></a> <code>kiqfh=0 1/K</code><sup>2</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041661"></a>Second-order TC of iqfh.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041663"></a>99</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041665"></a> <code>flsh=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041667"></a>Flag for self-heating calculation.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041669"></a>100</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041671"></a> <code>rth=0.0 K/W</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041673"></a>Thermal resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041675"></a>101</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041677"></a> <code>cth=0.0 Ws/K</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041679"></a>Thermal capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041681"></a>102</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041683"></a> <code>pnp=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041685"></a>Model type flag for pnp.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041687"></a>103</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041689"></a> <code>npn=1</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041691"></a>Model type flag for npn.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041734"></a>104</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041736"></a><code>type=1</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041738"></a>Transistor type. 1 for NPN and -1 for PNP. This parameter is available starting with version 1.32.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041693"></a>105</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041695"></a> <code>tnom=27 C</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041697"></a>Temperature for which parameters are valid.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041699"></a>106</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041701"></a> <code>version=1.2</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041703"></a>The available versions are 1.0, 1.11, 1.12, 1.2, 1.3, 1.31, and 1.32.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1036160"></a>Output Parameters</h4>
+<p>
+<a id="pgfId-1041747"></a></p>
+<table class="webflareTable" id="#id1040737">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040739"></a>1 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040741"></a><code>meff</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040743"></a>Effective multiplicity factor (m-factor).</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1036169"></a>Operating Point Parameters</h4>
+<p>
+<a id="pgfId-1041761"></a></p>
+<table class="webflareTable" id="#id1040786">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040788"></a>1 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040790"></a><code>qjci (C)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040792"></a>B-C internal junction charge.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040794"></a>2 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040796"></a> <code>qjei (C)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040798"></a>B-E internal junction charge.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040800"></a>3 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040802"></a> <code>cjei (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040804"></a>B-E internal junction capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040806"></a>4 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040808"></a> <code>it (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040810"></a>Transfer Current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040812"></a>5 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040814"></a> <code>ijbc (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040816"></a>Base-collector diode current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040818"></a>6 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040820"></a> <code>iavl (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040822"></a>Avalanche current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040824"></a>7 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040826"></a> <code>ijsc (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040828"></a>Substrate-collector diode current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040830"></a>8 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040832"></a> <code>ieei (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040834"></a>Current through external to internal emitter node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040836"></a>9 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040838"></a> <code>icci (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040840"></a>Current through external to internal collector node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040842"></a>10</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040844"></a> <code>ibbi (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040846"></a>Current through external to internal base node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040848"></a>11</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040850"></a> <code>ibici (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040852"></a>Base-collector diode current minus the avalanche current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040854"></a>12</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040856"></a> <code>ijbe (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040858"></a>Base-emitter diode current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040860"></a>13</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040862"></a> <code>vef (V)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040864"></a>Effective forward Early-voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040866"></a>14</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040868"></a> <code>ver (V)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040870"></a>Effective inverse Early-voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040872"></a>15</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040874"></a> <code>tempeff (C)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040876"></a>Effective temperature for a single device.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040878"></a>16</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040880"></a> <code>ib</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040882"></a>Base terminal current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040884"></a>17</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040886"></a> <code>ic</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040888"></a>Collector terminal current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040890"></a>18</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040892"></a> <code>is</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040894"></a>Substrate current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040896"></a>19</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040898"></a> <code>vbe</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040900"></a>External BE voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040902"></a>20</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040904"></a> <code>vbc</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040906"></a>External BC voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040908"></a>21</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040910"></a> <code>vce</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040912"></a>External CE voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040914"></a>22</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040916"></a> <code>vsc</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040918"></a>External SC voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040920"></a>23</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040922"></a> <code>betadc</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040924"></a>Common emitter forward current gain.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040926"></a>24</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040928"></a> <code>gmi</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040930"></a>Internal transconductance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040932"></a>25</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040934"></a> <code>rpii</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040936"></a>Internal input resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040938"></a>26</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040940"></a> <code>rmui</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040942"></a>Internal feedback resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040944"></a>27</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040946"></a> <code>roi</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040948"></a>Internal Output resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040950"></a>28</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040952"></a> <code>cpii</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040954"></a>Total BE capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040956"></a>29</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040958"></a> <code>cmui</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040960"></a>Total internal BC capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040962"></a>30</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040964"></a> <code>cbcx</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040966"></a>Total external BC capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040968"></a>31</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040970"></a> <code>ccs</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040972"></a>CS junction capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040974"></a>32</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040976"></a> <code>rbi</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040978"></a>Internal base resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040980"></a>33</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040982"></a> <code>rb</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040984"></a>Total base resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040986"></a>34</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040988"></a> <code>rcx</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040990"></a>External (saturated) collector series resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040992"></a>35</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040994"></a> <code>re</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040996"></a>Emitter series resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1040998"></a>36</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041000"></a> <code>betaac</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041002"></a>Small signal current gain.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041004"></a>37</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041006"></a> <code>tf</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041008"></a>Total forward transit time.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041010"></a>38</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041012"></a> <code>ft</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1041014"></a>Transit frequency.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1042049"></a>39</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1042051"></a><code>pwr (W)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1042053"></a>Power dissipation.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1036188"></a><a id="43917"></a>Parameter Index</h4>
+
+<p>
+<a id="pgfId-1036189"></a>In the following index, <code>I</code> refers to instance parameters, <code>M</code> refers to the model parameters section, <code>O</code> refers to the output parameters section, and <code>OP</code> refers to the operating point parameters section. The number indicates where to look in the appropriate section to find the description for that parameter. For example, a reference of <code>M-35</code> means the 35th model parameter.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1042389"></a></pre>
+<table class="webflareTable" id="#id1042084">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042086">
+<a id="pgfId-1042086"></a>af   M-68
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042088">
+<a id="pgfId-1042088"></a>flnqs   M-71
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042090">
+<a id="pgfId-1042090"></a>mre   M-17
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042092">
+<a id="pgfId-1042092"></a>vde   M-21
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042094">
+<a id="pgfId-1042094"></a>ahc   M-33
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042096">
+<a id="pgfId-1042096"></a>flsh   M-99
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042098">
+<a id="pgfId-1042098"></a>msc   M-58
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042100">
+<a id="pgfId-1042100"></a>vdedc   M-24
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042102">
+<a id="pgfId-1042102"></a>ahq   M-13
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042104">
+<a id="pgfId-1042104"></a>ft   OP-38
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042106">
+<a id="pgfId-1042106"></a>msf   M-56
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042108">
+<a id="pgfId-1042108"></a>vds   M-60
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042110">
+<a id="pgfId-1042110"></a>aje   M-23
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042112">
+<a id="pgfId-1042112"></a>gmi   OP-24
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042114">
+<a id="pgfId-1042114"></a>npn   M-103
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042116">
+<a id="pgfId-1042116"></a>vef   M-5
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042118">
+<a id="pgfId-1042118"></a>ajedc   M-26
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042120">
+<a id="pgfId-1042120"></a>gte   M-31
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042122">
+<a id="pgfId-1042122"></a>pnp   M-102
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042124">
+<a id="pgfId-1042124"></a>vef   OP-13
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042126">
+<a id="pgfId-1042126"></a>alces   M-84
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042128">
+<a id="pgfId-1042128"></a>iavl   OP-6
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042130">
+<a id="pgfId-1042130"></a>pwr   OP-39
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042132">
+<a id="pgfId-1042132"></a>ver   M-6
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042134">
+<a id="pgfId-1042134"></a>aleav   M-91
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042136">
+<a id="pgfId-1042136"></a>ib   OP-16
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042138">
+<a id="pgfId-1042138"></a>qjci   OP-1
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042140">
+<a id="pgfId-1042140"></a>ver   OP-14
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042142">
+<a id="pgfId-1042142"></a>aliqfh   M-97
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042144">
+<a id="pgfId-1042144"></a>ibbi   OP-10
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042146">
+<a id="pgfId-1042146"></a>qjei   OP-2
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042148">
+<a id="pgfId-1042148"></a>version   M-106
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042150">
+<a id="pgfId-1042150"></a>alit   M-70
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042152">
+<a id="pgfId-1042152"></a>ibcs   M-18
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042154">
+<a id="pgfId-1042154"></a>rb   OP-33
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042156">
+<a id="pgfId-1042156"></a>vgb   M-72
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042158">
+<a id="pgfId-1042158"></a>alkav   M-90
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042160">
+<a id="pgfId-1042160"></a>ibes   M-14
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042162">
+<a id="pgfId-1042162"></a>rbi   OP-32
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042164">
+<a id="pgfId-1042164"></a>vgc   M-74
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042166">
+<a id="pgfId-1042166"></a>alqf   M-69
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042168">
+<a id="pgfId-1042168"></a>ibici   OP-11
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042170">
+<a id="pgfId-1042170"></a>rbi0   M-48
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042172">
+<a id="pgfId-1042172"></a>vge   M-73
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042174">
+<a id="pgfId-1042174"></a>alt0   M-78
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042176">
+<a id="pgfId-1042176"></a>ic   OP-17
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042178">
+<a id="pgfId-1042178"></a>rbx   M-52
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042180">
+<a id="pgfId-1042180"></a>vgs   M-75
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042182">
+<a id="pgfId-1042182"></a>alvs   M-83
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042184">
+<a id="pgfId-1042184"></a>icci   OP-9
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042186">
+<a id="pgfId-1042186"></a>rci0   M-35
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042188">
+<a id="pgfId-1042188"></a>vlim   M-36
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042190">
+<a id="pgfId-1042190"></a>aver   M-7
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042192">
+<a id="pgfId-1042192"></a>ieei   OP-8
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042194">
+<a id="pgfId-1042194"></a>rcx   M-53
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042196">
+<a id="pgfId-1042196"></a>vpt   M-37
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042198">
+<a id="pgfId-1042198"></a>betaac   OP-36
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042200">
+<a id="pgfId-1042200"></a>ijbc   OP-5
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042202">
+<a id="pgfId-1042202"></a>rcx   OP-34
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042204">
+<a id="pgfId-1042204"></a>vptci   M-42
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042206">
+<a id="pgfId-1042206"></a>betadc   OP-23
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042208">
+<a id="pgfId-1042208"></a>ijbe   OP-12
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042210">
+<a id="pgfId-1042210"></a>re   M-54
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042212">
+<a id="pgfId-1042212"></a>vptcx   M-46
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042214">
+<a id="pgfId-1042214"></a>cbcpar   M-63
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042216">
+<a id="pgfId-1042216"></a>ijsc   OP-7
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042218">
+<a id="pgfId-1042218"></a>re   OP-35
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042220">
+<a id="pgfId-1042220"></a>vpts   M-62
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042222">
+<a id="pgfId-1042222"></a>cbcx   OP-30
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042224">
+<a id="pgfId-1042224"></a>iqf   M-8
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042226">
+<a id="pgfId-1042226"></a>rmui   OP-26
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042228">
+<a id="pgfId-1042228"></a>vr0c   M-50
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042230">
+<a id="pgfId-1042230"></a>cbepar   M-64
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042232">
+<a id="pgfId-1042232"></a>iqfh   M-11
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042234">
+<a id="pgfId-1042234"></a>roi   OP-27
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042236">
+<a id="pgfId-1042236"></a>vr0e   M-49
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042238">
+<a id="pgfId-1042238"></a>ccs   OP-31
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042240">
+<a id="pgfId-1042240"></a>iqr   M-10
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042242">
+<a id="pgfId-1042242"></a>rpii   OP-25
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042244">
+<a id="pgfId-1042244"></a>vsc   OP-22
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042246">
+<a id="pgfId-1042246"></a>cjci0   M-39
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042248">
+<a id="pgfId-1042248"></a>ires   M-16
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042250">
+<a id="pgfId-1042250"></a>rth   M-100
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042252">
+<a id="pgfId-1042252"></a>zci   M-41
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042254">
+<a id="pgfId-1042254"></a>cjcx0   M-43
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042256">
+<a id="pgfId-1042256"></a>is   M-1
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042258">
+<a id="pgfId-1042258"></a>t0   M-27
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042260">
+<a id="pgfId-1042260"></a>zcx   M-45
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042262">
+<a id="pgfId-1042262"></a>cje0   M-20
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042264">
+<a id="pgfId-1042264"></a>is   OP-18
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042266">
+<a id="pgfId-1042266"></a>tbvl   M-29
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042268">
+<a id="pgfId-1042268"></a>ze   M-22
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042270">
+<a id="pgfId-1042270"></a>cjei   OP-3
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042272">
+<a id="pgfId-1042272"></a>iscs   M-57
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042274">
+<a id="pgfId-1042274"></a>tef0   M-30
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042276">
+<a id="pgfId-1042276"></a>zedc   M-25
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042278">
+<a id="pgfId-1042278"></a>cjs0   M-59
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042280">
+<a id="pgfId-1042280"></a>isnoisy   I-4
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042282">
+<a id="pgfId-1042282"></a>tef_temp   M-93
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042284">
+<a id="pgfId-1042284"></a>zetabet   M-81
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042286">
+<a id="pgfId-1042286"></a>cmui   OP-29
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042288">
+<a id="pgfId-1042288"></a>it   OP-4
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042290">
+<a id="pgfId-1042290"></a>tempeff   OP-15
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042292">
+<a id="pgfId-1042292"></a>zetaci   M-82
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042294">
+<a id="pgfId-1042294"></a>cpii   OP-28
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042296">
+<a id="pgfId-1042296"></a>it_mod   M-2
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042298">
+<a id="pgfId-1042298"></a>tf   OP-37
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042300">
+<a id="pgfId-1042300"></a>zetact   M-80
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042302">
+<a id="pgfId-1042302"></a>cth   M-101
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042304">
+<a id="pgfId-1042304"></a>itss   M-55
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042306">
+<a id="pgfId-1042306"></a>tfh   M-12
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042308">
+<a id="pgfId-1042308"></a>zetaiqf   M-89
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042310">
+<a id="pgfId-1042310"></a>dt   I-1
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042312">
+<a id="pgfId-1042312"></a>kavl   M-66
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042314">
+<a id="pgfId-1042314"></a>thcs   M-32
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042316">
+<a id="pgfId-1042316"></a>zetarbi   M-85
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042318">
+<a id="pgfId-1042318"></a>dt0h   M-28
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042320">
+<a id="pgfId-1042320"></a>kf   M-67
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042322">
+<a id="pgfId-1042322"></a>tnom   M-105
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042324">
+<a id="pgfId-1042324"></a>zetarbx   M-86
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042326">
+<a id="pgfId-1042326"></a>dvgbe   M-96
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042328">
+<a id="pgfId-1042328"></a>kiqfh   M-98
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042330">
+<a id="pgfId-1042330"></a>tr   M-34
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042332">
+<a id="pgfId-1042332"></a>zetarcx   M-87
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042334">
+<a id="pgfId-1042334"></a>eavl   M-65
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042336">
+<a id="pgfId-1042336"></a>kt0   M-79
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042338">
+<a id="pgfId-1042338"></a>type   M-104
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042340">
+<a id="pgfId-1042340"></a>zetare   M-88
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042342">
+<a id="pgfId-1042342"></a>exp_cr   I-3
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042344">
+<a id="pgfId-1042344"></a>m   I-2
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042346">
+<a id="pgfId-1042346"></a>vbc   OP-20
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042348">
+<a id="pgfId-1042348"></a>zetarth   M-92
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042350">
+<a id="pgfId-1042350"></a>f1vg   M-76
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042352">
+<a id="pgfId-1042352"></a>mbc   M-19
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042354">
+<a id="pgfId-1042354"></a>vbe   OP-19
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042356">
+<a id="pgfId-1042356"></a>zetaver   M-94
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042358">
+<a id="pgfId-1042358"></a>f2vg   M-77
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042360">
+<a id="pgfId-1042360"></a>mbe   M-15
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042362">
+<a id="pgfId-1042362"></a>vce   OP-21
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042364">
+<a id="pgfId-1042364"></a>zetavgbe   M-95
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042366">
+<a id="pgfId-1042366"></a>fbc   M-47
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042368">
+<a id="pgfId-1042368"></a>mcf   M-3
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042370">
+<a id="pgfId-1042370"></a>vces   M-38
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042372">
+<a id="pgfId-1042372"></a>zs   M-61
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042374">
+<a id="pgfId-1042374"></a>fgeo   M-51
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042376">
+<a id="pgfId-1042376"></a>mcr   M-4
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042378">
+<a id="pgfId-1042378"></a>vdci   M-40
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042380">
+<a id="pgfId-1042380"></a>
+</headingrunin></td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042382">
+<a id="pgfId-1042382"></a>fiqf   M-9
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042384">
+<a id="pgfId-1042384"></a>meff   O-1
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042386">
+<a id="pgfId-1042386"></a>vdcx   M-44
+</headingrunin></td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<headingrunin id="#id1042388">
+<a id="pgfId-1042388"></a>
+</headingrunin></td>
+</tr>
+</tbody></table>
+
+<p>
+<a id="pgfId-1039198"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="Chap6.html" id="prev" title="HiCUM Model (bht)">HiCUM Model (bht)</a></em></b><b><em><a href="Chap9.html" id="nex" title="VBIC Model (vbic)">VBIC Model (vbic)</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

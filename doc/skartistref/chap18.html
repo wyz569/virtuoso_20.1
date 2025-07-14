@@ -1,0 +1,1880 @@
+
+<html><head><title>Waveform Data Objects</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="shubh" />
+<meta name="CreateDate" content="2020-09-18" />
+<meta name="CreateTime" content="1600446011" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Analog Design Environment SKILL functions." />
+<meta name="DocTitle" content="Virtuoso ADE SKILL Reference - Part I" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Waveform Data Objects" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="skartistref" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-18" />
+<meta name="ModifiedTime" content="1600446011" />
+<meta name="NextFile" content="chap19.html" />
+<meta name="Order" content="1" />
+<meta name="Group" content="Analog Design Environment" />
+<meta name="Platform" content="Custom IC Design,Custom IC Design" />
+<meta name="PrevFile" content="chap17.html" />
+<meta name="c_product" content="Virtuoso Analog Design Environment,Virtuoso Schematic Editor" />
+<meta name="Product" content="Virtuoso Analog Design Environment,Virtuoso Schematic Editor" />
+<meta name="ProductFamily" content="Virtuoso Analog Design Environment,Virtuoso Schematic Editor" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso ADE SKILL Reference - Part I -- Waveform Data Objects" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="skartistrefICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="skartistrefTOC.html">Contents</a></li><li><a class="prev" href="chap17.html" title="OCEAN Script Functions">OCEAN Script Functions</a></li><li style="float: right;"><a class="viewPrint" href="skartistref.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="chap19.html" title="Mixed Signal Simulation Functions">Mixed Signal Simulation Functi ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso ADE SKILL Reference - Part I<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>18
+<a name="pgfId-1008781"></a></h1>
+<h1>
+<a name="pgfId-1011663"></a><hr />
+Waveform Data Objects<hr />
+</h1>
+
+<p>
+<a name="pgfId-1014707"></a>Waveform data objects are used in simulation results manipulation and display in the Virtuoso analog design environment. In this chapter, functions are described that you can use to create, modify, and analyze these objects. </p>
+<p>
+<a name="pgfId-1014157"></a>Waveform data objects are represented by the special type <span class="webflare-courier-new" style="white-space:pre"><em>srrWaveID</em></span>. Each ID uniquely identifies a waveform data object. A waveform data object has two data-vectors, the X and the Y data vector. Similar to waveform data objects, data vectors are represented by the special type <span class="webflare-courier-new" style="white-space:pre"><em>srrVecID</em></span>. Each ID uniquely identifies a data vector. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-1016328"></a>SKILL functions, such as <span class="webflare-courier-new" style="white-space:pre"><em>declare()</em></span> and <span class="webflare-courier-new" style="white-space:pre"><em>makeVector()</em></span>, return a vector object, which is conceptually similar to but structurally different from the vector returned by public APIs, such as <span class="webflare-courier-new" style="white-space:pre"><em>drCreateVec()</em></span>. The former is a (SKILL) language-supported data structure. The latter is an application-supported data structure, for example, the data vector used in  functions. <span class="webflare-courier-new" style="white-space:pre"><em>srrWaveXXXX</em></span> public APIs require the application-supported vector type, not the SKILL vector type or array.</div>
+
+<h4><em>
+<a name="pgfId-1014712"></a><a name="17415"></a>Data Values</em></h4>
+
+<p>
+<a name="pgfId-1015916"></a>All the values in a data vector must be of the same data type. However, the X and Y vectors in a waveform data object can be of different data types.The data types and their symbolic representation that are supported for Data Vectors in SKILL are:</p>
+<ul><li>
+<a name="pgfId-1014173"></a>&#8217;intlong for integer numbers</li><li>
+<a name="pgfId-1014192"></a>&#8217;double for double-precision floating-point numbers</li><li>
+<a name="pgfId-1014193"></a>&#8217;doublecomplex for complex numbers</li><li>
+<a name="pgfId-1015691"></a>&#8217;string for strings</li></ul>
+
+
+
+<p>
+<a name="pgfId-1014204"></a>When you create a new waveform data object, you must first create the X and Y vectors with <span class="webflare-courier-new" style="white-space:pre"><em>drCreateVec</em></span>. You can use <span class="webflare-courier-new" style="white-space:pre"><em>drCreateWaveform</em></span> with the X and the Y vectors as arguments to create a waveform. </p>
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drAddElem
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1014336"></a><a name="drAddElem"></a><a name="marker-1014610"></a>drAddElem</h3>
+<a name="pgfId-1014339"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drAddElem(
+<code><em>o_vec
+g_value
+</em></code>)
+=&gt; <code>t / nil</code> </pre>
+<h4>
+<a name="pgfId-1014528"></a>Description</h4>
+<p>
+<a name="pgfId-1014349"></a>Puts <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> after the last element in the data vector <span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span>. <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> must have the same data type as the data vector.</p>
+<h4>
+<a name="pgfId-1014529"></a>Arguments</h4>
+<table class="webflareTable" id="#id1024541">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024543"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024545"></a>Data vector to which a new element <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> will be appended.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024547"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024549"></a>New element to be added at end of data vector <span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1014531"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1024567">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024569"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024571"></a>Returns <code>t</code> if element is added successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024573"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024575"></a>Returns <code>nil</code> if there is an error.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1014533"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1015714"></a>vec = drCreateVec(&#8216;double 5)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1014352"></a>drAddElem(vec 10.0)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drGetElem
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1018118"></a><a name="drGetElem"></a><a name="marker-1018117"></a>drGetElem</h3>
+<a name="pgfId-1018120"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drGetElem( 
+<code><em>o_vec
+x_index
+</em></code>)
+=&gt; <code><em>g_result</em></code> </pre>
+<h4>
+<a name="pgfId-1018121"></a>Description</h4>
+<p>
+<a name="pgfId-1018123"></a>Returns the <span class="webflare-courier-new" style="white-space:pre"><em>x_index</em></span>th element of the data vector <span class="webflare-courier-new" style="white-space:pre"><em>drVecID</em></span>, assuming a zero- based index.</p>
+<h4>
+<a name="pgfId-1018124"></a>Arguments</h4>
+<table class="webflareTable" id="#id1024591">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024593"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024595"></a>Target data vector.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024597"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_index</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024599"></a>Target element of data vector <span class="webflare-courier-new" style="white-space:pre"><em>drVecID</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1018127"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1024614">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024616"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024618"></a>Returns the contents of element <span class="webflare-courier-new" style="white-space:pre"><em>x_index</em></span> of data vector <span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1018129"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1018130"></a>vec = drCreateVec( &#8216;double &#8216;(1 2 3 4 5))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1018131"></a>drGetElem(<code><em>vec</em></code> <code><em>2</em></code>)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drSetElem
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1015653"></a><a name="drSetElem"></a><a name="marker-1015912"></a>drSetElem</h3>
+<a name="pgfId-1015696"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drSetElem(
+<code><em>o_vec
+x_index
+g_value
+</em></code>)
+=&gt; <code>t / nil</code> </pre>
+<h4>
+<a name="pgfId-1015655"></a>Description</h4>
+<p>
+<a name="pgfId-1015656"></a>Replaces the <span class="webflare-courier-new" style="white-space:pre"><em>x_index</em></span>th element of the data vector <span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span> with <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span>. <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> must have the same data type as the data vector.</p>
+<h4>
+<a name="pgfId-1015657"></a>Arguments</h4>
+<table class="webflareTable" id="#id1024636">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024638"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024640"></a>Data vector to which a new element <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> will be appended.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024642"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_index</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024644"></a>The index for which the value is replaced</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024646"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024648"></a>New element to be added at end of data vector <span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1015659"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1024668">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024670"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024672"></a>Returns <code>t</code> if the element is replaced.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024674"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024683"></a>Returns <code>nil</code> if there is an error.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1015662"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1015718"></a>vec = drCreateVec(&#8216;double 5)</pre>
+
+<p>
+<a name="pgfId-1015719"></a>drSetElem(<span class="webflare-courier-new" style="white-space:pre"><em>vec 0 10.0)</em></span></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drCreateVec
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1014744"></a><a name="drCreateVec"></a><a name="marker-1014743"></a>drCreateVec</h3>
+<a name="pgfId-1014745"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drCreateVec( 
+<code><em>s_dataType
+x_length
+</em></code>) 
+=&gt; <code><em>o_vec / </em></code><code>nil</code></pre>
+<a name="pgfId-1024711"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+OR</pre>
+<a name="pgfId-1014761"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drCreateVec( 
+<code><em>s_dataType
+l_values
+</em></code>) 
+=&gt; <code><em>o_vec /</em></code> nil</pre>
+<h4>
+<a name="pgfId-1015370"></a>Description</h4>
+<p>
+<a name="pgfId-1015372"></a>Creates a new data vector. </p>
+<h4>
+<a name="pgfId-1014748"></a>Arguments</h4>
+<table class="webflareTable" id="#id1024749">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024751"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_dataType</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024753"></a>Data type. Possible values are described in <a href="chap18.html#17415">Data Values</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024758"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_length</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024760"></a>Length of the vector. The value of this argument must be greater than <code>0</code>. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024762"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_values</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024764"></a>List of values.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1024767"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1024782">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024784"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024786"></a>Returns the created vector if successful.<span class="webflare-courier-new" style="white-space:pre"><em> </em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024788"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024790"></a>Returns <code>nil</code> if there is an error.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1014752"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1014753"></a>vec = drCreateVec(&#8216;double 5)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drCreateEmptyWaveform
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1014246"></a><a name="drCreateEmptyWaveform"></a><a name="marker-1015925"></a>drCreateEmptyWaveform</h3>
+<a name="pgfId-1015468"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drCreateEmptyWaveform(
+)
+=&gt;<code><em> o_waveform</em></code></pre>
+<h4>
+<a name="pgfId-1015469"></a>Description</h4>
+<p>
+<a name="pgfId-1015484"></a>Creates an empty waveform data object.</p>
+<h4>
+<a name="pgfId-1021517"></a>Arguments</h4>
+
+<p>
+<a name="pgfId-1021518"></a>None</p>
+
+<h4>
+<a name="pgfId-1021519"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1024807">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024809"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_waveform</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024811"></a>Returns the waveform object created.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1015480"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1015734"></a>drCreateEmptyWaveform()</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drCreateWaveform
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1015460"></a><a name="drCreateWaveform"></a><a name="marker-1014609"></a>drCreateWaveform</h3>
+<a name="pgfId-1014254"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drCreateWaveform( 
+<code><em>o_xvec</em></code> 
+<code><em>o_yvec
+</em></code>)
+=&gt; <code><em>o_wave</em></code></pre>
+<h4>
+<a name="pgfId-1014253"></a>Description</h4>
+<p>
+<a name="pgfId-1014257"></a>Creates a waveform data object with the vectors specified. </p>
+<h4>
+<a name="pgfId-1014542"></a>Arguments</h4>
+<table class="webflareTable" id="#id1024827">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024829"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_xvec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024831"></a>X vector. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024833"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_yvec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024835"></a>Y vector. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1014547"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1024850">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024852"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024854"></a>Returns the created waveform if successful.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024856"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024858"></a>Returns <code>nil</code> if there is an error. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1015446"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1014548"></a>wave = drCreateWaveform( drCreateVec( &#8216;double 5 ) drCreateVec( &#8216;double 5 ) )</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drGetWaveformXType
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1015260"></a><a name="drGetWaveformXType"></a><a name="marker-1015259"></a>drGetWaveformXType</h3>
+<a name="pgfId-1015262"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drGetWaveformXType( 
+<code><em>o_wave
+</em></code>) 
+=&gt; <code><em>s_dataType</em></code></pre>
+<h4>
+<a name="pgfId-1015263"></a>Description</h4>
+<p>
+<a name="pgfId-1014414"></a>Returns the X vector data type of the waveform data object <span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span>. </p>
+<h4>
+<a name="pgfId-1014639"></a>Arguments</h4>
+<table class="webflareTable" id="#id1024874">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024876"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024878"></a>Waveform data object.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1014558"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1024896">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024898"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_dataType</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024900"></a>Returns the symbol indicating X vector data type as described <a href="chap18.html#17415">Data Values</a>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1015754"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1015756"></a>wave = drCreateWaveform( drCreateVec( &#8216;double 5 ) drCreateVec( &#8216;double 5 ) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1014851"></a>drGetWaveformXType( <code><em>wave</em></code> )</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drGetWaveformXVec
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1014853"></a><a name="drGetWaveformXVec"></a><a name="marker-1014852"></a>drGetWaveformXVec</h3>
+<a name="pgfId-1014367"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drGetWaveformXVec( 
+<code><em>o_wave</em></code> 
+)
+=&gt; <code><em>o_vec</em></code></pre>
+<h4>
+<a name="pgfId-1014563"></a>Description</h4>
+<p>
+<a name="pgfId-1014375"></a>Returns the X vector object ID of the waveform data object <span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span>.</p>
+<h4>
+<a name="pgfId-1014564"></a>Arguments</h4>
+<table class="webflareTable" id="#id1024919">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024921"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024923"></a>Waveform data object.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1014566"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1024938">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024940"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024942"></a>Returns the X vector object ID.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1014568"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1015760"></a>wave = drCreateWaveform( drCreateVec( &#8216;double 5 ) drCreateVec( &#8216;double 5 ) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1015497"></a>drGetWaveformXVec( <code><em>wave</em></code> )</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drGetWaveformYType
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1015499"></a><a name="drGetWaveformYType"></a><a name="marker-1015498"></a>drGetWaveformYType</h3>
+<a name="pgfId-1015501"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drGetWaveformYType(
+<code><em>o_wave</em></code> 
+)
+=&gt; <code><em>s_dataType</em></code></pre>
+<h4>
+<a name="pgfId-1014572"></a>Description</h4>
+<p>
+<a name="pgfId-1014279"></a>Returns the Y vector data type of the waveform data object <span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span>. </p>
+<h4>
+<a name="pgfId-1014667"></a>Arguments</h4>
+<table class="webflareTable" id="#id1024958">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024960"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024962"></a>Waveform data object.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1014575"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1024977">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024979"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_dataType</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1024981"></a>Returns the symbol indicating Y vector data type as described in <a href="chap18.html#17415">Data Values</a>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1015811"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1015888"></a>wave = drCreateWaveform( drCreateVec( &#8216;double 5 ) drCreateVec( &#8216;double 5 ) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1014578"></a>drGetWaveformYType( <code><em>wave</em></code> )</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drGetWaveformYVec
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1014289"></a><a name="drGetWaveformYVec"></a><a name="marker-1014607"></a>drGetWaveformYVec</h3>
+<a name="pgfId-1014287"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drGetWaveformYVec( 
+<code><em>o_wave
+</em></code>)
+=&gt; <code><em>o_vec</em></code> </pre>
+<h4>
+<a name="pgfId-1014579"></a>Description</h4>
+<p>
+<a name="pgfId-1014295"></a>Returns the Y vector object ID of the waveform data object <span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span>.</p>
+<h4>
+<a name="pgfId-1014580"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025000">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025002"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025004"></a>Waveform data object.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1014582"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025032">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025034"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025036"></a>Returns the Y vector object ID.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1025028"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1025029"></a>wave = drCreateWaveform( drCreateVec( &#8216;double 5 ) drCreateVec( &#8216;double 5 ) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1024098"></a>drGetWaveformYVec( <code><em>wave</em></code> )</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drPutWaveformXVec
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1024102"></a><a name="drPutWaveformXVec"></a><a name="marker-1024101"></a>drPutWaveformXVec</h3>
+<a name="pgfId-1024104"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drPutWaveformXVec(
+<code><em>o_wave</em></code> 
+<code><em>o_vec
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1024105"></a>Description</h4>
+<p>
+<a name="pgfId-1018100"></a>Puts the data vector <span class="webflare-courier-new" style="white-space:pre"><em>o_vec </em></span>into the waveform data object <span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span>. <span class="webflare-courier-new" style="white-space:pre"><em>o_vec </em></span>is the X vector of the waveform data object. If the <span class="webflare-courier-new" style="white-space:pre"><em>o_wave </em></span>already contains a Y vector, the length of <span class="webflare-courier-new" style="white-space:pre"><em>o_vec </em></span>must be the same as that of the Y vector.</p>
+<h4>
+<a name="pgfId-1018101"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025052">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025054"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025056"></a>Waveform data object.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025058"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025060"></a>The new X data vector.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1018104"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025075">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025077"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025079"></a>Returns <code>t</code> if data vector is added successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025081"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025083"></a>Returns <code>nil</code> if there is an error.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1018107"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1018108"></a>wave = drCreateEmptyWaveform()</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1018109"></a>vec = drCreateVec( &#8216;double &#8216;(1 2 3 4 5))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1018110"></a>drPutWaveformXVec( wave vec )</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drPutWaveformYVec
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1018073"></a><a name="drPutWaveformYVec"></a><a name="marker-1018072"></a>drPutWaveformYVec</h3>
+<a name="pgfId-1018075"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drPutWaveformYVec( 
+<code><em>o_wave
+o_vec</em></code> 
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1018076"></a>Description</h4>
+<p>
+<a name="pgfId-1018078"></a>Puts the data vector <span class="webflare-courier-new" style="white-space:pre"><em>o_vec </em></span>into the waveform data object <span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span>. <span class="webflare-courier-new" style="white-space:pre"><em>o_vec </em></span>is the Y vector of the waveform data object. If the <span class="webflare-courier-new" style="white-space:pre"><em>o_wave </em></span>already contains a X vector, the length of <span class="webflare-courier-new" style="white-space:pre"><em>o_vec </em></span>must be the same as that of the X vector.</p>
+<h4>
+<a name="pgfId-1018079"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025099">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025101"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_wave</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025103"></a>Waveform data object.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025105"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025107"></a>The new Y data vector.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1018082"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025122">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025124"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025126"></a>Returns <code>t</code> if data vector is added successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025128"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025130"></a>Returns <code>nil</code> if there is an error.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1018085"></a>Example</h4>
+
+<p>
+<a name="pgfId-1018086"></a>wave = drCreateEmptyWaveform()</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1018087"></a>vec = drCreateVec( &#8216;double &#8216;(1 2 3 4 5))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1018070"></a>drPutWaveformYVec( wave vec )</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drIsDataVector
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1017960"></a><a name="drIsDataVector"></a><a name="marker-1017959"></a>drIsDataVector</h3>
+<a name="pgfId-1017962"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drIsDataVector( 
+<code><em>g_value
+</em></code>)
+=&gt; <code>t / nil</code></pre>
+<h4>
+<a name="pgfId-1017963"></a>Description</h4>
+<p>
+<a name="pgfId-1017965"></a>Returns t when <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is a valid drVector data object and <code>nil</code> if it is not one. </p>
+<h4>
+<a name="pgfId-1017966"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025146">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025148"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025150"></a>Value checked.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017968"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025165">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025167"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025169"></a>Returns <code>t</code> when <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is a drVector data object. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025171"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025173"></a>Returns <code>nil</code> if <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is not a drVector data object.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017971"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017972"></a>wave = drCreateEmptyWaveform()</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017973"></a>drIsDataVector( <code><em>wave</em></code> ) =&gt; nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017957"></a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drIsParamWave
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1024201"></a><a name="drIsParamWave"></a><a name="marker-1024200"></a>drIsParamWave</h3>
+<a name="pgfId-1024203"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drIsParamWave( 
+<code><em>g_value
+</em></code>)
+=&gt; <code>t / nil</code></pre>
+<h4>
+<a name="pgfId-1024204"></a>Description</h4>
+<p>
+<a name="pgfId-1016368"></a>Returns t when <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is a family, for example a parametric wave. </p>
+<h4>
+<a name="pgfId-1016369"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025189">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025191"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025193"></a>Value checked.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1016371"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025208">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025210"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025212"></a>Returns <code>t</code> when <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is a family. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025214"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025216"></a>Returns <code>nil</code> if <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is not a family.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1016374"></a>Example</h4>
+
+<p>
+<a name="pgfId-1016433"></a>After running a Parametric Analysis, evaluate any net expression, such as:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016434"></a>fam = VT(&quot;/out&quot;)<br />drIsParamWave( fam ) =&gt; t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016431"></a>wave = drCreateEmptyWaveform()<br />drIsParamWave( <code><em>wave</em></code> ) =&gt; nil</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drIsWaveform
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1024243"></a><a name="drIsWaveform"></a><a name="marker-1024242"></a>drIsWaveform</h3>
+<a name="pgfId-1024245"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drIsWaveform(
+<code><em>g_value
+</em></code>)
+=&gt; <code>t / nil</code></pre>
+<h4>
+<a name="pgfId-1017922"></a>Description</h4>
+<p>
+<a name="pgfId-1017924"></a>Returns t when <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is a waveform data object and <code>nil</code> if it is a family. </p>
+<h4>
+<a name="pgfId-1017925"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025232">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025234"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025236"></a>Value checked.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017927"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025251">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025253"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025255"></a>Returns <code>t</code> when <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is a waveform data object. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025257"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025259"></a>Returns <code>nil</code> if <span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is not a waveform data object.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017930"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017931"></a>wave = drCreateEmptyWaveform()</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017932"></a>drIsWaveform( <code><em>wave</em></code> ) =&gt; nil</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drType
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1018039"></a><a name="drType"></a><a name="marker-1018038"></a>drType</h3>
+<a name="pgfId-1018041"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drType( 
+<code><em>o_vec
+</em></code>)
+=&gt; <code><em>s_type</em></code></pre>
+<h4>
+<a name="pgfId-1018042"></a>Description</h4>
+<p>
+<a name="pgfId-1018044"></a>Returns the data type of the data vector <span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span>. </p>
+<p>
+<a name="pgfId-1018048"></a>Possible values are described <a href="chap18.html#17415">Data Values</a>.</p>
+<h4>
+<a name="pgfId-1018049"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025277">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025279"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025281"></a>The vector for which the data type is returned. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1018051"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025299">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025301"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_type</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025303"></a>Returns a symbolic representation of the type of the data vector. The values are described <a href="chap18.html#17415">Data Values</a>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1018056"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1018057"></a>vec = drCreateVec( &#8216;double &#8216;(1 2 3 4 5))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1018058"></a>drType( vec )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1018010"></a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=drVectorLength
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1014502"></a><a name="drVectorLength"></a><a name="marker-1014605"></a>drVectorLength</h3>
+<a name="pgfId-1014503"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+drVectorLength( 
+<code><em>o_vec
+</em></code>)
+=&gt; <code><em>x_length</em></code> </pre>
+<h4>
+<a name="pgfId-1014505"></a>Description</h4>
+<p>
+<a name="pgfId-1014508"></a>Returns the length of the data vector <span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span>.</p>
+<h4>
+<a name="pgfId-1014335"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025325">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025337"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025339"></a>Target data vector.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1014599"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025350">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025352"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_length</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025354"></a>Returns the length of data vector <span class="webflare-courier-new" style="white-space:pre"><em>o_vec</em></span>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1014601"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1015902"></a>vec = drCreateVec( &#8216;double &#8216;(1 2 3 4 5))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1014602"></a>drVectorLength( <code><em>vec</em></code> )</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=famAddValue
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1016681"></a><a name="famAddValue"></a><a name="marker-1016680"></a><a name="87576"></a>famAddValue</h3>
+<a name="pgfId-1016683"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+famAddValue( 
+<code><em>o_family
+g_sweepValue
+g_value
+</em></code>) 
+=&gt; <code><em>o_family</em></code></pre>
+<h4>
+<a name="pgfId-1016684"></a>Description</h4>
+<p>
+<a name="pgfId-1016483"></a>Adds a waveform associated with <span class="webflare-courier-new" style="white-space:pre"><em>sweepValue</em></span> to a family if values are specified for both <span class="webflare-courier-new" style="white-space:pre"><em>sweepValue</em></span> and <span class="webflare-courier-new" style="white-space:pre"><em>value</em></span>. </p>
+<h4>
+<a name="pgfId-1016627"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025370">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025372"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_family</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025374"></a>The family to receive the new value. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025376"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_sweepValue</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025378"></a>The sweep value with which to associate the new waveform. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025380"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025382"></a>The new waveform to add. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1016490"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025397">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025399"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_family</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025401"></a>The modified family. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1016594"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016524"></a>fam = famCreateFamily( &quot;prf&quot; &#39;double )<br />srrWave:17518616</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016526"></a>famAddValue( fam -15 wave15 )<br />srrWave:17518616</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016528"></a>famAddValue( fam -10 wave10 )<br />srrWave:17518616</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016530"></a>famAddValue( fam -5 wave5 )<br />srrWave:17518616&#160;&#160;   </pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=famCreateFamily
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1016721"></a><a name="famCreateFamily"></a><a name="marker-1016762"></a>famCreateFamily</h3>
+<a name="pgfId-1024362"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+famCreateFamily(
+<code><em>s_sweepName
+s_varType
+</em></code>) 
+=&gt; <code><em>o_family</em></code></pre>
+<h4>
+<a name="pgfId-1024363"></a>Description</h4>
+<p>
+<a name="pgfId-1016710"></a>Creates a empty data structure called a family. When filled with data, it is suitable to be plotted plotted as a family of curves. Each waveform has a name given by <span class="webflare-courier-new" style="white-space:pre"><em>s_varName</em></span> and the values are added with <a href="chap18.html#87576">famAddValue</a>. </p>
+<h4>
+<a name="pgfId-1016695"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025423">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025425"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_sweepName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025427"></a>The string name of the sweep variable.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025429"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_varType</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025431"></a>One of these variable types: <code>&#8217;double</code>, <code>&#8217;doublecomplex</code>, <code>&#8217;float</code>, <code>&#8217;intlong</code>, <code>&#8217;signal</code>, <code>&#8217;string</code>. The <span class="webflare-courier-new" style="white-space:pre"><em>varType</em></span> of <code>&#8217;float</code> is equivalent to <code>&#8217;double</code> and <code>&#8217;signal</code> is equivalent to <code>&#8217;string</code>. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1016699"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025458">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025460"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_family</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025462"></a>An empty family with the variable label <code>s_var</code>. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1016701"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016842"></a>fam = famCreateFamily( &quot;prf&quot; &#39;double )<br />srrWave:17518616</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016844"></a>famAddValue( fam -15 wave15 )<br />srrWave:17518616</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016846"></a>famAddValue( fam -10 wave10 )<br />srrWave:17518616</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016848"></a>famAddValue( fam -5 wave5 )<br />srrWave:17518616 </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016475"></a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=famGetSweepName
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1016884"></a><a name="famGetSweepName"></a><a name="marker-1016883"></a>famGetSweepName</h3>
+<a name="pgfId-1016886"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+famGetSweepName( 
+<code><em>o_family
+</em></code>[ <code><em>x_dim</em></code> ]
+)
+=&gt; <code><em>s_sweepName</em></code></pre>
+<h4>
+<a name="pgfId-1016887"></a>Description</h4>
+<p>
+<a name="pgfId-1016889"></a>Returns the name of the sweep variable of the parametric waveform and the dimension supplied.</p>
+<h4>
+<a name="pgfId-1016932"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025484">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025486"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_family</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025488"></a>A family name.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025490"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_dim</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025492"></a>An integer that specifies how deep the function should go before returning the sweep name.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1016896"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025509">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025511"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_sweepName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025513"></a>The string name of the sweep variable.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1016898"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016950"></a>fam1 = famCreateFamily( &quot;prf&quot; &#8217;double )<br />srrWave:29335584</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016954"></a>fam2 = famCreateFamily( &quot;prf&quot; &#8217;double )<br />srrWave:29335592</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016958"></a>fam3 = famCreateFamily( &quot;ofreq&quot; &#8217;double )<br />srrWave:29335600</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016962"></a>famAddValue( fam3 999M fam1)<br />srrWave:29335600</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016966"></a>famAddValue( fam3 1G fam2)<br />srrWave:29335600</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016970"></a>famGetSweepName( fam3 )<br />&quot;ofreq&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016974"></a>famGetSweepName( fam3 0 )<br />&quot;ofreq&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1016978"></a>famGetSweepName( fam3 1 )<br />&quot;prf&quot;</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=famGetSweepValues
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1017044"></a><a name="famGetSweepValues"></a><a name="marker-1017043"></a>famGetSweepValues</h3>
+<a name="pgfId-1017046"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+famGetSweepValues( 
+<code><em>o_family
+</em></code>)
+=&gt; <code><em>l_values</em></code></pre>
+<h4>
+<a name="pgfId-1017047"></a>Description</h4>
+<p>
+<a name="pgfId-1017088"></a>Returns the values of the sweep variable of the family specified. The returned list is sorted in increasing order.</p>
+<h4>
+<a name="pgfId-1017050"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025535">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025537"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_family</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025539"></a>A family name.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017053"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025560">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025562"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_values</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025564"></a>A list of values of the sweep variable.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017055"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017108"></a>foreach( v famGetSweepValues( fam ) <br />printf( &quot;%L\n&quot; v))</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=famIsFamily
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1017127"></a><a name="famIsFamily"></a><a name="marker-1017126"></a>famIsFamily</h3>
+<a name="pgfId-1017129"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+famIsFamily( 
+<code><em>g_arg
+</em></code>)
+=&gt; <code>t / nil</code></pre>
+<h4>
+<a name="pgfId-1017130"></a>Description</h4>
+<p>
+<a name="pgfId-1017132"></a>Checks whether the argument specified is a family with at least one waveform.</p>
+<h4>
+<a name="pgfId-1017133"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025586">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025588"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_arg</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025590"></a>Any expression.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017293"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025611">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025613"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025615"></a>Returns <code>t</code> when <span class="webflare-courier-new" style="white-space:pre"><em>g_arg</em></span> is a family. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025617"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025619"></a>Returns <code>nil</code> if <span class="webflare-courier-new" style="white-space:pre"><em>g_arg</em></span> is not a family.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017326"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017170"></a>famIsFamily( 3 )<br />nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017174"></a>fam1 = famCreateFamily( &quot;prf&quot; &#8217;double )<br />srrWave:50152744</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017178"></a>famIsFamily( fam1 )<br />nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017182"></a>famAddValue( fam1 -10 drCreateEmptyWaveform() )<br />srrWave:50152744</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017186"></a>famIsFamily( fam1 )<br />t</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=famMap
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1017348"></a><a name="famMap"></a><a name="marker-1017347"></a>famMap</h3>
+<a name="pgfId-1017350"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+famMap( 
+<code><em>s_func
+o_family</em></code> 
+[<code><em>args</em></code> ...]
+)
+=&gt; <code><em>o_result</em></code></pre>
+<h4>
+<a name="pgfId-1017351"></a>Description</h4>
+<p>
+<a name="pgfId-1017445"></a>Applies a function with a set of arguments to each member of a family of waveforms. </p>
+<h4>
+<a name="pgfId-1017354"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025635">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025637"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_func</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025639"></a>A function specified as a string or symbol.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025641"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_family</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025643"></a>A family.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017356"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025658">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025660"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_result</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025662"></a>A family with a structure similar to the input family.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017359"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017449"></a>;; After running parametric pnoise analysis </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017453"></a>wave1 = getData( &quot;out&quot; ?result &#8217;pnoise )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017455"></a>srrWave:50152592</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017457"></a>ocnPrint( wave1 )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017459"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017625"></a>freq (Hz)&#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  quotient (getD&#160;&#160;  &#160;&#160;&#160;&#160;    quotient (getD </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017461"></a>prf&#160;&#160;&#160;&#160; &#160;&#160;  -10  &#160;&#160;  &#160;&#160;&#160;&#160;  -9   </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017463"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017636"></a>901M&#160;&#160;&#160;&#160; &#160;&#160;    &#160;&#160;&#160;&#160; 2.39482n     2.6192n </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017465"></a>902M&#160;&#160;&#160;&#160; &#160;&#160;    &#160;&#160;&#160;&#160; 2.04681n     2.1431n </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017467"></a>903M&#160;&#160;&#160;&#160; &#160;&#160;    &#160;&#160;&#160;&#160; 1.84256n     1.89187n </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017469"></a>904M&#160;&#160;&#160;&#160; &#160;&#160;    &#160;&#160;&#160;&#160; 1.75846n     1.78815n </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017471"></a>905M&#160;&#160;&#160;&#160; &#160;&#160;    &#160;&#160;&#160;&#160; 1.71612n     1.73575n </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017473"></a>t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017475"></a>ocnPrint( famMap( &#8217;quotient wave1 2.0 ))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017479"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017639"></a>freq (Hz)&#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  quotient (getD&#160;&#160;  &#160;&#160;&#160;&#160;    quotient (getD </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017640"></a>prf&#160;&#160;&#160;&#160; &#160;&#160;  -10  &#160;&#160;  &#160;&#160;&#160;&#160;  -9   </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1019665"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1019701"></a>901M&#160;&#160;&#160;&#160; &#160;&#160;    &#160;&#160;&#160;&#160; 1.19741n     1.3096n </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1019707"></a>902M&#160;&#160;&#160;&#160; &#160;&#160;    &#160;&#160;&#160;&#160; 1.02341n     1.0715n </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1019713"></a>903M&#160;&#160;&#160;&#160; &#160;&#160;    &#160;&#160;&#160;&#160; 0.92128n     0.94594n </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1019719"></a>904M&#160;&#160;&#160;&#160; &#160;&#160;    &#160;&#160;&#160;&#160; 0.87923n     0.89408n </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1019725"></a>905M&#160;&#160;&#160;&#160; &#160;&#160;    &#160;&#160;&#160;&#160; 0.85806n     0.86788n </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017647"></a>t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017497"></a>;; This is equivalent to ocnPrint( wave1 | 2.0 )</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=famValue
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1017653"></a><a name="famValue"></a><a name="marker-1017651"></a>famValue</h3>
+<a name="pgfId-1017655"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+famValue( 
+<code><em>o_family 
+g_sweepValue
+</em></code>)
+=&gt; <code><em>o_waveformOrFamily</em></code></pre>
+<h4>
+<a name="pgfId-1017656"></a>Description</h4>
+<p>
+<a name="pgfId-1017658"></a>Returns the waveform whose <span class="webflare-courier-new" style="white-space:pre"><em>sweepName</em></span> has the value specified using <span class="webflare-courier-new" style="white-space:pre"><em>sweepValue</em></span>.</p>
+<h4>
+<a name="pgfId-1017659"></a>Arguments</h4>
+<table class="webflareTable" id="#id1025684">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025686"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_family</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025688"></a>A family of waveforms. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025690"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_sweepValue</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025692"></a>The value of sweep to retrieve. This must be an exact match with the value specified using <a href="chap18.html#87576">famAddValue</a>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017663"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1025710">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025712"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_waveformOrFamily</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1025714"></a>The waveform or family whose sweep value was specified in the argument. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1017665"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017729"></a>wave1<br />srrWave:29298888</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017733"></a>wave2<br />srrWave:29298896</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017737"></a>famStr = famCreateFamily( &quot;name&quot; &#8217;string )<br />srrWave:29298920</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017741"></a>famAddValue( famStr &quot;one&quot; wave1 )<br />srrWave:29298920</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017745"></a>famAddValue( famStr &quot;two&quot; wave2 )<br />srrWave:29298920</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017749"></a>famValue( famStr &quot;one&quot;)<br />srrWave:29298968<br />;; although it is a differen waveform it is equivalent.</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017755"></a>equal( wave1 famValue( famStr &quot;one&quot; ))<br />t</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017759"></a>famValue( famStr &quot;three&quot; )<br />nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017762"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017765"></a>famNum = famCreateFamily( &quot;prf&quot; &#8217;double )<br />srrWave:29299008</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017769"></a>famAddValue(famNum 1.0 wave1)<br />srrWave:29299008</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017773"></a>famAddValue( famNum 2.0 wave2 )<br />srrWave:29299008</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017777"></a>famValue( famNum 1.5 )
+srrWave:29299056 &#160;&#160;&#160;&#160;  ;; interpolated waveform is returned</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1017064"></a></pre>
+
+<p>
+<a name="pgfId-1018503"></a></p>
+
+<!-- [TOPIC_END] -->
+
+<p>
+<a name="pgfId-1023355"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="chap17.html" id="prev" title="OCEAN Script Functions">OCEAN Script Functions</a></em></b><b><em><a href="chap19.html" id="nex" title="Mixed Signal Simulation Functions">Mixed Signal Simulation Functi ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

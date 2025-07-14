@@ -1,0 +1,5489 @@
+
+<html><head><title>ASM-HEMT Model</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jommy" />
+<meta name="CreateDate" content="2020-04-19" />
+<meta name="CreateTime" content="1587355919" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the model equations for Cadence circuit simulators" />
+<meta name="DocTitle" content="Spectre Circuit Simulator Components and Device Models Reference" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="ASM-HEMT Model" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.1" />
+<meta name="Keyword" content="spectremod" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-04-19" />
+<meta name="ModifiedTime" content="1587355919" />
+<meta name="NextFile" content="Chap55.html" />
+<meta name="Group" content="Spectre Simulator" />
+<meta name="Platform" content="Analog RF  Mixed-Signal Design" />
+<meta name="PrevFile" content="Chap53.html" />
+<meta name="Product" content="Spectre" />
+<meta name="ProductFamily" content="Spectre" />
+<meta name="ProductVersion" content="19.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre Circuit Simulator Components and Device Models Reference -- ASM-HEMT Model" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="product_feature" content="" />
+<meta name="product_subfeature" content="" />
+<meta name="Version" content="19.1" />
+<meta name="SpaceKey" content="spectremod191" />
+<meta name="webflare-version" content="1.5" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="spectremodTOC.html">Contents</a></li><li><a class="prev" href="Chap53.html" title="UTSOI2 Model">UTSOI2 Model</a></li><li style="float: right;"><a class="viewPrint" href="spectremod.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Chap55.html" title="MVSG Model">MVSG Model</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Spectre Circuit Simulator Components and Device Models Reference<br />Product Version 19.1, January 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>52
+<a id="pgfId-1043007"></a></h1>
+<h1>
+<a id="pgfId-1043008"></a><hr />
+ASM-HEMT Model<hr />
+</h1>
+
+<p>
+<a id="pgfId-1049395"></a>This chapter contains the following information about the ASM-HEMT model:</p>
+
+<ul><li>
+<a id="pgfId-1054266"></a><a href="Chap54.html#70995">Model Overview</a></li><li>
+<a id="pgfId-1054285"></a><a href="Chap54.html#38087">Model Equations</a><ul><li>
+<a id="pgfId-1054434"></a><a href="Chap54.html#46918">Physical Constants</a></li><li>
+<a id="pgfId-1084360"></a><a href="Chap54.html#51979">Voltages Calculation and Pre Conditioning</a></li><li>
+<a id="pgfId-1084383"></a><a href="Chap54.html#38652">Temperature Dependence</a></li><li>
+<a id="pgfId-1084406"></a><a href="Chap54.html#19207">Surface Potential Calculation</a></li><li>
+<a id="pgfId-1084424"></a><a href="Chap54.html#30258">Intrinsic Charge Calculation</a></li><li>
+<a id="pgfId-1084442"></a><a href="Chap54.html#15799">Drain Current Model</a></li><li>
+<a id="pgfId-1084475"></a><a href="Chap54.html#33188">Self Heating Model</a></li><li>
+<a id="pgfId-1084482"></a><a href="Chap54.html#23415">Short Channel Effects</a></li><li>
+<a id="pgfId-1084500"></a><a href="Chap54.html#26824">Access Region and Parasitic Resistances</a></li><li>
+<a id="pgfId-1084520"></a><a href="Chap54.html#37506">Parasitic Capacitances</a></li><li>
+<a id="pgfId-1084538"></a><a href="Chap54.html#97362">Trap Model</a></li><li>
+<a id="pgfId-1086072"></a><a href="Chap54.html#26774">Gate Current Model</a></li><li>
+<a id="pgfId-1086095"></a><a href="Chap54.html#31428">Field Plate Model</a></li><li>
+<a id="pgfId-1086113"></a><a href="Chap54.html#70492">Noise Model</a></li></ul></li><li>
+<a id="pgfId-1054548"></a><a href="Chap54.html#49563">Component Statements</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1049212"></a><a id="70995"></a>Model Overview</h2>
+
+<p>
+<a id="pgfId-1069364"></a>Advanced SPICE model for GaN HEMTs, ASM-GaN-HEMT is a physics-based model for these devices. The model can be structured into following three parts: </p>
+
+<ul><li>
+<a id="pgfId-1069384"></a>Core channel-charge or surface-potential calculations</li><li>
+<a id="pgfId-1069405"></a>Core terminal current and charge model, and </li></ul>
+
+
+<p>
+<a id="pgfId-1049354"></a>Models for real device e.ects in the device.</p>
+
+<h2>
+<a id="pgfId-1050744"></a><a id="15599"></a><a id="38087"></a><a id="65879"></a>Model Equations</h2>
+<h3>
+<a id="pgfId-1050758"></a><a id="46918"></a>Physical Constants</h3>
+
+<p>
+<a id="pgfId-1069786"></a>Physical quantities in ASM-HEMT are in S.I. units unless specified otherwise.</p>
+
+<p>
+<a id="pgfId-1069880"></a></p>
+<div class="webflare-div-image">
+<img width="652" height="39" src="images/Chap54-2.gif" /></div>
+<p>
+<a id="pgfId-1050796"></a></p>
+<div class="webflare-div-image">
+<img width="652" height="36" src="images/Chap54-3.gif" /></div>
+<p>
+<a id="pgfId-1075515"></a></p>
+<div class="webflare-div-image">
+<img width="665" height="37" src="images/Chap54-4.gif" /></div>
+<p>
+<a id="pgfId-1075526"></a></p>
+<div class="webflare-div-image">
+<img width="652" height="37" src="images/Chap54-5.gif" /></div>
+<p>
+<a id="pgfId-1075545"></a></p>
+<div class="webflare-div-image">
+<img width="652" height="36" src="images/Chap54-6.gif" /></div>
+<p>
+<a id="pgfId-1075567"></a></p>
+<div class="webflare-div-image">
+<img width="652" height="34" src="images/Chap54-7.gif" /></div>
+
+<p>
+<a id="pgfId-1075597"></a></p>
+<p>
+<a id="pgfId-1075556"></a>Smoothing constant,</p>
+
+<p>
+<a id="pgfId-1075630"></a></p>
+<div class="webflare-div-image">
+<img width="652" height="36" src="images/Chap54-8.gif" /></div>
+<h3>
+<a id="pgfId-1069907"></a><a id="51979"></a>Voltages Calculation and Pre Conditioning</h3>
+<h4>
+<a id="pgfId-1075650"></a>Voltages Calculation</h4>
+<p>
+<a id="pgfId-1076091"></a></p>
+<div class="webflare-div-image">
+<img width="638" height="601" src="images/Chap54-9.gif" /></div>
+<p>
+<a id="pgfId-1076332"></a></p>
+<div class="webflare-div-image">
+<img width="630" height="279" src="images/Chap54-10.gif" /></div>
+<h4>
+<a id="pgfId-1076070"></a>Bias Independent Calculations</h4>
+<p>
+<a id="pgfId-1076376"></a></p>
+<div class="webflare-div-image">
+<img width="518" height="452" src="images/Chap54-11.gif" /></div>
+<h3>
+<a id="pgfId-1076351"></a><a id="38652"></a>Temperature Dependence</h3>
+<p>
+<a id="pgfId-1076465"></a></p>
+<div class="webflare-div-image">
+<img width="663" height="722" src="images/Chap54-12.gif" /></div>
+
+<p>
+<a id="pgfId-1076557"></a></p>
+
+<div class="webflare-div-image">
+<img width="653" height="610" src="images/Chap54-13.gif" /></div>
+<h3>
+<a id="pgfId-1076396"></a><a id="19207"></a>Surface Potential Calculation</h3>
+
+<p>
+<a id="pgfId-1076602"></a>Variation of surface potential with terminal gate voltage can be calculated as:</p>
+<p>
+<a id="pgfId-1076642"></a>(3.4.1)</p>
+
+<div class="webflare-div-image">
+<img width="652" height="38" src="images/Chap54-14.gif" /></div>
+
+<p>
+<a id="pgfId-1076646"></a>where Vf is the potential corresponding to Fermi level in triangular potential well and Vx is the voltage at the point at which surface potential is to be calculated.</p>
+
+<h4>
+<a id="pgfId-1076675"></a>Vf Calculation</h4>
+
+<p>
+<a id="pgfId-1076749"></a>Assuming the hetero junction as triangular potential well, we can get the position of sub bands by solving the Schrodinger&#8217;s equation as follows:</p>
+<p>
+<a id="pgfId-1076786"></a>(3.4.2)</p>
+
+<div class="webflare-div-image">
+<img width="652" height="87" src="images/Chap54-15.gif" /></div>
+
+<p>
+<a id="pgfId-1076791"></a>where <img width="18" height="31" src="images/Chap54-16.gif" /><span>is electric field across the triangular potential well, </span></p>
+<span class="webflare-courier-new" style="white-space:pre"><em>n</em></span><span class="webflare-courier-new" style="white-space:pre"><em>m1</em></span><span> is effective mass of electron in triangular well and </span><span class="webflare-courier-new" style="white-space:pre"><em>h</em></span><span> is Planck&#8217;s constant.</span>
+<p>
+<a id="pgfId-1076773"></a>Considering only two lower subbands,</p>
+<p>
+<a id="pgfId-1076865"></a>(3.4.3)</p>
+
+<div class="webflare-div-image">
+<img width="652" height="66" src="images/Chap54-17.gif" /></div>
+
+<p>
+<a id="pgfId-1076883"></a>(3.4.4)</p>
+
+<div class="webflare-div-image">
+<img width="652" height="68" src="images/Chap54-18.gif" /></div>
+
+<p>
+<a id="pgfId-1076887"></a>By solving the Poisson&#8217;s equation, we can get the relationship between electric field and sheet charge density,</p>
+
+<p>
+<a id="pgfId-1077552"></a></p>
+<div class="webflare-div-image">
+<img width="516" height="43" src="images/Chap54-19.gif" /></div>
+
+<p>
+<a id="pgfId-1076902"></a>Substituting (3.4.5) in (3.4.3) and (3.4.4)</p>
+
+<p>
+<a id="pgfId-1077602"></a></p>
+<div class="webflare-div-image">
+<img width="659" height="87" src="images/Chap54-20.gif" /></div>
+
+<p>
+<a id="pgfId-1077568"></a>Applying Fermi Dirac statistics,</p>
+
+<p>
+<a id="pgfId-1077637"></a></p>
+<div class="webflare-div-image">
+<img width="608" height="63" src="images/Chap54-21.gif" /></div>
+
+<p>
+<a id="pgfId-1077641"></a>where DOS is two-dimensional density of states (DOS) in GaN. (It is DOS between <span class="webflare-courier-new" style="white-space:pre"><em>E0 </em></span>and E1 and 2DOS for above E1). By solving the integration,</p>
+
+<p>
+<a id="pgfId-1077684"></a></p>
+<div class="webflare-div-image">
+<img width="589" height="52" src="images/Chap54-22.gif" /></div>
+
+<p>
+<a id="pgfId-1077688"></a>Assuming AlGaN layer is completely ionized, from charge balance condition, you get,</p>
+
+<p>
+<a id="pgfId-1077730"></a></p>
+<div class="webflare-div-image">
+<img width="547" height="120" src="images/Chap54-23.gif" /></div>
+
+<p>
+<a id="pgfId-1077714"></a>and <span class="webflare-courier-new" style="white-space:pre"><em>d</em></span> is taken as process parameter, TBAR.</p>
+<p>
+<a id="pgfId-1077760"></a>Solving (3.4.6), (3.4.7), (3.4.9) and (3.4.10) equations for <span class="webflare-courier-new" style="white-space:pre"><em>V</em></span><code><sub><em>f</em></sub></code> is a difficult task as these equations are transcendental in nature.Variation of sub bands and <span class="webflare-courier-new" style="white-space:pre"><em>V</em></span><code><sub><em>f</em></sub></code> in the triangular potential well with <span class="webflare-courier-new" style="white-space:pre"><em>V</em></span><code><sub><em>g</em></sub></code> makes the calculation complicated.[17] Variation of <span class="webflare-courier-new" style="white-space:pre"><em>V</em></span><code><sub><em>f</em></sub></code> with <span class="webflare-courier-new" style="white-space:pre"><em>V</em></span><code><sub><em>g</em></sub></code> can be captured by dividing the operating region into three:</p>
+
+<ul><li>
+<a id="pgfId-1077924"></a><img width="86" height="31" src="images/Chap54-24.gif" />
+ region is where <img width="87" height="31" src="images/Chap54-25.gif" />
+<br />
+<a id="pgfId-1077789"></a>In this region, <img width="233" height="24" src="images/Chap54-26.gif" />
+. Applying these conditions to equation(3.4.9),<br />
+<a id="pgfId-1077904"></a><div class="webflare-div-image">
+<img width="559" height="44" src="images/Chap54-27.gif" /></div>
+<a id="pgfId-1077829"></a>Substituting (3.4.10) in (3.4.11):<br />
+<a id="pgfId-1078106"></a><div class="webflare-div-image">
+<img width="583" height="55" src="images/Chap54-28.gif" /></div></li><li>
+<a id="pgfId-1077921"></a><img width="87" height="31" src="images/Chap54-29.gif" />
+ and <img width="86" height="31" src="images/Chap54-30.gif" />
+<br />
+<a id="pgfId-1078173"></a>Since <img width="27" height="31" src="images/Chap54-31.gif" />
+ is higher than <img width="23" height="31" src="images/Chap54-32.gif" />
+, neglecting in (3.4.9) and applying <code>ln(1 +x) = x </code>for<code> x &lt; 0,</code><br />
+<a id="pgfId-1078350"></a><div class="webflare-div-image">
+<img width="471" height="50" src="images/Chap54-33.gif" /></div>
+<a id="pgfId-1078320"></a>Using (3.4.3) and (3.4.10) in (3.4.13),<br />
+<a id="pgfId-1078431"></a><div class="webflare-div-image">
+<img width="548" height="86" src="images/Chap54-34.gif" /></div>
+<a id="pgfId-1078410"></a>where,<img width="187" height="28" src="images/Chap54-35.gif" /></li><li>
+<a id="pgfId-1078482"></a><img width="87" height="31" src="images/Chap54-36.gif" />
+ and <img width="86" height="31" src="images/Chap54-37.gif" />
+<br />
+<a id="pgfId-1078543"></a>Since <img width="26" height="31" src="images/Chap54-38.gif" />
+&gt; &gt;<img width="23" height="31" src="images/Chap54-39.gif" />
+, neglecting <img width="69" height="34" src="images/Chap54-40.gif" />
+ in 3.4.9 and applying <img width="141" height="33" src="images/Chap54-41.gif" />
+ or<code> x &gt; 0</code><br />
+<a id="pgfId-1078804"></a><div class="webflare-div-image">
+<img width="465" height="64" src="images/Chap54-42.gif" /></div>
+<a id="pgfId-1078764"></a>Using (3.4.3) and (3.4.10) in (3.4.15),<br />
+<a id="pgfId-1078898"></a><div class="webflare-div-image">
+<img width="589" height="71" src="images/Chap54-43.gif" /></div>
+<a id="pgfId-1078857"></a>Combining <img width="23" height="31" src="images/Chap54-44.gif" />
+ equations (3.4.14), (3.4.16) in <img width="87" height="31" src="images/Chap54-45.gif" />
+ regions,<br />
+<a id="pgfId-1079007"></a><div class="webflare-div-image">
+<img width="615" height="148" src="images/Chap54-46.gif" /></div>
+<a id="pgfId-1078961"></a>Here, <img width="47" height="36" src="images/Chap54-47.gif" />
+ and <img width="47" height="36" src="images/Chap54-48.gif" />
+ are functions of <img width="47" height="36" src="images/Chap54-49.gif" />
+ given by the interpolation expression,<br />
+<a id="pgfId-1079094"></a>
+<a id="pgfId-1079088"></a><div class="webflare-div-image">
+<img width="669" height="103" src="images/Chap54-50.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1080182"></a>Combining Sub-Voff region Vf equation (3.4.12) with Vg &gt; Voff region equation (3.4.17)</p>
+<p>
+<a id="pgfId-1080278"></a></p>
+
+<div class="webflare-div-image">
+<img width="647" height="86" src="images/Chap54-51.gif" /></div>
+
+<p>
+<a id="pgfId-1080357"></a>Here Vg0,eff is equal to Vg0 above Voff and is on the order of thermal voltage when Vg &lt; Vofff and 1/Vg0,p becomes very small and equation(3.4.12) is obtained whereas in Vg &gt; Voff, equation (3.4.17) is obtained.</p>
+<p>
+<a id="pgfId-1080360"></a>But at Voff, subbands E0 and E1 are close to Ef. Ef -E0 and Ef -E1 = E0. The calculation becomes complicated. So the Householder&#8217;s numerical calculation method is used to get the accuracy upto femto volts. The final value for Ef is obtained using the iterative re-evaluation as under</p>
+
+<p>
+<a id="pgfId-1080841"></a></p>
+<div class="webflare-div-image">
+<img width="487" height="57" src="images/Chap54-52.gif" /></div>
+
+<p>
+<a id="pgfId-1080845"></a>Computation of p,q and r can be done as shown above. From 3.4.1, <img width="21" height="36" src="images/Chap54-53.gif" /><span>can be determined at source end by </span><img width="21" height="36" src="images/Chap54-54.gif" /><span>= Vf +Vs. For potential at drain end, Vg0 and Vg0,eff are replaced by Vgd0 and Vgd, eff respectively and can be calculated by </span><img width="21" height="36" src="images/Chap54-55.gif" /><span>d = Vf + Vd,eff.</span></p>
+<h3>
+<a id="pgfId-1081596"></a><a id="30258"></a>Intrinsic Charge Calculation</h3>
+
+<p>
+<a id="pgfId-1081659"></a>Accurate modelling of intrinsic charges require proper assignment of channel charge to the terminals. Qg can be calculated as,</p>
+
+<p>
+<a id="pgfId-1081723"></a></p>
+<div class="webflare-div-image">
+<img width="593" height="63" src="images/Chap54-56.gif" /></div>
+<ft-figtabl-title id="#id1081691">
+<a id="pgfId-1081691"></a>Expression for Quantities</ft-figtabl-title>
+<p>
+<a id="pgfId-1081786"></a></p>
+<div class="webflare-div-image">
+<img width="442" height="288" src="images/Chap54-57.gif" /></div>
+
+<p>
+<a id="pgfId-1081790"></a>By using current continuity equation, that is, equating currents at drain end and at any point in the channel and neglecting the saturation of current we can get,</p>
+
+<p>
+<a id="pgfId-1081840"></a></p>
+<div class="webflare-div-image">
+<img width="528" height="59" src="images/Chap54-58.gif" /></div>
+
+<p>
+<a id="pgfId-1081816"></a>By substituting 3.5.2 in 3.5.1 and by integrating the equation with respect to <img width="21" height="36" src="images/Chap54-59.gif" /><span>, we can get,</span></p>
+<p>
+<a id="pgfId-1081921"></a></p>
+<div class="webflare-div-image">
+<img width="684" height="59" src="images/Chap54-60.gif" /></div>
+
+<p>
+<a id="pgfId-1081925"></a>Ward-Dutton&#8217;s partitioning method is used to determine the drain and source terminal charges.</p>
+
+<p>
+<a id="pgfId-1081980"></a></p>
+<div class="webflare-div-image">
+<img width="559" height="194" src="images/Chap54-61.gif" /></div>
+
+<p>
+<a id="pgfId-1081985"></a>By integrating equation (3.5.2) from source to any arbitrary point in the channel, we can get x in terms of <img width="21" height="27" src="images/Chap54-62.gif" /><span>,</span></p>
+<p>
+<a id="pgfId-1082050"></a></p>
+<div class="webflare-div-image">
+<img width="562" height="66" src="images/Chap54-63.gif" /></div>
+
+<p>
+<a id="pgfId-1082025"></a>Substituting 3.5.7 and 3.5.2 in 3.5.4, you can get,</p>
+
+<p>
+<a id="pgfId-1082125"></a></p>
+<div class="webflare-div-image">
+<img width="691" height="172" src="images/Chap54-64.gif" /></div>
+<h3>
+<a id="pgfId-1082078"></a><a id="15799"></a>Drain Current Model</h3>
+
+<p>
+<a id="pgfId-1082148"></a>The drain current at any point x along the channel under the gradual channel approximation with drift diffusion model can be expressed as,</p>
+
+<p>
+<a id="pgfId-1082186"></a></p>
+<div class="webflare-div-image">
+<img width="524" height="54" src="images/Chap54-65.gif" /></div>
+
+<p>
+<a id="pgfId-1082190"></a>Using Qch = Cg(Vg0 - <img width="18" height="36" src="images/Chap54-66.gif" /><span>), taking </span></p>
+<span class="webflare-courier-new" style="white-space:pre"><em>dx</em></span><span class="webflare-courier-new" style="white-space:pre"><em>I</em></span><span>dL and on right side, integrating with respect to d</span><img width="18" height="36" src="images/Chap54-67.gif" /><span> from source side to the drain side potential, you get current equation as,</span><p>
+<a id="pgfId-1082430"></a></p>
+<div class="webflare-div-image">
+<img width="559" height="96" src="images/Chap54-68.gif" /></div>
+<h3>
+<a id="pgfId-1082408"></a><a id="33188"></a>Self Heating Model</h3>
+
+<p>
+<a id="pgfId-1082464"></a>The self-heating effect is modeled using the R-C network approach that consists of thermal resistance (RTH) and thermal capacitance (CTH). The thermal node voltage gives the rise in temperature that is added to the die temperature.</p>
+
+<ft-figtabl-title id="#id1082517">
+<a id="pgfId-1082517"></a>R-C thermal network for self-heating effect</ft-figtabl-title>
+<div class="webflare-div-image">
+<img width="501" height="308" src="images/Chap54-69.gif" /></div>
+<h3>
+<a id="pgfId-1082604"></a><a id="23415"></a>Short Channel Effects</h3>
+
+<p>
+<a id="pgfId-1082642"></a>Short channel e.ects play an important role in determining the near to accurate currents.</p>
+
+<h4>
+<a id="pgfId-1082573"></a>Velocity Saturation</h4>
+
+<p>
+<a id="pgfId-1082674"></a>Velocity saturation is modeled as:</p>
+
+<p>
+<a id="pgfId-1082711"></a></p>
+<div class="webflare-div-image">
+<img width="487" height="60" src="images/Chap54-70.gif" /></div>
+
+<p>
+<a id="pgfId-1082721"></a>where Ex is the lateral electric field and can be taken as (<img width="16" height="36" src="images/Chap54-71.gif" /><span>d - </span><img width="16" height="36" src="images/Chap54-72.gif" /><span>s )/L = </span><img width="21" height="36" src="images/Chap54-73.gif" /><span>d s/L with L as the channel length of the device.</span></p>
+<p>
+<a id="pgfId-1082827"></a></p>
+<div class="webflare-div-image">
+<img width="538" height="72" src="images/Chap54-74.gif" /></div>
+
+<p>
+<a id="pgfId-1082802"></a>where, <span class="webflare-courier-new" style="white-space:pre"><em>THESAT</em></span> is a model parameter with initial value <img width="16" height="36" src="images/Chap54-75.gif" /></p><span>eff / VSAT · L.</span><h4>
+<a id="pgfId-1082893"></a>DIBL</h4>
+
+<p>
+<a id="pgfId-1082917"></a>DIBL effect is included in Voff modeling.</p>
+
+<p>
+<a id="pgfId-1082973"></a></p>
+<div class="webflare-div-image">
+<img width="662" height="101" src="images/Chap54-76.gif" /></div>
+<h4>
+<a id="pgfId-1082950"></a>Subthreshold Slope</h4>
+
+<p>
+<a id="pgfId-1083001"></a>Subthreshold slope tells about the leakage currents in the device. More subthreshold slope means more leakage currents. It is modeled in ASM-HEMT as follows:</p>
+<p>
+<a id="pgfId-1083021"></a>cdsc = 1 + NFACTOR + (CDSCD + cdsctrap) · Vdsx (3.9.4)</p>
+
+<h4>
+<a id="pgfId-1083124"></a>Channel Length Modulation</h4>
+
+<p>
+<a id="pgfId-1083146"></a>Channel length modulation reduces the effective length of the device thereby increasing the current in it. It is modeled in ASM-HEMT as follows:</p>
+<p>
+<a id="pgfId-1083172"></a>Ids,clm = Ids (1 + LAMBDA · (Vdsx - Vd,eff )) (3.9.5)</p>
+
+<h3>
+<a id="pgfId-1083306"></a><a id="26824"></a>Access Region and Parasitic Resistances</h3>
+
+<p>
+<a id="pgfId-1083332"></a>Access region resistances are important in HEMTs as the distance between gate edge and source and drain edges are large and in the order of few <img width="16" height="42" src="images/Chap54-77.gif" /><span>m. It can be modeled as bias dependent resistance.</span></p>
+<h4>
+<a id="pgfId-1083380"></a>Source Region Resistance</h4>
+
+<p>
+<a id="pgfId-1083406"></a>It includes bias dependent access region resistance, source contact resistance and resistance due to traps. If <span class="webflare-courier-new" style="white-space:pre"><em>RDSMOD = 1</em></span>,</p>
+
+<p>
+<a id="pgfId-1083451"></a></p>
+<div class="webflare-div-image">
+<img width="636" height="278" src="images/Chap54-78.gif" /></div>
+<h4>
+<a id="pgfId-1083421"></a>Drain Region Resistance</h4>
+
+<p>
+<a id="pgfId-1083498"></a>It includes bias dependent access region resistance, source contact resistance and resistance due to traps. If <span class="webflare-courier-new" style="white-space:pre"><em>RDSMOD = 1</em></span>,</p>
+
+<p>
+<a id="pgfId-1083542"></a></p>
+<div class="webflare-div-image">
+<img width="649" height="240" src="images/Chap54-79.gif" /></div>
+<h4>
+<a id="pgfId-1083514"></a>Gate Region Conductance</h4>
+<p>
+<a id="pgfId-1083593"></a></p>
+<div class="webflare-div-image">
+<img width="566" height="196" src="images/Chap54-80.gif" /></div>
+<h3>
+<a id="pgfId-1083566"></a><a id="37506"></a>Parasitic Capacitances</h3>
+<h4>
+<a id="pgfId-1083612"></a>Access Region Capacitances</h4>
+
+<p>
+<a id="pgfId-1083635"></a>The access region capacitance particularly at the drain end of the device, which shows up in drain-source capacitance (Cds), takes the form of a bias-dependent depletion capacitance and is formulated as follows:</p>
+
+<p>
+<a id="pgfId-1083719"></a></p>
+<div class="webflare-div-image">
+<img width="405" height="81" src="images/Chap54-81.gif" /></div>
+<h4>
+<a id="pgfId-1083723"></a>Overlap Capacitances</h4>
+
+<p>
+<a id="pgfId-1083724"></a>CGSO, CDSO, CGDO and CGDL are presented as model parameters to include overlap capacitance effects.</p>
+
+<h4>
+<a id="pgfId-1083726"></a>Fringing Capacitances</h4>
+
+<p>
+<a id="pgfId-1083727"></a>Model parameters, CFD and CFG are included to get the e.ects of fringing capacitances.</p>
+
+<h3>
+<a id="pgfId-1083728"></a><a id="97362"></a>Trap Model</h3>
+
+<p>
+<a id="pgfId-1083729"></a>The presence of traps at the surface, in the barrier and the buffer layer are well-known in GaN HEMTs. These traps affect device characteristics significantly and give rise to the effects, such as drain-lag, gate-lag, knee walk-out, and dynamic on-resistance.</p>
+<p>
+<a id="pgfId-1083732"></a>The trapping effects are modeled in ASM-HEMT model with the help of a subcircuit.</p>
+<p>
+<a id="pgfId-1083733"></a>You can choose from three different trapping effects models: TRAPMOD=1, 2 and 3 as described below. When TRAPMOD is set to 0, trapping effects are not modeled.</p>
+<p>
+<a id="pgfId-1083687"></a>The topology for TRAPMOD=1 is shown in figure below.</p>
+
+<p>
+<a id="pgfId-1083901"></a></p>
+<div class="webflare-div-image">
+<img width="436" height="376" src="images/Chap54-82.gif" /></div>
+
+<p>
+<a id="pgfId-1083905"></a>Modeling trapping effects in GaN HEMTs with the voltage Vtrap in this subcircuit for TRAPMOD=1.</p>
+<p>
+<a id="pgfId-1083928"></a>The trap-voltage Vtrap generated is fed back into the model and it updated parameters like the cut-off voltage, DIBL, source and drain-resistances to capture the effects of traps.</p>
+<p>
+<a id="pgfId-1083930"></a>The topology for TRAPMOD=2 is shown below. In this case two different RC subcircuits are used.</p>
+
+<p>
+<a id="pgfId-1084006"></a></p>
+<div class="webflare-div-image">
+<img width="466" height="223" src="images/Chap54-83.gif" /></div>
+
+<p>
+<a id="pgfId-1084010"></a>Modeling trapping effects in GaN HEMTs with the voltage Vtrap1 and Vtrap2 in this subcircuit.</p>
+<p>
+<a id="pgfId-1084033"></a>The trap voltages Vtrap1 and Vtrap2 update the parameters cut-off voltage, subthreshold slope, source and drain-resistances to capture the effects of traps. In this case, since the trap generation current is both a function of Vd and Vg this model is more flexible.</p>
+<p>
+<a id="pgfId-1084029"></a>The topology for trap-model TRAPMOD=3 is shown below.</p>
+
+<p>
+<a id="pgfId-1084244"></a></p>
+<div class="webflare-div-image">
+<img width="563" height="334" src="images/Chap54-84.gif" /></div>
+
+<p>
+<a id="pgfId-1084152"></a>Modeling trapping e.ects in GaN HEMTs with the RC subcircuit.</p>
+<p>
+<a id="pgfId-1084265"></a>This is recommended for modeling the GaN power device dynamic ON-resistance. Only the drain-side resistance is affected in this trap model.</p>
+
+<h3>
+<a id="pgfId-1084898"></a><a id="26774"></a>Gate Current Model</h3>
+
+<p>
+<a id="pgfId-1084948"></a>The modeling of gate current in ASM-HEMT is implemented using two diodes, one is for gate-to-source current and another is for gate-to-drain current. The current expressions are given below.</p>
+
+<p>
+<a id="pgfId-1085039"></a></p>
+<div class="webflare-div-image">
+<img width="726" height="209" src="images/Chap54-85.gif" /></div>
+
+<p>
+<a id="pgfId-1085043"></a>Here, <code>IGSDIO</code> and <code>IGDDIO</code> represent saturation currents of gate-source and gatedrain junction diodes, respectively. <code>NJGS</code> and <code>NJGD</code> are the diode current ideality factors and parameters <code>KTGS</code> and <code>KTGD</code> are used to capture the temperature dependence of gate saturation current.</p>
+
+<h3>
+<a id="pgfId-1085105"></a><a id="31428"></a>Field Plate Model</h3>
+<h4>
+<a id="pgfId-1085128"></a>Cross Coupling Capacitances</h4>
+
+<p>
+<a id="pgfId-1085151"></a>The two associated cross-coupling charges are evaluated in terms of the existing gate charge formulation as given below.</p>
+
+<p>
+<a id="pgfId-1085167"></a></p>
+<div class="webflare-div-image">
+<img width="698" height="395" src="images/Chap54-86.gif" /></div>
+
+<p>
+<a id="pgfId-1085193"></a><span class="webflare-courier-new" style="white-space:pre"><em>Q</em></span><code><sub><em>cc,cgd</em></sub></code> and <span class="webflare-courier-new" style="white-space:pre"><em>Q</em></span><code><sub><em>cc,csd</em></sub></code> represents the cross-coupling charge between the <span class="webflare-courier-new" style="white-space:pre"><em>FP1 - 2DEG</em></span><code><sub><em>FP2</em></sub></code></p>
+<p>
+<a id="pgfId-1085194"></a>and <span class="webflare-courier-new" style="white-space:pre"><em>FP2 - 2DEG</em></span><code><sub><em>FP1</em></sub></code> respectively. <span class="webflare-courier-new" style="white-space:pre"><em>CFP2SCALE</em></span> and <span class="webflare-courier-new" style="white-space:pre"><em>CFP1SCALE</em></span> denote dimensionless scaling factors that determine the strength of cross-coupling plateaus observed in <span class="webflare-courier-new" style="white-space:pre"><em>C</em></span><code><sub><em>gd</em></sub></code> and <span class="webflare-courier-new" style="white-space:pre"><em>C</em></span><code><sub><em>sd</em></sub></code> respectively. These charges are assigned between the gate of one field-plate transistor and the source node of the other field-plate transistor.</p>
+
+<h4>
+<a id="pgfId-1085276"></a>Substrate Capacitance</h4>
+
+<p>
+<a id="pgfId-1085303"></a>The regional substrate charges are evaluated using the existing gate charge formulation given as:</p>
+
+<p>
+<a id="pgfId-1085413"></a></p>
+<div class="webflare-div-image">
+<img width="666" height="144" src="images/Chap54-87.gif" /></div>
+
+<p>
+<a id="pgfId-1085437"></a>where <span class="webflare-courier-new" style="white-space:pre"><em>K</em></span> is <span class="webflare-courier-new" style="white-space:pre"><em>i</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>1</em></span> and <span class="webflare-courier-new" style="white-space:pre"><em>2</em></span> for intrinsic transistor, <span class="webflare-courier-new" style="white-space:pre"><em>FP1</em></span> transistor and <span class="webflare-courier-new" style="white-space:pre"><em>FP2</em></span> transistor respectively.</p>
+<p>
+<a id="pgfId-1085438"></a><span class="webflare-courier-new" style="white-space:pre"><em>CSUBSCALE,K</em></span> is a dimensionless scaling factor that controls the magnitude of the regional substrate charges.</p>
+
+<h4>
+<a id="pgfId-1085475"></a>Quantum Mechanical Effects</h4>
+
+<p>
+<a id="pgfId-1085500"></a>Due to the quantum nature of the <span class="webflare-courier-new" style="white-space:pre"><em>2DEG</em></span> charge at the hetero-interface, the centroid shift of the probability distribution functions needs to be accounted for in the model. The resulting increase in the barrier thickness, reduces the gate capacitance per unit area which subsequently is used in all the intrinsic charge equations.</p>
+
+<p>
+<a id="pgfId-1085552"></a></p>
+<div class="webflare-div-image">
+<img width="657" height="71" src="images/Chap54-88.gif" /></div>
+<h3>
+<a id="pgfId-1085527"></a><a id="70492"></a>Noise Model</h3>
+
+<p>
+<a id="pgfId-1085570"></a>Thermal and Flicker noise models are included in ASM-HEMT model.</p>
+
+<h4>
+<a id="pgfId-1085585"></a>Flicker Noise Model</h4>
+
+<p>
+<a id="pgfId-1085607"></a>The power spectral density (PSD) of the mean square fluctuations in number of occupied traps is given as:</p>
+
+<p>
+<a id="pgfId-1085638"></a></p>
+<div class="webflare-div-image">
+<img width="662" height="53" src="images/Chap54-89.gif" /></div>
+
+<p>
+<a id="pgfId-1085642"></a>where <span class="webflare-courier-new" style="white-space:pre"><em>N</em></span><code><sub><em>t</em></sub></code> is the concentration of traps (in <span class="webflare-courier-new" style="white-space:pre"><em>cm</em></span><spbl-sups-bold-literal>
+-2</spbl-sups-bold-literal>
+) and <span class="webflare-courier-new" style="white-space:pre"><em>f</em></span> is the frequency of operation. The <span class="webflare-courier-new" style="white-space:pre"><em>N</em></span><code><sub><em>Pt</em></sub></code> factor comes from tunneling probability and <span class="webflare-courier-new" style="white-space:pre"><em>EF</em></span> is a modeling parameter.This in turn gives the drain current noise PSD as:</p>
+
+<p>
+<a id="pgfId-1085689"></a></p>
+<div class="webflare-div-image">
+<img width="621" height="301" src="images/Chap54-90.gif" /></div>
+
+<p>
+<a id="pgfId-1085719"></a>where <img width="126" height="56" src="images/Chap54-91.gif" /><span>. </span></p>
+
+<p>
+<a id="pgfId-1085742"></a>The <code>+</code> or <code>-</code> sign depends on whether a trap is neutral or charged when filled, which will increase or decrease mobility. Using (3.15.2) and (3.15.5), we get the drain current noise PSD as:</p>
+
+<p>
+<a id="pgfId-1085791"></a></p>
+<div class="webflare-div-image">
+<img width="658" height="179" src="images/Chap54-92.gif" /></div>
+<h4>
+<a id="pgfId-1085771"></a>Thermal Noise Model</h4>
+
+<p>
+<a id="pgfId-1085813"></a>The noise PSD can be given as:</p>
+
+<p>
+<a id="pgfId-1085858"></a></p>
+<div class="webflare-div-image">
+<img width="533" height="70" src="images/Chap54-93.gif" /></div>
+
+<p>
+<a id="pgfId-1085908"></a>Where, <img width="440" height="27" src="images/Chap54-94.gif" /><span>and </span></p>
+<span class="webflare-courier-new" style="white-space:pre"><em>NOIA</em></span><span class="webflare-courier-new" style="white-space:pre"><em>NIOIB</em></span><span> and </span><span class="webflare-courier-new" style="white-space:pre"><em>NOIC</em></span><span> are parameters that include terms like N</span><code><sub><em>Pt</em></sub></code><span> and N</span><code><sub><em>t</em></sub></code><span>.</span>
+<p>
+<a id="pgfId-1085835"></a>The final noise PSD can therefore be written as:</p>
+
+<p>
+<a id="pgfId-1085877"></a></p>
+<div class="webflare-div-image">
+<img width="661" height="67" src="images/Chap54-95.gif" /></div>
+<h2>
+<a id="pgfId-1047720"></a><a id="49563"></a>Component Statements</h2>
+<h3>
+<a id="pgfId-1047747"></a><a id="17626"></a>Model Definition</h3>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047761"></a>model modelName asm_gan parameter=value ...</pre>
+<h3>
+<a id="pgfId-1047783"></a><a id="21994"></a>Instance Definition</h3>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047793"></a>Name&#160;&#160;d&#160;&#160;g&#160;&#160;s&#160;&#160;b&#160;&#160;[Tnode] ModelName parameter=value ...</pre>
+<h4>
+<a id="pgfId-1047861"></a>Instance Parameters</h4>
+<p>
+<a id="pgfId-1060234"></a><a id="marker-1073402"></a></p>
+<table class="webflareTable" id="#id1073403">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060129"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060131"></a><code>l=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060133"></a>Channel length (m).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060135"></a>2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060137"></a><code>w=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060139"></a>Channel width (m).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060141"></a>3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060143"></a><code>asource=1.0e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060145"></a>Source region area (m^2).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060147"></a>4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060149"></a><code>adrain=1.0e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060151"></a>Drain region area (m^2).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060153"></a>5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060155"></a><code>psource=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060157"></a>Source region perimeter (m).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060159"></a>6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060161"></a><code>pdrain=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060163"></a>Drain region perimeter (m).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060165"></a>7</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060167"></a><code>sa=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060169"></a>Distance between OD-edge and poly at source side (m).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060171"></a>8</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060173"></a><code>sb=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060175"></a>Distance between OD-edge and poly at drain side (m).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060177"></a>9</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060179"></a><code>sd=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060181"></a>Distance between neighboring fingers (m).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060183"></a>10</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060185"></a><code>nf=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060187"></a>Number of fingers.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060189"></a>11</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060191"></a><code>mult=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060193"></a>Number of devices in parallel.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060195"></a>12</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060197"></a><code>m=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060199"></a>Number of devices in parallel.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060201"></a>13</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060203"></a><code>delvto=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060205"></a>Threshold voltage shift parameter (V).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060207"></a>14</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060209"></a><code>factuo=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060211"></a>Low-field mobility pre-factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060213"></a>15</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060215"></a><code>trise=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060217"></a>Temperature rise from ambient.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060219"></a>16</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060221"></a><code>isnoisy=yes</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060223"></a>Should device generate noise. Possible values are <code>yes</code> and <code>no</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1063453"></a>Model Parameters</h4>
+<p>
+<a id="pgfId-1070525"></a><a id="marker-1073502"></a></p>
+<table class="webflareTable" id="#id1073503">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070786"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070788"></a><code>tnom=27.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070790"></a>Nominal Temperature in degree Celsius.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070792"></a>2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070794"></a><code>tbar=2.5e-8</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070796"></a>Barrier layer thickness.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070798"></a>3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070800"></a><code>epsilon=10.66e-11</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070802"></a>Dielectric Permittivity of AlGaN layer.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070810"></a>4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070812"></a><code>voff=(-2.0)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070814"></a>Cut-off voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070816"></a>5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070818"></a><code>u0=170.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070820"></a>Low field mobility.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070822"></a>6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070824"></a><code>ua=0.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070826"></a>Mobility Degradation coefficient first order.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070828"></a>7</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070830"></a><code>ub=0.0e-18</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070832"></a>Mobility Degradation coefficient second order.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070834"></a>8</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070836"></a><code>vsat=1.9e5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070838"></a>Saturation Velocity.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070840"></a>9</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070842"></a><code>delta=2.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070844"></a>Exponent for Vdeff.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070846"></a>10</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070848"></a><code>at=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070850"></a>Temperature Dependence for saturation velocity.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070852"></a>11</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070854"></a><code>ute=(-0.5)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070856"></a>Temperature dependence of mobility.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070858"></a>12</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070860"></a><code>lambda=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070862"></a>Channel Length Modulation Coefficient.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070864"></a>13</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070866"></a><code>eta0=1.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070868"></a>DIBL Parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070870"></a>14</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070872"></a><code>vdscale=5.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070874"></a>DIBL Scaling VDS.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070876"></a>15</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070878"></a><code>kt1=0.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070880"></a>Temperature Dependence for Voff.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070882"></a>16</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070884"></a><code>thesat=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070886"></a>Velocity Saturation Parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070888"></a>17</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070890"></a><code>nfactor=0.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070892"></a>Sub-voff Slope parameters.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070894"></a>18</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070896"></a><code>cdscd=1.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070898"></a>Sub-voff Slope Change due to Drain Voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070900"></a>19</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070902"></a><code>gamma0i=2.12e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070904"></a>Schrodinger-Poisson solution parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070906"></a>20</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070908"></a><code>gamma1i=3.73e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070910"></a>Schrodinger-Poisson solution parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070912"></a>21</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070914"></a><code>imin=1.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070916"></a>Minimum Drain Current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070918"></a>22</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070920"></a><code>shmod=1</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070922"></a>Switch to turn on and off self-heating model.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070924"></a>23</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070926"></a><code>rth0=5.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070928"></a>Thermal Resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070930"></a>24</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070932"></a><code>cth0=1.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070934"></a>Thermal Capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070936"></a>25</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070938"></a><code>rdsmod=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070940"></a>Switch for external source and drain resistances.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070942"></a>26</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070944"></a><code>vsataccs=50.0e3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070946"></a>Saturation Velocity for access region: Source Side.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070948"></a>27</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070950"></a><code>ns0accs=5.0e17</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070952"></a>2-DEG Charge Density in per square meter in Source access region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070954"></a>28</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070956"></a><code>ns0accd=5.0e17</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070958"></a>2-DEG Charge Density in per square meter in Drain access region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070960"></a>29</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070962"></a><code>k0accs=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070964"></a>Vg dependence parameter of source side access region 2-DEG charge density.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070966"></a>30</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070968"></a><code>k0accd=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070970"></a>Vg dependence parameter of drain side access region 2-DEG charge density.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070972"></a>31</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070974"></a><code>u0accs=155e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070976"></a>Access region mobility source-side.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070978"></a>32</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070980"></a><code>u0accd=155e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070982"></a>Access region mobility drain-side.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070984"></a>33</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070986"></a><code>mexpaccs=2.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070988"></a>Exponent for access region resistance model.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070990"></a>34</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070992"></a><code>mexpaccd=2.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070994"></a>Exponent for access region resistance model.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070996"></a>35</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1070998"></a><code>lsg=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071000"></a>Length of Source-Gate Access Region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071002"></a>36</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071004"></a><code>ldg=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071006"></a>Length of Drain-Gate Access Region or Length of drain side access region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071008"></a>37</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071010"></a><code>rsc=1.0e-4</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071012"></a>Source Contact Resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071014"></a>38</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071016"></a><code>rdc=1.0e-4</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071018"></a>Drain Contact Resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071020"></a>39</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071022"></a><code>kns0=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071024"></a>Temperature Dependence for 2-DEG charge density at access region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071026"></a>40</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071028"></a><code>ats=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071030"></a>Temperature Dependence for saturation velocity at access region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071032"></a>41</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071034"></a><code>utes=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071036"></a>Temperature dependence of mobility at access region: Source Side.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071038"></a>42</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071040"></a><code>uted=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071042"></a>Temperature dependence of mobility at access region: Drain Side.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071044"></a>43</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071046"></a><code>krsc=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071048"></a>Temperature dependence of Source Contact Resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071050"></a>44</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071052"></a><code>krdc=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071054"></a>Temperature dependence of Drain Contact Resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071056"></a>45</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071058"></a><code>gatemod=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071060"></a>Gate current model flag [0: No gate current; 1: Basic model].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071062"></a>46</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071064"></a><code>njgs=2.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071066"></a>Gate-source junction diode current ideality factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071068"></a>47</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071070"></a><code>njgd=2.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071072"></a>Gate-drain junction diode current ideality factor.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071074"></a>48</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071076"></a><code>igsdio=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071078"></a>Gate-source junction diode saturation current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071080"></a>49</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071082"></a><code>igddio=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071084"></a>Gate-drain junction diode saturation current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071086"></a>50</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071088"></a><code>ktgs=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071090"></a>Temperature co-efficient of gate-source junction diode current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071092"></a>51</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071094"></a><code>ktgd=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071096"></a>Temperature coefficient of gate-drain junction diode current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071098"></a>52</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071100"></a><code>trapmod=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071102"></a>Model Switch to turn on and off the dynamic trapping effects.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071104"></a>53</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071106"></a><code>cdlag=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071108"></a>Trap Network capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071110"></a>54</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071112"></a><code>rdlag=1.0e6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071114"></a>Trap Network resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071116"></a>55</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071118"></a><code>idio=1.0e0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071120"></a>Saturation Current parameter for trap model.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071122"></a>56</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071124"></a><code>atrapvoff=0.1</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071126"></a>Voff change due to trapping effects.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071128"></a>57</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071130"></a><code>btrapvoff=0.3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071132"></a>Voff change with input power due to trapping effects.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071134"></a>58</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071136"></a><code>atrapeta0=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071138"></a>DIBL change due to trapping effects.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071140"></a>59</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071142"></a><code>btrapeta0=0.05</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071144"></a>DIBL change with input power due to trapping effects.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071146"></a>60</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071148"></a><code>atraprs=0.1</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071150"></a>Rs change due to trapping effects.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071152"></a>61</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071154"></a><code>btraprs=0.6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071156"></a>Rs change with input power due to trapping effects.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071158"></a>62</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071160"></a><code>atraprd=0.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071162"></a>Rd change due to trapping effects.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071164"></a>63</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071166"></a><code>btraprd=0.6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071168"></a>Rd change with input power due to trapping effects.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071170"></a>64</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071172"></a><code>rtrap1=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071174"></a>Trap Network1 Resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071176"></a>65</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071178"></a><code>rtrap2=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071180"></a>Trap Network2 Resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071182"></a>66</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071184"></a><code>ctrap1=10.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071186"></a>Trap Network1 Capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071188"></a>67</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071190"></a><code>ctrap2=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071192"></a>Trap Network2 Capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071194"></a>68</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071196"></a><code>a1=0.1</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071198"></a>Multiplication factor [1st network].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071200"></a>69</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071202"></a><code>vofftr=1.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071204"></a>Trap contribution to voff [2nd network].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071206"></a>70</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071208"></a><code>cdscdtr=1.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071210"></a>Trap contribution to cdscd [2nd network].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071212"></a>71</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071214"></a><code>eta0tr=1.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071216"></a>Trap contribution to DIBL [2nd network].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071218"></a>72</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071220"></a><code>rontr1=1.0e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071222"></a>Trap contribution to RON [1st network].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071224"></a>73</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071226"></a><code>rontr2=1.0e-13</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071228"></a>Trap contribution to RON [2nd network].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071230"></a>74</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071232"></a><code>rontr3=1.0e-13</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071234"></a>Trap contribution to RON.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071236"></a>75</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071238"></a><code>rtrap3=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071240"></a>Trap Network Resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071242"></a>76</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071244"></a><code>ctrap3=1.0e-4</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071246"></a>Trap Network Capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071248"></a>77</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071250"></a><code>vatrap=10.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071252"></a>Division factor for V[trap1].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071254"></a>78</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071256"></a><code>wd=0.016</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071258"></a>Weak dependence of vdlr1 on Vdg.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071260"></a>79</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071262"></a><code>vdlr1=2.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071264"></a>Slope for region one.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071266"></a>80</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071268"></a><code>vdlr2=20.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071270"></a>Slope for region two.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071272"></a>81</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071274"></a><code>talpha=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071276"></a>Temperature dependence Coefficient.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071278"></a>82</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071280"></a><code>vtb=250.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071282"></a>Break Point for Vdg effect on Von.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071284"></a>83</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071286"></a><code>deltax=0.01</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071288"></a>Smoothing parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071290"></a>84</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071292"></a><code>fp1mod=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071294"></a>Field Plate Model Selector [0:No FP; 1:Gate FP; 2:Source FP;].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071296"></a>85</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071298"></a><code>fp2mod=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071300"></a>Field Plate Model Selector [0:No FP; 1:Gate FP; 2:Source FP;].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071302"></a>86</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071304"></a><code>fp3mod=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071306"></a>Field Plate Model Selector [0:No FP; 1:Gate FP; 2:Source FP;].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071308"></a>87</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071310"></a><code>fp4mod=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071312"></a>Field Plate Model Selector [0:No FP; 1:Gate FP; 2:Source FP;].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071314"></a>88</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071316"></a><code>iminfp1=1.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071318"></a>Minimum Drain Current FP1 region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071320"></a>89</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071322"></a><code>vofffp1=(-25.0)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071324"></a>voff for FP1.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071326"></a>90</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071328"></a><code>ktfp1=50.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071330"></a>Temperature Dependence for vofffp1.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071332"></a>91</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071334"></a><code>u0fp1=100e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071336"></a>FP1 region mobility.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071338"></a>92</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071340"></a><code>vsatfp1=100e+3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071342"></a>Saturation Velocity of FP1 region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071344"></a>93</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071346"></a><code>nfactorfp1=0.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071348"></a>Sub-voff Slope parameters for FP1.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071350"></a>94</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071352"></a><code>cdscdfp1=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071354"></a>Sub-voff Slope Change due to Drain Voltage for FP1.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071356"></a>95</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071358"></a><code>eta0fp1=1.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071360"></a>DIBL Parameter for FP1.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071362"></a>96</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071364"></a><code>vdscalefp1=10.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071366"></a>DIBL Scaling VDS for FP1.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071368"></a>97</p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a id="pgfId-1071370"></a><code>gamma0fp1=2.12e-12</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071374"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071376"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071378"></a>Schrodinger-Poisson solution parameter for FP1.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071380"></a>98</p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a id="pgfId-1071382"></a><code>gamma1fp1=3.73e-12</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071386"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071388"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071390"></a>Schrodinger-Poisson solution parameter for FP1.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071392"></a>99</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071394"></a><code>iminfp2=1.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071396"></a>Minimum Drain Current FP2 region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071398"></a>100</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071400"></a><code>vofffp2=(-50.0)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071402"></a>voff for FP2.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071404"></a>101</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071406"></a><code>ktfp2=50.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071408"></a>Temperature Dependence for vofffp2.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071410"></a>102</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071412"></a><code>u0fp2=100e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071414"></a>Carrier mobility of FP2 region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071416"></a>103</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071418"></a><code>vsatfp2=100e+3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071420"></a>Saturation velocity of FP2 region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071422"></a>104</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071424"></a><code>nfactorfp2=0.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071426"></a>Sub-voff Slope parameters for FP2.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071428"></a>105</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071430"></a><code>cdscdfp2=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071432"></a>Sub-voff Slope Change due to Drain Voltage for FP2.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071434"></a>106</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071436"></a><code>eta0fp2=1.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071438"></a>DIBL Parameter for FP2.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071440"></a>107</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071442"></a><code>vdscalefp2=10.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071444"></a>DIBL Scaling VDS for FP2.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071446"></a>108</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071448"></a><code>gamma0fp2=2.12e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071450"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071452"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071454"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071456"></a>Schrodinger-Poisson solution parameter for FP2.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071458"></a>109</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071460"></a><code>gamma1fp2=3.73e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071462"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071464"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071466"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071468"></a>Schrodinger-Poisson solution parameter for FP2.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071470"></a>110</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071472"></a><code>iminfp3=1.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071474"></a>Minimum Drain Current FP3 region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071476"></a>111</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071478"></a><code>vofffp3=(-75.0)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071480"></a>voff for FP3.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071482"></a>112</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071484"></a><code>ktfp3=50.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071486"></a>Temperature Dependence for vofffp3.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071488"></a>113</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071490"></a><code>u0fp3=100e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071492"></a>FP3 region mobility.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071494"></a>114</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071496"></a><code>vsatfp3=100e+3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071498"></a>Saturation Velocity of FP3 region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071500"></a>115</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071502"></a><code>nfactorfp3=0.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071504"></a>Sub-voff Slope parameters for FP3.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071506"></a>116</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071508"></a><code>cdscdfp3=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071510"></a>Sub-voff Slope Change due to Drain Voltage for FP3.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071512"></a>117</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071514"></a><code>eta0fp3=1.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071516"></a>DIBL Parameter for FP3.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071518"></a>118</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071520"></a><code>vdscalefp3=10.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071522"></a>DIBL Scaling VDS for FP3.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071524"></a>119</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071526"></a><code>gamma0fp3=2.12e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071528"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071530"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071532"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071534"></a>Schrodinger-Poisson solution parameter for FP3.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071536"></a>120</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071538"></a><code>gamma1fp3=3.73e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071540"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071542"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071544"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071546"></a>Schrodinger-Poisson solution parameter for FP3.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071548"></a>121</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071550"></a><code>iminfp4=1.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071552"></a>Minimum Drain Current FP4 region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071554"></a>122</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071556"></a><code>vofffp4=(-100.0)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071558"></a>voff for FP4.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071560"></a>123</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071562"></a><code>ktfp4=50.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071564"></a>Temperature Dependence for vofffp4.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071566"></a>124</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071568"></a><code>u0fp4=100e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071570"></a>FP4 region mobility.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071572"></a>125</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071574"></a><code>vsatfp4=100e+3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071576"></a>Saturation Velocity of FP4 region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071578"></a>126</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071580"></a><code>nfactorfp4=0.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071582"></a>Sub-voff Slope parameters for FP4.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071584"></a>127</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071586"></a><code>cdscdfp4=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071588"></a>Sub-voff Slope Change due to Drain Voltage for FP4.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071590"></a>128</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071592"></a><code>eta0fp4=1.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071594"></a>DIBL Parameter for FP4.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071596"></a>129</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071598"></a><code>vdscalefp4=10.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071600"></a>DIBL Scaling VDS for FP4.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071602"></a>130</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071604"></a><code>gamma0fp4=2.12e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071606"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071608"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071610"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071612"></a>Schrodinger-Poisson solution parameter for FP4.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071614"></a>131</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071616"></a><code>gamma1fp4=3.73e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071618"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071620"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071622"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071624"></a>Schrodinger-Poisson solution parameter for FP4.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071626"></a>132</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071628"></a><code>cgso=0.0e-18</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071630"></a>Gate-source overlap capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071632"></a>133</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071634"></a><code>cgdo=0.0e-18</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071636"></a>Gate-drain overlap capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071638"></a>134</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071640"></a><code>cdso=0.0e-18</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071642"></a>Cds capacitance parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071644"></a>135</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071646"></a><code>cgdl=0.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071648"></a>Vds bias dependence of parasitic gate drain overlap capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071650"></a>136</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071652"></a><code>vdsatcv=100.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071654"></a>Saturation voltage on drain side in CV Model.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071656"></a>137</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071658"></a><code>cbdo=0.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071660"></a>Substrate capacitance parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071662"></a>138</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071664"></a><code>cbso=0.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071666"></a>Substrate capacitance parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071668"></a>139</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071670"></a><code>cbgo=0.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071672"></a>Substrate capacitance parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071674"></a>140</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071676"></a><code>cfg=0.0e-18</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071678"></a>Fringing capacitance parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071680"></a>141</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071682"></a><code>cfd=0.0e-18</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071684"></a>Fringing capacitance parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071686"></a>142</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071688"></a><code>cfgd=0.0e-13</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071690"></a>Fringing capacitance parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071692"></a>143</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071694"></a><code>cfgdsm=1.0e-24</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071696"></a>Capacitance smoothing parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071698"></a>144</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071700"></a><code>cfgd0=0.0e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071702"></a>Fringing capacitance parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071704"></a>145 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071706"></a><code>cj0=0.0e-15</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071708"></a>Zero bias depletion capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071710"></a>146</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071712"></a><code>vbi=0.9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071714"></a>Built in potential.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071716"></a>147</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071718"></a><code>ktvbi=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071720"></a>Temperature dependence of built in potential.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071722"></a>148</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071724"></a><code>ktcfg=0.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071726"></a>Temperature dependence of Fringing capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071728"></a>149</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071730"></a><code>ktcfgd=0.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071732"></a>Temperature dependence of Fringing capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071734"></a>150</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071736"></a><code>mz=0.5</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071738"></a>Grading factor of depletion capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071740"></a>151</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071742"></a><code>aj=100.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071744"></a>Limiting factor of depletion capacitance in forward bias region.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071746"></a>152</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071748"></a><code>dj=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071750"></a>Fitting parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071752"></a>153</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071754"></a><code>adosi=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071756"></a>Quantum mechanical effect pre-factor cum switch in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071758"></a>154</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071760"></a><code>bdosi=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071762"></a>Charge centroid parameter - slope of CV curve under QME in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071764"></a>155</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071766"></a><code>qm0i=1.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071768"></a>Charge centroid parameter - starting point for QME in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071770"></a>156</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071772"></a><code>adosfp1=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071774"></a>Quantum mechanical effect pre-factor cum switch in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071776"></a>157</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071778"></a><code>bdosfp1=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071780"></a>Charge centroid parameter - slope of CV curve under QME in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071782"></a>158</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071784"></a><code>qm0fp1=1.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071786"></a>Charge centroid parameter - starting point for QME in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071788"></a>159</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071790"></a><code>adosfp2=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071792"></a>Quantum mechanical effect pre-factor cum switch in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071794"></a>160</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071796"></a><code>bdosfp2=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071798"></a>Charge centroid parameter - slope of CV curve under QME in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071800"></a>161</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071802"></a><code>qm0fp2=1.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071804"></a>Charge centroid parameter - starting point for QME in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071806"></a>162</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071808"></a><code>adosfp3=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071810"></a>Quantum mechanical effect pre-factor cum switch in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071812"></a>163</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071814"></a><code>bdosfp3=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071816"></a>Charge centroid parameter - slope of CV curve under QME in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071818"></a>164</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071820"></a><code>qm0fp3=1.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071822"></a>Charge centroid parameter - starting point for QME in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071824"></a>165</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071826"></a><code>adosfp4=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071828"></a>Quantum mechanical effect pre-factor cum switch in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071830"></a>166</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071832"></a><code>bdosfp4=1.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071834"></a>Charge centroid parameter - slope of CV curve under QME in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071836"></a>167</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071838"></a><code>qm0fp4=1.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071840"></a>Charge centroid parameter - starting point for QME in inversion.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071842"></a>168</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071844"></a><code>cfp1scale=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071846"></a>Coupling of charge under FP1.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071848"></a>169</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071850"></a><code>cfp2scale=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071852"></a>Coupling of charge under FP2.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071854"></a>170</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071856"></a><code>cfp3scale=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071858"></a>Coupling of charge under FP3.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071860"></a>171</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071862"></a><code>cfp4scale=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071864"></a>Coupling of charge under FP4.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071866"></a>172</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071868"></a><code>csubscalei=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071870"></a>Sub Capacitance scaling parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071872"></a>173</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071874"></a><code>csubscale1=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071876"></a>Sub Capacitance scaling parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071878"></a>174</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071880"></a><code>csubscale2=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071882"></a>Sub Capacitance scaling parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071884"></a>175</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071886"></a><code>csubscale3=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071888"></a>Sub Capacitance scaling parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071890"></a>176</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071892"></a><code>csubscale4=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071894"></a>Sub Capacitance scaling parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071896"></a>177</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071898"></a><code>rgatemod=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071900"></a>Switch to turn on/off gate Resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071902"></a>178</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071904"></a><code>xgw=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071906"></a>Distance from gate contact centre to dev edge.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071908"></a>179</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071910"></a><code>rshg=1.0e-3</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071912"></a>Gate sheet resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071914"></a>180</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071916"></a><code>fnmod=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071918"></a>Switch to turn Flicker Noise Model&#160;&#160;ON [fnmod=1] or OFF [fnmod=0].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071920"></a>181</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071922"></a><code>tnmod=0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071924"></a>Switch to turn Thermal Noise Model&#160;&#160;ON [tnmod=1] or OFF [tnmod=0].</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071926"></a>182</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071928"></a><code>noia=15.0e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071930"></a>Flicker Noise parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071932"></a>183</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071934"></a><code>noib=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071936"></a>Flicker Noise parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071938"></a>184</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071940"></a><code>noic=0.0</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071942"></a>Flicker Noise parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071944"></a>185</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071946"></a><code>ef=1</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071948"></a>Exponent of frequency---Determines slope in log plot.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071950"></a>186</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071952"></a><code>tnsc=1.0e27</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071954"></a>Thermal noise scaling parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071956"></a>187</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071958"></a><code>gdsmin=1.0e-12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071960"></a>Convergence Parameter.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071962"></a>188</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071964"></a><code>ngcon=1</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071966"></a>Number of gate contacts.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071968"></a>189</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071970"></a><code>dfp1=50.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071972"></a>Distance of FP1 from 2-DEG Charge.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071974"></a>190</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071976"></a><code>lfp1=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071978"></a>Length of FP1.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071980"></a>191</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071982"></a><code>dfp2=100.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071984"></a>Distance of FP2 from 2-DEG Charge.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071986"></a>192</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071988"></a><code>lfp2=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071990"></a>Length of FP2.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071992"></a>193</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071994"></a><code>dfp3=150.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071996"></a>Distance of FP3 from 2-DEG Charge.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1071998"></a>194</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072000"></a><code>lfp3=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072002"></a>Length of FP3.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072004"></a>195</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072006"></a><code>dfp4=200.0e-9</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072008"></a>Distance of FP4 from 2-DEG Charge.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072010"></a>196</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072012"></a><code>lfp4=1.0e-6</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072014"></a>Length of FP4.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1048324"></a>Output Parameters<a id="marker-1074729"></a></h4>
+<table class="webflareTable" id="#id1074730">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072202"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072204"></a><code>tempeff</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072206"></a>Effective temperature without selfheating temperature.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1062567"></a>2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1062569"></a><code>meff</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1062571"></a>Effective multiplicity factor (m-factor).</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1048327"></a>Operating-Point Parameters</h4>
+<table class="webflareTable" id="#id1074744">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072367"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072369"></a><code>idisi (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072371"></a>idisi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072373"></a>2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072375"></a><code>vdisi (V)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072377"></a>vdisi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072379"></a>3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072381"></a><code>vgisi (V)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072383"></a>vgisi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072385"></a>4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072387"></a><code>gmi (S)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072389"></a>gmi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072391"></a>5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072393"></a><code>gdsi (S)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072395"></a>gdsi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072397"></a>6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072399"></a><code>gmbi (S)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072401"></a>gmbi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072403"></a>7</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072405"></a><code>igs (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072407"></a>igs.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072409"></a>8</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072411"></a><code>igd (A)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072413"></a>igd.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072415"></a>9</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072417"></a><code>qgi (C)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072419"></a>qgi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072421"></a>10</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072423"></a><code>qdi (C)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072425"></a>qdi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072427"></a>11</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072429"></a><code>qsi (C)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072431"></a>qsi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072433"></a>12</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072435"></a><code>qbi (C)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072437"></a>qbi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072439"></a>13</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072441"></a><code>cggi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072443"></a>cggi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072445"></a>14</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072447"></a><code>cgsi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072449"></a>cgsi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072451"></a>15</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072453"></a><code>cgdi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072455"></a>cgdi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072457"></a>16</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072459"></a><code>cgbi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072461"></a>cgbi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072463"></a>17</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072465"></a><code>cddi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072467"></a>cddi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072469"></a>18</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072471"></a><code>cdgi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072473"></a>cdgi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072475"></a>19</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072477"></a><code>cdsi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072479"></a>cdsi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072481"></a>20</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072483"></a><code>cdbi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072485"></a>cdbi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072487"></a>21</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072489"></a><code>cssi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072491"></a>cssi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072493"></a>22</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072495"></a><code>csgi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072497"></a>csgi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072499"></a>23</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072501"></a><code>csdi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072503"></a>csdi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072505"></a>24</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072507"></a><code>csbi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072509"></a>csbi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072511"></a>25</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072513"></a><code>cbbi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072515"></a>cbbi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072517"></a>26</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072519"></a><code>cbsi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072521"></a>cbsi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072523"></a>27</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072525"></a><code>cbdi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072527"></a>cbdi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072529"></a>28</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072531"></a><code>cbgi (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072533"></a>cbgi.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072535"></a>29</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072537"></a><code>t_total_k (K)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072539"></a>t_total_k.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072541"></a>30</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072543"></a><code>t_total_c</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072545"></a>t_total_c.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072547"></a>31</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072549"></a><code>t_delta_sh</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072551"></a>t_delta_sh.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072553"></a>32</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072555"></a><code>rd (</code>&#x2126;<code>)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072557"></a>rd.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072559"></a>33</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072561"></a><code>rs (</code>&#x2126;<code>)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072563"></a>rs.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072565"></a>34</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072567"></a><code>cgs (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072569"></a>cgs.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072571"></a>35</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072573"></a><code>cgd (F)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072575"></a>cgd.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072577"></a>36</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072579"></a><code>pwr (W)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072581"></a>Power at op point.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1048401"></a>Parameter Index</h4>
+
+<p>
+<a id="pgfId-1048402"></a>In the following index, <code>I</code> refers to instance parameters, <code>M</code> refers to the model parameters section, <code>O</code> refers to the output parameters section, and <code>OP</code> refers to the operating point parameters section. The number indicates where to look in the appropriate section to find the description for that parameter. For example, a reference of <code>M-35</code> means the 35th model parameter.</p>
+
+<p>
+<a id="pgfId-1069118"></a></p>
+<table class="webflareTable" id="#id1074965">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069995"></a>a1 &#160;&#160;&#160;&#160; M-68</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069997"></a>cssi &#160;&#160;&#160;&#160; OP-21</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069999"></a>kns0 &#160;&#160;&#160;&#160; M-39</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070001"></a>rs &#160;&#160;&#160;&#160; OP-33</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070003"></a>adosfp1 &#160;&#160;&#160;&#160; M-156</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070005"></a>csubscale1 &#160;&#160;&#160;&#160; M-173</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070007"></a>krdc &#160;&#160;&#160;&#160; M-44</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070009"></a>rsc &#160;&#160;&#160;&#160; M-37</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070011"></a>adosfp2 &#160;&#160;&#160;&#160; M-159</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070013"></a>csubscale2 &#160;&#160;&#160;&#160; M-174</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070015"></a>krsc &#160;&#160;&#160;&#160; M-43</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070017"></a>rshg &#160;&#160;&#160;&#160; M-179</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070019"></a>adosfp3 &#160;&#160;&#160;&#160; M-162</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070021"></a>csubscale3 &#160;&#160;&#160;&#160; M-175</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070023"></a>kt1 &#160;&#160;&#160;&#160; M-15</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070025"></a>rth0 &#160;&#160;&#160;&#160; M-23</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070027"></a>adosfp4 &#160;&#160;&#160;&#160; M-165</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070029"></a>csubscale4 &#160;&#160;&#160;&#160; M-176</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070031"></a>ktcfg &#160;&#160;&#160;&#160; M-148</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070033"></a>rtrap1 &#160;&#160;&#160;&#160; M-64</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070035"></a>adosi &#160;&#160;&#160;&#160; M-153</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070037"></a>csubscalei &#160;&#160;&#160;&#160; M-172</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070039"></a>ktcfgd &#160;&#160;&#160;&#160; M-149</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070041"></a>rtrap2 &#160;&#160;&#160;&#160; M-65</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070043"></a>aj &#160;&#160;&#160;&#160; M-151</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070045"></a>cth0 &#160;&#160;&#160;&#160; M-24</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070047"></a>ktfp1 &#160;&#160;&#160;&#160; M-90</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070049"></a>rtrap3 &#160;&#160;&#160;&#160; M-75</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070051"></a>at &#160;&#160;&#160;&#160; M-10</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070053"></a>ctrap1 &#160;&#160;&#160;&#160; M-66</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070055"></a>ktfp2 &#160;&#160;&#160;&#160; M-101</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070057"></a>shmod &#160;&#160;&#160;&#160; M-22</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070059"></a>atrapeta0 &#160;&#160;&#160;&#160; M-58</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070061"></a>ctrap2 &#160;&#160;&#160;&#160; M-67</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070063"></a>ktfp3 &#160;&#160;&#160;&#160; M-112</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070065"></a>t_delta_sh &#160;&#160;&#160;&#160; OP-31</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070067"></a>atraprd &#160;&#160;&#160;&#160; M-62</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070069"></a>ctrap3 &#160;&#160;&#160;&#160; M-76</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070071"></a>ktfp4 &#160;&#160;&#160;&#160; M-123</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070073"></a>t_total_c &#160;&#160;&#160;&#160; OP-30</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070075"></a>atraprs &#160;&#160;&#160;&#160; M-60</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070077"></a>delta &#160;&#160;&#160;&#160; M-9</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070079"></a>ktgd &#160;&#160;&#160;&#160; M-51</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070081"></a>t_total_k &#160;&#160;&#160;&#160; OP-29</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070083"></a>atrapvoff &#160;&#160;&#160;&#160; M-56</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070085"></a>deltax &#160;&#160;&#160;&#160; M-83</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070087"></a>ktgs &#160;&#160;&#160;&#160; M-50</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070089"></a>talpha &#160;&#160;&#160;&#160; M-81</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070091"></a>ats &#160;&#160;&#160;&#160; M-40</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070093"></a>dfp1 &#160;&#160;&#160;&#160; I-4</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070095"></a>ktvbi &#160;&#160;&#160;&#160; M-147</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070097"></a>tbar &#160;&#160;&#160;&#160; M-2</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070099"></a>bdosfp1 &#160;&#160;&#160;&#160; M-157</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070101"></a>dfp1 &#160;&#160;&#160;&#160; M-189</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070103"></a>l &#160;&#160;&#160;&#160; I-1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070105"></a>tempeff &#160;&#160;&#160;&#160; O-1</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070107"></a>bdosfp2 &#160;&#160;&#160;&#160; M-160</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070109"></a>dfp2 &#160;&#160;&#160;&#160; I-6</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070111"></a>lambda &#160;&#160;&#160;&#160; M-12</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070113"></a>thesat &#160;&#160;&#160;&#160; M-16</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070115"></a>bdosfp3 &#160;&#160;&#160;&#160; M-163</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070117"></a>dfp2 &#160;&#160;&#160;&#160; M-191</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070119"></a>ldg &#160;&#160;&#160;&#160; M-36</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070121"></a>tnmod &#160;&#160;&#160;&#160; M-181</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070123"></a>bdosfp4 &#160;&#160;&#160;&#160; M-166</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070125"></a>dfp3 &#160;&#160;&#160;&#160; I-8</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070127"></a>lfp1 &#160;&#160;&#160;&#160; I-5</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070129"></a>tnom &#160;&#160;&#160;&#160; M-1</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070131"></a>bdosi &#160;&#160;&#160;&#160; M-154</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070133"></a>dfp3 &#160;&#160;&#160;&#160; M-193</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070135"></a>lfp1 &#160;&#160;&#160;&#160; M-190</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070137"></a>tnsc &#160;&#160;&#160;&#160; M-186</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070139"></a>btrapeta0 &#160;&#160;&#160;&#160; M-59</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070141"></a>dfp4 &#160;&#160;&#160;&#160; I-10</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070143"></a>lfp2 &#160;&#160;&#160;&#160; I-7</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070145"></a>trapmod &#160;&#160;&#160;&#160; M-52</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070147"></a>btraprd &#160;&#160;&#160;&#160; M-63</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070149"></a>dfp4 &#160;&#160;&#160;&#160; M-195</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070151"></a>lfp2 &#160;&#160;&#160;&#160; M-192</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070153"></a>trise &#160;&#160;&#160;&#160; I-14</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070155"></a>btraprs &#160;&#160;&#160;&#160; M-61</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070157"></a>dj &#160;&#160;&#160;&#160; M-152</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070159"></a>lfp3 &#160;&#160;&#160;&#160; I-9</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070161"></a>u0 &#160;&#160;&#160;&#160; M-5</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070163"></a>btrapvoff &#160;&#160;&#160;&#160; M-57</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070165"></a>ef &#160;&#160;&#160;&#160; M-185</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070167"></a>lfp3 &#160;&#160;&#160;&#160; M-194</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070169"></a>u0accd &#160;&#160;&#160;&#160; M-32</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070171"></a>cbbi &#160;&#160;&#160;&#160; OP-25</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070173"></a>epsilon &#160;&#160;&#160;&#160; M-3</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070175"></a>lfp4 &#160;&#160;&#160;&#160; I-11</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070177"></a>u0accs &#160;&#160;&#160;&#160; M-31</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070179"></a>cbdi &#160;&#160;&#160;&#160; OP-27</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070181"></a>eta0 &#160;&#160;&#160;&#160; M-13</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070183"></a>lfp4 &#160;&#160;&#160;&#160; M-196</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070185"></a>u0fp1 &#160;&#160;&#160;&#160; M-91</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070187"></a>cbdo &#160;&#160;&#160;&#160; M-137</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070189"></a>eta0fp1 &#160;&#160;&#160;&#160; M-95</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070191"></a>lsg &#160;&#160;&#160;&#160; M-35</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070193"></a>u0fp2 &#160;&#160;&#160;&#160; M-102</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070195"></a>cbgi &#160;&#160;&#160;&#160; OP-28</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070197"></a>eta0fp2 &#160;&#160;&#160;&#160; M-106</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070199"></a>m &#160;&#160;&#160;&#160; I-13</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070201"></a>u0fp3 &#160;&#160;&#160;&#160; M-113</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070203"></a>cbgo &#160;&#160;&#160;&#160; M-139</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070205"></a>eta0fp3 &#160;&#160;&#160;&#160; M-117</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070207"></a>meff &#160;&#160;&#160;&#160; O-2</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070209"></a>u0fp4 &#160;&#160;&#160;&#160; M-124</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070211"></a>cbsi &#160;&#160;&#160;&#160; OP-26</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070213"></a>eta0fp4 &#160;&#160;&#160;&#160; M-128</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070215"></a>mexpaccd &#160;&#160;&#160;&#160; M-34</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070217"></a>ua &#160;&#160;&#160;&#160; M-6</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070219"></a>cbso &#160;&#160;&#160;&#160; M-138</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070221"></a>eta0tr &#160;&#160;&#160;&#160; M-71</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070223"></a>mexpaccs &#160;&#160;&#160;&#160; M-33</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070225"></a>ub &#160;&#160;&#160;&#160; M-7</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070227"></a>cdbi &#160;&#160;&#160;&#160; OP-20</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070229"></a>fnmod &#160;&#160;&#160;&#160; M-180</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070231"></a>mz &#160;&#160;&#160;&#160; M-150</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070233"></a>ute &#160;&#160;&#160;&#160; M-11</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070235"></a>cddi &#160;&#160;&#160;&#160; OP-17</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070237"></a>fp1mod &#160;&#160;&#160;&#160; M-84</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070239"></a>nf &#160;&#160;&#160;&#160; I-3</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070241"></a>uted &#160;&#160;&#160;&#160; M-42</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070243"></a>cdgi &#160;&#160;&#160;&#160; OP-18</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070245"></a>fp2mod &#160;&#160;&#160;&#160; M-85</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070247"></a>nfactor &#160;&#160;&#160;&#160; M-17</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070249"></a>utes &#160;&#160;&#160;&#160; M-41</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070251"></a>cdlag &#160;&#160;&#160;&#160; M-53</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070253"></a>fp3mod &#160;&#160;&#160;&#160; M-86</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070255"></a>nfactorfp1 &#160;&#160;&#160;&#160; M-93</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070257"></a>vatrap &#160;&#160;&#160;&#160; M-77</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070259"></a>cdscd &#160;&#160;&#160;&#160; M-18</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070261"></a>fp4mod &#160;&#160;&#160;&#160; M-87</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070263"></a>nfactorfp2 &#160;&#160;&#160;&#160; M-104</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070265"></a>vbi &#160;&#160;&#160;&#160; M-146</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070267"></a>cdscdfp1 &#160;&#160;&#160;&#160; M-94</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070269"></a>gamma0fp1 &#160;&#160;&#160;&#160; M-97</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070271"></a>nfactorfp3 &#160;&#160;&#160;&#160; M-115</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070273"></a>vdisi &#160;&#160;&#160;&#160; OP-2</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070275"></a>cdscdfp2 &#160;&#160;&#160;&#160; M-105</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070277"></a>gamma0fp2 &#160;&#160;&#160;&#160; M-108</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070279"></a>nfactorfp4 &#160;&#160;&#160;&#160; M-126</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070281"></a>vdlr1 &#160;&#160;&#160;&#160; M-79</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070283"></a>cdscdfp3 &#160;&#160;&#160;&#160; M-116</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070285"></a>gamma0fp3 &#160;&#160;&#160;&#160; M-119</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070287"></a>ngcon &#160;&#160;&#160;&#160; I-12</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070289"></a>vdlr2 &#160;&#160;&#160;&#160; M-80</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070291"></a>cdscdfp4 &#160;&#160;&#160;&#160; M-127</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070293"></a>gamma0fp4 &#160;&#160;&#160;&#160; M-130</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070295"></a>ngcon &#160;&#160;&#160;&#160; M-188</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070297"></a>vdsatcv &#160;&#160;&#160;&#160; M-136</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070299"></a>cdscdtr &#160;&#160;&#160;&#160; M-70</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070301"></a>gamma0i &#160;&#160;&#160;&#160; M-19</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070303"></a>njgd &#160;&#160;&#160;&#160; M-47</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070305"></a>vdscale &#160;&#160;&#160;&#160; M-14</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070307"></a>cdsi &#160;&#160;&#160;&#160; OP-19</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070309"></a>gamma1fp1 &#160;&#160;&#160;&#160; M-98</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070311"></a>njgs &#160;&#160;&#160;&#160; M-46</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070313"></a>vdscalefp1 &#160;&#160;&#160;&#160; M-96</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070315"></a>cdso &#160;&#160;&#160;&#160; M-134</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070317"></a>gamma1fp2 &#160;&#160;&#160;&#160; M-109</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070319"></a>noia &#160;&#160;&#160;&#160; M-182</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070321"></a>vdscalefp2 &#160;&#160;&#160;&#160; M-107</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070323"></a>cfd &#160;&#160;&#160;&#160; M-141</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070325"></a>gamma1fp3 &#160;&#160;&#160;&#160; M-120</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070327"></a>noib &#160;&#160;&#160;&#160; M-183</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070329"></a>vdscalefp3 &#160;&#160;&#160;&#160; M-118</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070331"></a>cfg &#160;&#160;&#160;&#160; M-140</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070333"></a>gamma1fp4 &#160;&#160;&#160;&#160; M-131</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070335"></a>noic &#160;&#160;&#160;&#160; M-184</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070337"></a>vdscalefp4 &#160;&#160;&#160;&#160; M-129</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070339"></a>cfgd &#160;&#160;&#160;&#160; M-142</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070341"></a>gamma1i &#160;&#160;&#160;&#160; M-20</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070343"></a>ns0accd &#160;&#160;&#160;&#160; M-28</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070345"></a>vgisi &#160;&#160;&#160;&#160; OP-3</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070347"></a>cfgd0 &#160;&#160;&#160;&#160; M-144</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070349"></a>gatemod &#160;&#160;&#160;&#160; M-45</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070351"></a>ns0accs &#160;&#160;&#160;&#160; M-27</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070353"></a>voff &#160;&#160;&#160;&#160; M-4</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070355"></a>cfgdsm &#160;&#160;&#160;&#160; M-143</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070357"></a>gdsi &#160;&#160;&#160;&#160; OP-5</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070359"></a>pwr &#160;&#160;&#160;&#160; OP-36</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070361"></a>vofffp1 &#160;&#160;&#160;&#160; M-89</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070363"></a>cfp1scale &#160;&#160;&#160;&#160; M-168</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070365"></a>gdsmin &#160;&#160;&#160;&#160; M-187</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070367"></a>qbi &#160;&#160;&#160;&#160; OP-12</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070369"></a>vofffp2 &#160;&#160;&#160;&#160; M-100</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070371"></a>cfp2scale &#160;&#160;&#160;&#160; M-169</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070373"></a>gmbi &#160;&#160;&#160;&#160; OP-6</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070375"></a>qdi &#160;&#160;&#160;&#160; OP-10</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070377"></a>vofffp3 &#160;&#160;&#160;&#160; M-111</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070379"></a>cfp3scale &#160;&#160;&#160;&#160; M-170</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070381"></a>gmi &#160;&#160;&#160;&#160; OP-4</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070383"></a>qgi &#160;&#160;&#160;&#160; OP-9</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070385"></a>vofffp4 &#160;&#160;&#160;&#160; M-122</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070387"></a>cfp4scale &#160;&#160;&#160;&#160; M-171</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070389"></a>idio &#160;&#160;&#160;&#160; M-55</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070391"></a>qm0fp1 &#160;&#160;&#160;&#160; M-158</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070393"></a>vofftr &#160;&#160;&#160;&#160; M-69</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070395"></a>cgbi &#160;&#160;&#160;&#160; OP-16</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070397"></a>idisi &#160;&#160;&#160;&#160; OP-1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070399"></a>qm0fp2 &#160;&#160;&#160;&#160; M-161</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070401"></a>vsat &#160;&#160;&#160;&#160; M-8</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070403"></a>cgd &#160;&#160;&#160;&#160; OP-35</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070405"></a>igd &#160;&#160;&#160;&#160; OP-8</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070407"></a>qm0fp3 &#160;&#160;&#160;&#160; M-164</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070409"></a>vsataccs &#160;&#160;&#160;&#160; M-26</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070411"></a>cgdi &#160;&#160;&#160;&#160; OP-15</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070413"></a>igddio &#160;&#160;&#160;&#160; M-49</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070415"></a>qm0fp4 &#160;&#160;&#160;&#160; M-167</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070417"></a>vsatfp1 &#160;&#160;&#160;&#160; M-92</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070419"></a>cgdl &#160;&#160;&#160;&#160; M-135</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070421"></a>igs &#160;&#160;&#160;&#160; OP-7</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070423"></a>qm0i &#160;&#160;&#160;&#160; M-155</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070425"></a>vsatfp2 &#160;&#160;&#160;&#160; M-103</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070427"></a>cgdo &#160;&#160;&#160;&#160; M-133</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070429"></a>igsdio &#160;&#160;&#160;&#160; M-48</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070431"></a>qsi &#160;&#160;&#160;&#160; OP-11</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070433"></a>vsatfp3 &#160;&#160;&#160;&#160; M-114</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070435"></a>cggi &#160;&#160;&#160;&#160; OP-13</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070437"></a>imin &#160;&#160;&#160;&#160; M-21</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070439"></a>rd &#160;&#160;&#160;&#160; OP-32</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070441"></a>vsatfp4 &#160;&#160;&#160;&#160; M-125</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070443"></a>cgs &#160;&#160;&#160;&#160; OP-34</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070445"></a>iminfp1 &#160;&#160;&#160;&#160; M-88</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070447"></a>rdc &#160;&#160;&#160;&#160; M-38</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070449"></a>vtb &#160;&#160;&#160;&#160; M-82</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070451"></a>cgsi &#160;&#160;&#160;&#160; OP-14</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070453"></a>iminfp2 &#160;&#160;&#160;&#160; M-99</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070455"></a>rdlag &#160;&#160;&#160;&#160; M-54</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070457"></a>w &#160;&#160;&#160;&#160; I-2</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070459"></a>cgso &#160;&#160;&#160;&#160; M-132</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070461"></a>iminfp3 &#160;&#160;&#160;&#160; M-110</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070463"></a>rdsmod &#160;&#160;&#160;&#160; M-25</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070465"></a>wd &#160;&#160;&#160;&#160; M-78</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070467"></a>cj0 &#160;&#160;&#160;&#160; M-145</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070469"></a>iminfp4 &#160;&#160;&#160;&#160; M-121</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070471"></a>rgatemod &#160;&#160;&#160;&#160; M-177</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070473"></a>xgw &#160;&#160;&#160;&#160; M-178</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070475"></a>csbi &#160;&#160;&#160;&#160; OP-24</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070477"></a>isnoisy &#160;&#160;&#160;&#160; I-15</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070479"></a>rontr1 &#160;&#160;&#160;&#160; M-72</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070481"></a></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070483"></a>csdi &#160;&#160;&#160;&#160; OP-23</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070485"></a>k0accd &#160;&#160;&#160;&#160; M-30</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070487"></a>rontr2 &#160;&#160;&#160;&#160; M-73</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070489"></a></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070491"></a>csgi &#160;&#160;&#160;&#160; OP-22</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070493"></a>k0accs &#160;&#160;&#160;&#160; M-29</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070495"></a>rontr3 &#160;&#160;&#160;&#160; M-74</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070497"></a></pre>
+</td>
+</tr>
+</tbody></table>
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="Chap53.html" id="prev" title="UTSOI2 Model">UTSOI2 Model</a></em></b><b><em><a href="Chap55.html" id="nex" title="MVSG Model">MVSG Model</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

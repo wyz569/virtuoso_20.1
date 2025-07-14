@@ -1,0 +1,1497 @@
+;SKILL Language Functions
+("maeConvertAndCombineMultiADELToAssembler"
+"maeConvertAndCombineMultiADELToAssembler(
+l_stateList
+t_maestroLib
+t_maestroCell
+[ ?maestroView t_maestroView ]
+[ ?migrateFrom t_migrateFrom ]
+[ ?rootPath t_rootPath ]
+[ ?overwrite g_overwrite ]
+)
+=> l_cellviewDetails / nil"
+"Combines two or more ADE L states into one maestro cellview for ADE Assembler.")
+("maeMigrateADELStateToMaestro"
+"maeMigrateADELStateToMaestro(
+t_stateLib
+t_stateCell
+t_stateName
+[ ?maestroLib t_maestroLib ]
+[ ?maestroCell  t_maestroCell ]
+[ ?maestroView t_maestroView ]
+[ ?migrateFrom s_migrateFrom ]
+[ ?statePath t_statePath ]
+[ ?simulator t_simulator ]
+[ ?overwrite g_overwrite ]
+)
+=> l_cellviewDetails / nil"
+"Migrates the given ADE L state to a maestro cellview that can be opened in ADE Explorer.")
+("maeMigrateADEXLToMaestro"
+"maeMigrateADEXLToMaestro(
+t_stateLib
+t_stateCell
+t_stateName
+[ ?maestroLib t_maestroLib ]
+[ ?maestroCell  t_maestroCell ]
+[ ?maestroView t_maestroView ]
+[ ?overwrite g_overwrite ]
+[ ?skipHistory g_skipHistory ]
+)
+=> t / nil"
+"Migrates the given adexl view to a new maestro cellview that can be opened in ADE Assembler.")
+("maeAddOutput"
+"maeAddOutput(
+t_outputName
+t_testName
+[ ?outputType t_outputType ]
+[ ?signalName t_signalName ]
+[ ?expr t_expr ]
+[ ?plot g_plot ]
+[ ?save g_save ]
+[ ?quote g_quote ]
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Adds or updates an output for the given test in the currently active setup.")
+("maeCreateTest"
+"maeCreateTest(
+t_testName 
+[ ?sourceTest t_sourceTest ] 
+[ ?lib t_lib ] 
+[ ?cell t_cell ]
+[ ?view t_view ]
+[ ?simulator t_simulator ]
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Creates a new test and adds it to the given maestro session. If a source test name is given, it creates a copy of that test. If that is not given, creates a new blank test and sets the design name using the library, cell, and view name.")
+("maeCloseSession"
+"maeCloseSession(
+[ ?session t_sessionName ]
+[ ?forceClose g_forceClose ]
+)
+=> t / nil"
+"Closes the session that are opened using maeOpenSetup in the SKILL code. This function cannot be used to close the sessions opened from the Virtuoso user interface.")
+("maeConvertViewForReferencedAndLocalRunPlanCorners"
+"maeConvertViewForReferencedAndLocalRunPlanCorners(
+t_libName 
+t_cellName 
+t_viewName 
+)
+=> t / nil"
+"Converts all local and referenced corners created in cellviews saved using IC6.1.8 ISR9 or ICADVM18.1 ISR9 to referenced corners supported in earlier versions.")
+("maeConvertViewForIntegratedHistoryManagement"
+"maeConvertViewForIntegratedHistoryManagement(
+t_libName
+t_cellName
+t_viewName
+[ ?newLib t_newLibName ]
+[ ?newCell t_newCellName ]
+[ ?newView t_newViewName ]
+[ ?overwrite g_overwrite ]
+)
+=> t / nil"
+"Converts the enhanced maestro view, in which separate history management is enabled, to the previous format in which histories are integrated with the main setup database.")
+("maeConvertViewForSeparateHistoryManagement"
+"maeConvertViewForSeparateHistoryManagement(
+t_libName
+t_cellName
+t_viewName
+[ ?newLib t_newLibName ]
+[ ?newCell t_newCellName ]
+[ ?newView t_newViewName ]
+[ ?overwrite g_overwrite ]
+)
+=> t / nil"
+"Converts the maestro views in which history setup is integrated with the main setup database to an enhanced format in which separate history management is enabled.")
+("maeDeleteCorner"
+"maeDeleteCorner(
+t_cornerName
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Deletes the specified corner from the setup database.")
+("maeDeleteOutput"
+"maeDeleteOutput(
+t_outputName
+t_testName
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Deletes the specified output from the setup database.")
+("maeDeleteParameter"
+"maeDeleteParameter(
+t_parameterName
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Deletes the specified parameter from the setup database.")
+("maeDeleteVar"
+"maeDeleteVar(
+t_varName
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Deletes the specified variable from the setup database.")
+("maeExportSetupForExplorer"
+"maeExportSetupForExplorer(
+t_session
+)
+=> t / nil"
+"Displays the Save A Copy form in ADE Explorer, which you can use to save the current setup. It is a callback function.")
+("maeGetAnalysis"
+"maeGetAnalysis(
+t_testName
+t_analysis
+[ ?includeEmpty g_includeEmpty ]
+[ ?option t_option ]
+[ ?session t_sessionName ]
+)
+=> l_options / nil"
+"Returns a list containing name-value pairs of the options set for the given analysis. By default, the function returns only those options for which the value is not empty. If the g_includeEmpty argument is set to t, it returns all the options. You can also specify the name of a specific option for which you want to know the value.")
+("maeGetCurrentRunMode"
+"maeGetCurrentRunMode(
+[ ?session t_sessionName ]
+[ ?run t_runName ]
+[ ?Abbreviations g_abbreviation ]
+)
+=> t_runModeName / nil"
+"Returns the name of the run mode set in the given session or the given run.")
+("maeGetEnabledAnalysis"
+"maeGetEnabledAnalysis(
+t_testName
+[ ?session t_sessionName ]
+)
+=> l_analysisNames / nil"
+"Returns a list containing names of all the analyses enabled for the given test.")
+("maeGetEnvOption"
+"maeGetEnvOption(
+t_testName
+[ ?includeEmpty g_includeEmpty ]
+[ ?option t_option ]
+[ ?session t_sessionName ]
+)
+=> l_optionList / nil"
+"Returns a list containing name-value pairs for all the environment option for the given test. By default, it returns all the environment options whose value is not nil. If the includeEmpty argument is set to t, the function returns all the environment options. If a specific option is specified, it returns the value of only that option.")
+("maeGetExplorerTestName"
+"maeGetExplorerTestName(
+[ ?session t_sessionName ]
+)
+=> t_testName / nil"
+"Returns the name of the test opened in ADE Explorer. If you descend into ADE Explorer from ADE Assembler, use this function to get the name of the current test.")
+("maeGetJobPolicy"
+"maeGetJobPolicy(
+[ ?session t_sessionName ]
+[ ?testName t_testName ]
+[ ?jobType t_jobType ]
+)
+=> l_jobPolicyProperties / nil"
+"Returns the details of the job policy attached to the given test. If no test name is given, the function returns the policy attached to the current setup.")
+("maeGetJobPolicyByName"
+"maeGetJobPolicyByName(
+t_policyName
+[ ?session t_sessionName ]
+)
+=> l_jobPolicyProperties / nil"
+"Returns a disembodied property list containing property-value pairs for the given job policy.")
+("maeGetRunPlan"
+"maeGetRunPlan(
+[ ?session t_sessionName ]
+[ ?hitoryName t_historyName ]
+)
+=> l_runPlanNames / nil"
+"Returns a list of all the runs available in the run plan for the given session or history.")
+("maeGetSetup"
+"maeGetSetup(
+[ ?typeName t_typeName ]
+[ ?enabled g_enabled ]
+[ ?session t_sessionName ]
+)
+=> l_setupDetails / nil"
+"Returns the required setup details of variables, parameters, corners, and tests from the given session.")
+("maeGetSimOption"
+"maeGetSimOption(
+t_testName
+[ ?option t_optionName ]
+[ ?includeEmpty g_includeEmpty ]
+[ ?session t_sessionName ]
+)
+=> l_options / nil"
+"Returns a list containing name-value pairs for the simulator options for the given test. By default, it returns all the simulator options whose value is not nil. If the includeEmpty argument is set to t, it returns all the simulator options. If a specific option is specified, the function returns the value of only that option.")
+("maeGetSessions"
+"maeGetSessions()
+=> l_sessionNames / nil"
+"Returns a list of valid ADE Explorer or ADE Assembler sessions that are currently open.")
+("maeGetTestEnvVar"
+"maeGetTestEnvVar(
+t_testName
+t_varName
+[ ?session t_sessionName ] 
+)
+=> g_value / nil"
+"Returns the value of the specified environment variable for the given test. This function can be used to get the value set for a particular test using the maeSetTestEnvVar function.")
+("maeGetTestSession"
+"maeGetTestSession (
+t_testName
+[ ?session t_sessionName ] 
+)
+=> testSession / nil"
+"Returns session handle to the given test. You can use this handle to view or modify the test details.")
+("maeGetVar"
+"maeGetVar (
+t_varname
+[ ?typeName t_typeName ]
+[ ?typeValue t_typeValue ]
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Returns value of the given variable.")
+("maeImportSetupForExplorer"
+"maeImportSetupForExplorer(
+t_session
+)
+=> t / nil"
+"Displays the Import Setup form in ADE Explorer, which you can use to import a saved maestro cellview in the current setup. It is a callback function.")
+("maeIsSetupModified"
+"maeIsSetupModified(
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Checks whether the setup has been modified after the last time it was saved in the given maestro session.")
+("maeIsSingleTest"
+"maeIsSingleTest(
+t_libraryName 
+t_cellName 
+t_viewName
+)
+=> t / nil"
+"Returns t if the given cellview contains a single test or multiple tests.")
+("maeIsValidMaestroSession"
+"maeIsValidMaestroSession(
+t_sessionName 
+)
+=> t / nil"
+"Confirms if the given session is a valid session for ADE Explorer or ADE Assembler.")
+("maeLoadCorners"
+"maeLoadCorners(
+t_fileName 
+?operation t_operation
+?session t_session
+)
+=> t / nil"
+"Loads corners from the given file into the corner setup of the current session or the specified session.")
+("maeOpenSetup"
+"maeOpenSetup(
+t_libName
+t_cellName
+t_viewName
+[ ?application t_applicationName ]
+[ ?histName t_historyName ]
+[ ?mode t_mode ]
+)
+=> t_sessionName / nil"
+"Loads the given cellview and restores the setup details from the specified history. If no history name is specified, the active setup is loaded. If the specified view is already opened in the current Virtuoso session, it is not opened again. However, if the view is already open in some other Virtuoso session, it is opened in read mode in the current session. If the given cellview does not exist, the function creates a new cellview with the same name.")
+("maeLoadSetupState"
+"maeLoadSetupState(
+t_stateName
+[ ?tags l_tagNames ] 
+[ ?operation s_operationName ]
+[ ?session t_sessionName ])
+)
+=> t_sessionName / nil"
+"Loads the given setup state into the given session.")
+("maeLoadStateForTest"
+"maeLoadStateForTest(
+t_testName
+t_stateName
+[ ?session t_session ]
+[ ?loadFrom s_loadFrom ]
+[ ?statePath s_statePath ]
+[ ?libName t_libName ]
+[ ?cellName t_cellName ]
+[ ?simulator t_simulatorName ]
+[ ?component l_componentList ]
+)
+=> t_sessionName / nil"
+"Loads the saved ADE state for the given test.")
+("maeSaveSetup"
+"maeSaveSetup(
+[ ?lib t_libName ] 
+[ ?cell t_cellName ]
+[ ?view t_viewName ]
+[ ?session t_sessionName ])
+=> t / nil"
+"Saves the setup database file and test state files for the current session in the library, cell, view format. The behavior of this function is similar to File - Save. By default, the setup of the current cellview is saved. If the cellview was opened in the read-only mode, a new library, cell, and view value must be provided for which you need to save the setup details.")
+("maeStmConsolidateStimuli"
+"maeStmConsolidateStimuli(
+t_libName 
+t_cellName
+t_viewName
+?reportFile t_reportFile
+)
+=> t / nil"
+"Removes duplicate stimuli definitions from the given cellview. For this, ADE Explorer or ADE Assembler reviews each test in the cellview and if required, reassigns pins and globals by removing duplicates.")
+("maeStmGenerateWaveforms"
+"maeStmGenerateWaveforms(
+t_libName 
+t_cellName
+t_viewName
+[ ?test t_testName ]
+[ ?reportFile t_reportFile ]
+[ ?force g_force ]
+)
+=> t / nil"
+"Generates preview stimuli waveforms for the stimuli added for a maestro cellview that contains stimuli definitions added through the Stimuli Assignment form. These stimuli definitions are saved in <lib-name>/<cell-name>/<view-name>/namedStimuli/stimuli.xml file. The function examines each of the stimuli definitions for preview waveforms. If a stimuli definition has no associated preview waveform, or the waveform data is out of date, it generates a new SRR waveform data and saves it in the <project-dir>/<lib-name>/<cell-name>/<view-name>/namedStimuli directory.")
+("maeSaveSetupState"
+"maeSaveSetupState(
+t_stateName
+[ ?tags l_tagNames ] 
+[ ?inReadOnly s_readOnlyAction ]
+[ ?session t_sessionName ])
+=> t / nil"
+"Saves a setup state for the given session.")
+("maeSetAnalysis"
+"maeSetAnalysis(
+t_testName
+t_analysis
+[ ?enable g_enabled ]
+[ ?options l_options ]
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Adds an analysis or changes the enabled status of the specified analysis for the given test. The function can also be used to set the value of different options for the analysis.")
+("maeSetCorner"
+"maeSetCorner(
+t_cornerName
+[ ?enabled g_enabled ]
+[ ?enableTests l_enableTests ]
+[ ?disableTests l_disableTests ]
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Adds a new corner and enables/disables it for the given test.")
+("maeSetCurrentRunMode"
+"maeSetCurrentRunMode(
+[ ?session t_sessionName ]
+t_runModeName
+)
+=> t / nil"
+"Updates the current run mode in ADE Assembler.")
+("maeSetDesign"
+"maeSetDesign(
+t_testName
+t_libName
+t_cellName
+t_viewName
+[ ?session t_sessionName ]
+)
+=> t_testName / nil"
+"Sets a design for the given test. Use this function to change the design associated to a test.")
+("maeSetEnableTestVar"
+"maeSetEnableTestVar(
+t_testName
+l_variableNames
+[ ?enabled g_enabled ]
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Enables or disables the specified variables or local sweeps for the given test.")
+("maeSetEnvOption"
+"maeSetEnvOption(
+t_testName
+[ ?options l_options ]
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Sets values for one or more environment options for the given test.")
+("maeSetHistoryLock"
+"maeSetHistoryLock(
+t_historyName 
+g_lock
+[ ?session t_sessionName ])
+=> t / nil"
+"Locks or unlocks the given history in the given ADE Assembler session.")
+("maeSetParameter"
+"maeSetParameter(
+t_parameterName
+g_parameterValue
+[ ?typeName t_typeName ]
+[ ?typeValue l_typeValue ]
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Adds a new parameter at the global level or corner level. If the parameter already exists, updates its value.")
+("maeSetSpec"
+"maeSetSpec (
+t_outputName
+t_testName
+[ ?minimum g_minValue ]
+[ ?maximum g_maxValue ]
+[ ?gt g_greaterThanValue ]
+[ ?lt g_lessThanValue ]
+[ ?range g_rangeValues ]
+[ ?tolerance g_toleranceValue ]
+[ ?info g_info ]
+[ ?weight g_weightingFactor ]
+[ ?corner g_cornerName ]
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Adds a specification to an output defined for a test. You can also use this function to modify an existing specification for an output.")
+("maeSetJobPolicy"
+"maeSetJobPolicy (
+g_jobPolicyDPL
+[ ?testName t_testName ]
+[ ?jobType t_jobType ]
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Sets the given job policy to the specified setup for the given test.")
+("maeSetSetup"
+"maeSetSetup(
+[ ?tests l_testNames ]
+[ ?variables l_variables ]
+[ ?parameters l_params ]
+[ ?corners l_corners ]
+[ ?enabled g_enabled ]
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Enables or disables the tests, global variables, parameters, and corners.")
+("maeSetSimOption"
+"maeSetSimOption(
+t_testName 
+[ ?options l_options ]
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Sets values for the specified simulator options of the given test. Multiple options can be specified in a single command.")
+("maeSetTestEnvVar"
+"maeSetTestEnvVar(
+t_testName
+t_varName
+g_varValue
+[ ?session t_sessionName ]
+)
+=> t_value / nil"
+"Sets the value for the given environment variable at the test level. The value is used only by the specified test. Other tests in the session use the value set at the global level or specific values set for them, if any.")
+("maeSetVar"
+"maeSetVar(
+t_varname
+g_valValue
+[ ?typeName t_typeName ]
+[ ?typeValue l_typeValue ]
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Adds a variable to the given test or corner in the given ADE Explorer or ADE Assembler session. If the variable already exists, its value is updated.")
+("maeUpdateImplicitSignals"
+"maeUpdateImplicitSignals( 
+o_session 
+[?test t_name] 
+) 
+=> t / nil"
+"Updates the implicit signals for the tests in the specified maestro session.")
+("maeGetSimulationMessages"
+"maeGetSimulationMessages(
+[ ?session t_session ]
+[ ?msgType t_messageType ]
+)
+=> t_messages / nil"
+"Displays the error messages of the given type thrown during the simulating run.")
+("maeGetMappingForJobAndPoint"
+"maeGetMappingForJobAndPoint(
+[ ?session t_session ]
+)
+=> l_jobPointMapping / nil"
+"Returns a list containing the mapping of job IDs to the point IDs allocated to them for all the simulations run in the current ADE Explorer or ADE Assembler session. After starting a simulation run, you can use this information to debug incomplete simulations.")
+("maeOpenLogViewer"
+"maeOpenLogViewer(
+[ t_dbFilePath ]
+)
+=> t / nil"
+"Opens the Log Viewer window where you can view the messages loaded from a database.")
+("maeResumeSimulation"
+"maeResumeSimulation(
+[ ?session t_session ]
+)
+=> t / nil"
+"Resumes the simulations that were earlier suspended automatically by ADE Explorer or ADE Assembler according to the settings specified on the Resources tab of the Job Policy Setup form.")
+("maeRunSimulation"
+"maeRunSimulation(
+[ ?session t_sessionName ] 
+[ ?runMode t_runMode ]
+[ ?callback t_callback ]
+[ ?run t_runPlan ]
+[ ?waitUntilDone g_waitUntilDone ]
+[ ?returnRunId g_returnRunId ]
+)
+=> t_histname / x_runID / nil"
+"Sets the given run mode for the given session and runs simulation.")
+("maeStopSimulation"
+"maeStopSimulation(
+[ ?historyName l_historyNames ]
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Stops simulation runs for the given histories.")
+("maeSuspendSimulation"
+"maeSuspendSimulation(
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Suspends the simulation run for the specified maestro session. If not specified, the current simulation run is suspended.")
+("maeSetPreRunScript"
+"maeSetPreRunScript(
+t_scriptName
+[ ?tests l_testNames ]
+[ ?enabled g_enabled ]
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Sets the given script as a pre-run script for the given test and sets its status.")
+("maeSetRunOption"
+"maeSetRunOption(
+t_mode
+t_runOptionName
+t_runOptionValue
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Sets value for a run option.")
+("maeWaitUntilDone"
+"maeWaitUntilDone(
+g_historyNames 
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Specifies the names of history checkpoints for which the tool must wait before proceeding further.")
+("maeWriteScript"
+"maeWriteScript(
+t_fileName
+[ ?session t_session ]
+[ ?shouldRunActive g_shouldRunActive ] 
+[ ?runPlans l_runPlans ] 
+[ ?histories l_histories ] 
+)
+=> h_resultsDBObj / nil"
+"Creates a script with the specified setup details. This script can be run from the command line.")
+("maeClearAllTestJobPolicies"
+"maeClearAllTestJobPolicies(
+[ ?session t_session ]
+)
+=> t / nil"
+"Clears the test-level job policy setup for each test in the setup. The job policy setup at the global level is not removed.")
+("maeClearTestJobPolicy"
+"maeClearTestJobPolicy(
+t_testName
+[ ?session t_session ]
+)
+=> t / nil"
+"Clears the job setup of a given test and applies the global job setup.")
+("maeCreateNetlistForCorner"
+"maeCreateNetlistForCorner(
+t_testName
+t_cornerName 
+t_netlistDir
+[ ?session t_session ]
+)
+=> t / nil"
+"Generates a netlist for the specified corner. In case the setup contains a corner sweep, the netlist will be created for the first sweep point of the specified corner.")
+("maeGetAllJobPolicies"
+"maeGetAllJobPolicies(
+[ ?session t_session ]
+)
+=> l_jobPolicyNames / nil"
+"Returns the job policies of all the tests in the specified session.")
+("maeGetJobControlMode"
+"maeGetJobControlMode(
+[ ?session t_session ]
+)
+=> t_controlMode / nil"
+"Returns the job control mode currently set in the given session.")
+("maeHasTestJobPolicy"
+"maeHasTestJobPolicy(
+t_testName
+[ ?session t_session ]
+)
+=> t / nil"
+"Checks if the given test has a test-specific job policy setup.")
+("maeIsEvaluatorProcess"
+"maeIsEvaluatorProcess(
+[ ?session t_session ]
+)
+=> t / nil"
+"Returns t if currently the expression evaluator service process is running for ADE Assembler or ADE Explorer. You can use this function in your .cdsinit file or in custom SKILL code.")
+("maeIsNetlistProcess"
+"maeIsNetlistProcess(
+[ ?session t_session ]
+)
+=> t / nil"
+"Returns t if currently the netlister service process is running for ADE Assembler or ADE Explorer. You can use this function in your .cdsinit file or in custom SKILL code.")
+("maeSetJobControlMode"
+"maeSetJobControlMode
+t_mode(
+[ ?session t_session ]
+)
+=> t / nil"
+"Sets the job control mode in the given session.")
+("maeStopAllJobs"
+"maeStopAllJobs(
+[ ?jobType t_jobType ]
+[ ?force g_force ]
+[ ?session t_session ]
+)
+=> t / nil"
+"Stops all the simulation or netlisting jobs you started during the current session regardless of their state (started, getting configured, running).")
+("maeStopJob"
+"maeStopJob(
+[ ?jobType t_jobType ]
+[ ?force g_force ]
+)
+=> t / nil"
+"Stops the job for the specified job ID regardless of its state.")
+("getSimRunInfo"
+"getSimRunInfo(
+t_Type
+)
+=> s_Value/ nil"
+"Returns the value of the specified type of simulation information for a given ADE output expression by accessing the related psf directory.")
+("maeCloseResults"
+"maeCloseResults()
+=> t / nil"
+"Closes the results opened by the maeOpenResults function.")
+("maeDeleteSimulationData"
+"maeDeleteSimulationData(
+t_historyName
+?session t_sessionName
+?keepNetlist g_keepNetlist
+?keepQuickPlot g_keepQuickPlot
+)=> t / nil"
+"Deletes the simulation results data for the given history.")
+("maeExportOutputView"
+"maeExportOutputView(
+[ ?session t_sessionName ]
+[ ?fileName t_fileName ]
+[ ?view t_viewType ]
+[ ?history t_historyName ]
+[ ?testName t_testName ]
+[ ?filterName t_filterName ]
+[ ?clearAllFilters g_clearAllFilters ]
+)
+=> t / nil"
+"Exports the output or results view to the specified .csv or .html file.")
+("maeGetNBestDesignPoints"
+"maeGetNBestDesignPoints(
+[ ?count n_designPoints ]
+)
+=> l_bestDesignPoints / nil"
+"Returns the best n design points for the opened results.")
+("maeGetOutputValue"
+"maeGetOutputValue(
+t_outputName
+t_testName
+[ ?cornerName t_cornerName ]
+[ ?pointId x_pointId ]
+[ ?evalType t_evalType ]
+)
+=> x_value / nil"
+"Returns value of the given output.")
+("maeGetParamConditions"
+"maeGetParamConditions(
+x_designPointID 
+)
+=> l_designParamConditions / nil"
+"Returns the design parameter conditions for the given design point ID.")
+("maeGetParameter"
+"maeGetParameter(
+t_paramName
+[ ?typeName t_typeName ]
+[ ?typeValue t_typeValue ]
+[ ?session t_sessionName ]
+)
+=> t_value / nil"
+"Returns value of the given parameter for the given test or corner.")
+("maeGetResultOutputs"
+"maeGetResultOutputs(
+[ ?testName t_testName ]
+)
+=> l_outputNames / nil"
+"Returns the list of outputs for the opened result.")
+("maeGetResultTests"
+"maeGetResultTests()
+=> l_testNames / nil"
+"Returns the list of tests for the opened result.")
+("maeGetSpecStatus"
+"maeGetSpecStatus(
+t_outputName
+t_testName
+[ ?pointId n_pointId ]
+)
+=> t / nil"
+"Returns the specification status for the given output, test and point id.")
+("maeGetTestOutputs"
+"maeGetTestOutputs(
+t_testName
+[ ?session t_session ]
+)
+=> l_outputs / nil"
+"Returns the list of outputs for the specified test in the current session or a specific maestro session.")
+("maeGetOverallSpecStatus"
+"maeGetOverallSpecStatus(
+[ ?verbose verbose ]
+)
+=> t / nil"
+"Returns the overall specification status for the current history.")
+("maeGetOverallYield"
+"maeGetOverallYield(
+t_historyName
+[ t_sessionName ]
+)
+=> t / nil"
+"Returns the overall yield for the given history.")
+("maeImportHistory"
+"maeImportHistory(
+t_libName
+t_cellName
+t_viewName
+[ ?session t_sessionName ]
+[ ?history t_historyName ]
+[ ?copyPSF g_copyPSF ]
+[ ?overwrite g_overwrite ]
+)
+=> t / nil"
+"Imports the zip file for the given history from one cellview into the current cellview. You can import histories only for cellviews that use the separate history management feature. This feature is enabled by default in ICADVM20.1 and can be ena the bled in IC6.1.8 releases using the useSeparateHistoryFileManagement environment variable.")
+("maeOpenResults"
+"maeOpenResults(
+[ ?session t_sessionName ]
+[ ?history t_historyName ]
+[ ?run t_runName ]
+)
+=> t / nil"
+"Opens the result for the given history or run plan, and sets the result pointer to be used by other functions.")
+("maeReadResDB"
+"maeReadResDB(
+[ ?historyName t_historyName ] 
+[ ?session t_sessionName ] 
+[ ?run t_runName ]
+)
+=> h_resultsDBObj / nil"
+"Returns a handle to the results database for the given history.")
+("maeRestoreHistory"
+"maeRestoreHistory(
+t_histName
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Restores the given history as active setup. The active setup is replaced with the setup from the history being restored.")
+("maeWriteDatasheet"
+"maeWriteDatasheet(
+[ ?directory t_directory ]
+[ ?resultsSummary t_resultsSummary ]
+[ ?testsSummary t_testsSummary ]
+[ ?detailedResults g_detailedResults ]
+[ ?plots g_points ]
+[ ?designVarsSummary g_designVarsSummary ]
+[ ?paramsSummary g_paramsSummary ]
+[ ?cornersSummary g_cornersSummary ]
+[ ?setupSummary g_setupSummary ]
+[ ?launchBrowser g_launchBrowser ]
+[ ?name t_name ] 
+[ ?session t_sessionName ] 
+[ ?historyName t_historyName ] 
+)
+=> t / nil"
+"Writes the results for the given history in a datasheet.")
+("maeCloseViolationDb"
+"maeCloseViolationDb(
+x_dbId
+)
+=> t / nil"
+"Closes an open checks and asserts database using the database ID returned by maeOpenViolationDb.")
+("maeOpenViolationDb"
+"maeOpenViolationDb(
+t_sessionName
+t_testName
+t_historyName
+)
+=> x_dbId / nil"
+"Opens a connection to the checks and asserts database for the given maestro cellview and returns a unique ID for the connection. You can use this ID to read or modify the database and its attached waiver SQL database using other SKILL functions. You must close this connection using maeCloseViolationDb to release the connection and complete the transactions on the database.")
+("maeWaiveViolation"
+"maeWaiveViolation(
+x_dbId
+?objectName t_objectName
+?objectType t_objectType
+?checkerName t_checkerName
+?analysisName t_analysisName
+?time t_time
+?comment t_comment
+)
+=> t / nil"
+"Adds to the waivers SQL database a rule to waive a check and assert for the given object.")
+("maeUnWaiveViolation"
+"maeUnWaiveViolation(
+x_dbId
+?objectName t_objectName
+?objectType t_objectType
+?checkerName t_checkerName
+?analysisName t_analysisName
+?time t_time
+)
+=> t / nil"
+"Removes from the waivers SQL database a waive rule matching the given criteria.")
+("maeGetAllPlottingTemplates"
+"maeGetAllPlottingTemplates(
+[ ?session t_sessionName ] 
+)
+=> l_templates / nil"
+"Returns a list of all plotting templates saved in the given session.")
+("maePlotWithPlottingTemplate"
+"maePlotWithPlottingTemplate(
+[ ?session t_sessionName ] 
+[ ?history t_historyName ] 
+[ ?replaceMode t_replaceMode ] 
+[ ?name t_templateName ] 
+
+)
+=> l_windowsPlotted / nil"
+"Plots the results for the given history using the specified plotting template.")
+("maeSaveImagesUsingPlottingTemplate"
+"maeSaveImagesUsingPlottingTemplate(
+[ ?session t_sessionName ] 
+[ ?history t_historyName ] 
+[ ?replaceMode t_replaceMode ] 
+[ ?name t_templateName ] 
+[ ?dir t_dirPath ] 
+[ ?saveEachSubwindowSeparately t_saveEachSubwindowSeparately ] 
+)
+=> t / nil"
+"Plots and saves the results for the given history using the specified plotting template.")
+("maeSensDeleteModel"
+"maeSensDeleteModel(
+t_modelName
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Deletes the specified model from the setup for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensDeleteModelGroup"
+"maeSensDeleteModelGroup(
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Deletes all the model groups specified in the Model Groups setting on the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensDeleteParameter"
+"maeSensDeleteParameter(
+t_parameterName
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Deletes the specified parameter from the setup for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensDeleteVar"
+"maeSensDeleteVar(
+t_varName
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Deletes the specified variable from the setup for Sensitivity Analysis in the current or the specified maestro session. You can also use this function to delete the value for Temperature.")
+("maeSensEnableDesignVariation"
+"maeSensEnableDesignVariation(
+g_status
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Selects or clears the Enable Design and PVT Variation check box on the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensEnableStatVariation"
+"maeSensEnableStatVariation(
+g_status
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Selects or clears the Enable Variation of Statistical Parameters check box on the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensGetModel"
+"maeSensGetModel(
+t_modelName
+[ ?session t_sessionName ] 
+)
+=> l_modelDetails / nil"
+"Returns a list of valid values and the nominal value for the specified model from the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensGetModelGroup"
+"maeSensGetModelGroup(
+[ ?session t_sessionName ] 
+)
+=> l_modelGroupDetails / nil"
+"Returns a list of values specified in the Model Groups setting on the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensGetModels"
+"maeSensGetModels(
+[ ?session t_sessionName ] 
+)
+=> l_modelNames / nil"
+"Returns a list containing the names of all enabled models on the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensGetParameter"
+"maeSensGetParameter(
+t_parameterName
+[ ?session t_sessionName ] 
+)
+=> l_paramDetails / nil"
+"Returns a list of valid values and the nominal value for the specified parameter from the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensGetParameters"
+"maeSensGetParameters(
+[ ?session t_sessionName ] 
+)
+=> l_parameterNames / nil"
+"Returns a list of all enabled parameters on the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensGetVar"
+"maeSensGetVar(
+t_varName
+[ ?session t_sessionName ] 
+)
+=> l_varDetails / nil"
+"Returns a list of valid values and the nominal value for the specified global variable from the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensGetVars"
+"maeSensGetVars(
+[ ?session t_sessionName ] 
+)
+=> l_varNames / nil"
+"Returns a list containing the names of all enabled global variables, including Temperature, on the Sensitivity form for the Sensitivity Analysis run mode in the current or the specified maestro session.")
+("maeSensSetMethod"
+"maeSensSetMethod(
+t_methodName
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Sets the value in the Method field on the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensSetModel"
+"maeSensSetModel(
+t_modelName
+g_modelValue
+[ ?nominalValue g_nominalValue ] 
+[ ?session t_sessionName ] 
+[ ?modelTest t_modelTest ] 
+[ ?modelblock t_modelBlock ] 
+)
+=> t / nil"
+"Adds a model on the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensSetModelGroup"
+"maeSensSetModelGroup(
+g_modelGroupValue
+[ ?nominalValue g_nominalValue ] 
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Adds a model group on the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session.")
+("maeSensSetParameter"
+"maeSensSetParameter(
+t_parameterName
+g_parameterValue
+[ ?nominalValue g_nominalValue ] 
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Adds a parameter on the Sensitivity form for Sensitivity Analysis in the current or the specified maestro session. If a parameter already exists with the given name, its value is updated.")
+("maeSensSetVar"
+"maeSensSetVar(
+t_varName
+g_varValue
+[ ?nominalValue g_nominalValue ] 
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Adds a global variable to the run options for the Sensitivity Analysis run mode in the current or the specified maestro session. If a global variable already exists with the specified name, its value is updated. You can also use this function to change the value of Temperature.")
+("sevOpenXmlFile"
+"sevOpenXmlFile(
+t_stateFile
+)
+=> x_stateHandle / nil"
+"Opens the specified XML state file. If the specified file does not exist, this function creates a new file.")
+("sevConvertStateFormat"
+"sevConvertStateFormat(
+[ ?libs l_libs ]
+[ ?stateDir t_stateDir ]
+[ ?viewType t_viewType ]
+[ ?format t_format ]
+[ ?backup g_backup ]
+[ ?recover g_recover ]
+[ ?autoCheckin g_autoCheckin ]
+[ ?popUpWarnWin g_popUpWarnWin ]
+=> t / nil"
+"Translates all ADE XL states from normal to XML format in the current directory. This function can also be used to do translate a specific parameter set. You can use this function in the OCEAN script and perform the translation in a batch.")
+("sevCloseXmlFile"
+"sevCloseXmlFile(
+t_stateFile
+)"
+"Closes the specified XML state handle.")
+("sevWriteTable"
+"sevWriteTable(
+x_stateHandle
+S_componentName
+o_table
+[ ?partition l_partitions ]
+)
+=> t / nil"
+"Writes the component table in the specified XML state file.")
+("sevReadTable"
+"sevReadTable(
+x_stateHandle
+S_componentName
+o_table
+)
+=> x_stateHandle / nil"
+"Returns the component table from the specified XML state file.")
+("sevWriteValue"
+"sevWriteValue(
+x_stateHandle 
+t_componentName
+t_attributeName
+t_compValue
+)
+=> t / nil"
+"Writes a XML component value in the specified XML state file.")
+("sevReadValue"
+"sevReadValue(
+x_stateHandle 
+t_componentName
+t_attributeName
+)
+=> t_compValue / nil"
+"Reads the value of an XML component from the specified XML state file.")
+("maeGetMTSMode"
+"maeGetMTSMode(
+t_testName
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Indicates whether the locally scoped models and options (MTS options) are enabled for the specified test.")
+("maeSetMTSMode"
+"maeSetMTSMode(
+t_testName
+[ ?session t_sessionName ]
+[ @rest g_mtsMode ]
+)
+=> t / nil"
+"Enables the locally scoped models and options (MTS options) for the specified test.")
+("maeGetMTSBlock"
+"maeGetMTSBlock(
+t_testName
+[ ?lib t_lib ]
+[ ?cell t_cell ]
+[ ?inst t_instName ]
+[ ?type t_type ]
+[ ?session t_sessionName ]
+)
+=> l_mtsBlockInformation / nil"
+"Returns the requested MTS-related information about the specified library cell (block) or the instance.")
+("maeSetMTSBlock"
+"maeSetMTSBlock(
+t_testName
+[ ?lib t_lib ]
+[ ?cell t_cell ]
+[ ?inst t_instName ]
+[ ?enable g_enable ]
+[ ?modelFiles l_modelFiles ]
+[ ?simOptions l_simOptions ]
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Enables local scoping for the specified library cell (block) or instance and sets the specified MTS options-models files to be scoped locally and the process parameters, such as scale and temp to be included in the simulation locally.")
+("calcValForRel"
+"calcValForRel(
+t_outputName
+[ ?relxName t_relxName ]
+[ ?ageValue t_ageValue ]
+[ ?ageUnit t_ageUnit ]
+[ ?she g_she ]
+[ ?cornerName t_cornerName ]
+[ ?historyName t_historyName ]
+[ ?run t_runName]
+)
+=> g_output / nil"
+"Retrieves the value of an output expression used in a reliability setup. You can use the value returned by this function in another output expression.")
+("maeGetStressFile"
+"maeGetStressFile(
+t_relxSetupName
+[ ?cornerName t_cornerName ]
+[ ?historyName t_historyName ]
+[ ?run t_runName ]
+[ ?matchParams l_matchParams ]
+)
+=> t_output / nil"
+"Returns the path of the stress file to be reused from the specified reliability setup.")
+("relxEnableFormTab"
+"relxEnableFormTab(
+r_formObject
+t_tabName
+g_enableBoolean
+)
+=> t / nil"
+"Enables or disables the specified tab in the Reliability Options form.")
+("relxDisplayDiscField"
+"relxDisplayDiscField(
+r_formObject
+t_disclosureName
+g_displaybleBoolean
+)
+=> t / nil"
+"Shows or hides the specified disclosure in the Reliability Options form.")
+("relxEnableDiscField"
+"relxEnableDiscField(
+r_formObject
+t_disclosureName
+g_enableBoolean
+)
+=> t / nil"
+"Enables or disables the specified disclosure in the Reliability Options form.")
+("relxHideAgeCalculationApproachField"
+"relxHideAgeCalculationApproachField(
+r_formObject
+)
+=> t"
+"Hides the Age Calculation Approach field from the Modeling tab in the Reliability Options form.")
+("relxGetCustomTabName"
+"relxGetCustomTabName(
+)
+=> t_customTabName"
+"Returns the name of the custom tab.")
+("relxCustomizeDisplayOrEnableStatus"
+"relxCustomizeDisplayOrEnableStatus(
+r_formObject
+)
+=> t"
+"Defines the display and enable status of the disclosures, fields, and tabs.")
+("relxCreateCustomizedTab"
+"relxCreateCustomizedTab(
+s_formSymbol
+)
+=> nil"
+"Adds a customized tab to the Reliability Options form.")
+("relxAddSetupRelxOption"
+"relxAddSetupRelxOption (
+[ ?name s_name ]
+[ ?type s_type ]
+[ ?prompt t_prompt ]
+[ ?choices l_choices ]
+[ ?value g_value ]
+[ ?display g_display ]
+[ ?enabled g_enabled ]
+[ ?onFields l_onFields ]
+[ ?buttonLocation s_buttonLocation ]
+[ ?callback t_callback ]
+[ ?defValue g_defValue ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?items l_items ]
+[ ?frame g_frame ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?scrollable g_scrollable ]
+[ ?tooltip t_tooltip ]
+[ ?spacing x_spacing ]
+[ ?discLayout s_discLayout ]
+[ ?buttonIcon g_buttonIcon ]
+)
+=> r_fieldHandle"
+"Adds new fields to the Reliability Options form.")
+("asiFormatSpecialParameterForRel"
+"asiFormatSpecialParameterForRel(
+o_oasisSession
+p_fp
+)
+=> t"
+"Netlists the new options added to the customized tab.")
+("relxInitOptionsInCdsenv"
+"relxInitOptionsInCdsenv(
+o_tool
+)
+=> nil"
+"Creates environment variables for the customized options added to the Reliability Options form..")
+("maeAddFaultRule"
+"maeAddFaultRule(
+[ ?session t_sessionName ] 
+[ ?faultType t_faultType ] 
+[ ?resistance t_resistance ] 
+[ ?weightExpr t_weightExpr ] 
+[ ?weightFactor t_weightFactor ] 
+[ ?inst t_instance ] 
+[ ?excludeInst t_excludeInst ] 
+[ ?excludeSubckt t_excludeSubckt ] 
+[ ?faultDevices t_faultDevices ] 
+[ ?pinNames t_pinNames ] 
+[ ?extraOptions t_extraOptions ]
+[ ?useNetlistSyntax g_useNetlistSyntax ]
+[ ?enableIEEE2427Mode g_enableIEEE2427Mode ]
+[ ?enableFaultCollapse g_enableFaultCollapse ]
+)
+=> t / nil"
+"Creates a new fault rule with the given set of properties.")
+("maeAddFaultsToFaultGroup"
+"maeAddFaultsToFaultGroup(
+[ ?session t_sessionName ]
+[ ?faultsName l_faultsName ]
+[ ?faultGroupsName l_faultGroupsName ]
+)
+=> t / nil"
+"Adds the given faults to one or more fault groups.")
+("maeClearExistingFaultsForRevalidation"
+"maeClearExistingFaultsForRevalidation(
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Clears the cache for all fault rules that exist in the active fault setup.")
+("maeCreateOrRenameFaultGroup"
+"maeCreateOrRenameFaultGroup(
+t_newGroupName
+[ ?oldGroupName t_oldGroupName ]
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Creates or renames a group with the specified name in the active fault setup.")
+("maeDeleteFaultGroup"
+"maeDeleteFaultGroup(
+t_groupName
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Deletes the specified fault group from the active fault setup.")
+("maeDeleteFaultRule"
+"maeDeleteFaultRule(
+t_faultRuleName
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Deletes the specified fault rule from the active fault setup.")
+("maeEditFaultRule"
+"maeEditFaultRule(
+t_faultRuleName
+[ ?session t_sessionName ] 
+[ ?resistance t_resistance ] 
+[ ?weightExpr t_weightExpr ] 
+[ ?weightFactor t_weightFactor ] 
+[ ?inst t_instance ] 
+[ ?excludeInst t_excludeInst ] 
+[ ?excludeSubckt t_excludeSubckt ] 
+[ ?faultDevices t_faultDevices ] 
+[ ?pinNames t_pinNames ] 
+[ ?extraOptions t_extraOptions ]
+[ ?useNetlistSyntax g_useNetlistSyntax ]
+[ ?enableIEEE2427Mode g_enableIEEE2427Mode ]
+[ ?enableFaultCollapse g_enableFaultCollapse ]
+)
+=> t / nil"
+"Edits the given fault rule by changing the specified properties.")
+("maeEnableFaults"
+"maeEnableFaults(
+[ ?session t_sessionName ]
+[ ?groupNamesList l_groupNamesList ]
+[ ?ruleNamesList l_ruleNamesList ]
+[ ?enable g_enable ]
+[ ?enableAll g_enableAll ]
+[ ?disableAll g_disableAll ]
+)
+=> list(libName cellName viewName) / nil"
+"Enables or disables the given fault rules and groups.")
+("maeGetDUTForFaults"
+"maeGetDUTForFaults(
+[ ?session t_sessionName ]
+)
+=> l_LCVDetails/ nil"
+"Returns a list containing the library, cell, and view name of the design under test in the active fault setup.")
+("maeGetFaultGroups"
+"maeGetFaultGroups(
+[ ?session t_sessionName ]
+)
+=> l_faultGroupNames/ nil"
+"Returns a list of fault groups that exist in the active fault setup.")
+("maeGetFaultGroupToRun"
+"maeGetFaultGroupToRun(
+[ ?session t_sessionName ] 
+)
+=> t_faultGroupToRun / nil"
+"Returns the name of the fault group selected for the fault simulation run.")
+("maeGetFaultRule"
+"maeGetFaultRule(
+[ faultRuleName t_faultRuleName]
+[ ?session t_sessionName ] 
+)
+=> l_faultRule / nil"
+"Returns the properties set for the fault rule with the given name.")
+("maeGetFaultRules"
+"maeGetFaultRules(
+[ ?session t_sessionName ] 
+)
+=>l_faultRuleNames / nil"
+"Returns a list of the names of fault rules in the fault setup.")
+("maeGetFaultRunModeOptions "
+"maeGetFaultRunModeOptions(
+[ ?session t_sessionName ] 
+[ ?faultAnalysisType t_faultAnalysisType ] 
+)
+=> l_runModeOptions / nil"
+"Retrieves the run options for the fault simulation.")
+("maeGetFaults"
+"maeGetFaults(
+[ ?session t_sessionName ] 
+[ ?activeGroupToRun g_activeGroupToRun ] 
+[ ?faultRuleName t_faultRuleName ] 
+[ ?groupName t_groupname ]
+)
+=> t_faultsFileName / nil"
+"Runs Spectre info analysis to generate the faults for the specified fault group or fault rule. The generated faults are saved in a file. To view the generated faults, you can either open the file or use the Preview Faults commands in the Fault Setup assistant.")
+("maeGetFaultSamplingOptions"
+"maeGetFaultSamplingOptions(
+[ ?session t_sessionName ] 
+)
+=> l_samplingOptions / nil"
+"Returns the sampling options set for fault simulation.")
+("maeGetGlobalFaultOptions"
+"maeGetGlobalFaultOptions(
+[ ?session t_sessionName ] 
+)=> l_globalOptions / nil"
+"Returns the global fault options set in the Virtuoso ADE Fault Setup Global Preferences form. These options are applicable to all faults unless overridden in individual faults or fault rules.")
+("maeRunFaultSimulationWithFaultDroppingForActiveTests"
+"maeRunFaultSimulationWithFaultDroppingForActiveTests(
+[ ?session t_sessionName ] 
+)
+=> t_historyName / nil"
+"Runs the fault dropping flow in batch mode for the enabled tests in the given session.")
+("maeSetDUTForFaults"
+"maeSetDUTForFaults(
+t_libName 
+t_cellName 
+t_viewName 
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Sets the specified design under test for the fault setup.")
+("maeSetFaultAnalysisType "
+"maeSetFaultAnalysisType(
+[ ?analysisType t_analysisType ]
+[ ?session t_sessionName ]
+)
+=> t / nil"
+"Sets the analysis type for the fault simulation run mode.")
+("maeSetFaultDFARunModeOptions "
+"maeSetFaultDFARunModeOptions(
+[ ?session t_sessionName ] 
+[ ?extraOptions t_extraOptions ] 
+[ ?runNominal g_runNominal ] 
+)
+=> t / nil"
+"Sets the run mode options for the Direct Fault Analysis (DFA) to be run for fault simulation.")
+("maeSetFaultSamplingOptions"
+"maeSetFaultSamplingOptions(
+[ ?session t_sessionName ] 
+[ ?enableSampling g_enableSampling ] 
+[ ?samplingMethod t_samplingMethod ] 
+[ ?sampleByNumOrRatio t_sampleByNumOrRatio ] 
+[ ?sampleNum t_sampleNum ] 
+[ ?sampleRatio t_sampleRatio ] 
+[ ?seedValue t_seedValue ] 
+[ ?confidenceValue t_confidenceValue ] 
+)
+=> t / nil"
+"Sets the sampling options for the fault setup.")
+("maeSetFaultTFARunModeOptions "
+"maeSetFaultTFARunModeOptions (
+[ ?session t_sessionName ] 
+[ ?extraOptions t_extraOptions ] 
+[ ?simulationMethod t_simulationMethod ] 
+[ ?maxIterations t_maxIterations ] 
+[ ?leadTime t_leadTime ] 
+[ ?faultPointsMethod t_faultPointsMethod ] 
+[ ?faultTimePoints g_faultTimePoints ] 
+[ ?start_step_stop l_start_step_stop ] 
+)
+=> t / nil"
+"Sets the run mode options for Transient Fault Analysis to be run for fault simulation.")
+("maeSetGlobalFaultOptions"
+"maeSetGlobalFaultOptions (
+[ ?session t_sessionName ] 
+[ ?defaultBridgeResistance t_defaultBridgeResistance ] 
+[ ?defaultOpenResistance t_defaultOpenResistance] 
+[ ?defaultStuckAtResistance t_defaultStuckAtResistance ] 
+[ ?stuckAtGround t_stuckAtGround ] 
+[ ?stuckAtSupply t_stuckAtSupply ] 
+[ ?defaultWeightExpr t_defaultWeightExpr ] 
+[ ?defaultWeightFactor t_defaultWeightFactor ] 
+[ ?defaultIndividualFaultWeight t_defaultIndividualFaultWeight ] 
+[ ?applyFaultCollapsing t_applyFaultCollapsing ] 
+)
+=> t / nil"
+"Sets global preferences for fault simulations.")
+("maeGetCurrentRunPlanName"
+"maeGetCurrentRunPlanName(
+)
+=> t_runPlanName"
+"Returns the name of the current run plan getting executed.")
+("maeGetEnabledRuns"
+"maeGetEnabledRuns(
+[ ?session t_sessionName ] 
+)
+=> l_enabledRuns / nil"
+"Returns a list of run IDs for the enabled runs in the run plan.")
+("maeGetHistoryNameForCurrentRunInRunPlan"
+"maeGetHistoryNameForCurrentRunInRunPlan(
+)
+=> t_historyName / nil"
+"Returns the history name for the current run in the run plan.")
+("maeGetNumberOfExecutedRuns"
+"maeGetNumberOfExecutedRuns(
+[ ?session t_sessionName ] 
+[ ?runPlanName t_runPlanName ] 
+)
+=>x_runsCompleted"
+"Returns the number of runs executed in the flow. It only counts a run that has been completed, partial runs are not included. This is exclusive for the fault dropping flow.")
+("maeGetNumberOfUndetectedFaultsFromHistory"
+"maeGetNumberOfUndetectedFaultsFromHistory(
+[ ?session t_sessionName ] 
+[ ?historyName t_historyName ] 
+)
+=> l_UDFaults / nil"
+"Returns the list of undetected faults for the history provided.")
+("maeIsFinalRunCompleted"
+"maeIsFinalRunCompleted(
+[ ?session t_sessionName ] 
+)
+=> t / nil"
+"Checks if the current run is the last run executed in run plan. A run is said to be the last run if either no further runs exist in the run plan or no undetected faults are found in the current run.")
+("maeIsFirstRunInRunPlan"
+"maeIsFirstRunInRunPlan(
+[ ?session t_sessionName ] 
+[ ?historyName t_historyName ] 
+)
+=> t / nil"
+"Checks if the current run is the first run executed in run plan. Implemented exclusively for the fault dropping flow.")
+("maeMergeFaultHistories"
+"maeMergeFaultHistories(
+[ ?session t_sessionName ] 
+[ ?historiesToMerge l_historiesToMerge ] 
+[ ?finalHistoryName t_finalHistoryName ] 
+[ ?logFile t_logFile ] 
+)
+=> t/ nil"
+"Merges fault histories into one.")
+("maePrintFaultDroppingStatistics"
+"maePrintFaultDroppingStatistics(
+[ ?session t_sessionName ] 
+[ ?historiesName l_historiesName ] 
+[ ?logFile t_logFile ] 
+)
+=> t"
+"Prints the formatted results obtained after execution of the fault dropping flow. It also writes the same to the log file in the current work directory. This is exclusive for the fault dropping flow.")
+("maeSaveFaultsRunCount"
+"maeSaveFaultsRunCount(
+[ ?session t_sessionName ]
+[ ?faultsCount x_faultsCount ]
+)
+=> x_faultsCount"
+"Saves the faults count globally for further use. If a fault count already exists, it adds the provided value to the existing value. This is exclusive for the fault dropping flow.")
+("maeSwitchActiveFaultGroupForCurrentRun"
+"maeSwitchActiveFaultGroupForCurrentRun(
+t_historyName 
+)
+=> t / nil"
+"Sets the fault group to run for the current run in run plan. This is exclusive to the fault dropping flow.")
+("maeSetFaultGroupToRun"
+"maeSetFaultGroupToRun(
+[ ?session t_sessionName ] 
+[ ?faultGroupToRun t_faultGroupToRun ] 
+)
+=> t / nil"
+"Sets the fault group to run for the active fault setup.")

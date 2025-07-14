@@ -1,0 +1,1240 @@
+;SKILL Language Functions
+("verifAddReq"
+"verifAddReq(
+g_sessionId
+t_title
+[ ?reqId t_reqId ]
+[ ?parentId t_parentId ]
+[ ?pos x_pos ]
+)
+=> t / nil"
+"Adds a new requirement with the title to the specified Verifier session.")
+("verifMoveReq"
+"verifMoveReq(
+g_sessionId
+t_reqId
+[ ?parentReqId g_parentReqId ]
+[ ?itemIndex x_itemIndex ]
+)
+=> t / nil"
+"Changes the position of a requirement in the specified Verifier session.")
+("verifRemoveReq"
+"verifRemoveReq(
+g_sessionId
+g_reqId
+)
+=> t / nil"
+"Deletes one single requirement or a list of requirements in a Verifier session.")
+("verifDeleteReqSignoff"
+"verifDeleteReqSignoff(
+g_sessionId
+[ ?reqId g_reqId ]
+)
+=> t / nil"
+"Deletes the signoff setup of the specified requirement in a Verifier session.")
+("verifGetReqSignoff"
+"verifGetReqSignoff(
+g_sessionId
+t_reqId
+)
+=> l_reqSignoff / nil"
+"Retrieves the signoff setup of the specified requirement in a Verifier session. The retrieved information includes the name of the person who signed off the signoff validity period, comments, and if the signoff is enabled for use or disabled.")
+("verifSignOffReq"
+"verifSignOffReq(
+g_sessionId
+[ ?reqId g_reqId ]
+[ ?userName t_userName ]
+[ ?lifetime t_lifetime ]
+[ ?expDate t_expDate ]
+[ ?comments t_comments ]
+[ ?disableState g_disableState ]
+)
+=> t / nil"
+"Signs off the specified requirements using the provided information in a Verifier session. You can sign off the requirements that have the verification type 'Manual' or the requirements that failed verification (the overall status of requirement is 'Fail', 'Not Mapped', 'Spec Check Fail', 'Signoff Required' or 'Signed Off').")
+("verifGetReqs"
+"verifGetReqs(
+g_sessionId
+[ ?type t_type ]
+[ ?owner t_owner ]
+[ ?inHier t_parentReqId ]
+[ ?mappable g_mappable ]
+[ ?mapped g_mapped ]
+[ ?domain g_domain ]
+)
+=> l_reqs / nil"
+"Retrieves the list of requirements from a Verifier session that have the same type, owner, hierarchy, mappable or mapped property, and domain as specified.")
+("verifGetReqParent"
+"verifGetReqParent(
+g_sessionId
+t_reqId
+)
+=> t_parentReqId / nil"
+"Returns the ID of the parent of the specified requirement.")
+("verifGetReqProp"
+"verifGetReqProp(
+g_sessionId
+t_reqId
+t_propName
+)
+=>t_propValue / nil"
+"Returns the value of the specified property of a requirement in a Verifier session.")
+("verifGetReqProps"
+"verifGetReqProps(
+g_sessionId
+t_reqId
+)
+=>o_reqProps / nil"
+"Returns all the properties of a requirement in a Verifier session.")
+("verifGetReqStatus"
+"verifGetReqStatus(
+g_sessionId
+t_reqId
+)
+=> t_status / nil"
+"Returns the overall status of a requirement in a Verifier session.")
+("verifGetReferencedCellViews"
+"verifGetReferencedCellViews(
+g_sessionId
+)
+=> l_referencedCellViews | nil"
+"Returns a list of all the referenced Verifier cellviews that can be associated with the specified session. If no referenced Verifier cellviews are defined, nil is returned.")
+("verifCreateRandomId"
+"verifCreateRandomId(
+[ ?idLength x_idLength ]
+[ ?prefix t_prefix ]
+[ ?suffix t_suffix ]
+)
+=> t_id"
+"Creates a string of random characters that can be used as a unique requirement ID.")
+("verifSetReqId"
+"verifSetReqId(
+g_sessionId
+t_reqId
+t_newReqId
+)
+=> t / nil"
+"Sets the ID property for the specified requirement.")
+("verifSetReqTitle"
+"verifSetReqTitle(
+g_sessionId
+t_reqId
+t_newTitle
+)
+=> t / nil"
+"Sets the ID property for the specified requirement.")
+("verifSetReqType"
+"verifSetReqType(
+g_sessionId
+t_redId
+t_newType
+)
+=> t / nil"
+"Sets the 'Type' property for the specified requirement in a Verifier session.")
+("verifSetReqCellviewHolder"
+"verifSetReqCellviewHolder(
+g_sessionId
+t_reqId
+g_owned
+)
+=> t / nil"
+"If g_owned is specified, sets the 'Cellview Holder' property of specified requirement to current Verifier cellview, else clears the value of the property.")
+("verifSetReqProp"
+"verifSetReqProp(
+g_sessionId
+t_reqId
+t_propertyName
+t_propertyValue
+)
+=> t / nil"
+"Sets the property for the specified requirement.")
+("verifExportReqsToFile"
+"verifExportReqsToFile(
+g_sessionId
+t_fileName
+[ ?fileType t_fileType ]
+[ ?fields t_fields ]
+)
+=> t / nil"
+"Exports the requirements to either an Excel or CSV file. Can also export the results imported file.")
+("verifGetImportedFiles"
+"verifGetImportedFiles(
+g_sessionId
+)
+=> l_importedFiles / nil"
+"Returns a list of all imported files that are associated with the specified session. If no imported files have been defined, nil is returned.")
+("verifImportFile"
+"verifImportFile(
+g_sessionId
+t_fileName
+[ ?fileType t_fileType ]
+[ ?headerRows x_headerRows ]
+[ ?columnHeaders l_columnHeaders ]
+[ ?sheetNames l_sheet_Names ]
+[ ?ignoreInavalidRows g_ignoreInvalidRows ]
+)
+=>t / nil"
+"Imports the requirements from a CSV or Excel file into a Verifier session. You can import requirements by referencing them or by copying them from the file.")
+("verifCompareImportedFiles"
+"verifCompareImportedFiles(
+g_sessionId
+l_files
+)
+=> t / nil"
+"Compares the requirements from the Verifier session with the requirements from the imported files.")
+("verifMergeImportedFiles"
+"verifMergeImportedFiles(
+g_sessionId
+l_files
+[ ?interactive g_interactive ]
+)
+=> t / nil"
+"Merges the requirements from the Verifier session with the requirements from the imported files. If differences exist, the Compare and Merge form is displayed.")
+("verifExportJson"
+"verifExportJson(
+g_sessionId
+[ ?filename t_filename ]
+[ ?compact g_compact ]
+)
+=> t_filename / nil"
+"Exports the Verifier session as a json file. The json file contains details about the session, including the requirements, implementations, mappings, and simulation results.")
+("verifSetCustomFieldValue"
+"verifSetCustomFieldValue(
+g_sessionId
+t_fieldName
+t_fieldValue
+)
+=> l_set / nil"
+"Sets the value of a custom field in a Verifier session.")
+("verifSetReqCustomFieldValue"
+"verifSetReqCustomFieldValue(
+g_sessionId
+t_reqId
+t_fieldName
+t_fieldValue
+)
+=> t / nil"
+"Sets the custom field value of the specified requirement in a Verifier session.")
+("verifGetCustomFieldNames"
+"verifGetCustomFieldNames(
+g_sessionId
+)
+=> l_fieldList / nil"
+"Retrieves a list of custom field names for a Verifier session.")
+("verifGetCustomFieldValue"
+"verifGetCustomFieldValue(
+g_sessionId
+t_fieldName
+)
+=> l_fieldvalue / nil"
+"Retrieves the value of a custom field available in a Verifier session.")
+("verifGetReqCustomFieldNames"
+"verifGetReqCustomFieldNames(
+g_sessionId
+)
+=> l_fieldList / nil"
+"Retrieves the list of the custom fields available to the requirements in a Verifier session.")
+("verifGetReqCustomFieldValue"
+"verifGetReqCustomFieldValue(
+g_sessionId
+t_reqId
+t_fieldName
+)
+=> l_fieldValue / nil"
+"Retrieves the value of the specified custom field of a requirement in a Verifier session.")
+("verifCreateVPlan"
+"verifCreateVPlan(
+g_sessionId
+t_fileName
+)
+=> t / nil"
+"Creates a vPlan file (*.vplanx) for specified Verifier session that is connected to the vManager server.")
+("verifCreateVsifScript"
+"verifCreateVsifScript(
+g_sessionId
+t_vsifFileName
+[t_batchFileName]
+)
+=> t / nil"
+"Creates a Verification Simulation Input File (*.vsif) and batch script file for the specified Verifier session that is connected to the vManager server. This allows running Verifier from vManager.")
+("verifDownloadFromVManager"
+"verifDownloadFromVManager(
+g_sessionId
+?g_waitUntilDone waitUntilDone
+?t_action action
+)
+=> t / nil"
+"Downloads the data from specified vPlan file through vManager server.")
+("verifGetVManager"
+"verifGetVManager(
+g_sessionId
+[g_addDetails]
+)
+=> l_settings / nil"
+"Retrieves the vManager settings from the specified Verifier session.")
+("verifGetVManagerProjects"
+"verifGetVManagerProjects(
+g_sessionId
+)
+=> l_projects / nil"
+"Retrieves a list of projects from vManager server that are configured in the specified Verifier session.")
+("verifIsVManagerConnected"
+"verifIsVManagerConnected(
+g_sessionId
+)
+=> t / nil"
+"Checks if the Verifier session is connected to the vManager server.")
+("verifIsVManagerEnabled"
+"verifIsVManagerEnabled(
+g_sessionId
+)
+=> t / nil"
+"Checks if vManager is enabled in the specified Verifier session.")
+("verifPostResultsToVManager"
+"verifPostResultsToVManager(
+g_sessionId
+[t_vmSessionName]
+)
+=> t / nil"
+"Posts the verification results of a simulation to the specified vManager session.")
+("verifRemoveVManager"
+"verifRemoveVManager(
+g_sessionId
+)
+=> t / nil"
+"Remove all the vManager settings from the specified Verifier session.")
+("verifSetVManager"
+"verifSetVManager(
+g_sessionId
+?username g_username
+?password g_password
+?hostname g_hostname
+?port g_port
+?project g_project
+?timeout g_timeout
+?vPlan g_vPlan
+?enabled g_enabled
+?action t_action
+)
+=> t / nil"
+"Configures or updates the vManager settings within the specified Verifier session.")
+("verifUploadToVManager"
+"verifUploadToVManager(
+g_sessionId
+[g_waitUntilDone]
+)
+=> t / nil"
+"Upload the Verifier data to the specified vPlan file using the vManager server.")
+("verifVPlanExists"
+"verifVPlanExists(
+g_sessionId
+t_fileName
+)
+=> t / nil"
+"Checks if the vPlan file exists and can be accessed by the vManager configured in the specified Verifier session.")
+("verifCreateBatchScript"
+"verifCreateBatchScript(
+g_sessionId
+t_scriptFileName
+)
+=> t | nil"
+"Creates a batch script to rerun the saved Verifier cellview from the command line.")
+("verifIsBatchRunProcess"
+"verifIsBatchRunProcess(
+)
+=> t / nil"
+"Returns t if the code is currently running in a remote child process for ADE Verifier. You can use this function in your .cdsinit file or in custom SKILL code.")
+("verifOpenCellView"
+"verifOpenCellView(
+t_libName
+t_cellName
+t_viewName
+[ ?mode g_mode ]
+[ ?openWindow g_openWindow ]
+)
+=> x_sessionId / nil"
+"Opens the Verifier cellview and returns the session ID.")
+("verifIsSessionReadOnly"
+"verifIsSessionReadOnly(
+g_sessionId
+)
+=> t / nil"
+"Determine if the given session is read-only.")
+("verifSaveSession"
+"verifSaveSession(
+g_sessionId
+)
+=> t / nil"
+"Saves the active setup of the specified Verifier session to the cellview from where the setup was loaded.")
+("verifSaveSessionAs"
+"verifSaveSessionAs(
+g_sessionId
+t_libName
+t_cellName
+t_viewName
+)
+=> t / nil"
+"Saves the active setup of specified Verifier session as a cellview of the type `verifier'.")
+("verifCloseSession"
+"verifCloseSession(
+g_sessionId
+[ ?saveIfModified g_saveIfModified ]
+)
+=> t / nil"
+"Closes a Verifier session.")
+("verifGetAllSessions"
+"verifGetAllSessions(
+)
+=> l_ids / nil"
+"Returns a list of all the open Verifier session Ids.")
+("verifGetCellViewSession"
+"verifGetCellViewSession(
+t_libName
+t_cellName
+t_viewName
+)
+=> x_sessionId / nil"
+"Returns the integer session ID for the specified opened Verifier cellview.")
+("verifIsSessionModified"
+"verifIsSessionModified(
+g_sessionId
+)
+=> t / nil"
+"Checks whether the setup has been modified after the last time it was saved in the given session.")
+("verifIsValidSession"
+"verifIsValidSession(
+g_sessionId
+)
+=> t / nil"
+"Confirms if the given session is a valid ADE Verifier session.")
+("verifGetWindow"
+"verifGetWindow(
+g_sessionId
+)
+=> w_windowId / nil"
+"Returns the window ID related to the specified session ID.")
+("verifGetSessionCellView"
+"verifGetSessionCellView(
+g_sessionId
+)
+=> l_libCellView / nil"
+"Returns the cellview name for the specified session.")
+("verifRegisterCallback"
+"verifRegisterCallback(
+g_callback
+)
+=> g_callback"
+"Registers a callback with Verifier which is executed at various times, such as, when a session is opened, saved, closed, simulations are started, finished, and when percentage changes.")
+("verifRemoveCallback"
+"verifRemoveCallback(
+g_callback
+)
+=> t / nil"
+"Remove a callback that was previously registered using verifRegisterCallback(cb).")
+("verifGetCallbacks"
+"verifGetCallbacks(
+)
+=> l_callbacks"
+"Return the list of callbacks that have been registered by verifRegisterCallback(sess cb).")
+("verifGetOptions"
+"verifGetOptions(
+g_sessionId
+[g_getValues]
+)
+=> l_optionNameList | nil"
+"Returns the list of Verifier preference options. These options are also available in the Virtuoso ADE Verifier Preferences form.")
+("verifGetOptionVal"
+"verifGetOptionVal(
+g_sessionId
+t_optionName
+)
+=> t_optionValue / nil"
+"Returns the value of a preference option set in a Verifier session.")
+("verifSetOptionVal"
+"verifSetOptionVal(
+g_sessionId
+t_optionName
+g_value
+)
+=> t/nil"
+"Sets the value of the specified preference option in a Verifier session.")
+("verifAddImp"
+"verifAddImp(
+g_sessionId
+t_lib
+t_cell
+t_view
+t_history
+[ ?runState g_runState ]
+[ ?runPlanState g_runPlanState ]
+[ ?createRequirements g_createRequirements ]
+)
+=> t / nil"
+"Adds a new implementation, that is a maestro cellview, to the specified Verifier session.")
+("verifMoveImp"
+"verifMoveImp(
+g_sessionId
+t_lib
+t_cell
+t_view
+t_history
+[ x_itemIndex ]
+)
+=> t / nil"
+"Moves an implementation to the specified location in a Verifier session.")
+("verifRemoveImp"
+"verifRemoveImp(
+g_sessionId
+t_impLib
+t_impCell
+t_impView
+t_impHistory
+)
+=> t / nil"
+"Deletes an implementation from the specified Verifier session.")
+("verifOverwriteSpec"
+"verifOverwriteSpec(
+g_sessionId
+g_impLib
+g_impCell
+g_impView
+g_impHistory
+[ ?testName t_testName ]
+[ ?outputName t_outputName ]
+[ ?pushToImp g_pushToImp ]
+)
+=> t / nil"
+"Pull/push the specification and unit from or to the mapped implementation items hierarchically.")
+("verifGetImpEstRunTime"
+"verifGetImpEstRunTime(
+g_sessionId
+t_impLib
+t_impCell
+t_impView
+t_impHistory
+)
+=> x_estRunTime / nil"
+"Retrieves the EstRunTime of specified implementation in a Verifier session.")
+("verifSetImpEstRunTime"
+"verifSetImpEstRunTime(
+g_sessionId
+t_impLib
+t_impCell
+t_impView
+t_impHistory
+x_estRunTime
+)
+=> t / nil"
+"Sets the EstRunTime of specified implementation in a Verifier session.")
+("verifGetImpPriority"
+"verifGetImpPriority(
+g_sessionId
+t_impLib
+t_impCell
+t_impView
+t_impHistory
+)
+=> x_priority / nil"
+"Get the 'Priority' of specified implementation in a Verifier session.")
+("verifSetImpPriority"
+"verifSetImpPriority(
+g_sessionId
+t_impLib
+t_impCell
+t_impView
+t_impHistory
+x_priority
+)
+=> t / nil"
+"Sets the Priority of specified implementation in a Verifier session.")
+("verifUpdateImpEstRunTime"
+"verifUpdateImpEstRunTime(
+g_sessionId
+t_impLib
+t_impCell
+t_impView
+t_impHistory
+)
+=> t / nil"
+"Updates the EstRunTime to be the actual recorded run time from run summary data.")
+("verifGetImpSetPreRunScript"
+"verifGetImpSetPreRunScript(
+g_sessionId
+t_impSetName
+)
+=> t_preRunScriptFileName"
+"Retrieves the pre-run script file name specified for an implementation set.")
+("verifSetImpSetPreRunScript"
+"verifSetImpSetPreRunScript(
+g_sessionId
+t_impSetName
+t_preRunScriptFileName
+)
+=> t / nil"
+"Sets the specified pre-run script file name for an implementation set.")
+("verifGetMappableType"
+"verifGetMappableType(
+g_sessionId
+t_path
+)
+=> t_type / nil"
+"Returns the type of the mappable object.")
+("verifGetImps"
+"verifGetImps(
+g_sessionId
+[ ?library t_impLib ]
+[ ?cell t_impCell ]
+[ ?view t_impView ]
+[ ?history t_impHistory ]
+[ ?runState g_runState ]
+[ ?runPlanState g_runPlanState ]
+[ ?extRef g_extRef ]
+[ ?priority x_priority ]
+[ ?estRunTime x_estRunTime ]
+)
+=> l_imps / nil"
+"Retrieves the list of the implementations from a Verifier session that have the same library, cell, view or history name as specified, the same check state for the 'Run' or 'RunPlan' check box.")
+("verifGetImpData"
+"verifGetImpData(
+g_sessionId
+g_impLib
+g_impCell
+g_impView
+g_impHistory
+[ ?runName t_runName ]
+[ ?testName t_testName ]
+[ ?outputName t_outputName ]
+[ ?statName t_statName ]
+[ ?dataName t_dataName ]
+)
+=> o_dataTable/ t_dataValue/ nil"
+"Description")
+("verifGetImpTestOutputs"
+"verifGetImpTestOutputs(
+g_sessionId
+t_lib
+t_cell
+t_view
+t_history
+t_test
+[ t_runName ]
+)
+=> l_impTestOutputs / nil"
+"Returns the list of the outputs for an implementation test in a Verifier session.")
+("verifGetImpTests"
+"verifGetImpTests(
+g_sessionId
+t_lib
+t_cell
+t_view
+t_history
+[ t_runName ]
+)
+=> l_impTests / nil"
+"Returns the list of all the tests for an implementation in a Verifier session.")
+("verifUpdate"
+"verifUpdate(
+g_sessionId
+)
+=> t / nil"
+"Updates the Verifier setup from local implementations, and referenced Verifier cellviews.")
+("verifMapping"
+"verifMapping(
+g_sessionId
+g_reqsList
+g_impsList
+[ g_operation ]
+)
+=> t / nil"
+"Maps one or more requirements to one or more implementations in a Verifier session. Each of the requirement map objects can include the cellview, run, test, and output information. This function is also used to modify or delete the existing requirement-implementation mappings. For example, if the requirements list is empty, all the mapping information for the specified implementations is deleted.")
+("verifGetImpMapping"
+"verifGetImpMapping(
+g_sessionId
+t_libName
+t_cellName
+t_viewName
+t_historyName
+[ ?runName t_runName ]
+[ ?testName t_testName ]
+[ ?outputName t_outputName
+[ ?statName t_statName ]
+)
+=> l_reqIds / nil"
+"Returns the list of requirements that are mapped to the specified mappable object. The mappable object could be an implementation cellview, run, test or output.")
+("verifGetReqMapping"
+"verifGetReqMapping(
+g_sessionId
+t_reqId
+[ ?types l_types ]
+=> l_implementations / nil"
+"Returns a list of mappable objects mapped to the specified requirement. The mappable object could be an implementation cellview, run, test or output.")
+("verifExportMapping"
+"verifExportMapping(
+g_sessionId
+t_fileName
+[ S_type ]
+[ g_confirmOverwrite ]
+)
+=> t / nil"
+"Export the mapping to either a CSV or Excel file.")
+("verifImportMapping"
+"verifImportMapping(
+g_sessionId
+t_fileName
+S_type
+)
+=> t / nil"
+"Import mapping from an Excel or CSV file.The first row of the file will be ignored as it should be a header row. The rest of the rows should have at least two columns: RequirementId and MappingName. Any other columns will be ignored. Each row is a single Requirement to Implementation mapping, so if a requirement is mapped to multiple implementations, then there will be multiple rows with the same requirement id in the first column. For example:")
+("verifAddImpSet"
+"verifAddImpSet(
+g_sessionId
+t_impSetName
+) 
+=> t / nil"
+"Adds a new implementation set in the specified Verifier session.")
+("verifAddImpToImpSet"
+"verifAddImpToImpSet(
+g_sessionId
+t_impLib
+t_impCell
+t_impView
+t_impHistory
+t_impSetName
+)
+=> t / nil"
+"Adds an implementation to the specified implementation set in a Verifier session.")
+("verifGetImpSets"
+"verifGetImpSets(
+g_sessionId
+[ ?parentName t_parentName ]
+[ ?runnable g_runnable ]
+[ ?isGroup g_isGroup ]
+)
+=> l_impSets / nil"
+"Retrieves the list of all the implementation sets in a Verifier session.")
+("verifGetImpsInImpSet"
+"verifGetImpsInImpSet(
+g_sessionId
+t_impSetName
+)
+=> l_impSets / nil"
+"Retrieves the list of implementations from the specified implementation set in a Verifier session.")
+("verifSetImpSetName"
+"verifSetImpSetName(
+g_sessionId
+t_impSetName
+t_newImpSetName
+)
+=> t / nil"
+"Renames the specified implementation set.")
+("verifRemoveImpFromImpSet"
+"verifRemoveImpFromImpSet(
+g_sessionId
+t_impLib
+t_impCell
+t_impView
+t_impHistory
+t_impSetName
+)
+=> t / nil"
+"Deletes an implementation from the specified implementation set in a Verifier session.")
+("verifRemoveImpSet"
+"verifRemoveImpSet(
+g_sessionId
+t_impSetName
+)
+=> t/nil"
+"Deletes the implementation set from the specified Verifier session.")
+("verifGetResultDataForImp"
+"verifGetResultDataForImp(
+g_sessionId
+t_lib
+t_cell
+t_view
+t_history
+[ ?runName t_runName ]
+[ ?testName t_testName ]
+[ ?outputName t_outputName ]
+[ ?statName t_statName ]
+)
+=> o_resultDataTable / nil"
+"Returns all the result data for the specified implementation in a Verifier session. For each sub tables, there is a table that contains the multiple child items result data.")
+("verifGetResultDataForReq"
+"verifGetResultDataForReq(
+g_sessionId
+t_reqId
+)
+=> o_resultDataTable / nil"
+"Return the simulation result data for the specified requirement in a Verifier session.")
+("verifReloadAllRes"
+"verifReloadAllRes(
+g_sessionId
+)
+=> t / nil"
+"Reloads the simulation results for all implementations that have the Run check box unchecked. Equivalent to clicking the 'Reload Simulation Results' button on the toolbar of UI.")
+("verifEvaluateResults"
+"verifEvaluateResults(
+g_sessionId
+)
+=> t / nil"
+"Evaluates all requirements and does a force update of the results in special cases.")
+("verifCopyAndUpdateResultsFromUserDefinedDirectory"
+"verifCopyAndUpdateResultsFromUserDefinedDirectory(
+g_sessionId
+)
+=> t / nil"
+"Copies the run summary data files from the user-defined directory to the results directory of the current cellview. Additionally, updates the current session setup to restore the run summary data file into the results directory of the current cellview.")
+("verifImpIsRun"
+"verifImpIsRun(
+g_sessionId
+t_libName
+t_cellName
+t_viewName
+t_historyName
+)
+=>t / nil"
+"Checks if the specified implementation cellview can be run from a Verifier session.")
+"Runs or loads the result of the specified implementation(s) in a Verifier session.")
+("verifSetImpRun"
+"verifSetImpRun(
+g_sessionId
+t_impLib
+t_impCell
+t_impView
+t_impHistory
+g_runState
+)
+=> t / nil"
+"Sets the check state of the Run check box for the specified implementation in a Verifier session.")
+("verifCheck"
+"verifCheck(
+g_sessionId
+[ ?implementation g_implementation ]
+[ ?impSet g_impSet ]
+)
+=> t / nil"
+"Checks whether implementations changed since last run or reload by Verifier. In addition, it checks whether the lifetime of implementation simulation results is within the Expiration Period of Implementation Results since the last simulation of implementation cellview by Verifier or the last external creation of results. If no implementation or implementation set is specified, then all implementations in the session will be checked.")
+("verifCheckImp"
+"verifCheckImp(
+g_sessionId
+t_impLib
+t_impCell
+t_impView
+t_impHistory
+)
+=> t / nil"
+"Checks for changes of the specified implementation and loaded results.")
+("verifStop"
+"verifStop(
+g_sessionId
+[ ?implementation g_implementation ]
+[ ?impSet g_impSet ]
+)
+=> t / nil"
+"Stops simulations for one or more implementations. If no implementation or implementation set is specified, then all running implementations in the session will be stopped.")
+("verifPublishHTML"
+"verifPublishHTML(
+g_sessionID
+g_openBrowser
+)
+=> t / nil"
+"Generates and optionally displays an HTML report in a Verifier session.")
+("slaOpenOrCreateView"
+"slaOpenOrCreateView(
+t_libName
+t_cellName
+t_viewName
+[ g_readOnly ]
+)
+=> t / nil"
+"When this function is run in edit mode, it opens the specified view in edit mode if the view exists. Otherwise, it creates a new view. In read-only mode, the function opens the provided view in read-only mode. In both cases, invoking this function checks out the ADE Verifier license. You can initialize the view from the Virtuoso CIW or by using the *il script.")
+("slaAddCornerModelFile"
+"slaAddCornerModelFile(
+t_cornerSetupName
+t_cornerName
+l_list
+
+)
+=> t / nil"
+"Adds a model file to a corner within a corner setup in the setup library view that is opened using the slaOpenOrCreateView function in edit mode. The function creates the specified corner if it does not exist in the corner setup.")
+("slaAddCornerVariable"
+"slaAddCornerVariable(
+t_cornerSetupName
+t_cornerName
+t_varName
+t_varValue
+)
+=> t / nil"
+"Adds a corner variable to a corner of a corner setup in the setup library view that is opened using the slaOpenOrCreateView function in edit mode. The function creates the specified corner if it does not exist in the corner setup.")
+("slaAddDocument"
+"slaAddDocument(
+t_docAbsoluteFilePath
+)
+=> t / nil"
+"Adds a document to a setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaAddSweepVariable"
+"slaAddSweepVariable(
+t_sweepSetupName
+t_varName
+t_varValue
+)
+=> t / nil"
+"Adds a sweep variable to a sweep setup in the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaCreateCornerSetup"
+"slaCreateCornerSetup(
+t_setupName
+)
+=> t / nil"
+"Creates a corner setup in the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaCreateSweepSetup"
+"slaCreateSweepSetup(
+t_setupName
+)
+=> t / nil"
+"Creates a sweep setup in a setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaCreateVerificationSpace"
+"slaCreateVerificationSpace(
+t_spaceName
+t_sweepSetupName
+t_cornerSetupName
+)
+=> t / nil"
+"Creates a verification space in the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaGetAllDocuments"
+"slaGetAllDocuments(
+)
+=> l_listOfDocuments"
+"Retrieves a list of documents from the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaGetCornerModels"
+"slaGetCornerModels(
+t_cornerSetupName
+t_cornerName
+)
+=> l_listOfCornerModels"
+"Retrieves a list of corner models of corner setup from the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaGetCornerSetupCorners"
+"slaGetCornerSetupCorners(
+t_cornerSetupName
+)
+=> l_listOfCorners"
+"Retrieves a list of corners for a specified corner setup from the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaGetCornerSetups"
+"slaGetCornerSetups (
+)
+=> l_listOfCornerSetups"
+"Retrieves a list of corner setups from the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaGetCornerVars"
+"slaGetCornerVars(
+t_cornerSetupName
+t_cornerName
+)
+=> l_listOfCorners"
+"Retrieves a list of corner variables of the specified corner setup from the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaGetDocumentAbsolutePath"
+"slaGetDocumentAbsolutePath(
+t_docName
+)
+=> t_docAbsoluteFilePath"
+"Retrieves the absolute path of a document in the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaGetSweepSetupVars"
+"slaGetSweepSetupVars(
+t_sweepSetupName
+)
+=> l_listOfSweepVars"
+"Retrieves a list of sweep setup variables from the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaGetSweepSetups"
+"slaGetSweepSetups (
+)
+=> l_listOfSweepSetups"
+"Retrieves a list of sweep setups from the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaGetVerificationSpaces"
+"slaGetVerificationSpaces (
+)
+=> l_listOfLists"
+"Retrieves a list of verification spaces from the setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaImportCorners"
+"slaImportCorners(
+t_cornerSetupName
+t_absoluteFilePath
+)
+=> t / nil"
+"Imports corners into the setup library corner setup opened using the slaOpenOrCreateView function in edit mode. The file must be in CSV or SDB format.")
+("slaImportSweeps"
+"slaImportSweeps(
+t_sweepSetupName
+t_absoluteFilePath
+)
+=> t / nil"
+"Imports sweeps into the corner setup in a setup library view that is opened using the slaOpenOrCreateView function in edit mode. The supported file extensions are csv and sdb.")
+("slaRemoveCorner"
+"slaRemoveCorner(
+t_cornerSetupName
+t_cornerName
+)
+=> t / nil"
+"Removes a corner from the corner setup in a setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaRemoveCornerModel"
+"slaRemoveCornerModel(
+t_cornerSetupName
+t_cornerName
+t_modelName
+)
+=> t / nil"
+"Removes a corner model file from the corner setup in a setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaRemoveCornerSetup"
+"slaRemoveCornerSetup(
+t_cornerSetupName
+)
+=> t / nil"
+"Removes a corner setup from a setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaRemoveCornerVariable"
+"slaRemoveCornerVariable(
+t_cornerSetupName
+t_cornerName
+t_varName
+)
+=> t / nil"
+"Removes a corner variable from corner setup of a setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaRemoveSweepSetup"
+"slaRemoveSweepSetup(
+t_sweepSetupName
+)
+=> t / nil"
+"Removes a sweep setup from a setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaRemoveSweepVariable"
+"slaRemoveSweepVariable(
+t_sweepSetupName
+t_varName
+)
+=> t / nil"
+"Removes a specified sweep variable from the corner setup of a setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaRemoveVerificationSpace"
+"slaRemoveVerificationSpace(
+t_spaceName
+)
+=> t / nil"
+"Removes a verification space from a setup library view that is opened using the slaOpenOrCreateView function in edit mode.")
+("slaSaveAndCloseView"
+"slaSaveAndCloseView (
+[ ?overrideDM g_overrideDM ]
+[ ?autoCheckInNewView g_autoCheckInNewView ]
+[ ?checkInComment g_checkInComment ]
+)
+=> t / nil"
+"Saves the specified view after editing. If a setup library view has been opened with the slaOpenOrCreateView function, the slaSaveAndCloseView function must be invoked after adding or removing components in the setup library assistant to save all the changes in the setupdb. Invoking the slaSaveAndCloseView() function releases or checks in the ADE Verifier license.")
+("verifAreSnapshotsEnabled"
+"verifAreSnapshotsEnabled(
+g_sessionId
+)
+=> t / nil"
+"Checks if snapshots are enabled in the specified Verifier session.")
+("verifCreateSnapshot"
+"verifCreateSnapshot(
+g_sessionId
+[ t_snapshotName ]
+[ ?name t_name ]
+[ ?prefix t_prefix ]
+[ ?comment t_comment ]
+[ ?visible g_visible ]
+[ ?locked g_locked ]
+)
+=> t / nil"
+"Creates a new snapshot '*.snapz' that contains the following: 
+- An archive, stored in .json format, of the current requirements, mappings, and results as shown in Results tab 
+- A copy of the settings.v3 setup 
+- A copy of the results directory")
+("verifCreateSnapshotConfiguration"
+"verifCreateSnapshotConfiguration(
+g_sessionId
+t_configName
+l_properties
+[ ?absoluteTolerance x_absoluteTolerance ]
+[ ?relativeTolerance x_relativeTolerance ]
+[ ?compareVisible g_differences ]
+[ ?hideEmpty g_hideEmpty ]
+
+)
+=> t / nil"
+"Creates snapshot configuration that contains the setup for Abs Tolerance, Rel Tolerance and Show filters on the Snapshots tab.")
+("verifDeleteSnapshot"
+"verifDeleteSnapshot(
+g_sessionId
+t_snapshotName
+)
+=> t / nil"
+"Deletes the snapshot from the specified Verifier session.")
+("verifDeleteSnapshotConfiguration"
+"verifDeleteSnapshotConfiguration(
+g_sessionId
+t_configName
+)
+=> t / nil"
+"Deletes the snapshot configuration with the specified name.")
+("verifExportSnapshotsToExcel"
+"verifExportSnapshotsToExcel(
+g_sessionId
+t_fileName
+g_exportAll
+)
+=> t / nil"
+"Deletes the snapshot configuration with the specified name.")
+("verifGetReferenceSnapshot"
+"verifGetReferenceSnapshot(
+g_sessionId
+)
+=> t_refSnapshotName / nil"
+"Retreives the snapshot from the specified Verifier session.")
+("verifGetSnapshot"
+"verifGetSnapshot(
+g_sessionId
+t_snapshotName
+)
+=> l_data / nil"
+"Retrieves the disembodied property list for snapshot from the specified Verifier session.")
+("verifGetSnapshotAbsoluteTolerance"
+"verifGetSnapshotAbsoluteTolerance(
+g_sessionId
+)
+=> f_value / nil"
+"Returns the absolute tolerance value used when comparing snapshot values.")
+("verifGetSnapshotComment"
+"verifGetSnapshotComment(
+g_sessionId
+t_snapshotName
+)
+=> t_comment / nil"
+"Returns the comment text for a snapshot.")
+("verifGetSnapshotRelativeTolerance"
+"verifGetSnapshotRelativeTolerance(
+g_sessionId
+)
+=> f_value / nil"
+"Returns the relative tolerance value used when comparing snapshot values.")
+("verifGetSnapshots"
+"verifGetSnapshots(
+g_sessionId
+)
+=> l_snapshots / nil"
+"Retrieves the list of snapshots from the specified Verifier session.")
+("verifGetSnapshotsData"
+"verifGetSnapshotsData(
+g_sessionId
+[ g_showAll ]
+)
+=> l_snapshotsData / nil"
+"Retrieves the disembodied property list for snapshots from the specified Verifier session.")
+("verifIsSnapshotLocked"
+"verifIsSnapshotLocked(
+g_sessionId
+t_snapshotName
+)
+=> t / nil"
+"Returns the locked status of the snapshot.")
+("verifIsSnapshotVisible"
+"verifIsSnapshotLocked(
+g_sessionId
+t_snapshotName
+)
+=> t / nil"
+"Returns the visibility status for the specified snapshot.")
+("verifRenameSnapshot
+"
+"verifRenameSnapshot(
+g_sessionId
+t_snapshotName
+t_newSnapshotName
+)
+=> t / nil"
+"Renames a snapshot with the specified name.")
+("verifRestoreFromSnapshot
+"
+"verifRestoreFromSnapshot(
+g_sessionId
+t_snapshotName
+)
+=> t / nil"
+"Restores a Verifier session from a snapshot along with any stored results.")
+("verifSetReferenceSnapshot
+"
+"verifSetReferenceSnapshot(
+g_sessionId
+t_refSnapshotName
+)
+=> t / nil"
+"Sets the reference snapshot in the specified Verifier session.")
+("verifSetSnapshotAbsoluteTolerance
+"
+"verifSetSnapshotAbsoluteTolerance(
+g_sessionId
+f_value
+)
+=> t / nil"
+"Sets the absolute tolerance for snapshot comparison in a Verifier session.")
+("verifSetSnapshotComment
+"
+"verifSetSnapshotComment(
+g_sessionId
+t_snapshotName
+t_comment
+)
+=> t / nil"
+"Sets the comment for a snapshot in a Verifier session.")
+("verifSetSnapshotConfiguration
+"
+"verifSetSnapshotConfiguration(
+g_sessionId
+t_configName
+)
+=> t / nil"
+"Saves the current Show list configuration with the specified name and filters the Snapshots tab items with the specified configuration.")
+("verifSetSnapshotLocked
+"
+"verifSetSnapshotLocked(
+g_sessionId
+t_snapshotName
+g_isLocked
+)
+=> t / nil"
+"Locks or unlocks the specified snapshots in the given Verifier session.")
+("verifSetSnapshotRelativeTolerance
+"
+"verifSetSnapshotRelativeTolerance(
+g_sessionId
+f_value
+)
+=> t / nil"
+"Sets the relative tolerance for snapshot comparison in a Verifier session.")
+("verifSetSnapshotVisible
+"
+"verifSetSnapshotVisible(
+g_sessionId
+t_snapshotName
+g_isVisible
+)
+=> t / nil"
+"Sets the visibility of a snapshot in a Verifier session. When made visible, it appears as a column in the Snapshots Tab.")
+("verifSetSnapshotsEnabled
+"
+"verifSetSnapshotsEnabled(
+g_sessionId
+g_enabled
+)
+=> t / nil"
+"Enables or disables snapshots in the specified Verifier session.")
+("verifEnableDebug"
+"verifEnableDebug(
+[ t_string ]
+)
+=> t / nil"
+"Enables additional debug logging of various categories.")
+("verifDisableDebug"
+"verifDisableDebug(
+[ t_string ]
+)
+=> t / nil"
+"Disables one or more categories for debug logging.")
+("verifGetDebug"
+"verifGetDebug(
+[ g_all ]
+)
+=> t_categories / nil"
+"Gets the names of enabled debug categories or all possible categories.")

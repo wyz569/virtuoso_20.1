@@ -1,0 +1,544 @@
+
+<html><head><title>Pre-Compiled Libraries</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="rgirdhar" />
+<meta name="CreateDate" content="2020-08-20" />
+<meta name="CreateTime" content="1597946459" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the way you can  use Verilog In to import a design from Verilog Hardware Description Language (HDL) format into the OpenAccess database format." />
+<meta name="DocTitle" content="Verilog In for Virtuoso Design Environment User Guide and Reference" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Pre-Compiled Libraries" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="verinuser" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-20" />
+<meta name="ModifiedTime" content="1597946459" />
+<meta name="NextFile" content="" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="chap3.html" />
+<meta name="c_product" content="Virtuoso Schematic Editor" />
+<meta name="Product" content="Virtuoso Schematic Editor" />
+<meta name="ProductFamily" content="Virtuoso Schematic Editor" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Verilog In for Virtuoso Design Environment User Guide and Reference -- Pre-Compiled Libraries" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="verinuserICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="verinuserTOC.html">Contents</a></li><li><a class="prev" href="chap3.html" title="Verilog 2001 Support">Verilog 2001 Support</a></li><li style="float: right;"><a class="viewPrint" href="verinuser.pdf">View/Print PDF</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Verilog In for Virtuoso Design Environment User Guide and Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>A
+<a id="pgfId-1014259"></a></h1>
+<h1>
+<a id="pgfId-1014261"></a><hr />
+<a id="12265"></a>Pre-Compiled Libraries<hr />
+</h1>
+
+<p>
+<a id="pgfId-1014262"></a>This appendix describes the following: </p>
+<ul><li>
+<a id="pgfId-1014266"></a><a href="appA.html#37375">Introduction</a></li><li>
+<a id="pgfId-1014270"></a><a href="appA.html#22603">Creating Pre-Compiled Libraries</a></li><li>
+<a id="pgfId-1014274"></a><a href="appA.html#13088">Using Pre-Compiled Libraries</a></li><li>
+<a id="pgfId-1014278"></a><a href="appA.html#19082">Guidelines for Using Pre-Compiled Libraries</a></li><li>
+<a id="pgfId-1014282"></a><a href="appA.html#33010">Limitations</a></li><li>
+<a id="pgfId-1014286"></a><a href="appA.html#35252">Speeding up the Execution Process</a></li><li>
+<a id="pgfId-1014290"></a><a href="appA.html#40750">Speedup Results</a></li></ul>
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1014292"></a><a id="37375"></a>Introduction</h2>
+
+<p>
+<a id="pgfId-1014293"></a>Verilog In uses the <code>ncvlog</code> parser to parse and translate the Verilog files into an Intermediate Representation (IR) that is stored in a<code> 5.X</code> architecture library. During analysis, for each module in the Verilog file, <code>ncvlog</code> creates a cellview in the <code>5.X</code> library. The generated cellview has the following structure:</p>
+
+<p>
+<a id="pgfId-1014570"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="439" src="images/appA-2.gif" /></div>
+
+<p>
+<a id="pgfId-1014328"></a>Verilog In compiles the source Verilog files in one go using ncvlog. A quick compilation without generation of any IR is performed on the library Verilog files to list all the modules in them. Whenever a library module is first referenced in the design, that module is compiled from the relevant Verilog library file and its IR is stored in the temporary work area.</p>
+<p>
+<a id="pgfId-1017388"></a>If the same Verilog libraries are used over multiple runs of Verilog In it is much more advantageous to store the IRs of the Verilog files once for all in a pre-compiled library so that they can be used subsequently. In case of pre-compiled libraries, a Verilog library need not be compiled repeatedly to import designs. </p>
+
+<h3>
+<a id="pgfId-1017389"></a>Another instance where Pre-Compiled Libraries can be used effectively</h3>
+
+<p>
+<a id="pgfId-1014331"></a>When a destination IR library is specified, Verilog In compiles all libraries into the destination library in one go and then uses the pre-compiled library to import the design. Theref<a id="meeta"></a>ore in cases where the number of modules referenced from libraries is large, specifying a target IR library is advantageous even if the pre-compiled library is not required in future. In such cases, if the resources permit, you should try to make the destination IR library to point to the swap area of the machine for higher speed gain.</p>
+
+<h2>
+<a id="pgfId-1014335"></a><a id="22603"></a><a id="23498"></a>Creating Pre-Compiled Libraries</h2>
+
+<p>
+<a id="pgfId-1017348"></a>You specify the Pre-Compiled library name using <code>-destIRLib </code>option followed by the destination IR library name on the command line. If you specify more than one destination IR library names on the command line, then the first one is used and all the others are ignored.</p>
+<p>
+<a id="pgfId-1017349"></a>You can also specify the destination library name using the Verilog In form in the<em> </em><em><a href="chap1.html#Target_Compile_Library_Name">Target Compile Library Name</a></em> field. You can specify only one destination IR library name in this field. </p>
+<p>
+<a id="pgfId-1014340"></a>Pre-compiled libraries can be created in two ways depending on your requirement:</p>
+<ol><li>
+<a id="pgfId-1014341"></a>Verilog In is used only to create the pre-compiled libraries and not to import the design. Later these pre-compiled IR libraries can be used while importing designs by specifying the <code>-compileOnly</code> option on the command-line or selecting the <a href="chap1.html#Compile">Compile Verilog Library only</a> button in the Verilog In form.<br />
+<a id="pgfId-1014343"></a>For example:<pre class="webflare-pre-block webflare-courier-new" id="#id1014575">
+<a id="pgfId-1014575"></a>ihdl -v <code><em>abc.v</em></code> -destIRLib <code><em>Lib</em></code> -compileOnly</pre>
+<a id="pgfId-1014344"></a>Verilog In translates all libraries specified by the <code>-v</code> and <code>-y </code>options to the target IR library specified. If <code>-v</code> or <code>-y</code> options have not been specified, Verilog In compiles and saves the IR for the design files specified on the command-line to the target IR library.</li><li>
+<a id="pgfId-1014345"></a>The other way is to import the design using <code>-v</code> and <code>-y </code>options along with a target IR library name. In this case, you must not select the <em>Compile Verilog Library only</em> check box.<br />
+<a id="pgfId-1014346"></a>For example:<pre class="webflare-pre-block webflare-courier-new" id="#id1014576">
+<a id="pgfId-1014576"></a>ihdl -param <code><em>param_file</em></code> -v <code><em>abc.v</em></code> -destIRLib <code><em>Lib design.v</em></code></pre>
+<a id="pgfId-1014579"></a>where <span class="webflare-courier-new" style="white-space:pre"><em>Lib</em></span> is the logical library name<br />
+<a id="pgfId-1014347"></a>The design is imported and the IR for the libraries specified by the <code>-v</code> and <code>-y</code> options is saved permanently in the specified target IR library. The target IR library generated can be used in future runs to import designs instead of the libraries specified by the <code>-v</code> and <code>-y </code>options in the first run. </li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1014349"></a><a id="13088"></a>Using Pre-Compiled Libraries</h2>
+
+<p>
+<a id="pgfId-1014350"></a>After creating the pre-compiled libraries, you can use them to import designs in place of original Verilog libraries. You specify the pre-compiled library name in the Verilog In GUI in the <em><a href="chap1.html#PreCompiledVLib">Pre Compiled Verilog Library</a></em> field.</p>
+<p>
+<a id="pgfId-1014352"></a>You can also specify the pre-compiled library name on the command-line using the <code>-preCompileLibrary</code> option followed by the logical name of the pre-compiled library. To specify multiple pre-compiled libraries on command-line, you need to repeat the <code>-preCompileLibrary</code> option. </p>
+<p>
+<a id="pgfId-1014353"></a>For example, </p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1014354"></a>ihdl -v <code><em>xyz.v</em></code> -preCompileLibrary <code><em>Lib</em></code> -preCompileLibrary <code><em>Lib2</em></code> -y <code><em>udp</em></code> +libext+<code><em>.v</em></code> <code><em>BigDesign.v</em></code></pre>
+<h2>
+<a id="pgfId-1014356"></a><a id="19082"></a>Guidelines for Using Pre-Compiled Libraries</h2>
+
+<p>
+<a id="pgfId-1014357"></a>The guidelines for using pre-compiled libraries are:</p>
+<ul><li>
+<a id="pgfId-1014358"></a>Any pre-compiled library to be used in importing must be defined in the <code>cds.lib</code> file.</li><li>
+<a id="pgfId-1014359"></a>All IR cellviews have a link to the source file that points to the location from which it was compiled. The source file should not be moved from that location.</li><li>
+<a id="pgfId-1014360"></a>Functional view are created from the source file while the symbol, the netlist, and the schematic views are created from the IR files. If the source file of a pre-compiled library is modified without creating the library again, then the functional view created matches the new description, but the symbol, netlist and the schematic views created match the older description. Therefore you must always create the pre-compiled library again each time the source file(s) from which it has been created is modified.</li></ul>
+
+
+
+<h2>
+<a id="pgfId-1014362"></a><a id="33010"></a>Limitations</h2>
+
+<p>
+<a id="pgfId-1014363"></a>The limitations in using pre-compiled libraries are:</p>
+<ul><li>
+<a id="pgfId-1014364"></a>Pre-compiled library takes more space than a Verilog library.</li><li>
+<a id="pgfId-1014365"></a>Although the physical location of a pre-compiled library can be changed, its logical name cannot be changed. If you want to change the logical name of pre-compiled library then you need to create it again.</li></ul>
+
+
+<h2>
+<a id="pgfId-1014367"></a><a id="35252"></a>Speeding up the Execution Process</h2>
+
+<ul><li>
+<a id="pgfId-1014368"></a>Always use Pre-Compiled libraries if they are available or if the same libraries are being used in multiple runs. You should create the pre-compiled libraries if they are not available.</li><li>
+<a id="pgfId-1014369"></a>If you do not have any pre-compiled libraries and if, only a few modules are being referenced from the libraries, then you should use them as normal libraries. If the number of modules being referenced is large, you can specify a target IR library which should preferably be in the <code>/tmp</code> area or on a fast access disk area. This will reduce the execution time. The target IR library produced does not get deleted on completion of import and you need to remove it if it is not required.<br /><div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1014370"></a>
+Make sure you have enough swap or disk space for the target IR library.</div></li></ul>
+
+
+
+<h3>
+<a id="pgfId-1014371"></a>Speedup in Case of Netlist View Creation</h3>
+
+<p>
+<a id="pgfId-1014372"></a>In this case, the flatter the design the better is the speedup.</p>
+
+<h3>
+<a id="pgfId-1014373"></a>Speedup in Case of Schematic View Creation</h3>
+
+<p>
+<a id="pgfId-1014374"></a>Use the fast label option if label positioning is not of much importance.</p>
+
+<h2>
+<a id="pgfId-1014376"></a><a id="40750"></a>Speedup Results</h2>
+
+<p>
+<a id="pgfId-1015560"></a>Speed for design import for the netlist view has been increased. A system specification for which the speedup results were observed are:</p>
+<table class="webflareTable" id="#id1017443">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1017447"></a>Manufacturer    :Sun (Sun Microsystems)<br />System Model    :Ultra 5/10<br />Main Memory     :128 MB<br />Virtual Memory  :268MB<br />Number of CPUs  :1<br />CPU Type        :sparc<br />OS Name         :SunOS<br />OS Version      :5.5.1<br />Kernel Version  :SunOS Release 5.5.1 Version Generic_105428-01<br />                        [UNIX(R) System V Release 4.0]</pre>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1015562"></a>The observed results are tabulated below:</p>
+
+<ft-figtabl-title id="#id1014451">
+<a id="pgfId-1014451"></a>Both Original and New Without Pre-Compiled Libraries for Netlist View</ft-figtabl-title>
+<p>
+<a id="pgfId-1016809"></a></p>
+<table class="webflareTable" id="#id1014380">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014382">
+<a id="pgfId-1014382"></a>No. of modules in design</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014384">
+<a id="pgfId-1014384"></a>Size of Design</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014386">
+<a id="pgfId-1014386"></a>Previous time(sec)</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014388">
+<a id="pgfId-1014388"></a>New time(sec)</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014390">
+<a id="pgfId-1014390"></a>Speedup Factor</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014392"></a>4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014394"></a>872K</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014396"></a>3044</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014398"></a>369</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014400"></a>8.25</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014402"></a>47</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014404"></a>970K</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014406"></a>2288</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014408"></a>397</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014410"></a>5.76</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014412"></a>21</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014414"></a>90K</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014416"></a>260</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014418"></a>237</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014420"></a>1.09</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014422"></a>371</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014424"></a>3.32M</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014426"></a>1924</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014428"></a>1251</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014430"></a>1.54</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014432"></a>1073</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014434"></a>3.04M</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014436"></a>3294</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014438"></a>2510</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014440"></a>1.31</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014442"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014444"></a>6.06M</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014446"></a>25175</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014448"></a>652</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014450"></a>38.61</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a id="pgfId-1017499"></a>Another system specification for which the speedup results were observed are:</p>
+<table class="webflareTable" id="#id1017496">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1017498"></a>Manufacturer    :Sun (Sun Microsystems)<br />System Model    :Ultra 60<br />Main Memory     :1024 MB<br />Virtual Memory  :1.0 GB<br />Number of CPUs  :2<br />CPU Type        :sparc<br />OS Name         :SunOS<br />OS Version      :5.5.1<br />Kernel Version  :SunOS Release 5.5.1 Version Generic_103640-12<br />                        [UNIX(R) System V Release 4.0]</pre>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1014454"></a>The observed results are tabulated below:</p>
+
+<ft-figtabl-title id="#id1014842">
+<a id="pgfId-1014842"></a>Both Original and New with Pre-Compiled Libraries for Netlist View</ft-figtabl-title>
+<p>
+<a id="pgfId-1016810"></a></p>
+<table class="webflareTable" id="#id1014938">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014940">
+<a id="pgfId-1014940"></a><strong>No. of modules in design</strong></span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014942"></a>2391</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014944"></a>13</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014946"></a>9</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014948">
+<a id="pgfId-1014948"></a><strong>No. of modules referenced from Verilog libraries</strong></span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014950"></a>112/407</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014952"></a>54/446</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014954"></a>70/830</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014956">
+<a id="pgfId-1014956"></a><strong>Size of Design</strong></span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014958"></a>25M</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014960"></a>4.69M</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014962"></a>2.7M</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014964">
+<a id="pgfId-1014964"></a><strong>Combined Size of Verilog libraries</strong></span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014966"></a>1.4M</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014968"></a>33K</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014970"></a>1.4M</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014972">
+<a id="pgfId-1014972"></a><strong>Previous time with -v option</strong></span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014974"></a>1:55:02.5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014976"></a>1:01:29.0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014978"></a>1:10:49.4</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014980">
+<a id="pgfId-1014980"></a><strong>New time with -v option</strong></span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014982"></a>1:05:49.1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014984"></a>5:17.1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014986"></a>3:30.6</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014988">
+<a id="pgfId-1014988"></a><strong>Speedup Factor</strong></span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014990"></a>1.75</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014992"></a>11.63</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014994"></a>20.18</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1014996">
+<a id="pgfId-1014996"></a><strong>New time with pre-compiled library</strong></span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1014998"></a>54:21.7</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1015000"></a>5:07.8</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1015002"></a>1:17.1</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1015004">
+<a id="pgfId-1015004"></a><strong>Speedup Factor</strong></span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1015006"></a>2.12</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1015008"></a>11.99</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1015010"></a>55.12</p>
+</td>
+</tr>
+</tbody></table>
+<ft-figtabl-title id="#id1014605">
+<a id="pgfId-1014605"></a></ft-figtabl-title>
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="chap3.html" id="prev" title="Verilog 2001 Support">Verilog 2001 Support</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

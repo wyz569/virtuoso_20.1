@@ -1,0 +1,805 @@
+
+<html><head><title>HiSIM_Diode Model (hisim_diode)</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jommy" />
+<meta name="CreateDate" content="2020-04-19" />
+<meta name="CreateTime" content="1587355852" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the model equations for Cadence circuit simulators" />
+<meta name="DocTitle" content="Spectre Circuit Simulator Components and Device Models Reference" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="HiSIM_Diode Model (hisim_diode)" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.1" />
+<meta name="Keyword" content="spectremod" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-04-19" />
+<meta name="ModifiedTime" content="1587355852" />
+<meta name="NextFile" content="Chap36.html" />
+<meta name="Group" content="Spectre Simulator" />
+<meta name="Platform" content="Analog RF  Mixed-Signal Design" />
+<meta name="PrevFile" content="Chap34.html" />
+<meta name="Product" content="Spectre" />
+<meta name="ProductFamily" content="Spectre" />
+<meta name="ProductVersion" content="19.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre Circuit Simulator Components and Device Models Reference -- HiSIM_Diode Model (hisim_diode)" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="product_feature" content="" />
+<meta name="product_subfeature" content="" />
+<meta name="Version" content="19.1" />
+<meta name="SpaceKey" content="spectremod191" />
+<meta name="webflare-version" content="1.5" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="spectremodTOC.html">Contents</a></li><li><a class="prev" href="Chap34.html" title="HiSIM_IGBT Model (hisim_igbt)">HiSIM_IGBT Model (hisim_igbt)</a></li><li style="float: right;"><a class="viewPrint" href="spectremod.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Chap36.html" title="Surface Potential Based Compact MOSFET Model (spmos)">Surface Potential Based Compac ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Spectre Circuit Simulator Components and Device Models Reference<br />Product Version 19.1, January 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>34
+<a id="pgfId-1032955"></a></h1>
+<h1>
+<a id="pgfId-1035250"></a><hr />
+HiSIM_Diode Model (hisim_diode)<hr />
+</h1>
+
+<p>
+<a id="pgfId-1035632"></a>HiSIM_Diode is a compact diode model with reverse recovery. It supports DC, AC and transient analyses. </p>
+<p>
+<a id="pgfId-1035457"></a>This chapter contains the following information:</p>
+
+<ul><li>
+<a id="pgfId-1035640"></a><a href="Chap35.html#79877">Model Concepts</a></li><li>
+<a id="pgfId-1037313"></a><a href="Chap35.html#53763">Model Usage</a><ul><li>
+<a id="pgfId-1037323"></a><a href="Chap35.html#37153">Instance Syntax</a></li><li>
+<a id="pgfId-1037328"></a><a href="Chap35.html#46258">Model Syntax</a></li><li>
+<a id="pgfId-1037333"></a><a href="Chap35.html#12886">Sample Model Statement</a></li></ul></li><li>
+<a id="pgfId-1037318"></a><a href="Chap35.html#45168">Reference</a><ul><li>
+<a id="pgfId-1037338"></a><a href="Chap35.html#32871">Component Statements</a></li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1035641"></a><a id="79877"></a>Model Concepts</h2>
+
+<p>
+<a id="pgfId-1035642"></a>Elements considered in HiSIM_Diode model are summarized in Fig. 35.1. The internal node p&#8217; is determined when the parasitical resistor is given. The applied voltage Vpn is reduced effectively to Vp&#8217;n due to the potential drop Vpp&#8217; induced by the resistance Rs.</p>
+
+<p><strong>Figure 34-1
+<a id="pgfId-1035647"></a>Framework of HiSIM_Diode Model</strong></p>
+<p>
+<a id="pgfId-1035648"></a></p>
+<div class="webflare-div-image">
+<img src="images/hisim_Diode.gif" /></div>
+
+<p>
+<a id="pgfId-1035657"></a>The basic model concept is consistent with that of conventional diode. The reverse recovery effect is additionally introduced in the HiSIM_Diode model. A high voltage p-i-n structure operating in high level injection is assumed as typical for most power diodes. In actual diodes, reverse recovery is caused by diffusion of charge from the center of the i region, thus, one or more charge storage nodes must be added to provide for this diffusion current. In HiSIM_Diode model, modified lumped charge concept is implemented and charge storage node is adopted. Two model parameters are introduced in the model: The carrier transit time TAUTRAN and the recovery time TAUREC.</p>
+
+<h2>
+<a id="pgfId-1035664"></a><a id="53763"></a>Model Usage</h2>
+<h3>
+<a id="pgfId-1035666"></a><a id="37153"></a>Instance Syntax</h3>
+
+<p>
+<a id="pgfId-1035668"></a>HiSIM_Diode instance need specify 2 terminals, anode and cathode node respectively. To specify HiSIM_Diode instance element, the Model Name has to be associated with a HiSIM_Diode model card.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1035670"></a>InstanceName p n ModelName parameter=value ...</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1035671"></a></pre>
+<h4>
+<a id="pgfId-1035672"></a>Sample Instance Statement</h4>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1035674"></a>d1 (vpp vnn) n_dio area=1e-12 </pre>
+
+<p>
+<a id="pgfId-1035676"></a>For more instance parameters, refer to the Reference of this model.</p>
+
+<h3>
+<a id="pgfId-1035678"></a><a id="46258"></a>Model Syntax</h3>
+
+<p>
+<a id="pgfId-1035679"></a>The following syntax specifies HiSIM_Diode model:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1035681"></a>model ModelName hisim_diode parameter=value ...</pre>
+
+<p>
+<a id="pgfId-1035683"></a>The third parameter, &#8220;hisim_diode&#8221;, is the master to indicate this model card is a HiSIM_Diode model card.</p>
+
+<h3>
+<a id="pgfId-1035685"></a><a id="12886"></a>Sample Model Statement</h3>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1035687"></a>model n_dio hisim_diode eg0=1.17 rs=1e-1 bgtmp1=1e-4 rst1=1e-3</pre>
+
+<p>
+<a id="pgfId-1035689"></a>For more model parameters, refer to the Reference of this model.</p>
+
+<h2>
+<a id="pgfId-1035691"></a><a id="45168"></a>Reference</h2>
+<h3>
+<a id="pgfId-1035803"></a><a id="32871"></a>Component Statements</h3>
+<h4>
+<a id="pgfId-1037354"></a>Instance Parameters</h4>
+<p>
+<a id="pgfId-1038911"></a></p>
+<table class="webflareTable" id="#id1038719">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038721"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038723"></a><code>area=1.0 m^2</code>      </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038725"></a>Junction area.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038727"></a>2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038729"></a> <code>trise=0 C</code>         </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038731"></a>Temperature rise from ambient.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1037357"></a>Model Parameters</h4>
+<h4><em>
+<a id="pgfId-1037358"></a>Junction hsmdiode model parameters</em></h4>
+<p>
+<a id="pgfId-1038901"></a></p>
+<table class="webflareTable" id="#id1038824">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038826"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038828"></a> <code>compatible=spectre</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038830"></a>Spice compatible flag. Possible values are <code>spectre</code>, <code>spice2</code>, <code>spice3</code>, <code>cdsspice</code>, <code>hspice</code>, <code>spiceplus</code>, <code>eldo</code>, <code>sspice</code>, and <code>mica</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038832"></a>2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038834"></a><code>js0=5.0e-7 A/m^2</code>  </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038836"></a>Saturation current.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038838"></a>3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038840"></a> <code>eg0=1.1785 V</code>      </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038842"></a>Band gap.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038844"></a>4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038846"></a><code>nj=1</code>              </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038848"></a>Emission coefficient.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038850"></a>5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038852"></a> <code>vdiffj=0.6e-3 V</code>   </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038854"></a>Diode threshold voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038856"></a>6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038858"></a> <code>cj=5.0e-4 F/m^2</code>   </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038860"></a>Bottom junction capacitance per unit area at zero bias.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038862"></a>7</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038864"></a> <code>pb=1.0 V</code>          </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038866"></a>Bottom junction build-in potential.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038868"></a>8</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038870"></a> <code>mj=0.5</code>            </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038872"></a>Bottom junction capacitance grading coefficient.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038874"></a>9</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038876"></a> <code>divx=0.0 1/V</code>      </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038878"></a>Reverse current coefficient.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038880"></a>10</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038882"></a> <code>tautran=5.0e-8 s</code>  </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038884"></a>Transit time.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038886"></a>11</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038888"></a> <code>taurec=1.0e-9 s </code>  </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038890"></a>Recovery time.</p>
+</td>
+</tr>
+</tbody></table>
+<h4><em>
+<a id="pgfId-1037370"></a>Parasitic resistance parameters</em></h4>
+<p>
+<a id="pgfId-1038980"></a></p>
+<table class="webflareTable" id="#id1038943">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038945"></a>12</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038947"></a><code>rs=0 ohmm^2</code>       </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038949"></a>Series resistance per unit area.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038951"></a>13</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038953"></a><code> rsv1=0 1/C</code>        </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038955"></a>Voltage dependence for the resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038957"></a>14</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038959"></a> <code>rsv2=0 C^-2</code>       </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038961"></a>Voltage dependence for the resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038963"></a>15</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038965"></a> <code>rsi1=0 1/C</code>        </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038967"></a>Current dependence for the resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038969"></a>16</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038971"></a> <code>rsi2=0 C^-2</code>       </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038973"></a>Current dependence for the resistance.</p>
+</td>
+</tr>
+</tbody></table>
+<h4><em>
+<a id="pgfId-1037376"></a>Temperature effects parameters</em></h4>
+<p>
+<a id="pgfId-1039071"></a></p>
+<table class="webflareTable" id="#id1039022">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039024"></a>17</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039026"></a><code>tnom (C)&#160;&#160;        </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039028"></a>Parameters measurement temperature. Default set by `options&#39;.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039030"></a>18</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039032"></a><code>bgtmp1=90.25e-6 1/C</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039034"></a>Temperature dependence of bandgap.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039036"></a>19</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039038"></a><code>bgtmp2=1.0e-7 C^-2</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039040"></a>Temperature dependence of bandgap.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039042"></a>20</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039044"></a><code>rst1=0 1/C&#160;&#160;      </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039046"></a>Temperature dependence for the resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039048"></a>21</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039050"></a><code>rst2=0 C^-2&#160;&#160;     </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039052"></a>Temperature dependence for the resistance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039054"></a>22</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039056"></a><code>tcjbd=0 1/C&#160;&#160;     </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039058"></a>Temperature dependence of hsmdiode capacitance.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039060"></a>23</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039062"></a><code>xti=2&#160;&#160;           </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039064"></a>Temperature coefficient for forward-current densities.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1037384"></a>Operating Point Parameters</h4>
+<table class="webflareTable" id="#id1039126">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039128"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039130"></a><code>vd (V)&#160;&#160;          </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039132"></a>Diode voltage.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039134"></a>2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039136"></a><code>id (A)&#160;&#160;          </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039138"></a>Diode current .</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039140"></a>3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039142"></a><code>gd (S)&#160;&#160;          </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039144"></a>Diode conductance .</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039146"></a>4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039148"></a><code>cd (F)&#160;&#160;          </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039150"></a>Diode capacitance .</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039152"></a>5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039154"></a><code>rdio (Ohm)&#160;&#160;      </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039156"></a>Diode equivalent resistance .</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039158"></a>6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039160"></a><code>charge (Coul)&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039162"></a>Diode capacitor charge.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039164"></a>7</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039166"></a><code>p (W)&#160;&#160;           </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039168"></a>Diode power.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039170"></a>8</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039172"></a><code>region&#160;&#160;          </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1039174"></a>Estimated operating region. Spectre generates output number (0-2) in a rawfile. Possible values are off and on.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1035831"></a><a id="66625"></a>Parameter Index</h4>
+
+<p>
+<a id="pgfId-1035832"></a>In the following index, <code>I</code> refers to instance parameters, <code>M</code> refers to the model parameters section, <code>O</code> refers to the output parameters section, and <code>OP</code> refers to the operating point parameters section. The number indicates where to look in the appropriate section to find the description for that parameter. For example, a reference of <code>M-35</code> means the 35th model parameter.</p>
+<p>
+<a id="pgfId-1037250"></a></p>
+<table class="webflareTable" id="#id1035833">
+<caption style="text-align:left;"><p>
+</p><pre class="webflare-courier-new codeContent">
+<a id="pgfId-1035835"></a></pre></caption>
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037464"></a>area &#160;&#160;&#160;&#160; I-1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037466"></a>gd &#160;&#160;&#160;&#160; OP-3</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037468"></a>rs &#160;&#160;&#160;&#160; M-12</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037470"></a>tcjbd &#160;&#160;&#160;&#160; M-22</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037456"></a>bgtmp1 &#160;&#160;&#160;&#160; M-18</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037458"></a>id &#160;&#160;&#160;&#160; OP-2</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037460"></a>rsi1 &#160;&#160;&#160;&#160; M-15</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037462"></a>tnom &#160;&#160;&#160;&#160; M-17</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037448"></a>bgtmp2 &#160;&#160;&#160;&#160; M-19</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037450"></a>js0 &#160;&#160;&#160;&#160; M-2</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037452"></a>rsi2 &#160;&#160;&#160;&#160; M-16</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037454"></a>trise &#160;&#160;&#160;&#160; I-2</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037440"></a>cd &#160;&#160;&#160;&#160; OP-4</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037442"></a>mj &#160;&#160;&#160;&#160; M-8</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037444"></a>rst1 &#160;&#160;&#160;&#160; M-20</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037446"></a>vd &#160;&#160;&#160;&#160; OP-1</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037432"></a>charge &#160;&#160;&#160;&#160; OP-6</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037434"></a>nj &#160;&#160;&#160;&#160; M-4</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037436"></a>rst2 &#160;&#160;&#160;&#160; M-21</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037438"></a>vdiffj &#160;&#160;&#160;&#160; M-5</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037424"></a>cj &#160;&#160;&#160;&#160; M-6</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037426"></a>p &#160;&#160;&#160;&#160; OP-7</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037428"></a>rsv1 &#160;&#160;&#160;&#160; M-13</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037430"></a>xti &#160;&#160;&#160;&#160; M-23</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037416"></a>compatible &#160;&#160;&#160;&#160; M-1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037418"></a>pb &#160;&#160;&#160;&#160; M-7</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037420"></a>rsv2 &#160;&#160;&#160;&#160; M-14</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037422"></a></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037408"></a>divx &#160;&#160;&#160;&#160; M-9</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037410"></a>rdio &#160;&#160;&#160;&#160; OP-5</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037412"></a>taurec &#160;&#160;&#160;&#160; M-11</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037414"></a></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037400"></a>eg0 &#160;&#160;&#160;&#160; M-3</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037402"></a>region &#160;&#160;&#160;&#160; OP-8</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037404"></a>tautran &#160;&#160;&#160;&#160; M-10</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037406"></a></pre>
+</td>
+</tr>
+</tbody></table>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1035750"></a></pre>
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="Chap34.html" id="prev" title="HiSIM_IGBT Model (hisim_igbt)">HiSIM_IGBT Model (hisim_igbt)</a></em></b><b><em><a href="Chap36.html" id="nex" title="Surface Potential Based Compact MOSFET Model (spmos)">Surface Potential Based Compac ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>
