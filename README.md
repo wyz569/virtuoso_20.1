@@ -1,1 +1,1 @@
-https://wyz569.github.io/virtuoso.io
+https://wyz569.github.io/virtuoso
