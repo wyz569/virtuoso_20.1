@@ -1,0 +1,152 @@
+
+<html><head><title>Coercion for SystemVerilog Interfaces, Program, or Checker Blocks</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864934" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Coercion for SystemVerilog Interfaces, Program, or Checker Blocks" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="concept" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="Digital Mixed Signal,Analog Mixed Signal,Explorer,AMS Designer," />
+<meta name="prod_subfeature" content="SV-MS,SV-MS,AMS Designer," />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864934" />
+<meta name="NextFile" content="Using_Custom_ie_Parameter_and_Connect_Module_Names_for_UDN-to-Electrical_Connections.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Connecting_SystemVerilog_Interface_to_DMS_Verilog-AMS__Electrical__Signals.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Coercion for SystemVerilog Interfaces, Program, or Checker Blocks" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Connecting_SystemVerilog_Interface_to_DMS_Verilog-AMS__Electrical__Signals.html" title="Connecting_SystemVerilog_Interface_to_DMS_Verilog-AMS__Electrical__Signals">Connecting_SystemVerilog_Inter ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Using_Custom_ie_Parameter_and_Connect_Module_Names_for_UDN-to-Electrical_Connections.html" title="Using_Custom_ie_Parameter_and_Connect_Module_Names_for_UDN-to-Electrical_Connections">Using_Custom_ie_Parameter_and_ ...</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <h1 style="margin: 4px 0 4px;"><span>Coercion for SystemVerilog Interfaces, Program, or Checker Blocks</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p><span class="confluence-anchor-link" id="CoercionforSystemVerilogInterfaces,Program,orCheckerBlocks-coercion_SVinterface_Pgm_Checkerblocks"></span>The elaborator&#160;allows wreal coercion within SV interfaces and program blocks through the use of the&#160;<code style="letter-spacing: 0.0px;">-rnm_tech</code>&#160;option or ie card. However, when an SV interface is instantiated within another SV interface (that is, nested interfaces), or if a SV checker is instantiated within an SV interface, or program block, wreal coercion can result in real-to-logic connections within an SV interface or program block resulting in the following error message:</p>
+
+<p><code>*E,CUINMI : connect module instantiation is not allowed inside an interface.</code></p>
+
+<p>This error occurs because the elaborator is attempting to insert a connect module within the SV interface of program block, which is not allowed as per the IEEE 1800-2012 LRM. The IEEE 1800-2012 states specifically an SV interface or program block cannot instantiate modules and this restriction extends to connect modules.</p>
+
+<p>However, this restriction affects large complex designs where wreal coercion can be difficult to predict. To work around the IEEE 1800-2012 restriction, you can use the&#160;<code>svintf_ms_coerce</code>&#160;option, which improves how the elaborator executes wreal coercion within an SV interface or program block to prevent connect module insertion within them.</p>
+
+<p>The following use case scenarios with examples describes how to use coercion within SV interfaces and program blocks. The examples mentioned use SV interfaces to illustrate the enhanced wreal coercion functionality.</p>
+
+<p>If a net is declared internally in an SV interface, program block, or checker or as an SV interface, program block, or checker port, it is coercible if all SV interface, program block, or checker instance port lists that it is directly connected to are also coercible. See&#160;<a href="#CoercionforSystemVerilogInterfaces,Program,orCheckerBlocks-coercion_svi_case1">Case 1</a>.</p>
+
+<p>If a nested SV interface, program block, or checker net/port is incoercible, a connect module is inserted at the boundary of the top most SV interface, program block, or checker to make the connection. However, connect modules are not inserted inside of an SV interface, program, or checker. See&#160;<a href="#CoercionforSystemVerilogInterfaces,Program,orCheckerBlocks-coercion_svi_case2">Case 2</a>.</p>
+
+<p>If an SV interface, program block, or checker net/port is incoercible and is directly connected to an SV interface, program block, or checker instance port that has a type mismatch , then normal SV port semantic rules are applied to connect the ports. And, no connect module is inserted.&#160;See&#160;<a href="#CoercionforSystemVerilogInterfaces,Program,orCheckerBlocks-coercion_svi_case4">Case 4</a>.</p>
+
+<p><strong>Case 1</strong>: Nested Interface Declaration with Coercible Wire Ports<span class="confluence-anchor-link" id="CoercionforSystemVerilogInterfaces,Program,orCheckerBlocks-coercion_svi_case1"></span></p>
+
+<p>In this example&#160;<code>top.IF2.y</code>&#160;and&#160;<code>top.IF2.IF1.x</code>&#160;are both coercible so both of them coerce to wreal because top.z coerces to wreal due to it&#39;s connection to the real variable&#160;<code>top.C.z</code>. No connectmodule (CM) is required in this case as the whole wire path coerces to wreal.</p>
+
+<p><code>interface inf1 (inout wire x);</code><br /><code>endinterface</code></p>
+
+<p><code>interface inf2 (inout wire y);</code><br /><code>&#160; &#160; inf1 IF1(y);</code><br /><code>endinterface</code></p>
+
+<p><code>module top();</code><br /><code>&#160; &#160; wire z;</code><br /><code>&#160; &#160; inf2 IF2(z);</code><br /><code>&#160; &#160; &#160; child C(z);</code><br /><code>endmodule</code></p>
+
+<p><code>module child (output var real r);</code><br /><code>endmodule</code></p>
+
+<p><strong>Case 2</strong>: Nested Interface Declaration with Incoercible Wire Ports&#160;<span class="confluence-anchor-link" id="CoercionforSystemVerilogInterfaces,Program,orCheckerBlocks-coercion_svi_case2"></span></p>
+
+<p>In the following example&#160;<code>top.IF2.IF1.x</code>&#160;is incoercible because it is used in the sensitivity list of an always block. This means that&#160;<code>top.IF2.y</code>&#160;is incoercible because it is connected to&#160;<code>top.IF2.IF1.x</code>. The net top.z coerces to wreal due to it&#39;s connection to the real port&#160;<code>top.C.r</code>. An R2L connectmodule is inserted in top to make the connection between&#160;<code>top.z</code>&#160;and&#160;<code>top.IF2.y</code>.</p>
+
+<p><code>interface inf1 (inout wire x);</code><br /><code>&#160; &#160; always @(x) $display(&quot;X=%d&quot;, x);</code><br /><code>endinterface</code></p>
+
+<p><code>interface inf2 (inout wire y);</code><br /><code>&#160; &#160; inf1 IF1(y);</code><br /><code>endinterface&#160;&#160;</code></p>
+
+<p><code>module top();</code><br /><code>&#160; &#160; wire z;</code><br /><code>&#160; &#160; inf2 IF2(z);</code><br /><code>&#160; &#160; child C(z);</code><br /><code>endmodule</code></p>
+
+<p><code>module child (output var real r);</code><br /><code>endmodule</code></p>
+
+<p><strong>Case 3</strong>: Nested Interface Declaration with Coercible Net and Real Var Connection&#160;<span class="confluence-anchor-link" id="CoercionforSystemVerilogInterfaces,Program,orCheckerBlocks-coercion_svi_case3"></span></p>
+
+<p>In the following example&#160;<code>top.IF2.y</code>&#160;coerces to wreal because all of it&#39;s internal interface port connections are coercible. This means that&#160;<code>top.z</code>&#160;coerces to wreal. Since the entire path is real, no connectmodule is required.</p>
+
+<p><code>interface inf1 (input real rr);</code><br /><code>endinterface</code></p>
+
+<p><code>interface inf2 (inout wire y);</code><br /><code>&#160; &#160; inf1 IF1(y);</code><br /><code>endinterface</code></p>
+
+<p><code>module top();</code><br /><code>&#160; &#160; wire z;</code><br /><code>&#160; &#160; inf2 IF2(z);</code><br /><code>&#160; &#160; child C(z);</code><br /><code>endmodule</code></p>
+
+<p><strong>Case 4</strong>: Nested Interface Declaration with Incoercible Net and Real Var Connection&#160;<span class="confluence-anchor-link" id="CoercionforSystemVerilogInterfaces,Program,orCheckerBlocks-coercion_svi_case4"></span></p>
+
+<p>In the following example&#160;<code>top.IF2.y</code>&#160;is incoercible because it is used in the sensitivity list of an always block. No connectmodule is inserted between&#160;<code>top.IF2.y</code>&#160;and&#160;<code>top.IF2.IF1.x</code>. The SV port semantic rules are applied and the integral value of&#160;<code>top.IF2.y</code>&#160;is converted to real and assigned to&#160;<code>top.X</code>.</p>
+
+<p><code>interface inf1 (input var real rr);</code><br /><code>endinterface</code></p>
+
+<p><code>interface inf2 (inout wire y);</code><br /><code>&#160; &#160; always @(y) $display(&quot;y=%d&quot;, y);</code><br /><code>&#160; &#160; inf1 IF1(y);</code><br /><code>endinterface</code></p>
+
+<p><code>module top();</code><br /><code>&#160; &#160; wire z;</code><br /><code>&#160; &#160; inf2 IF2(z);</code></p>
+
+<p><code>&#160; &#160; child C(z);</code><br /><code>endmodule</code></p>
+
+<p><code>module child (output var real r);</code><br /><code>endmodule&#160;</code></p>
+
+<p><strong>Case 5</strong>: Non-Nested Coercible Direct Interface Port Connection in Module Scope&#160;<span class="confluence-anchor-link" id="CoercionforSystemVerilogInterfaces,Program,orCheckerBlocks-coercion_svi_case5"></span></p>
+
+<p>In the following example&#160;<code>top.IF1.x</code>&#160;and&#160;<code>top.IF2.y</code>&#160;should both coerce to wreal because both of them are coercible and&#160;<code>top.z</code>&#160;is connected to the real variable&#160;<code>top.C.r</code>. The entire path is real and no connectmodule is required.</p>
+
+<p><code>interface inf1 (inout wire x);</code><br /><code>endinterface</code></p>
+
+<p><code>interface inf2 (inout wire y);</code><br /><code>endinterface</code></p>
+
+<p><code>module top();</code><br /><code>&#160; &#160; wire z;</code><br /><code>&#160; &#160; inf1 IF1(z);</code><br /><code>&#160; &#160; inf2 IF2(IF1.x);</code><br /><code>&#160; &#160; child C(z);</code><br /><code>endmodule</code></p>
+
+<p><code>module child (output var real r);</code><br /><code>endmodule</code><strong>&#160;</strong></p>
+
+<p><strong>Case 6</strong>: Non-Nested Incoercible Direct Interface Port Connection in Module Scope&#160;<span class="confluence-anchor-link" id="CoercionforSystemVerilogInterfaces,Program,orCheckerBlocks-coercion_svi_case6"></span></p>
+
+<p>In the following example&#160;<code>top.IF1.x</code>&#160;coerces to wreal; however,&#160;<code>top.IF2.y</code>&#160;is incoercible because it is used in the sensitivity list of an always block. A connectmodule is inserted in the scope of instance top between the OOMR&#160;<code>IF1.x</code>&#160;and&#160;<code>top.IF2.y</code>.</p>
+
+<p><code>interface inf1 (inout wire x);</code><br /><code>endinterface</code></p>
+
+<p><code>interface inf2 (inout wire y);</code><br /><code>&#160; &#160; always @(y) $display(&quot;y=%d&quot;, y);</code><br /><code>endinterface</code></p>
+
+<p><code>module top();</code><br /><code>&#160; &#160; wire z;</code><br /><code>&#160; &#160; inf1 IF1(z)</code><br /><code>&#160; &#160; inf2 IF2(IF1.x);&#160;&#160;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;child C(z);</code><br /><code>endmodule</code></p>
+
+<p><code>module child (output var real r);</code><br /><code>endmodule</code></p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Connecting_SystemVerilog_Interface_to_DMS_Verilog-AMS__Electrical__Signals.html" id="prev" title="Connecting_SystemVerilog_Interface_to_DMS_Verilog-AMS__Electrical__Signals">Connecting_SystemVerilog_Inter ...</a></em></b><b><em><a href="Using_Custom_ie_Parameter_and_Connect_Module_Names_for_UDN-to-Electrical_Connections.html" id="nex" title="Using_Custom_ie_Parameter_and_Connect_Module_Names_for_UDN-to-Electrical_Connections">Using_Custom_ie_Parameter_and_ ...</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

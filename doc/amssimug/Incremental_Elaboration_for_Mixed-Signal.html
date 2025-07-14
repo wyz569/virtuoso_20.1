@@ -1,0 +1,102 @@
+
+<html><head><title>Incremental Elaboration for Mixed-Signal</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864946" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Incremental Elaboration for Mixed-Signal" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="concept" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="Digital Mixed Signal,Analog Mixed Signal,Analog Mixed Signal," />
+<meta name="prod_subfeature" content="SV-MS,SV-MS,Documentation," />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864946" />
+<meta name="NextFile" content="Appendix_A__Updating_Legacy_Libraries_and_Netlists.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Instantiating_Verilog-AMS_and_VHDL-AMS_in_SystemC.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Incremental Elaboration for Mixed-Signal" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Instantiating_Verilog-AMS_and_VHDL-AMS_in_SystemC.html" title="Instantiating_Verilog-AMS_and_VHDL-AMS_in_SystemC">Instantiating_Verilog-AMS_and_ ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Appendix_A__Updating_Legacy_Libraries_and_Netlists.html" title="Appendix_A__Updating_Legacy_Libraries_and_Netlists">Appendix_A__Updating_Legacy_Li ...</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <div style="width: 100%; font-size: 32px; text-align: left;               font-weight: bold;">23</div>
+<h1 style="margin: 4px 0 4px;"><span>Incremental Elaboration for Mixed-Signal</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p>Incremental Elaboration is a technology that enables you to partition the design into sections based on the stability of the code. Parts of the design that are stable, or require only occasional changes, are placed into one or more partitions (primary partition), while parts of the design that undergo frequent changes are placed into a separate partition (incremental partition). Each partition is elaborated separately into a snapshot, and the snapshots are then combined at simulation time. When a change is made, only the affected partition has to be re-elaborated.</p>
+
+<p>Incremental elaboration is also enabled for designs containing mixed-signal behavior (either AMS or DMS). Verilog-AMS is supported in primary partitions with the following restrictions:</p>
+<ul><li>Verilog-AMS is not allowed in the top-level modules of a primary partition, if the module has ports.</li><li>Verilog-AMS is not allowed in modules containing instances that are left unbound using the&#160;<code>-incrbind</code>&#160;option.</li><li>SV-DC interconnect nets are not allowed in modules containing instances that are left&#160;unbound using the&#160;<code>-incrbind</code>&#160;option.</li><li>Wires in a top-level module of a primary partition do not coerce to&#160;<code>electrical</code>&#160;or&#160;<code>wreal</code>, if&#160;the module has ports.</li><li>Wires in modules containing instances that are left unbound using the<code>&#160;-incrbind</code>option do not coerce to&#160;<code>electrical</code>&#160;or&#160;<code>wreal</code>.</li></ul>
+<p>Verilog-AMS is supported in incremental partitions with the following restrictions:</p>
+<ul><li>Verilog-AMS is not allowed in modules that bind to unbound instances in a primary&#160;partition.</li><li>Verilog-AMS is not allowed in modules containing instances that bind to primary&#160;partitions.</li><li>SV-DC interconnect nets are not allowed in modules containing instances that bind to&#160;primary partitions.</li><li>Wires in modules that bind to unbound instances in a primary partition do not coerce to&#160;electrical or wreal.</li><li>Wires in modules containing instances that bind to primary partitions do not coerce to&#160;electrical or wreal.</li></ul><h2 id="IncrementalElaborationforMixed-Signal-UnsupportedScenariosIncrementalElaborationforMixed-Signal">Unsupported Scenarios&#160; Incremental Elaboration for Mixed-Signal</h2>
+
+<p>The following are the unsupported scenarios:</p>
+<ul><li>The&#160;<code>-autospiceoomr</code>&#160;and&#160;<code>-ignore_spice_oomr</code>&#160;command-Line Options to manage Out-of-Module References to SPICE in digital statements</li><li>Low power mixed-signal verification scenarios</li><li>VHDL terminal port and VHDL AMS on primary top</li><li>Array of instances</li><li>Discipline resolution at partition boundary port or net</li><li>
+<p>AutoMSIE functionality in designs containing Verilog-AMS or SPICE</p>
+</li><li>The&#160;<code>-spicetop</code>&#160;option to run a SPICE-on-Top design</li><li>AMS Virtuoso use model</li></ul><h2 id="IncrementalElaborationforMixed-Signal-Limitations">Limitations</h2>
+
+<p>Currently, the following limitations exist in incremental elaboration:</p>
+<ul><li>Inherited connections must resolve to a net in the same partition as they exist either&#160;through defaults or through overrides. This prevents discipline resolution from&#160;propagating across the partition boundary; and, also eliminates the need for an interface&#160;element across the partition boundary. This requires that the global power supply nets in&#160;the cds_globals module to be included as another top-level module in the primary&#160;partition.</li><li>Generating an&#160;<code>ieinfo</code>&#160;report during primary elaboration is not supported. When an&#160;<code>ieinfo</code>&#160;report is requested during the final elaboration, the list of interface elements also&#160;include the ones from the primary partition. In addition, the hierarchical paths in the&#160;report is adjusted to the full path in the final design.</li><li>The&#160;<code>-amspartinfo</code>&#160;option is currently not supported.</li><li>Mulitple xrun flows are not supported for SPICE configurations.</li><li>OOMR connection in incremental partition referring to an object of type&#160;<code>electrical</code>,&#160;<code>wreal</code>&#160;in the primary partition or vice versa.</li><li>OOMR connection in incremental partition referring to an object of type&#160;<code>analog</code>,&#160;<code>coerced wreal</code>, or&#160;<code>coerced UDN</code>&#160;in the primary partition or vice versa.</li><li>OOMR connection in primary partition referring to an object of type&#160;<code>wudn</code>&#160;in incremental partition.</li><li>OOMR connection to analog node in elaborated primary boundary.</li><li>Analog OOMR connection to elaborated primary boundary or through internal&#160;<code>top_externs</code>&#160;module.</li><li>Cross-partition mixed signal OOMR as a port connection to bidirectional trangate.</li><li>Out of Primary References (OOPRs) from one primary partition to another.</li><li>Connect modules at partition boundary.</li><li>SystemVerilog interconnects at partition boundary.</li><li>Coercion of&#160;<code>wreal</code>&#160;and&#160;<code>electrical</code>&#160;nets at partition boundary.</li><li>Verilog-AMS module with ports as primary or incremental snapshot.</li><li>SystemVerilog&#160;<code>wire</code>&#160;connect to VHDL&#160;<code>real</code>&#160;port at partition boundary.</li><li>An incremental instantiate primary flow with an instance-based setting in the AMSD block, such as a config card or&#160;<code>ie</code>&#160;card to do BDR setting, is not supported in primary elaboration. Instead, you must use the relative path of primary top.</li><li>Programmable RNM coercion.</li><li>Bind statement in incremental partition and bind target in primary partition.</li><li>SV bind statements on SPICE blocks (with&#160;<code>-xmcbind</code>) on a spice internal node.</li><li>AMS and DMS nets cannot be declared or resolved across partition boundary.</li><li>SV wire connect to VHDL real port at partition boundary.</li><li>SPICE configurations in primary partition under multiple run mode.</li><li>Back to Back interface elements (IE) at partition boundary.</li><li>Binding of Verilog AMS module to primary or incremental snapshot target modules.</li></ul><h2 id="IncrementalElaborationforMixed-Signal-IncrementalElaborationatSV-RNMPartitionBoundaryIncremental_Elaboration_at_SV-RNM">Incremental Elaboration at SV-RNM Partition Boundary<span class="confluence-anchor-link" id="IncrementalElaborationforMixed-Signal-Incremental_Elaboration_at_SV-RNM"></span></h2>
+
+<p>Incremental elaboration is enabled for designs containing SystemVerilog User Defined Nettype (SV-UDN) ports at the partition boundaries. You can specify UDN ports at the primary partition boundary of a design; then, the UDN ports from the different secondary partitions are connected and merged into one simulation net.</p>
+
+<p>Verilog-AMS and Spice instantiations can be instantiated within partitions; however, these ports are not allowed across partition boundary.</p>
+
+<p>The following example enables IE for the SV-UDN port type and&#160;<code>xrun</code>&#160;compiles the&#160;<code>top.sv</code>&#160;file. Module,&#160;<code>top</code>&#160;is the incremental partition and&#160;<code>driver1</code>&#160;is the primary partition:</p>
+<p style="margin-left: 30.0px;"><code>xrun -clean top.sv -primtop driver</code><br /><code>//top.sv</code><br /><code>//incremental</code><br /><code>module top;</code><br /><code>WUDNTYPE w;</code><br /><code>assign w = 1.1;</code><br /><code>driver1 d1(w);</code><br /><code>endmodule</code></p>
+<p style="margin-left: 30.0px;"><code>//primary</code><br /><code>module driver1 (dr_1);</code><br /><code>input dr_1;</code><br /><code>WUDNTYPE dr_1;</code><br /><code>Endmodule</code></p>
+
+<p>The following are the port types that are supported for incremental elaboration at SV-RNM partition boundary:</p>
+<ul><li>sv wreal. For example:</li></ul><p style="margin-left: 60.0px;"><code>import cds_rnm_pkg::*;</code><br /><code>wrealsum w;</code><br /><code>or</code><br /><code>wrealavg w;</code></p>
+<ul><li>nettype real with UDR. For example:</li></ul><p style="margin-left: 60.0px;"><code>function automatic real FUNC(input real drivers[]);</code><br /><code>begin</code><br /><code>FUNC = 1.0;</code><br /><code>foreach (drivers[j])</code><br /><code>begin</code><br /><code>$display(&quot;\nFUNC : drivers[%d] = {%f} &quot;, j, drivers[j]);</code><br /><code>FUNC += drivers[j];</code><br /><code>end</code><br /><code>end</code><br /><code>endfunction</code></p>
+<p style="margin-left: 60.0px;"><code>// A nettype declaration with datatype</code><br /><code>nettype real WUDNTYPE with FUNC</code>;</p>
+<ul><li>net type struct with one real filed, with UDR. For example:</li></ul><p style="margin-left: 60.0px;"><code>typedef struct {</code><br /><code>real V;</code><br /><code>} Rstruct;</code></p>
+<p style="margin-left: 60.0px;"><code>function automatic Rstruct FUNC(input Rstruct drivers[]);</code><br /><code>begin</code><br /><code>FUNC = &#39;{1.0};</code><br /><code>foreach (drivers[j])</code><br /><code>begin</code><br /><code>$display(&quot;\nFUNC : drivers[%d] = {%f} &quot;, j, drivers[j].V);</code><br /><code>FUNC.V += drivers[j].V;</code><br /><code>end</code><br /><code>end</code><br /><code>endfunction</code></p>
+<p style="margin-left: 60.0px;"><code>// A nettype declaration with datatype</code><br /><code>nettype Rstruct WUNDTYPE with FUNC;</code></p>
+<ul><li>nettype struct with multiple fields. For example:</li></ul><p style="margin-left: 60.0px;"><code>typedef struct {</code><br /><code>real field1;</code><br /><code>real field2;</code><br /><code>}T;</code></p>
+<p style="margin-left: 60.0px;"><code>// user-defined resolution function Tsum</code><br /><code>function automatic T Tsum (input T driver[]);</code><br /><code>begin</code><br /><code>Tsum.field1 = 0.0;</code><br /><code>Tsum.field2 = 0.0;</code><br /><code>foreach (driver[i])</code><br /><code>begin</code><br /><code>$display(&quot;driver[%d]{%f}{%f}&quot;, i, driver[i].field1, driver[i].field2);</code><br /><code>Tsum.field1 += driver[i].field1 ;</code><br /><code>Tsum.field2 += driver[i].field2 ;</code><br /><code>end</code><br /><code>$display(&quot;Tsum{%f}{%f}&quot;, Tsum.field1, Tsum.field2);</code><br /><code>end</code><br /><code>endfunction</code></p>
+<p style="margin-left: 60.0px;"><code>// A nettype declaration with datatype and resolution function</code><br /><code>nettype T WUDNTYPE with Tsum;</code><br /><code>OR:&#160;</code><br /><code>import EE_pkg::*;</code><br /><code>EEnet w;</code></p>
+<ul><li>
+<p>nettype without UDR. For example:</p>
+</li></ul><p style="margin-left: 60.0px;"><code>nettype real WUDNTYPE;</code></p>
+
+<p>The following are the restrictions of using SV-UDN ports at the partition boundaries:</p>
+<ul><li>If one side of the connect is UDN and the other side cannot be UDT (struct variable).</li><li>Wreal type in .vams connection is not supported. In such cases, you must transfer&#160;<code>.vams</code>&#160;to&#160;<code>.sv</code>; and, use SV Wreal.</li><li>Datatype connections such as real connect to non-real, udn connect to non-udn are not supported at partition boundaries.</li><li>Interconnect coercion to nettype that is already elaborated in primary partition is not supported.</li><li>Coercion of wreal and electrical nets at partition boundary.</li></ul>
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Instantiating_Verilog-AMS_and_VHDL-AMS_in_SystemC.html" id="prev" title="Instantiating_Verilog-AMS_and_VHDL-AMS_in_SystemC">Instantiating_Verilog-AMS_and_ ...</a></em></b><b><em><a href="Appendix_A__Updating_Legacy_Libraries_and_Netlists.html" id="nex" title="Appendix_A__Updating_Legacy_Libraries_and_Netlists">Appendix_A__Updating_Legacy_Li ...</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

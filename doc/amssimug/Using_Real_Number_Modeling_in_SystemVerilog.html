@@ -1,0 +1,587 @@
+
+<html><head><title>Using Real Number Modeling in SystemVerilog</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864922" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Using Real Number Modeling in SystemVerilog" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="concept" />
+<meta name="reference_type" content="null" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864922" />
+<meta name="NextFile" content="Using_SystemVerilog_Interconnects.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="SystemVerilog_Real_Number_Modeling.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Using Real Number Modeling in SystemVerilog" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="SystemVerilog_Real_Number_Modeling.html" title="SystemVerilog_Real_Number_Modeling">SystemVerilog_Real_Number_Mode ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Using_SystemVerilog_Interconnects.html" title="Using_SystemVerilog_Interconnects">Using_SystemVerilog_Interconne ...</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <h1 style="margin: 4px 0 4px;"><span>Using Real Number Modeling in SystemVerilog</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p><span class="confluence-anchor-link" id="UsingRealNumberModelinginSystemVerilog-1074976"></span><span class="confluence-anchor-link" id="UsingRealNumberModelinginSystemVerilog-rnm_modeling"></span>You can enable real number modeling in SystemVerilog by creating a set of built-in nettypes with real data type and built-in resolution functions, equivalent to the wreal resolution functions.&#160;</p>
+
+<p>A built-in real SV nettype can be declared as follows:</p>
+
+<p><code>nettype real nettype_identifier with builtin_res_func;</code></p>
+
+<p>Where:</p>
+
+<p><code>nettype_identifier</code>&#160;is the identifier that you use for nettype and&#160;<code>builtin_res_func</code>&#160;is a Cadence built-in resolution function. For example:</p>
+
+<p><code>nettype real wrealavg with CDS_res_wrealavg</code></p>
+
+<p>You can also use another name for an existing built-in nettype, as shown below.</p>
+
+<p><code>nettype real wrealavg with CDS_res_wrealavg; //declare a built-in nettype &quot;wrealavg&quot;</code></p>
+
+<p><code>nettype wrealavg myWrealAvg; //rename wrealavg to myWrealAvg</code></p>
+
+<p>The SV built-in resolution functions and their equivalent wreal types are shown in the following table:</p>
+<div class="pbi_avoid"><p align="left"><strong><span class="confluence-anchor-link" id="UsingRealNumberModelinginSystemVerilog-1063265"></span>Built-In Resolution Functions</strong></p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable"><colgroup><col /><col /></colgroup><tbody><tr><td bgcolor="#CCCCCC" class="confluenceTd" valign="top" width="278">
+<p><span style="color: rgb(0,0,0);"><strong>Built-in Resolution Function</strong></span></p>
+</td>
+<td bgcolor="#CCCCCC" class="confluenceTd" valign="top" width="238">
+<p><span style="color: rgb(0,0,0);"><strong>Equivalent Wreal Type</strong></span></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> CDS_res_wreal1driver </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> wreal1driver </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> CDS_res_wreal4state </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> wreal4state </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> CDS_res_wrealmin </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> wrealmin </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> CDS_res_wrealmax </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> wrealmax </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> CDS_res_wrealsum </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> wrealsum </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> CDS_res_wrealavg </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> wrealavg </code></p>
+</td>
+</tr>
+</tbody></table></div>
+</div>
+
+<p>Once a built-in nettype has been declared, a net of the built-in nettype can be used just like a net of any other user-defined nettype (UDN) as governed by the SV LRM.</p>
+
+<p><code>nettype real wrealavg with CDS_res_wrealavg; //declare a built-in nettype &quot;wrealavg&quot;</code><br /><code>wrealavg x; &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;//declare a singular net of nettype &quot;wrealavg&quot;</code><br /><code>wrealavg x [0:3]; &#160;&#160;&#160;// declare a 4-element array of nets of nettype &quot;wrealavg&quot;</code></p>
+
+<p>You can easily port existing wreal models to SV by using the&#160;<code>cds_rnm_pkg</code>&#160;package that defines a set of built-in nettypes that are equivalent to the typed wreal nets. For example, a simple Verilog-AMS wreal module</p>
+
+<p><code>module real_model(x);</code></p>
+
+<p><code>&#160; &#160;input x [0:3];</code><br /><code>&#160; &#160;wrealavg x [0:3];</code><br /><code>&#160; &#160;child C(x);</code><br /><code>endmodule</code></p>
+
+<p>can be ported to use SV nettypes by simply importing the&#160;<code>cds_rnm_pkg&#160;</code>package, as shown below.</p>
+
+<p><code>import cds_rnm_pkg::*;</code></p>
+
+<p><code>module real_model(x);</code></p>
+
+<p><code>&#160; &#160;input x [0:3];</code><br /><code>&#160; &#160;wrealavg x [0:3];</code><br /><code>&#160; &#160;child C(x);</code><br /><code>endmodule</code></p>
+
+<p>The package is included in the IUS installation at&#160;<code>$INSTALL_ROOT/tools/affirma_ams/etc/dms/cds_rnm_pkg.sv.</code></p>
+
+<p>When the software is installed, the package is compiled into a new&#160;<code>INSTALL_ROOT/tools/affirma_ams/etc/dms/dmsLib&#160;</code>directory. The package is automatically appended to the xrun command line and is available for import in all SV modules that&#160;<code>xrun</code>&#160;is compiling.</p>
+
+<p>You can use the new&#160;<code>EE_pkg&#160;</code>package to port existing wreal models to SV. The package is included in the installation at<code>&#160;$INSTALL_ROOT/tools/affirma_ams/etc/dms/EE_pkg.sv.</code>&#160;When the software is installed, the package is compiled into the&#160;<code>$INSTALL_ROOT/tools/affirma_ams/etc/dms/dmsLib</code>&#160;directory.</p>
+
+<p>The new&#160;<code>EE_pkg</code>&#160;package contains the definition of EEnettype and resolution. It provides the user-defined type&#160;<code>EEnet</code>&#160;that handles pins that are structures (<code>EEstruct</code>) of three real values {V,I,R} (Voltage, Current, Resistance). EEnet models a combination of a series of voltage sources and resistors and a parallel current source and defines the resolution function to generate a resolved voltage from any useful combination of the inputs.</p>
+
+<p>You can also refer to the examples related to electrical equivalent (EE) controlled elements for use with&#160;<code>EE_pkg</code>&#160;to model the electrical operations in SV in the<code>&#160;$INSTALL_ROOT/tools/affirma_ams/etc/dms/dmsLib/EE_pkg_examples</code>&#160;directory. See the&#160;<code>Readme.txt</code>&#160;file in the&#160;<code>EE_pkg_examples</code>&#160;directory for more information on the examples.</p>
+<h3 id="UsingRealNumberModelinginSystemVerilog-wrealresolutionResolvingWrealNetsofBuilt-InNettype"><span class="confluence-anchor-link" id="UsingRealNumberModelinginSystemVerilog-wrealresolution"></span>Resolving Wreal Nets of Built-In Nettype</h3>
+
+<p>The resolution function of wreal nets of built-in nettype runs at time 0 regardless of the state of its drivers to bring them into compliance with the SystemVerilog nets of nettype, as described in the IEEE 1800-2012 standard.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>In releases prior to 13.1, these nets initialized to 0.0 and resolved to a new value only when the value of one of their drivers changed.</p>
+</div>
+</div>
+
+<p>Consider the following example:</p>
+
+<p><code>module top();</code><br /><code>&#160; &#160; wreal1driver x;</code></p>
+
+<p><code>&#160; &#160; real a;</code><br /><code>&#160; &#160; real b;</code></p>
+
+<p><code>&#160; &#160; initial</code><br /><code>&#160; &#160; &#160; &#160;begin</code></p>
+<p style="margin-left: 60.0px;"><code>&#160;a = 0;</code><br /><code>&#160;b = 0;</code><br /><code>&#160;#1 a = 1.1;</code><br /><code>&#160;#1 b = `wrealZState;</code><br /><code>&#160;#1 $finish();</code></p>
+<p style="margin-left: 30.0px;"><code>&#160; &#160;end</code></p>
+<p style="margin-left: 30.0px;"><code>always</code></p>
+<p style="margin-left: 30.0px;"><code>&#160; &#160;begin<br />&#160; &#160; $display(&quot;%t: x = %f&quot;, $time(), x);</code><br /><code>&#160; &#160; @(x);</code></p>
+<p style="margin-left: 30.0px;"><code>&#160; &#160;end</code></p>
+<p style="margin-left: 30.0px;"><code>assign x = a;</code><br /><code>assign x = b;</code><br /><code>endmodule</code></p>
+
+<p>In the above example,&#160;<code>x&#160;</code>is a net which is declared as nettype&#160;&#160;<code>wreal1driver</code>&#160;and has two drivers&#160;<code>a</code>&#160;and&#160;<code>b</code>&#160;both driving 0.0 at time 0.</p>
+
+<p>Running the above example results in the following output:</p>
+
+<p><code>xmsim: *W,WRMNZD: top.x: wreal net has multiple non-Z drivers (Time: 0 NS + 1).</code><br /><code>&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;0: X = `wrealXState</code></p>
+
+<p><code>xmsim: *W,WRMNZD: top.x: wreal net has multiple non-Z drivers (Time: 1 NS + 1).</code><br /><code>&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;2: x = 1.100000</code></p>
+
+<p><code>Simulation complete via $finish(1) at time 3 NS + 0</code><br /><code>./top.vams:13 #1 $finish();</code></p>
+
+<p>In the above output,&#160;<code>x</code>&#160;resolves to&#160;<code>wrealXState</code>&#160;at time 0.</p>
+<h3 id="UsingRealNumberModelinginSystemVerilog-1063483HandlingPortConnections"><span class="confluence-anchor-link" id="UsingRealNumberModelinginSystemVerilog-1063483"></span>Handling Port Connections</h3>
+
+<p>Port Connections of nets of built-in nettype will be governed by the port connection rules in the LRM (section 23.3.3).</p>
+
+<p><span style="color: rgb(0,0,0);"><strong>Both the upper and lower connections are nets of built-in nettype</strong></span></p>
+<ul><li>If both are singular nets of built-in nettype then they must have a matching nettype as governed by the matching nettype rules in section 6.22.6 of the LRM. The port shall be merged into a single simulated net.</li></ul><ul><li>If either of the net is an array of nets of built-in nettype, their elements must have matching nettype as described in section 6.22.6 of the LRM. The port shall be merged into a single simulated net.</li></ul><div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You can use the <code>xmelab/xrun&#160;-nettype_port_relax</code> command-line option to allow for relaxed port compatibility rules for connections of built-in nettypes. If this option is specified the following rules will govern connections of built-in nettype to built-in nettype:</p>
+<ul><li>If they are both singular nets then their resolution functions must be the same. The port shall be merged into a single simulated net.</li></ul><ul><li>If either is an array they must have an assignment-compatible data type as described in section 6.22.3 of the LRM. Size mismatches are allowed when connecting to other nettypes or wreals. In addition, the resolution functions of their element nettypes must be the same. The port shall be merged into a single simulated net.</li></ul></div>
+</div>
+
+<p><span style="color: rgb(0,0,0);"><strong>One is a net of built-in nettype and the other is a wreal net</strong></span></p>
+<ul><li>If both are singular nets then the resolution function of the net of built-in nettype must match the wreal type from the table shown above. The port shall be merged into a single simulated net.</li></ul><ul><li>If either of the net is an array, the nets must have an assignment compatible data type as described in section 6.22.3 of the LRM. In addition, the resolution function of the element nettype of the net of built-in nettype must match the wreal type from&#160;<a href="#UsingRealNumberModelinginSystemVerilog-1063265">Table, Built-In Resolution Functions</a>. The port shall be merged into a single simulated net.</li></ul><div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>These rules for wreal connections assume that wreal coercion has already taken place and that all<span style="color: rgb(0,0,0);">&#160;generic&#160;</span>wreals have been resolved to a type.</p>
+</div>
+</div>
+
+<p><span style="color: rgb(0,0,0);"><strong>One is a net of built-in nettype and the other is a variable or expression</strong></span></p>
+<ul><li>If the net of built-in nettype is a singular net then the data type of the variable or expression must be a singular real. The port shall be of mode input or output and the connection shall be treated as a continuous assignment from source to sink.</li></ul><ul><li>If the net of built-in nettype is an array then the upper and lower connections must have an assignment-compatible data type and the element data type of the non-net must be real. The port shall be of mode input or output and the connection shall be treated as a continuous assignment from source to sink.</li></ul><h3 id="UsingRealNumberModelinginSystemVerilog-WrealInteractionwithNetsofBuilt-InNettype">Wreal Interaction with Nets of Built-In Nettype</h3>
+<h4 id="UsingRealNumberModelinginSystemVerilog-WrealCoercion">Wreal Coercion</h4>
+
+<p>In general, nets of built-in nettype behave in a similar manner to the wreal nets. Wreal coercion takes place before port compatibility checking, therefore, once the type of the port is fully known, port compatibility described in<a href="#UsingRealNumberModelinginSystemVerilog-1063483">&#160;Handling Port Connections&#160;</a>is considered.</p>
+
+<p>Connecting an implied interconnect wire to a net of built-in nettype will coerce that implied interconnect to a wreal net. The type of the coerced wreal net will be determined by identifying the wreal type that corresponds to the net of built-in nettypes resolution functions described in&#160;<a href="#UsingRealNumberModelinginSystemVerilog-1063265">Table, Built-In Resolution Functions</a>.</p>
+
+<p>Connecting a net of built-in nettype to a generic wreal net will coerce the type of the generic wreal net in the same manner that it coerces an implied interconnect. The final type of the generic wreal will be determined by identifying the wreal type that corresponds to the net of built-in nettypes resolution function described in&#160;<a href="#UsingRealNumberModelinginSystemVerilog-1063265">Table, Built-In Resolution Functions</a>.</p>
+
+<p>If an array of nets of built-in nettype is connected to a collapsible concatenation of nets, all nets in the concatenation that are coercible to wreal will be coerced. The type of the coerced wreal nets will be determined by identifying the wreal type that corresponds to the net of built-in nettypes resolution function described in&#160;<a href="#UsingRealNumberModelinginSystemVerilog-1063265">Table, Built-In Resolution Functions</a>. If any of the nets are not coercible they are not coerced and an R2L connect modules is inserted.</p>
+
+<p>If an array of nets of built-in nettype is connected to a non-collapsible concatenation expression no coercion will occur, even if some of the elements of the concatenation would otherwise be coercible.</p>
+<h4 id="UsingRealNumberModelinginSystemVerilog-DisciplineResolution">Discipline Resolution</h4>
+
+<p>Discrete or continuous disciplines are not propagated to the nets of built-in nettype and discipline resolution does not propagate disciplines through them in either detailed or default discipline resolution.</p>
+<h4 id="UsingRealNumberModelinginSystemVerilog-ConnectModuleInsertion">Connect Module Insertion</h4>
+
+<p>Insertion of Verilog-AMS wreal connect modules on nets of built-in nettype is allowed only through the<code>&#160;ie&#160;</code>card mechanism. The following connections are supported with an inserted connect module:</p>
+<ul><li><span style="color: rgb(0,0,0);"><strong>Net of built-in nettype to electrical net</strong>.</span>&#160;If an&#160;<code>ie</code>&#160;card exists that applies to this connection, a VAMS connect module with one wreal port of the appropriate direction, one electrical port of appropriate direction, and vsup as defined in the applied<code>&#160;ie&#160;</code>card are inserted.</li></ul><ul><li><span style="color: rgb(0,0,0);"><strong>Net of built-in nettype to logic net or variable</strong>.</span>&#160;If an&#160;<code>ie</code>&#160;card exists that applies to this connection, a VAMS connect module with one wreal port of the appropriate direction, one digital logic wire port of appropriate direction, and vsup as defined in the applied ie card are inserted.</li></ul>
+<p>If a connect module is needed on a net of built-in nettype and there is no&#160;<code>ie</code>&#160;card that would apply to that connection, an error is generated and no connect module is inserted.</p>
+<h4 id="UsingRealNumberModelinginSystemVerilog-WrealConcatenation">Wreal Concatenation</h4>
+
+<p>Connections of wreal concatenations to arrays of nets of built-in nettype are allowed as long as the concatenation only contains wreal nets (coerced or declared). The port collapses to a single simulated net. If the port cannot collapse, an error is generated.</p>
+
+<p>Inherited connections on nets of built-in nettype are not supported.</p>
+<h3 id="UsingRealNumberModelinginSystemVerilog-WrealInteractionwithBuilt-InRealNettypesandRealNettypeswithResolutionFunctionswreal_to_nettypewreal_to_nettype">Wreal Interaction with Built-In Real Nettypes and Real Nettypes with Resolution Functions<span class="confluence-anchor-link" id="UsingRealNumberModelinginSystemVerilog-wreal_to_nettype"></span><span class="confluence-anchor-link" id="UsingRealNumberModelinginSystemVerilog-wreal_to_nettype"></span></h3>
+
+<p>Interactions between wreal and built-in real nettypes and real nettypes with resolution functions is supported under the following scenarios:</p>
+<ul><li>Wreal with no resolution function is connected to a real nettype with no resolution function.<br /><code>typedef real vtype;<br />nettype vtype nt;<br />wreal wr;</code></li></ul><ul><li>A wreal with no resolution function is connected to a real nettype with a compatible built-in resolution function.<br /><code>typedef real vtype;<br />nettype vtype nt with CDS_res_wrealavg; //built-in resolution function<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;CDS_res_wrealavgwreal wr;</code></li></ul><ul><li>A wreal with built in resolution function is connected to a real nettype with a compatible built-in resolution function.<br /><code>typedef real vtype;<br />nettype vtype nt with CDS_res_wrealavg;<br />wrealavg wr;</code></li></ul><ul><li>A wreal with no resolution function is connected to a nettype with user-defined resolution function. In this case, the wreal is coerced to the nettype&#39;s user-defined resolution function.<code>&#160;typedef real T;<br /></code><code>function automatic T Tsum (input T driver[]);<br />begin<br />&#160;&#160;&#160;Tsum=0.0<br />&#160;&#160;&#160;foreach (driver[i])<br />&#160;&#160;&#160;begin<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;Tsum +=driver[i];<br />&#160;&#160;&#160;end<br />&#160;&#160;&#160;$display( &quot;Tsum {%f}&quot; , Tsum);<br />end<br />endfunction<br /></code><code>nettype real nt with Tsum<br /></code><code>wreal wr;</code></li></ul>
+<p>Currently, wreals connected to incompatible (non-real) nettypes are not supported.</p>
+<h3 id="UsingRealNumberModelinginSystemVerilog-User-DefinedNettypeandResolutionFunctionuser_defined_nettype1066573">User-Defined Nettype and Resolution Function<span class="confluence-anchor-link" id="UsingRealNumberModelinginSystemVerilog-user_defined_nettype"></span><span class="confluence-anchor-link" id="UsingRealNumberModelinginSystemVerilog-1066573"></span></h3>
+
+<p>Like the built-in real SV nettype, a user-defined nettype (UDN) is declared with the keyword<code>&#160;nettype</code>, and includes a data type and optionally a resolution function. For example, the following declares a user-defined nettype&#160;<code>wTsum</code>&#160;with data type&#160;<code>T</code>:</p>
+
+<p><code>nettype T wTsum;</code></p>
+
+<p>Here,&#160;<code>T&#160;</code>is a&#160;<code>struct</code>&#160;data type with real fields. For example:</p>
+
+<p><code>typedef struct {</code><br /><code>&#160; &#160; real field1;</code><br /><code>&#160; &#160; real field2;</code></p>
+
+<p><code>} T;</code></p>
+
+<p>The valid data types for the nettypes are scalar reals and unpacked structures containing real, logic, bit, integer, and enum data types. Static arrays of unpacked structure nettype with or without resolution functions are supported. Other data types are not supported.</p>
+
+<p>Use the&#160;<code>with</code>&#160;keyword to optionally specify a resolution function to resolve the driven value of nets of user-defined nettype, as shown below.</p>
+
+<p><code>nettype T wTsum with Tsum;</code></p>
+
+<p>The resolution function of a nettype with a data type&#160;<code>T&#160;</code>is an SV function with a return type of&#160;<code>T.</code>&#160;The function has a single input argument whose type is a dynamic array of elements of type&#160;<code>T.</code>&#160;A resolution function neither resizes the dynamic array input argument nor writes to any part of it.</p>
+
+<p>Calls to only the following system tasks or functions are supported inside the resolution function:</p>
+<div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col /><col /><col /><col /></colgroup><tbody><tr><td class="confluenceTd">
+<p><code> $bitstoreal </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $realtobits </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $signed </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $unsigned </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><code> $cast </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $rtoi </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $itor </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $stime </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><code> $time </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $realtime </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $display </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $write </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><code> $fdisplay </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $fwrite </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $bits </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $typename </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><code> $size </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $left </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $right </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $low </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><code> $high </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $increment </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $fatal </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $resolved_wudn_name </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><code> $warning </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $info </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $finish </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $resolved_wudn_drivers </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><code> $error </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $dimension </code></p>
+</td>
+<td class="confluenceTd">
+<p><code> $sformatf </code></p>
+</td>
+<td class="confluenceTd">
+<p><br /></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>You can use the&#160;<code>-rnm_relax</code>&#160;option of&#160;<code>xrun</code>&#160;or&#160;<code>xmvlog</code>&#160;to access the global variables inside the resolution functions.</p>
+
+<p><code>$resolved_wudn_name()</code>&#160;system task returns a string containing the hierarchical name of the simulated user-defined nettype(UDN) being simulated.&#160;It always returns the highest level of the net-segment in the following situations: explicitly typed UDN, interconnect (explicit) type, and wire (implicit interconnect) type. It can take a single string argument that is a hierarchical scope. If no scope is given it returns the name of the top-most net that is part of the collapsed net by traversing upwards. If a scope is given it will no traverse past that scope and will return a hierarchical net name that is at that scope or below.&#160;</p>
+
+<p>Unpacked arrays of nets of user-defined nettype (both with and without user-defined resolution functions) are supported. For unpacked arrays of nets of user-defined nettype, each element of the array is considered as an atomic net.</p>
+
+<p>Array sliced and concatenated connections to user-defined nettype with user-defined resolution function and nettype module ports are supported (see examples below).</p>
+
+<p><code>$resolved_wudn_drivers()</code>&#160;takes the driver array and an index and returns a string for the driver name.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>Declaring a packed, multi-dimensional, or dynamic array of nets of user-defined nettype results in an error.</p>
+</div>
+</div>
+
+<p>The resolution function of any net of a user-defined nettype is activated at time 0 at least once. This activation occurs even for nets with no drivers or when there is no value change on the drivers at time 0.</p>
+
+<p>If a net has been defined as an unpacked array of nets (and&#160;<code>nettype</code>&#160;is defined at the element level), the resolution function is invoked for each element of the array. This means that if the array has five elements, the resolution function will be invoked five times at 0 simulation time.</p>
+
+<p>The initial value of a net with a user-defined nettype is set before an&#160;<code>initial</code>&#160;or<code>&#160;always&#160;</code>procedure is started and before the activation of the time 0 resolution call. If no initializer is applied, the default initialization value for a net with a user-defined nettype is the default value defined by the data type. For a net with a user-defined nettype of&#160;<code>struct</code>&#160;data type, any initialization expressions for the members within&#160;<code>struct</code>&#160;are applied.</p>
+
+<p>Assignment to nets of user-defined nettype is done using continuous assignments. Continuous assignments can be made with a declaration assignment or a continuous assignment statement.</p>
+
+<p>A continuous assignment to an atomic net cannot drive a part of the net; it drives the entire net as per its nettype. Therefore, the left-hand side of a continuous assignment to a net of a user-defined nettype does not contain any indexing or select operations to the data type of&#160;<code>nettype.</code>&#160;In case of arrays of nets of user-defined nettype, indexing is done on the complete array because&#160;<code>nettype</code>&#160;is defined at the element level and not at the array level. However, no value can be written to the member of the element of the structure through the assignment statements targeting that member explicitly. For example:</p>
+
+<p><code>assign dr_1[0] = T&#39;{0.5, 0.5}; // legal assignment</code><br /><code>assign dr_1 = &#39;{T&#39;{0.5, 0.5}, T&#39;{2.3,3.4}}; // legal assignment</code><br /><code>assign dr_1[0].field1 = 0.5 ; // illegal assignment</code></p>
+
+<p>Assignment delays and net declaration delays are supported on the nets of user-defined nettypes and static arrays of unpacked structure nettype.</p>
+
+<p>If the internal and external connections of a port are nets of user-defined nettypes and they are of matching nettype, they are merged into a single simulated net. Otherwise, an error is generated. If only one of the two connections is a net of user-defined nettype, then the connections must have matching data types; the port must be input or output, and the connection is treated as a continuous assignment from source to sink.</p>
+
+<p>The following Tcl commands are supported on the user-defined nets and static arrays of unpacked structure nettype:</p>
+<ul><li><code>describe</code></li></ul><ul><li><code>value</code></li></ul><ul><li><code>drivers</code></li></ul><ul><li><code>deposit</code></li></ul><ul><li><code>probe -screen</code></li></ul><ul><li><code>probe -shm</code></li></ul>
+<p>SV-RNM (built-in SV nettypes and user-defined nettypes) is supported for the following in the AMS-CPF flow:</p>
+<ul><li>Built-in SV-wreal nettypes defined in&#160;<code>cds_rnm_package</code>. For example ,&#160;<code>wreal1driver</code>,&#160;<code>wreal4state</code>,&#160;<code>wrealmin</code>,&#160;<code>wrealmax</code>,&#160;<code>wrealsum</code>, and&#160;<code>wrealavg</code>.</li></ul><ul><li>SV-RNM interconnect nets that coerce to SV-wreal.</li></ul><ul><li>User-defined nettypes with built-in resolution functions. Following built-in resolution functions are supported:</li></ul><ul><li><code>CDS_res_wreal1driver</code></li></ul><ul><li><code>CDS_res_wreal4state</code></li></ul><ul><li><code>CDS_res_wrealmin</code></li></ul><ul><li><code>CDS_res_wrealmax</code></li></ul><ul><li><code>CDS_res_wrealsum</code></li></ul><ul><li><code>CDS_res_wrealavg</code></li></ul><ul><li>Array of built-in wreal nettypes.</li></ul>
+<p>SV-RNM is supported for the following CPF features:</p>
+<ul><li>Creating power domain on blocks with real-valued signal</li></ul><ul><li>Power Smart IE selection</li></ul><ul><li>Interaction of power intent device and connect module</li></ul><ul><li>Power intent propagation on mixed-signal boundary</li></ul><ul><li>Dynamic compatibility check on mixed-signal boundary</li></ul><ul><li>Power corruption on a real-valued signal</li></ul><ul><li>IE power supply access from real-valued side</li></ul><ul><li>CPF-controlled SV-Wreal/Interconnect power supply</li></ul><ul><li>Real-valued signal driving a power event</li></ul><h4 id="UsingRealNumberModelinginSystemVerilog-Examples"><span style="color: rgb(0,0,0);"><strong>Examples</strong></span></h4>
+
+<p>Following is an example of arrays of net of structure nettypes without the resolution function:</p>
+
+<p><code>// user-defined data type T</code></p>
+
+<p><code>typedef struct {</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;real field1;</code><br /><code>&#160; &#160; real field2;</code></p>
+
+<p><code>}T;</code></p>
+
+<p><code>// A nettype declaration with data type and resolution function</code></p>
+
+<p><code>nettype T wTsum;</code>&#160;</p>
+
+<p><code>module top;</code><br /><code>wTsum w[2];</code><br /><code>T myvar[2];</code></p>
+
+<p><code>assign myvar = w;</code><br /><code>driver1 d1(w);</code><br /><code>receiver1 r1(w);</code><br /><code>endmodule</code></p>
+
+<p><code>module receiver1(rec_1);</code></p>
+
+<p><code>output rec_1[2];</code><br /><code>&#160; &#160; wTsum rec_1[2];</code><br /><code>&#160; &#160; initial</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;#1 $display(&quot;sum = %p flag = %p \n&quot;, rec_1[0], rec_1[1]);</code></p>
+
+<p><code>endmodule</code></p>
+
+<p><code>module driver1 (dr_1);</code><br /><code>output dr_1[2];</code><br /><code>&#160; &#160; wTsum dr_1[2];</code><br /><code>&#160; &#160; assign dr_1[0] = T&#39;{0.5, 0.5};</code><br /><code>&#160; &#160; assign dr_1[1] = T&#39;{1.5, 1.5};</code></p>
+
+<p><code>endmodule</code></p>
+
+<p>Following is an example of arrays of net of structure nettypes with the resolution function:</p>
+
+<p><code>// user-defined data type T</code></p>
+
+<p><code>typedef struct {</code><br /><code>&#160; &#160; real field1;</code><br /><code>&#160; &#160; real field2;</code></p>
+
+<p><code>}T;</code>&#160;</p>
+
+<p><code>// user-defined resolution function Tsum</code><br /><code>function automatic T Tsum (input T driver[]);</code><br /><code>begin</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;Tsum.field1 = 0.0;</code><br /><code>&#160; &#160; foreach (driver[i])</code><br /><code>&#160; &#160; begin</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$display(&quot;driver[%d]{%f, %f}&quot;,i, driver[i].field1, driver[i].field2);</code><br /><code>&#160; &#160; &#160; &#160; Tsum.field1 += driver[i].field1;</code><br /><code>&#160; &#160; &#160; &#160; Tsum.field2 += driver[i].field2;</code><br /><code>&#160; &#160; end</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;$display(&quot;Tsum{%f, %f}&quot;, Tsum.field1, Tsum.field2);</code></p>
+
+<p><code>end</code></p>
+
+<p><code>endfunction</code>&#160;</p>
+
+<p><code>// A nettype declaration with data type and resolution function</code><br /><code>&#160; nettype T wTsum with Tsum;&#160;</code></p>
+
+<p><code>module top;</code><br /><code>wTsum w[2];</code><br /><code>T myvar[2];</code></p>
+
+<p><code>assign myvar = w;</code><br /><code>driver1 d1(w);</code><br /><code>driver2 d2(w);</code><br /><code>receiver1 r1(w);</code><br /><code>endmodule</code>&#160;</p>
+
+<p><code>module receiver1(rec_1);</code></p>
+
+<p><code>output rec_1[2];</code><br /><code>&#160; &#160; wTsum rec_1[2];</code><br /><code>&#160; &#160; initial</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;#1 $display(&quot;sum = %p flag = %p \n&quot;, rec_1[0], rec_1[1]);</code></p>
+
+<p><code>endmodule</code>&#160;</p>
+
+<p><code>module driver1 (dr_1);</code><br /><code>output dr_1[2];</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;wTsum dr_1[2];</code><br /><code>&#160; &#160; assign dr_1[0] = T&#39;{0.5, 0.5};</code><br /><code>&#160; &#160; assign dr_1[1] = T&#39;{1.5, 1.5};</code><br /><code>endmodule</code></p>
+
+<p><code>module driver2 (dr_2);</code></p>
+
+<p><code>input dr_2[2];</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;wTsum dr_2[2];</code><br /><code>&#160; &#160; assign dr_2[0] = T&#39;{2.5, 2.0};</code><br /><code>&#160; &#160; assign dr_2[1] = T&#39;{3.5, 3.0};</code></p>
+
+<p><code>endmodule</code></p>
+
+<p>Following is an example of a static array of unpacked structure nettype without resolution function:</p>
+
+<p><code>module top;</code></p>
+
+<p><code>typedef enum {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX} enum_t;</code><br /><code>typedef struct {</code><br /><code>real r;</code><br /><code>integer i;</code><br /><code>bit b;</code><br /><code>enum_t e;</code><br /><code>} instruction;&#160;</code></p>
+
+<p><code>nettype instruction net_r_inst;&#160;</code></p>
+
+<p><code>instruction I1[0:3] = &#39;{instruction&#39;{1.0, 1, 1, ONE},instruction&#39;{2.0, 2, 1, TWO}, instruction&#39;{3.0, 3, 1, THREE}, instruction&#39;{4.0, 4, 1, FOUR}};</code></p>
+
+<p><code>instruction I2[0:3] = &#39;{instruction&#39;{11.0, 11, 1, ONE},instruction&#39;{12.0, 12, 1, TWO}, instruction&#39;{13.0, 13, 1, THREE}, instruction&#39;{14.0, 14, 1, FOUR}};</code></p>
+
+<p><code>net_r_inst I3[0:3] = &#39;{instruction&#39;{21.0, 21, 1, ONE},instruction&#39;{22.0, 22, 1, TWO}, instruction&#39;{23.0, 23, 1, THREE}, instruction&#39;{24.0, 24, 1, FOUR}};</code>&#160;</p>
+
+<p><code>always @(I3[1].r) begin</code><br /><code>$display(&quot;\n(%f NS) =&gt; I3 with %%p = {%p}&quot;, $time, I3);</code><br /><code>$display(&quot;(%f NS) =&gt; I3[0].r = %f&quot;, $time(), I3[0].r);</code><br /><code>$display(&quot;(%f NS) =&gt; I3[1].r = %f&quot;, $time(), I3[1].r);</code><br /><code>$display(&quot;(%f NS) =&gt; I3[2].r = %f&quot;, $time(), I3[2].r);</code><br /><code>$display(&quot;(%f NS) =&gt; I3[3].r = %f&quot;, $time(), I3[3].r);</code><br /><code>end</code></p>
+
+<p><code>endmodule</code></p>
+
+<p>Following is an example of a static array of unpacked structure nettype with resolution function:</p>
+
+<p><code>module top;</code></p>
+
+<p><code>typedef enum {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX} enum_t;</code><br /><code>typedef struct {</code></p>
+
+<p><code>&#160; &#160;real r;</code><br /><code>&#160; &#160;integer i;</code><br /><code>&#160; &#160;bit b;</code><br /><code>&#160; &#160;enum_t e;</code><br /><code>} instruction;</code></p>
+
+<p><code>function automatic instruction FUNC(input instruction drivers[]);</code></p>
+
+<p><code>begin</code></p>
+
+<p><code>FUNC = &#39;{1.1, 1, 0, ZERO} ;</code><br /><code>&#160; &#160; foreach (drivers[j]) begin</code><br /><code>&#160; &#160; &#160; &#160; &#160; &#160; FUNC.r += drivers[j].r;</code><br /><code>&#160; &#160; &#160; &#160; &#160; &#160; FUNC.i += drivers[j].i;</code><br /><code>&#160; &#160; &#160; &#160; &#160; &#160; FUNC.b = drivers[j].b ;</code><br /><code>&#160; &#160; &#160; &#160; &#160; &#160; FUNC.e = drivers[j].e ;</code><br /><code>&#160; &#160; &#160; &#160; end</code></p>
+
+<p><code>end</code></p>
+
+<p><code>endfunction&#160;&#160;</code></p>
+
+<p><code>nettype instruction net_r_inst with FUNC;</code></p>
+
+<p><code>instruction I1[0:3] = &#39;{instruction&#39;{1.0, 1, 1, ONE},instruction&#39;{2.0, 2, 1, TWO}, instruction&#39;{3.0, 3, 1, THREE}, instruction&#39;{4.0, 4, 1, FOUR}};</code></p>
+
+<p><code>instruction I2[0:3] = &#39;{instruction&#39;{11.0, 11, 1, ONE},instruction&#39;{12.0, 12, 1, TWO}, instruction&#39;{13.0, 13, 1, THREE}, instruction&#39;{14.0, 14, 1, FOUR}};</code></p>
+
+<p><code>net_r_inst I3[0:3] = &#39;{instruction&#39;{21.0, 21, 1, ONE},instruction&#39;{22.0, 22, 1, TWO}, instruction&#39;{23.0, 23, 1, THREE}, instruction&#39;{24.0, 24, 1, FOUR}};</code></p>
+
+<p><code>assign I3 = I1 ;</code><br /><code>assign I3 = I2 ;&#160;</code></p>
+
+<p><code>always @(I3[1].r) begin</code><br /><code>&#160; &#160; $display(&quot;\n(%f NS) =&gt; I3 with %%p = {%p}&quot;, $time, I3);</code><br /><code>&#160; &#160; $display(&quot;(%f NS) =&gt; I3[0].r = %f&quot;, $time(), I3[0].r);</code><br /><code>&#160; &#160; $display(&quot;(%f NS) =&gt; I3[1].r = %f&quot;, $time(), I3[1].r);</code><br /><code>&#160; &#160; $display(&quot;(%f NS) =&gt; I3[2].r = %f&quot;, $time(), I3[2].r);</code><br /><code>&#160; &#160; $display(&quot;(%f NS) =&gt; I3[3].r = %f&quot;, $time(), I3[3].r);</code></p>
+
+<p><code>end</code></p>
+
+<p><code>endmodule</code></p>
+
+<p>Following is an example of SystemVerilog array slices for user-defined nettype port connection:</p>
+
+<p><code>//Declaration of nettype</code></p>
+
+<p><code>package multiple_drive_wire;&#160;</code></p>
+
+<p><code>typedef struct{</code><br /><code>&#160; &#160; &#160; &#160; &#160; real x;</code><br /><code>&#160; &#160; &#160; &#160; &#160; real y;</code><br /><code>&#160; &#160; &#160; &#160; &#160; } user_wire;</code></p>
+
+<p><code>function automatic user_wire resolve(user_wire driver[]);</code><br /><code>&#160; &#160; $display(&quot;Resolve&quot;);</code></p>
+
+<p><code>&#160; &#160; foreach(driver[i])begin</code><br /><code>&#160; &#160; &#160;resolve.y += driver[i].x;</code><br /><code>&#160; &#160; &#160; &#160; end&#160;</code></p>
+
+<p><code>endfunction // resolve</code></p>
+
+<p><code>nettype user_wire user_wire_multi_drv with resolve;</code></p>
+
+<p><code>endpackage // tb</code></p>
+
+<p><code>//Declaration of module with nettype port</code><br /><code>module foo(inout user_wire_multi_drv a[1:0]);</code></p>
+
+<p><code>&#160; &#160;real x1,x2;</code></p>
+
+<p><code>&#160; &#160;assign a[0] = &#39;{x1,0};</code><br /><code>&#160; &#160;assign a[1] = &#39;{x2,0};</code></p>
+
+<p><code>&#160; &#160;initial begin</code><br /><code>&#160; &#160; &#160; &#160; &#160; x1 = 0.00;</code><br /><code>&#160; &#160; &#160; &#160; &#160; x2 = 0.00;&#160;</code></p>
+
+<p><code>for(int ii=0; ii &lt; 10; ii++)begin</code></p>
+
+<p><code>&#160;&#160;&#160;&#160; x1 = 2.00*ii;</code><br /><code>&#160; &#160; &#160;x2 = 2.00*ii+1.00;</code><br /><code>&#160; &#160; &#160;#100;</code><br /><code>&#160; &#160; &#160; end</code></p>
+
+<p><code>&#160; end</code></p>
+
+<p><code>endmodule // foo</code></p>
+
+<p>Modules with nettype ports using array slices can be connected using the following methods:</p>
+
+<p><code>import multiple_drive_wire::*;</code></p>
+
+<p><code>module top;</code></p>
+
+<p><code>&#160; &#160;//interconnect bar[3:0]; --Standard declaration</code></p>
+
+<p><code>&#160; &#160;//wire bar[3:0]; --Cadence RNM tech declaration (use -rnm_tech option to compile)</code></p>
+
+<p><code>&#160; //user_wire_multi_drv bar[3:0]; --Explicit declaration</code></p>
+
+<p><code>&#160; &#160; &#160;foo u0(.a(bar[1:0])); &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;//array sliced port connect</code></p>
+
+<p><code>&#160; &#160; &#160;foo u1(.a({bar[1],bar[0]})); //Concatenated Port Connect</code></p>
+
+<p><code>endmodule // tb</code></p>
+
+<p>See also:</p>
+<ul><li><a class="external-link" href="https://support.cadence.com/CadenceRedirectScreen?startURL=%2Fapex%2FArticleAttachmentPortal%3Fid%3Da1Od000000051AfEAI%26pageName%3DArticleContent%26sq%3D005d0000001T48sAAC_20181010102454985" rel="nofollow">System Verilog Real Number Modeling Overview (Video)</a></li><li><a class="external-link" href="https://support.cadence.com/apex/ArticleAttachmentPortal?id=a1Od0000000511KEAQ&amp;pageName=ArticleContent" rel="nofollow">Debug Support for Resolution Functions (Video)</a></li></ul>
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="SystemVerilog_Real_Number_Modeling.html" id="prev" title="SystemVerilog_Real_Number_Modeling">SystemVerilog_Real_Number_Mode ...</a></em></b><b><em><a href="Using_SystemVerilog_Interconnects.html" id="nex" title="Using_SystemVerilog_Interconnects">Using_SystemVerilog_Interconne ...</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

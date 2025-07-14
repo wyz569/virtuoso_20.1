@@ -1,0 +1,1743 @@
+
+<html><head><title>Using an amsd Block</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864904" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Using an amsd Block" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864904" />
+<meta name="NextFile" content="Preparing_the_Design__Using_Analog_Primitives_and_Subcircuits.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Specifying_Controls_for_the_Analog_Solvers.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Using an amsd Block" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+<script type="text/javascript" src="styles/shCore1.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shCore.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shBrushCpp.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shBrushJava.js">/*<![CDATA[*//*]]>*/</script><link rel="stylesheet" href="styles/shCoreDefault.css" type="text/css" /><script type="text/javascript">/*<![CDATA[*/
+SyntaxHighlighter.all();
+/*]]>*/</script>
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Specifying_Controls_for_the_Analog_Solvers.html" title="Specifying_Controls_for_the_Analog_Solvers">Specifying_Controls_for_the_An ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Preparing_the_Design__Using_Analog_Primitives_and_Subcircuits.html" title="Preparing_the_Design__Using_Analog_Primitives_and_Subcircuits">Preparing_the_Design__Using_An ...</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <div style="width: 100%; font-size: 32px; text-align: left;               font-weight: bold;">6</div>
+<h1 style="margin: 4px 0 4px;"><span>Using an amsd Block</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p><span class="confluence-anchor-link" id="UsinganamsdBlock-amsd_block"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-amsdControlBlock"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1038666"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-amsd_block"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-amsd_block"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-amsd_block"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-amsd_block"></span></p>
+
+<p>An<code> amsd </code>block contains statements that control AMS mechanisms during the elaboration phase of xrun (or during<code> xmelab</code>) in your&#160;<span style="color: rgb(0,0,255);"><a href="Using_the_AMS_Designer_Simulator_for_Design_Verification.html#UsingtheAMSDesignerSimulatorforDesignVerification-1031602">design verification</a>&#160;</span>flow. The simulation front end (SFE) parser reads and applies elaboration statements during the elaboration phase and simulation statements during the simulation phase.<code> amsd </code>blocks are valid only for AMS simulation.</p>
+
+<p>You can use statements in an<code> amsd </code>block to specify the design configuration, connect module settings, port mappings between SPICE and Verilog, as well as to configure a particular cell reference in a Verilog-AMS source file to be bound to a SPICE description of that cell. These AMS statements must appear only in an<code> amsd </code>block.</p>
+
+<p>You can have more than one<code> amsd </code>block in one or more Spectre or SPICE source files. You can pass one or more such input files directly on the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-irunCommand">xrun</a>&#160;</span>command line. If you pass more than one input file, the SFE parser processes them in the order they appear on the command line.</p>
+
+<p>You can put other Spectre-language commands in the input file as long as you do not put them in an<code> amsd </code>block. Other Spectre-language commands (such as your transient analysis command) must not appear in an<code> amsd </code>block.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you pass a file containing an <code>amsd</code> block to <code>xrun</code> or to <code>xmelab</code>, you do not need to pass an analog simulation control file to <code>xrun</code> (or to <code>xmsim</code>), but the file must also contain your transient analysis statement in this case.</p>
+</div>
+</div>
+<div class="confluence-information-macro confluence-information-macro-tip"><span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><span class="confluence-anchor-link" id="UsinganamsdBlock-AMSCB_env_var"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1052440"></span>If you have a <code>prop.cfg</code> file from a previous release, you can set the AMSCB environment variable as follows to enable the internal translator to convert your prop.cfg file to an amsd block file, <code>prop.cfg.scs</code>:<br /><code> setenv AMSCB YES</code></p>
+</div>
+</div>
+
+<p>The first time you run the elaborator on the design, the translator converts your file, you<span> verify the content </span>, then run the elaborator again, this time, using the AMS control file instead of the old prop.cfg file. See also&#160;&quot;<a href="Appendix_F__Migrating_to_an_amsd_Block_from_prop.cfg.html">Migrating to an amsd Block from prop.cfg</a>.&quot;</p>
+<h2 id="UsinganamsdBlock-amsdBlockStatementsandSyntaxamsdStatements1052149">amsd Block Statements and Syntax<span class="confluence-anchor-link" id="UsinganamsdBlock-amsdStatements"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1052149"></span></h2>
+
+<p>Only the simulation front end (<a href="Elaborating.html#Elaborating-1039791">SFE</a>) parser recognizes and processes the AMS statements that you can use in an<code> amsd </code>block. You can use AMS statements only in an<code> amsd </code>block, which has the following form:</p>
+
+<p><code><span>amsd{<br />&#160;&#160; AMS_statements<br /> }</span></code></p>
+<div>
+<p><br /></p>
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You may not reference global parameters in <em><code>parameter=value</code></em> assignments in AMS statements.</p>
+</div>
+</div>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>In <code>amsd</code> block statements, you must escape any characters that are not legal characters in the Spectre namespace using a backslash. For example: <code><a href="#UsinganamsdBlock-busdelim">busdelim</a></code>=\+</p>
+</div>
+</div>
+
+<p>The following AMS statements can appear in an <code>amsd</code>&#160;block:</p>
+</div>
+<div class="table-wrap"><table border="0" cellpadding="4" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /></colgroup><tbody><tr><th class="confluenceTh" valign="middle" width="192">
+<p><span>Statement</span></p>
+</th><th class="confluenceTh" valign="middle" width="456">
+<p><span>Description</span></p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code><a href="#UsinganamsdBlock-1049882">portmap</a></code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>The<code> portmap </code>statement tells the AMS Designer simulator how a SPICE subcircuit interface should appear to the elaborator</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code><a href="#UsinganamsdBlock-1050512">config</a></code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>The<code> config </code>statement specifies which definition you want to use for particular cells or instances.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code><a href="#UsinganamsdBlock-1051785">ie</a></code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>The <code>ie</code> statement specifies interface element parameters, optionally for a particular design unit. If you do not specify a design unit, the elaborator applies the parameter settings to all interface elements globally.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code><a href="#UsinganamsdBlock-1073140">ce</a></code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Th<span>e </span><code>ce</code><span> s</span>tatement specifies conversion element parameters for VHDL-to-SPICE connections, optionally for a particular design architecture (cell level), or for a specific pin (port level). If you do not specify a cell or a port name, the elaborator applies the parameter settings to all conversion elements globally.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code><a href="#UsinganamsdBlock-1058645">connectmap</a></code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>The<code> connectmap </code>card defines a resolution function for one or more disciplines by using the<code> realresolve </code>parameter. The syntax of the<code> connectmap </code>statement is the following:</p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>For example:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">* AMS control file -- amsdControl.scs 
+include &quot;./source/design.scs&quot;&#160;&#160;&#160;//analog netlist
+include &quot;./models/model.scs&quot;&#160;&#160;&#160;&#160;//device model file
+include &quot;./models/diode.scs&quot; section=dio 
+// diode.scs is the model file; &quot;dio&quot; is the section to use 
+include &quot;./models/pmos1.scs&quot; section=nom 
+// pmos1.scs is the model file; &quot;nom&quot; is the section to use 
+include &quot;./analogControl.scs&quot;&#160;&#160;&#160;
+//analog control file
+
+//amsd block
+amsd{
+&#160;&#160;&#160;&#160;&#160;&#160;portmap subckt=pll_top autobus=yes
+&#160;&#160;&#160;&#160;&#160;&#160;config cell=pll_top use=spice
+&#160;&#160;&#160;&#160;&#160;&#160;ie vsup=2.0
+&#160;&#160;&#160;&#160;&#160;&#160;}</pre>
+</div>
+</div>
+
+<p><br />You can put a single<code> amsd </code>block in a separate file. You can also have one or more<code> amsd </code>blocks in one or more Spectre or SPICE input files. For example:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// file1.scs
+amsd{
+&#160;&#160;&#160;&#160;&#160;portmap subckt=s1 autobus=yes
+&#160;&#160;&#160;&#160;&#160;config cell=s1 use=spice
+&#160; &#160; &#160; &#160; &#160;}
+amsd{
+&#160;&#160;&#160;&#160;&#160;portmap subckt=s2 autobus=yes
+&#160;&#160;&#160;&#160;&#160;config cell=s2 use=spice
+&#160; &#160; &#160;}
+
+// file2.scs
+
+amsd{
+&#160;&#160;&#160;&#160;&#160;portmap subckt=subcx autobus=yes
+&#160;&#160;&#160;&#160;&#160;config cell=subcx use=spice
+&#160; &#160; }</pre>
+</div>
+</div>
+<h3 id="UsinganamsdBlock-portmapportmap1049882"><br />portmap<span class="confluence-anchor-link" id="UsinganamsdBlock-portmap"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1049882"></span></h3>
+
+<p>The <code>portmap</code>&#160;statement tells the AMS Designer simulator how a SPICE subcircuit interface should appear to the elaborator.</p>
+
+<p><code><span>portmap subckt= name [ parameter = value ]<br /></span><span>portmap module= name [ parameter = value ]<br /></span><span>portmap entity= name [ parameter = value ]</span></code></p>
+<div>
+<p><br /></p>
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The <code>portmap</code> statement must always be placed before the <code>config</code> statement in an <code>amsd</code> block.</p>
+</div>
+</div>
+
+<p>Valid<em><code> parameter</code><code>=</code><code>value </code></em>assignments for the<code> portmap </code>statement are as follows:</p>
+</div>
+<div class="table-wrap"><table cellpadding="4" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /><col /></colgroup><tbody><tr><td class="confluenceTd" valign="top" width="192"><div class="content-wrapper"><code><span>subckt </span></code><span class="confluence-anchor-link" id="UsinganamsdBlock-subckt"></span>
+<p><br /></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Name of the SPICE subcircuit or Verilog-A module to which to apply these<code> portmap </code>settings. Use this form (typically, together with <code><a href="#UsinganamsdBlock-use">config use=spice</a></code>) when your design contains SPICE-on-leaf constructs.</p>
+
+<p>Valid Values: Any valid subcircuit name or a Verilog-A module.</p>
+
+<p>Here is an example on specifying a Verilog-A module using the<code> subckt </code>parameter.</p>
+
+<p><code>include &quot;basicMos.scs&quot;<br />include &quot;acf.scs&quot;<br />ahdl_include &quot;inv.va&quot; </code></p>
+
+<p>amsd{</p>
+
+<p><code> &#160;&#160;&#160;portmap subckt=inv autobus=no<br />&#160;&#160;&#160;&#160;config inst=top.DUT0.I0 use=spice<br />&#160;&#160;&#160;&#160;ie vsup=1.8 rhi=5 rlo=5 tr=100p </code></p>
+
+<p><code><span style="color: rgb(0,0,0);"> } </span></code></p>
+
+<p><span style="color: rgb(0,0,0);"><strong>Note</strong>: <span>The asterisk wildcard (*) is supported at the end of the string while specifying the subcircuit name.</span></span></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192"><div class="content-wrapper">
+<p><code>module<span class="confluence-anchor-link" id="UsinganamsdBlock-module"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Name of the Verilog module to which to apply these<code> portmap </code>settings. Use this specifier (typically, together with <code><a href="#UsinganamsdBlock-use">config use=hdl</a></code>) when your design contains hdl components instantiated in SPICE blocks.</p>
+
+<p>Valid Values: Any valid module name.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192"><div class="content-wrapper">
+<p><code>entity<span class="confluence-anchor-link" id="UsinganamsdBlock-entity"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Name of the VHDL entity to which to apply these<code> portmap </code>settings. Use this specifier (typically, together with <code><a href="#UsinganamsdBlock-use">config use=hdl</a></code>) when your design contains hdl components instantiated in SPICE blocks.</p>
+
+<p>Valid Values: Any valid entity name.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" rowspan="5" valign="top" width="192"><div class="content-wrapper">
+<p><code>autobus<span class="confluence-anchor-link" id="UsinganamsdBlock-autobus"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1049895"></span></code></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Indicates whether to bind Verilog buses to SPICE ports. Valid Values:</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="132">
+<p><code> yes </code></p>
+</td>
+<td class="confluenceTd" valign="top" width="324">
+<p>Bind Verilog buses to SPICE ports.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> no </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Do not bind Verilog buses to SPICE ports.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="2" valign="top">
+<p>Default:<code> yes </code></p>
+
+<p><span>See also </span><a href="Using_the_AMS_Designer_Simulator_for_Design_Verification.html#UsingtheAMSDesignerSimulatorforDesignVerification-autobus">Binding Ports using autobus</a><span>.</span></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="2" valign="top">
+<p><br /></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="1"><div class="content-wrapper">
+<p><code><span>excludebus</span></code><span class="confluence-anchor-link" id="UsinganamsdBlock-excludebus"></span></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2"><span>List of entities not to map because they are not buses. No default.</span></td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>reversebus<span class="confluence-anchor-link" id="UsinganamsdBlock-reversebus"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Specifies the <code>reversebus</code> name. No default.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>busdelim<span class="confluence-anchor-link" id="UsinganamsdBlock-busdelim"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1049919"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>List of bus delimiters.Valid Values:<code> []</code>,<code> _</code>,<code> &lt;&gt;</code>,<code> none</code>, or any single character Default:<code> [] &lt;&gt; </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" rowspan="5" valign="top"><div class="content-wrapper">
+<p><code>casemap<span class="confluence-anchor-link" id="UsinganamsdBlock-casemap"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1049925"></span></code></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Specifies casing for name mapping.Valid Values:</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> upper </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Map all names to uppercase.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> lower </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Map all names to lowercase.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> keep </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Maintain name casing as it is.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="2" valign="top">
+<p>Default:<code> lower </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" rowspan="5" valign="top"><div class="content-wrapper">
+<p><code>portcase<span class="confluence-anchor-link" id="UsinganamsdBlock-portcase"></span></code></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Specifies casing for port names. Valid Values:</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> upper </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Map all port names to uppercase.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> lower </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Map all port names to lowercase.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> keep </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Maintain port casing as it is.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="2" valign="top">
+<p>Default:<code> keep </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>file<span class="confluence-anchor-link" id="UsinganamsdBlock-file"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1051620"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Name of the port-bind file containing customized port bindings. See also <a href="Using_the_AMS_Designer_Simulator_for_Design_Verification.html#UsingtheAMSDesignerSimulatorforDesignVerification-port-bindfile">Binding Ports using a Port-Bind File</a>.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>reflib<span class="confluence-anchor-link" id="UsinganamsdBlock-reflib"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Name of the library of precompiled cell containing custom port bindings. If the<code> reflib </code>parameter is provided with the<code> portmap </code>statement, the<code> reffile </code>parameter is not compiled even if it is specified with the<code> portmap </code>statement. The library of precompiled cell provided through the<code> reflib </code>parameter will be used instead of the<code> worklib </code>library.</p>
+
+<p>The use of<code> reflib </code>parameter eliminates the need for special compile from AMSCB. It also limits the precompiled cell search to a specific library, thereby improving performance.</p>
+
+<p><strong>Note</strong>: <span>The </span><code>reflib</code><span> parameter works only for VHDL-SPICE, and not for Verilog-SPICE.</span></p>
+
+<p>In the example given below, the software will search for the precompiled cell<code> sl1 </code>in the library<code> mylib.</code> Notice that the<code> reffile </code>parameter is not specified with the<code> portmap </code>statement.</p>
+
+<p><code>portmap subckt=sl1 refformat=vhdl reflib=mylib</code><br /><code>config cell=sl1 use=spice </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>reffile<span class="confluence-anchor-link" id="UsinganamsdBlock-reffile"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1052218"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Name of the<a href="Glossary.html#Glossary-1032191"> HDL </a>reference file containing custom port bindings. If the reference file is not in the current working directory, include the path to its name, such as</p>
+
+<p><code>portmap ... reffile=/user/project/myfile.v ... </code></p>
+
+<p>The <code>reffile</code> parameter also supports UNIX environment variables. You can specify the file path using the UNIX environment variable<code> $WDIR</code>, as follows:</p>
+
+<p><code>portmap ... reffile=&quot;$WDIR/source/analog/PLL.v&quot;</code></p>
+
+<p><strong>Note</strong>: <span>The path specified using the UNIX environment variable must be enclosed within double quotation marks.</span></p>
+<ul><li>Use <code><a href="#UsinganamsdBlock-refformat">refformat</a></code> to specify the format of this file. (The default format is<code> verilog.</code>)</li></ul><ul><li>Use <code><a href="#UsinganamsdBlock-porttype">porttype</a></code> to specify how to match the ports. (The default is by order.)</li></ul>
+<p>The software uses this parameter as the <a href="Glossary.html#Glossary-1032191">HDL</a> reference when automatically generating a port-bind file containing port bindings at SPICE-to-HDL boundaries.</p>
+
+<p>The reference file must satisfy the following requirements:</p>
+<ul><li>The reference file must compile standalone.</li></ul><ul><li>If the reference file contains any library declarations or package references, they must be available and compile successfully.</li></ul><ul><li>The reference file must not contain any external language constructs.</li></ul>
+<p><strong>Note</strong>: <span>You do not need to specify the </span><code>reffile</code><span> parameter with the </span><code>portmap</code><span> card if you have specified it with the </span><code>xrun</code><span> command, unless you want to use a different </span><code>reffile</code><span> than what you specified to </span><code>xrun</code><span>.</span></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" rowspan="4" valign="top"><div class="content-wrapper">
+<p><code>porttype<span class="confluence-anchor-link" id="UsinganamsdBlock-porttype"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1055571"></span></code></p>
+
+<p><br /></p>
+
+<p><br /></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Specifies how to match ports. You must also specify a<a href="#UsinganamsdBlock-1052218"> reference file</a>.</p>
+
+<p><strong>Note</strong>: <span>The software uses this parameter when automatically generating a port-bind file. The port-bind file specifies custom bindings for the interface between SPICE and Verilog.</span></p>
+
+<p>Valid values:</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> name </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Match ports by name.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> order </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Match ports by order.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="2" valign="top">
+<p>Default:<code> order </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" rowspan="4" valign="top"><div class="content-wrapper">
+<p><code>refformat <span class="confluence-anchor-link" id="UsinganamsdBlock-refformat"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1052263"></span></code></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Specifies the format of the <code><a href="#UsinganamsdBlock-1052218">reffile</a></code>. Valid Values:</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> verilog </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Verilog format</p>
+
+<p>See also &quot;Binding Ports using a Verilog File&quot;.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> vhdl </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>VHDL format</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="2" valign="top">
+<p>Default:<code> verilog </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>stub<span class="confluence-anchor-link" id="UsinganamsdBlock-stub"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1051666"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Name of the cell for which you want to use the stub version; you must also specify a <code><a href="#UsinganamsdBlock-1051020">match</a></code> assignment.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" rowspan="4" valign="top"><div class="content-wrapper">
+<p><code>match<span class="confluence-anchor-link" id="UsinganamsdBlock-match"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1051020"></span></code></p>
+
+<p><br /></p>
+
+<p><br /></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Specifies which definition to use when matching the interface. The<code> match </code>assignment applies only when you also specify <code><a href="#UsinganamsdBlock-1051666">stub</a></code> on the<code> portmap </code>statement and <code><a href="#UsinganamsdBlock-1050984">use</a>=<a href="#1051007" rel="nofollow">stub</a></code> on the <code><a href="#UsinganamsdBlock-1050512">config</a></code> statement.</p>
+
+<p>Valid values:</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> verilog </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Use the Verilog interface</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> spice </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Use the SPICE interface</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="2" valign="top">
+<p>Default:<code> verilog </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>input<span class="confluence-anchor-link" id="UsinganamsdBlock-input"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Specifies a net as an input port. No default.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>output</code><span class="confluence-anchor-link" id="UsinganamsdBlock-output"></span></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Specifies a net as an output port. No default.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>inout <span class="confluence-anchor-link" id="UsinganamsdBlock-inout"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Specifies a net as an input and output port. No default.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>ignore </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Ignores the specified ports. For example:</p>
+
+<p><code>amsd{ </code></p>
+<p style="margin-left: 30.0px;"><code>ie vsup=1</code><br /><code>portmap subckt=invx2 porttype=name ignore=&quot;vdd vss&quot;</code><br /><code>config cell=invx2 use=spice </code></p>
+<p style="margin-left: 30.0px;"><code>}</code></p>
+</td>
+</tr>
+</tbody></table></div>
+<h4 id="UsinganamsdBlock-ImplicitandExplicitPortMapping">Implicit and Explicit Port Mapping</h4>
+
+<p>Depending on the design structure and your port mapping requirements, you can apply port mapping inside an amsd block in two ways:</p>
+<ul><li>
+<p><span style="color: rgb(0,0,0);"><strong>Implicit portmap:&#160;</strong></span>For SPICE-in-Middle and SPICE-on-Leaf design flows in Verilog-AMS, port mapping can be achieved without using the<code> portmap </code>statement. Only the<code> config </code>statement will suffice. The tool will automatically generate implicit portmaps, with default values, for the subcircuits or modules referred to in the<code> config </code>card. In the autogenerated portmap statement, the cell name used in the<code> config </code>statement will be used as the SPICE subcircuit name or the Verilog module name, and the default values will be assumed for all other parameters of the<code> portmap </code>statement.<br /><br />For example, if the<code> config </code>statement is:<br /><code>config cell=divider use=hdl<br /><br /></code>The autogenerated<code> portmap </code>statement will be:<br /><code> portmap module=divider<br /><br /> </code>Similarly, if the<code> config </code>statement is:<br /><code> config cell=analog_top_a use=spice<br /><br /> </code>The autogenerated<code> portmap </code>statement will be:<br /><code> portmap subckt=analog_top_a<br /><br /> </code>The tool will assume the following<code> portmap </code>parameter default values for autogenerating skeletons, commfile, or the portbind file: <code>autobus=yes</code><br /><code>  busdelim=&quot;[] &lt;&gt;&quot; </code><br /><code> refformat=verilog </code><br /><code> interconnect=mixed</code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you want to use a non-default value for any of the above parameters or if you want to use reffile or file parameter with the portmap card, you need to use explicit portmap.</p>
+</div>
+</div>
+</li><li><span style="color: rgb(0,0,0);"><strong>Explicit portmap:&#160;</strong></span>n most situations,<code> portmap </code>and<code> config </code>statements are required in pairs to specify cell bindings. One pair of<code> portmap </code>and<code> config </code>statements can bind multiple instances of the same cell to either a SPICE port in a Verilog block or a Verilog port in a SPICE block (shown in the example below).<br /><br /> <code>portmap subckt=foo autobus=yes portcase=lower busdelim=_ refformat=verilog</code><br /><code>  config inst=&quot;top.inst1 top.inst2 top.inst3&quot; use=spice</code><br /><br />where<code> inst1</code>,<code> inst2</code>, and<code> inst3 </code>are instances of<code> foo </code>in the Verilog module <code>top</code>, which need to be configured to SPICE.</li></ul><h4 id="UsinganamsdBlock-SPICE-to-VerilogPortMapping">SPICE-to-Verilog Port Mapping</h4>
+
+<p>In the AMS Designer simulator, if you have a SPICE instance in a Verilog module, you can specify the port mappings for the SPICE instance in any of the following ways (see&#160;<a href="#UsinganamsdBlock-1057771">SPICE Port to Verilog Bus Mapping Example</a>):</p>
+<ul><li>Using the reference file name with the<code> xrun </code>command</li></ul><ul><li>Using a simple<code> portmap </code>card</li></ul><ul><li>Using<code> reffile </code>in a<code> portmap </code>card with default of<code> porttype=order </code></li></ul><ul><li>Using<code> reffile </code>in a<code> portmap </code>card with default of<code> porttype=name </code></li></ul><ul><li>Using a file in a<code> portmap </code>card</li></ul>
+<p>In addition to the port mapping information between SPICE and Verilog representations of the given block, the automatically generated port bind file provides some more information in the form of comments. This information includes information like the SPICE subcircuit name and the Verilog module name for which the port bind file is generated.</p>
+
+<p>Following is an example of a port bind file with some typical comments.</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">//*** dummy_spice.pb ***
+
+//* This file is automatically generated.
+
+//* (c) Copyright 2007-2008 Cadence Design Systems, Inc.
+
+//* All rights reserved.
+
+//*
+
+//* Portbind file for:
+
+//* SPICE subckt dummy_spice : HDL module dummy_spice
+
+//* SPICE port :&#160;&#160;&#160;&#160;&#160;&#160;HDL port&#160;:&#160;&#160;&#160;&#160;&#160;&#160;HDL Parameters
+
+&#160;
+
+{ a_0, a_1, a_2 }&#160;&#160;&#160;&#160;&#160;&#160;:&#160;&#160;&#160;&#160;&#160;&#160;a[0:2]&#160;&#160;:&#160;&#160;&#160;&#160;&#160;&#160;dir=output vh_type=STD_LOGIC
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vh_basetype=STD_ULOGIC
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vh_converter=E2STD_LOGIC
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vh_vectortype=STD_LOGIC_VECTOR</pre>
+</div>
+</div>
+<h4 id="UsinganamsdBlock-Examples">Examples</h4>
+
+<p>In the following example, the<code> analog_top.cir </code>file contains the subcircuit definition for<code> ANALOG_top.</code> The<code> portmap </code>statement tells the elaborator not to map Verilog buses to SPICE ports (<code>autobus=no</code>) and not to change the case mappings between Verilog-AMS instantiations and SPICE subcircuits (<code>casemap=keep</code>). The<code> config </code>statement tells the elaborator to bind the<code> ANALOG_top </code>cell as a SPICE subcircuit; the<code> analog_top.cir </code>file contains the master.</p>
+
+<p><code> include &quot;analog_top.cir&quot; // SPICE or Spectre format include file<br /> amsd{<br />&#160;&#160;&#160;&#160;portmap subckt=ANALOG_top autobus=no casemap=keep<br />&#160;&#160;&#160;&#160;config cell=ANALOG_top use=spice<br />} </code></p>
+
+<p>The following example shows how you can specify a custom port-bind file for a Verilog-SPICE boundary:</p>
+
+<p><code> amsd{<br /> &#160;&#160;&#160;&#160;portmap subckt=analog_top file=top.pb<br /> &#160;&#160;&#160;&#160;config cell=analog_top use=spice<br />} </code></p>
+
+<p>The following example shows how you can specify a custom port-bind file for a&#160;<a href="Preparing_the_Design__Using_Mixed_Languages.html#PreparingtheDesign:UsingMixedLanguages-1066571">SPICE-in-the-middle</a>&#160;design unit:</p>
+
+<p><code> amsd{<br /> &#160;&#160;&#160;&#160;portmap module=nand2 file=nand2.pb<br /> &#160;&#160;&#160;&#160;config inst=top.a1.x1 use=hdl<br />} </code></p>
+
+<p>The following example illustrates using a&#160;<a href="#UsinganamsdBlock-1052218">reference file</a>&#160;for a SPICE-in-the-middle construct. Note that the default value of&#160;<code><a href="#UsinganamsdBlock-1055571">porttype</a></code>&#160;(for the reference file) is order:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;portmap subckt=analog_spice reffile=analog_spice.v autobus=yes<br />&#160;&#160;&#160;&#160;config cell=anglog_spice use=spice<br /><br />&#160;&#160;&#160;&#160;portmap module=nand2<br /> &#160;&#160;&#160;&#160;config cell=nand2 use=hdl<br />} </code></p>
+
+<p>The following example shows how you might specify customized port bindings for a SPICE-on-leaf construct using a&#160;<a href="#UsinganamsdBlock-1052218">reference file</a>:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;portmap subckt=analog_spice reffile=analog_spice.v autobus=yes<br />&#160;&#160;&#160;&#160;config cell=anglog_spice use=spice<br />} </code></p>
+
+<p>Here are some more examples:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;portmap subckt=ana_gate reffile=ana_gate.v refformat=verilog<br /> &#160;&#160;&#160;&#160;config cell=ana_gate use=spice&#160;&#160;&#160;&#160;<br /><br />&#160;&#160;&#160;&#160;portmap module=nand2 file=nand2.pb<br />&#160;&#160;&#160;&#160;config cell=nand2 use=hdl<br /> } </code></p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;portmap subckt=pll_top busdelim=_ file=pll_top.pb<br />&#160;&#160;&#160;&#160;config cell=pll_top use=spice<br /><br />&#160;&#160;&#160;&#160;portmap module=divider file=divider.pb<br />&#160;&#160;&#160;&#160;config cell=divider use=hdl<br /><br />&#160;&#160;&#160;&#160;portmap module=counter file=counter.pb<br />&#160;&#160;&#160;&#160;config cell=counter use=hdl<br />} </code></p>
+<h4 id="UsinganamsdBlock-SPICEPort-to-VerilogBusMappingExample1057771">SPICE Port-to-Verilog Bus Mapping Example<span class="confluence-anchor-link" id="UsinganamsdBlock-1057771"></span></h4>
+
+<p><span style="color: rgb(0,0,0);"><strong>Verilog in file top.v:</strong></span></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module pll_top(refclk, p0_clk, reset);
+wire [1:0] p0_clk;
+...
+endmodule
+
+module top;
+...
+pll_top p1(...);
+...</pre>
+</div>
+</div>
+
+<p><strong style="color: rgb(0,0,0);">SPICE:</strong></p>
+
+<p><code> .subckt pll_top refclk reset p0_clk_0 p0_clk_1</code><br /><code>...</code></p>
+
+<p>There are five ways to specify the port mapping for the SPICE instance<code> p1 </code>in Verilog module<code> top </code>:</p>
+<ol><li>Using the reference file name with the<code> xrun </code>command:<br /><code>xrun work.scs top.v&#160;</code><br /><span style="font-family: monospace;"><br /></span><code>//work.scs</code><br /><code>  amsd{</code><br /><code>  ...</code><br /><code>  portmap </code><br /><code>subckt=top</code><br /><code>  config cell=top use=spice</code><br /><code>  }</code><br />With this specification, the port association between Verilog and SPICE will be established using the information from the Verilog reference file&#160;<code>top.v</code> specified in the <code>xrun</code> command. The port <code>pll_clk</code> in the resulting port bind file will be mapped as:<br /><code>{ p0_clk_0, p0_clk_1 }&#160;&#160;:&#160;&#160;&#160;&#160;&#160;&#160;P0_CLK[1:0]</code></li><li>Using simple portmap card:<br /><code>amsd{</code><br /><code>  ...<br />  portmap subckt=pll_top</code><br /><code>  ...</code><br /><code>  }</code><br />With this specification, the port association between Verilog and SPICE will be established using the information in the SPICE subcircuit. The port <code>pll_clk</code> in the resulting port bind file will be mapped as:<br /><code>{ p0_clk_0, p0_clk_1 }&#160;&#160;:&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;P0_CLK[0:1]</code></li><li>Using<code> reffile </code>in portmap card with default of&#160;<code>porttype=order<br /></code><code>amsd{<br /> </code><code> ...<br /> </code><code> portmap subckt=pll_top reffile=&quot;top.v&quot;<br /> </code><code> ...<br /> </code><code> }<br /></code>With this specification, the port association between Verilog and SPICE will be established using the information from both the reference Verilog module and the reference SPICE subcircuit. In other words, their port order will be preserved from their original source files. The port <code>pll_clk</code> in the resulting port bind file will be mapped as:<br /><code>{ p0_clk_0, p0_clk_1 }&#160;&#160;:&#160;&#160;&#160;&#160;&#160;&#160;P0_CLK[1:0]</code></li><li>Using <code>reffile</code>&#160;in portmap card with<code> porttype=name<br /></code><code>amsd{<br /> </code><code> ... <br /></code><code> portmap subckt=pll_top reffile=&quot;top.v&quot; porttype=name<br /> </code><code> ...<br /> </code><code> }<br /></code>With this specification, the port association between Verilog and SPICE will be established using the information in the reference Verilog module, both for the name and its port order. The port <code>pll_clk</code> in the resulting port bind file will be mapped as:<br /><code>{ p0_clk_1, p0_clk_0 }&#160;&#160;:&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;P0_CLK[1:0]</code></li><li>Using<code> file </code>in portmap card<br /><code>amsd{<br /> </code><code> ...<br /> </code><code> portmap subckt=pll_top file=&quot;pll_top.pb&quot;<br /> </code><code> ...<br /> </code><code> }<br /> </code>With this specification, the port association between Verilog and SPICE will be established using the information in the given port bind file,<code> pll_top.pb.</code> You can specify the port binding information in the<code> pll_top.pb </code>file for port <code>pll_clk&#160;</code> to reflect the exact connection expected at the Verilog/SPICE boundary. For example:<br /> <code>{ p0_clk_1, p0_clk_0 }&#160;&#160;:&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;P0_CLK[1:0]</code></li></ol><h3 id="UsinganamsdBlock-configconfig1050512">config<span class="confluence-anchor-link" id="UsinganamsdBlock-config"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1050512"></span></h3>
+
+<p>The<code> config </code>statement specifies which definition you want to use for particular cells or instances.</p>
+
+<p><code>config use=<em>definition</em> [<em>parameter=value</em>]</code></p>
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The <code>config</code> statement must always be placed after the <code>portmap</code> statement in an <code>amsd</code> block.</p>
+</div>
+</div>
+
+<p>Valid <em><code>parameter=value&#160;</code></em> assignments for the<code> config </code>statement are as follows:</p>
+<div class="table-wrap"><table cellpadding="4" cellspacing="0" class="wrapped relative-table confluenceTable" style="width: 43.1706%;"><colgroup><col style="width: 32.3155%;" /><col style="width: 23.7913%;" /><col style="width: 43.8931%;" /></colgroup><tbody><tr><td class="confluenceTd" valign="top" width="192">
+<p><code>cell </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>One or more names of cell references in the NC HDLs for which you want to use the specified definition (<code>use=<em>definition</em></code>). If you specify more than one cell name, you must use double quotation marks around the list:</p>
+
+<p><code> config cell=&quot;subA subB subC&quot; use=spice </code></p>
+
+<p><code> config cell=dsp use=hdl </code></p>
+
+<p><strong>Note</strong>: <span>The asterisk wildcard (</span><code>*</code><span>) is supported at the end of the string while specifying the cell name.</span></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192"><div class="content-wrapper">
+<p><code>inst</code></p>
+<span class="confluence-anchor-link" id="UsinganamsdBlock-config_inst_assingment"></span></div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Full hierarchical path to one or more names of instance references in the NC HDLs for which you want to use the specified definition. If you specify more than one instance, you must use double quotation marks around the list.</p>
+
+<p><code>config inst=&quot;top.inst1 top.inst2 top.inst3&quot; use=spice </code></p>
+
+<p>In addition, if the hierarchical path of an instance contains an index (vector bit), you must use double quotation marks around the instance definition.</p>
+
+<p><code>config inst=&quot;top.inv_chain.forgentblk[0].case_blk0.inv&quot; use=spice </code></p>
+
+<p>You can use the<code> inst </code>assignment to specify iterated instances, use wildcards and escaped identifiers as shown in the examples below. Moreover, it is also possible bind multiple iterated instances from different hierarchies.</p>
+
+<p>For example:</p>
+
+<p><code> amsd{ </code></p>
+
+<p><code> portmap module=buf1 porttype=name autobus=yes</code><br /><code> config inst=&quot;tb.wrapper.dut.I0&lt;0&gt;.B&lt;*&gt;&quot; use=hdl </code></p>
+
+<p><code> portmap module=buf1 porttype=name autobus=yes </code><br /><code> config inst=&quot;tb.wrapper.dut.I1&lt;*&gt;.B&lt;0&gt;&quot; use=hdl </code></p>
+
+<p><code> portmap module=buf1 porttype=name autobus=yes</code><br /><code> config inst=&quot;tb.wrapper.dut.I2&lt;*&gt;.B&lt;*&gt;&quot; use=hdl </code></p>
+
+<p><code> }</code></p>
+
+<p>You can specify multiple iterated instances with a single<code> inst </code>assignment as follows:</p>
+
+<p><code>portmap module=buf1 porttype=name autobus=yes reffile=&quot;buf.v&quot; </code></p>
+
+<p><code>config inst=&quot;tb.wrapper.dut.I0&lt;1&gt;.B0&lt;0&gt;   tb.wrapper.dut.I0&lt;1&gt;.B0&lt;1&gt; tb.wrapper.dut.I0&lt;1&gt;.B0&lt;2&gt;&quot; use=hdl. </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" rowspan="5" valign="top" width="192"><div class="content-wrapper">
+<p><code>use<span class="confluence-anchor-link" id="UsinganamsdBlock-use"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1050984"></span></code></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Specifies which definition you want the simulator to use.</p>
+
+<p>Valid values:</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="132"><div class="content-wrapper">
+<p><code>hdl<span class="confluence-anchor-link" id="UsinganamsdBlock-confighdl"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1050993"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top" width="324">
+<p>Use the <a href="Glossary.html#Glossary-1032191">HDL</a> definition</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>spice<span class="confluence-anchor-link" id="UsinganamsdBlock-configspice"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1051000"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Use the SPICE definition</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>stub<span class="confluence-anchor-link" id="UsinganamsdBlock-configstub"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1051007"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Replace the specified cell with a stub version (which has the same interface but no content); you must specify a<code> cell </code>parameter assignment; you can specify a <code><a href="#UsinganamsdBlock-1051020">match</a></code><span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> </span>choice of<code> verilog </code>or<code> spice </code>in the <code><a href="#UsinganamsdBlock-1049882">portmap</a></code> statement for the stub</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="2" valign="top">
+<p>No default. You must specify a <code>use</code> assignment.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>exclude </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Specifies a scope that will be excluded from the application of the<code> use </code>parameter setting in the<code> config </code>card.</p>
+
+<p>In the example below, the<code> use=hdl </code>setting will be applied to all instances of cell<code> inv </code>except those within the scope<code> mid2_block </code>, which is a block within<code> mid_block.</code></p>
+
+<p><code> amsd{ </code></p>
+
+<p><code> ... </code><br /><code> config cell=mid_block use=spice</code><br /><code> config cell=inv use=hdl exclude=mid2_block </code></p>
+
+<p><code> }</code></p>
+</td>
+</tr>
+</tbody></table></div>
+<div><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You must specify either a cell or an instance or both. If you specify both, the instance must be an instance of the cell.&#160;</p>
+</div>
+</div>
+
+<p>Here are some examples:</p>
+</div>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">amsd{
+&#160;&#160;&#160;&#160;config cell=&quot;subA subB subC&quot; use=spice
+&#160;&#160;&#160;&#160;config inst=top.I1.I2 use=spice
+&#160;&#160;&#160;&#160;config cell=dac use=hdl
+&#160;&#160;&#160;&#160;}
+
+include &quot;analog_top.cir&quot;
+amsd{
+&#160;&#160;&#160;&#160;portmap stub=analog_top match=spice&#160;&#160;// SPICE stub
+&#160;&#160;&#160;&#160;config inst=top.xana_top2 use=stub
+
+&#160;&#160;&#160;&#160;portmap subckt=analog_top autobus=yes&#160;&#160;// SPICE subcircuit
+&#160;&#160;&#160;&#160;config inst=top.xana_top3 use=spice
+
+&#160;&#160;&#160;&#160;portmap subckt module=nand2 file=nand2.pb&#160;&#160;//&#160;SPICE-in-the-middle
+&#160;&#160;&#160;&#160;config inst=top.a1.x1 use=hdl
+
+&#160;&#160;&#160;&#160;portmap stub=&quot;worklib.analog_top:module&quot; match=verilog&#160;&#160;// Verilog stub
+&#160;&#160;&#160;&#160;config inst=top.xana_top4 use=stub
+&#160;&#160;&#160;&#160;}</pre>
+</div>
+</div>
+
+<p><br /></p>
+<h4 id="UsinganamsdBlock-UsingtheVerilog2001ConfigurationFileverilog2001">Using the Verilog 2001 Configuration File<span class="confluence-anchor-link" id="UsinganamsdBlock-verilog2001"></span></h4>
+
+<p>The<code> amsd </code>block supports Verilog 2001 configuration (specified using the<code> -libmap </code>and<code> -compcnfg </code>xrun options). If the configuration information is specified in the<code> amsd </code>block as well as the Verilog 2001 configuration file, then the following rules apply:</p>
+<ul><li>Configuration information specified in the<code> amsd </code>block takes higher priority than Verilog 2001 configuration.</li></ul><ul><li>For instances that are not specified as<code> use=spice </code>in the<code> amsd </code>block, Verilog 2001 configuration is considered.</li></ul><div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For Verilog 2001 configuration, the top-level design unit is specified using the design parameter in the configuration file.</p>
+</div>
+</div>
+
+<p>Consider an example where you have the following:&#160;&#160;</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped relative-table confluenceTable" style="width: 39.1114%;"><colgroup><col style="width: 33.5674%;" /><col style="width: 29.9157%;" /><col style="width: 36.5169%;" /></colgroup><tbody><tr><td class="confluenceTd" valign="top" width="182">
+<p><code>//file top.v</code></p>
+
+<p><code>module top(); </code></p>
+<p style="margin-left: 30.0px;"><code>clock a1(...); //</code><br /><code>clock a2(...);</code><br /><code>clock a3(...); </code></p>
+
+<p><code>endmodule</code></p>
+</td>
+<td class="confluenceTd" valign="top" width="192">
+<p><code>//file clock.v -&gt; </code></p>
+
+<p><code>module clock(...); </code></p>
+<code>   //rtl description endmodule </code></td>
+<td class="confluenceTd" valign="top" width="239">
+<p><code>//clock.vg -&gt; gateLib </code></p>
+
+<p><code>clock(...); </code></p>
+<code>  //gate-level description endmodule</code></td>
+</tr>
+</tbody></table></div>
+<div>The Verilog 2001 configuration file config01.v is specified as follows: &#160;</div>
+
+<p><code> config cfg1; </code></p>
+<p style="margin-left: 30.0px;"><code>design rtlLib.top </code></p>
+<p style="margin-left: 30.0px;"><code>default liblist rtlLib; </code></p>
+<p style="margin-left: 30.0px;"><code>instance top.a3 liblist gateLib: </code></p>
+
+<p><code> endconfig </code></p>
+
+<p>In a pure digital run, the binding result would be as follows:</p>
+
+<p><code> a1</code>;<code> a2=&gt;rt1Lib</code>;<code> a3=&gt;gateLib </code></p>
+
+<p>If you want to configure instance<code> a1 </code>as spice view, you can use the<code> config </code>statement in the<code> amsd </code>block as follows:</p>
+
+<p><code> include &quot;clock.scs&quot; </code></p>
+
+<p><code> amsd{ </code></p>
+
+<p><code>portmap subckt=clock</code><br /><code>config inst= top.a1 use=spice</code></p>
+
+<p><code> } </code></p>
+
+<p>When the simulation is run, the binding result would be as follows:</p>
+
+<p><code> a1=&gt;spice </code>;<code> a2=&gt;rt1Lib </code>;<code> a3=&gt;gateLib </code></p>
+
+<p>For more information on how to configure the contents of a design, refer to<em><span style="color: rgb(0,0,0);"> Section 13 </span></em>of the<span style="color: rgb(0,0,0);"><em> Verilog 2005 LRM</em>.</span></p>
+<h3 id="UsinganamsdBlock-ieie1051785">ie<span class="confluence-anchor-link" id="UsinganamsdBlock-ie"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1051785"></span></h3>
+
+<p>The <code>ie</code>&#160;statement specifies interface element parameters, optionally for a particular design unit. If you do not specify a design unit, the elaborator applies the parameter settings to all interface elements globally.</p>
+
+<p>You can use an<code> ie </code>statement to automate the process of creating a custom discipline and connect rule for connecting the custom discipline to the<code> electrical </code>discipline.<span style="color: rgb(0,0,0);"> The software applies the custom discipline to domainless nets in your design. </span>So, if you have digital modules with undeclared port disciplines, you can use an<code> ie </code>statement to specify a discrete discipline for domainless nets and the elaborator will insert the appropriate connect module automatically.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you have digital or Verilog-AMS modules with ports of discipline <code>logic</code>, you must use <code><a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-1064061">-amsconnrules</a></code> to specify the connect rule name to use for connecting <code>logic</code> ports to <code>electrical</code> ports. You can use both mechanisms (<code>ie</code> statements and <code><a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-1064061">-amsconnrules</a></code>) at the same time for designs that contain both digital modules with undeclared port disciplines and digital or Verilog-AMS modules with <code>logic</code> ports.</p>
+</div>
+</div>
+
+<p>The syntax for an<code> ie </code>statement is as follows:</p>
+
+<p><code>ie vsup=<em>supplyValue</em> | connrules=inhconn_full [<em><a href="#UsinganamsdBlock-1055243">scope=scopeValue</a></em>] [<em><a href="#UsinganamsdBlock-1052575">parameter=value</a></em>]<span>&#160;| currentmode</span></code></p>
+
+<p>It is mandatory to specify either<code> vsup=</code><code>supplyValue </code>or<code> connrules=inhconn_full </code>in the<code> ie </code>statement.<code> vsup=</code><code>supplyValue </code>specifies the positive supply value in reference to<code> vss </code>(voltage of source and substrate, or the voltage level of the negative supply of IE). By default, <code>vss</code>&#160;is 0, while it can be specified as any non-zero value in the <code>ie</code>&#160;statement.\</p>
+
+<p>The <code>currentmode</code> parameter enables current mode processing for connect modules. The value can be <code>1</code> or <code>0</code>. By default, the value is <code>0</code>.</p>
+
+<p>Using ECL logic, you may need to use negative supplies values for interface elements. For example, your logic might operate between -<code> 5V </code>to<code> -3.2V.</code> In this case, for both<code> vsup </code>and<code> vss </code>, you will specify the<code> ie </code>statement as:</p>
+
+<p><code> ie vsup=1.8 vss=-5 </code></p>
+
+<p>The<code> vsup </code>value is defined as<code> vdd-vss.</code> Therefore, here,<code> vsup=(-3.2-(-5))=1.8</code>, which is a positive value.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For AMS <code>ie</code> card setup, the <code>vsup</code> value needs to be positive because it is a relative value compared to <code>vss</code> to ensure that <code>vhi&gt;vlo</code>.</p>
+</div>
+</div>
+
+<p><code>connrules=inhconn_full </code>uses inherited connection properties for power supply and ground nets for connect modules.</p>
+
+<p>For System Verilog User Defined Nettype (UDN) to Electrical connections, if you are using custom UDN and connect module, you must specify the<code> nettype </code>parameter in the ie card statement. The following example illustrates custom connect module insertion for a custom nettype<code> myNT</code>:</p>
+
+<p><code> ie vsup=5.0 nettype=&quot;myNT&quot; </code></p>
+
+<p>During elaboration time, these rules are used to select the appropriate connect modules and insert them into the design.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you are using the built-in UDN, you do not have to explicitly specify the nettype parameter in the ie card statement. The tool automatically identifies and inserts the built-in UDN, &quot; EEnet &quot;. For more information, see <a href="SystemVerilog_Real_Number_Modeling.html#SystemVerilogRealNumberModeling-1077221">&quot;SystemVerilog User Defined Nettype and Electrical Connections&quot;</a>.</p>
+</div>
+</div>
+
+<p>The<code> ie </code>statement supports the connect rule parameters specified in the following built-in connect rules that are provided in the IUS installation hierarchy:</p>
+<ul><li><code> CR_full_fast </code></li></ul><ul><li><code> CR_full </code></li></ul><ul><li><code> CR_basic </code></li></ul><ul><li><code> CR_inhconn_full_fast </code></li></ul><ul><li><code> CR_ss_full_fast </code></li></ul><ul><li><code> CR_inhconn_full </code></li></ul><ul><li><code> CR_ss_full </code></li></ul><ul><li><code> CR_dynsup_full_fast </code></li></ul>
+<p>These built-in connect rules are regular connect rules with certain design style so that the all connect rule parameters are supported in <code>ie</code>&#160;statement transparently as <code>ie</code>&#160;parameters.</p>
+
+<p>The AMS control block supports the<code> ie </code>connect rules and parameters solely based on the built-in connect rule definition. The connect rules name can be either the full name (<code>CR_full</code>) or the sub name (<code>full</code>). For example:</p>
+
+<p><code> ie connrules=full vsup=1.8 rout=1000 </code></p>
+
+<p><code> ie connrules=CR_full vsup=1.8 rout=1000 </code></p>
+
+<p>You can specify zero or more scopes and zero or more&#160;<a href="#UsinganamsdBlock-1052575">parameter assignments</a>&#160;(customizations). Any customization you specify apply to domainless nets only.</p>
+
+<p>The software automatically builds the &quot;full-fast&quot; connect rule with the voltage supply level you specify (unless you use the&#160;<code><a href="#UsinganamsdBlock-1057569">connrules</a>=<em>connRules</em></code> <a href="#UsinganamsdBlock-1052575"> parameter assignment</a>). You do not need to use&#160;<code><a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-1064061">-amsconnrules</a></code>; you do not need to specify the connect module path or to compile any connect modules.</p>
+
+<p>The software also applies any <code>parameter=<em>value</em></code> <a href="#UsinganamsdBlock-1052575"> customizations</a>&#160;you specify, automatically, and writes information to the<code> xrun.log </code>file.</p>
+<h4 id="UsinganamsdBlock-DynamicVoltageSupply">Dynamic Voltage Supply</h4>
+
+<p>The<code> ie </code>statement also supports dynamic voltage supply. It supports the connect rule parameters of the built-in<code> CR_dynsup_full_fast </code>connect rule that you can use to specify the dynamic voltage supply. For example:</p>
+
+<p><code> ie [connrules=CR_dynsup_full_fast] vddnet=&lt;value&gt; vssnet=&lt;value&gt; [other parameters] </code></p>
+
+<p>The software automatically builds the<code> dynsup_full_fast </code>connect rule with the dynamic voltage supply that you specify.</p>
+
+<p>Parameter<code> connrules </code>is optional. However, it is mandatory to specify both<code> vddnet </code>and<code> vssnet </code>parameters to point to the dynamic power supply net and ground net in the design hierarchy. For example:</p>
+
+<p><code> ie connrules=CR_dynsup_full_fast //illegal; parameters vddnet and vssnet are not specified </code></p>
+
+<p><code> ie vddnet=&quot;top.e1&quot; vssnet=&quot;top.e0&quot; //legal </code></p>
+
+<p><code> ie connrules=CR_dynsup_full_fast vddnet=&quot;top.e1&quot; // illegal; parameter vssnet is not specified </code></p>
+
+<p><code> ie connrules=CR_dynsup_full_fast vssnet=&quot;top.e0&quot; // illegal; parameter vddnet is not specified </code></p>
+
+<p><span class="confluence-anchor-link" id="UsinganamsdBlock-hierarchical_dvs"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-hierarchical_dvs"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-hierarchical_dvs"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-hierarchical_dvs"></span>You can also specify hierarchical dynamic voltage supply for Verilog-AMS electrical and wreal nodes/nets. Hierarchical dynamic voltage supply provides similar functionality like the supply-sensitive connect modules where a block uses its own voltage supply for the connect modules.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>SPICE nodes are not supported with hierarchical dynamic voltage supply.</p>
+</div>
+</div>
+
+<p>Hierarchical dynamic voltage supply only supports a single identifier (for example, <code>vddnet=vdd1</code>) rather than hierarchical paths (for example,&#160; <code>top.vdd1</code>). along with appropriate cell or inst scope assignments. For example,</p>
+
+<p><code> amsd{ </code></p>
+<p style="margin-left: 30.0px;"><code> ie vddnet= &quot;vdd1&quot; vssnet=&quot;vss1&quot; cell=&quot;foo&quot; </code></p>
+
+<p><code> } </code></p>
+
+<p>In this example,<code> vdd1 </code>and<code> vss1 </code>can be the ports of cell<code> foo </code>, as specified by the<code> cell </code>scope assignment. This means that all DVS connect modules inserted within the scope of any instance of foo will have their<code> vddnet</code>/<code>vssnet </code>set to<code> vdd1 </code>and<code> vss1 </code>respectively. Refer to the&#160;<a href="#UsinganamsdBlock-1055052">Examples</a>&#160;section below for a detailed example on hierarchical dynamic voltage supply.</p>
+
+<p>Hierarchical dynamic voltage supply is enabled by using the<code> xrun </code>option<code> -hier_dvs </code>and can work together with normal dynamic voltage supply specification.</p>
+
+<p><span class="confluence-anchor-link" id="UsinganamsdBlock-env_var"></span>Parameters<code> vddnet</code>,<code> vssnet</code>,<code> cell</code>, and<code> inst </code>also support Linux environment variables as values. For example, you can specify the following Linux environment variables:</p>
+
+<p><code> setenv vdd_cell1 tb.avdd</code><br /><code>setenv vss_cell1 tb.avss</code><br /><code>setenv vdd_cell2 tb.vddc</code><br /><code>setenv vss_cell2 tb.dvss</code><br /><code>setenv CELL1 cell1_wrap</code><br /><code>setenv CELL2 cell2_wrap</code><br /><code>setenv INST1 tb.dut.I0</code></p>
+
+<p>You can reuse the already defined environment variables in the AMSD control file, amsd block, and<code> ie </code>card statements using the<code> $ </code>character followed by the environment variable name. For example:</p>
+
+<p><code> ie vddnet=$vdd_cell1 vssnet=$vss_cell1 cell=$CELL1</code><br /><code>ie vddnet=$vdd_cell2 vssnet=$vss_cell2 cell=$CELL2</code><br /><code>ie vddnet=tb.avdd vssnet=tb.avss instport=duv.tb.oomr_observe_net inst=$INST1</code></p>
+<h4 id="UsinganamsdBlock-CustomConnectRules">Custom Connect Rules</h4>
+
+<p>In addition to the built-in connect rules, the<code> ie </code>statement also supports custom connect rules (user-defined connect rules). You can specify your custom connect rule file using the<code> xrun </code>command and use the<code> connrules </code>parameter to specify the connect rule that you want to generate based on the specified connect rule file. For example:</p>
+
+<p><code> xrun top.vams amscf.scs myCR.vams </code></p>
+
+<p><code> //amscf.scs </code></p>
+
+<p><code> amsd{ </code></p>
+
+<p><code> ie vsup=1.8 </code></p>
+
+<p><code> ie vsup=5 connrules=myConnrule inst=top.a1 vdelta=0.1n </code></p>
+
+<p><code> ie vsup=3.3 connrules=myConnrule cell=middle nparam=0.5 </code></p>
+
+<p>Here, two connect rules will be generated based on<code> myConnrule.</code> Note that the parameters specified above, such as<code> vdelta</code>,<code> nparam</code>, and<code> vsup </code>should be text macros specified in the<code> myCR.vams </code>connect rule file. In addition, parameters configured through the<code> ie </code>statement should be valid<code> ie </code>parameters that are text macros specified using the<code> `define </code>directive in the<code> myCR.vams </code>connect rule file. For example:</p>
+
+<p><code> `define supply  1.8&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;//Supply voltage </code></p>
+
+<p><code> `define tran    0.2n&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;//Transition rising time </code></p>
+
+<p><code> `define RO  300&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;//Output resistence </code></p>
+
+<p><code> `define V_delta      (`supply)/64.0&#160; &#160; &#160; &#160; &#160; &#160; //Voltage delta of absdelta </code></p>
+
+<p><code> `define V_tol_Delta &#160;(`V_delta)/4.0&#160; &#160; &#160; //Voltage tolerance of absdelta </code></p>
+
+<p><code> `define T_tol_Delta &#160;(`tran)/20.0 </code></p>
+
+<p>You can also specify a custom rule in the <code>ie</code>&#160;statement with only the scope setting and without reconfiguring any parameter, as shown below.</p>
+
+<p><code> //amscf.scs</code><br /><code>amsd{</code><br /><code>...</code></p>
+
+<p><code>ie connrules myConnrule inst=top.a1</code><br /><code>...</code></p>
+
+<p><code> } </code></p>
+
+<p>You can import the user-defined connect rule file using the following methods:</p>
+<ul><li>Adding the file directly at the<code> xrun </code>command line.<br /><code> xrun ... myCR.vams </code></li></ul><ul><li>Compiling to a specific library using the<code> xrun </code><code> -makelib </code>option.<br /><code> xrun ...-makelib amslib myCR.vams -endlib </code></li></ul><ul><li>Using the precompiled library directory with the<code> xrun </code><code> -reflib </code>option.<br /><code> xrun .. -reflib myConn_lib </code></li></ul>
+<p><code> xrun </code>reads the custom connect rule file and generates a new set of internal disciplines and connect rules based on the specified<code> ie </code>parameters. Therefore, the user-defined connect rule file supported by AMS should contain the text macro definitions of all parameters used in the<code> ie </code>statement and appropriate connect statements.<code> `ifdef </code>is not supported in the user-defined connect rule file.</p>
+
+<p>See</p>
+<ul><li><a href="#UsinganamsdBlock-1055243"> Scope Assignments </a></li></ul><ul><li><a href="#UsinganamsdBlock-1052575"> Parameter Assignments </a></li></ul><ul><li><a href="#UsinganamsdBlock-1055052"> Examples </a></li></ul><h4 id="UsinganamsdBlock-ScopeAssignmentsie_scope1055243">Scope Assignments<span class="confluence-anchor-link" id="UsinganamsdBlock-ie_scope"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1055243"></span></h4>
+
+<p>If you do not specify a scope assignment, the scope is global. Valid<em><code> scope</code><code>=</code><code>scopeValue </code></em>assignments are as follows:</p>
+<div class="table-wrap"><table cellpadding="4" cellspacing="0" class="wrapped confluenceTable"><colgroup><col style="width: 245.0px;" /><col style="width: 200.0px;" /><col style="width: 202.0px;" /></colgroup><tbody><tr><td class="confluenceTd" valign="top" width="192"><div class="content-wrapper">
+<p><code>inst</code><span class="confluence-anchor-link" id="UsinganamsdBlock-inst_assignment"></span></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Full hierarchical path to an instance to which you want to apply the specified interface element parameters. If you specify more than one instance, you must separate each instance with a space and enclose the string in double quotation marks.</p>
+
+<p>The<code> inst </code>assignment also supports iterated instances, wildcards, and escaped identifiers. For example:</p>
+
+<p><code>ie vsup=5 inst=&quot;tb.wrapper.dut.I0&lt;0&gt;.B0&lt;0&gt;&quot; </code><br /><code>ie vsup=3.3 inst=&quot;tb.wrapper.dut.\I0&lt;1&gt;.B0*&quot; </code></p>
+
+<p>You can also specify multiple hierarchies with a single<code> ie </code>statement with a space between them, as shown below.</p>
+
+<p><code>ie vsup=5 inst=&quot;tb.wrapper.dut.I0&lt;0&gt;.B0&lt;0&gt; tb.wrapper.dut.I0&lt;1&gt;.B0&lt;1&gt;&quot; </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>cell </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Specification of a cell to which you want to apply the specified interface element parameters. If you specify more than one cell, you must separate each cell with a space and enclose the string in double quotation marks.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>instport </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Full hierarchical path to one or more names of instance ports to which you want to apply the specified interface element parameters. If you specify more than one name, you must separate each name with a space and enclose the string in double quotation marks. For example:</p>
+
+<p><code>ie vsup=1.2 instport=&quot;a b c&quot; </code></p>
+
+<p><strong>Note</strong>: <span>The functionality of </span><code>instport</code><span> assignment has been merged into </span><code>net</code><span>, for the same scope. Therefore, if you specify both the assignments, the </span><code>net</code><span> assignment takes higher precedence. However, if the </span><code>net</code><span> assignment is not specified, the </span><code>instport</code><span> assignment is considered.</span></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>cellport </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>One or more cell port names to which you want to apply the specified interface element parameters. If you specify more than one cell port, you must separate each cell port name with a space and enclose the string in double quotation marks.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192"><div class="content-wrapper">
+<p><code>net<span class="confluence-anchor-link" id="UsinganamsdBlock-net_assignment"></span></code></p>
+
+<p><br /></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>One or more net names to which you want to apply the specified interface element parameters. If you specify more than one name, you must separate each name with a space and enclose the string in double quotation marks.</p>
+
+<p>The<code> net </code>assignment also supports the specification of instance ports. As a result, the functionality of<code> instport </code>parameter has been merged into<code> net </code>for the same scope. If you specify both<code> instport </code>and<code> net </code>parameters in the<code> ie </code>statement for the same scope, the<code> net </code>assignment will have higher precedence. For example:</p>
+
+<p><code>amsd{ </code></p>
+
+<p><code>ie vsup=4 net=top.clk</code><br /><code>ie vsup=1.8 instport=top.clk </code></p>
+
+<p><code>} </code></p>
+
+<p>In the above example,<code> top.clk </code>specified with the<code> net </code>assignment will have higher priority.</p>
+
+<p>The<code> net </code>assignment also supports iterated instances and escaped identifiers. For example:</p>
+
+<p><code>ie vsup=2 net=&quot;top.I1.X1&lt;1&gt;.I2.net1&quot; </code><br /><code>ie vsup=3.2 net=&quot;tb.wrapper.\I0&lt;*&gt; .B1.x1&quot;</code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>cellupport </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>One or more cell port names. The software applies the interface element parameters to upper-level connections (ports or nets) to the specified cell port or ports. If you specify more than one name, you must separate each name with a space and enclose the string in double quotation marks.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>lib </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Logical name for library of design units to which you want to apply the specified interface element parameters.</p>
+</td>
+</tr>
+</tbody></table></div>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The scope-based ie card setting, by default, applies the<code> -setdiscipline</code> option to force the specified scope level with a discrete logic discipline and overrides the previous default and detailed discipline resolution process.</p>
+</div>
+</div>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you have a design that uses connect modules across discrete nets (such as R2L), it is recommended to pair <code>cellport</code> with <code>cellupport</code> for cell ports definition and <code>instport</code> with <code>net</code> for instance port definition.</p>
+</div>
+</div>
+
+<p><code>amsd{</code></p>
+
+<p><code> &#160;&#160;&#160;&#160;ie vsup=1.8 //Global ie for full design<br />&#160;&#160;&#160;&#160;ie vsup=3.3 vthi=1.8 vtlo=1.5 cellport=&quot;cell_A.*&quot; cellupport=&quot;cell_A.*&quot; </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// cell_A ports will be using different discipline than global </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;ie vsup=5.0  net=top.net1   instport= top.inst_1.net1 </code></p>
+<p style="margin-left: 210.0px;"><code> // Instance inst_1 port net1 which is connected to&#160;top.net1 will use vsup=5.0 </code></p>
+
+<p><code> } </code></p>
+
+<p>The reason for this use model is<code> cellport </code>and<code> instport </code>will define the internal ports while<code> cellupport </code>and<code> net </code>will define the connecting outside ports; they need to match in discipline.</p>
+
+<p>You can use the wildcard character(s) in the scope name to specify more than one scope at a time. For example:</p>
+
+<p><code> ie vsup=1.2 cellport=&quot;top.*_vdddig*&quot; </code></p>
+
+<p>could match&#160; <code>top.jbb_vdddig_1, top.jbb_vdddig_2, top.jbc_vdddig_1, top.jbc_vdddig_2,</code> and so on.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For hierarchical-related specifications, that is,<code>&#160;inst</code>,<code>&#160;instport</code>, and<code>&#160;net</code>, wild cards do not match across the hierarchical levels unless the wildcard is specified at the end of the string. For example,<code>&#160;&quot;a.*.d&quot;&#160;</code>would match&quot;<code>&#160;a.b.d&#160;</code>&quot;, but not &quot;<code>a.b.c.d</code>&quot;. However,<code>&#160;&quot;a.*&quot;&#160;</code>could match<code>&#160;&quot;a.b&quot;&#160;</code>and &quot;<code>a.b.c.d</code>&quot;.</p>
+</div>
+</div>
+<h4 id="UsinganamsdBlock-ParameterAssignmentscustomizations1052575">Parameter Assignments<span class="confluence-anchor-link" id="UsinganamsdBlock-customizations"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1052575"></span></h4>
+
+<p>The software uses any parameter assignments you specify to customize the connect rules.<span style="color: rgb(0,0,0);"> Any customizations you specify apply to domainless nets only. </span>Valid<em><code> parameter</code><code>=</code><code>value </code></em>assignments for the<code> ie </code>statement are as follows:</p>
+<div class="table-wrap"><table cellpadding="4" cellspacing="0" class="wrapped confluenceTable"><colgroup><col style="width: 207.0px;" /><col style="width: 139.0px;" /><col style="width: 301.0px;" /></colgroup><tbody><tr><td class="confluenceTd" valign="top" width="192">
+<p><code>vthi </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Voltage value above which the simulator assigns a logical<code> 1.</code> The simulator determines the default value from the connect rule.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>vtlo </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Voltage value below which the simulator assigns a logical<code> 0.</code> The simulator determines the default value from the connect rule.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>vx </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Final real number for logical<code> x.</code> The simulator determines the default value from the connect rule.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>tr </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Rise time for analog transition, from<code> vtlo </code>to<code> vthi </code>or<code> vx.</code></p>
+
+<p>Default value: 0.2 ns</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>rlo </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Output resistance for L2E when digital input is<code> 0.</code></p>
+
+<p>Default value: 200 Ohms</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>rhi </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Output resistance for L2E when digital input is<code> 1.</code></p>
+
+<p>Default value: 200 Ohms</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>rx </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Output resistance for L2E when digital input is<code> x.</code></p>
+
+<p>Default value: 40 Ohms</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>rz </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Output resistance for L2E when digital input is<code> z.</code></p>
+
+<p>Default value: 10M Ohms</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>txdel </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Controls the amount of wait time before a digital port is driven to<code> x </code>for the connect modules<code> E2L </code>,<code> E2L_2 </code>,<code> L2E </code>,<code> Bidir </code>, and<code> Bidir_2.</code></p>
+
+<p>Measured in nano seconds.</p>
+
+<p>Default value: Four times the<code> tr </code>parameter. If the<code> tr </code>parameter is not specified for the<code> ie </code>statement, the simulator uses the default<code> tr </code>value 0.2n and calculates the default<code> txdel </code>value as 0.8n.</p>
+
+<p>Example:</p>
+
+<p><code> amsd{ </code></p>
+
+<p><code> ie vsup=1.8 txdel=0.9n </code></p>
+
+<p><code> } </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>mode </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Specifies the type of connect module insertion in the<code> ie </code>card. You can assign two values to this parameter:</p>
+<ul><li><code>merged </code>- This is the default value. The merged value instructs the elaborator to insert a single merged connectmodule for all the nets that are connected to the same port and require the same connectmodule.</li></ul><ul><li><code>split </code>- The<code> split </code>value instructs the elaborator to insert a separate connectmodule for every net connected to the same port, irrespective of whether or not they require the same connectmodule.</li></ul></td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>vpso </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Converts the PSO X state to a user-supplied voltage in AMS-CPF.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>vdelta </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Voltage delta value ranging from 0 to vsup.</p>
+
+<p>Default value: <code>vsup</code>/<code>64</code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>vtol </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Voltage tolerance value ranging from 0 to vdelta.</p>
+
+<p>Default value: <code>vdelta</code>/<code>4</code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="1" width="192"><code>vtrlo</code></td>
+<td class="confluenceTd" colspan="2" width="456">
+<p>Ratio of low threshold during value conversion.</p>
+
+<p><span>Default value:</span> <code>vtlo</code>/<code>vsup</code>.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="1" width="192"><code>vtrhi</code></td>
+<td class="confluenceTd" colspan="2" width="456">
+<p>Ratio of high threshold during value conversion.</p>
+
+<p><span>Default value:</span> <code>vtrhi</code>/<code>vsup</code>.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="1" width="192"><code>vrtol</code></td>
+<td class="confluenceTd" colspan="2" width="456">Ratio of tolerance during value conversion. The default value is vtlo/vsup.</td>
+</tr>
+<tr><td class="confluenceTd" colspan="1" width="192"><code>currentmode</code></td>
+<td class="confluenceTd" colspan="2" width="456">
+<p>Enables wreal current mode processing.</p>
+
+<p><span>Default value:</span> <code>0</code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" rowspan="6" valign="top" width="192"><div class="content-wrapper">
+<p><code>connrules<span class="confluence-anchor-link" id="UsinganamsdBlock-connrules"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1057569"></span></code></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Connect rule to build using the <code>vsup=<em>supplyValue</em></code> you specify. Valid values:</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="132">
+<p><code>basic </code></p>
+</td>
+<td class="confluenceTd" valign="top" width="324">
+<p>Build the &quot;basic&quot; connect rule</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>full </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Build the &quot;full&quot; connect rule</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>inhconn_full </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Build inheritance-based connect rule.</p>
+
+<p>The connect rule defined using the<code> inhconn_full </code>argument can inherit supply voltage automatically. The default supply is<code> cds_globals.\vdd! </code>and<code> cds_globals.\vss! </code></p>
+
+<p>You can use this argument instead of using the<code> vsup </code>parameter to specify the supply voltage. However, if both<code> vsup </code>and<code> connrules=inhconn_full </code>exist in the same<code> ie </code>card, an error is reported. For example:</p>
+
+<p><span style="color: rgb(0,0,0);"><code>ie vsup=1.8 connrules = inhconn_full</code> </span></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>full_fast </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Build the &quot;full-fast&quot; connect rule</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="2" rowspan="1" valign="top">
+<p>Default Value:<code> full_fast </code></p>
+
+<p><strong>Note</strong>: <span>You can find the set of connect rule files that Cadence provides--including the &quot;</span><code> basic </code><span>&quot;, &quot;</span><code> full </code><span>&quot;, &quot;</span><code> inhconnfull </code><span>&quot;, and &quot;</span><code> full-fast </code><span>&quot; connect rules--in</span><code> your_install_dir </code><code> /tools/affirma_ams/etc/connect_lib.</code><span> See</span><code> your_install_dir </code><code> /tools/affirma_ams/etc/connect_lib/README </code><span>for detailed information about them.</span></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>discipline </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Used as the discipline name corresponding to the<code> ie </code>card. If this parameter is not specified, the discipline name is auto-generated.</p>
+
+<p>In the example below, the discipline name corresponding to the<code> ie </code>card in the first<code> ie </code>statement will be<code> logic1_8 </code>instead of the auto-generated discipline name<code> ddiscrete_1_8.</code> However, because the<code> discipline </code>parameter is not used with the second and third<code> ie </code>statements, the corresponding discipline names for these<code> ie </code>cards will be<code> ddiscrete_3_3 </code>and<code> ddiscrete_4_5.</code></p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;ie vsup=1.8 discipline=logic1_8 rx=25<br />&#160;&#160;&#160;&#160;ie vsup=3.3 rlo=125<br />&#160;&#160;&#160;&#160;ie vsup=4.5 tr=0.4n<br />&#160;&#160;&#160;&#160;} </code></p>
+<div>
+<p><strong>Important</strong>: <span>The </span><code>discipline</code><span> parameter can take only discrete discipline values. In the example below, the discipline value is not discrete and therefore it is not supported.</span></p>
+
+<p><code>ie vsup=1.8 instport=&quot;top.sub.pin&quot; discipline=&quot;electrical&quot; </code></p>
+
+<p>For continuous disciplines, use the elaboration<code> -setdiscipline</code> option instead. For example:<code> </code></p>
+
+<p><code>-setdiscipline &quot;instterm-top.sub.pin- electrical&quot; </code></p>
+</div>
+
+<p><strong>Note</strong>: <span>Unlike in a </span><a href="#UsinganamsdBlock-1058645">connectmap</a><span> card, the</span><code> discipline </code><span>parameter in an</span><code> ie </code><span>card can accept only a single discipline value.</span></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>enable_highz<span class="confluence-anchor-link" id="UsinganamsdBlock-enable_highz"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>If set to<code> 1</code>, converts HighZ state reported by the Spectre dyn_highz check at the analog (SPICE) port to logic Z at digital (Verilog) port of AMS connect modules. This parameter is supported only by the AMSD built-in default connect rules (full_fast) on electrical-to-logic and bidirectional conversion. Possible values are<code> 0 </code>and 1. The default value is<code> 0.</code></p>
+
+<p><strong>Note</strong>: <span>Conversion of HighZ state results in delay of one transient step.</span></p>
+
+<p><strong>Example</strong>:</p>
+
+<p><code>ie vsup=1.8 enable_highz=1 net=&quot;top.n1 top.n5&quot; </code></p>
+
+<p>To enable the <code>ie enable_highz</code> feature, the AMSD built-in Verilog-AMS connect modules are enhanced with system function <code>$dyn_highz</code>, which takes two arguments. The first argument is the analog port of the Verilog-AMS module and the second is&#160;to enable the highz conversion. It returns a boolean/integer value, where <code>1</code> means high-Z and <code>0</code> means non-high-Z.</p>
+
+<p><strong>Example</strong>:</p>
+
+<p><code>highzState = $dyn_highz(Ain, enable_highz);</code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="1"><code>nox</code></td>
+<td class="confluenceTd" colspan="2">
+<p>If set to 1, disables converting to logic X when the electrical signal is in between <code>vthi</code> and <code>vtlo</code> in electrical to logic conversion, for the purpose of simpler and faster verification. Default value: <code>0</code></p>
+</td>
+</tr>
+</tbody></table></div>
+<h4 id="UsinganamsdBlock-Examplesexample1055052">Examples<span class="confluence-anchor-link" id="UsinganamsdBlock-example"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1055052"></span></h4>
+
+<p>In the following example, all digital nets that connect to analog in the<code> top.I3 </code>scope have interface elements with<code> vsup=4.5 </code>and<code> tr=1.2 </code>; all digital nets that connect to analog in the scope of instance<code> top.I1 </code>of cell<code> mid1 </code>have interface elements with<code> vsup=1.8 </code>; all other nets use the global value,<code> vsup=5.0 </code>:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;ie vsup=5.0<br />&#160;&#160;&#160;&#160;ie inst=top.I3 vsup=4.5 tr=1.2n<br />&#160;&#160;&#160;&#160;ie vsup=1.8 cell=mid1 inst=top.I1<br /> &#160;&#160;&#160;&#160;} </code></p>
+
+<p>Here is an example showing how you can specify more than one instance (scope) to use the same supply voltage:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;ie vsup=4.5 inst=&quot;testbench.vlog_buf&quot;<br />&#160;&#160;&#160;&#160;ie vsup=4.5 inst=&quot;testbench.vlog_buf1&quot;<br />&#160;&#160;&#160;&#160;ie vsup=4.5 inst=&quot;testbench.vlog_buf2&quot;<br />&#160;&#160;&#160;&#160;} </code></p>
+
+<p>You can also specify more than one instance in a single statement like this:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;ie vsup=4.5 inst=&quot;testbench.vlog_buf testbench.vlog_buf1 testbench.vlog_buf2&quot;<br />&#160;&#160;&#160;&#160;} </code></p>
+
+<p>Here is an example showing how you can specify different instances (scopes) to use different supply voltages:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;ie vsup=1.8 inst=&quot;testbench.vlog_buf&quot;<br />&#160;&#160;&#160;&#160;ie vsup=3.0 inst=&quot;testbench.vlog_buf1&quot;<br />&#160;&#160;&#160;&#160;ie vsup=4.5 inst=&quot;testbench.vlog_buf2&quot;<br />&#160;&#160;&#160;&#160;} </code></p>
+
+<p>The following examples showing how you can specify a supply voltage you want to apply to an instance port, a cell port, a net, or to all domainless nets connected to a cell port:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;ie vsup=1.8 instport=&quot;top.I1.in&quot; tr = 0.4n<br /> &#160;&#160;&#160;&#160;} </code></p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;ie vsup=1.8 cellport=&quot;mid1.w&quot; vtlo=0.7 vthi=1.5<br /> &#160;&#160;&#160;&#160;} </code></p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;ie vsup=1.8 net=&quot;top.n1&quot; rlo=150 rhi=240<br /> &#160;&#160;&#160;&#160;} </code></p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;...</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;ie vsup=1.8 cellupport=&quot;mid2.w&quot; rx=25<br /> &#160;&#160;&#160;&#160;} </code></p>
+
+<p>Here is an example showing how you can specify more than one scope on a single<code> ie </code>statement:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;ie vsup=1.8 cell=&quot;mid&quot; inst=&quot;top.I1&quot; cellupport=&quot;mid.w&quot;<br />&#160;&#160;&#160;&#160;} </code></p>
+
+<p>Here is an example showing how you can build a set of &quot;full&quot; connect rules using a 1.8 Volt supply value:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;ie vsup=1.8 connrules=&quot;full&quot;<br /> } </code></p>
+
+<p>In the following example, the program applies the same custom discipline to cell<code> mid1 </code>and to instance<code> top.I1 </code>(because the<code> parameter </code><code> = </code><code> value </code>assignments in the<code> ie </code>statements are exactly the same):</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;ie vsup=1.8 cell=&quot;mid1&quot; tr=0.3n rlo=200<br />&#160;&#160;&#160;&#160;ie vsup=1.8 inst=&quot;top.I1&quot; tr=0.3n rlo=200<br />} </code></p>
+
+<p>The example below describes a global<code> ie </code>card with the default<code> merged </code>connect module insertion. In addition, it describes a scoped<code> ie </code>card for the<code> divider </code>block, which is parameterized for a<code> split </code>connect module insertion.</p>
+
+<p><code> ie vsup=1.8<br /> </code><code> ie vsup=3.2 mode=split cell=divider </code></p>
+
+<p>The example below describes how the new<code> vpso </code>parameter can be used with the<code> ie </code>card to convert the PSO X state to a user-supplied voltage in AMS-CPF.</p>
+
+<p><code> amsd{</code><br /><code>  ie vsup=3.3 instport=&quot;testbench.vlog_buf.I1.in&quot;  vpso=0.1</code><br /><code>}</code></p>
+
+<p>The example below describes how to specify the hierarchical dynamic voltage supply.</p>
+
+<p><code> module top; </code></p>
+<p style="margin-left: 30.0px;"><code> electrical e1, e2, e3; </code></p>
+<p style="margin-left: 30.0px;"><code> electrical a11, a10, a21, a20, a3; </code></p>
+<p style="margin-left: 30.0px;"><code>foo f1 (e1, a11, a10);</code></p>
+<p style="margin-left: 30.0px;"><code> foo f2 (e2, a21, a20); </code></p>
+<p style="margin-left: 30.0px;"><code> foo f3 (e3, a3,  a3); </code></p>
+
+<p><code>initial begin // simulation outputs</code></p>
+<p style="margin-left: 60.0px;"><code> #10 $display(V(e1),,V(e2),,V(e3)); </code></p>
+<p style="margin-left: 60.0px;"><code> #20 $display(V(e1),,V(e2),,V(e3)); </code></p>
+<p style="margin-left: 30.0px;"><code> end </code></p>
+<p style="margin-left: 30.0px;"><code>analog begin // setup supplies</code></p>
+<p style="margin-left: 60.0px;"><code> V(a11) &lt;+ 1.8; </code></p>
+<p style="margin-left: 60.0px;"><code> V(a10) &lt;+ 0.18; </code></p>
+<p style="margin-left: 60.0px;"><code> V(a21) &lt;+ 3.3; </code></p>
+<p style="margin-left: 60.0px;"><code> V(a20) &lt;+ 0.33; </code></p>
+<p style="margin-left: 30.0px;"><code>&#160;end </code></p>
+
+<p><code> endmodule </code></p>
+
+<p><code>module foo(p, a1, a0);</code></p>
+<p style="margin-left: 30.0px;"><code> output p, a1, a0; </code></p>
+<p style="margin-left: 30.0px;"><code> electrical a1, a0; // local supplies </code></p>
+<p style="margin-left: 30.0px;"><code> assign #20 p = 1; </code></p>
+
+<p><code> endmodule</code>&#160;</p>
+
+<p><code> //amsd block </code></p>
+
+<p><code> ie vddnet=a1 vssnet=a0 inst=&quot;top.f1 top.f2&quot;  // hierarchical DVS </code></p>
+
+<p><code> ie vddnet=top.a21 vssnet=top.a10 inst=top.f3 // normal DVS </code></p>
+
+<p><code> //command line </code></p>
+
+<p><code> xrun top.vams sim.scs -ieinfo -hier_dvs </code></p>
+
+<p>Note that hierarchical dynamic voltage supply works for a single identifier (not OOMR style) used in<code> vddnet</code>/<code>vssnet</code>, like<code> a1</code>/<code>a0 </code>in the above example.</p>
+
+<p>When the simulation is run, the tool will insert three IEs:</p>
+
+<p><code> top.e3__L2E_2_dynsup__ddiscrete_dynsup_full_fast_ie2 </code>for the second IE card, as normal DVS</p>
+
+<p><code> top.e2__L2E_2_dynsup__ddiscrete_dynsup_full_fast </code>for the first IE card (Hierarchical DVS)</p>
+
+<p><code> top.e1__L2E_2_dynsup__ddiscrete_dynsup_full_fast </code>for the first IE card</p>
+
+<p>The simulation result would be as follows:</p>
+
+<p><code> 0.18 0.33 0.18 </code></p>
+
+<p><code> 1.8 3.3 3.3 </code></p>
+<h3 id="UsinganamsdBlock-cece1073140">ce<span class="confluence-anchor-link" id="UsinganamsdBlock-ce"></span><span class="confluence-anchor-link" id="UsinganamsdBlock-1073140"></span></h3>
+
+<p>The<code> ce </code>statement specifies conversion element parameters for VHDL-to-SPICE connections, optionally for a particular design architecture (cell level), or for a specific pin (port level). If you do not specify a cell or a port name, the elaborator applies the parameter settings to all conversion elements globally.</p>
+
+<p>Using a<code> ce </code>statement, you can define and select VHDL conversion elements for VHDL-to-SPICE connections in your design. You can specify the values of various generics in a conversion element to control the accuracy and performance of the inter-kernel value conversions. Optionally, you can define a conversion element for a given scope of the design by specifying a cell name. Alternatively, you can specify a port name to define a conversion element for the specific pin. If you do not specify a cell or a port, the<code> ce </code>statement applies to the entire design.</p>
+
+<p>The syntax for a<code> ce </code>statement is as follows:</p>
+
+<p><code>ce name=<em>ceName</em> type=<em>sigType</em> [dir=<em>portDir</em>] [cell=<em>archName</em>] [genericmap=<em>value</em>] [cellport=<em>portName</em>] [excludeport=<em>portName</em>] [priority=high|low] [optimize=on|off]</code></p>
+
+<p>Valid parameter assignments for the<code> ce </code>statement are as follows:</p>
+<div class="table-wrap"><table cellpadding="4" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /><col /></colgroup><tbody><tr><td class="confluenceTd" valign="top" width="192">
+<p><code>name </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Conversion element name using one of the following forms:</p>
+
+<p><em><code>library. cell </code></em></p>
+
+<p><em><code>library. cell :arch</code></em></p>
+
+<p>For example:</p>
+
+<p><code>name=mylib.std_logic2e </code></p>
+
+<p><code>name=mylib.std_logic2e:arch</code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>type </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Digital signal type that connects to SPICE; for example:</p>
+
+<p><code>type=std_logic </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" rowspan="5" valign="top" width="192">
+<p><code>dir </code></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>(Optional) Direction of the digital port</p>
+
+<p>Valid values:</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="132">
+<p><code>in </code>or<code> input </code></p>
+</td>
+<td class="confluenceTd" valign="top" width="324">
+<p>Input port</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>out </code>or<code> output </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Output port</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>inout </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Bidirectional port</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="2" valign="top">
+<p>Default value:<code> inout </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>cell </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>(Optional) Name of the cell defining the scope of the<code> ce </code>statement; for example:</p>
+
+<p><code>cell=dummy_spice </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>genericmap </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Parameter for overriding generic values in the conversion element; for example:</p>
+
+<p><code>genericmap=&quot;vsup 3.3 vthi 2.2&quot; </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>cellport </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>(Optional) Name of the port (or ports) to which the elaborator will apply the parameter settings specified in the<code> ce </code>statement; for example:</p>
+
+<p><code>cellport=&quot;vdd2 gnd2&quot; </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>excludeport </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>(Optional) Name of the port (or ports) that will not use the parameter settings specified in the<code> ce </code>statement; for example:</p>
+
+<p><code>excludeport=&quot;p0 nx&quot; </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>priority </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>(Optional) Priority of the conversion element for optimization. This value determines the conversion element to be used for optimization, when there are multiple conversion elements of different signal types. For example:</p>
+
+<p><code>ce ... type=base  priority=low </code></p>
+
+<p><code>ce ... type=derived  priority=high </code></p>
+
+<p>In the above example, if the conversion element optimization process has to choose one of the conversion elements for optimization, it will choose the derived conversion element because it has<code> high </code>priority.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>optimize </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>(Optional) The global switch to turn off conversion element optimization. Default is<code> on.</code></p>
+
+<p>The following statement for the global<code> ce </code>card implies that conversion element optimization will be ignored for the entire design.</p>
+
+<p><code>ce optimize=off</code></p>
+
+<p>The following statement, on the other hand, implies that optimization will be ignored for scope<code> nand2 </code>and below only. Conversion element optimization will occur for all other scopes.</p>
+
+<p><code>ce optimize=off cell=nand2 ...</code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>For example:</p>
+
+<p><code> ce name=mylib.std_logic2e genericmap=&quot;vsup 2.4 vthi 1.8 vtlo 1.2&quot; cell=dummy_spice type=std_logic dir=input </code></p>
+
+<p>Here is an example in the context of an <code>amsd</code>&#160;block:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;&#160;portmap subckt=mult16x16_spice autobus=yes refformat=vhdl<br /> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;reffile=mult16x16_spice.vhd<br />&#160;&#160;&#160;&#160;&#160;config  cell=mult16x16_spice use=spice<br />&#160;&#160;&#160;&#160;&#160;ce name=my_ad_lib.std_logic2e dir=input type=std_logic<br />&#160;&#160;&#160;&#160;&#160;ce name=my_ad_lib.e2std_logic dir=out   type=std_logic<br />} </code></p>
+<h3 id="UsinganamsdBlock-connectmap1058645">connectmap<span class="confluence-anchor-link" id="UsinganamsdBlock-1058645"></span></h3>
+
+<p>The<code> connectmap </code>card defines a resolution function for one or more disciplines by using the<code> realresolve </code>parameter. The syntax of the<code> connectmap </code>statement is the following:</p>
+
+<p><code>connectmap [discipline=<em>value(s)</em>] realresolve=<em>resolveFunction </em></code></p>
+
+<p>where:</p>
+<ul><li>The<code> discipline </code>parameter specifies the names of discrete disciplines separated by spaces. You can specify one or more discipline names with this parameter.</li></ul><ul><li>The<code> realresolve </code>parameter specifies the name of a predefined<code> wreal </code>resolution function to be associated with the specified disciplines. This is a mandatory parameter that can have any of these values:</li></ul><ul><ul><li><code> <a href="Real_Number_Modeling.html#RealNumberModeling-1062848">default</a> </code></li></ul></ul><ul><ul><li><code> <a href="Real_Number_Modeling.html#RealNumberModeling-1044551">fourstate</a> </code></li></ul></ul><ul><ul><li><code> <a href="Real_Number_Modeling.html#RealNumberModeling-1044644">sum</a> </code></li></ul></ul><ul><ul><li><code> <a href="Real_Number_Modeling.html#RealNumberModeling-1044732">avg</a> </code></li></ul></ul><ul><ul><li><code> <a href="Real_Number_Modeling.html#RealNumberModeling-1044818">min</a> </code></li></ul></ul><ul><ul><li><code> <a href="Real_Number_Modeling.html#RealNumberModeling-1044904">max</a> </code></li></ul></ul><ul><ul><li><code> none</code></li></ul></ul><div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><span style="color: rgb(51,51,51);font-weight: 400;white-space: normal;">If you specify the value of the</span><code style="color: rgb(51,51,51);font-weight: 400;white-space: normal;">&#160;realresolve&#160;</code><span style="color: rgb(51,51,51);font-weight: 400;white-space: normal;">parameter as</span><code style="color: rgb(51,51,51);font-weight: 400;white-space: normal;">&#160;none</code><span style="color: rgb(51,51,51);font-weight: 400;white-space: normal;">, the disciplines listed in the</span><code style="color: rgb(51,51,51);font-weight: 400;white-space: normal;">&#160;connectmap&#160;</code><span style="color: rgb(51,51,51);font-weight: 400;white-space: normal;">card will use the global resolution function. An error will occur if you do not specify the</span><code style="color: rgb(51,51,51);font-weight: 400;white-space: normal;">&#160;realresolve&#160;</code><span style="color: rgb(51,51,51);font-weight: 400;white-space: normal;">parameter or specify an invalid value for this parameter.</span></p>
+</div>
+</div>
+
+<p>In the following example, the first<code> connectmap </code>card will display an error because no<code> realresolve </code>parameter is defined, while the second<code> connectmap </code>card will set the<code> disc3 </code>and<code> disc4 </code>disciplines to use the<code> max </code>resolution function for<code> wreal </code>nets. The third and the last<code> connectmap </code>card in the example will cause the<code> disc5 </code>discipline to use the global resolution function for the purpose of resolving the resolution function of a connection.</p>
+
+<p><code> amsd{ </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;&#160;connectmap discipline=&quot;disc1 disc2&quot; </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;&#160;connectmap discipline=&quot;disc3 disc4&quot; realresolve=max </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;&#160;connectmap discipline=&quot;disc5&quot; realresolve=none </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;&#160;} </code></p>
+<h2 id="UsinganamsdBlock-IntegrationbetweenconnectmapandieCards">Integration between connectmap and ie Cards</h2>
+
+<p>You can use both the custom and auto-generated disciplines of the<code> ie </code>card in the<code> connectmap </code>card as follows:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;ie vsup=1.8 discipline=logic1_8 rx=25<br />&#160;&#160;&#160;&#160;ie vsup=3.3 rlo=125<br />&#160;&#160;&#160;&#160;ie vsup=4.5 tr=0.4n<br />&#160;&#160;&#160;&#160;connectmap resolution=max discipline=&quot;logic1_8 ddiscrete_4_5&quot;<br />&#160;&#160;&#160;&#160;} </code></p>
+
+<p>The first<code> ie </code>statement in the above example explicitly associates the<code> logic1_8 </code>discipline with the<code> ie </code>card. The next two<code> ie </code>statements do not use the discipline parameter, and therefore, have the auto-generated discipline names<code> ddiscrete_3_3 </code>and<code> ddiscrete_4_5.</code> The<code> connectmap </code>statement defines the<code> max </code>resolution function for both the custom<code> logic1_8 </code>discipline and the auto-generated<code> ddiscrete_4_5 </code>discipline.</p>
+
+<p>In addition to the explicitly defined resolution functions, the global and default resolution functions apply to<code> ie </code>custom and auto-generated disciplines as well.</p>
+<h2 id="UsinganamsdBlock-HierarchicalInterfaceElementOptimizationieoptimization">Hierarchical Interface Element Optimization<span class="confluence-anchor-link" id="UsinganamsdBlock-ieoptimization"></span></h2>
+<h3 id="UsinganamsdBlock-Single-LevelIEOptimization">Single-Level IE Optimization</h3>
+
+<p>Single-level IE Optimization is a process in which the elaborator inserts a single bidirectional interface element (IE) in place of multiple IEs when the following conditions are met:</p>
+<ul><li>A verilog net (logic, real, or user-defined type) forced to digital (using<code> $monitor </code>,<code> $display </code>,<code> force </code>, OOMR reference in digital behavioral code, and so on) is connected to more than one analog port at the<span style="color: rgb(0,0,0);"><strong>same hierarchical level</strong>.</span></li></ul><ul><li>Multiple dissimilar IEs exist between the digital net and the analog ports.</li></ul>
+<p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236018.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.01.png" data-linked-resource-id="305236018" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236018.png" width="640px" /></span></p>
+
+<p>In case of analog/digital variable connections, multiple dissimilar IEs are replaced with a single electrical-to-real (E2R) IE that is connected to all the analog ports when:</p>
+<ul><li>A real variable is connected to more than one analog port at the&#160;<span style="color: rgb(0,0,0);"><strong>same hierarchical level</strong>.</span></li></ul><ul><li>Multiple dissimilar IEs exist between the variable and the analog ports.</li></ul><p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236020.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.02.png" data-linked-resource-id="305236020" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236020.png" width="640px" /></span></p>
+
+<p>In case of nets involving real/logic connections, multiple dissimilar IEs between the logic net and the real or user-defined ports are replaced with a single real-to-logic (R2L) bidirectional IE when:</p>
+<ul><li>A verilog net forced to digital (using<code> $monitor </code>,<code> $display </code>,<code> force </code>, OOMR reference in digital behavioral code, and so on) is connected to more than one wreal or user-defined type port at the same hierarchical level.</li></ul><ul><li>Multiple dissimilar IEs exist between the logic net and the real or user-defined ports.</li></ul><p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236017.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.03.png" data-linked-resource-id="305236017" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236017.png" width="640px" /></span></p>
+<h3 id="UsinganamsdBlock-HierarchicalOptimizationhierarchical_opt">Hierarchical Optimization<span class="confluence-anchor-link" id="UsinganamsdBlock-hierarchical_opt"></span></h3>
+
+<p>The interface elements (IEs) that are instantiated at any point on a hierarchical digital net can be combined into one. As a result, all IE-connected nets are collapsed while still maintaining the connection between the analog and digital nets. For this, the following criteria must be met:</p>
+<ul><li>For discrete (logic or real) to electrical connections, there must be an electrical port to which all the IEs and electrical nets can be collapsed.</li></ul><ul><li>For real net to logic connections, real nets are collapsed. However, logic nets are not collapsed.</li></ul><ul><li>Multiple R2L or R2E IEs connected to a network of connected real variables and multiple connected real variables in different hierarchical scopes are not collapsed.</li></ul><h4 id="UsinganamsdBlock-Examples.1">Examples</h4>
+<h4 id="UsinganamsdBlock-DigitalOverElectricalConnections">Digital Over Electrical Connections</h4>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236015.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.04.png" data-linked-resource-id="305236015" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236015.png" width="640px" /></span></p>
+<h4 id="UsinganamsdBlock-DigitalSandwich">Digital Sandwich</h4>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236008.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.05.png" data-linked-resource-id="305236008" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236008.png" width="640px" /></span></p>
+<h4 id="UsinganamsdBlock-LogicoverWreal">Logic over Wreal</h4>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236007.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.06.png" data-linked-resource-id="305236007" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236007.png" width="640px" /></span></p>
+<h4 id="UsinganamsdBlock-LogicSandwich">Logic Sandwich</h4>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236021.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.07.png" data-linked-resource-id="305236021" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236021.png" width="640px" /></span></p>
+<h4 id="UsinganamsdBlock-LogicoverRealVariable">Logic over Real Variable</h4>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236014.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.08.png" data-linked-resource-id="305236014" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236014.png" width="640px" /></span></p>
+<h4 id="UsinganamsdBlock-WrealoverElectrical">Wreal over Electrical</h4>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236006.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.09.png" data-linked-resource-id="305236006" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236006.png" width="640px" /></span></p>
+<h4 id="UsinganamsdBlock-WrealElectricalSandwich">Wreal Electrical Sandwich</h4>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236013.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.10.png" data-linked-resource-id="305236013" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236013.png" width="640px" /></span></p>
+<h3 id="UsinganamsdBlock-InterfaceElementOptimizationbetweenDissimilarNetsrle_ie">Interface Element Optimization between Dissimilar Nets<span class="confluence-anchor-link" id="UsinganamsdBlock-rle_ie"></span></h3>
+
+<p>In Interface Element (IE) optimization between dissimilar nets, the elaborator inserts a bidirectional IE to collapse the electrical signal onto the real just like two electrical signals are collapsed in normal IE optimization. The structure of the resultant optimization depends on the following:</p>
+<ul><li>The type of connect modules in the original configuration</li></ul><ul><li>The type of objects (variables or nets) connected</li></ul><h4 id="UsinganamsdBlock-Examples.2">Examples</h4>
+<h4 id="UsinganamsdBlock-SimpleE-L-Rconnection">Simple E-L-R connection</h4>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236012.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.11.png" data-linked-resource-id="305236012" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236012.png" width="640px" /></span></p>
+<h4 id="UsinganamsdBlock-E-L-RwithBidirectionalRLConnection">E-L-R with Bidirectional RL Connection</h4>
+
+<p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236023.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.12.png" data-linked-resource-id="305236023" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236023.png" width="640px" /></span></p>
+<h4 id="UsinganamsdBlock-E-L-RealVariable">E-L-Real Variable</h4>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236005.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.13.png" data-linked-resource-id="305236005" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236005.png" width="640px" /></span></p>
+<h4 id="UsinganamsdBlock-R-L-EwithBidirectionalConnection">R-L-E with Bidirectional Connection</h4>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236022.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.14.png" data-linked-resource-id="305236022" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236022.png" width="640px" /></span></p>
+<h4 id="UsinganamsdBlock-RealVariable-L-EConnection">Real Variable-L-E Connection</h4>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236011.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.15.png" data-linked-resource-id="305236011" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236011.png" width="640px" /></span></p>
+<h4 id="UsinganamsdBlock-MultipleInterfaceElements">Multiple Interface Elements</h4>
+
+<p>Multiple interface elements of the same type will be collapsed together during optimization, as shown below.</p>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236010.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.16.png" data-linked-resource-id="305236010" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236010.png" width="640px" /></span></p>
+
+<p>Hierarchical IE optimization is enabled by default. You can disable it by using the<code> xrun </code>option<code> -disable_amsoptie </code>at the command line, as follows:</p>
+
+<p><code> xrun -disable_amsoptie </code></p>
+
+<p>Hierarchical IE optimization is supported in the AMS-CPF flow. Currently, IE optimization is applied on nets only if the drivers/loads of the nets are associated with the same power domain.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p style="margin-top: 10.0px;white-space: normal;">According to the purpose of accuracy improvement, IE optimization does not occur for the following cases:</p>
+<ul style="white-space: normal;"><li>Electrical net over logic ports</li></ul><ul style="white-space: normal;"><li>Real variable over logic ports</li></ul><ul style="white-space: normal;"><li>Real variable over electrical ports</li></ul></div>
+</div>
+
+<p>You can use the <code>-ieinfo xmelab/xrun</code> option to generate a report that contains the connect module information used in the design.</p>
+<h2 id="UsinganamsdBlock-DisciplineResolutionOptimizationdr_optimization">Discipline Resolution Optimization<span class="confluence-anchor-link" id="UsinganamsdBlock-dr_optimization"></span></h2>
+
+<p>In Spectre AMS Designer, insertion of interface elements (IEs) is based on discipline resolution (DR). IEs are inserted along the analog/digital boundary, if a net is set, declared, or resolved to a digital discipline and connects to an analog node. Nets with declared discrete discipline express an explicit digital domain, whereas, nets with resolved or set discipline are interconnects that acquire their domain during elaboration.</p>
+
+<p>Sometimes, interconnects are not used in digital context, however, they still acquire a discrete discipline, which causes superfluous IEs to be inserted along the analog/digital boundary. The simulator automatically handles such situations and optimizes these nets to an analog node. As a result, an interface element is not required for such connections.</p>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236004/305236009.png" data-linked-resource-container-id="305236004" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="amsdControlBlock.09.1.17.png" data-linked-resource-id="305236009" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236004/305236009.png" width="640px" /></span></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><span style="color: rgb(51,51,51);font-weight: 400;white-space: normal;">DR optimization works only on implicit (set/resolved) discrete nets including wreal nets (declared or coerced). It does not work for L2R, LRE, and VHDL-Verilog connections. It also does not work for explicit (declared) discrete net and SV-DC nettypes.</span></p>
+</div>
+</div>
+
+<p>Discipline resolution optimization can be enabled by using the xrun option -amsdropt. You can turn off discipline resolution optimization by using any of the following xrun options:</p>
+<ul><li><code> -disable_amsdropt </code></li></ul><ul><li><code> -disable_amsoptie </code>- This option also turns off IE optimization</li></ul>
+<p><span style="white-space: pre-wrap;">Unlike in a </span><a href="#UsinganamsdBlock-1058645">connectmap</a><span style="white-space: pre-wrap;"> card, the</span><code style="white-space: pre-wrap;"> discipline </code><span style="white-space: pre-wrap;">parameter in an </span><code style="white-space: pre-wrap;">ie</code><span style="white-space: pre-wrap;"> card can accept only a single discipline value.</span></p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Specifying_Controls_for_the_Analog_Solvers.html" id="prev" title="Specifying_Controls_for_the_Analog_Solvers">Specifying_Controls_for_the_An ...</a></em></b><b><em><a href="Preparing_the_Design__Using_Analog_Primitives_and_Subcircuits.html" id="nex" title="Preparing_the_Design__Using_Analog_Primitives_and_Subcircuits">Preparing_the_Design__Using_An ...</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

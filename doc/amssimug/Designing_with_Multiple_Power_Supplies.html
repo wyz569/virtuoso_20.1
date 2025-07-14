@@ -1,0 +1,423 @@
+
+<html><head><title>Designing with Multiple Power Supplies</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864912" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Designing with Multiple Power Supplies" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864912" />
+<meta name="NextFile" content="Compiling.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Using_the_AMS_Designer_Simulator_for_Design_Verification.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Designing with Multiple Power Supplies" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+<script type="text/javascript" src="styles/shCore1.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shCore.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shBrushCpp.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shBrushJava.js">/*<![CDATA[*//*]]>*/</script><link rel="stylesheet" href="styles/shCoreDefault.css" type="text/css" /><script type="text/javascript">/*<![CDATA[*/
+SyntaxHighlighter.all();
+/*]]>*/</script>
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Using_the_AMS_Designer_Simulator_for_Design_Verification.html" title="Using_the_AMS_Designer_Simulator_for_Design_Verification">Using_the_AMS_Designer_Simulat ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Compiling.html" title="Compiling">Compiling</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <div style="width: 100%; font-size: 32px; text-align: left;               font-weight: bold;">12</div>
+<h1 style="margin: 4px 0 4px;"><span>Designing with Multiple Power Supplies</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p><span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-1031602"></span></p>
+
+<p>See the following topics for more information:</p>
+<ul><li><a href="#DesigningwithMultiplePowerSupplies-1043718"> Using the ie Statement in an amsd Block for Multiple Power Supply Design </a>You can use this method to specify a supply value to apply to a library, cell, or instance in your design. You can also customize<a href="#DesigningwithMultiplePowerSupplies-1045893"> Cadence-provided connect rules</a>. This method requires no knowledge of Verilog-AMS disciplines.</li></ul><ul><li><a href="#DesigningwithMultiplePowerSupplies-1045388"> Using Block-Based Discipline Resolution for Multiple Power Supply Design </a>You can use the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Elaborating.html#Elaborating-1047561">-setdiscipline</a>&#160;</span>option to tell the elaborator which discipline to apply to which design scopes.</li></ul><ul><li><a href="#DesigningwithMultiplePowerSupplies-1051063"> Creating Supply-Sensitive Modules for Multiple Power Supply Designs</a>. You can use this feature to&#160;manage clean and accurate analog-to-digital and digital-to-analog connections in a mixed-signal design that has multiple power supplies and multiple voltages using supply-sensitive connect modules (CMs).</li><li><a href="#DesigningwithMultiplePowerSupplies-Split_interface_elements">Inserting Interface Elements Selectively for Multiple Power Supply Designs</a>. You&#160;use the <code>-ams_check_msup</code> option to enable selective insertion of individual interface elements (IEs).</li></ul><h2 id="DesigningwithMultiplePowerSupplies-UsingtheieStatementinanamsdBlockforMultiplePowerSupplyDesignmultipower_ie1043718">Using the ie Statement in an amsd Block for Multiple Power Supply Design<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-multipower_ie"></span><span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-1043718"></span></h2>
+
+<p>If you are moving a purely-digital or purely-analog design into the analog/mixed-signal (AMS) domain for full-chip verification, you can use the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1051785">ie</a>&#160;</span>statement in an&#160;<span style="color: rgb(0,0,255);"><a href="Using_an_amsd_Block.html">amsd block</a>&#160;</span>to set up connect rules for multiple power supply design.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>When you use the<code>&#160;ie&#160;</code>statement, you do not need to use&#160;<span style="color: rgb(0,0,255);"><a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-1064061">-amsconnrules</a>&#160;</span>to specify your connect rules. You also do not need to specify a connect module path or to compile any connect modules. You do not need to use the&#160;<span style="color: rgb(0,0,255);"><a href="Elaborating.html#Elaborating-1040841">-discipline</a>&#160;</span>option. If you prefer to use these more intricate methods (or perhaps you do not want to use the &quot;full-fast&quot; connect rule), see &quot;<a href="#DesigningwithMultiplePowerSupplies-1045388">Using Block-Based Discipline Resolution for Multiple Power Supply Design</a>&quot;.</p>
+</div>
+</div>
+
+<p><span style="color: rgb(51,51,51);">See the following topics for more information:</span></p>
+<ul><li>
+<p><a href="#DesigningwithMultiplePowerSupplies-1045862"> Specifying a Supply Value to Apply to a Library, Cell, or Instance</a></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For other scopes, see &quot;<a href="Using_an_amsd_Block.html#UsinganamsdBlock-1055243">Scope Assignments</a>&quot;.</p>
+</div>
+</div>
+</li><li><a href="#DesigningwithMultiplePowerSupplies-1045549">Customizing Cadence-Installed Connect Rules </a></li></ul><ul><li><a href="#DesigningwithMultiplePowerSupplies-1045893"> Locating Cadence-Provided Connect Rules </a></li></ul><h3 id="DesigningwithMultiplePowerSupplies-SpecifyingaSupplyValuetoApplytoaLibrary,Cell,orInstance1045862">Specifying a Supply Value to Apply to a Library, Cell, or Instance<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-1045862"></span></h3>
+
+<p>Use the<code> ie </code>statement as follows to specify a supply value to apply to a library, cell, or instance:</p>
+
+<p><span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;font-size: small;">amsd{<br />&#160;&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;&#160;ie vsup=<code> supplyValue </code>[<code> library_cell_or_instance </code>]<br /> &#160;&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;&#160;}</span></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><span style="color: rgb(0,0,0);">For other scopes, see &quot;</span><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1055243">Scope Assignments</a><span style="color: rgb(0,0,0);">&quot;</span><span style="color: rgb(0,0,0);">.</span></p>
+</div>
+</div>
+
+<p><span style="color: rgb(51,51,51);">The simulator uses the</span><code style="color: rgb(51,51,51);"> supplyValue </code><span style="color: rgb(51,51,51);">as the final real value for logical</span><code style="color: rgb(51,51,51);"> 1 </code><span style="color: rgb(51,51,51);">and applies it to the library, cell, or instance you specify. The software automatically builds the &quot;full-fast&quot; connect rule with the voltage supply level you specify. For example, if you specify</span></p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;&#160;ie vsup=1.8<br /> &#160;&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;&#160;} </code></p>
+
+<p>the software automatically builds the &quot;full-fast&quot; connect rule for a 1.8-Volt supply from the&#160;<a href="#DesigningwithMultiplePowerSupplies-1045893">Cadence-provided full-fast connect rule</a>. (See also &quot;<a href="#DesigningwithMultiplePowerSupplies-1045549">Customizing Cadence-Installed Connect Rules</a>&quot;.)</p>
+
+<p>To specify a supply level for a particular library, cell, or instance, use one of the&#160;<a href="Using_an_amsd_Block.html#UsinganamsdBlock-1055243">scope assignment parameters</a>. For example, to specify a 1.8-Volt supply globally, and 5.0 Volts and 3.3 Volts to particular libraries, you might use the following<code> ie </code>statements:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;&#160;ie vsup=1.8<br />&#160;&#160;&#160;&#160;&#160;ie vsup=5.0 lib=&quot;50v_lib&quot;<br />&#160;&#160;&#160;&#160;&#160;ie vsup=3.3 lib=&quot;33v_lib&quot;<br />&#160;&#160;&#160;&#160;&#160;} </code></p>
+
+<p>To specify a 1.8-Volt supply globally, and a 3.3-Volt supply for a particular cell, you might use the following<code> ie </code>statements:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;&#160;ie vsup=1.8<br />&#160;&#160;&#160;&#160;&#160;ie vsup=3.3 cell=&quot;vlog_buf_1channel&quot;<br />&#160;&#160;&#160;&#160;&#160;} </code></p>
+
+<p>Finally, to specify a 1.8-Volt supply globally, and a 3.3-Volt supply for particular instances, you might use the following<code> ie </code>statements:</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;&#160;ie vsup=1.8<br />&#160;&#160;&#160;&#160;&#160;ie vsup=3.3 inst=&quot;testbench.vlog_buf_channel1&quot;<br />&#160;&#160;&#160;&#160;&#160;ie vsup=3.3 inst=&quot;testbench.vlog_buf_channel2&quot;<br />&#160;&#160;&#160;&#160;&#160;}</code></p>
+<div>
+<p><br /></p>
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You must specify the full hierarchical path to the instances.&#160;</p>
+</div>
+</div>
+
+<p><br /></p>
+</div>
+
+<p>The software writes information about these connect rules to the <code>xrun.log</code>&#160;file.</p>
+<h3 id="DesigningwithMultiplePowerSupplies-CustomizingCadence-InstalledConnectRules1045549">Customizing Cadence-Installed Connect Rules<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-1045549"></span></h3>
+
+<p>You can customize the&#160;<a href="#DesigningwithMultiplePowerSupplies-1045893">Cadence-provided full-fast connect rule</a>&#160;by specifying&#160;<a href="Using_an_amsd_Block.html#UsinganamsdBlock-1052575">other parameters</a>&#160;on the<code> ie </code>statement, such as<code> vthi</code>,<code> vtlo</code>, and<code> tr.</code> For example, the following<code> ie </code>statement specifies a 2.0-Volt full-fast connect rule with a customized rise time for the analog transition (0.1 ns):</p>
+
+<p><code> amsd{<br />&#160;&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;&#160;ie vsup=2.0 tr=0.1n<br /> &#160;&#160;&#160;&#160;&#160;...<br />&#160;&#160;&#160;&#160;&#160;} </code></p>
+
+<p>You can customize other&#160;<a href="#DesigningwithMultiplePowerSupplies-1045893">Cadence-provided connect rules</a>&#160;by specifying the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1057569">connrules</a>&#160;</span>parameter assignment in the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1051785">ie</a>&#160;</span>statement. For example:</p>
+
+<p><code> ie connrules=full vsup=2.0 tr=0.1n </code></p>
+
+<p>The set of Cadence-provided connect rules does not include a rule for a 2.0-volt supply and a 0.1 ns transition time. However, using the<code> ie </code>statement above, you can specify that you want the software to customize the Cadence provided &quot;full&quot; connect rule with these parameters.</p>
+<h3 id="DesigningwithMultiplePowerSupplies-LocatingCadence-ProvidedConnectRulesconnect_lib1045893">Locating Cadence-Provided Connect Rules<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-connect_lib"></span><span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-1045893"></span></h3>
+
+<p>See<em><code> your_install_dir</code></em><code>/tools/affirma_ams/etc/connect_lib </code>for the set of connect rules files that Cadence provides. See&#160;<code>your_install_dir </code><code> /tools/affirma_ams/etc/connect_lib/README </code>for detailed information about them.</p>
+<h2 id="DesigningwithMultiplePowerSupplies-UsingBlock-BasedDisciplineResolutionforMultiplePowerSupplyDesignbdr_multps1045388">Using Block-Based Discipline Resolution for Multiple Power Supply Design<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-bdr_multps"></span><span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-1045388"></span></h2>
+
+<p>The Spectre<span style="color: rgb(0,0,0);"><sup>&#174;</sup></span>AMS Designer simulator complies strictly with the Verilog<span style="color: rgb(0,0,0);"><sup>&#174;</sup></span>-AMS discipline resolution process, reliably identifies interdomain connectivity, and inserts connect modules automatically. Using block-based discipline resolution (BDR), you can use your knowledge of the analog and digital blocks in your design to control the search space for the discipline resolution process, thus improving elaboration performance. You can also use BDR to set different disciplines in the digital domain for designs that have more than one power supply.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><span style="color: rgb(0,0,0);">&#160;</span>For more information about discipline resolution, see <span style="color: rgb(0,0,255);"><a class="message-url" href="../verilogamsref/chap11.html#disciplineResolutionMethod">&quot;Discipline Resolution Methods&quot;</a> </span>in the<span>&#160;<em>Cadence Verilog-AMS Language Reference</em>.</span></p>
+</div>
+</div>
+
+<p>See the following topics for information about using block-based discipline resolution for multiple power supply design:</p>
+<ul><li><a href="#DesigningwithMultiplePowerSupplies-1050684"> Preparing Connect Modules, Connect Rules, and Discipline Definitions </a></li></ul><ul><li><a href="#DesigningwithMultiplePowerSupplies-1044214"> Specifying Custom Connect Modules, Connect Rules, and Disciplines on the Command Line </a></li></ul><h3 id="DesigningwithMultiplePowerSupplies-PreparingConnectModules,ConnectRules,andDisciplineDefinitions1050684">Preparing Connect Modules, Connect Rules, and Discipline Definitions<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-1050684"></span></h3>
+
+<p>Cadence provides a set of connect modules (<a href="Glossary.html#Glossary-1031358">CM</a>s) and connect rules in the IUS installation hierarchy:</p>
+
+<p><span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;font-size: small;"><em><code> your_install_dir</code></em>/tools/affirma_ams/etc/connect_lib</span></p>
+
+<p>You can create a custom file that contains connect rules, connect module parameters, and discipline definitions to suit your multiple power supply design requirements.</p>
+
+<p>In AMS Designer, the default digital discipline is<code> logic </code>and the default analog discipline is<code> electrical.</code> You can create custom disciplines that contain information about the power supplies in your design. The elaborator uses BDR to determine which part of the design has which power supply.</p>
+
+<p>To create custom connect rules, connect modules, and discipline definitions, do the following:</p>
+<ol><li>Copy the template connect rules file (<code>ConnRules*.vams</code>) from the<code> connect_lib </code>directory in the installation hierarchy to your local area.</li><li>Save the file under another name, such as<code> ConnRules_multpower.vams.</code></li><li>
+<p>Customize the connect module parameters (such as<code> Vsup</code>,<code> Vthi</code>, and so on) according to the what is required for your design.<br />For example, you might define three different sets of <code>Vsup</code>, <code>Vthi</code>, and <code>Vtlo</code> for 1.0V, 1.8V, and 3.3V power supplies:<br /><code>----------------------------------</code><br /><code>// Parameter Customization</code><br /><code>`define Vsup1  1.0</code><br /><code>`define Vsup2  1.8</code><br /><code>`define Vsup3  3.3</code><br /><code>`define Vthi1  0.66</code><br /><code>`define Vthi2  1.2</code><br /><code>`define Vthi3  2.2</code><br /><code>`define Vtlo1  0.33</code><br /><code>`define Vtlo2  0.6</code><br /><code>`define Vtlo3  1.1</code><br /><code>----------------------------------</code></p>
+</li><li>
+<p>Define disciplines to represent the different power supplies in your design.<br />For example, you can define disciplines <code>logic18V&#160; </code>and <code>logic33V</code> to represent 1.8V and 3.3V power supplies as follows:<br /><code>--------------------------</code><br /><code>// Definition of Disciplines</code><br /><code>discipline logic33V</code><br /><code>&#160;&#160;&#160;&#160;domain discrete;</code><br /><code>enddiscipline</code><br /><br /><code>discipline logic18V</code><br /><code>&#160;&#160;&#160;&#160;domain discrete;</code><br /><code>enddiscipline</code><br /><code>--------------------------</code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The default discipline is<code>&#160;logic&#160;</code>, which is also of<code>&#160;discrete&#160;</code>domain.</p>
+</div>
+</div>
+
+<p>Create customized connect rules using your custom disciplines.<br />For example, the following connect rules use the<code> logic18V </code>discipline:<br /><code><span style="color: rgb(0,0,0);">-------------------------------------------------------------------------<br />// ConnRules Specification<br />connectrules ConnRules_multpower;<br />&#160;&#160;&#160;&#160;connect L2E #(<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.vsup(`Vsup2), .vthi(`Vthi2), .vtlo(`Vtlo2),<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.tr(`Tr), .tf(`Tr), .tx(`Tr), .tz(`Tr),<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.rlo(`Rlo), .rhi(`Rhi), .rx(`Rx), .rz(`Rz) )<br />&#160;&#160;&#160;&#160;input<strong>logic18V</strong>, output electrical;<br />&#160;&#160;&#160;&#160;connect E2L #(<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.vsup(`Vsup2), .vthi(`Vthi2), .vtlo(`Vtlo2), .tr(`Tr) )<br />&#160;&#160;&#160;&#160;input electrical, output<strong>logic18V</strong>;<br />&#160;&#160;&#160;&#160;connect Bidir #(<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.vsup(`Vsup2), .vthi(`Vthi2), .vtlo(`Vtlo2),<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.tr(`Tr), .tf(`Tr), .tx(`Tr), .tz(`Tr),<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.rlo(`Rlo), .rhi(`Rhi), .rx(`Rx), .rz(`Rz) )<br />&#160;&#160;&#160;&#160;inout electrical, inout<strong>logic18V</strong>;<br />endconnectrules<br />--------------------------------------------------------------------------</span></code></p>
+</li></ol>
+<p>Once<code> ConnRules_multpower.vams </code>contains all the custom parameters, disciplines, and connect rules, the elaborator can use this information during discipline resolution to detect the discipline pairs (such as<code> logic18V </code>and<code> electrical</code>) and insert the proper connect module with the proper power supply.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The timescale value has changed from 1ns/100ps to 1ns/1ps in all E2L*, L2E*, Bidir* connect modules contained in the<code>&#160;connectLib&#160;</code>library of the AMS Designer tool installation. This provides accurate simulation time resolution for any system with clock rise/fall time of 125 femtosecond.</p>
+</div>
+</div>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The connect modules <code>timescale</code> precision should be maintained to verify this logic expression (tr&gt; timescale_precision/8 and tf&gt; timescale_precision/8). In Cadence building CMs, the default is <code>time_precision</code> = 1ps.</p>
+</div>
+</div>
+
+<p>If the system to be simulated needs a clock rise/fall time less than 125 fs, specify the timescale with<code> -OVERRIDE_Precision </code>option in the xmelab/xrun command. For example:</p>
+
+<p><code> xrun -timescale 1ns/100fs -OVERRIDE_Precision </code></p>
+<h3 id="DesigningwithMultiplePowerSupplies-SpecifyingCustomConnectModules,ConnectRules,andDisciplinesontheCommandLine1044214">Specifying Custom Connect Modules, Connect Rules, and Disciplines on the Command Line<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-1044214"></span></h3>
+
+<p>You can specify your custom connect modules and connect rules on the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-1044107">xrun</a>&#160;</span>command line using the<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-1064061"> -amsconnrules</a>&#160;</span>option. For example:</p>
+
+<p><code> xrun ConnRules_multpower.vams -amsconnrules ConnRules_multpower ... </code></p>
+
+<p>You can use the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Elaborating.html#Elaborating-1047561">-setdiscipline</a>&#160;</span>option to tell the elaborator which discipline to apply to which design scopes:</p>
+
+<p><span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;font-size: small;">xrun ... -setdiscipline &quot;<code> disciplineSpecification </code>&quot;...</span></p>
+
+<p>Suppose your design contains a block called<code> vlog_buf </code>with one channel that has a 1.8V power supply and another that has a 3.3V power supply. You can set the discipline on the individual terminals instead of on a cell or instance using the<code> instterm </code>specifier. For example, the following options specify the<code> logic33V </code>discipline for instance terminals<code> testbench.vlog_buf.I1.in</code>,<code> testbench.vlog_buf.in_33v</code>,<code> testbench.vlog_buf.out_33v</code>, and<code> testbench.vlog_buf.I2.out </code>:</p>
+
+<p><code> -setd &quot;instterm-testbench.vlog_buf.I1.in- logic33V&quot; \<br /> -setd &quot;instterm-testbench.vlog_buf.in_33v- logic33V&quot; \<br /> -setd &quot;instterm-testbench.vlog_buf.out_33v- logic33V&quot; \<br /> -setd &quot;instterm-testbench.vlog_buf.I2.out- logic33V&quot; </code></p>
+
+<p>Other terminals in<code> vlog_buf </code>retain the default discipline, which you can specify using the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Elaborating.html#Elaborating-1047561">-discipline</a>&#160;</span>option. For example:</p>
+
+<p><span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;font-size: small;"><code> xrun ... -discipline logic18V ...</code></span></p>
+<h2 id="DesigningwithMultiplePowerSupplies-CreatingSupply-SensitiveModulesforMultiplePowerSupplyDesignssscms1051063">Creating Supply-Sensitive Modules for Multiple Power Supply Designs<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-sscms"></span><span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-1051063"></span></h2>
+
+<p>You can manage clean and accurate analog-to-digital and digital-to-analog connections in a mixed-signal design that has multiple power supplies and multiple voltages using supply-sensitive connect modules (<a href="Glossary.html#Glossary-1031358">CM </a>s). CMs convert signal values from one domain (analog/electrical) to the other (digital/logic/discrete). The software automatically inserts CMs between digital ports and analog nets.</p>
+
+<p>Analog-to-digital conversions typically involve comparing an analog signal to a predetermined threshold voltage: Analog signal values above the threshold become a logic&#160;<code> 1.</code> Analog signal values below the threshold become a logic<code> 0.</code></p>
+
+<p>Digital-to-analog conversions typically involve mapping a logic-<code> 0 </code>-to-logic-<code> 1 </code>transition to a ramp from a predetermined analog voltage value that corresponds to a logic<code> 0 </code>to a higher analog voltage value that corresponds to a logic<code> 1 </code>, and a logic-<code> 1 </code>-to-logic-<code> 0 </code>transition to a ramp from a predetermined analog voltage value that corresponds to a logic<code> 1 </code>to a lower analog voltage value that corresponds to a logic<code> 0.</code></p>
+
+<p>A connect module that is<span style="color: rgb(0,0,0);"> aware </span>of the power supply to which a digital port will connect in the final physically-realized transistor design can use the power supply information to determine which analog voltages correspond to logic high (<code> 1 </code>) or logic low (<code> 0 </code>) values, and what the high and low voltage threshold values are for analog-to-digital conversions. Using supply-aware--or supply-<span style="color: rgb(0,0,0);"> sensitive </span>--CMs, you can model the interfaces between analog and digital domains regardless of which power supplies apply to the various digital blocks in the design. You use&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a class="message-url" href="../verilogamsref/chap2.html#supplySensitivity">supplySensitivity</a>&#160;</span>and&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a class="message-url" href="../verilogamsref/chap2.html#groundSensitivity">groundSensitivity</a>&#160;</span>attributes to specify the sensitivity. When you use these sensitivity attributes, you make a connect module sensitive to the signals on a digital port, regardless of the port direction.</p>
+
+<p>To set up your multiple power supply design to use supply-sensitivity CMs, do the following:</p>
+<ol><li><a href="#DesigningwithMultiplePowerSupplies-1043655"> Specify the necessary attributes in the connect module</a>.</li><li>
+<p><a href="#DesigningwithMultiplePowerSupplies-1044903"> Add the corresponding attributes to the connected digital port definition in the ordinary module</a>.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If the connected digital port is part of a schematic, you define the attributes on the connected pin on the schematic. See &quot;Using Net and Pin Properties&quot; in the<span style="color: rgb(0,0,0);">&#160;Virtuoso&#160;</span><span style="color: rgb(0,0,0);"><sup>&#174;</sup></span><span style="color: rgb(0,0,0);">&#160;AMS Designer Environment User Guide&#160;</span>for more information.</p>
+</div>
+</div>
+</li><li>
+<p>(Optional) Use&#160;<a href="Elaborating.html#Elaborating-1039986">detailed discipline resolution</a>:<br /><code><code>xrun ... -disres detailed ...<br /></code></code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You can read more about discipline resolution methods and driver-receiver segregation in the<span style="color: rgb(0,0,255);">&#160;<a class="message-url" href="../verilogamsref/chap11.html#disciplineResolutionMethod">Cadence Verilog-AMS Language Reference</a>.</span></p>
+</div>
+</div>
+</li></ol><h3 id="DesigningwithMultiplePowerSupplies-CreatingSupply-SensitiveConnectModulessscms_creating1043655">Creating Supply-Sensitive Connect Modules<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-sscms_creating"></span><span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-1043655"></span></h3>
+
+<p>To create supply-sensitive analog-to-digital and digital-to-analog connect modules (<a href="Glossary.html#Glossary-1031358"> CM </a>s), add supply-sensitivity attributes to the power and ground pin declarations. Typically, the supply nets you specify using these attributes are global signals.</p>
+
+<p>Here is an example of a supply-sensitive analog-to-digital connect module:<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-sscm_a2d"></span><span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-sscm_a2d"></span></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// Supply-sensitive analog-to-digital
+connect module connectmodule elect2logic(aVal, dVal);
+
+&#160;&#160;&#160;&#160;input aVal;
+&#160;&#160;&#160;&#160;output dVal;
+&#160;&#160;&#160;&#160;electrical aVal;
+&#160;&#160;&#160;&#160;logic dVal;
+
+&#160;&#160;&#160;&#160;electrical (* integer supplySensitivity = &quot;cds_globals.\\vdd! &quot; ; *) VDD ;
+&#160;&#160;&#160;&#160;electrical (* integer groundSensitivity = &quot;cds_globals.\\vss! &quot; ; *) VSS ;
+
+&#160;&#160;&#160;&#160;reg temp;
+&#160;&#160;&#160;&#160;real vth_hi, vth_lo, vdd, vss, swing; // threshold and rail voltages
+
+&#160;&#160;&#160;&#160;assign dVal = temp // reg temp drives the output dVal
+
+&#160;&#160;&#160;&#160;analog begin
+&#160;&#160;&#160;&#160;&#160;&#160;@ ( initial_step ) begin
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// calculate rail voltages and voltage swing
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vdd = V(VDD);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vss = V(VSS);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;swing = vdd - vss;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// calculate threshold voltages
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vth_hi = vss + (swing * 0.6);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vth_lo = vss + (swing * 0.4);
+&#160;&#160;&#160;&#160;&#160;&#160;end // initial_step
+&#160;&#160;&#160;&#160;end // analog block
+
+&#160;&#160;&#160;&#160;// whenever analog value rises above high threshold, digital value becomes 1 &#160;&#160;&#160;&#160;always @ ( above(V(aVal) - vth_hi) ) temp = 1&#39;b1;
+
+&#160;&#160;&#160;&#160;// whenever analog value falls below low threshold, digital value becomes 0 &#160;&#160;&#160;&#160;always @ ( above(vth_lo - V(aVal)) ) temp = 1&#39;b0;
+
+endmodule</pre>
+</div>
+</div>
+
+<p>Here is an example of a supply-sensitive digital-to-analog connect module:<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-sscm_d2a"></span><span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-sscm_d2a"></span></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// Supply-sensitive digital-to-analog
+
+connect module connectmodule logic2elect(dVal, aVal);
+
+&#160;&#160;&#160;&#160;inout dVal;
+&#160;&#160;&#160;&#160;output aVal;
+&#160;&#160;&#160;&#160;logic dVal;
+&#160;&#160;&#160;&#160;electrical aVal;
+
+&#160;&#160;&#160;&#160;parameter rout=50; // output impedance, 50 Ohms
+&#160;&#160;&#160;&#160;parameter real td = 1n, tr = 1n, tf = 1n;
+&#160;&#160;&#160;&#160;reg temp;
+
+&#160;&#160;&#160;&#160;electrical n; // an intermediate node
+&#160;&#160;&#160;&#160;real vth_hi, vth_lo, vdd, vss, swing; // threshold and rail voltages
+
+&#160;&#160;&#160;&#160;electrical (* integer supplySensitivity = &quot;cds_globals.\\vdd! &quot; ; *) VDD ;
+&#160;&#160;&#160;&#160;electrical (* integer groundSensitivity = &quot;cds_globals.\\vss! &quot; ; *) VSS ;
+
+&#160;&#160;&#160;&#160;analog begin
+&#160;&#160;&#160;&#160;&#160;&#160;@ ( initial_step ) begin
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// calculate rail voltages and voltage swing
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vdd = V(VDD);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vss = V(VSS);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;swing = vdd - vss;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// calculate threshold voltages
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vth_hi = vss + (swing * 0.6);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vth_lo = vss + (swing * 0.4);
+&#160;&#160;&#160;&#160;&#160;&#160;end // initial_step
+
+&#160;&#160;&#160;&#160;&#160;&#160;V(n) &lt;+ transition( (dVal ==1 ? vdd : vss), td, tr, tf );
+&#160;&#160;&#160;&#160;&#160;&#160;I(a,n) &lt;+ V(n) / rout; // models output impedance
+&#160;&#160;&#160;&#160;end // analog block
+
+&#160;&#160;&#160;&#160;assign dVal = temp // bind dVal to register temp
+
+&#160;&#160;&#160;&#160;// propagate digital value 1 to receivers when rise above vth_hi
+&#160;&#160;&#160;&#160;always @ ( cross (V(aVal) - vth_hi, +1) ) temp = 1&#39;b1;
+
+&#160;&#160;&#160;&#160;// propagate digital value 0 to receivers when fall below vth_lo
+&#160;&#160;&#160;&#160;always @ ( cross (V(aVal) - vth_lo, -1) ) temp = 1&#39;b0;
+
+endmodule</pre>
+</div>
+</div>
+<h3 id="DesigningwithMultiplePowerSupplies-AddingSupply-SensitivityAttributestoanOrdinaryModuleaddSupplySensitivity1044903">Adding Supply-Sensitivity Attributes to an Ordinary Module<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-addSupplySensitivity"></span><span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-1044903"></span></h3>
+
+<p>In an ordinary module, add supply-sensitivity attributes to the input and output pin declarations, naming the supplies to which they are sensitive. Here is an example that illustrates how you would add&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a class="message-url" href="../verilogamsref/chap2.html#supplySensitivity">supplySensitivity</a>&#160;</span>and&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a class="message-url" href="../verilogamsref/chap2.html#groundSensitivity">groundSensitivity</a>&#160;</span>attributes to the input and output pins of a simple digital inverter module to specify their sensitivity to<code> pwr1 </code>and<code> gnd1 </code>supply pins.</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module inv (a, y, pwr1, gnd1);
+
+&#160;&#160;&#160;&#160;inout pwr1, gnd1;
+
+&#160;&#160;&#160;&#160;input (* integer supplySensitivity = &quot;pwr1&quot;;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;integer groundSensitivity = &quot;gnd1&quot;; *) a;
+
+&#160;&#160;&#160;&#160;output (* integer supplySensitivity = &quot;pwr1&quot;;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;integer groundSensitivity = &quot;gnd1&quot;; *) y;
+
+&#160;&#160;&#160;&#160;not i1 (.y(y), .a(a));
+
+endmodule</pre>
+</div>
+</div>
+
+<p><span style="color: rgb(0,0,0);">Note that y</span>ou can also declare your power and ground nodes using inherited connections, such as</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module inv (a, y, pwr1, gnd1);
+
+&#160;&#160;&#160;&#160;inout (* integer inh_conn_prop_name = &quot;vdd&quot;;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;integer inh_conn_def_value = &quot;cds_globals.\\vdd! &quot;; *) pwr1;
+
+&#160;&#160;&#160;&#160;inout (* integer inh_conn_prop_name = &quot;vss&quot;;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;integer inh_conn_def_value = &quot;cds_globals.\\gnd! &quot;; *) gnd1;
+
+&#160;&#160;&#160;&#160;input (* integer supplySensitivity = &quot;pwr1&quot;;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;integer groundSensitivity = &quot;gnd1&quot;; *) a;
+
+&#160;&#160;&#160;&#160;output (* integer supplySensitivity = &quot;pwr1&quot;;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;integer groundSensitivity = &quot;gnd1&quot;; *) y;
+
+&#160;&#160;&#160;&#160;not i1 (.y(y), .a(a));
+
+endmodule</pre>
+</div>
+</div>
+
+<p>For more information, see &quot;Netlisting Inherited Connections&quot; in the<span style="color: rgb(0,0,0);"><em> Virtuoso AMS Designer Environment User Guide</em>.</span></p>
+<h1 id="DesigningwithMultiplePowerSupplies-InsertingInterfaceElementsSelectivelyforMultiplePowerSupplyDesignsSplit_interface_elements">Inserting Interface Elements Selectively for Multiple Power Supply Designs<span class="confluence-anchor-link" id="DesigningwithMultiplePowerSupplies-Split_interface_elements"></span></h1>
+
+<p>AMS Designer Simulator allows selective insertion of individual interface elements (IEs) when one analog net is connecting to two or more digital ports that have different supply conditions.</p>
+
+<p>You can instruct the Elaborator to insert separate interface elements (connect modules) using the <code>xrun</code>/<code>xmelab</code> command-line option,&#160;<code>-ams_check_msup</code>. You can split interface elements in any of the following design scenarios, where you have one net connecting to:</p>
+<ul><li>Ports with different discrete domains in the ie card statements</li><li>Ports with different supply-sensitive connect module supplies</li><li>Child instances with different inherited connection as connect module supplies</li></ul>
+<p><strong>Example 1</strong></p>
+
+<p>The following is an example of using the <code>-ams_check_msup</code> option for inserting separate interface elements for a design with different supply-sensitive connect module supplies, <code>3.3</code> and <code>1.2</code>. The design is illustrated in the <code>test_res.vams file</code>. The tool inserts two interface elements with signal testbench.net1 though it is using merge mode IE insertion.</p>
+
+<p><code>xrun test_res.vams -amsconnrules CR_ss_full_fast -timescale 1ns/1ps -dres -input probe.tcl amscf.scs -ams_check_msup</code></p>
+
+<p><code>//test_res.vams</code><br /><code>`include &quot;disciplines.h&quot;</code></p>
+
+<p><code>module mod3 (inp1, VDD, VSS);</code></p>
+
+<p><code>input VDD, VSS;<br /></code><code>electrical VDD, VSS;<br /></code><code>ground VSS;</code></p>
+
+<p><code>input (* integer supplySensitivity=&quot;VDD&quot;;integer groundSensitivity=&quot;VSS&quot;; *) inp1; logic inp1;</code></p>
+
+<p><code>endmodule</code></p>
+
+<p><code>module mod4 (inp1, VDD, VSS);</code></p>
+
+<p><code>input VDD, VSS;</code><br /><code>electrical VDD, VSS;</code><br /><code>ground VSS;</code></p>
+
+<p><code>input (* integer supplySensitivity=&quot;VDD&quot;;integer groundSensitivity=&quot;VSS&quot;; *) inp1; logic inp1;</code></p>
+
+<p><code>endmodule</code></p>
+
+<p><code>module testbench();</code><br /><code>&#160; &#160; electrical gnd;</code><br /><code>&#160; &#160; ground gnd;</code><br /><code>&#160; &#160; wire net1;</code><br /><code>&#160; &#160; mod3 instance3 (net1, VDD, gnd);</code><br /><code>&#160; &#160; mod4 instance4 (net1, VDD2, gnd);</code><br /><code>&#160; &#160; vsource #(.wave({0, 0, 10u, 0, 20u, 2.2, 30u,3.3,70u,3.3, 80u, 2.2, 90u, 0 }), .dc(3.3), .type(&quot;pwl&quot;)) V0 (net1, gnd);</code></p>
+
+<p><code>&#160; analog begin</code><br /><code>&#160; &#160; &#160;V(VDD) &lt;+ 3.3;</code><br /><code>&#160; &#160; &#160;V(VDD2) &lt;+ 1.2;</code><br /><code>&#160; end</code></p>
+
+<p><code>endmodule</code></p>
+
+<p><code>module cds_globals();</code><br /><code>&#160; &#160;electrical vdd , \vss! ;</code><br /><code>endmodule</code></p>
+
+<p><code>//amscf.scs</code><br /><code>tran tran stop=100u</code><br /><code>opt options save=all</code></p>
+
+<p><strong>Example 2</strong></p>
+
+<p>The following is an example of using the <code>-ams_check_msup</code> option for inserting separate interface elements for a design, with different disciplines, <code>3.3</code> and <code>1.2</code>. The disciplines are specified in the <code>ie</code> card statements defined in the <code>amscf.scs</code> file.</p>
+
+<p>The tool inserts two interface element with signal <code>testbench.net1</code> because the two connected ports have different supply value.</p>
+
+<p><code>xrun clean test_res.vams -amsconnrules CR_full_fast -discipline logic&#160; amscf.scs +dr_info -timescale 1ns/1ps -dres -ieinfo -clean -input probe.tcl -ams_check_msup</code></p>
+
+<p><code>//test_res.vams</code><br /><code>`include &quot;disciplines.h&quot;</code><br /><code>module mod1 (inp1, VDD, VSS);</code></p>
+
+<p><code>input VDD, VSS;</code><br /><code>electrical VDD, VSS;</code><br /><code>ground VSS;</code></p>
+
+<p><code>input inp1;</code><br /><code>...</code><br /><code>endmodule</code></p>
+
+<p><code>module mod3 (inp1, VDD, VSS);</code></p>
+
+<p><code>input VDD, VSS;</code></p>
+
+<p><code>electrical VDD, VSS;</code><br /><code>ground VSS;&#160;</code></p>
+
+<p><code>input inp1;</code></p>
+
+<p><code>...</code><br /><code>endmodule</code></p>
+
+<p><code>module testbench();</code><br /><code>&#160; mod3 instance3 (net1, VDD, gnd);</code><br /><code>&#160; mod1 instance1 (net1, VDD, gnd);</code><br /><code>endmodule</code></p>
+
+<p><code>//amscf.scs</code><br /><code>amsd {</code><br /><code>&#160; &#160; &#160;ie vsup=3.3&#160; inst=&quot;testbench.instance1&quot;</code><br /><code>&#160; &#160; &#160;ie vsup=1.2&#160; inst=&quot;testbench.instance3&quot;&#160; &#160; &#160; </code><br /><code>}</code></p>
+
+<p><code>simulator lang=spectre</code><br /><code>tran tran stop=100u</code><br /><code>opt options save=all</code></p>
+
+<p><code><span style="color: rgb(0,0,0);"><br /></span></code></p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Using_the_AMS_Designer_Simulator_for_Design_Verification.html" id="prev" title="Using_the_AMS_Designer_Simulator_for_Design_Verification">Using_the_AMS_Designer_Simulat ...</a></em></b><b><em><a href="Compiling.html" id="nex" title="Compiling">Compiling</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

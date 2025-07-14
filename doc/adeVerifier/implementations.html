@@ -1,0 +1,1941 @@
+
+<html><head><title>Managing Implementations and Mappings</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="rgirdhar" />
+<meta name="CreateDate" content="2020-09-20" />
+<meta name="CreateTime" content="1600633054" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to use Virtuoso ADE Verifier." />
+<meta name="DocTitle" content="Virtuoso ADE Verifier User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Managing Implementations and Mappings" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="adeVerifier" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-20" />
+<meta name="ModifiedTime" content="1600633054" />
+<meta name="NextFile" content="simulate.html" />
+<meta name="Group" content="ADE Verifier" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="requirements.html" />
+<meta name="c_product" content="Virtuoso Analog Design Environment" />
+<meta name="Product" content="Virtuoso Analog Design Environment" />
+<meta name="ProductFamily" content="Virtuoso Analog Design Environment" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso ADE Verifier User Guide -- Managing Implementations and Mappings" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="adeVerifierICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="adeVerifierTOC.html">Contents</a></li><li><a class="prev" href="requirements.html" title="Managing Requirements">Managing Requirements</a></li><li style="float: right;"><a class="viewPrint" href="adeVerifier.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="simulate.html" title="Managing Implementation Runs">Managing Implementation Runs</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso ADE Verifier User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>4
+<a id="pgfId-1073659"></a></h1>
+<h1>
+<a id="pgfId-1098066"></a><hr />
+<a id="85037"></a>Managing Implementations and Mappings<hr />
+</h1>
+
+<p>
+<a id="pgfId-1116975"></a>This chapter provides information on how you manage implementations and their mappings with requirements in Virtuoso ADE Verifier (Verifier). See the following topics:</p>
+<ul><li>
+<a id="pgfId-1098130"></a><a href="implementations.html#13684">Understanding Implementations</a></li><li>
+<a id="pgfId-1107218"></a><a href="implementations.html#36715">Adding Implementations</a></li><li>
+<a id="pgfId-1122500"></a><a href="implementations.html#64346">Using Different Implementation Run Modes</a></li><li>
+<a id="pgfId-1107390"></a><a href="implementations.html#65983">Mapping Implementations to Requirements</a></li><li>
+<a id="pgfId-1107247"></a><a href="implementations.html#53988">Working with Implementations</a></li><li>
+<a id="pgfId-1174409"></a><a href="implementations.html#98921">Understanding Mapped and MappedHier</a></li><li>
+<a id="pgfId-1133403"></a><a href="implementations.html#19095">Typical Value Setup</a></li><li>
+<a id="pgfId-1174394"></a><a href="implementations.html#23464">Project Directory Setup</a></li><li>
+<a id="pgfId-1195918"></a><a href="implementations.html#77443">Using Custom Implementations</a></li></ul>
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1183085"></a> </p>
+<table class="webflareTable" id="#id1183070">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<h4><em>
+<a id="pgfId-1183012"></a>Abstract</em></h4>
+
+<p>
+<a id="pgfId-1183013"></a>Implementations are <code>maestro</code> cellviews, and their tests and outputs that you map to their corresponding requirements. Verifier lets you add implementation cellviews, which you can rearrange, and through which you can search and filter. You can also open the implementation cellviews in their application, such as ADE Assembler. </p>
+<p>
+<a id="pgfId-1183014"></a>You can run implementation cellviews from Verifier to capture results, or load existing run results. Verifier uses these results, along with other settings, to determine the verification status. For information on running implementations, see <a href="simulate.html#35423">Chapter 5, &#8220;Managing Implementation Runs.&#8221;</a></p>
+
+</td>
+</tr>
+</tbody></table>
+
+<h2>
+<a id="pgfId-1098071"></a><a id="13684"></a>Understanding Implementations</h2>
+
+<p>
+<a id="pgfId-1108650"></a>An implementation represents the simulation setup, testbench, or the measured output of a verification requirement. Implementation data is stored in cellviews of the type <code>maestro</code>. You verification project can have a list of unique implementation cellview&#8211;history entries. You can change the order of implementations cellviews in this list. </p>
+<p>
+<a id="pgfId-1101840"></a>To determine the status of a requirement, Verifier uses the information of the implementations mapped to that requirement with other relevant settings. For example, you can set a requirement to pass verification if the mapped implementation is simulated successfully. In this case, Verifier checks the simulation status of the mapped implementation to determine the verification status of the requirement. </p>
+<p>
+<a id="pgfId-1124860"></a>The following table describes the details of an implementation.&#160;&#160;</p>
+<table class="webflareTable" id="#id1167459">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1124782">
+<a id="pgfId-1124782"></a>Column</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1124784">
+<a id="pgfId-1124784"></a>Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124786"></a><em>Hierarchy</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124788"></a>The expandable and collapsible hierarchy level of implementations.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124791"></a><em>Run</em><a id="29073"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124793"></a>The option to run the implementation from Verifier.</p>
+<p>
+<a id="pgfId-1124794"></a>Select this check box if you want to initiate the run from Verifier, or clear to load the test results from the selected history when the implementation cellview is run from outside Verifier.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1142689"></a><em>Output</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1142691"></a>The name of the simulation output to be used for determining the verification result. </p>
+<p>
+<a id="pgfId-1142692"></a>Outputs are measurements and assertions that can be evaluated using the simulation results. </p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1142693"></a>The <em>Output</em> column displays the cellview and test information in addition to the outputs. Therefore, the <em>Library</em>, <em>Cell</em>, <em>View</em>, and <em>Test</em> columns are not displayed by default. </div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124796"></a>Library</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124798"></a>The library to which the implementation cellview belongs. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124800"></a><em>Cell</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124802"></a>The cell that contains implementation data.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124804"></a>View</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124806"></a>The view name of the implementation cellview.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124809"></a><em>History</em><a id="history"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124811"></a>The option to select the cellview history. </p>
+<p>
+<a id="pgfId-1124812"></a>When you initiate the simulation of a local implementation from Verifier, a session is loaded with the implementation cellview where the specified history is set as the active history within that session. By default, a new history is created outside the cellview when the implementation is run.</p>
+<p>
+<a id="pgfId-1124813"></a><strong>Notes:</strong></p>
+
+<ul><li>
+<a id="pgfId-1124814"></a>The cellview&#8211;history entry must be unique in the implementations list.</li><li>
+<a id="pgfId-1131819"></a>Verifier displays the tests and outputs of the selected history, which you can map to requirements.</li><li>
+<a id="pgfId-1132906"></a>If the implementation has been run outside the current Verifier session, you need to manually refresh the <em>History</em> list by using <em>Tools</em> -&gt; <em>Update</em>.</li><li>
+<a id="pgfId-1133013"></a>If the history does not exists for an implementation, an error message is displayed and the <code>Active</code> history is used.</li></ul>
+
+
+
+
+<p>
+<a id="pgfId-1132416"></a>When you change the history of an implementation, Verifier saves the <em>Run</em> check box settings and the mapping information for the selected history if the <em>RunPlan</em> mode is same between the two histories. A warning message is also displayed to warn about mapping loss as the consequence of the selected history changes (the <em>RunPlan</em> mode, <em>Test</em>, and <em>Output</em> changes).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1130182"></a>RunPlan</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1130184"></a>The run plan associated with a cellview.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1142746"></a><em>Test</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1142748"></a>The name of the implementation test.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1173707"></a><em>Details</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1173726"></a>The measurement of output from the implementation cellview that is loaded from ADE Assembler. The values of these implementation output details are the same as those in the Assembler cellview. </p>
+<div class="webflare-div-image">
+<img width="576" height="247" src="images/implementations-2.gif" /></div>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1142708"></a><em>Specification</em><a id="impSpec"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1142710"></a>The specification value for implementation output even if it is Spec Check Fail. The Spec check fail icon is shown besides the specification value. The value is shown in red color and the tool tip displays an error message.</p>
+<p>
+<a id="pgfId-1142711"></a>Unmapped Implementation: Displays the specification value for implementation output even if it does not map to any requirement. <code>Spec check fail</code> icon is shown besides the specification value. The value is shown in red color and tool tip displays an error message. </p>
+<p>
+<a id="pgfId-1142715"></a></p>
+<div class="webflare-div-image">
+<img width="502" height="191" src="images/implementations-3.gif" /></div>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1142740"></a><em>Units</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1142742"></a>The unit used for the measurement output.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1164347"></a><em>Priority</em><a id="priority"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1164349"></a>The priority used for the simulation run.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1164355"></a><em>EstRunTime</em><a id="86784"></a><a id="estRunTime"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1164357"></a>The estimated run time for the simulation run. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1203654"></a><em>Alias </em><a id="aliasCol"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1203656"></a>The short reference used to specify a selected library, cell, view, test, or output. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1124839"></a><em>Mapped</em><a id="mappedCol"></a><a id="89834"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1141967"></a>The mapping status of the implementation. </p>
+
+<b>Note:</b><br />
+<a id="pgfId-1141968"></a>
+<ul><li>
+<a id="pgfId-1141969"></a>This column is hidden by default, because for mapped implementations, the UUID is lengthy. The <em>MappedHier</em> column shows the readable hierarchical numbering for requirement instead of the requirement ID.</li><li>
+<a id="pgfId-1141992"></a>The requirements hierarchy indicates the mapping status through <a actuate="user" class="URL" href="../adeVerifier/requirements.html#reqIcons" show="replace" xml:link="simple">icons</a>. The title of the requirements area and implementations area indicate the overall mapping percentage. </li></ul>
+
+
+<p>
+<a id="pgfId-1141993"></a>The following are the possible mapping status of implementations:</p>
+
+<ul><li>
+<a id="pgfId-1194492"></a><em>Requirement ID</em>: Indicates that the implementation is mapped to the requirement ID specified in green. <br /><div class="webflare-div-image">
+<img width="407" height="102" src="images/implementations-4.gif" /></div></li><li>
+<a id="pgfId-1132680"></a><em>No</em>: Indicates that the implementation is not mapped to any requirement. <br /><div class="webflare-div-image">
+<img width="407" height="102" src="images/implementations-5.gif" /></div></li><li>
+<a id="pgfId-1132682"></a><em>Percentage</em>: Indicates the percentage of mapped implementations in the cellview and its sub-categories. The percentage is displayed as a note when a cellview or a test is not mapped. <br /><div class="webflare-div-image">
+<img width="406" height="102" src="images/implementations-6.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1126550"></a>Verifier ignores the <a href="implementations.html#showHideUnmappedImps">hidden implementations</a> in the setup when calculating the percentage.</div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1130223"></a>MappedHier</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1130225"></a>The hierarchical numbering of mapped requirements.</p>
+<p>
+<a id="pgfId-1132718"></a>Hierarchical number: Indicates that the implementation is mapped to the hierarchical number of the requirement, specified in green.</p>
+<p>
+<a id="pgfId-1132710"></a></p>
+<div class="webflare-div-image">
+<img width="266" height="139" src="images/implementations-7.gif" /></div>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1167455"></a></p>
+<table class="webflareTable" id="#id1167588">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<ch2-cell-head2 id="#id1156325">
+<a id="pgfId-1156325"></a>Row </ch2-cell-head2>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<ch2-cell-head2 id="#id1156327">
+<a id="pgfId-1156327"></a>Description</ch2-cell-head2>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1156332"></a>Filter Row</p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a id="pgfId-1143010"></a>See <a href="requirements.html#46269"><em>Filter Row</em>.</a></p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1101865"></a>The following figure illustrates a list of implementations. Also see <a href="overview.html#26748">&#8220;Implementations&#8221;</a>.</p>
+
+<p>
+<a id="pgfId-1101626"></a></p>
+<div class="webflare-div-image">
+<img width="631" height="463" src="images/implementations-8.gif" /></div>
+
+<p>
+<a id="pgfId-1124779"></a>You can show or hide the columns of the implementations list in the <em>Setup</em> tab. For this, right-click anywhere on the column heading in the implementations area and select the columns you want to show. Verifier hides the columns that are not selected.</p>
+<p>
+<a id="pgfId-1158641"></a>T<a id="implSort"></a>o sort columns, you can use the drag-and-drop method and change the display of columns. Additionally, you can specify the default column order and hidden columns by using the environment variables <a href="app_envar.html#73874">impColumnOrder</a> and <a href="app_envar.html#19758">impHiddenColumns</a>. </p>
+
+<h4>
+<a id="pgfId-1165091"></a>Including a Disabled Te<a id="disabledOutput"></a>st, Run, or Output from ADE Assembler </h4>
+
+<p>
+<a id="pgfId-1165456"></a>You can include a test, run, or output that is disabled in ADE Assembler when you add an implementation in your Verifier cellview. To do this, select the <a href="app_forms.html#99667"><em>Include disabled run, test, or output for implementation</em> setting in the Preferences form. </a></p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1187426"></a>Ensure that the contextual menu item <em>Show &#8211; Disabled</em> is selected.</div>
+<p>
+<a id="pgfId-1187423"></a>The disabled test, run, or output shows with a gray background in Verifier. When selected, this setting shows the disabled tests, runs, or outputs in the implementation. </p>
+
+<div class="webflare-div-image">
+<img width="668" height="293" src="images/implementations-9.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1165928"></a>This setting is applicable only for newly added implementations or the next time you load an existing implementation. For example: 
+     &#8211;   When you toggle the history, and 
+     &#8211;   When you update or modify an implementation </div>
+<p>
+<a id="pgfId-1187331"></a>When you move the mouse pointer on a disabled run or test in the <em>Implementations</em> pane, the tooltip text shows the following:</p>
+<ul><li>
+<a id="pgfId-1186989"></a>For a run disabled in Assembler but enabled in Verifier: <em>Disabled Run:</em> &lt;<code>run name</code>&gt; <em>(Locally enabled)</em>. </li><li>
+<a id="pgfId-1187137"></a>For a test disabled in Assembler but enabled in Verifier: <em>Disabled Test: </em>&lt;<code>test name</code>&gt;. </li><li>
+<a id="pgfId-1187089"></a>For a run enabled in Assembler but disabled in Verifier: &lt;<code>run name</code>&gt; <em>(Locally disabled)</em>. </li><li>
+<a id="pgfId-1187228"></a>For a test enabled in Assembler but disabled in Verifier: &lt;<code>test name</code>&gt; <em>(Locally disabled)</em>. </li></ul>
+
+
+
+<p>
+<a id="pgfId-1165722"></a>The requirements mapped to a disabled test, run, or output shows <em>Spec Check Fail</em> in the <em>OverallStatus</em> column of the Results tab and <em>Disabled</em> in the <em>Status</em> column of the Run tab. The Information assistant shows a count of disabled mappings. </p>
+
+<div class="webflare-div-image">
+<img width="668" height="295" src="images/implementations-10.gif" /></div>
+<h4>
+<a id="pgfId-1172222"></a>E<a id="editDisabled"></a>diting the Enabled or Disabled State</h4>
+
+<p>
+<a id="pgfId-1167775"></a>You can edit the enabled or disabled state of implementation runs or tests in Verifier. To do this, use <a href="app_forms.html#77645"><em>Allow editing the enabled or disabled state for implementation run or test</em> in the Preferences form. When you select one of these, the check box in the <em>Run</em></a> column of the <em>Implementations</em> pane becomes editable. You can select these check boxes to enable the run or test locally and run simulations on these local sets in Verifier. Selecting these check boxes removes the gray background from these runs or tests and adds a pale blue background to the <em>Run</em> column. The pale blue background behind a test name indicates that the run or test state is different in Verifier from the <code>maestro</code> cellview. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1186527"></a>Verifier does not support manually editing the state of an output. To enable or disable outputs, make the changes in ADE Assembler. </div>
+<p>
+<a id="pgfId-1170518"></a>Example:</p>
+<p>
+<a id="pgfId-1170580"></a>Assume that you have an ADE Assembler cellview <code>Two_Stage_Opamp/OpAmp/maestro_Run_Plan/Active</code> with two run plans <code>Run.0</code> and <code>Run.1</code> that contain two tests <code>AC</code> and <code>TRAN</code> each. Assume that you have disabled <code>Run.1</code> and the test <code>TRAN</code> in <code>Run.0</code>.You want to run simulations on these run plans or tests but you need to make modifications to the enabled or disabled status of these runs or tests. Instead of opening Assembler, making the changes, and then returning to the Verifier cellview, you can make these modifications directly in Verifier. You add this cellview as an implementation and select the preference option <a href="app_forms.html#99667"><em>Include disabled run, test, or output for implementation</em>. The following illustration shows an example of the Verifier cellview:<br /></a></p>
+
+<div class="webflare-div-image">
+<img width="660" height="198" src="images/implementations-11.gif" /></div>
+
+<p>
+<a id="pgfId-1171094"></a>Now, you select the preference <a href="app_forms.html#77645"><em>Allow editing the enabled or disabled state for implementation run or test</em> and check boxes in the <em>Run</em></a> column become editable, as shown below: <br /></p>
+
+<div class="webflare-div-image">
+<img width="654" height="209" src="images/implementations-12.gif" /></div>
+
+<p>
+<a id="pgfId-1171302"></a>Deselect the run plan <code>Run.0</code> and select <code>Run.1</code>. The following illustration shows the pale blue background added to highlight the changes:<br /> </p>
+
+<div class="webflare-div-image">
+<img width="661" height="201" src="images/implementations-13.gif" /></div>
+
+<p>
+<a id="pgfId-1171744"></a>You can proceed to run simulations on these variants of the tests and run plans defined in Assembler and view the results in Verifier. </p>
+<p>
+<a id="pgfId-1167780"></a>Important Points to Note:</p>
+<ul><li>
+<a id="pgfId-1168656"></a>You can revert the local changes by selecting the implementation and choosing the contextual menu command <em>Restore Enabled or Disabled State</em>. </li><li>
+<a id="pgfId-1169862"></a>Choosing the contextual menu command <em>Update Implementation</em> in the <em>Implementations</em> pane does not change the locally disabled state for existing runs or tests. </li><li>
+<a id="pgfId-1168947"></a>It is recommended that you also select <em><a href="app_forms.html#99667"></a><em>Include disabled run, test, or output for implementation</em><em></em></em> when using this preference.</li><li>
+<a id="pgfId-1167782"></a>Deselecting the <a href="app_forms.html#77645"><em>Allow editing the enabled or disabled state for implementation run or test</em> preference disables the check boxes in the <em>Run </em></a>column and restores the enabled or disabled state from the implementation. </li></ul>
+
+
+
+
+<h2>
+<a id="pgfId-1098468"></a><a id="36715"></a>Addin<a id="verifAddImpDialog"></a>g Implementations<a id="addImpTop"></a></h2>
+
+<p>
+<a id="pgfId-1129546"></a>This section describes the following topics:</p>
+<ul><li>
+<a id="pgfId-1129550"></a><a href="implementations.html#62152">Adding an Implementation Manually</a></li><li>
+<a id="pgfId-1129562"></a><a href="implementations.html#67699">Adding Implementations with Wave Specifications</a></li><li>
+<a id="pgfId-1129554"></a><a href="implementations.html#49950">Adding Implementations with Assembler Run Plans</a></li><li>
+<a id="pgfId-1156393"></a><a href="implementations.html#20649">Creating Outputs in Implementations Using Requirements</a></li><li>
+<a id="pgfId-1108382"></a><a href="implementations.html#78502">Adding Multiple Implementations</a></li><li>
+<a id="pgfId-1129749"></a><a href="implementations.html#20804">Importing Implementations from Another Verifier Cellview</a></li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-1129754"></a><strong>Notes:</strong></p>
+<ul><li>
+<a id="pgfId-1123008"></a>In a <a href="overview.html#bottomup">bottom-up flow</a>, you add implementations and then create requirements from implementations. For details, see <a href="requirements.html#82124">&#8220;Creating Requirements from Implementations&#8221;</a>.</li><li>
+<a id="pgfId-1123023"></a>It is possible that an implementation cellview you added was renamed, moved, or deleted. In this case, Verifier prompts you to specify the new location and name, remove the reference, or cancel the prompt. When you specify the new location or name, the mapping information is retained.</li></ul>
+
+
+<h3>
+<a id="pgfId-1107988"></a><a id="62152"></a>Adding <a id="addImpl"></a>an Implementation Manually</h3>
+
+<p>
+<a id="pgfId-1111488"></a>You can add an implementation cellview to the implementations list manually. The entry for the cellview history must be unique in the list.</p>
+<p>
+<a id="pgfId-1115688"></a>To add an implementation manually:</p>
+<ol><li>
+<a id="pgfId-1115689"></a>Click the <em>Setup</em> tab to display the implementations area.</li><li>
+<a id="pgfId-1115690"></a>Right-click in the empty area or an implementation cellview and choose <em>Add Implementation</em>.<br />
+<a id="pgfId-1105170"></a>The <a href="app_forms.html#43410">Add Implementation</a> form displays.</li><li>
+<a id="pgfId-1115695"></a>Select the library, cell, and view of the implementation.</li><li>
+<a id="pgfId-1123351"></a>Click <em>OK</em>.<br />
+<a id="pgfId-1123523"></a>If the selected cellview has a single <code>Active</code> history, it is used as the default history for the implementation. If it has multiple histories, the Implementation History Item form displays. Select the history that you want to use and click <em>OK</em>.</li></ol>
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1123525"></a>The implementation cellview appears as the last entry in the implementations list. </p>
+<p>
+<a id="pgfId-1123385"></a>When you run the cellview from Verifier, a session is loaded with the implementation cellview where the specified history is set as the active history within that session. If you do not want to initiate the simulation from Verifier, you load the results from the selected history.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1129917"></a>You can change the history to be used for an implementation cellview. For this, show the <em>History</em> column in the implementations pane and select the history you want to use for that implementation cellview from the <em>History</em> drop-down list.</div>
+
+<h3>
+<a id="pgfId-1129919"></a><a id="67699"></a>Adding Implementations with<a id="wave_spec"></a> Wave Specifications</h3>
+
+<p>
+<a id="pgfId-1129933"></a>Verifier lets you add wave specifications defined for signals and wave expressions defined in maestro cellviews. These specifications appear as <code>wave</code> in the implementation tree for the outputs and can be mapped to a requirement of type <em>Spec Pass</em> and <em>Ran OK</em>. However, the spec check fails if you map the output with <code>wave</code> spec to a requirement of the <em>Spec Pass</em> containing the <em>MinSpec</em> and/or <em>MaxSpec</em> values. For details, refer to <h-hot><a actuate="user" class="URL" href="../assembler/asmSpecSheets.html#asmWaveCompareSetup" show="replace" xml:link="simple">Comparing Waveforms Using Wave Specifications</a></h-hot>.</p>
+
+<p>
+<a id="pgfId-1129925"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="525" src="images/implementations-14.gif" /></div>
+
+<p>
+<a id="pgfId-1128744"></a>On the <em>Results</em> tab, you can view the wave specification in the results tree and also view the details of Waveform Compare Setup in the <em>Information</em> assistant.</p>
+
+<p>
+<a id="pgfId-1128988"></a> </p>
+<div class="webflare-div-image">
+<img width="624" height="704" src="images/implementations-15.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1166322"></a>Requirements that contain <code>wave </code>in the <em>Specification</em> column of the <em>Implementations</em> pane are skipped during evaluation of metric prefixes. See <a href="results.html#34665">&#8220;Evaluating the Metric Prefix&#8221;</a>.</div>
+
+<h3>
+<a id="pgfId-1128714"></a><a id="assembler_runplans"></a><a id="49950"></a>Adding Implementations with Assembler Run Plans</h3>
+
+<p>
+<a id="pgfId-1127389"></a>Run plans in ADE Assembler provide the capability to create multiple variations of a setup within a single session, where each run has its own setup details that override the settings in the active history setup. For details, refer to the <a actuate="user" class="URL" href="../assembler/asmRunPlan.html#firstpage" show="replace" xml:link="simple">Working with Run Plan</a> chapter of the <em>Virtuoso ADE Assembler User Guide</em>.</p>
+<p>
+<a id="pgfId-1127391"></a>You can add Assembler&#8217;s cellviews with run plan setup in Verifier. The <em>Run Plan Mode </em>check box is available in the <em>Add Implementation</em> form. This check box is disabled by default. However, when you add the cellviews with run plan setup, the <em>Run Plan Mode </em>check box is enabled.</p>
+<p>
+<a id="pgfId-1127392"></a>When you add cellviews with run plan setup, the check box in the <em>RunPlan</em> column of the cellview in the implementation setup gets selected. <em>Run</em> name also gets listed in the <em>Hierarchy</em> tree.</p>
+
+<p>
+<a id="pgfId-1127397"></a></p>
+<div class="webflare-div-image">
+<img width="518" height="509" src="images/implementations-16.gif" /></div>
+
+<p>
+<a id="pgfId-1128377"></a>The <em>RunPlan </em>column shows whether a run plan is to be used for an implementation. If you choose <em>Active</em> in the <em>History</em> column, you can enable or disable the run plan mode and run the implementation accordingly. For other setups of history, the check box is selected automatically.</p>
+<p>
+<a id="pgfId-1209548"></a>The <em>Run</em> tab also shows the <em>Run</em> button for each <em>RunPlan</em> run. However, the <em>Run</em> button is disabled when the run is disabled locally within Verifier or in ADE Assembler. Additionally, the <em>Run</em> button is not displayed for those implementations for which the <em>Run</em> check box is disabled. </p>
+<p>
+<a id="pgfId-1209537"></a>When the preference <em><a href="app_forms.html#77645"></a><em>Allow editing the enabled or disabled state for implementation run or test</em><em></em></em> is enabled, you can simulate a <em>RunPlan</em> run even when it is disabled within Verifier. You can select multiple disabled runs for simulation. The following illustration shows a simulation running for an implementation and a <em>RunPlan</em> run. The <em>Run</em> check box is deselected for both these runs. </p>
+<p>
+<a id="pgfId-1210632"></a>You can simulate a <em>RunPlan</em> run only when it is enabled within Verifier or ADE Assembler. You can select multiple runs for simulation. The following illustration shows a simulation running for an implementation and a <em>RunPlan</em> run. The <em>Run</em> check box is selected for both these runs.<br /></p>
+
+<div class="webflare-div-image">
+<img width="668" height="274" src="images/implementations-17.gif" /></div>
+
+<p>
+<a id="pgfId-1158686"></a>Important Points to Note: </p>
+<ul><li>
+<a id="pgfId-1128492"></a>If there is an implementation cellview added with <em>Active</em> setup of history, it cannot be added again as an implementation cellview with run plan setup. Use the cellview that has already been added in the implementation tree, select another cellview to be added, or select another setup of history in the current cellview.</li><li>
+<a id="pgfId-1132372"></a>All the runs including the ones skipped for simulations because of failed conditions are shown when you add the <em>RunPlan</em> history as an implementation. In addition, these runs are shown even if the <em>Run</em> check box is deselected.<br /><div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1133130"></a>
+When RunPlan history is added as an implementation, the statistical outputs are not shown for the runs that have been skipped due to failed conditions even though the Run mode is Monte Carlo.</div></li><li>
+<a id="pgfId-1172922"></a>Implementations with run plans containing run conditions might show different status during the run. Initially, only the first simulation is considered to be running. Depending on the run conditions, other simulations are sequentially started. Verifier shows the simulations that are running or queued for a run at all times. Before a run starts, you see the status as <code>Pending</code>. When the run starts and the first simulation point is complete, the Status column shows a <code>0%</code> progress. Completion of the first simulation initiates the run conditions and schedules the next consecutive simulations. As the run progresses, you see a change in the run completion percentage and the number of runs completed. After the runs are complete, you see a <code>100%</code> run status in green. <br /><div class="webflare-div-image">
+<img width="668" height="262" src="images/implementations-19.gif" /></div></li></ul>
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1156396"></a><a id="createOutputs"></a><a id="20649"></a>Creating Outputs in Implementations Using Requirements</h3>
+
+<p>
+<a id="pgfId-1156457"></a>In a top-down flow, adding implementations in large setups and specifying mappings takes significant time. To save this mapping time, you can add outputs into implementation cellviews by dragging requirements and dropping them on a test in an implementation. The newly added outputs are mapped to corresponding requirements automatically and added to the <code>maestro</code> cellviews in ADE Assembler. </p>
+<p>
+<a id="pgfId-1157205"></a>Important Points to Note:</p>
+<ul><li>
+<a id="pgfId-1156630"></a>You can drag only the requirement of type &#39;Spec Pass&#39; to a test. </li><li>
+<a id="pgfId-1157280"></a>Ensure that the target is a test in the specified implementation.</li><li>
+<a id="pgfId-1157308"></a>Validate that the implementation is using an &#39;Active&#39; history. </li><li>
+<a id="pgfId-1156684"></a>You cannot create outputs for a history except when &#39;Active&#39; and when Run Plan is enabled.</li></ul>
+
+
+
+<p>
+<a id="pgfId-1156694"></a>To create outputs for implementations:</p>
+<ol><li>
+<a id="pgfId-1156765"></a><a actuate="user" class="URL" href="../adeVerifier/implementations.html#addImpl" show="replace" xml:link="simple">Add an implementation</a> in the Verifier cellview. The implementation can be completely empty or can contain some testbench information.
+<br /><div class="webflare-div-image">
+<img width="658" height="188" src="images/implementations-20.gif" /></div></li><li>
+<a id="pgfId-1156766"></a><a actuate="user" class="URL" href="../adeVerifier/implementations.html#DDmapping" show="replace" xml:link="simple">Drag and drop</a> requirements into the implementation. </li></ol>
+
+
+
+
+<p>
+<a id="pgfId-1157712"></a></p>
+
+<div class="webflare-div-image">
+<img width="679" height="147" src="images/implementations-21.gif" /></div>
+<p class="webflare-indent1">
+<a id="pgfId-1156767"></a>Output expressions are created for those implementations and mapped to the requirements automatically.</p>
+<p class="webflare-indent1">
+<a id="pgfId-1157708"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="141" src="images/implementations-22.gif" /></div>
+<p class="webflare-indent1">
+<a id="pgfId-1156873"></a>The <code>maestro</code> cellview in ADE Assembler is updated automatically.</p>
+<div class="webflare-div-image">
+<img width="607" height="184" src="images/implementations-23.gif" /></div>
+<h3>
+<a id="pgfId-1132375"></a><a id="78502"></a>Adding Multiple Implementations</h3>
+
+<p>
+<a id="pgfId-1108552"></a>Verifier lets you add multiple implementation cellviews using the <a href="app_forms.html#84208">Add Implementation Cellviews</a> form. You can also create their corresponding requirements.<a id="addImp"></a></p>
+<p>
+<a id="pgfId-1108432"></a>To include multiple implementations: <a id="addImpCellviewForm"></a></p>
+<ol><li>
+<a id="pgfId-1108489"></a>To start importing implementations in the currently opened Verifier session, choose <em>Tools &#8211; Add Implementation Cellviews</em>.<br />
+<a id="pgfId-1117931"></a>The <a href="app_forms.html#84208">Add Implementation Cellviews</a> form appears. <br /><div class="webflare-div-image">
+<img width="465" height="419" src="images/implementations-24.gif" /></div></li><li>
+<a id="pgfId-1117932"></a>Specify the necessary information to add multiple implementations:<ol><li>
+<a id="pgfId-1108443"></a>Select the library that contains the implementation cellviews. </li><li>
+<a id="pgfId-1108444"></a>Select the cellviews you want to add as implementation cellviews.</li><li>
+<a id="pgfId-1108445"></a>Select <em>Create Requirements</em> to create the requirements corresponding to the implementations. The implementations are also mapped with the corresponding requirements. </li></ol></li><li>
+<a id="pgfId-1108447"></a>Click <em>OK</em>.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1108448"></a>Based on the specified information, Verifier adds the implementations, and optionally creates and maps requirements. </p>
+
+<h3>
+<a id="pgfId-1108991"></a><a id="20804"></a>Importing Implementations from Another Verifier Cellview</h3>
+
+<p>
+<a id="pgfId-1108992"></a>Verifier lets you import implementations from another cellview of the type <code>verifier</code>. You can copy or reference the implementations stored in another cellview. To change a referenced implementation, you must modify its source.</p>
+<p>
+<a id="pgfId-1108949"></a>The following figure illustrates how you import implementations from another cellview.</p>
+
+<p>
+<a id="pgfId-1108928"></a></p>
+<div class="webflare-div-image">
+<img width="663" height="443" src="images/implementations-25.gif" /></div>
+
+<p>
+<a id="pgfId-1108834"></a>To include the implementations from another cellview:</p>
+<ol><li>
+<a id="pgfId-1108835"></a>Choose <em>File &#8211; Import &#8211; Verifier Cellview</em>. <br />
+<a id="pgfId-1117873"></a>The <a href="app_forms.html#56586">Import Verifier Cellview</a> form displays.</li><li>
+<a id="pgfId-1108760"></a>Choose the <em>Library</em>, <em>Cell</em> and <em>View</em> to specify the source cellview.</li><li>
+<a id="pgfId-1108761"></a>Do one of the following: <ul><li>
+<a id="pgfId-1136972"></a>Click <em>Copy</em> to copy the implementations from the source cellview. Use this option if you want to modify the imported list.<ul><li>
+<a id="pgfId-1137046"></a>Select <em>Implementations and Mappings</em>. </li><li>
+<a id="pgfId-1137105"></a>Select <em>Requirements </em>if you want to import the requirements from the source cellview.<br />
+<a id="pgfId-1137184"></a>The implementations&#8211;requirements mappings in the source will be maintained. </li></ul></li><li>
+<a id="pgfId-1108762"></a>Click <em>Reference</em> to include the implementations by reference. Use this option if you want to maintain the implementations list in the source. The implementations&#8211;requirements mappings in the source will be maintained.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1144766"></a>The implementations and requirements imported using the <em>Reference</em> option will be in read-only mode. </div></li></ul></li><li>
+<a id="pgfId-1108766"></a>Click <em>OK</em>.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1108767"></a>The implementations-requirements are included in the current Verifier session. The referenced implementation cellviews and tests appear as Read-Only in the Implementations and Requirements panes, and the Requirements Editor assistant.</p>
+<p>
+<a id="pgfId-1109018"></a><strong>Notes:</strong></p>
+<ul><li>
+<a id="pgfId-1109036"></a>A Verifier session can have only unique implementation cellview&#8211;history entries. </li><li>
+<a id="pgfId-1109055"></a>Verifier includes the requirement&#8211;implementation mappings defined in the source cellview if the corresponding requirement IDs exist in the current cellview.</li><li>
+<a id="pgfId-1123039"></a>You cannot change the referenced implementations list. To change the list, modify the source cellview. For example, you cannot overwrite the implementation specification with the specification of its mapped requirement.</li><li>
+<a id="pgfId-1123040"></a>If a referenced implementation cellview was renamed, moved, or deleted, Verifier lets you choose Edit Cellview or Update Cellview. When you edit or update the cellview, the mapping information is retained.</li></ul>
+
+
+
+
+<h2>
+<a id="pgfId-1122455"></a><a id="55510"></a><a id="16773"></a><a id="64346"></a>Using Different Implementation Run Modes<a id="runModes"></a></h2>
+
+<p>
+<a id="pgfId-1122456"></a>Verifier supports the <em>Single Run, Sweeps and Corners</em> and the <em>Monte Carlo Sampling</em> run modes. </p>
+<p>
+<a id="pgfId-1122457"></a>When an implementation cellview is set to use the <em>Single Run, Sweeps and Corners</em> run mode, you can map its outputs to requirements. For verification, Verifier compares the defined output specification values with the corresponding simulation results.</p>
+<p>
+<a id="pgfId-1122458"></a>When an implementation cellview is set to use the <em>Monte Carlo Sampling</em> run mode, Verifier displays the following sections:</p>
+<ul><li>
+<a id="pgfId-1122459"></a><em>Output Values</em>: This section displays the outputs, with values, of the tests in the implementation cellview.</li><li>
+<a id="pgfId-1122460"></a><em>Statistical Values</em>: This section displays the yield, mean, standard deviation, and CPK of each output measurement of the tests in the implementation cellview. It also shows the overall yield of each test. </li></ul>
+
+<p>
+<a id="pgfId-1122461"></a>You can map Monte Carlo outputs and statistical values with requirements. Ensure that the requirements that are mapped to Monte Carlo statistical values have specifications.</p>
+<p>
+<a id="pgfId-1122462"></a>The specification values used for these statistical parameters are different from the output specification values in ADE Assembler or ADE Explorer. For example, consider that you have a specification value of <code>DCGain</code> as <code>&gt;10</code> in ADE Assembler. Your Monte Carlo simulation can provide you a yield measurement of <code>98%</code> for <code>DCGain</code>. The specification value specified in Verifier for such a statistical parameter references the statistical values. This means that a specification value of minimum <code>0.97</code> for the requirement mapped to <code>DCGain::Yield</code> will ensure that the requirement passes.</p>
+<p>
+<a id="pgfId-1122463"></a>You can start the <em>Single Run, Sweeps and Corners</em> or the <em>Monte Carlo Sampling</em> run of an implementation cellview from Verifier. It is also possible to run the implementation cellview outside Verifier and load the results in Verifier. For Monte Carlo run mode, Verifier can retrieve the statistical values from the relevant history of the cellview.</p>
+
+<p>
+<a id="pgfId-1122467"></a></p>
+<div class="webflare-div-image">
+<img width="549" height="428" src="images/implementations-26.gif" /></div>
+<h2>
+<a id="pgfId-1122388"></a><a id="65983"></a>Mapping Implementations to Requirements<a id="map"></a></h2>
+
+<p>
+<a id="pgfId-1145523"></a>This section describes the following topics:</p>
+<ul><li>
+<a id="pgfId-1145792"></a><a href="implementations.html#49076">Mapping an Implementation to a Requirement</a></li><li>
+<a id="pgfId-1151109"></a><a href="implementations.html#11405">Exporting Mappings</a></li><li>
+<a id="pgfId-1145531"></a><a href="implementations.html#26930">Importing Mappings</a></li></ul>
+
+
+
+<h3>
+<a id="pgfId-1145518"></a><a id="49076"></a>Mapping an Implementation to a Requirement</h3>
+
+<p>
+<a id="pgfId-1122389"></a>You can map implementation cellviews, tests, and outputs to their corresponding requirements of the type <em>Spec Pass</em>, <em>Ran OK</em>, and <em>Manual</em>. If the implementation cellview uses the <em>Monte Carlo Sampling</em> run mode, you can map that cellview, its tests, output values, and statistical values with requirements. Ensure that the requirements that you want to map to Monte Carlo statistical values have specifications. For details, see <a href="implementations.html#64346">&#8220;Using Different Implementation Run Modes&#8221;</a>.</p>
+<p>
+<a id="pgfId-1123194"></a>It is possible to map multiple implementations with multiple requirements, unless the <a href="app_forms.html#39716"><em>Map only one requirement to one implementation</em> preference option is enabled. If you want to map multiple requirements with an implementation, ensure that the requirements have the same specification. </a></p>
+<p>
+<a id="pgfId-1125306"></a>If the verification project is set for a <h-hot><a href="multiUserSetup.html#multiuser">multi-reference environment</a></h-hot>, you can use Verifier as a requirements manager for defining the mappings for requirements. In the master cellview, you can also set mappings for local requirements. </p>
+<p>
+<a id="pgfId-1125346"></a>Verifier uses the mapping, along with simulation results and preference settings, to determine the verification status of requirements. You can aim to achieve 100 percent mapping if you want to ensure that each test and each output in each implementation cellview is mapped to a requirement. It is not necessary to achieve 100 percent mapping for all the implementations. The correctness of the overall verification status depends on the completeness of the verification plan and mappings.</p>
+<p>
+<a id="pgfId-1125517"></a><a id="hiddenPercent"></a>The overall mapping percentage displays in the Overall Progress bar. The <a href="implementations.html#89834"><em>Mapped</em> column in the implementations pane also displays the percentage of the mapped implementations in the unmapped cellviews and tests. </a></p>
+<p>
+<a id="pgfId-1154777"></a>You can map requirements and implementations in the following ways:</p>
+<ul><li>
+<a id="pgfId-1154872"></a><a href="implementations.html#97894">Using the Context-Menu</a></li><li>
+<a id="pgfId-1145527"></a><a href="implementations.html#30538">Using Bindkeys</a></li><li>
+<a id="pgfId-1155789"></a><a href="implementations.html#32181">Using the Mapping Mode</a> </li></ul>
+
+
+
+<h4>
+<a id="pgfId-1125113"></a><a id="97894"></a>Using the Context-Menu</h4>
+
+<p>
+<a id="pgfId-1155253"></a>The following figure illustrates mapping implementations to their requirements the using context-menu option <em>Map:</em></p>
+
+<p>
+<a id="pgfId-1109287"></a></p>
+<div class="webflare-div-image">
+<img width="681" height="447" src="images/implementations-27.gif" /></div>
+
+<p>
+<a id="pgfId-1109196"></a>To map implementations to requirements:</p>
+<ol><li>
+<a id="pgfId-1109197"></a>Select the requirements and implementations. <br />
+<a id="pgfId-1109373"></a>You can use the <code>Ctrl</code> key to select multiple entries located in different places in the list, or the <code>Shift</code> key to select consecutive entries.</li><li>
+<a id="pgfId-1109198"></a>Right-click and choose <em>Map</em>.</li></ol>
+
+
+
+
+<p>
+<a id="pgfId-1115818"></a>Verifier maps the selected implementations with the selected requirements.</p>
+<p>
+<a id="pgfId-1121436"></a>The mapped entries get highlighted in light gray. Click an entry to select its mapped entries.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1121437"></a>Enable the preference <em>Show cross mapping at cursor</em> to show the highlighted cross mapping when the cursor or mouse moves over the mapped requirements or implementations in the Setup tab. </div>
+
+<h4>
+<a id="pgfId-1155355"></a><a id="30538"></a>Using Bindkeys</h4>
+
+<p>
+<a id="pgfId-1155356"></a>You can map implementation cellviews to requirements using the bindkey <code>Ctrl + M</code>. </p>
+<p>
+<a id="pgfId-1155349"></a>To map implementations and requirements using the bindkey:</p>
+<ol><li>
+<a id="pgfId-1155582"></a>Click on a requirement in the <em>Requirements</em> pane. </li><li>
+<a id="pgfId-1155553"></a>Press the <code>Ctrl</code> key and click on an implementation in the <em>Implementations</em> pane. </li><li>
+<a id="pgfId-1155579"></a>Press <code>Ctrl + M</code>. 
+The requirement and implementation are mapped as illustrated below. <br /><div class="webflare-div-image">
+<img width="668" height="202" src="images/implementations-28.gif" /></div></li></ol>
+
+
+
+
+<h4>
+<a id="pgfId-1150985"></a><a id="32181"></a>Using th<a id="MappingMode"></a>e Mapping Mode</h4>
+
+<p>
+<a id="pgfId-1150981"></a>You can expedite the mapping of implementation cellviews to requirements using an interactive Mapping Mode. </p>
+<p>
+<a id="pgfId-1151181"></a>To use the interactive <em>Mapping Mode</em>: </p>
+<ol><li>
+<a id="pgfId-1151324"></a>Do one of the following:<ul><li>
+<a id="pgfId-1159508"></a>Press &#39;M&#39; or &#39;m&#39; to enter the mapping mode. </li><li>
+<a id="pgfId-1159511"></a>Choose <em>Edit &#8211; Enter Mapping Mode</em>. </li><li>
+<a id="pgfId-1159551"></a>Click <em>Enter Mapping Mode</em>(<img width="25" height="31" src="images/implementations-29.gif" />
+) on the toolbar. </li></ul><br />
+<a id="pgfId-1159490"></a>A yellow background outlined in red on the <em>Requirements</em> and <em>Implementations</em> panes indicates that the <em>Mapping Mode</em> is enabled. </li><li>
+<a id="pgfId-1151182"></a>Do one of the following:<ul><li>
+<a id="pgfId-1154629"></a>Click a requirement and then click an implementation.</li><li>
+<a id="pgfId-1151580"></a>Click an implementation and then click a requirement.</li></ul><br />
+<a id="pgfId-1151174"></a>The requirement and implementation are mapped. <br /><div class="webflare-div-image">
+<img width="668" height="345" src="images/implementations-30.gif" /></div></li><li>
+<a id="pgfId-1151731"></a>To exit the Mapping Mode: <ul><li>
+<a id="pgfId-1159646"></a>Press the &#39;M&#39;, &#39;m&#39;, or &#39;Esc&#39; keys. </li><li>
+<a id="pgfId-1159663"></a>Choose <em>Tools</em> <em>&#8211; Exit Mapping Mode</em>. </li><li>
+<a id="pgfId-1159715"></a>Click <em>Exit Mapping Mode</em>(<img width="25" height="31" src="images/implementations-31.gif" />
+) on the toolbar</li><li>
+<a id="pgfId-1159701"></a>Right-click and select <em>Exit Mapping Mode</em>. </li></ul></li><li>
+<a id="pgfId-1151882"></a>To delete an existing mapping, right-click the mapped requirement or implementation and select <em>Delete Mapping</em>. </li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1151777"></a>It is recommended that you exit the <em>Mapping Mode </em>when mapping of requirements is complete. The context-menu options accessible in the <em>Requirements</em> and <em>Implementations</em> pane are not available when the <em>Mapping Mode</em> is on. </div>
+<p>
+<a id="pgfId-1152507"></a>You<a id="DDmapping"></a> can also use the Mapping Mode to drag-and-drop requirements on to implementations to create mappings. To use the drag-and-drop method in the Mapping Mode, select a requirement and drop it onto a required implementation. This automatically maps the requirements and the implementation. For more information, see <a href="multiUserSetup.html#58937">Reassigning Requirements</a>.<br /> </p>
+
+<div class="webflare-div-image">
+<img width="668" height="136" src="images/implementations-32.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1156054"></a>Drag-and-drop method of mapping requirements and implementations is only available in the Mapping Mode. </div>
+
+<h3>
+<a id="pgfId-1140347"></a>Working with Mappings </h3>
+
+<p>
+<a id="pgfId-1155284"></a>To copy the implementation&#8211;requirement mappings:</p>
+<ol><li>
+<a id="pgfId-1140348"></a>Select the requirements or implementations. </li><li>
+<a id="pgfId-1140349"></a>Right-click and choose <em>Copy Mapping</em>.</li></ol>
+
+<p>
+<a id="pgfId-1140380"></a>Verifier copies the mappings of the selected requirement or object in the implementation. </p>
+<p>
+<a id="pgfId-1140451"></a>To apply the copied implementation&#8211;requirement mappings:</p>
+<ol><li>
+<a id="pgfId-1140452"></a>Select the requirements or implementations. </li><li>
+<a id="pgfId-1140453"></a>Right-click and choose <em>Apply Mapping</em>.</li></ol>
+
+<p>
+<a id="pgfId-1140454"></a>Verifier applies the copied mappings to the selected requirement or object in the implementation. </p>
+<p>
+<a id="pgfId-1140115"></a>To remove the implementation&#8211;requirement mappings:</p>
+<ol><li>
+<a id="pgfId-1121466"></a>Select the requirements or implementations. </li><li>
+<a id="pgfId-1121508"></a>Right-click and choose <em>Delete Mapping</em>.</li></ol>
+
+<p>
+<a id="pgfId-1121410"></a>Verifier removes the mappings from all the selected requirements and implementations. </p>
+
+<h3>
+<a id="pgfId-1139936"></a><a id="11405"></a>Exporting <a id="verifExportMappingForm"></a>Mappings</h3>
+
+<p>
+<a id="pgfId-1139983"></a>Mappings between requirements and implementations in a cellview can be saved and exported as a CSV or Microsoft Excel file to be used in other cellviews, if required. </p>
+<p>
+<a id="pgfId-1140848"></a>To export the implementation&#8211;requirement mappings in the Verifier setup:</p>
+<ol><li>
+<a id="pgfId-1140849"></a>Choose <em>File &#8211; Export &#8211; Mapping</em>. <br />
+<a id="pgfId-1140929"></a>The <em>Export Mapping </em>form is displayed. </li><li>
+<a id="pgfId-1140850"></a>Choose the required file format. 
+The available formats are <em>CSV</em> and <em>Excel</em>. </li><li>
+<a id="pgfId-1141109"></a>Click the browse button and specify a file name in the <em>Specify a File </em>form. </li><li>
+<a id="pgfId-1141194"></a>Click <em>Save</em>. </li><li>
+<a id="pgfId-1141209"></a>Click OK on the <em>Export Mapping</em> form. </li></ol>
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1140844"></a>The implementation-requirement mappings are saved in the specified file format.</p>
+
+<h3>
+<a id="pgfId-1139958"></a><a id="26930"></a>Importing Ma<a id="verifImportMappingForm"></a>ppings</h3>
+
+<p>
+<a id="pgfId-1141366"></a>Exported mappings between requirements and implementations from a cellview can be used in a Verifier setup by importing the mappings using a CSV or Microsoft Excel file, if required. </p>
+<p>
+<a id="pgfId-1141367"></a>To export the implementation&#8211;requirement mappings in the Verifier setup:</p>
+<ol><li>
+<a id="pgfId-1141368"></a>Choose <em>File &#8211; Import &#8211; Mapping</em>. <br />
+<a id="pgfId-1141369"></a>The <em>Import Mapping </em>form is displayed. </li><li>
+<a id="pgfId-1141370"></a>Choose the required file format. 
+The available formats are <em>CSV</em> and <em>Excel</em>. </li><li>
+<a id="pgfId-1141371"></a>Click the browse button and select an existing file in the <em>Specify a File </em>form. </li><li>
+<a id="pgfId-1141372"></a>Click <em>Open</em>. </li><li>
+<a id="pgfId-1141373"></a>Click OK on the <em>Import Mapping</em> form. </li></ol>
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1141374"></a>The implementation-requirement mappings are imported in the current setup.</p>
+<p>
+<a id="pgfId-1148751"></a>These mappings are in a two-column format in the file, where one column is for requirements, and the other is for implementations. Here every row consists of a single requirement a single implementation. A requirement that is mapped to multiple implementations has the same requirement name in the first column and the various implementations in the second. Any other columns are ignored.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1148422"></a>
+Caution needs to be taken while naming requirements and implementations, as the names can contain shell-script style wildcards. For example, the name can be &quot;ID1*&quot;, &quot;lib/a*/view/*&quot; which maps all requirements starting with ID1 to all matching implementations. </div>
+<h2>
+<a id="pgfId-1174418"></a><a id="53988"></a>Working with Implementations</h2>
+
+<p>
+<a id="pgfId-1174492"></a>This section describe the following topics:</p>
+<ul><li>
+<a id="pgfId-1174602"></a><a href="implementations.html#49396">Opening Implementations</a></li><li>
+<a id="pgfId-1174608"></a><a href="implementations.html#95596">Updating Implementations</a></li><li>
+<a id="pgfId-1174628"></a><a href="implementations.html#37367">Modifying Implementations</a></li><li>
+<a id="pgfId-1174646"></a><a href="implementations.html#94856">Overriding Specifications</a></li><li>
+<a id="pgfId-1174664"></a><a href="implementations.html#42374">Deleting Implementations</a></li><li>
+<a id="pgfId-1174682"></a><a href="implementations.html#22360">Filtering the Implementation List</a></li></ul>
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1110165"></a><a id="49396"></a>Opening Implementations</h3>
+
+<p>
+<a id="pgfId-1110194"></a>Verifier lets you open an implementation cellview in edit mode. You can also view the simulation results of an implementation in read-only mode. When Verifier opens an implementation cellview, it loads the history you have selected for that implementation. </p>
+<p>
+<a id="pgfId-1114941"></a>To open an implementation in edit mode:</p>
+<ul><li>
+<a id="pgfId-1114942"></a>Right-click the implementation and choose <em>Edit Implementation Cellview</em>.</li></ul>
+<p>
+<a id="pgfId-1114943"></a>The implementation cellview opens its application. </p>
+<p>
+<a id="pgfId-1115020"></a>To view simulation results of an implementation cellview whose results are loaded:</p>
+<ul><li>
+<a id="pgfId-1115882"></a>Right-click the implementation and choose <em>View Implementation Results</em>.</li></ul>
+<p>
+<a id="pgfId-1147570"></a>To view the simulation log of an implementation cellview whose results are loaded:</p>
+<ul><li>
+<a id="pgfId-1147571"></a>Right-click the implementation and choose <em>View Simulation Log of Implementation Test, </em>and select the test.</li></ul>
+<p>
+<a id="pgfId-1115883"></a>The implementation cellview opens in read-only mode and the results display in the relevant application.</p>
+
+<h3>
+<a id="pgfId-1126169"></a><a id="95596"></a>Updating Implementations</h3>
+
+<p>
+<a id="pgfId-1153347"></a>Verifier periodically checks for saved changes in the implementation cellviews and updates the setup accordingly. </p>
+<p>
+<a id="pgfId-1157936"></a>Updates in the implementation cellview are indicated by the <img width="21" height="22" src="images/implementations-33.gif" /><span> icon. To indicate that the setup needs to be updated, this icon is displayed before the cellview node in the implementation tree. Update the setup by clicking the implementation, and choosing the context menu option </span><em>Update Implementations </em><span>in the Setup tab. When you update implementations, Verifier does a quick check for results. Implementations that have the </span><em>Run</em><span> check box enabled are always marked as out of date because the setup has changed. For implementations that have the </span><em>Run</em><span> check box disabled, Verifier does a quick check with the history name and time stamp to ensure that latest simulation results are used in Verifier. Verifier does a full check with </span><em>Report Identical History</em><span> when you enable the </span></p>
+<a href="app_forms.html#63046"><em>Report identical histories before run</em> preference. </a><p>
+<a id="pgfId-1164245"></a>To manually check for updates in the implementation cellview, you can choose the <em>Check for Changes in Implementations and Simulation Results </em>option from the <em>Tools</em> menu. When you check for changes in implementations and simulation results and the results show as &#39;out of date&#39;, you can select <em>Delete Run Summary Data</em> from the context menu on the <em>Run</em> Tab to ensure that the outdated results are not used. </p>
+<p>
+<a id="pgfId-1164257"></a>The <em>Delete Run Summary Data</em> command deletes the run summary data file and the datasheet recorded inside it. You can use the environment variable <a href="app_envar.html#60375">autoCreateDataSheet</a> to create datasheets when you run simulations or load results in Verifier. During report creation, Verifier creates a link to existing datasheets or triggers report generation for any missing datasheets. </p>
+<p>
+<a id="pgfId-1164241"></a>Alternatively, you can select <em>Mark Results as Up-to-date</em> from the context menu to ignore the check and use the results as valid. </p>
+
+<p>
+<a id="pgfId-1157931"></a></p>
+<div class="webflare-div-image">
+<img width="661" height="302" src="images/implementations-34.gif" /></div>
+<h3>
+<a id="pgfId-1152811"></a><a id="37367"></a>Modifying Imple<a id="modifyImp"></a>mentations</h3>
+
+<p>
+<a id="pgfId-1155007"></a>In Verifier, you can make changes to the library, cell, view, history of an implementation by using the <em>Modify Implementations </em>form. You can also replace an implementation with another implementation. The mapping is retained if the new implementation has the same setup as the previous one.</p>
+<p>
+<a id="pgfId-1153122"></a>To modify a single implementation:</p>
+<ol><li>
+<a id="pgfId-1155084"></a>Right-click the implementation in the <em>Setup</em> tab.</li><li>
+<a id="pgfId-1155086"></a>Choose <em>Modify Implementation </em>as shown in the following illustration.<em> </em><br /><div class="webflare-div-image">
+<img width="668" height="304" src="images/implementations-35.gif" /></div></li><li>
+<a id="pgfId-1159888"></a>Specify the changes to the library, cell, view, and history. </li><li>
+<a id="pgfId-1160002"></a>Select <em>Run</em> to enable a simulation run for the selected implementation. </li><li>
+<a id="pgfId-1155143"></a>Click OK to modify the implementation. </li></ol>
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1160317"></a>To modify multiple implementations:</p>
+<ol><li>
+<a id="pgfId-1160353"></a>Select the required implementations while keeping the Ctrl key pressed.</li><li>
+<a id="pgfId-1160318"></a>Right-click and choose <em>Modify Implementation... </em>as illustrated below.<em> </em><br /><div class="webflare-div-image">
+<img width="668" height="284" src="images/implementations-36.gif" /></div>
+<a id="pgfId-1160528"></a>The fields in the form display<em> &lt;various&gt; </em>as shown below for all field properties that have different values. </li><li>
+<a id="pgfId-1160567"></a>Specify the changes to the library, cell, view, and history. 
+The selected implementations are modified with the values that you specify in the form. The values of those fields that display &#39;&lt;various&gt;&#39; are not changed.</li><li>
+<a id="pgfId-1160324"></a>Select <em>Run</em> to enable a simulation run for the selected implementations. </li><li>
+<a id="pgfId-1160325"></a>Click OK to modify the implementations. </li></ol>
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1130299"></a><a id="94856"></a>Overriding Specifications<a id="overrideSpec"></a></h3>
+
+<p>
+<a id="pgfId-1119473"></a>You can override the specification set in an implementation with the specification set in the requirement mapped to that implementation. Similarly you can set the requirement specification with the implementation specification. This functionality overrides the unit and the minimum and maximum specification values. It is possible to override the specifications of multiple requirements and implementations. </p>
+<p>
+<a id="pgfId-1142257"></a>To override the implementation specification with the mapped requirement specification:</p>
+<ol><li>
+<a id="pgfId-1142258"></a>Right-click the implementation in the <em>Setup</em> tab.<br />
+<a id="pgfId-1149655"></a>You can select multiple implementations and then right-click to display the popup menu. </li><li>
+<a id="pgfId-1142260"></a>Choose <em>Overwrite Implementation Specification</em>.<br />
+<a id="pgfId-1142261"></a>Verifier overrides the implementation specification.</li></ol>
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1142262"></a>When overriding implementation specifications, these points must be considered:</p>
+<ul><li>
+<a id="pgfId-1142263"></a>The implementation cellview must be editable.</li><li>
+<a id="pgfId-1142264"></a>The specified implementation history must be &#39;Active&#8217; because only the specifications in active setup of implementation cellview can be overwritten. </li><li>
+<a id="pgfId-1142265"></a>The selection must contain the mapped implementation outputs with specifications which are not <em>wave</em> or <em>overridden</em>.</li><li>
+<a id="pgfId-1142266"></a>The requirement which is mapped to the selected output must be of the type <em>Spec Pass</em> and have either or both of the minimum and maximum limit specified.</li><li>
+<a id="pgfId-1150149"></a>Selecting an implementation highlights the related requirement only. All the other implementations mapped to the same requirement are not highlighted. However, if you select a requirement, all the related implementations are highlighted. Press the Ctrl key to ensure that the selected implementations remain highlighted when you right-click and choose <em>Override Implementation Specification</em>. This is only applicable for implementations with the same specifications. </li></ul>
+
+
+
+
+<p>
+<a id="pgfId-1142267"></a>To override the requirement specification with the mapped implementation specification:</p>
+<ol><li>
+<a id="pgfId-1142268"></a>Right-click the implementation in the <em>Setup</em> tab.<br />
+<a id="pgfId-1142269"></a>You can select multiple implementations and then right-click to display the popup menu.</li><li>
+<a id="pgfId-1142270"></a>Choose <em>Overwrite Requirement Specification.</em><br />
+<a id="pgfId-1142271"></a>Verifier overrides the requirement specification.</li></ol>
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1208969"></a>When overriding requirement specifications, these points must be considered:</p>
+<ul><li>
+<a id="pgfId-1142273"></a>The current Verifier session must be editable.</li><li>
+<a id="pgfId-1142274"></a>The selection must contain the mapped implementation outputs with specifications which are not &#39;wave&#39; or &#39;overridden&#39;.</li><li>
+<a id="pgfId-1142275"></a>The requirement which is mapped to the selected output must be editable and of the type <em>Spec Pass. </em>This requirement should not be referenced or read-only.<em> </em></li><li>
+<a id="pgfId-1205892"></a>The specification and unit values of the outputs are also updated automatically in ADE Assembler, if the implementation is open in ADE Assembler for editing. </li></ul>
+
+
+
+
+<h3>
+<a id="pgfId-1117014"></a><a id="42374"></a>Deleting Implementations<a id="showHideUnmappedImps"></a></h3>
+
+<p>
+<a id="pgfId-1112891"></a>You can delete the implementation cellviews that you do not need for your verification project. When you remove an implementation cellview, where the cellview, tests, and outputs are mapped to requirements, the mappings are removed. You cannot hide implementation cellviews in Verifier. </p>
+<p>
+<a id="pgfId-1116049"></a>To delete an implementation cellview:</p>
+<ol><li>
+<a id="pgfId-1112893"></a>Do one of the following:<ul><li>
+<a id="pgfId-1112894"></a>Right-click the implementation cellview and choose <em>Delete Implementations</em>. </li><li>
+<a id="pgfId-1112896"></a>Select the implementation cellview and press <code>Delete</code>.</li></ul><br />
+<a id="pgfId-1112897"></a>You can select multiple implementation cellviews for deletion.</li><li>
+<a id="pgfId-1112898"></a>Click <em>Yes</em>, when prompted, to confirm the deletion.</li></ol>
+
+
+
+
+
+
+<p>
+<a id="pgfId-1112899"></a>Verifier deletes the selected implementation cellviews and associated mappings.</p>
+
+<h3>
+<a id="pgfId-1139625"></a><a id="22360"></a><a id="96974"></a>Filterin<a id="FilterImp"></a>g the Implementation List</h3>
+
+<p>
+<a id="pgfId-1139626"></a>It is possible that you have a large requirements hierarchy, where locating specific requirements is time-consuming. You can add a filter row in the requirements hierarchy to display only specific types of requirements. The filter row is applied to both, the requirements hierarchy and the implementations list.</p>
+<p>
+<a id="pgfId-1139627"></a>You can also locate requirements using the filter functionality of Verifier. </p>
+
+<h4>
+<a id="pgfId-1139628"></a>Filtering Implementations Based on Text Criteria</h4>
+
+<p>
+<a id="pgfId-1139629"></a>To search implementations with specific text in the hierarchy:</p>
+<ol><li>
+<a id="pgfId-1139630"></a>Do one of the following:<ul><li>
+<a id="pgfId-1139631"></a>Click the <em>Show Filter Row</em> icon on the toolbar. </li><li>
+<a id="pgfId-1139632"></a>Right-click anywhere on the column heading row hierarchy and choose <em>Filter row</em>.</li></ul><br />
+<a id="pgfId-1139633"></a>The Filter row is displayed below the column headings in the <em>Setup</em>, <em>Run</em> and <em>Results</em> tab.<br />
+<a id="pgfId-1139637"></a><br /><div class="webflare-div-image">
+<img width="665" height="329" src="images/implementations-37.gif" /></div></li><li>
+<a id="pgfId-1139638"></a>Type the filter string or number in the required hierarchy column. </li></ol>
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1139640"></a>As you type, the filter functionality searches the selected field of the implementations and displays the results in the implementations pane.</p>
+<p>
+<a id="pgfId-1139641"></a>To use the other features of the filter functionality:</p>
+<ul><li>
+<a id="pgfId-1139642"></a>Enter a name for the filter and click <em>Save</em> <em>Filter</em> to store the search string for later use in the session. </li><li>
+<a id="pgfId-1139643"></a>Click <em>Clear the contents of the filter </em>to remove all filters and show all requirements or implementations. </li><li>
+<a id="pgfId-1139644"></a>Click <em>Delete Filter </em>to delete a saved filter. </li></ul>
+
+
+
+<h4>
+<a id="pgfId-1139645"></a>Filtering Implementations Based on Status</h4>
+
+<p>
+<a id="pgfId-1139646"></a>To filter the implementations based on their status in the hierarchy:</p>
+<ol><li>
+<a id="pgfId-1139650"></a>Right-click the implementations area and choose <em>Show</em>. <br /><div class="webflare-div-image">
+<img width="662" height="308" src="images/implementations-38.gif" /></div></li><li>
+<a id="pgfId-1139651"></a>Set the filter. <br />
+<a id="pgfId-1139652"></a>The available filter options are:<ul><li>
+<a id="pgfId-1139653"></a><em>Mapped</em> &#8211; Filters and shows only those implementations that are mapped to a requirement. </li><li>
+<a id="pgfId-1139654"></a><em>Unmapped </em>&#8211; Filters and shows only those implementations that are not mapped to any requirement.</li><li>
+<a id="pgfId-1139655"></a><em>Spec Check Fail </em>&#8211; Filters and shows only those implementations that are mapped to a requirement but have failed the specifications check during verification. </li><li>
+<a id="pgfId-1165065"></a>Disabled &#8211; Filters and shows only those implementations that are disabled.</li><li>
+<a id="pgfId-1186137"></a>Filter O<a id="filterOnReqs"></a>n Requirements &#8211; Filters and shows only those outputs that are mapped to the visible requirements in the <em>Requirements</em> pane. </li></ul><br />
+<a id="pgfId-1139656"></a>Ensure that the implementation type that you want to hide is not selected.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1133307"></a>Verifier filters the implementations list according to the specified criteria.</p>
+
+<h2>
+<a id="pgfId-1160679"></a><a id="98921"></a>Understanding Mapped and MappedHier</h2>
+
+<p>
+<a id="pgfId-1160791"></a>In the Implementations pane, you can view the <em>Mapped</em> and <em>MappedHier</em> columns. These columns display the requirement IDs and the position of the requirement within the hierarchy. However, the data in the column change in different scenarios. </p>
+<p><strong>Example 4-1
+<a id="pgfId-1161093"></a>: When all implementations are mapped to requirements: 
+</strong></p>
+
+<div class="webflare-div-image">
+<img width="668" height="326" src="images/implementations-39.gif" /></div>
+
+<p>
+<a id="pgfId-1161220"></a>Here, the <em>Mapped</em> column shows the IDs of the requirement which is mapped to a specific implementation. The <em>MappedHier</em> column shows the hierarchical position of the mapped requirement in numeric format, such as 1.1, 1.2, 1.2.1. </p>
+<p><strong>Example 4-2
+<a id="pgfId-1161621"></a>When the implementation cellview and some outputs are not mapped to requirements: 
+</strong></p>
+
+<div class="webflare-div-image">
+<img width="668" height="302" src="images/implementations-40.gif" /></div>
+
+<p>
+<a id="pgfId-1161746"></a>Here, both <em>Mapped</em> and <em>MappedHier</em> columns in the <em>Implementations</em> pane of the cellview show the mapping status in percentages. </p>
+<p>
+<a id="pgfId-1161748"></a>For unmapped implementation cellviews, runs or tests, the following calculation expression is used to compute the mapping percentage &#8211; : <br /></p>
+
+<div class="webflare-div-image">
+<img width="314" height="116" src="images/implementations-41.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1162893"></a>The mappable child item can be a implementation cellview, run, test, output or statistical item.</div>
+<p>
+<a id="pgfId-1161940"></a>In the above illustration, the calculation expression is:</p>
+<p>
+<a id="pgfId-1162087"></a><code>10 / 13 = 76.92%. </code></p>
+<p>
+<a id="pgfId-1161750"></a>Total number of mapped child items = 10. </p>
+<p>
+<a id="pgfId-1161749"></a>Total number of mappable child items = 13. </p>
+<p><strong>Example 4-3
+<a id="pgfId-1161625"></a>When the implementation and tests are not mapped:
+</strong></p>
+
+<div class="webflare-div-image">
+<img width="668" height="260" src="images/implementations-42.gif" /></div>
+
+<p>
+<a id="pgfId-1162294"></a>Here, both <em>Mapped</em> and <em>MappedHier</em> columns in the <em>Implementations</em> pane of the cellview show the mapping status in percentages. </p>
+<p>
+<a id="pgfId-1162867"></a>For unmapped implementation cellviews, runs or tests, the following calculation expression is used to compute the mapping percentage: <br /></p>
+
+<div class="webflare-div-image">
+<img width="314" height="116" src="images/implementations-43.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1162931"></a>The mappable child item can be a implementation cellview, run, test, output or statistical item.</div>
+<p>
+<a id="pgfId-1162297"></a>In the above illustration, the calculation expression for the implementation is:</p>
+<p>
+<a id="pgfId-1162298"></a><code>8 / 13 = 61.54%. </code></p>
+<p>
+<a id="pgfId-1162396"></a>Total number of mapped outputs of the implementation = 8. </p>
+<p>
+<a id="pgfId-1162299"></a>Total number of mappable tests in the implementation = 13. </p>
+<p>
+<a id="pgfId-1162300"></a>The calculation expression for test AC is:</p>
+<p>
+<a id="pgfId-1162507"></a><code>5/6 = 83.33%</code></p>
+<p>
+<a id="pgfId-1161816"></a>The calculation expression for test TRAN is:</p>
+<p>
+<a id="pgfId-1162548"></a><code>3/5 = 60% </code></p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1161617"></a>For implementations with the Monte Carlo run mode, the &#39;Output Values&#39; and &#39;Statistical Values&#39; are not mappable and not counted for the mapping calculation. Only the statistical outputs are counted. </div>
+
+<h2>
+<a id="pgfId-1139773"></a><a id="19095"></a><a id="typical_value"></a>Typical <a id="verifTypicalSetup"></a>Value Setup</h2>
+
+<p>
+<a id="pgfId-1146879"></a>The typical value feature in Verifier is mainly used for reporting and does not include verification. This feature is used to define a combined set of sweep or corner variables, parameters, or model files from all the implementations added in Verifier. From this combined set, you can identify a set of parameter values that match a typical point of variables or parameters defined in an implementation. This set of parameter values is assumed to be &#39;typical&#39; in the current Verifier session. </p>
+<p>
+<a id="pgfId-1146891"></a>To define the typical value for all implementations in Verifier, click <em>Tools</em> &#8211; <em>Typical Value Setup</em>. To setup the value based on the parameters, variables, or model files from the selected implementation, right-click an implementation and select the option <em>Edit Typical Value Setup</em>. </p>
+<p>
+<a id="pgfId-1163113"></a>Consider these important points: </p>
+<ul><li>
+<a id="pgfId-1142505"></a>Ensure that you specify a common definition for typical across all the implementations in a project. </li><li>
+<a id="pgfId-1163363"></a><em>Model Files</em> is a file name that includes the absolute or relative path. The Corners Setup in ADE Assembler and the Typical Value Setup in Verifier display only the name of the model file as shown below: 
+
+<code>         &lt;model&gt; 
+                  &lt;name&gt;gpdk045.scs&lt;/name&gt;
+... 
+                 &lt;modelFile&gt;./gpdk045.scs&lt;/modelFile&gt;
+                 &lt;modelSection&gt;fs&lt;/modelSection&gt;
+         &lt;/model&gt; 
+</code>However, for comparison of the typical values, Verifier uses <code>modelFile</code> and not the <code>name</code>. </li></ul>
+
+<p>
+<a id="pgfId-1134297"></a><a id="verifImpTypicalSetup"></a>For importing the typical data from a CSV file or adding it one by one, click <em>Tools</em> &#8211; <em>Typical Value Setup</em> to open the Typical Value Setup form. The column headers in the CSV file must contain &#39;Name,Value&#39;. The name must be a unique single-line text and the value must be a number. You can modify these values in the form.</p>
+
+<p class="webflare-indent1">
+<a id="pgfId-1133433"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="371" src="images/implementations-44.gif" /></div>
+
+<p>
+<a id="pgfId-1209045"></a>Verifier automatically removes any white spaces when you: </p>
+<ul><li>
+<a id="pgfId-1209047"></a>Specify a typical value that has white spaces at the beginning, center, or at the end</li><li>
+<a id="pgfId-1209048"></a>Import the typical values from a comma-separated (CSV) file;</li><li>
+<a id="pgfId-1209041"></a>Load the typical values containing white spaces from an existing Verifier cellview from an old version</li></ul>
+
+
+<p>
+<a id="pgfId-1133434"></a>You can export the typical values with the other results by clicking <em>File</em> &#8211; <em>Export</em>.</p>
+<p>
+<a id="pgfId-1133312"></a>To set up the typical value for all the implementations directly:</p>
+<ol><li>
+<a id="pgfId-1133314"></a>Click <em>Tools</em> &#8211; <em>Typical Value Setup</em>.</li><li>
+<a id="pgfId-1133315"></a>Add the variable or parameter in the form by using one of the following methods.<ol><li>
+<a id="pgfId-1133316"></a>Right-click and select <em>Add.</em><br />
+<a id="pgfId-1133655"></a>Specify a unique name in the Add dialog box and a numeric value in the <em>CurrentValue</em> column by double-clicking it.</li><li>
+<a id="pgfId-1133656"></a>Right-click in the empty area, variable, or parameter item and select <em>Import from CSV</em>.<br />
+<a id="pgfId-1133319"></a>Ensure that the column headers of the specified CSV contains the &#39;Name,Value&#39;. The name must be unique one-liner text without spaces. The value must be blank or a number.</li></ol></li><li>
+<a id="pgfId-1133321"></a>Click OK to save the settings.</li></ol>
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1133323"></a>For details, refer to the <a href="app_forms.html#84623">Typical Value Setup</a> Form.</p>
+<p>
+<a id="pgfId-1142544"></a>To modify or set up the typical value based on the selected implementation cellview:</p>
+<ol><li>
+<a id="pgfId-1142545"></a>Right-click and select <em>Edit Typical Value Setup</em> in the Implementations table.<br />
+<a id="pgfId-1142546"></a>By default, all global variables and parameters are loaded and shown on the form. <br />
+<a id="pgfId-1209374"></a><em>Current Value</em> indicates the real value for the variable or parameter in the implementation cellview.<br />
+<a id="pgfId-1142547"></a><em>Typical</em> indicates the defined value for this variable or parameter that is used to look for the required data point.</li><li>
+<a id="pgfId-1142548"></a>Select a corner name from the corresponding drop-down list box. The variables, parameters, or model files for the specified corner are loaded from the typical and corner setup. The <em>Current Value</em> is overwritten by the corner value for the given variable or parameter.</li><li>
+<a id="pgfId-1142549"></a>Select one of the following:<ol><li>
+<a id="pgfId-1163590"></a>Double-click the <em>Typical</em> column to specify the value. </li><li>
+<a id="pgfId-1163559"></a>Right-click and select <em>Overwrite Typical </em>to overwrite the model file path and the section. <br /><div class="webflare-div-image">
+<img width="273" height="102" src="images/implementations-45.gif" /></div></li></ol></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1209378"></a>You can overwrite the typical values using a model file without section details. </div>
+<ol><li>
+<a id="pgfId-1142550"></a>Click OK to save the settings.</li></ol>
+<p>
+<a id="pgfId-1142554"></a>For details, refer the <a href="app_forms.html#84623">Typical Value Setup</a> form.</p>
+<p>
+<a id="pgfId-1134009"></a>To identify the <h-hot><a actuate="user" class="URL" href="../adeVerifier/results.html#TypicalValue" show="replace" xml:link="simple">typical value</a></h-hot> for the implementation output, you need to run implementation from Verifier, or load the implementation simulation results in Verifier. A blank value indicates that there is no data point match with the typical value setup. <code>various</code> indicates that there are multiple matched data points. You need to re-run or re-load the implementation when you have modified the typical value setup.</p>
+<p>
+<a id="pgfId-1133343"></a>To report the typical value, you could do one of the following:</p>
+<ul><li>
+<a id="pgfId-1133345"></a>Click <em>File</em> &#8211; <em>Export</em>.<br />
+<a id="pgfId-1133948"></a>The typical value would be exported with requirement properties and other result information.</li><li>
+<a id="pgfId-1133949"></a>Click <em>Tools</em> &#8211; <em>Publish</em> <em>HTML Report</em>.<br />
+<a id="pgfId-1133349"></a>The typical value would be shown in the HTML report.</li></ul>
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1174200"></a><a id="23464"></a>Proje<a id="projDirSetup"></a>ct Directory Setup</h2>
+
+<p>
+<a id="pgfId-1174779"></a>By default, Verifier uses the default project directory to access read-only history data and run simulations in read-only mode. You can create additional project directories for implementations for which you have the required read-access permissions. These additional project directories allow you to access read-only histories owned by other users from the ADE Assembler setup. </p>
+<p>
+<a id="pgfId-1181792"></a>While performing read-only operations, such as fetching implementation details or results from an implementation history, Verifier searches for the information in the default project directory as well as other specified directories. </p>
+<p>
+<a id="pgfId-1184702"></a>To view or load read-only histories that belong to other users, you must add the project directories of other users to the implementation.</p>
+<p>
+<a id="pgfId-1185244"></a>Consider a scenario when user1 creates a <code>maestro</code> cellview <code>impl1</code> in ADE Assembler and runs read-only simulations. user2 creates a new Verifier cellview and adds <code>impl1</code> in it. In this case, Verifier shows all histories for which the user has write permission and hides read-only histories from user1.</p>
+<p>
+<a id="pgfId-1185375"></a>User2 then adds the project directory used by user1, for example <code>/disk/projdirs/user1/simulation/</code> to <code>impl1</code>. In addition to all the writable histories of <code>impl1</code> and read-only histories of user2, Verifier also shows all read-only histories from user1.</p>
+<p>
+<a id="pgfId-1179976"></a>When user2 runs a simulation on <code>impl1</code>, the results are saved into <code>/disk/projdirs/user2/simulation</code>. The <em>Results</em> tab in Verifier shows the simulation results. </p>
+<p>
+<a id="pgfId-1179979"></a>When user1 opens the same Verifier view, the latest history created by user2 is not visible because the default project directory is the same as the additional project directory <code>/disk/projdirs/user1/simulation</code>. When user1 adds <code>/disk/projdirs/user2/</code> to the list of additional project directories, both user1 and user2 can view all histories in the Verifier cellview. </p>
+<p>
+<a id="pgfId-1177147"></a>For more information, see the following topics: </p>
+<ul><li>
+<a id="pgfId-1175778"></a><a href="implementations.html#19782">Opening the Project Directory Setup</a></li><li>
+<a id="pgfId-1175793"></a><a href="implementations.html#87615">Adding a Project Directory</a></li><li>
+<a id="pgfId-1175812"></a><a href="implementations.html#64058">Removing a Project Directory</a></li><li>
+<a id="pgfId-1175831"></a><a href="implementations.html#87528">Modifying a Project Directory</a></li><li>
+<a id="pgfId-1175850"></a><a href="implementations.html#72038">Saving a Project Directory</a></li><li>
+<a id="pgfId-1180841"></a><a href="implementations.html#83046">Viewing and Using a History from the Project Directory Setup</a></li></ul>
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1174775"></a><a id="19782"></a>Opening the Project Directory Setup </h3>
+
+<p>
+<a id="pgfId-1174692"></a>You can access the project directory setup individually for a single implementation. To do this, select an implementation in the <em>Implementations</em> pane of the <em>Setup</em> tab and choose the context menu command <em>Edit Project Directory Setup</em>. The <em>Project Directory Setup</em> form appears. </p>
+
+<div class="webflare-div-image">
+<img width="668" height="484" src="images/implementations-46.gif" /></div>
+
+<p>
+<a id="pgfId-1174696"></a>The Project Directory Setup form shows the following information:</p>
+<ul><li>
+<a id="pgfId-1174698"></a><em>Path</em>: Indicates the project directory path of the specified implementation. </li><li>
+<a id="pgfId-1174699"></a><em>Enabled</em>: Indicates that the read-only histories from the specified project directory are available in Verifier. </li></ul>
+
+<p>
+<a id="pgfId-1174779"></a>By default, the first row shows the default project directory that you define by using the environment variable <span class="webflare-courier-new" style="white-space:pre"><em>asimenv.startup projectDir</em></span>. The default project directory is always enabled. To run simulations, Verifier always uses the default project directory. </p>
+<p>
+<a id="pgfId-1174704"></a>The subsequent rows in the project directory setup table show the additional project directories where the project directory information is fetched from the selected implementation. Alternatively, you can use the <a href="app_envar.html#57980">additionalProjectDirectory</a> environment variable to retrieve this information. </p>
+
+<h3>
+<a id="pgfId-1174709"></a><a id="87615"></a>Adding a Project Directory</h3>
+
+<p>
+<a id="pgfId-1179868"></a>To specify these directories, you can use the absolute or relative path or a path that contains UNIX environment variables <code>$</code> (for PATH) and <code>~</code> (for HOME). Escape characters need not prefixed to special characters. These additional project directories are saved with the implementation data in Verifier. </p>
+<p>
+<a id="pgfId-1174785"></a>In case of naming conflicts, the default project directory gets preference. The additional project directories are added in a sequential order. </p>
+<p>
+<a id="pgfId-1174711"></a>To add a project directory:</p>
+<ol><li>
+<a id="pgfId-1176552"></a>Right-click the table in the <em>Project Directory Setup</em> form and choose <em>Add</em>. <br />
+<a id="pgfId-1174713"></a>The Add Project Directory form appears.
+<br /><div class="webflare-div-image">
+<img width="643" height="109" src="images/implementations-47.gif" /></div></li><li>
+<a id="pgfId-1176649"></a>Specify a path to an existing directory in the <em>Project directory path</em> field by using one of these ways: <ul><li>
+<a id="pgfId-1174714"></a>Enter an absolute or relative path. </li><li>
+<a id="pgfId-1174715"></a>Click <em>Browse</em> to select a directory.</li></ul></li><li>
+<a id="pgfId-1176798"></a>Click <em>OK</em> to add the project directory. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1174716"></a>The <em>OK</em> button is enabled only when the specified project directory path is valid. </div>
+<a id="pgfId-1185572"></a>The Add Project Directory form closes and the specified project directory is added.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1177258"></a>The Project Directory Setup form displays the path of an invalid project directory in red text and in a disabled state. When you move the mouse pointer on the <em>Path</em> column, a tooltip shows the reason for the invalid status. It might be useful to retain an invalid project directory path, because it might be valid for a different user&#39;s working environment.</p>
+
+<h3>
+<a id="pgfId-1175633"></a><a id="64058"></a>Removing a Project Directory</h3>
+
+<p>
+<a id="pgfId-1176935"></a>To remove a project directory:</p>
+<ol><li>
+<a id="pgfId-1174720"></a>Select a project directory on the Project Directory Setup form. You can make multiple selections. </li><li>
+<a id="pgfId-1174721"></a>Right-click and choose <em>Remove</em>. <br />
+<a id="pgfId-1177038"></a>The selected project directory is removed. </li></ol>
+
+
+
+<h3>
+<a id="pgfId-1175657"></a><a id="87528"></a>Modifying a Project Directory</h3>
+
+<p>
+<a id="pgfId-1177731"></a>To modify the <em>Path</em> to a project directory on the Project Directory Setup form:</p>
+<ul><li>
+<a id="pgfId-1185074"></a>Double-click the specified project directory path. The path is available for editing. </li></ul>
+<p>
+<a id="pgfId-1185085"></a>To modify the enabled status of the project directory on the Project Directory Setup form: </p>
+<ul><li>
+<a id="pgfId-1174726"></a>Click the <em>Enabled</em> check box. </li></ul>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1174727"></a>If you specify an invalid path, the project directory path is shown in red. If you modify an existing invalid path and make it valid, the text indicating the project directory path reverts to the default color.</div>
+
+<h3>
+<a id="pgfId-1175700"></a><a id="72038"></a>Saving a Project Directory</h3>
+
+<p>
+<a id="pgfId-1178293"></a>To save a project directory:</p>
+<ol><li>
+<a id="pgfId-1174730"></a>Make the required modifications. </li><li>
+<a id="pgfId-1178364"></a>Click <em>OK</em> to save the project directory setup for the selected implementations.<br />
+<a id="pgfId-1185175"></a>Alternatively, click <em>Save</em> on the Verifier toolbar. </li></ol>
+
+
+
+<h3>
+<a id="pgfId-1174734"></a><a id="83046"></a>Viewing and Using a History from the Project Directory Setup</h3>
+
+<p>
+<a id="pgfId-1174734"></a>When you select an implementation in the <em>Implementations</em> pane of the <em>Setup</em> tab, the <em>History</em> column shows a tooltip for the implementation that displays all additional project directories. This tooltip shows histories using the following order of locations: </p>
+<ul><li>
+<a id="pgfId-1179016"></a>Assembler cellview </li><li>
+<a id="pgfId-1179019"></a>Default project directory in ADE Assembler defined by using the environment variable <code>asimenv.startup projectDir</code> </li><li>
+<a id="pgfId-1179027"></a>Additional project directories for the implementation in Verifier using the Project Directory Setup form</li></ul>
+
+
+<p>
+<a id="pgfId-1183242"></a>For every implementation, Verifier shows the read-only histories from the default project directory and the additional project directories, and the writable histories from the ADE Assembler cellview. The history list shows only the first history if duplicate histories (with identical names) are available. Each history has a tooltip showing the path from which it is loaded. A reference icon against the history name indicates that it is from another project directory.</p>
+<p>
+<a id="pgfId-1180185"></a>When you select a history from an additional project directory in Verifier, you can update the implementation with the specified history or load the external simulation results from the specified history. In contrast, ADE Assembler supports reading a history only from the current project directory. Therefore, when you choose the context menu commands <em>View Implementation Results</em> and <em>View Simulation Log of Implementation Test</em>, an error message is shown if the loaded history is read-only and not from the current project directory.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1182936"></a>You cannot run a simulation for an implementation with a history specified from an additional project directory. To run simulations, Verifier always uses the default project directory that you define by using the environment variable <span class="webflare-courier-new" style="white-space:pre"><em>asimenv.startup projectDir</em></span>. </div>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1194516"></a>
+You can open a read-only Verifier cellview in multiple Virtuoso sessions at the same time. However, you can run a simulation in only one of the sessions at a time so that the run summary data of the simulation is not overwritten. To run a simulation in multiple sessions, specify a different project directory in each session. </div>
+
+<p>
+<a id="pgfId-1185661"></a>To know how Verifier stores verification results of cellviews that use project directories, see <a href="results.html#92550">Saving and Loading the Run Summary Data</a>.</p>
+
+<h2>
+<a id="pgfId-1195304"></a><a id="77443"></a>Using Custom<a id="mathExp"></a> Implementations</h2>
+
+<p>
+<a id="pgfId-1195586"></a>Custom implementations are special implementations that use a structure similar to maestro implementations but use a customized mechanism to retrieve output values. Additionally, with custom implementations, you can perform calculations on output values, statistical values from Monte Carlo simulations, or results of multiple requirements. You can also calculate the sum of currents of multiple design blocks from multiple implementations. </p>
+<p>
+<a id="pgfId-1195298"></a>A custom implementation is highly convenient and useful because: </p>
+<ul><li>
+<a id="pgfId-1195512"></a>It uses the same structure as a maestro implementation, which supports all SKILL functions that are available to maestro implementations. </li><li>
+<a id="pgfId-1195511"></a>It contains SKILL expressions for the outputs, which makes the expressions flexible and manageable. </li><li>
+<a id="pgfId-1195513"></a>It can have minimum and maximum specifications and a unit that allows it to be mapped to requirements.</li><li>
+<a id="pgfId-1195515"></a>It can be simulated to evaluate output expressions. This is required to save simulation results and displaying these results in the <em>Results</em> tab. </li></ul>
+
+
+
+
+<h4><em>
+<a id="pgfId-1198686"></a>Related Topics </em></h4>
+
+<ul><li>
+<a id="pgfId-1198682"></a><a href="implementations.html#47265">Creating a Custom Implementation</a></li><li>
+<a id="pgfId-1198701"></a><a href="implementations.html#68190">Editing a Custom Implementation</a></li></ul>
+
+
+<h3>
+<a id="pgfId-1198624"></a><a id="47265"></a>Creating a Custom Implementation</h3>
+
+<p>
+<a id="pgfId-1195529"></a>To create a custom implementation: </p>
+<ol><li>
+<a id="pgfId-1197480"></a>Right-click anywhere in the <em>Implementations</em> pane and choose <em>Create Custom Implementation</em>. <br />
+<a id="pgfId-1198382"></a>The <a href="getStarted.html#94600">Implementations Editor</a> assistant is displayed in the <em>Create</em> mode.
+<br /><div class="webflare-div-image">
+<img width="647" height="425" src="images/implementations-49.gif" /></div></li><li>
+<a id="pgfId-1195530"></a>In the <em>Test</em> field, specify a test name. The test name helps in grouping multiple output expressions together. You can define multiple tests in a custom implementation. <br />
+<a id="pgfId-1198440"></a>The custom test is automatically created and displayed in the <em>Implementations</em> pane.
+<br /><div class="webflare-div-image">
+<img width="668" height="175" src="images/implementations-50.gif" /></div></li><li>
+<a id="pgfId-1198410"></a>In the <em>Output</em> field, specify an output name. </li><li>
+<a id="pgfId-1205115"></a>In the <em>Details</em> field, specify an <a href="implementations.html#outputExp">expression</a>. </li></ol>
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1198708"></a>The custom output is created and displayed with the specified expression in the <em>Implementations</em> pane.</p>
+
+<div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1206248"></a>
+You can add more implementations by clicking anywhere below the implementations list in the <em>Implementations</em> pane, and then selecting the <em>Create</em> mode in the Implementations Editor assistant.</div>
+
+<p>
+<a id="pgfId-1195890"></a>A custom implementation uses the same structure as a maestro implementation, such as <code>library/cell/view/history/test/output</code>. The test name in this structure helps in grouping the various output expressions. </p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1196574"></a>
+A custom implementation name is created using the default values <code>CustomL/C/V/H</code>. This does not create an actual implementation. Avoid modifying these default values. </div>
+<h4><em>
+<a id="pgfId-1206642"></a>Example: Creating an implementation for adding two outputs</em></h4>
+
+<p>
+<a id="pgfId-1206740"></a>To know the results after adding two outputs:</p>
+<ol><li>
+<a id="pgfId-1207527"></a>Specify an <a href="implementations.html#alias">alias</a> name to each value that you want to add.<br />
+<a id="pgfId-1208368"></a><br /><div class="webflare-div-image">
+<img width="603" height="154" src="images/implementations-52.gif" /></div></li><li>
+<a id="pgfId-1207598"></a>Create a custom implementation. </li><li>
+<a id="pgfId-1207647"></a>Specify the test and output names. </li><li>
+<a id="pgfId-1207648"></a>Click the <em>Pin</em> button to pin the Implementations Editor. </li><li>
+<a id="pgfId-1207649"></a>Drag and drop the output values to the <em>Details</em> field. <br />
+<a id="pgfId-1207791"></a>The output expressions are created automatically. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1207843"></a>An output expression is a combination of the output name and a string property which is a mathematical expression and defines the output.</div>
+<a id="pgfId-1208388"></a><br /><div class="webflare-div-image">
+<img width="616" height="271" src="images/implementations-53.gif" /></div></li><li>
+<a id="pgfId-1207650"></a>Add the &#39;<code>+</code>&#39; operator between the two expressions. 
+<br /><div class="webflare-div-image">
+<img width="637" height="129" src="images/implementations-54.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1195504"></a><a id="68190"></a>Editing a Custom Implementation</h3>
+
+<p>
+<a id="pgfId-1196217"></a>In ADE Verifier, a maestro implementation allows you to view the specifications set in the maestro cellview. On the contrary, if you have a custom implementation in your cellview, you can make changes to the values or edit the output expressions to modify your calculations. </p>
+<p>
+<a id="pgfId-1201372"></a>You can edit custom implementations in many ways as described in the following topics.</p>
+<ul><li>
+<a id="pgfId-1202148"></a><a href="implementations.html#72582">Editing a Single Custom Implementation</a></li><li>
+<a id="pgfId-1202155"></a><a href="implementations.html#78449">Editing Multiple Custom Implementations</a></li><li>
+<a id="pgfId-1202174"></a><a href="implementations.html#18985">Editing Output Expressions in Custom Implementations</a></li><li>
+<a id="pgfId-1202193"></a><a href="implementations.html#61979">Using Aliases in Custom Implementations</a></li></ul>
+
+
+
+
+<h4>
+<a id="pgfId-1201375"></a><a id="72582"></a>Editing a Single Custom Implementation</h4>
+
+<ol><li>
+<a id="pgfId-1200119"></a>In the <em>Implementations</em> pane, select the custom implementation. </li><li>
+<a id="pgfId-1200170"></a>Do one of the following:<ul><li>
+<a id="pgfId-1200493"></a>Double-click the required field to make it editable. 
+<br /><div class="webflare-div-image">
+<img width="557" height="102" src="images/implementations-55.gif" /></div></li><li>
+<a id="pgfId-1200487"></a>Right-click and choose <em>Modify Custom Implementation</em>. </li></ul><br />
+<a id="pgfId-1200519"></a>The Implementations Editor opens in the <em>Modify</em> mode. <br /><span class="indent-as-level2">
+<a id="pgfId-1200628"></a></span><br /><div class="webflare-div-image">
+<img width="629" height="452" src="images/implementations-56.gif" /></div></li><li>
+<a id="pgfId-1199684"></a>Specify the modified value. </li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1201428"></a><a id="78449"></a>Editing Multiple Custom Implementations</h4>
+
+<ol><li>
+<a id="pgfId-1199728"></a>With the <code>Ctrl</code> key pressed, select the custom implementations that you want to modify.</li><li>
+<a id="pgfId-1199979"></a>Right-click and choose <em>Modify Custom Implementations</em>. <br />
+<a id="pgfId-1200361"></a>The Implementations Editor is displayed in the <em>Modify</em> mode, and the <em>Library</em> field shows <em>&lt;various&gt;</em>. <br />
+<a id="pgfId-1200435"></a><br /><div class="webflare-div-image">
+<img width="648" height="330" src="images/implementations-57.gif" /></div></li><li>
+<a id="pgfId-1199729"></a>Specify the modified value. <br /><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1208524"></a>
+To reevaluate multiple custom implementations with a single click of the <em>Run</em> button, add all the corresponding expressions to a new custom implementation or group all the custom implementations into an implementation set. </div></li></ol>
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1201464"></a><a id="18985"></a>Editing O<a id="outputExp"></a>utput Expressions in Custom Implementations</h4>
+
+<p>
+<a id="pgfId-1200320"></a>To edit output expressions: </p>
+<ol><li>
+<a id="pgfId-1200321"></a>Select the custom implementations that you want to modify.</li><li>
+<a id="pgfId-1200322"></a>Right-click and choose <em>Modify Custom Implementations</em>. </li><li>
+<a id="pgfId-1200323"></a>Do one of the following: <ul><li>
+<a id="pgfId-1200925"></a>Use the <code>getValue</code> function or specify a SKILL statement block to retrieve the result values. </li><li>
+<a id="pgfId-1201163"></a>Click the <em>Pin</em> button on the top right corner of the Implementations Editor to pin it to the current selection. Then drag and drop any output to the <em>Details</em> field to insert <code>getValue</code> functions automatically. <ul><li>
+<a id="pgfId-1205295"></a>Pinning ensures that pin the assistant to the current selection, and clicking any other item in the hierarchy will not change the displayed values. </li><li>
+<a id="pgfId-1205267"></a>To unpin the assistant, click the Pin button again. The Pin button is displayed with a diagonal strike-through in the unpinned state and the original selection is restored.</li></ul></li><li>
+<a id="pgfId-1200316"></a>Drag and drop a SKILL script file into this field. </li></ul></li><li>
+<a id="pgfId-1201189"></a>Click another field or press the <code>Ctrl + S</code> key combination to set the details.</li></ol>
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1198991"></a>For calculations, the following SKILL functions are available within the Implementations Editor: </p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1199497"></a>
+These functions cannot be used outside the Implementations Editor. </div>
+
+<p>
+<a id="pgfId-1206534"></a></p>
+<table class="webflareTable" id="#id1199502">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1199089">
+<a id="pgfId-1199089"></a>Function </span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1199091">
+<a id="pgfId-1199091"></a>Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1198992"></a><code>getValue(outputName)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1199401"></a>Returns result values from maestro implementations and is defined only in the local environment of the custom expression. The function fetches the <em>Min</em> or <em>Max</em> values according to the <em>Min</em> or <em>Max</em> output calculated.</p>
+<p>
+<a id="pgfId-1202104"></a>To explicitly get <em>Min</em> or <em>Max</em> values, use: </p>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1199095"></a>?key [&quot;min&quot;|&quot;max&quot;]</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1198995"></a><code>getSession()</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1198996"></a>Returns the current Verifier session number.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1201026"></a><code>getPath()</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1198998"></a>Returns the hierarchical path or parts of the path of the selected custom output.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202249"></a><code>getLib()</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202251"></a>Returns the hierarchical library of the selected custom output.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202264"></a><code>getCell()</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202266"></a>Returns the hierarchical cell of the selected custom output.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202277"></a><code>getView()</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202279"></a>Returns the hierarchical view of the selected custom output.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202285"></a><code>getHistory()</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202287"></a>Returns the hierarchical history of the selected custom output.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202311"></a><code>getTest()</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202313"></a>Returns the hierarchical test of the selected custom output.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202323"></a><code>getOutput()</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1202325"></a>Returns the hierarchical output of the selected custom output.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1198999"></a><code>getKey()</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1199000"></a>Returns the Min or Max value being calculated. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1199001"></a><code>expandAlias(alias)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1198940"></a>Returns the expanded string value of the alias provided.</p>
+</td>
+</tr>
+</tbody></table>
+
+<h4><em>
+<a id="pgfId-1199080"></a>Related Topics:</em></h4>
+
+<p>
+<a id="pgfId-1206562"></a><a href="implementations.html#39563">Example: Combining Multiple Pass/Fail Results</a></p>
+<p>
+<a id="pgfId-1206635"></a><a href="implementations.html#36941">Example: Combining Min or Max Values in Custom Implementations</a></p>
+
+<h4>
+<a id="pgfId-1198921"></a><a id="61979"></a>Using Alias<a id="alias"></a>es in Custom Implementations</h4>
+
+<p>
+<a id="pgfId-1198948"></a>In ADE Verifier, the hierarchy lists the complete structural path of an implementation to uniquely identify an implementation. This causes the implementation title to become lengthy and difficult to read. By using aliases, you can reference specific values, such as an implementation, test, or output. An alias is a short and readable reference to a specific value and must be unique within the ADE Verifier cellview. </p>
+<p>
+<a id="pgfId-1206165"></a></p>
+
+<div class="webflare-div-image">
+<img width="659" height="231" src="images/implementations-58.gif" /></div>
+
+<p>
+<a id="pgfId-1203364"></a>An alias is a SKILL variable defined in the local environment of the expression to reference an output. The variable value is a string corresponding to the referenced output in the following format: </p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1201636"></a>getValue(myOutput) = getValue(&quot;myLib/myCell/myView/myHistory/myTest/myOutput&quot;)</pre>
+
+<p>
+<a id="pgfId-1201637"></a>To combine alias and strings, use the <code>strcat</code> function: </p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1201638"></a>getValue(strcat(TestAlias &quot;/out1&quot;))</pre>
+
+<p>
+<a id="pgfId-1202994"></a>To get comprehensive details in error messages, use the <code>expandAlias</code> function: </p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1202995"></a>getValue(expandAlias(&quot;myOutput&quot;))</pre>
+
+<p>
+<a id="pgfId-1201639"></a>To refer to other references, use these commands sequentially:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1201640"></a>getValue(r1-&gt;r2-&gt;myOutput) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1201641"></a>getValue(expandAlias(&quot;{r1/r2}myOutput&quot;))</pre>
+
+<p>
+<a id="pgfId-1198947"></a>To specify an alias: </p>
+<ol><li>
+<a id="pgfId-1198949"></a>Right-click a custom implementation or a test or an output from a custom implementation, and choose <em>Modify Custom Implementation</em>. <br />
+<a id="pgfId-1204628"></a>The Implementations Editor assistant is displayed. </li><li>
+<a id="pgfId-1204468"></a>In the <em>Alias</em> field, specify an alias name. The selected item can be referenced using the specified alias in <code>getValue</code> expressions.<br />
+<a id="pgfId-1205487"></a>Alternatively, select the <em>Alias</em> column to show in the Implementations pane and specify the alias value inline. </li></ol>
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1199358"></a><a id="39563"></a>Example: Combining Multiple Pass/Fail Results </em></h4>
+
+<p>
+<a id="pgfId-1199379"></a>Assume that you want an output to pass only if multiple requirements have passed. Using the <code>getSession</code> function, you can combine the status of failed requirements by adding their failed points. If any point fails, its output fails as well. </p>
+<p>
+<a id="pgfId-1199375"></a></p>
+
+<div class="webflare-div-image">
+<img width="655" height="231" src="images/implementations-59.gif" /></div>
+<h4><em>
+<a id="pgfId-1199078"></a><a id="36941"></a>Example: Combining Min or Max Values in Custom Implementations</em></h4>
+
+<p>
+<a id="pgfId-1199342"></a>To combine <em>Min</em> and <em>Max</em> values in an output expression, use:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1199344"></a>case(getKey()<br />  (&quot;min&quot; getValue(xxx ?key &quot;max&quot;) )<br />  (&quot;max&quot; getValue(xxx ?key &quot;min&quot;)+ getValue(xxx ?key &quot;max&quot;)))</pre>
+
+<p>
+<a id="pgfId-1202840"></a></p>
+
+<div class="webflare-div-image">
+<img width="664" height="233" src="images/implementations-60.gif" /></div>
+
+<p>
+<a id="pgfId-1202845"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="requirements.html" id="prev" title="Managing Requirements">Managing Requirements</a></em></b><b><em><a href="simulate.html" id="nex" title="Managing Implementation Runs">Managing Implementation Runs</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

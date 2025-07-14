@@ -1,0 +1,1533 @@
+
+<html><head><title>Preparing the Design: Using Mixed Languages</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jommy" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864907" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Preparing the Design: Using Mixed Languages" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864907" />
+<meta name="NextFile" content="Real_Number_Modeling.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Preparing_the_Design__Using_Analog_Primitives_and_Subcircuits.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Preparing the Design: Using Mixed Languages" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+<script type="text/javascript" src="styles/shCore1.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shCore.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shBrushCpp.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shBrushJava.js">/*<![CDATA[*//*]]>*/</script><link rel="stylesheet" href="styles/shCoreDefault.css" type="text/css" /><script type="text/javascript">/*<![CDATA[*/
+SyntaxHighlighter.all();
+/*]]>*/</script>
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Preparing_the_Design__Using_Analog_Primitives_and_Subcircuits.html" title="Preparing_the_Design__Using_Analog_Primitives_and_Subcircuits">Preparing_the_Design__Using_An ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Real_Number_Modeling.html" title="Real_Number_Modeling">Real_Number_Modeling</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <div style="width: 100%; font-size: 32px; text-align: left;               font-weight: bold;">8</div>
+<h1 style="margin: 4px 0 4px;"><span>Preparing the Design: Using Mixed Languages</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1031927"></span></p>
+
+<p>When preparing your design using mixed languages, consider the following topics:</p>
+
+<p></p>
+<div class="toc-macro rbtoc1572864885516">
+<ul class="toc-indentation">
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-ImportingVerilog-AMSModulesintoVHDL1035201">Importing Verilog-AMS Modules into VHDL</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-ConnectingVHDLandVHDL-AMSBlockstoVerilogandVerilog-AMSBlockswrealCoercionwrealCoerciondirectConnections1033420">Connecting VHDL and VHDL-AMS Blocks to Verilog and Verilog-AMS Blocks &#160; &#160; &#160;</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-MappingVerilog-AMSDisciplinestoVHDL-AMSNaturesMAPN2D1034311">Mapping Verilog-AMS Disciplines to VHDL-AMS Natures</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-UsingInheritedConnectionsinVHDL-AMSinhConnVHDL-AMS1036866">Using Inherited Connections in VHDL-AMS</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-UsingStringTypeLiteralsandGenericsinVHDL-AMSstring_analog_context">Using String Type Literals and Generics in VHDL-AMS</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-ConnectingVHDLBlockstoSPICEBlocksVHDL_SPICE1042418">Connecting VHDL Blocks to SPICE Blocks &#160;</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-UsingVerilog-AMSConnectModulesforVHDL-SPICEConnectionvhdl_spice_connectionvhdl_spice_connection">Using Verilog-AMS Connect Modules for VHDL-SPICE Connection &#160;</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-UsingVerilog-AModulesinSPICEBlocksahdl_include1063178">Using Verilog-A Modules in SPICE Blocks</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-UsingSPICE-on-Top1052677">Using SPICE-on-Top</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-UsingSPICE-in-the-MiddleSPICE-in-the-middle1066571">Using SPICE-in-the-Middle</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-Using-keepcase4use5x">Using -keepcase4use5x</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-ConnectingVerilog-AMSVectorBusestoSPICESubcircuitsVAMSbusToSPICEbus1038055">Connecting Verilog-AMS Vector Buses to SPICE Subcircuits</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-UsingPortExpressionswhenConnectingtoAnalogportExpressionsVerilogSPICE1033606">Using Port Expressions when Connecting to Analog</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-AccessingSPICENetsinsideaVerilogDesigncds_spice1039352">Accessing SPICE Nets inside a Verilog Design</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-ReusingMixed-LanguageTestbenchestestbenchreuse1039361">Reusing Mixed-Language Testbenches</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-FetchingValuesAssociatedwithanAnalogObjectfetching_power_value1070525">Fetching Values Associated with an Analog Object</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-UsingtheStrength-BasedInterfaceElement(SIE)SIE1060263">Using the Strength-Based Interface Element (SIE)</a></li>
+<li><a href="#PreparingtheDesign:UsingMixedLanguages-SystemVerilogandAMSExtensions">SystemVerilog and AMS Extensions</a></li>
+</ul>
+</div>
+
+<p>See also &quot;<a href="Real_Number_Modeling.html#RealNumberModeling-1060511">Using the wreal Data Type</a>.&quot;</p>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-ImportingVerilog-AMSModulesintoVHDL1035201">Importing Verilog-AMS Modules into VHDL<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1035201"></span></h2>
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>This technique for importing Verilog-AMS modules into VHDL requires the use of the Cadence<sup>&#174;</sup>library.cell:view configurations, sometimes referred to as 5x configurations, for elaboration.</p>
+</div>
+</div>
+
+<p>Verilog-AMS is a mixed-signal language and VHDL is digital only. If you want to import a Verilog-AMS module that has explicitly declared analog ports into VHDL, you must first wrap the Verilog-AMS module so that it appears to the simulator to be a VHDL module. When you wrap a Verilog-AMS module, there are two shells: A digital Verilog shell wrapped in a VHDL shell. To generate these shells, you use the <code><a href="#PreparingtheDesign:UsingMixedLanguages-1031976">xmshell</a></code>&#160;command.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If the Verilog-AMS module you want to import has<code>&#160;wire&#160;</code>or explicitly declared digital ports, you do not need shells because the elaborator can make the necessary connections. If you are uncertain as to whether you need shells or not, you can try elaborating without shells. If you need shells, the elaborator returns a message similar to the following:</p>
+
+<p><code>xmelab: *E,AMSILC: Illegal port connection - :top:verilog_cell.v_a is an analog port (line: 6, file: ./foo.v) and it cannot be connected directly to a VHDL digital signal above.</code></p>
+</div>
+</div>
+
+<p>See the following topics for details:</p>
+<ul><li><a href="#PreparingtheDesign:UsingMixedLanguages-1031976"> Using the xmshell Command </a></li></ul><ul><li><a href="#PreparingtheDesign:UsingMixedLanguages-1031984"> Performing the Steps to Import a Verilog-AMS Module </a></li></ul><h3 id="PreparingtheDesign:UsingMixedLanguages-UsingthexmshellCommandncshell1031976">Using the xmshell Command<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-ncshell"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1031976"></span></h3>
+
+<p>The following section describes only those options required to import Verilog-AMS modules (that have explicitly declared analog ports) into VHDL modules. For detailed information about using the <code>xmshell</code>&#160;command, see &quot;Generating a Shell with xmshell&quot; in the &quot;Mixed Verilog/VHDL Simulation&quot; chapter of<span style="color: rgb(0,0,0);"> <em> Cadence VHDL Simulation User Guide</em>.</span></p>
+
+<p><span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;font-size: small;"> <span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;"> <strong>xmshell</strong> </span> <span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;"> <strong>-import</strong> </span> <span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;"> <strong>verilog -ams -into</strong> </span> <span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;"> <strong>vhdl</strong> </span>[<code> other_options </code>]<em> <code> lib</code> <span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;"> <strong>.</strong> </span> <code>cell</code> <span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;"> <strong>:</strong> </span> <code> view</code> </em> </span></p>
+<div class="table-wrap"><table cellpadding="4" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /><col /></colgroup><tbody><tr><td class="confluenceTd" valign="top" width="192">
+<p><code>-import verilog </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Indicates that the imported model is Verilog, Verilog-A, or Verilog-AMS</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192"><div class="content-wrapper">
+<p><code>-ams<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-ncshell_ams"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Indicates that the imported model is a Verilog-AMS (or Verilog-A) module</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="192">
+<p><code>-into vhdl </code></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Indicates that you want to import the model into a VHDL module</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" rowspan="4" valign="top" width="192">
+<p><code>other_options </code></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<p><br /></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top" width="456">
+<p>Zero or more of the following options or the options described in &quot;xmshell Command Options&quot; in the &quot;Mixed Verilog/VHDL Simulation&quot; chapter of the<span style="color: rgb(0,0,0);"><em> Cadence VHDL Simulation User Guide</em>.</span></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top" width="132">
+<p><code>-package</code> <code> name </code></p>
+</td>
+<td class="confluenceTd" valign="top" width="324">
+<p>Enables you to specify the package name for the VHDL package that <code>xmshell</code> generates.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-view </code> <code>name </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Enables you to specify the cellview name to use for the digital Verilog shell and for the architecture name of the VHDL shell.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-generic </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>If the imported Verilog-AMS module has parameters, you must use this option to make those parameters available in the shell.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><em><code>lib</code><code>.</code><code>cell</code><code>:</code><code>view </code> </em></p>
+</td>
+<td class="confluenceTd" colspan="2" valign="top">
+<p>Specifies the compiled design unit you want to import</p>
+
+<p><strong>Note</strong>: <span>If you have not compiled the design unit, you can add the -</span><code>analyze</code> <span> option to the </span><code>xmshell</code> <span> command.</span></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>For example, if<code> comparator </code>is a compiled Verilog-AMS module that uses parameters, you can create a shell for it using the following command:</p>
+
+<p><code> xmshell -import verilog -ams -into vhdl -generic comparator </code></p>
+
+<p>If <code>comparator</code>&#160;is not a compiled Verilog-AMS module, you can use the <code>-analyze</code>&#160;option as follows to specify the source file that contains the<code> comparator </code>module:</p>
+
+<p><code> xmshell -import verilog -ams -into vhdl -generic -analyze comparator.vams comparator</code></p>
+<div>
+<p><br /></p>
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><code>xmshell</code> does not support the Verilog-AMS <a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a> port type.</p>
+</div>
+</div>
+
+<p><br /></p>
+</div>
+<h3 id="PreparingtheDesign:UsingMixedLanguages-PerformingtheStepstoImportaVerilog-AMSModule1031984">Performing the Steps to Import a Verilog-AMS Module<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1031984"></span></h3>
+
+<p>To import a Verilog-AMS module with explicitly declared analog ports into VHDL, do the following:</p>
+<ol><li>Use the<code> xmvlog </code>compiler to compile the Verilog-AMS source code for the module that you want to import.</li><li>Use the <code>xmshell</code>&#160;command to generate model import shells for the module you want to import.<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1032180"></span></li><li>In the source VHDL file, specify the architecture name to be used for entity.<br /> <br />If you specified the <code>-view</code> option for the <code>xmshell</code> utility in the previous step, use that name for the architecture. If you did not specify the <code>-view</code> option, use <code>verilog</code> for the architecture name.</li><li>Add a clause in the source VHDL file to specify the package.<br /><br />If you specified the <code>-package</code> option for the xmshell command in&#160;<a href="#PreparingtheDesign:UsingMixedLanguages-1032180">step 2</a>, use a clause such as<br /> <code>use <code style="color: rgb(0,0,0);">library.</code>
+      <code style="color: rgb(0,0,0);">
+        <em>packagename</em>.</code>
+    </code> <span style="color: rgb(0,0,0);"> <code>all;<br /><br />
+      </code> </span>If you did not specify the -package option, use a clause such as<br />use<code style="color: rgb(0,0,0);"> library.</code> <span style="color: rgb(0,0,0);">HDLModels.all;</span></li><li>Compile all VHDL source code using<code> xmvhdl.</code></li><li>Elaborate the design using the<code> xmelab </code>elaborator.</li></ol>
+<p>For example, to import the Verilog-AMS module in the file <code>comparator_analog.v</code>:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">`include &quot;discipline.vams&quot;
+`include &quot;constants.vams&quot;
+
+module comparator(cout, inp, inm);
+&#160;&#160;&#160;&#160;output cout;
+&#160;&#160;&#160;&#160;input inp, inm;
+&#160;&#160;&#160;&#160;electrical cout, inp, inm; // The ports are explicitly analog
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// so shelling is required.
+&#160;&#160;&#160;&#160;parameter real td = 1n, tr = 1n, tf = 1n;
+&#160;&#160;&#160;&#160;parameter integer i = 4.5, j = 5.49;
+endmodule</pre>
+</div>
+</div>
+
+<p>do the following:</p>
+<ol><li>Compile the Verilog-AMS source code.<br /><code>xmvlog -ams -use5x comparator_analog.v</code><br />If your working library is <code>amsLib</code>, this command compiles the module comparator into <code>amslib.comparator:module</code>. The <code>-use5x</code> option is used because 5x configurations are used later to elaborate the design.</li><li>
+<p>Generate model import shells using<code> xmshell.</code> The argument to the<code> xmshell&#160;</code>command is the Library.Cell:View specification for the compiled module.<br /><code>xmshell -import verilog -ams -into vhdl -generic amslib.comparator:module<br />
+    </code>This command generates two shells. The digital Verilog shell, generated in the file <code>comparator.vds</code>, looks like this:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module comparator(cout, inp, inm);
+&#160;&#160;&#160;&#160;output cout ;
+&#160;&#160;&#160;&#160;input inp ;
+&#160;&#160;&#160;&#160;input inm ;
+
+&#160;&#160;&#160;&#160;parameter td = 1.000000e09, tr = 1.000000e-09, tf = 1.000000e-09,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;i = 5, j = 5 ;
+
+&#160;&#160;&#160;&#160;comparator #(.td(td), .tr(tr), .tf(tf))
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(* integer view_binding=&quot;module&quot;; *) comparator1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(.cout(cout), .inp(inp), .inm(inm));
+endmodule</pre>
+</div>
+</div>
+
+<p>This module has an instance <code>comparator1</code> of the same cell name <code>comparator</code>. It also has a view binding attribute module, which binds the instance to the <code>amslib.comparator:module</code> view. The source that is compiled into the <code>amslib.comparator:module</code> view is a Verilog-AMS description. This switches the elaborator into using the Verilog-AMS language.<br /><br />The VHDL shell, generated in a file called <code>comparator.vhd</code>, looks like this:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">library ieee;
+use ieee.std_logic_1164.all;
+entity comparator is
+&#160; &#160; generic (
+&#160; &#160; &#160; &#160; &#160;td: real := 1.000000e-09;
+&#160; &#160; &#160; &#160; &#160;tr: real := 1.000000e-09;
+&#160; &#160; &#160; &#160; &#160;tf: real := 1.000000e-09,
+&#160; &#160; &#160; &#160; &#160;i: integer := 5,
+&#160; &#160; &#160; &#160; &#160;j: integer := 5
+&#160; &#160; );
+&#160; &#160; port (
+&#160; &#160; &#160; &#160; &#160;cout: out std_logic;
+&#160; &#160; &#160; &#160; &#160;inp: in std_logic;
+&#160; &#160; &#160; &#160; &#160;inm: in std_logic
+&#160; &#160; );
+end comparator;
+
+architecture verilog of comparator is
+&#160; &#160; attribute foreign of verilog:architecture is &quot;VERILOG(event)
+&#160; &#160; amslib.comparator:digital_shell&quot;;
+begin
+end;</pre>
+</div>
+</div>
+
+<p>Notice that the name of the architecture in the shell defaults to verilog.<br /><br />The architecture <code>verilog</code> has a foreign attribute <code>amslib.comparator:digital_shell</code>, which tells the elaborator that the architecture is actually a shell for the Verilog module compiled into the view <code>amslib.comparator:digital_shell</code>. This attribute causes the elaborator to switch from the VHDL language into digital Verilog.<br /><br />The <code>xmshell</code> utility also generates the following VHDL component declaration in the file <code>comparator_comp.vhd</code>:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">library ieee;
+use ieee.std_logic_1164.all;
+
+package HDLModelsis
+
+component comparator
+generic (
+&#160; &#160; td: real := 1.000000e-09;
+&#160; &#160; tr: real := 1.000000e-09;
+&#160; &#160; tf: real := 1.000000e-09,
+&#160; &#160; &#160;i: integer := 5,
+&#160; &#160; &#160;j: integer := 5
+);
+
+port (
+&#160; &#160; cout: out std_logic;
+&#160; &#160; inp: in std_logic;
+&#160; &#160; inm: in std_logic
+);
+end component;
+
+end HDLModels;</pre>
+</div>
+</div>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>In Verilog-AMS, identifiers are case sensitive. By default, mixed-case and uppercase identifiers in Verilog-AMS are escaped in VHDL shells. For example, if the Verilog-AMS module is <code>Vlog</code>, this identifier appears in the VHDL shell as <code>\Vlog\</code>. Use the <code>-noescape</code> option if you want the Verilog-AMS module name to be matched exactly in the shell. Do not set the <code>CDS_ALT_NMP</code> environment variable, which is not supported.</p>
+</div>
+</div>
+</li><li>
+<p>In the source VHDL file, specify that architecture<code> verilog</code>&#160;is to be used for entity <code>comparator</code>&#160;(because this example uses the default value). Add the<code> use </code>clause (using the default version). With these changes, the source VHDL file for this example looks like:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-- top.vhd
+library ieee;
+use ieee.std_logic_1164.all;
+use work.HDLModels.all;
+entity top is
+end top;
+
+architecture testbench of top is
+&#160;&#160;&#160;&#160;signal in1, in2, output : std_logic;
+&#160;&#160;&#160;&#160;for all: comparator use entity work.comparator(verilog);
+begin
+
+test: process begin
+&#160;&#160;&#160;&#160;in1 &lt;= &#39;0&#39;;
+&#160;&#160;&#160;&#160;in2 &lt;= &#39;0&#39;;
+&#160;&#160;&#160;&#160;wait;
+end process;
+
+comparator12: comparator port map(output, in1, in2);
+
+end;</pre>
+</div>
+</div>
+
+<p>The <code>for all</code> statement binds the comparator instance to the design unit in amslib.comparator:verilog, which is a compiled version of the architecture <code>verilog</code>.</p>
+</li><li>Compile the top-level VHDL file (<code>top.vhd</code>) and the VHDL package generated earlier by<code> xmshell</code>.<code><br /><br />xmvhdl -v93 comparator_comp.vhd top.vhd -use5x</code></li><li>Elaborate the design with<code> xmelab</code>. Assuming that the corresponding 5x configuration is<code> amslib.top:config </code>and that the <code>connectrules</code>&#160;module is compiled into<code> amslib.AMSconnect:module</code>, you can elaborate the design with a command such as<br /><br /><code>xmelab amslib.top:config AMSconnect -discipline logic <br /><br /></code>In this example, using the <code>-discipline logic</code>&#160;option sets the discipline of the shell ports to logic.</li></ol><h2 id="PreparingtheDesign:UsingMixedLanguages-ConnectingVHDLandVHDL-AMSBlockstoVerilogandVerilog-AMSBlockswrealCoercionwrealCoerciondirectConnections1033420">Connecting VHDL and VHDL-AMS Blocks to Verilog and Verilog-AMS Blocks<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-wrealCoercion"></span>&#160;<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-wrealCoercion"></span>&#160;<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-directConnections"></span>&#160;<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1033420"></span></h2>
+
+<p>The AMS Designer simulator supports the following direct connections between VHDL or VHDL-AMS, Verilog or Verilog-AMS, and SIE-based Interface Elements:</p>
+<ul><li>You can instantiate VHDL (digital) blocks in Verilog (digital) blocks and Verilog (digital) blocks in VHDL (digital) blocks.</li><li>
+<p>You can connect a Verilog<code> wire </code>to a VHDL<code> real </code>(when the VHDL <code>real</code>&#160;is below); the software treats the <code>wire</code>&#160;as a Verilog-AMS<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a> </span>signal.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>When you instantiate a VHDL block containing <code>real</code> signal ports on a schematic, you create a connection of VHDL <code>real</code> signals to Verilog-AMS wires from above. In such a situation, the simulator coerces the Verilog-AMS <code>wire</code> to become a digital <code>wreal</code> to integrate such VHDL blocks into the AMS flow.</p>
+</div>
+</div>
+</li><li>You can connect a VHDL-AMS<code> real </code>signal to a Verilog-AMS<code> wire.</code> The software treats the<code> wire </code>as a Verilog-AMS<code> wreal </code>value. For example:<br /><code> entity vh3 is<br />&#160;&#160;&#160;&#160;port (vh3_port_net : IN real);<br />end;<br /><br />module top;<br />&#160;&#160;&#160;&#160;wire w;<br />&#160;&#160;&#160;&#160;vh3 v1(w); // w coerced to wreal<br />endmodule </code></li><li>You can connect VHDL bidirectional ports of type<code> real </code>to Verilog-AMS<code> wreals.</code> The resolution function used at the language boundaries is selected based on the drivers present. If there are no Verilog-AMS drivers present, the VHDL resolution function is used at the language boundary. If the Verilog-AMS drivers are present, the Verilog-AMS<code> wreal </code>resolution is selected to resolve the values at the mixed-language boundary. The resolution semantics on the signals that are not directly connected to the mixed-language boundary continue to follow the semantics of the language in which they are defined.</li><li>You can connect a VHDL-AMS terminal port to a Verilog (digital) net or a VHDL (digital) signal port of type<code> std_logic </code>or<code> std_ulogic </code>to a Verilog-AMS analog net.<br />The software manages discipline resolution, driver-receiver segregation, and connect module insertion (at the Verilog boundary) automatically. Connect modules are always Verilog-AMS connect modules (VHDL-AMS does not provide for using connect modules). The software supports driver access functions by querying the digital ports of connect modules.</li><li>You can connect a Verilog-AMS wreal net to a VHDL port of type<code> std_logic </code>when a Verilog-AMS wreal module is on top of a VHDL module. An R2L interface element is inserted between the wreal net and the<span style="color: rgb(0,0,0);"> std_logic </span>port.</li><li>You can connect a VHDL-AMS terminal or signal port to a Verilog-AMS analog or domainless net without using a shell.</li><li>You can connect a VHDL (digital)<code> real </code>signal port to a Verilog-AMS<code> wreal </code>net without using a shell.</li><li>You can connect a VHDL (digital)<code> real </code>vector to Verilog-AMS<code> wreal </code>array. Following are supported:<ul><li>Verilog instantiation of VHDL with wreal array in port connection</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>VHDL instantiation of Verilog with real vector in port connection</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>Input/output ports of the above</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>Verilog-VHDL-Verilog and VHDL-Verilog-VHDL connections</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>VHDL-derived real vector connections</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li><code> wrealXState </code>and<code> wrealZState </code>for VHDL/mixed-language design (see &quot;<a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-wreal2vhdl">wreal2vhdl</a>&quot;&#160;)</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>Reversed vector/array definitions ([1:0] vector/array definition connects to [0:1])<br /><br />If there is a mismatch in the port width in any of the above scenarios, the simulator generates an error.</li></ul></li><li>You can make composite connections between VHDL (digital) signals and Verilog-AMS nets.</li><li>Any VHDL connection to an SIE interface element must:<ul><li>Correctly collapse the VHDL portion of the net, just as with normal port connections</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>Take any VHDL drivers into account in the shadow input</li></ul></li><li>For SIE interface element to VHDL connection:<ul><li>Collapsed nets will include VHDL drivers</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>Resolved value of collapsed net will be fed back to VHDL</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>Shadow net will be fed by VHDL drivers converted to Verilog</li></ul></li><li>For a trangate to VHDL connection:<ul><li>Collapsed net, which is connected to tran network, will include converted VHDL drivers</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>Output of tran network will be fed to VHDL</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>Shadow net and tran network will include VHDL drivers</li></ul></li></ul><h2 id="PreparingtheDesign:UsingMixedLanguages-MappingVerilog-AMSDisciplinestoVHDL-AMSNaturesMAPN2D1034311">Mapping Verilog-AMS Disciplines to VHDL-AMS Natures<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-MAPN2D"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1034311"></span></h2>
+
+<p>The following table shows compatible mappings between Verilog-AMS disciplines and the predefined VHDL-AMS natures in the IEEE library and in the Cadence-provided VHDL-AMS variant of that library. The<code> disciplines.vams </code>file (that you normally include in your Verilog-AMS files) contains these discipline definitions. Using these mappings, you can connect Verilog-AMS components of one of the listed disciplines to a VHDL-AMS component of the corresponding nature.</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /></colgroup><tbody><tr><th class="confluenceTh" valign="middle" width="324">
+<p>Verilog-AMS Discipline</p>
+</th><th class="confluenceTh" valign="middle" width="324">
+<p>VHDL-AMS Nature</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> electrical </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> electrical </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> magnetic </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> magnetic </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> thermal </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> thermal </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> kinematic </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> translational </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> kinematic_v </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> translational_velocity </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rotational </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> rotational </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rotational_omega </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> rotational_velocity </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> None </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> fluidic </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> None </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> radiant </code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>To create a mapping between a user-defined nature and a discipline, you can use the<code> MAPN2D </code>statement in your<code> hdl.var </code>file. For more information, see &quot;<a href="Appendix_E__Using_the_Three-Step_Flow.html#AppendixE:UsingtheThree-StepFlow-mapn2dstatement">Mapn2d</a>&quot;.</p>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-UsingInheritedConnectionsinVHDL-AMSinhConnVHDL-AMS1036866">Using Inherited Connections in VHDL-AMS<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-inhConnVHDL-AMS"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1036866"></span></h2>
+
+<p>Using the AMS Designer simulator, you can define inherited connections in a VHDL-AMS entity and architecture (only on VHDL-AMS terminals) that you instantiate in a Verilog-AMS module. With inherited connections, you can inherit and use power and ground signals that you defined at a higher level of the hierarchy in a lower level of the design using net expressions. You can use these inherited connections instead of having to create explicit power and ground terminals at each level of the design hierarchy.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You can override VHDL-AMS inherited connections<code>&#160;netSet&#160;</code>properties in Verilog-AMS scope only. You cannot use<code>&#160;netSet&#160;</code>properties in VHDL-AMS scope. Also, you cannot use supply-sensitive attributes in VHDL-AMS scope. As a result, you cannot insert a supply-sensitive connect module at the boundary between Verilog-AMS and VHDL-AMS. Inherited connections in VHDL-AMS must be scalars only. You cannot define inherited connections that are VHDL arrays or electrical vectors.</p>
+</div>
+</div>
+
+<p>In VHDL-AMS, you define inherited connections using<code> inh_conn_prop_name </code>and<code> inh_conn_def_value </code>attributes as follows:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">package cds_inhconn_attr;
+&#160;&#160;&#160;attribute inh_conn_prop_name: string;
+&#160;&#160;&#160;attribute inh_conn_def_value: string;
+end cds_inhconn_attr;
+
+Use work.cds_inhconn_attr.all;
+
+Entity inh_conn_cell is
+&#160;&#160;&#160; &lt;code here&gt;
+End inh_conn_cell;
+
+Architecture demo of inh_conn_cell is
+&#160;&#160;&#160;terminal vdd: electrical;
+&#160;&#160;&#160;attribute inh_conn_prop_name of vdd : terminal is &quot;vddProp&quot;;
+&#160;&#160;&#160;attribute inh_conn_def_value of vdd : terminal is &quot;cds_globals.\vdd!\&quot;;
+Begin
+&#160;&#160;&#160; &lt;code here&gt;
+End demo of inh_conn_cell</pre>
+</div>
+</div>
+
+<p>The<code> vdd </code>terminal inherits the<code> vddProp </code>property which has a default value of<code> cds_globals.\vdd!\ </code>, where<code> cds_globals </code>is a Verilog module and<code> vdd! </code>is a global signal.</p>
+
+<p>You can instantiate a VHDL-AMS entity in a Verilog-AMS module and use an explicit Verilog-AMS<code> cds_net_set </code>expression for an inherited connection as follows:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module top;
+
+&#160;electrical local_net;
+inh_conn_cell
+&#160;&#160;&#160;&#160;(* integer cds_net_set[0:0]={&quot;vddProp&quot;};
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;integer vdd = &quot;cds_globals.\ \ vdd5v! &quot;;
+&#160;&#160;&#160;&#160;*)
+&#160;inst1();
+
+&#160;inh_conn_cell
+&#160;&#160;&#160;&#160;(* integer cds_net_set[0:0]={&quot;vddProp&quot;};
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;integer vdd = &quot;local_net&quot;; // Overriding using a local net
+&#160;&#160;&#160;&#160;*)
+&#160;inst2();
+
+Endmodule</pre>
+</div>
+</div>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-UsingStringTypeLiteralsandGenericsinVHDL-AMSstring_analog_context">Using String Type Literals and Generics in VHDL-AMS<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-string_analog_context"></span></h2>
+
+<p>You can use string type literals and generics in VHDL-AMS even if the objects are referenced in the analog context. For example:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">if (rfunc = &quot;cont&quot;) use
+-- Continuous linear resistance change during transition
+
+r_eff == r_sig&#39;ramp(tdbrk, tdmk);
+&#160;
+
+else
+
+-- Discontinuous resistance change during transition
+
+r_eff == r_sig;
+
+end use;</pre>
+</div>
+</div>
+
+<p>In the above example,<code> rfunc </code>is a string type generic.</p>
+
+<p>Currently, the AMS Designer simulator supports only built-in string types (defined in the STD package). The following are not supported:</p>
+<ul><li>String type signals, user-defined functions with string type arguments, user-defined functions returning a string type, or string type variables (referenced in the analog context)</li><li>Concatenation operator on string types used in the analog context</li><li>The<code> fred </code>and<code> succ </code>operators on string types used in the analog context.</li></ul><h2 id="PreparingtheDesign:UsingMixedLanguages-ConnectingVHDLBlockstoSPICEBlocksVHDL_SPICE1042418">Connecting VHDL Blocks to SPICE Blocks<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-VHDL_SPICE"></span>&#160;<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1042418"></span></h2>
+
+<p>Direct instantiation of SPICE blocks within a VHDL scope is supported only using the&#160;<code><a href="Using_xrun_for_AMS_Simulation.html">xrun</a></code>&#160;command flow. The three step method is not supported for VHDL-SPICE flows. Analogous to the Verilog-SPICE solution, AMSCB flow is required to specify SPICE blocks, boundary port maps and binding information. You can use the&#160;<a href="Using_an_amsd_Block.html#UsinganamsdBlock-1049882">portmap</a>&#160;and&#160;<a href="Using_an_amsd_Block.html#UsinganamsdBlock-1050512">config</a>&#160;mstatements in an&#160;<a href="Using_an_amsd_Block.html">amsd</a> block to specify port bindings at VHDL-SPICE boundaries.</p>
+
+<p>Here are some examples:</p>
+
+<p><code>amsd{</code><br /><code>&#160;&#160;&#160;&#160;portmap subckt=dummy_spice autobus=yes&#160;<a href="Using_an_amsd_Block.html#UsinganamsdBlock-1052263">refformat</a>=vhdl</code><br /><code>&#160;&#160;&#160;&#160;config cell=dummy_spice use=spice</code><br /><code>&#160;&#160;&#160;&#160;}</code></p>
+
+<p>and:</p>
+
+<p><code>amsd{</code><br /><code>&#160;&#160;&#160;&#160;portmap subckt=dummy_spice2 autobus=yes reffile=ref.vhd&#160;<a href="Using_an_amsd_Block.html#UsinganamsdBlock-1052263">refformat</a>=vhdl</code><br /><code>&#160;&#160;&#160;&#160;config cell=dummy_spice2 use=spice</code><br /><code>&#160;&#160;&#160;&#160;}</code></p>
+
+<p>In the example immediately above, the<code> reffile </code>contains a VHDL module that defines the port bindings to use from a VHDL parent to a SPICE subcircuit or instance. The&#160;<code>config&#160;</code>statement specifies<span style="color: rgb(0,0,0);"> which </span>SPICE cell (subcircuit) or instance.</p>
+
+<p>You can have user-defined types, subtypes, and records where VHDL connects to SPICE.</p>
+
+<p>Consider the following example of a 16x16-bit multiplier (<code>.SUBCKT mult16x16_spice</code>) with two 16-bit inputs (<code>A&lt;15:0&gt; </code>and<code> B&lt;15:0&gt;</code>), a clock input (<code>CLK</code>), and a 32-bit output (<code>P&lt;31:0&gt;</code>).</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">* SPICE file: &quot;mult16.net&quot;
+*****&#160;This&#160;is&#160;a&#160;16-bit&#160;x&#160;16-bit&#160;parallel&#160;unsigned&#160;multiplier&#160;**********
+*
+*&#160;&#160;&#160;A&lt;15:0&gt;&#160;16-bit&#160;multiplicant&#160;input
+*&#160;&#160;&#160;B&lt;15:0&gt;&#160;16-bit&#160;multiplier&#160;input
+*&#160;&#160;&#160;P&lt;31:0&gt;&#160;32-bit&#160;product&#160;output
+*&#160;&#160;&#160;PRD&lt;31:0&gt;&#160;32-bit&#160;product&#160;output&#160;befor&#160;the&#160;output&#160;register
+*&#160;&#160;&#160;CLK&#160;&#160;clock&#160;input
+*&#160;&#160;&#160;RegA&#160;16-bit&#160;input&#160;register(postive&#160;edge&#160;triggered)
+*&#160;&#160;&#160;RegB&#160;16-bit&#160;input&#160;register(postive&#160;edge&#160;triggered)
+*&#160;&#160;&#160;RegP&#160;32-bit&#160;output&#160;register(postive&#160;edge&#160;triggered)
+*
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;----
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;16&#160;&#160;|&#160;&#160;&#160;&#160;|
+*&#160;&#160;&#160;A&lt;15:0&gt;&#160;----/--&gt;|RegA|--------+
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;+----&gt;|&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;v&#160;&#160;&#160;&#160;&#160;
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;----&#160;&#160;&#160;&#160;----------&#160;&#160;PRD&lt;31:0&gt;
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;----
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;16x16&#160;&#160;&#160;|&#160;&#160;32&#160;&#160;&#160;|&#160;&#160;&#160;&#160;|
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|Multiplier|---/---|RegP|--/--&gt;&#160;P&lt;31:0&gt;
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;array&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;|&#160;&#160;32
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;+--&gt;|&#160;&#160;&#160;&#160;|
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;----------&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;----
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;----&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;^&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;16&#160;&#160;|&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;
+*&#160;&#160;&#160;B&lt;15:0&gt;&#160;----/--&gt;|RegB|-------+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;+----&gt;|&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;
+*&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;----&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;
+*&#160;&#160;&#160;&#160;&#160;&#160;CLK&#160;&#160;--+----------------------------+
+*
+***********************************************************************</pre>
+</div>
+</div>
+
+<p>You can create a VHDL&#160; <code>reffile</code> such as the following that defines the directions for the interface elements between SPICE and VHDL:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-- VHDL reffile: &quot;mult16x16_spice.vhd&quot;
+
+LIBRARY&#160;IEEE;
+USE&#160;&#160;&#160;&#160;&#160;IEEE.STD_LOGIC_1164.ALL;
+ENTITY&#160;mult16x16_spice&#160;IS
+&#160;&#160;&#160;&#160;PORT&#160;(
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;A&#160;:&#160;in&#160;std_logic_vector&#160;(&#160;15&#160;DOWNTO&#160;0&#160;);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;B&#160;:&#160;in&#160;std_logic_vector&#160;(&#160;15&#160;DOWNTO&#160;0&#160;);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;CLK&#160;:&#160;in&#160;&#160;std_logic;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;P&#160;:&#160;&#160;out&#160;std_logic_vector(&#160;31&#160;DOWNTO&#160;0&#160;));
+END&#160;ENTITY&#160;mult16x16_spice;</pre>
+</div>
+</div>
+
+<p>Your VHDL testbench might look like this:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">LIBRARY&#160;ieee;
+USE&#160;ieee.math_real.ALL;
+USE&#160;IEEE.STD_LOGIC_1164.ALL;
+&#160;USE&#160;&#160;&#160;&#160;&#160;IEEE.ELECTRICAL_SYSTEMS.all;
+LIBRARY&#160;STD;
+USE&#160;STD.textio.all;
+
+LIBRARY&#160;worklib;
+USE&#160;worklib.ALL;
+
+ENTITY&#160;top&#160;ISEND&#160;&#160;top;
+
+ARCHITECTURE&#160;bhv&#160;OF&#160;top&#160;IS
+&#160;&#160;SIGNAL&#160;sa&#160;:&#160;std_logic_vector&#160;(15&#160;downto&#160;0);
+&#160;&#160;SIGNAL&#160;sb&#160;:&#160;std_logic_vector&#160;(15&#160;downto&#160;0);
+&#160;&#160;SIGNAL&#160;sp&#160;:&#160;std_logic_vector&#160;(31&#160;downto&#160;0);
+&#160;&#160;SIGNAL&#160;sclk&#160;:&#160;std_logic;
+
+BEGIN
+&#160;&#160;&#160;Iclk:&#160;ENTITY&#160;work.clk_gen
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;PORT&#160;MAP&#160;(&#160;clk&#160;=&gt;&#160;sclk);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Iab:&#160;ENTITY&#160;work.a_b_gen
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;PORT&#160;MAP&#160;(&#160;clk&#160;=&gt;&#160;sclk,&#160;a&#160;=&gt;&#160;sa,&#160;b&#160;=&gt;&#160;sb);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;SPICE_DUT:&#160;ENTITY&#160;worklib.mult16x16_spice
+&#160;&#160;&#160;&#160;&#160;&#160;PORT&#160;MAP&#160;(sa&#160;,&#160;sb,&#160;sclk,&#160;sp);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;checka_d_da:&#160;&#160;ENTITY&#160;worklib.DA_AD_GENERIC_CHECKS;
+END&#160;ARCHITECTURE&#160;bhv;</pre>
+</div>
+</div>
+
+<p>In your control file, you include the SPICE file (which contains the <code>mult16x16_spice</code> subcircuit definition) using an <code>include</code> statement, and you specify the port bindings you want the elaborator to use at VHDL-SPICE boundaries using&#160;<code><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1049882">portmap</a></code>&#160;and&#160;<code><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1050512">config</a></code>&#160;statements in an&#160;<code><a href="Using_an_amsd_Block.html">amsd</a></code>&#160;block as follows:</p>
+
+<p><code>include &quot;mult16.net&quot;</code><br /><br /><code>amsd{</code><br /><code>&#160;&#160;&#160;&#160;&#160;portmap <strong>subckt=mult16x16_spice</strong> autobus=yes <strong>refformat=vhdl</strong></code><br /><code> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <strong>reffile=source/mult16x16_spice.vhd</strong></code><br /><code> &#160;&#160;&#160;&#160;&#160;config <strong>cell=mult16x16_spice use=spice</strong></code><br /><code> }</code></p>
+
+<p>The<code> portmap </code>statement, above, indicates that you want the elaborator to use the port bindings you defined in the VHDL file,<code> mult16x16_spice.vhd </code>, and apply them to the SPICE subcircuit,<code> mult16x16_spice.</code> The<code> config </code>statement indicates that you want the elaborator to use the SPICE definition for the<code> mult16x16_spice </code>cell.</p>
+
+<p>Further, you can specify conversion elements for the VHDL-to-SPICE connections using&#160;<code><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1073140">ce</a></code>&#160;statements:</p>
+
+<p><code>amsd{</code><br /><code>&#160;&#160;&#160;&#160;&#160;portmap subckt=mult16x16_spice autobus=yes refformat=vhdl</code><br /><code> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;reffile=source/mult16x16_spice.vhd</code><br /><code>&#160;&#160;&#160;&#160;&#160;config cell=mult16x16_spice use=spice</code><br /><code>&#160;&#160;&#160;&#160;&#160; <strong>ce</strong> name=worklib.std_logic2e dir=input type=std_logic genericmap=&quot;vsup 2.5&quot;</code><br /><code> &#160;&#160;&#160;&#160;&#160; <strong>ce</strong> name=worklib.e2std_logic dir=out type=std_logic genericmap=&quot;vsup 2.5&quot;</code><br /><code> }</code></p>
+
+<p>See &quot;<code><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1073140">ce</a></code>&quot;&#160;for more information.</p>
+<h3 id="PreparingtheDesign:UsingMixedLanguages-InstantiatingSPICEBuilt-InPrimitivesinVHDL-AMSandVHDL-Digitalspice_primitive">Instantiating SPICE Built-In Primitives in VHDL-AMS and VHDL-Digital<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-spice_primitive"></span></h3>
+
+<p>Cadence provides a methodology to instantiate SPICE primitives in VHDL-Digital and VHDL-AMS using the following methods:</p>
+<ul><li><a href="#PreparingtheDesign:UsingMixedLanguages-1051952"> Component Instantiation of SPICE Primitives in VHDL-AMS </a></li><li><a href="#PreparingtheDesign:UsingMixedLanguages-1051953"> Component Instantiation of SPICE Primitives in VHDL-Digital </a></li><li><a href="#PreparingtheDesign:UsingMixedLanguages-1051941"> Direct Instantiation of SPICE Primitives in VHDL-AMS </a></li><li><a href="#PreparingtheDesign:UsingMixedLanguages-1052357"> Instantiation of SPICE Primitives Through SPICE Models </a></li></ul><h4 id="PreparingtheDesign:UsingMixedLanguages-ComponentInstantiationofSPICEPrimitivesinVHDL-AMS1051952">Component Instantiation of SPICE Primitives in VHDL-AMS<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1051952"></span></h4>
+
+<p>Cadence provides a package file containing predefined VHDL components corresponding to some of the common SPICE primitives. This file is located at:</p>
+
+<p><code> ${CDS_INST_DIR}/tools/affirma_ams/etc/vhdlams_spice_primitives/cds_spice_primitives.vhms </code></p>
+
+<p>You can use the appropriate component from this file to instantiate the SPICE primitives you need. If none of the predefined components suits your needs, you can define your own VHDL component to instantiate the SPICE primitive.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>Generic <code>cds_gm</code> is hardcoded to be used for general SPICE parameters with the exception of<code>&#160;real&#160;</code>vectors.</p>
+</div>
+</div>
+
+<p>If you want to instantiate a<code> resistor </code>in VHDL-AMS, you could define a component and instantiate the component as follows. The tool will verify that the component name<code> resistor </code>is a SPICE primitive and the instance<code> r1 </code>will be an instantiation of the SPICE primitive<code> resistor.</code></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">ARCHITECTURE .....
+COMPONENT resistor IS
+GENERIC (r : real);
+PORT (TERMINAL x : ELECTRICAL;
+TERMINAL y : ELECTRICAL);
+END COMPONENT;
+TERMINAL p1, p2 : ELECTRICAL;
+BEGIN
+r1 : resistor GENERIC MAP (1000.0) PORT MAP (p1, p2);
+END;</pre>
+</div>
+</div>
+
+<p>If the name of the VHDL component defined does not match a SPICE primitive name, you can use the VHDL attribute<code> cds_spice_builtin</code>&#160;to rename the component, as shown in the following example. With this attribute, the instances of <code>myresistor</code>&#160;will become instantiations of the SPICE <code>primitive resistor</code>.</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">COMPONENT myresistor IS
+GENERIC (r : real);
+PORT (TERMINAL x : ELECTRICAL;
+TERMINAL y : ELECTRICAL);
+END COMPONENT;
+attribute cds_spice_builtin of myresistor : component is &quot;resistor&quot;;</pre>
+</div>
+</div>
+<h4 id="PreparingtheDesign:UsingMixedLanguages-ComponentInstantiationofSPICEPrimitivesinVHDL-Digital1051953">Component Instantiation of SPICE Primitives in VHDL-Digital<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1051953"></span></h4>
+
+<p>When VHDL digital signals connect to SPICE primitives, you need to create your own components for the SPICE primitives and instantiate the components. In this scenario, CEs will be required and need to be precompiled, which will be automatically inserted by the tool.</p>
+
+<p>For example, if you want to instantiate a resistor in VHDL-Digital, you could define a component and instantiate the component as shown in the following example. The tool will insert the CE automatically for <code>p1 </code>and<code> p2.</code> The instance <code>r1 </code>will be an instantiation of the <code>resistor</code>&#160;SPICE primitive.</p>
+
+<p><code> COMPONENT resistor IS</code><br /><code>&#160; &#160; GENERIC (r : real);</code><br /><code>&#160; &#160; PORT (SIGNAL x : out STD_LOGIC;</code><br /><code>&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; SIGNAL y : in  STD_LOGIC);</code><br /><code>END COMPONENT;</code><br /><code>&#160; &#160; SIGNAL p1, p2 : STD_LOGIC;</code><br /><code>begin</code><br /><code>&#160; &#160; r1 : resistor GENERIC MAP (1000.0) PORT MAP (p1, p2);</code><br /><code>ends;</code></p>
+<h4 id="PreparingtheDesign:UsingMixedLanguages-DirectInstantiationofSPICEPrimitivesinVHDL-AMS1051941">Direct Instantiation of SPICE Primitives in VHDL-AMS<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1051941"></span></h4>
+
+<p>Direct instantiation of SPICE primitives is supported through the use of a Cadence-provided file that contains some predefined common skeletons for built-in primitives. This file is located at:</p>
+
+<p><code> ${CDS_INST_DIR}/tools/affirma_ams/etc/vhdlams_spice_primitives/cds_spice_primitives_entities.vhms </code></p>
+
+<p>In the skeletons, parameters such as port type, generic type, name, etc. are hardcoded. The predefined file needs to be precompiled also. If none of the predefined skeletons in this file suit your requirement, use component instantiation.</p>
+<h4 id="PreparingtheDesign:UsingMixedLanguages-InstantiationofSPICEPrimitivesthroughSPICEModels1052357">Instantiation of SPICE Primitives through SPICE Models<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1052357"></span></h4>
+
+<p>You can instantiate SPICE models as SPICE built-in primitives by specifying the model file with<code> MODELPATH </code>option of the<code> xrun </code>command, as shown in the following example.</p>
+
+<p><code> xrun -modelpath model.ckt ..... </code></p>
+
+<p>model.ckt:</p>
+
+<p><code> simulator lang = spectre </code></p>
+
+<p><code> model myresistor resistor r=1 l=2u w=2u </code></p>
+
+<p>SPICE model instantiation:</p>
+
+<p><code> component myresistor is -- model of resistor, defined in model.ckt </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;port (terminal a, b : electrical); </code></p>
+
+<p><code> end component;</code></p>
+
+<p><code> r2 : myresistor port map (a, b);</code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You can also specify model files for an analog device using the<code>&#160;include&#160;</code>statement in the AMS control file.</p>
+</div>
+</div>
+<h3 id="PreparingtheDesign:UsingMixedLanguages-VHDL-SPICEConversionElementOptimizationvhdl_spice_ce_optimization">VHDL-SPICE Conversion Element Optimization<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-vhdl_spice_ce_optimization"></span></h3>
+
+<p>The VHDL-D and SPICE blocks in a design are connected together using a Conversion Element (CE). CE optimization is a process to ensure that minimum number of CEs are required for a given hierarchical or local net that connects one or more SPICE blocks in a design. All unnecessary CEs in the design are eliminated to optimize the design performance.</p>
+
+<p>The VHDL-SPICE CE optimization is performed in the scenarios discussed below as follows:</p>
+<ul><li><span style="color: rgb(0,0,0);"> <strong>A single SPICE block is connected to a VHDL-D signal that is not read by or written to by any other VHDL-D signal<br /></strong> </span>In such a scenario, remove the CE from the SPICE block. The connected VHDL-D signal is treated as analog for computation purpose.</li><li><span style="color: rgb(0,0,0);"> <strong>Two or more SPICE blocks are connected to each other through a VHDL-D net (either hierarchical or local) that is not read by or written to by any other VHDL-D signal</strong> <br /></span>In such a scenario, remove the CEs from all the SPICE blocks. The VHDL-D interconnect is treated as analog for computation purpose.</li><li><span style="color: rgb(0,0,0);"> <strong>Two or more SPICE blocks are connected to each other through a VHDL-D net (either hierarchical or local) that is read by or written to by other VHDL-D signals</strong> <br /></span>In such a scenario, consider the following cases for each net connection:<ul><li>If the direction of all SPICE ports connected to the VHDL-D net is the same, keep any one of the CEs and ignore all others. This ensures that there is only one CE between all the SPICE blocks and the VHDL-D signals.</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>If the directions of the SPICE ports connected to the VHDL-D net are different, then traverse through all the VHDL-D signals connected to the VHDL-D net and perform one of the following actions:</li></ul></li></ul><ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>If all VHDL-D signals have the direction<code> IN</code>, keep only one<code> A2D </code>CE and ignore all others.</li></ul></li></ul></ul><ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>If all VHDL-D signals have the direction<code> OUT</code>, keep only one<code> D2A </code>CE and ignore all others.</li></ul></li></ul></ul><ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>If VHDL-D signals are all<code> INOUTs </code>or have different directions, an error message is displayed.</li></ul></li></ul></ul><h3 id="PreparingtheDesign:UsingMixedLanguages-ObtainingCEInformationinVHDL-SPICE">Obtaining CE Information in VHDL-SPICE</h3>
+
+<p>In AMS Designer simulator, you can use the elaborator option called<code> -cereport </code>to generate a report with information about the final set of CEs inserted in a VHDL-SPICE design.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>Only the CEs specified in the AMS control block<code>&#160;ce&#160;</code>card are identified and reported by this option. The report contains the following information about the CEs:</p>
+<ul><li>CE serial number</li><li>Name of the CE (complete name containing library entity and architecture)</li><li>VHDL file name from where the CE is picked up</li><li>Hierarchical name of the CE instance</li><li>Generic map used for the ce instance</li><li>VHDL-Digital signal type and the spice cell or port name associated with the CE</li></ul>
+<p>The report also clearly distinguishes between the optimized CEs and the CEs that are not optimized.</p>
+</div>
+</div>
+
+<p><span style="color: rgb(51,51,51);">In addition to</span><code style="color: rgb(51,51,51);"> -cereport </code><span style="color: rgb(51,51,51);">, you can use the following elaborator options to generate specific CE information:</span></p>
+<ul><li><code> -ceverbose </code>- To generate detailed VHDL-SPICE CE report for debugging the issues related to CE insertions. In addition to the information provided by the<code> -cereport </code>option, the<code> -ceverbose </code>option reports the following.<ul><li>Information about the digital drivers for L2E</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>Information about the digital load for E2L</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>Back-to-back information for an L2E, when the L2E driver is an E2L CE</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>Information about the drivers and loads for digital BIDIR input</li></ul></li><li><code> -ceprobes </code>- To generate a Tcl file,<code> ceprobes.tcl </code>, with the probes for CE verification</li><li>
+<p><code> -cedriversload </code>- To generate a Tcl file,<code> cedriversloads.tcl </code>, with the drivers and loads for the CE</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The<code>&#160;-ceprobes&#160;</code>and<code>&#160;-cedriversload&#160;</code>options only work in conjunction with the<code>&#160;-cereport&#160;</code>or<code>&#160;-ceverbose&#160;</code>option. They automatically enforce<code>&#160;-cereport&#160;</code>if none of<code>&#160;-cereport&#160;</code>or<code>&#160;-ceverbose&#160;</code>is explicitly specified.</p>
+</div>
+</div>
+</li></ul><h2 id="PreparingtheDesign:UsingMixedLanguages-UsingVerilog-AMSConnectModulesforVHDL-SPICEConnectionvhdl_spice_connectionvhdl_spice_connection">Using Verilog-AMS Connect Modules for VHDL-SPICE Connection<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-vhdl_spice_connection"></span>&#160;<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-vhdl_spice_connection"></span></h2>
+
+<p>You can use the AMSD built-in CMs (<code> *_0_CE </code>) present in the AMSD built-in<code> connectLib </code>library instead of VHDL-AMS model in<code> std_logic </code>and electrical signal connections for VHDL-SPICE connections. This provides significant performance improvements for VHDL-SPICE applications.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You can find the<code>&#160;*_0_CE&#160;</code>connect modules in the Cadence hierarchy at:</p>
+
+<p><code><span style="color: rgb(0,0,0);">&lt;your_install_directory&gt;/tools.&lt;plat&gt;/affirma_ams/etc/connect_lib/connectLib</span></code></p>
+</div>
+</div>
+
+<p>To use the Verilog-AMS CMs for VHDl-SPICE connections, you need to compile the AMSD built-in connect element (CE) into a test case library, as shown below.</p>
+
+<p><code> xrun -compile `cds_root xrun`/tools/affirma_ams/etc/vhdlams_connectlib_samples/*.vhms </code></p>
+
+<p>This feature does not change the use model of the<code> ce </code>statement in the<code> amsd </code>block and the CE report for VHDL-SPICE connections.</p>
+
+<p>This feature is enabled by using the xmelab or xrun option<code> -use_cm.</code></p>
+
+<p>Currently, this feature supports only<code> std_logic </code>and electrical connections.</p>
+
+<p>The following are not supported:</p>
+<ul><li>VHDL real and SPICE electrical connection</li><li>VHDL subtypes of std_logic and VHDL record types</li></ul><h2 id="PreparingtheDesign:UsingMixedLanguages-UsingVerilog-AModulesinSPICEBlocksahdl_include1063178">Using Verilog-A Modules in SPICE Blocks<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-ahdl_include"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1063178"></span></h2>
+
+<p>If you are using the AMS Designer simulator with the Spectre solver and the simulation front end (<a href="Elaborating.html#Elaborating-1039791">SFE</a>) parser or with the UltraSim solver, you can use a<code> .ahdl_include </code>statement in a SPICE netlist to include behavioral or&#160;<a href="Elaborating.html#Elaborating-1044780">structural Verilog-A</a>&#160;modules.</p>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236026/305236028.png" data-linked-resource-container-id="305236026" data-linked-resource-container-version="3" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="chap4.11.1.1.png" data-linked-resource-id="305236028" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236026/305236028.png" width="640px" /></span></p>
+
+<p>The<code> .ahdl_include </code>statement has the following format:</p>
+
+<p><code>.ahdl_include &quot; filename &quot;</code></p>
+
+<p>For<code> filename</code>, you can specify either a full or a relative path that resolves across your network to the file containing the Verilog-A modules. The file name must have a<code> .va </code>extension to indicate that the included modules Verilog-A language models.</p>
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>When you use the <code>.ahdl_include</code> statement to include a Verilog-A module in a SPICE netlist, the name of the instance that instantiates the Verilog-A behavioral module must not begin with <code>Y</code>.&#160;</p>
+</div>
+</div>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-UsingSPICE-on-Top1052677">Using SPICE-on-Top<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1052677"></span></h2>
+
+<p>The AMS Designer simulator supports SPICE-on-Top configurations, where a SPICE file contains the top-level SPICE blocks or the top-level Verilog/SystemVerilog blocks.</p>
+
+<p>To run a SPICE-on-Top design, you use the<code> -spicetop </code>option with the <code>xrun</code>&#160;command.</p>
+
+<p>For example:</p>
+
+<p><code> xrun xtop.scs foo.v &lt;other xrun options&gt; -spicetop </code></p>
+
+<p>where:</p>
+<ul><li><code>foo.v</code>&#160;is verilog file in which a Verilog block is defined as top level module reference in spice-on-top.&#160;</li><li><code> xtop.scs</code>&#160;contains the SPICE blocks and an amsd block as follows:</li></ul>
+<p><code> amsd{</code><br /><code>&#160; &#160; &#160; &#160; portmap module=foo</code><br /><code>&#160; &#160; &#160; &#160; config cell=foo use=hdl</code><br /><code>&#160; &#160; &#160; &#160; ie vsup=1.8</code><br /><code>&#160; &#160; &#160;}</code></p>
+
+<p>The following example illustrates a SystemVerilog block in the Spice-on-Top configurations:</p>
+
+<p><code>xrun sv_child.sv top.scs -spicetop &#160;-timescale 1ns/1ps</code></p>
+
+<p>where, <code>top.scs</code> contains the SPICE blocks and an amsd block as follows:</p>
+
+<p><code>//top.scs</code></p>
+
+<p><code>include &quot;./top.sp&quot;</code></p>
+
+<p><code>amsd {</code><br /><code>&#160; &#160;portmap module= sv_child</code><br /><code>&#160; &#160;config cell=sv_child use=hdl</code><br /><code>&#160; &#160;ie vsup=1.8</code><br /><code>}</code></p>
+
+<p><code>simulator lang=spectre</code><br /><code>tran tran stop=500ns</code></p>
+
+<p><code>//top.sp</code></p>
+
+<p><code>simulator lang=spice</code><br /><code>x1 a1 &#160;b1 &#160;c1 &#160;top_spice</code></p>
+
+<p><code>.subckt top_spice a &#160;b &#160;c</code><br /><code>v1 ( a &#160;0) vsource dc=5</code><br /><code>v2 ( b &#160;0) vsource dc=5</code></p>
+
+<p><code>x2&#160; a &#160;b &#160;c &#160;sv_child</code><br /><code>.ends</code></p>
+
+<p><code>x3 a2 b2 c2 sv_child</code></p>
+
+<p><code>.subckt sv_child&#160; a &#160;b &#160;c</code><br /><code>.ends</code></p>
+
+<p>And, the SystemVerilog block is defined in the&#160;the <code>sv_child.sv</code> file, as follows:</p>
+
+<p><code>module&#160; sv_child (in1,in2,out);</code><br /><code>input&#160; real in1,in2;</code><br /><code>output real out;</code></p>
+
+<p><code>always @(in1 or in2)</code><br /><code>begin</code><br /><code>out=in1 + in2;</code><br /><code>end</code></p>
+
+<p><code>initial $monitor (&quot;Values in child::%g,\t%g,\t%g&quot;, in1, in2,out);</code><br /><code>endmodule</code></p>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-UsingSPICE-in-the-MiddleSPICE-in-the-middle1066571">Using SPICE-in-the-Middle<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-SPICE-in-the-middle"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1066571"></span></h2>
+
+<p>The AMS Designer simulator supports the use of SPICE blocks in the middle of two Verilog blocks or two VHDL blocks.</p>
+<h3 id="PreparingtheDesign:UsingMixedLanguages-UsingSpiceBlocksintheMiddleofVerilog-AMSBlocks">Using Spice Blocks in the Middle of Verilog-AMS Blocks</h3>
+
+<p>A SPICE-in-the-middle arrangement consists of a hierarchy in which a Verilog-AMS block instantiates a SPICE block that, in turn, instantiates a Verilog-AMS block. For example:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// top.v -- Verilog top
+module top;
+wire [0:1]a, b, out;
+reg a1, b1;
+ana_gate ana_gate (a, b, out) ;
+endmodule
+
+// ana_gate.sp -- SPICE in the middle
+.subckt ana_gate inleft[0] inleft[1] inright[0] inright[1] out[0] out[1]
+xnand1 inleft[0] inleft[1] out1 out2 out1 nand2
+xnand2 inright[0] inright[1] out1 out2 out2 nand2
+.ends ana_gate
+
+// nand2.v -- Verilog leaf
+module nand2( a, out );
+input [0:3] a;
+output out;
+assign out = ~(a[0] &amp; a[1]);
+endmodule</pre>
+</div>
+</div>
+
+<p>If you are using the AMS Designer simulator with the Spectre solver and the simulation front end (<code><a href="Elaborating.html#Elaborating-1039791">SFE</a></code>) parser or with the UltraSim solver, you can specify the Verilog-AMS module that you instantiate in the SPICE block with the&#160;<code><code><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1050984">use</a></code></code>&#160;assignment in a&#160;<code><code><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1050512">config</a></code></code>&#160;statement in an amsd block. For example, assuming the <code>nand2.v</code> reference file is in the current working directory:</p>
+
+<p><code>include &quot;./ana_gate.sp&quot; </code><br /><code>amsd{</code><br /><code> &#160;&#160;&#160;&#160;portmap subckt=ana_gate autobus=yes busdelim=&quot;&lt;&gt;&quot;</code><br /><code> &#160;&#160;&#160;&#160;config cell=ana_gate use=spice</code><br /><code> &#160;&#160;&#160;&#160;portmap module=nand2&#160;<a href="Using_an_amsd_Block.html#UsinganamsdBlock-1052218">reffile</a>=nand2.v busdelim=&quot;&lt;&gt;&quot;</code><br /><code> &#160;&#160;&#160;&#160;config cell=nand2 use=hdl</code><br /><code> &#160;&#160;&#160;&#160;}</code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you have a SPICE-in-the-middle arrangement using Verilog-A, you include the Verilog-A file using a Spectre<code>&#160;ahdl_include&#160;</code>statement, and you do<span style="color: rgb(0,0,0);">&#160;not&#160;</span>specify<code>&#160;use=hdl&#160;</code>using a<code>&#160;config&#160;</code>statement. The software uses analog elaboration to process Verilog-A design units.</p>
+</div>
+</div>
+<div><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you use the&#160; <code><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1052218">reffile</a></code>&#160; parameter on a <span style="color: rgb(0,0,255);"><a href="Using_an_amsd_Block.html#UsinganamsdBlock-1049882">portmap</a> </span>statement to specify custom port bindings for a SPICE-in-the-middle arrangement, the reference file must satisfy the following requirements:</p>
+<ul><li>The reference file must compile standalone.</li></ul><ul><li>If the reference file contains any include files, directives, or macros, they must be available and compile successfully.</li></ul><ul><li>If the reference file contains any external language constructs, they must compile successfully without any special command-line options (such as<code>&#160;-sv</code>).</li></ul></div>
+</div>
+
+<p><br /></p>
+</div>
+<h3 id="PreparingtheDesign:UsingMixedLanguages-DSPFandSPEFStitchingonAnalogandMixed-SignalNets">DSPF and SPEF Stitching on Analog and Mixed-Signal Nets</h3>
+
+<p>The parasitic RC network may be stitching onto an analog and mixed-signal net as it works in a pure SPICE netlist. When you change some blocks from Spice to Verilog in a post-layout design that is based on<a href="Glossary.html#Glossary-1034708"> DSPF</a>/<a href="Glossary.html#Glossary-1034784">SPEF</a>&#160;stitching flow, the stitching engine in the analog solver tries to connect the instance pin of the RC network to the Verilog port. These blocks are redirected to connect the analog port of the connect modules (<a href="Glossary.html#Glossary-1031358">CM </a>s), as shown in<a href="#PreparingtheDesign:UsingMixedLanguages-1057587"> Figure7-1</a>.</p>
+<div class="pbi_avoid">
+<p><strong>Figure 7-1&#160;</strong> <strong> RCs from SPEF are Expanded on Mixed-Signal Nets<strong><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1057587"></span></strong></strong></p>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236026/305236027.png" data-linked-resource-container-id="305236026" data-linked-resource-container-version="3" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="chap4.11.1.2.png" data-linked-resource-id="305236027" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236026/305236027.png" width="640px" /></span></p>
+</div>
+
+<p>To correctly specify SPEF or DSPF stitching on a mixed-signal net in AMS-APS and AMS-UltraSim, perform the following steps:</p>
+<ol><li>Set up the SPEF or DSPF file in the SPICE netlist, as follows:<br />.usim_opt spef= &quot;&lt;instance|subckt&gt; file&quot;</li><li>Set up the SDF file in the<code> initial </code>block or compile it and use the<code> -SDF_Cmd_file </code>option.</li><li>
+<p>Set<code> mode=split </code>in the<code> ie </code>card, to keep the expanded RC net connection correct. For example:<br /><br /><code>amsd{<br /> </code> <code> ie vsup=1.8 txdel=100n  vthi=0.9   rlo=1 rhi=1 mode=split<br /> </code> <code> portmap subckt=test_sim autobus=yes busdelim=&quot;[]&quot; interconnect=electrical<br /> </code> <code> config cell=test_sim use=spice<br /> </code> <code><code> }</code></code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you need to stitch the SPEF to the Verilog-to-Verilog connection in the SPICE block, you must set i nterconnect=electrical. This is because xmelab optimizes this node to logic discipline even if it lies in the SPICE block.</p>
+</div>
+</div>
+</li><li>Set up the<code> -amsspef </code>option in the<code> xrun </code>arguments to control this feature, as shown below.<br /><code>xrun   ./*.v \ <br /></code> <code> ./config.scs \ <br /></code> <code> ./cds_globals.vams \ <br /></code> <code> ./top.vams \ <br /></code> <code> -amsfastspice \ <br /></code> <code> -input ./probe.tcl \ <br /></code> <code> -sdf_cmd_file ./command_sdf \ <br /></code> <code> -amsspef</code></li></ol><div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>This feature is supported in AMS-UltraSim, AMS-APS, and AMS-Spectre solvers.</p>
+</div>
+</div>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The behavior of AMS-APS stitching is similar to standalone APS stitching. For example, the<code>&#160;*.spfrpt&#160;</code>file is dumped into the simulation directory.</p>
+</div>
+</div>
+<h3 id="PreparingtheDesign:UsingMixedLanguages-UsingSPICEBlocksintheMiddleofVHDLBlocksspice_vhdl">Using SPICE Blocks in the Middle of VHDL Blocks<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-spice_vhdl"></span></h3>
+
+<p>The AMS Designer simulator supports most VHDL block types in a design, including multi-field records, scalars, and arrays. The supported port types include VHDL pure digital entities with standard logic, ports, or port vectors; VHDL user type ports; VHDL real signal ports; VHDL-AMS entities with analog terminal; and digital ports.</p>
+
+<p>A SPICE-in-the-middle arrangement within VHDL blocks consists of a hierarchy in which one or more SPICE blocks are placed between two VHDL blocks. In this arrangement, one VHDL block instantiates a SPICE block that, in turn, instantiates another VHDL block.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The<code>&#160;reffile&#160;</code>parameter is not required for a VHDL block that is instantiated in a SPICE block.</p>
+</div>
+</div>
+
+<p><span style="color: rgb(51,51,51);">In the following example, a SPICE block (</span><code style="color: rgb(51,51,51);"> dummy_spice </code><span style="color: rgb(51,51,51);">) is placed between two VHDL blocks (</span><code style="color: rgb(51,51,51);"> top.vhd </code><span style="color: rgb(51,51,51);">and</span><code style="color: rgb(51,51,51);"> leaf.vhd </code><span style="color: rgb(51,51,51);">):</span></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-- top.vhd -- VHDL top
+entity top is
+end entity top;
+&#160;
+
+architecture a_top of top is
+&#160;&#160;&#160;&#160;signal v1, v3, v5 : real;
+begin
+&#160;&#160;&#160;&#160;test : entity work.dummy_spice port map (v1, v3, v5) ;
+end
+architecture a_top;
+&#160;
+
+// subckts.m -- SPICE in the middle
+.subckt dummy_spice v1 v2 v3
+x1 v1 leaf p=1
+x2 v2 leaf p=3
+x3 v3 leaf p=5
+.ends dummy_spice
+
+
+--&#160;leaf.vhd&#160;&#160;--&#160;VHDL leaf
+entity leaf is
+&#160;&#160;&#160;&#160;generic (p : real := 2.0);
+&#160;&#160;&#160;&#160;port (signal n : out real);
+end entity leaf;
+
+
+architecture a_leaf of leaf is
+begin
+&#160;&#160;&#160;&#160;n &lt;= p;
+end
+architecture a_leaf;</pre>
+</div>
+</div>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-Using-keepcase4use5x">Using -keepcase4use5x</h2>
+
+<p>While VHDL-AMS is case-insensitive, the DFII 5X library database is case sensitive. For new cells and new models, use primarily lower case characters for the <code>cell name</code>, <code>entity names</code>, <code>generic names</code>, <code>port names</code>, and <code>architecture names</code>.</p>
+
+<p>Use the ncvhdl <code>-keepcase4use5x</code> option to forces the ncvhdl compiler to retain case sensitivity during compilation. The <code>-use5xkeepcase</code> option keeps the case as for a VHDL cell name in a 5X library.</p>
+
+<p>For example, see the following <code>Mixed_case</code> cell in VHDL code.</p>
+
+<p><code>entity Mixed_case</code></p>
+
+<p><code>&#160;...</code></p>
+
+<p><code>end entity Mixed_case;</code></p>
+
+<p>This code creates a <code>Mixed_case</code> cell instead of a <code>mixed_case</code> cell in a 5X library database.</p>
+
+<p>In addition, you can also use the UNIX environment variable <code>CDS_ALT_NMP</code>. When you set it to <code>MATCH</code> as shown below:</p>
+
+<p><code>setenv CDS_ALT_NMP MATCH</code></p>
+
+<p>AMS-D in HED and AMS-D in ADE compile using the following command:</p>
+
+<p><code>ncvhdl -specificunit Abc</code></p>
+
+<p>instead of</p>
+
+<p><code>ncvhdl -specificunit \Abc\</code></p>
+
+<p>If you have case-sensitive cell name matching with the entity name, you should set the UNIX setenv <code>CDS_ALT_NMP MATCH</code> variable and use the ncvhdl -keepcase4use5x &#160;option.</p>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-ConnectingVerilog-AMSVectorBusestoSPICESubcircuitsVAMSbusToSPICEbus1038055">Connecting Verilog-AMS Vector Buses to SPICE Subcircuits<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-VAMSbusToSPICEbus"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1038055"></span></h2>
+
+<p>You can connect Verilog-AMS vector buses directly to SPICE buses using the<code> sourcefile </code>property to specify the name of the SPICE file and the<code> sourcefile_opts </code>property to specify the Verilog-AMS to SPICE bindings. For details, see &quot;sourcefile Property&quot;, &quot;sourcefile_opts Property&quot;, and &quot;The Port Mapping File&quot;.</p>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-UsingPortExpressionswhenConnectingtoAnalogportExpressionsVerilogSPICE1033606">Using Port Expressions when Connecting to Analog<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-portExpressionsVerilogSPICE"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1033606"></span></h2>
+
+<p>You can use port expressions when connecting Verilog to SPICE or an analog block in your design when using the AMS Designer simulator. Port expressions can contain any of the following:</p>
+<ul><li>Register or constant expression<code> <br /><br />electrical gnd;<br />reg reg1 = 1&#39;b1; // register driver connecting a SPICE primitive<br /> my_res r1(reg1, gnd); // SPICE subcircuit specified in prog.cfg file<br /><br /> </code></li><li>Digital concatenation<br /><br /><code> reg [0:2] reg_3 = 3&#39;b101;<br />reg [0:1] reg_2 = 2&#39;b01;<br />reg reg_1 = 1&#39;b1;<br />logic logic_1 ;<br />logic [0:2] bus_3;<br />logic [0:1] bus_2;<br /><br />assign logic_1 = reg_1;<br /><br />analog_child child1({3&#39;b101, reg_1});<br />analog_child child2({1&#39;b1, reg_3});<br />analog_child child1({2&#39;b01, bus_2});<br />analog_child child2({bus_3, 1&#39;b1});<br />analog_child child1({reg_3[0:1], bus_3[2], reg_3[2]});<br />analog_child child2({reg_3[1:2], bus_2[0:1]});<br /> </code></li><li>Operator expression<br /><br /><code> reg r1 = 1&#39;b0;<br />reg r2 = 1&#39;b1;<br /><br />analog_child a1 ( r1|r2 );<br /> </code></li><li>Analog nets and digital expressions inside a digital concatenation<br /><br /><code> electrical ana_1;<br />wire w1;<br />analog_child child1({1&#39;b1, ana_1});<br /> analog_child child2({1&#39;b1, w1});<br /> </code></li><li>Multiple or complex concatenation<br /><br /><code> logic [0:1] a;<br />reg [0:1] b;<br />electrical ana;<br /><br />{2{2&#39;b10, a, b, ana}} <br />{{2&#39;b10, a, b, ana}, {2&#39;b10, a, b, ana}}<br /> {{2{2&#39;b10, a, b, ana}}, a, ana, {b, a, 2&#39;b01}}<br />{2{{2&#39;b10, a, b, ana}, ana, {2&#39;b10, a, b}}}<br /> </code></li><li>Parameter expressions<br /><br /><code> parameter real c=1.0;<br />spice_block i1(c, top.I1.c);<br /> </code></li><li>Out-of-module reference<br /><br /><code> parameter p=2`b10;<br />reg [2:3] r;<br /><br /> spice_block s1(top.d1.r, top.d1.l, top.d1.p);<br /><br /> </code></li></ul>
+<p>Port expressions must contain neither any multiply-recursive concatenation constructs nor any concatenations with real parameter parts (such as<code> parameter in_real = 5.0; analog_child&#160;child1( {2&#39;b01, in_real} ); </code>).</p>
+
+<p>When you have a digital expression (constant expression, register, or operator expression) that connects to an analog port, the elaborator automatically changes the port direction to<code> input </code>and inserts a logic-to-electrical (<code> l2e </code>) interface element.</p>
+
+<p>When you have digital behavior in a port expression that connects to an analog port, the elaborator forces the operand to be logic (digital domain). For example:</p>
+
+<p><code> wire w1,w2;  // Elaborator forces w1 and w2 to be digital nets analog_child a1 ( w1|w2 ); </code></p>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-AccessingSPICENetsinsideaVerilogDesigncds_spice1039352">Accessing SPICE Nets inside a Verilog Design<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-cds_spice"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1039352"></span></h2>
+
+<p>You can use the following special instances to access SPICE nets in a Verilog design:</p>
+<div class="table-wrap"><table border="0" cellpadding="4" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="168">
+<p>Instance Type</p>
+</th><th class="confluenceTh" valign="middle" width="480">
+<p>Description</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> cds_spice_a2d </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Analog-to-digital connection from SPICE to Verilog (analog drives)</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> cds_spice_d2a </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Digital-to-analog connection from Verilog to SPICE (digital drives)</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> cds_spice_bidir </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Bidirectional connection between Verilog and SPICE</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> cds_spice_a2a </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Analog-to-analog connection from Verilog to SPICE (such as driving a SPICE port from the top level)</p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>To use these instances, specify the full hierarchical path to the SPICE net you want to access as the parameter of the instance and the Verilog net as the port connection. Here are some examples:</p>
+
+<p><code> cds_spice_d2a #(&quot;test.top.I0.I1.X1.X2.drive&quot;) d2a1(drive); </code></p>
+
+<p><code> cds_spice_a2d #(&quot;test.top.I0.I1.X1.X2.read&quot;) a2d1(read); </code></p>
+
+<p><code> cds_spice_d2a #(&quot;TestBench.SPICEblock.X2.regf&quot;) D2A1 (fault); </code></p>
+
+<p><code> cds_spice_a2d #(&quot;TestBench.SPICEblock.X2.rega&quot;) A2D1 (chk1); </code></p>
+
+<p><code> cds_spice_a2d #(&quot;TestBench.SPICEblock.X2.regb&quot;) A2D2 (chk2); </code></p>
+
+<p><code> cds_spice_a2d #(&quot;TestBench.SPICEblock.X2.regc&quot;) A2D3 (chk3); </code></p>
+
+<p>Consider the following digital testbench code (Verilog):</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module TB;&#160;&#160;&#160;&#160;// the testbenchdut
+
+DUT(in1, in2); // instantiation of the device under test (the DUT)
+
+reg in1, in2;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; // drivers of the DUT
+wire chk1, chk2, chk3; // signals used to check inside the DUT for
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// erroneous conditions
+
+reg fault;&#160;&#160;&#160;&#160;// a signal used to generate a fault
+
+initial begin // assign values to the DUT drivers
+&#160;&#160;in1 = 1&#39;b1; in2 = 1&#39;b1;
+end
+
+initial begin // generate a fault condition at 20 ticks
+&#160;&#160;TB.DUT.fault = 1&#39;b0;
+&#160;&#160;#20 fault = 1&#39;b1;
+end
+
+// monitoring of checks - an error is printed if they trigger
+always @(chk1) $strobe(&quot;error chk1 triggered!\n&quot;);
+always @(chk2) $strobe(&quot;error chk2 triggered!\n&quot;);
+always @(chk3) $strobe(&quot;error chk3 triggered!\n&quot;);
+
+// These statements make connections from the local testbench
+// signals to the DUT. It might be convenient for the
+// testbench to alias signals in the DUT to local
+// signals in the testbench so that if the pathnames get
+// changed in the design process, you can adapt the testbench
+// easily by just changing this block and
+// not the complex logic of the testbench
+.assign TB.A.DD.f = fault;
+assign chk1 = TB.A.DD.a;
+assign chk2 = TB.A.DD.b;
+assign chk3 = TB.A.DD.c;
+
+endmodule</pre>
+</div>
+</div>
+
+<p><br /></p>
+
+<p>Perhaps the Verilog code for the&#160;<a href="Glossary.html#Glossary-1033769">DUT</a>&#160;looks something like this:</p>
+<div class="table-wrap"><table class="confluenceTable cadenceTable" id="cadDefaultfont" style="width:680px;"><colgroup><col style="width:200px;" /><col style="width:480px;" /></colgroup><tbody><tr><td class="confluenceTd" valign="top" width="240">
+<p><code>module dut(in1, in2);<br />blockA A(in1);<br />blockB B(in2);<br />endmodule<br /><br />module blockA(in);<br />blockC CC(in);<br />blockD DD(in);<br />endmodule<br /></code></p>
+
+<p><code>module blockB(in);<br />blockE EE(in);<br />endmodule<br /><br />module blockCC(in);<br />endmodule<br /><br />module blockDD(in);<br />reg a,b,c,d;<br />reg f;<br />...etc<br />endmodule<br /><br />module blockEE(in);<br />endmodule </code></p>
+</td>
+<td class="confluenceTd" valign="top" width="408">
+<p><code>// Design Structure<br />//<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;TB (the testbench)<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;DUT<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;---------------<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;A&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;B<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|<br />//&#160;&#160;&#160;&#160;------&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;EE<br />//&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;|<br />//&#160;&#160;&#160;&#160;CC&#160;&#160;&#160;DD </code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>Perhaps the SPICE representation of<code> blockA </code>looks something like this:</p>
+<div class="table-wrap"><table class="confluenceTable cadenceTable" id="cadDefaultfont" style="width:680px;"><colgroup><col style="width:200px;" /><col style="width:480px;" /></colgroup><tbody><tr><td class="confluenceTd" valign="top" width="240">
+<p><code> subckt blockA(in)<br />X1 in blockCC<br />X2 in blockDD<br />ends<br /><br />subckt blockDD(in)<br />X1 in a<br />X2 a b   blockXXX<br />X3 b c   blockYYY<br />X4 c d f blockZZZ<br />ends </code></p>
+</td>
+<td class="confluenceTd" valign="top" width="408">
+<p><code>// Design Structure with blockA as SPICE<br />//<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;TB (the testbench)<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;DUT<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;---------------<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;A&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;B<br />//&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|<br />//&#160;&#160;&#160;&#160;------&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|<br />//&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;EE<br />//&#160;&#160;&#160;&#160;X1&#160;&#160;&#160;X2 </code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>To account for a SPICE block substitution in the testbench code, you could have the following:</p>
+
+<p><code> ...<br />// No changes to the testbench code before this point...<br />`ifdef AMS_MODE&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// Add these lines for SPICE block substitution<br /><br /> cds_spice_d2a #(&quot;TB.A.X2.f&quot;) D2A1 (fault);<br /> cds_spice_a2d #(&quot;TB.A.X2.a&quot;) A2D1 (chk1);<br /> cds_spice_a2d #(&quot;TB.A.X2.b&quot;) A2D2 (chk2);<br /> cds_spice_a2d #(&quot;TB.A.X2.c&quot;) A2D3 (chk3);<br /><br /> `else&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// pure-digital configuration <br /><br />assign TB.A.DD.f = fault;<br /> assign chk1 = TB.A.DD.a;<br /> assign chk2 = TB.A.DD.b;<br /> assign chk3 = TB.A.DD.c; <br />`endif<br /> ... </code></p>
+
+<p>The following table outlines the effective module definitions for these instance types as well as the resulting interface elements (IEs) the software inserts in your design:</p>
+<div class="table-wrap"><table border="0" cellpadding="4" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="168">
+<p>Instance Type</p>
+</th><th class="confluenceTh" valign="middle" width="288">
+<p>Effective Module Definition</p>
+</th><th class="confluenceTh" valign="middle" width="192">
+<p>Interface Element</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>cds_spice_a2d </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>module cds_spice_a2d(e);<br />output e;<br />electrical e;<br />parameter spicenet = &quot;null&quot;;<br />endmodule </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>analog-to-digital</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>cds_spice_d2a </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>module cds_spice_d2a(e);<br />input e;<br />electrical e;<br />parameter spicenet = &quot;null&quot;;<br />endmodule </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>digital-to-analog</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>cds_spice_bidir </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>module cds_spice_bidir(e);<br />inout e;<br />electrical e;<br />parameter spicenet = &quot;null&quot;;<br />endmodule </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>bidirectional</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>cds_spice_a2a </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>module cds_spice_a2a(e);<br />input e;<br />electrical e;<br />parameter spicenet = &quot;null&quot;;<br />endmodule </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>none</p>
+</td>
+</tr>
+</tbody></table></div>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-ReusingMixed-LanguageTestbenchestestbenchreuse1039361">Reusing Mixed-Language Testbenches<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-testbenchreuse"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1039361"></span></h2>
+
+<p>When reusing mixed-language testbenches, you can specify how you want the software to manage out-of-module references in digital statements when you substitute a SPICE block for a purely digital (Verilog) block. You can either use&#160;<a href="#PreparingtheDesign:UsingMixedLanguages-1043629">compiler directives</a>&#160;around portions of your Verilog source code, or use a&#160;<a href="#PreparingtheDesign:UsingMixedLanguages-1043632">command-line option</a>&#160;to specify your preference globally (without having to edit your Verilog source code). See the following topics for details:</p>
+<ul><li><a href="#PreparingtheDesign:UsingMixedLanguages-1043632"> Using Command-Line Options to Manage Out-of-Module References to SPICE </a></li><li><a href="#PreparingtheDesign:UsingMixedLanguages-1043629"> Using Compiler Directives to Manage Out-of-Module References to SPICE </a></li><li>
+<p><a href="#PreparingtheDesign:UsingMixedLanguages-bus_delimiter_oomr_spice">Using Bus Delimiters with Out-of-Module References to SPICE</a></p>
+</li></ul><h3 id="PreparingtheDesign:UsingMixedLanguages-UsingCommand-LineOptionstoManageOut-of-ModuleReferencestoSPICEOOMROOMRSPICE_OOMR1043632">Using Command-Line Options to Manage Out-of-Module References to SPICE<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-OOMR"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-OOMR"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-SPICE_OOMR"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1043632"></span></h3>
+
+<p>You can use the <code>-autospiceoomr</code>&#160;and <code>-autospiceignore</code>&#160;command-line options to specify how you want the software to manage out-of-module references (OOMRs) in digital statements when you substitute a SPICE block with a purely digital (Verilog) block.</p>
+
+<p>When you use the <code>-autospiceoomr</code>&#160;option, the software automatically converts the SPICE OOMRs to appropriate digital values and vice versa.&#160; And,&#160;the software automatically prefixes X to spice instance names in OOMRs to spice ports or internal nets.</p>
+
+<p>The software does a mapping of a digital OOMR having Verilog hierarchy instance names to an equivalent SPICE ports/nets. The software adds the prefix &#39;X&#39; to spice instance names, if the instance names are specified without the prefix &quot;X&quot; in the verilog testbench.</p>
+
+<p>However, if the spice instance name begins with &quot;x&quot; and also has the prefix &quot;X&quot;, the software picks the instance name only. For instance,<code>&#160;Xxa2&#160;</code>in the example:<code>&#160;top.a1.Xxa2.a3.d: top.a1.xa2.Xa3.d.</code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For mixed circuit netlist, software adds prefix &quot;X&quot; to spectre instance name only if the instance name begins with &quot;x&quot; and the equivalent instance name is specified without the &quot;x&quot; in the Verilog testbench.</p>
+</div>
+</div>
+
+<p><span>Consider the following example of a Verilog testbench where SPICE subckit,</span><code>&#160;ana1&#160;</code><span>and Spectre subckit,</span><code>&#160;mycell&#160;</code><span>are instantiated:</span></p>
+
+<p><code>module top();</code><br /><code>&#160; &#160; ana1 a1 (out1);</code><br /><code>&#160; &#160; mycell m1 (a, b);</code><br /><code>&#160; &#160; dig_monitor D1 ();</code><br /><code>endmodule</code></p>
+
+<p><code>module dig_monitor();</code><br /><code>&#160; &#160; initial begin</code><br /><code>&#160; &#160; &#160; &#160; &#160; &#160; &#160;// we want to plot the d bus values after E2L conversion</code><br /><code>&#160; &#160; &#160; &#160; &#160; &#160; &#160;#10 $display( &quot;======= %M internal bus0= %h&quot;, top.a1.Xxa2.a3.d,, top.m1.i1.i22.pa,,top.m1.i1.i22.pb);</code><br /><code>&#160; &#160; end</code><br /><code>endmodule</code></p>
+
+<p>The following example illustrates the spice netlist and spectre netlist where the sub-circuits&#160;<code>anal</code>&#160;and&#160;<code>mycell</code>&#160;are defined:</p>
+
+<p><span style="color: rgb(0,0,0);"><strong>anal.sp</strong></span>:</p>
+
+<p><code>.subckt ana3 out1</code><br /><code>I0 0 d 1.5u</code><br /><code>R0 d 0 1meg</code><br /><code>.ends</code><br /><code>.subckt ana1 out1</code><br /><code>Xxa2 out1 ana2</code><br /><code>.ends</code><br /><code>.subckt ana2 out1</code><br /><code>a3 out1 ana3</code><br /><code>.ends</code><br /><code>.tran 1n 100u</code><br /><code>.probe V(*)</code><br /><code>.end</code></p>
+
+<p><span style="color: rgb(0,0,0);"><strong>mycell.scs</strong></span>:</p>
+
+<p><code>subckt mycell pa pb</code><br /><code>i1 (pa pb) mycell2</code><br /><code>ends</code></p>
+
+<p><code>subckt mycell2 pa pb</code><br /><code>i22 (pa pb) mycell3</code><br /><code>ends</code></p>
+
+<p><code>subckt mycell3 pa pb</code><br /><code>i31 (pa 0) vsource dc=2</code><br /><code>i32 (pb\[0\] 0) vsource dc=2</code><br /><code>i33 (pb\[1\] 0) vsource dc=2</code><br /><code>ends</code></p>
+
+<p>And, in the AMSD control file,<code>&#160;a1</code>&#160;and <code>m1&#160;</code>are replaced by sub-circuits, <code>ana1</code>&#160;and <code>mycell</code>, respectively as follows:</p>
+
+<p><code>include &quot;mycell.scs&quot;</code></p>
+
+<p><code>amsd{</code><br /><code>&#160; &#160; ie vsup=1.8</code><br /><code>&#160; &#160; portmap subckt=ana1</code><br /><code>&#160; &#160; config cell=ana1 use=spice</code><br /><code>&#160; &#160; portmap subckt=mycell</code><br /><code>&#160; &#160; config cell=mycell use=spice</code><br /><code>}</code></p>
+
+<p>Note that in the above Verilog testbench the spice instance&#160;<code>xa2</code>&#160;is specified with a prefix &quot;X&quot; and the&#160;<code>xa3</code>&#160;is specified without the prefix &quot;X&quot;. When you use the&#160;<code>-autospiceoomr</code>&#160;command-line option, the software automatically does the following mapping for the spice instance names:</p>
+
+<p><code>top.a1.Xxa2.a3.d: top.a1.xa2.Xa3.d:</code><br /><code>top.m1.i1. i22.pa: top.m1.i1. i22.pa:</code><br /><code>top.m1. i1. i22.pb: top.m1.i1. i22.pb:</code></p>
+
+<p>When you use the <code>-autospiceignore</code>&#160;command-line option, the software ignores any digital statements that contain OOMRs to SPICE blocks.</p>
+
+<p>Consider the following example:</p>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236026/305236029.png" data-linked-resource-container-id="305236026" data-linked-resource-container-version="3" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="chap4.11.1.3.png" data-linked-resource-id="305236029" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236026/305236029.png" width="640px" /></span></p>
+
+<p>DUT is replaced by a SPICE subcircuit in the AMS control file, as follows:</p>
+
+<p><code> //amscf1.scs file</code><br /><code>include &quot;source/spice/ana1.sp&quot;</code><br /><code>amsd{</code><br /><code>&#160;&#160;&#160;&#160;ie vsup=1.8</code><br /><code>portmap subckt ana1</code><br /><code>config cell=ana1 use=spice</code><br /><code>}</code></p>
+
+<p>When the simulation is run using the <code>xrun</code>&#160;command</p>
+
+<p><code> xrun -clean -mess source/verilog/top1.v -timescale 1ns/100ps -iereport amscf1.scs </code></p>
+
+<p>the simulator generates an error related to OOMT <code>top.dut.clk</code>.</p>
+
+<p>When you use the <code>-autospiceignore</code>&#160;command-line option with <code>xrun</code>, the simulator ignores the SPICE OOMR references and the simulation runs successfully.</p>
+
+<p>When you use the <code>-autospiceoomr</code> command-line option with <code>xrun</code>, the simulator automatically converts the SPICE OOMR to a digital value. For example, the IE report will display the following:</p>
+
+<p><code> Automatically inserted instance: cds_autospiceoomr.top_DUT_clk__E2L_2__electrical (merged): </code></p>
+
+<p><code>&#160; &#160; &#160;connectmodule name: E2L_2,</code><br /><code>&#160; &#160; &#160;inserted across signal: top_DUT_clk</code><br /><code>&#160; &#160; &#160;and ports of discipline: electrical</code><br /><code>&#160; &#160; &#160;Sensitivity infomation:</code><br /><code>&#160; &#160; &#160; &#160; &#160; &#160; No Sensitivity info</code><br /><code>&#160; &#160; &#160;Discipline of Port (Ain): electrical, Analog port</code><br /><code>&#160; &#160; &#160;Discipline of Port (Dout): logic, Digital port</code><br /><code>&#160; &#160; &#160;Drivers of port Dout: No drivers</code><br /><code>&#160; &#160; &#160;Loads of port Dout: No loads</code><br /><code>IE Report Summary:</code><br /><code>&#160; E2L_2 ( electrical input; logic inout; )       total: 1</code><br /><code>&#160; -------------------------------------------------------------------</code><br /><code>Total Number of Connect Modules&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;total: 1</code></p>
+
+<p>You can also use the <code>-ignore_spice_oomr</code>&#160;and <code>-default_spice_oomr</code>&#160;command-line options to manage out-of-module references in digital statements when you substitute a SPICE block for a purely digital (Verilog) block. These options affect the following digital statements:</p>
+<ul><li><code> if </code>statements</li><li><code> $display</code>&#160;or <code>$monitor</code>&#160;statements</li><li>Procedural assignments, including blocking and nonblocking</li><li><code> force</code>&#160;and <code>release</code>&#160;procedural statements</li><li>Continuous assignments</li><li>Sequential blocks (where the out-of-module reference to SPICE is in a delay or event control expression)</li></ul><div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The <code>-ignore_spice_oomr</code> and <code>-default_spice_oomr</code> command-line options will be removed in a future release.</p>
+</div>
+</div>
+
+<p>See also &quot;<a href="#PreparingtheDesign:UsingMixedLanguages-1043629">Using Compiler Directives to Manage Out-of-Module References to SPICE</a>.&quot;</p>
+<h3 id="PreparingtheDesign:UsingMixedLanguages-UsingCompilerDirectivestoManageOut-of-ModuleReferencestoSPICEams_testbench_reuse1043629">Using Compiler Directives to Manage Out-of-Module References to SPICE<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-ams_testbench_reuse"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1043629"></span></h3>
+
+<p>You can use the <code>`ams_testbench_reuse_ignore</code>&#160;and <code>`ams_testbench_reuse_default_value </code>directives to specify how you want the software to manage out-of-module references in digital statements when you substitute a SPICE block for a purely digital (Verilog) block. You can use these directives in conjunction with the following statements:</p>
+<ul><li><code> if</code>&#160;statements</li><li><code> $display</code>&#160;or <code>$monitor</code>&#160;statements</li><li>Procedural assignments, including blocking and nonblocking</li><li><code> force</code>&#160;and <code>release</code>&#160;procedural statements</li><li>Continuous assignments</li><li>Sequential blocks (where the out-of-module reference to SPICE is in a delay or event control expression)</li></ul>
+<p>When you use the <code>`ams_testbench_reuse_ignore</code>&#160;directive, the software ignores any digital statements that contain out-of-module references to SPICE blocks. For example:</p>
+
+<p><code> `ams_testbench_reuse_ignore<br /> if ( spice_oomr_ref )<br /> &#160;&#160;&#160;&#160;&#160;$display(&quot;1&quot;);<br /> else<br /> &#160;&#160;&#160;&#160;&#160;$display(&quot;2&quot;);<br /> $display(&quot;3&quot;);<br /> `end_ams_testbench_reuse_ignore </code></p>
+
+<p>In this example (above), the software ignores<code> $display(&quot;1&quot;) </code>and<code> $display(&quot;2&quot;) </code>, but<code> $display(&quot;3&quot;) </code>remains active.</p>
+
+<p>When you use the<code> `ams_testbench_reuse_default_value </code>directive, the software assigns a default value (<code>1&#39;bx</code>) if it encounters a digital statement that contains an out-of-module reference to a SPICE block.</p>
+
+<p>For example, if you substitute a SPICE block such that<code> testbench.p1.p0 </code>becomes an out-of-module reference in the following testbench code, the<code> `ams_testbench_reuse_default_value </code>directive causes the software to set the value in the statement to<code> 1&#39;bx.</code></p>
+
+<p><code> module testbench ();<br />&#160;&#160;...<br />&#160;&#160;wire vcoclk, clock_2, clock_1, clock_0, net036, p0;<br />&#160;&#160;...<br />&#160;&#160;`ams_testbench_reuse_default_value<br />&#160;&#160;initial begin<br />&#160;&#160;&#160;&#160;$monitor (testbench.p1.p0);<br />&#160;&#160;end&#160;&#160;`end_ams_testbench_reuse_default_value<br />&#160;&#160;...<br />&#160;&#160;pll_top p1(refclk, reset, vcoclk, clock_2, clock_1, clock_0, net036, p0,<br /> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;clk_p0_1x, clk_p0_4x);<br />endmodule </code></p>
+
+<p>See also &quot;<a href="#PreparingtheDesign:UsingMixedLanguages-1043632">Using Command-Line Options to Manage Out-of-Module References to SPICE</a>.&quot;</p>
+<h3 id="PreparingtheDesign:UsingMixedLanguages-UsingBusDelimiterswithOut-of-ModuleReferencestoSPICEbus_delimiter_oomr_spice">Using Bus Delimiters with Out-of-Module References to SPICE&#160;<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-bus_delimiter_oomr_spice"></span></h3>
+
+<p>You can use the <code>-autospice_addbusdelim</code> option to specify additional bus delimiters apart from the default ones, &quot;[] &lt;&gt;&quot; to enable spice out-of-module references (OOMRs). It allows you to use the bus delimiters in all SPICE buses/ports including the ones in ports at HDL boundary as well as internal ones.</p>
+
+<p>The <code>-autospice_addbusdelim</code> option works only for auto SPICE OOMRs; therefore, you must specify the the <code>-autospice_addbusdelim</code> option along with the option as follows:</p>
+
+<p><code>xrun -autospiceoomr -autospice_addbusdelim &quot;_ __ &amp;&amp; empty ( % %%&quot;</code></p>
+
+<p>The single delimiter <code>_</code> is used between bus base-name and index; the pair delimiters, <code>__</code>, <code>&amp;&amp;</code>, and <code>%%</code> are used around the index; and, <code>empty</code> is used for NULL delimiter- for example &quot;abc0, abc1&quot;.</p>
+
+<p>The following example illustrates that <code>_</code> works for vector <code>i</code> in subckt, <code>spice_middle</code>; <code>__</code> works for <code>i0</code>;&#160; <code>&amp;&amp;</code> works for <code>i1</code>; <code>empty</code> works for <code>abc</code>; <code>(</code> works for <code>i2</code>; <code>%</code> works for <code>i3</code>; <code>%%</code> works for <code>i4</code>:</p>
+
+<p><code>// amscf.scs&#160;</code></p>
+
+<p><code>amsd{</code><br /><code>&#160; ie vsup=1.8</code><br /><code>&#160; portmap subckt=spice_middle file=&quot;./spice_middle.pb&quot;</code><br /><code>&#160; config cell=spice_middle use=spice</code><br /><code>}</code></p>
+
+<p><code>// top.v</code><br /><code>module top;</code><br /><code>&#160; &#160; wire [0:3] i;</code><br /><code>&#160; &#160; wire [0:3] o;</code><br /><code>&#160; &#160; spice_middle x0 ( i, o );</code><br /><code>&#160; &#160; initial #3&#160;$display(&quot;==== &quot;, top.x0.i,,top.x0.out,,top.x0.i0,,top.x0.i1,,top.x0.i2,,top.x0.abc,,top.x0.i3,,top.x0.i4);</code><br /><code>endmodule</code></p>
+
+<p><code>// spice.scs</code></p>
+
+<p><code>subckt spice_middle ( i_3&#160; i_2&#160; i_1&#160; i_0 out\&lt;3\&gt; out\&lt;2\&gt; out\&lt;1\&gt; out\&lt;0\&gt;)</code><br /><code>v19 ( i4\%3\%&#160;0) vsource dc=5</code><br /><code>v18 ( i4\%2\%&#160;0) vsource dc=5</code></p>
+
+<p><code>v17 ( i3\%3&#160;0) vsource dc=5</code><br /><code>v16 ( i3\%2&#160;0) vsource dc=5</code></p>
+
+<p><code>v15 ( abc1&#160;0) vsource dc=5</code><br /><code>v14 ( abc0&#160;0) vsource dc=5</code></p>
+
+<p><code>v13 ( i2\(2&#160;0) vsource dc=5</code><br /><code>v12 ( i2\(1&#160;0) vsource dc=5</code></p>
+
+<p><code>v11 ( i1\&amp;1\&amp;&#160;0) vsource dc=5</code><br /><code>v10 ( i1\&amp;0\&amp;&#160;0) vsource dc=5</code></p>
+
+<p><code>v9 ( i0_3_&#160;0) vsource dc=5</code><br /><code>v8 ( i0_2_&#160;0) vsource dc=5</code></p>
+
+<p><code>v7 ( i_3&#160;0) vsource dc=5</code><br /><code>v6 ( i_2&#160;0) vsource dc=5</code><br /><code>v5 ( i_1&#160;0) vsource dc=5</code><br /><code>v4 ( i_0&#160;0) vsource dc=5</code></p>
+
+<p><code>v3 (out\&lt;3\&gt;&#160;0) vsource dc=5</code><br /><code>v2 (out\&lt;2\&gt;&#160;0) vsource dc=5</code><br /><code>v1 (out\&lt;1\&gt;&#160;0) vsource dc=5</code><br /><code>v0 (out\&lt;0\&gt;&#160;0) vsource dc=5</code><br /><code>ends</code></p>
+<h3 id="PreparingtheDesign:UsingMixedLanguages-PSLAssertionsPSL">PSL Assertions<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-PSL"></span></h3>
+
+<p>Using the AMS Designer simulator, you can specify<a href="Glossary.html#Glossary-1034986"> PSL </a>assertions on<code> real </code>and Verilog-AMS<code> wreal </code>nets that connect to<code> electrical </code>nets. This methodology enables you to use PSL assertions with analog and mixed-signal blocks that you model using the Verilog-AMS<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a> </span>data type.</p>
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You must use the <code>-assert</code> option with the <code>xrun</code> or <code>xmvlog</code> command to enable PSL assertions.</p>
+</div>
+</div>
+
+<p>Expressions involving<code> wreal </code>type objects that are explicitly declared can appear in PSL assertions in boolean expressions, clocking expressions, and as actual arguments in property and sequence instances.</p>
+
+<p><code> wreal mywreal1, mywreal2; </code></p>
+
+<p><code> reg clk; </code></p>
+
+<p><code> // psl assert always ({mywreal1 &gt; 4.4; mywreal2 &lt; 6.6}) @(posedge clk); </code></p>
+
+<p>Here is an example of specifying PSL assertions on a<code> wreal </code>net,<code> out1</code>, in a Verilog-AMS module:</p>
+
+<p><code>`timescale 1ns/100ps</code></p>
+
+<p><code>module INV ( out1, in1 );</code></p>
+
+<p><code>&#160;&#160;output out1;</code><br /><code>&#160;&#160;input in1;</code><br /><code>&#160;&#160;wreal in1, <strong>out1</strong>;</code></p>
+
+<p><code>&#160;&#160;real out1_reg;</code></p>
+
+<p><code>&#160;&#160;// psl out_eq_in_real_vams: assert</code><br /><code>&#160;&#160;//&#160;&#160;&#160;never ( <strong>out1</strong> &lt; 1.25 &amp;&amp; in1 &lt; 1.25);</code></p>
+
+<p><code>&#160;&#160;// psl out_eq_in_real_vams2: assert</code><br /><code>&#160;&#160;// &#160;&#160;never ( <strong>out1</strong> &lt; 1.25 &amp;&amp; in1 &gt; 1.25);</code></p>
+
+<p><code>&#160;&#160;always @(in1)</code><br /><code>&#160;&#160;&#160;&#160;if(in1 &gt; 1.25)</code><br /><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;out1_reg = 0.0;</code><br /><code>&#160;&#160;&#160;&#160;else</code><br /><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;out1_reg = 2.5;</code></p>
+
+<p><code> &#160;&#160;assign out1 = out1_reg;</code></p>
+
+<p><code>endmodule</code></p>
+
+<p>For<code> electrical </code>nets, you assign the<code> electrical </code>net to a<code> real </code>or<code> wreal </code>variable, and then specify the PSL assertion on the<code> real </code>or<code> wreal </code>variable. You can also specify PSL assertions directly on<code> electrical </code>nets that are enclosed within access functions.</p>
+
+<p>If PSL assertions are used on a mixed net, the assertion statement affects the discipline of the net. The simulator generates a warning for such scenarios. For example, the AMS simulator generates a warning message when a net is connected to a digital construct in the assertion statement. Discrete discipline is used for such nets during discipline resolution.</p>
+
+<p><code> module top;</code><br /><code>&#160; &#160;ana_test ana_test(abc);</code><br /><code>&#160; &#160;//psl comparator_pos: assert always (((top.abc &gt; 1.0) )) @( posedge(top.ana_test.int_var)) ;</code><br /><code>endmodule&#160;</code></p>
+
+<p><code> module ana_test(ana_port);</code><br /><code>&#160; output ana_port ;</code><br /><code>&#160; electrical ana_port ;</code><br /><code>&#160; reg int_var =0;</code><br /><code>&#160; always  #1000 int_var = ~int_var ;</code><br /><code>endmodule</code></p>
+
+<p><code> //psl comparator_pos: assert always (((top.abc &gt; 1.0) )) @( posedge(top.ana_test.int_var)) ; </code></p>
+
+<p>In the above example, net<code> top.abc </code>connects to electrical port, but it will have a resolved discrete discipline because it is used in digital constructs in the assertion statement.</p>
+
+<p>You can use the xmelab option<code> -amselabtrace assert </code>option to trace nets that are connected to digital constructs in an assertion statement.</p>
+<h4 id="PreparingtheDesign:UsingMixedLanguages-AnalogEventFunctionsforAssertionClocking">Analog Event Functions for Assertion Clocking</h4>
+
+<p>Verilog-AMS analog event functions<code> cross </code>and<code> above </code>are supported as clocking events in PSL assertions. For example:</p>
+
+<p><code> electrical sig1, sig2, sig3;</code><br /><code>reg a, b;</code><br /><code>// psl assert always ({V(sig1);a} |=&gt; {V(sig2);b}) @(cross(V(sig3)));</code></p>
+<h4 id="PreparingtheDesign:UsingMixedLanguages-SupportforPSLBuilt-InFunctions">Support for PSL Built-In Functions</h4>
+
+<p>Analog expressions are allowed only within the<code> prev </code>PSL built-in sampled value function. It is an error to have analog expressions as arguments to built-in sampled value functions other than<code> prev.</code> For example:</p>
+
+<p><code> // psl assert always ({V(sigout) &gt; 0.5} |=&gt; {prev(V(sigout)) &gt; 0.4}) @(cross(V(sigout))); // ok </code></p>
+
+<p><code> // psl assert always ({V(sigout) &gt; 0.5} |=&gt; {stable(V(sigout)) &gt; 0.4}) @(cross(V(sigout))); // not allowed </code></p>
+<h3 id="PreparingtheDesign:UsingMixedLanguages-LimitationsofUsingPSLAssertions">Limitations of Using PSL Assertions</h3>
+
+<p>The following limitations exist when using PSL assertions with the AMS Designer simulator:</p>
+<ul><li>Unclocked, partially clocked, or multiple-clocked<a href="Glossary.html#Glossary-1034986"> PSL </a>assertions involving analog expressions are not supported.<br /><br /><code> electrical sig1, sig2;<br /> </code><code> reg a, clk, clk1, clk2;<br /><br /></code><code>// unclocked - Not Supported<br /> </code><code> // psl assert always (V(sig1) &gt; V(sig2));<br /><br /></code><code>// partially clocked - Not Supported<br /> </code><code> // psl assert always {V(sig1); V(sig2)} |=&gt; {a} @(cross(V(clk))); </code><code> &#160; <br /></code><code> <br />// multiple clocked - Not Supported <br /></code><code> // psl assert always {V(sig1); V(sig2)} @(cross(V(clk1))) |=&gt; {a} @(cross(V(clk2))); <br /></code>For such cases, use either an explicitly declared single clock or a default clock.</li><li>Analog expressions that are not allowed to appear outside the analog block as per the Verilog-AMS LRM cannot appear in a PSL assertion statement. In the example below, the<code> assert </code>statement is not allowed because the analog operator<code> ddt </code>cannot appear outside an analog block.<code> <br />// psl assert always ({ddt(V(sig1))} |-&gt; {ddt(V(sig2))}) @(posedge clk); </code></li><li>When port probes are used with the<code> &lt;&gt; </code>syntax, they cannot appear in a PSL assertion. For example, the following<code> assert </code>statement is not valid.<br /><code> electrical in, out; <br /></code><code> // psl assert always (I(&lt;out&gt;) &gt; 0) &amp;&amp; (I(&lt;out&gt;) &lt; 2.3) @ (cross(I(&lt;in&gt;))); </code></li><li>The assertion clock cannot be level-sensitive on an analog expression. For example, the following<code> assert </code>statement is not valid because the assertion clock is sensitive to the value change of<code> V(in).<br /></code><code> // psl property P1(bitvector i) = always (S1(i) |=&gt; {i &gt; 0.6}) @ (V(in)); </code><code> // psl assert P1 <br /><br /></code>To overcome this limitation, you can use an analog event expression in the assertion clock, as shown in the following example.<code> // psl property P1(bitvector i) = always (S1(i) |=&gt; {i &gt; 0.6}) @ (cross(V(in))); <br /></code><code> // psl assert P1 </code></li><li>If a PSL assertion involves a level-sensitive clock, none of the assertion signals are allowed to contain analog expressions. The following assertion is not valid because the assertion signal involves the voltage of node<code> sig2 </code>, while the clock is level-sensitive.<code> <br />electrical sig1, sig2;<br /> </code><code> reg a, b, clk; <br /></code><code> // psl assert always ({V(sig1);a} |=&gt; {V(sig2);b}) @(clk); </code></li><li>
+<p>Nets that could potentially be coerced to<code> wreal </code>during elaboration because they are connected to a<code> wreal </code>net or an analog object cannot be used in PSL assertions.<br /><code> </code></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module top;
+wreal wr;
+test mytest(wr);
+endmodule
+
+module test(w);
+input w;
+reg clk;
+// not ok - &#39;w&#39; will be coerced to wreal due to its connectivity to wr and cannot be be used in a psl assertion
+// psl assert always (w &gt; 2.2) @(posedge clk);
+endmodule</pre>
+</div>
+</div>
+
+<p>For such cases, explicitly declare the<code> wreal </code>nets that you want to include in a PSL assertion.</p>
+</li><li>
+<p>Although&#160;<a href="Glossary.html#Glossary-1034986">PSL</a>&#160;assertions appearing in verification units that are bound to modules can contain analog expressions and<code> wreal </code>objects, instance-bound verification units cannot contain analog expressions. For example:<br /><code> </code></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module top;
+..... 
+test mytest();
+endmodule 
+
+module test; 
+.....
+endmodule
+
+vunit myvunit(test) { // ok, verification unit involving analog expression is
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// module bound 
+// psl property P1 = ({V(sig1)} -&gt; next (V(sig2)) @(cross(V(sig3))); 
+//psl assert P1;
+} &#160;
+
+vunit myvunit(top.mytest) { // not ok, verification unit involving analog
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// expression is instance bound 
+// psl property P1 = ({V(sig1)} -&gt; next (V(sig2)) @(cross(V(sig3))); 
+//psl assert P1;
+}</pre>
+</div>
+</div>
+</li><li>
+<p>PSL cannot be used within VHDL-AMS if the PSL assertion statement contains objects or expressions that are either owned or evaluated by the continuous time solver.</p>
+</li></ul><h3 id="PreparingtheDesign:UsingMixedLanguages-ReusingTestbenchesandIP">Reusing Testbenches and IP&#160;</h3>
+
+<p>AMS/ADE enables you to reuse an existing testbench/IP in other designs. This can be done in the following three ways:</p>
+<ul><li><strong>Advanced Testbench Reuse</strong>: With this mode, you can reuse a digital super top above the AMSD HED configuration that you are simulating in ADE. For more information, refer to the&#160;<a class="message-url" href="../anasimhelp/chap7.html#advTBR">Reusing an Advanced Testbench</a> section in the <em>Virtuoso Analog Design Environment L User Guide</em>.</li><li><strong>Export as IP Block</strong>:<ul><li><strong>Using ADE GUI</strong>: With AMS-Unified Netlister, you can export the binding information, which includes netlist, text files, and configuration, and then reuse this information later in other designs. To do so in ADE, select <em>Tools&gt;Export&gt;Export as IP Block</em>. For more information, see the&#160;<a class="message-url" href="../anasimhelp/chap7.html#IPExport">Exporting IP Blocks in AMS UNL</a> section in the <em>Virtuoso Analog Design Environment L User Guide</em>.</li><li><strong>Using the <code>runams</code> command</strong>: You can also export IP block using the in the <a class="message-url" href="../anasimhelp/runams.html">runams -export</a>&#160;command-line option.</li></ul></li><li>
+<p><strong>Using Command-Line IP Selector (CLIPS)<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-clips_reuse"></span></strong>: In CLIPS, specify a testbench and the tool will show the design hierarchy. From the hierarchy, you can switch any instance to a HED configuration. Then the tool will call AMS-UNL to export the HED configuration as an IP and assemble the IP together with the testbench. For more information about CLIPS, see the <a class="message-url" href="../clips/clipsTOC.html">CLIPS user guide</a>.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>CLIPS works with XCELIUM 17.10 s007 or higher versions.</p>
+</div>
+</div>
+</li></ul><div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>This feature is available only with XCELIUM 17.04 or higher versions.</p>
+</div>
+</div>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-FetchingValuesAssociatedwithanAnalogObjectfetching_power_value1070525">Fetching Values Associated with an Analog Object<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-fetching_power_value"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1070525"></span></h2>
+
+<p>You can use the value fetch function<code> cds_get_analog_value </code>to fetch the voltage, current, input, output, or power values associated with an analog object. This function is especially useful while writing testbenches and assertions for a design.</p>
+
+<p>The<code> cds_get_analog_value </code>function is meant to be used only on objects belonging to continuous domain. It can be called from within Verilog, Verilog-A, SystemVerilog (SV), or Verilog-AMS scope, and always returns a real number.</p>
+
+<p>Following is the syntax of the<code> cds_get_analog_value </code>function.</p>
+
+<p><code> real $cds_get_analog_value (hierarchical_name, [optional index, [optional quantity&#160;qualifier]])</code></p>
+
+<p>Or</p>
+
+<p><code> real $cgav (hierarchical_name, [optional index, [optional quantity qualifier]]) </code></p>
+
+<p>where,</p>
+<ul><li><code> cgav </code>is an alias of<code> cds_get_analog_value.</code> They have identical signature.</li><li>
+<p>The object referred to by<code> hierarchical_name </code>must exist and must be owned by the analog solver. It must be a scalar object.<code> hierarchical_name </code>can be a relative or absolute path.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You can check whether the object referred to by<code>&#160;hierarchical_name&#160;</code>meets these conditions by using the helper functions<code>&#160;cds_analog_is_valid&#160;</code>,<code>&#160;cds_analog_exists&#160;</code>, and<code>&#160;cds_analog_get_width.</code></p>
+</div>
+</div>
+</li><li>
+<p>The index can be variable, reg, or parameters so long as their value evaluates to an integral constant.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><span style="color: rgb(0,0,0);">&#160;</span>Index applies only for vector objects.</p>
+</div>
+</div>
+</li><li>The quantity qualifier can be<code> potential </code>,<code> flow </code>,<code> pwr </code>, or<code> param.</code> If none is specified,<code> potential </code>is assumed.</li></ul>
+<p>If any of the above conditions is not satisfied, the behavior of the<code> cds_get_analog_value </code>function will be undefined. To test that these conditions are satisfied by the analog object being referenced and to create more reusable testbench code with failsafe behavior, you can use the following helper functions:</p>
+<ul><li><code> cds_analog_exists </code>- Function to determine if the object is a member of the analog domain.<br /><br />Signature:<br /><br /><code> int $cds_analog_exists(hierarchical_name, [optional index])<br /><br /> </code>Return value:<br /><br /><code> 1/0<br /><br /> </code>(where<code> 1 </code>is true and<code> 0 </code>is false)<br /><br />Arguments:<ul><li><code> hierarchical_name </code>can be in pure Verilog syntax.</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>If<code> index </code>is not specified, the object is assumed to be<code> scalar.</code></li></ul></li><li><code> cds_analog_get_width </code>- Function to determine the width of an object<br /><br />Signature:<code> <br /><br />int $cds_analog_get_width(hierarchical_name)<br /><br /> </code>Return value:<br /><br /><code> width of the object </code></li><li><code> cds_analog_is_valid </code>- Function to test if the reference object can be probed using the<code> cds_get_analog_value </code>function.<br /><br />Signature:<code> <br /><br />int $cds_analog_is_valid(hierarchical_name, [optional index, [optional quantity qualifier]])<br /><br /> </code>Return value:<br /><br /><code> 1/0 <br /><br /></code>Arguments:<ul><li><code> hierarchical_name </code>can be in pure Verilog syntax.</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>If<code> index </code>is not specified, the object is assumed to be<code> scalar.</code></li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>If quantity qualifier is not specified, it is assumed that the hierarchical name is a net.</li></ul></li></ul><h2 id="PreparingtheDesign:UsingMixedLanguages-UsingtheStrength-BasedInterfaceElement(SIE)SIE1060263">Using the Strength-Based Interface Element (SIE)<span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-SIE"></span><span class="confluence-anchor-link" id="PreparingtheDesign:UsingMixedLanguages-1060263"></span></h2>
+
+<p>Strength-based Interface Element (SIE) is a new simulation technology that accurately models and simulates the analog or digital interface in a mixed-signal design. In SIE, both strength and logic levels of a digital signal are converted with the impedance and voltage level of the Thevenin equivalent circuit representing the analog interface. As a result, the signal value and direction on the mixed-signal net are resolved automatically and dynamically.</p>
+
+<p>SIE&#39;s simulation accuracy (including the timing and logic value on mixed-signal nets of the currently supported features) is fully backward-compatible with virtually the same simulation performance. SIE:</p>
+<ul><li>supports all strength-based Verilog models on the analog or digital interface. For example:<ul><li>tran gate -<code> tran </code>,<code> tranif1 </code>,<code> rtranif0 </code></li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>wire -<code> supply1 </code>,<code> supply0 </code></li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>buffer<br /> <code>assign (pull1, weak0) y = x;</code><br /><code>buffif (pull1, strong0) B1 (y, x, c);</code></li></ul></li><li>maintains natural connection of all devices on the Verilog side of the connect module, instead of segregating drivers from receivers.</li><li>eliminates the analog loading effect on Verilog <code>supply1</code>&#160;or <code>supply0</code>&#160;net.</li><li>provides an easy design configuration-and-verification flow with various strength-based Verilog models.</li></ul>
+<p>The SIE mode is turned on by default. However, if you have a design that contains connect modules that do not support SIE, the simulation automatically runs in non-SIE mode and a warning message is displayed. The log file also indicates that the simulation is running in non-SIE mode. For designs that do not use<code> ie </code>statement or connect modules/connect rules, the log file does not display any information related to SIE.</p>
+
+<p>To run the simulation in SIE mode, all connect modules inserted in the design must support SIE, otherwise, the simulator automatically enables the non-SIE mode. It is recommended that you configure your design with the<code> basic</code>,<code> full</code>, or<code> full_fast </code>connect rules (available in the installation) by using one of the following methods, as applicable to your flow:</p>
+<ul><li>In ADE, click<em><span style="color: rgb(0,0,0);"> Setup </span></em>&gt;<em><span style="color: rgb(0,0,0);"> Connect Rules </span></em></li><li>In the<code> xrun </code>command-line flow, use the<code> ie </code>statement in the<code> amsd </code>block. For example, <code>ie connrules=&lt;</code> <code>conn_rule_name</code> <code>&gt;.</code></li><li>In the <code>xmelab</code>&#160;or <code>xrun</code>&#160;command-line flow, specify the connect rules. For example, <code>ConnRules_18V_full_fast.</code></li></ul>
+<p>The following new set of parameters and their default values for driver output resistance corresponding to the Verilog signal strength resistances are defined in the <code>full_fast</code>&#160;connect rules:</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 644.0px;"><colgroup><col /><col /><col /></colgroup><tbody><tr><th class="confluenceTh" valign="top" width="234">
+<p>Parameter Name</p>
+</th><th class="confluenceTh" valign="top" width="150">
+<p>Default Value</p>
+</th><th class="confluenceTh" valign="top" width="260">
+<p>Corresponding Verilog Driver Signal Strength</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rsupply </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> 4 </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> supply </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rout </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> 200 </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> strong </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rlo </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> rout </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> strong0 </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rhi </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> rout </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> strong1 </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rpull </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> 1.5e3 </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> pull </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rlarge </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> 9.0e3 </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> large </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rweak= </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> 5.5e4 </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> weak </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rmedium </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> 3.2e5 </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> medium </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rsmall </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> 1.9e6 </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> small </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> rz </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> 1.0e7 </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> HiZ </code></p>
+</td>
+</tr>
+</tbody></table></div>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>To customize the strength parameters for a design, it is recommended to specify such parameter values in the<code>&#160;ie&#160;</code>statement of the<code>&#160;amsd&#160;</code>block (see&#160;<a href="Using_an_amsd_Block.html#UsinganamsdBlock-1051785">ie</a>). To ensure that SIE works correctly, the strength resistance parameter values must be specified in ascending order from <code>rsupply</code> to <code>rz</code>, with resistances of consecutive strength levels being at least three-times apart, otherwise, the simulator will generate an error.</p>
+</div>
+</div>
+
+<p><span style="color: rgb(51,51,51);">The connect modules that support SIE contain the </span><code style="color: rgb(51,51,51);">$SIE_input</code><span style="color: rgb(51,51,51);">&#160;system task that enables you to obtain the input value and strength of the digital drivers. The&#160;</span><code style="color: rgb(51,51,51);">$SIE_input</code><span style="color: rgb(51,51,51);">&#160;system task takes two arguments. The first argument can be any digital scalar net. The second argument depends on the nettype of the first argument.</span></p>
+<ul><li>If the first argument is a scalar logic wire, the second argument should be wire [7:0]</li><li>If the first argument is scalar wreal, the second argument should also be scalar wreal</li><li>If the first argument is a scalar SV wreal, the second argument should also be a scalar SV wreal with the same nettype</li></ul>
+<p>For example:</p>
+
+<p><code> $SIE_input(Din, Dval); </code></p>
+
+<p>SIE is supported in all existing connect modules of<code> basic</code>, <code>full</code>,&#160;and<code> full_fast</code>&#160;connect rules available in the AMSD installation. SIE is also supported in the AMS-CPF and IEEE 1801 standard (UPF) flows.</p>
+
+<p>To model the bidirectional behavior of WTRAN models with SV-wreal nettypes, you can use the <code>$cds_get_external_drivers</code> system task.&#160;For more information, see&#160;<a href="Real_Number_Modeling.html#RealNumberModeling-wtran_model">Writing Bidirectional Model Behavior</a>.</p>
+<h2 id="PreparingtheDesign:UsingMixedLanguages-SystemVerilogandAMSExtensions">SystemVerilog and AMS Extensions</h2>
+
+<p>Both Spectre AMS Designer Simulator and Xcelium simulator with mixed-signal option allow you to simulate designs with connections such as SystemVerilog logic ports to electrical and SystemVerilog logic vector to a SPICE electrical output bus.</p>
+
+<p>For more information, see the <a href="Features_Enabled_Using_the_-adv_ms_Option.html">Features Enabled Using the -adv_ms Option</a> section in the <a href="SystemVerilog_and_AMS_Extensions.html">SystemVerilog and AMS Extensions</a> chapter.</p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Preparing_the_Design__Using_Analog_Primitives_and_Subcircuits.html" id="prev" title="Preparing_the_Design__Using_Analog_Primitives_and_Subcircuits">Preparing_the_Design__Using_An ...</a></em></b><b><em><a href="Real_Number_Modeling.html" id="nex" title="Real_Number_Modeling">Real_Number_Modeling</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

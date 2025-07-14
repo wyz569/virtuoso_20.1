@@ -1,0 +1,2153 @@
+
+<html><head><title>Real Number Modeling</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864908" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Real Number Modeling" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864908" />
+<meta name="NextFile" content="Using_xrun_for_AMS_Simulation.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Preparing_the_Design__Using_Mixed_Languages.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Real Number Modeling" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+<script type="text/javascript" src="styles/shCore1.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shCore.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shBrushCpp.js">/*<![CDATA[*//*]]>*/</script><script type="text/javascript" src="styles/shBrushJava.js">/*<![CDATA[*//*]]>*/</script><link rel="stylesheet" href="styles/shCoreDefault.css" type="text/css" /><script type="text/javascript">/*<![CDATA[*/
+SyntaxHighlighter.all();
+/*]]>*/</script>
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Preparing_the_Design__Using_Mixed_Languages.html" title="Preparing_the_Design__Using_Mixed_Languages">Preparing_the_Design__Using_Mi ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Using_xrun_for_AMS_Simulation.html" title="Using_xrun_for_AMS_Simulation">Using_xrun_for_AMS_Simulation</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <div style="width: 100%; font-size: 32px; text-align: left;               font-weight: bold;">9</div>
+<h1 style="margin: 4px 0 4px;"><span>Real Number Modeling</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p><span class="confluence-anchor-link" id="RealNumberModeling-1031602"></span></p>
+
+<p>You can create designs using real number models (<a href="Glossary.html#Glossary-1036517">RNM</a>) and simulate them using the AMS Designer simulator. Using either Verilog-AMS or VHDL-AMS languages, you can define real ports that are not<code> electrical.</code> You can use<code> wreal </code>connect modules to connect real number models to Spectre or SPICE or<code> electrical </code>blocks. The elaborator automatically inserts appropriate connect modules between<code> electrical </code>ports (analog domain) and<code> wreal </code>ports (digital domain).</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You can use the <span style="color: rgb(0,0,255);"><code><a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-1064258">-iereport</a></code></span> or <span style="color: rgb(0,0,255);"><code><a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-1064258">-ieinfo</a></code>&#160;</span>command-line options to generate a report summary for each type of connect module the elaborator inserts.</p>
+</div>
+</div>
+
+<p>Real connect modules support analog/digital (discrete<code> wreal</code>) conversion with a custom variable rate, while<code> wreal </code>connect modules support variable rate signal conversion. The<code> absdelta </code>function drives the real connect module analog-to-digital conversion, while digital events drive the real connect module digital-to-analog conversion.</p>
+
+<p>See the following topics for more information:</p>
+
+<p></p>
+<div class="toc-macro rbtoc1572864885785">
+<ul class="toc-indentation">
+<li><a href="#RealNumberModeling-UsingthewrealDataTypewreal1060511">Using the wreal Data Type</a></li>
+<li><a href="#RealNumberModeling-UsingwrealIndependentVariablesina$table_modeltable_model_wreal1044267">Using wreal Independent Variables in a $table_model</a></li>
+<li><a href="#RealNumberModeling-ConnectingVerilog-AMSwrealSignalstoAnalogSignalswrealToElectrical1047557">Connecting Verilog-AMS wreal Signals to Analog Signals</a></li>
+<li><a href="#RealNumberModeling-ResolvingDisciplinesforVerilog-AMSwrealNetswrealDisciplineResolution1044287">Resolving Disciplines for Verilog-AMS wreal Nets</a></li>
+<li><a href="#RealNumberModeling-UsingwrealNetsatMixed-LanguageBoundarieswrealVHDL1044381">Using wreal Nets at Mixed-Language Boundaries</a></li>
+<li><a href="#RealNumberModeling-WritingBidirectionalModelBehaviorwtran_model">Writing Bidirectional Model Behavior</a></li>
+<li><a href="#RealNumberModeling-UsingwrealinAssertionsassertionswrealAssert1047353">Using wreal in Assertions</a></li>
+<li><a href="#RealNumberModeling-InstantiatingVHDLBlockswithRealSignalPortsonaSchematic1044390">Instantiating VHDL Blocks with Real Signal Ports on a Schematic</a></li>
+<li><a href="#RealNumberModeling-SelectingawrealResolutionFunctionwreal_resolution1049176">Selecting a wreal Resolution Function</a></li>
+<li><a href="#RealNumberModeling-UsingVerilog-AMS&#8211;BasedRNMforWrealsvamsrnm1062743">Using Verilog-AMS&#8211;Based RNM for Wreals</a></li>
+<li><a href="#RealNumberModeling-UsingWrealConcatenationExpressionswrealconcats1063763">Using Wreal Concatenation Expressions</a></li>
+<li><a href="#RealNumberModeling-CreatingL2RandR2LConnectModules1056409">Creating L2R and R2L Connect Modules</a></li>
+<li><a href="#RealNumberModeling-UsingVirtuosoVisualizationandAnalysisinxrunandADEFlowsforSimulationswithRealNumberModels1054702">Using Virtuoso Visualization and Analysis in xrun and ADE Flows for Simulations with Real Number Models</a></li>
+<li><a href="#RealNumberModeling-RNMDebuggingCommandsRNMDebuggingCommands">RNM Debugging Commands</a></li>
+</ul>
+</div>
+<h2 id="RealNumberModeling-UsingthewrealDataTypewreal1060511">Using the wreal Data Type<span class="confluence-anchor-link" id="RealNumberModeling-wreal"></span><span class="confluence-anchor-link" id="RealNumberModeling-1060511"></span></h2>
+
+<p>The AMS Designer simulator supports the Verilog<span style="color: rgb(0,0,0);"><sup>&#174;</sup></span>-AMS&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a>&#160;</span>data type, which lets you define a real number physical connection between structural entities:</p>
+
+<p><code> wreal in; // Declares &#39;in&#39; as a wreal net </code></p>
+
+<p>A set of<code> wreal</code>&#160;sample libraries are installed under<code> IUS_INST_DIR/tools/amsd/wrealSamples</code>&#160;area. These libraries contain text models and also the versions that can be used with the IUS5141 and IC61x releases. The text models are directly accessible and usable in a command-line digital-centric flow.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For details about the<code>&#160;wreal&#160;</code>data type, see <span style="color: rgb(0,0,255);"><a class="message-url" href="../verilogamsref/chap4.html#wreal">&quot;Real Nets&quot;</a> </span>in the <span style="color: rgb(0,0,255);"><a class="message-url" href="../verilogamsref/chap4.html">&quot;Data Types and Objects&quot;</a> </span>chapter of the Cadence<span style="color: rgb(0,0,0);"><sup>&#174;</sup></span>Verilog-AMS Language Reference.</p>
+</div>
+</div>
+
+<p>See the following topics for information about <code>wreal</code>&#160;features of the AMS Designer simulator:</p>
+<ul><li><a href="#RealNumberModeling-1047473"> Basic wreal Features of the AMS Designer Simulator </a></li></ul><ul><li><a href="#RealNumberModeling-1044158"> Advanced wreal Features of the AMS Designer Simulator </a></li></ul><h3 id="RealNumberModeling-BasicwrealFeaturesoftheAMSDesignerSimulatorwreal_amsBasicReal1047473">Basic wreal Features of the AMS Designer Simulator<span class="confluence-anchor-link" id="RealNumberModeling-wreal_amsBasicReal"></span><span class="confluence-anchor-link" id="RealNumberModeling-1047473"></span></h3>
+
+<p>Basic<code> wreal </code>features of the AMS Designer simulator consist of the following:</p>
+<ul><li>Scalar<code> wreal </code>declaration</li></ul><ul><li>Local<code> wreal </code>declaration in a behavioral construct</li></ul><ul><li>Hierarchical connection of nets where you explicitly assign the <code>wreal</code>&#160;data type</li></ul>
+<p>You can use these features to create real-numbered models.</p>
+
+<p>For example, the following Verilog-AMS model for a DC source has an output port type that is<code> wreal</code>, which is like a wire with the ability to transfer a real number:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module rdcsource ( aout );
+output aout;
+wreal aout;&#160;&#160;&#160;&#160;&#160;//output wreal
+\logic aout;&#160;&#160;&#160;&#160;//discrete domain
+
+parameter real dc=0.0;
+real aoutreg;
+
+initial begin
+&#160;&#160;&#160;&#160;aoutreg=dc;
+end
+assign aout = aoutreg;
+
+endmodule</pre>
+</div>
+</div>
+
+<p>The following Verilog-AMS model for a ramp source has an external clock that defines the sampling rate:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module step (clk, y );
+input clk;
+output y;
+wreal y;
+\logic y;
+
+parameter real offset=0.0;
+parameter real step=1;
+
+real yval;
+
+initial
+&#160;&#160;&#160;&#160;yval=offset;
+
+always @(posedge clk)
+begin
+&#160;&#160;&#160;&#160;yval = yval + step ;
+&#160;&#160;&#160;&#160;end
+
+assign y = yval;
+endmodule</pre>
+</div>
+</div>
+<h3 id="RealNumberModeling-AdvancedwrealFeaturesoftheAMSDesignerSimulatorwreal_amsAdvReal1044158">Advanced wreal Features of the AMS Designer Simulator<span class="confluence-anchor-link" id="RealNumberModeling-wreal_amsAdvReal"></span><span class="confluence-anchor-link" id="RealNumberModeling-1044158"></span></h3>
+
+<p>Advanced<code> wreal </code>features of the AMS Designer simulator consist of the following:</p>
+<ul><li><code> wreal </code>arrays<br />For example:<code> <br />module wreal_src_bus ( out );<br />&#160;&#160;&#160;output out[1:0];&#160;<br />&#160;&#160;&#160;wreal out[1:0];<br /><br />assign out[0] = 3.2;<br />assign out[1] = 2.2;<br />endmodule<br /> </code>For more information, see<span style="color: rgb(0,0,255);"><a class="message-url" href="../verilogamsref/chap4.html#wrealArray">&quot;Arrays of Real Nets&quot;</a></span>in the<em><span style="color: rgb(0,0,0);"> Cadence </span><span style="color: rgb(0,0,0);"><sup>&#174;</sup></span><span style="color: rgb(0,0,0);"> Verilog </span><span style="color: rgb(0,0,0);"><sup>&#174;</sup></span></em><span style="color: rgb(0,0,0);"><em> -AMS Language Reference</em>.</span></li></ul><ul><li><code> wreal </code>nets with more than one driverFor more information, see<span style="color: rgb(0,0,255);"><a class="message-url" href="../verilogamsref/chap4.html#wrealStates">&quot;Real Nets with More than One Driver&quot;</a></span>in the<span style="color: rgb(0,0,0);"> Cadence</span><span style="color: rgb(0,0,0);"><sup>&#174;</sup></span><span style="color: rgb(0,0,0);"> Verilog</span><span style="color: rgb(0,0,0);"><sup>&#174;</sup></span><span style="color: rgb(0,0,0);">-AMS Language Reference.</span> See also &quot;<a href="#RealNumberModeling-1049176">Selecting a wreal Resolution Function</a>.&quot;</li></ul><ul><li><code> wrealXState </code>and<code> wrealZState <br /></code>For more information, see<span style="color: rgb(0,0,255);"><a class="message-url" href="../verilogamsref/chap4.html#wrealStates">&quot;Real Nets with More than One Driver&quot;</a></span>in the<em><span style="color: rgb(0,0,0);"> Cadence </span><span style="color: rgb(0,0,0);"><sup>&#174;</sup></span><span style="color: rgb(0,0,0);">Verilog</span><span style="color: rgb(0,0,0);"><sup>&#174;</sup></span></em><span style="color: rgb(0,0,0);"><em> -AMS Language Reference</em>.</span></li></ul><ul><li>Connections between<code> wreal </code>and VHDL<code> real </code>signals<br />See also &quot;<a href="Preparing_the_Design__Using_Mixed_Languages.html">Connecting VHDL and VHDL-AMS Blocks to Verilog and Verilog-AMS Blocks</a>.&quot;</li></ul><ul><li>
+<p><span class="confluence-anchor-link" id="RealNumberModeling-wrealCoercion"></span> wreal coercion for hierarchical connections between wreal and wire nets, wreal and SystemVerilog real nets, wreal and VHDL real nets<br /><br /> wreal coercion refers to the ability to connect wreal nets hierarchically to wires and coercing the wires to become wreals. This also includes support for hierarchical connection of a wreal net to SV-real and VHDL-real signals.<br /><br />For example, the following discrete wreal step generator connects to an electrical resistor, so the elaborator coerces wire aout to wreal and inserts a bidirectional electrical -to-real connect<br /><br /> <code>module: module top (  );</code><br /><code>electrical  gnd;</code><br /><code>ground gnd;</code><br /><code>wire   aout;</code><br /><code>\logic  aout;&#160;&#160;&#160;&#160;//discrete domain</code><br /><br /><code>&#160;&#160;&#160;&#160;clock_gen #(.period(1.0)) I0 ( .clk( clk ) );</code><br /><code>&#160;&#160;&#160;&#160;step #(.step(10.0e-6)) I2 ( .clk( clk ), .y( aout) );</code><br /><code>&#160;&#160;&#160;&#160;resistor #(.r(200.0)) RLOAD2  (aout, gnd);</code><br /><code>endmodule</code><br /><br /> where<code> module step </code>might look like this:<br /><br /><code> module step (clk, y );<br />input clk;<br />output  y;<br />wreal y;<br />\logic y;<br /><br />parameter real offset=0.0;<br />parameter real step=1;<br />real  yval;<br />initial<br />&#160;&#160;&#160;&#160;yval=offset;<br />always @(posedge clk)<br />begin<br />&#160;&#160;&#160;&#160;yval = yval + step  ;<br />endassign y = yval;</code></p>
+
+<p><code>endmodule</code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You can use<code> xrun/xmelab</code> option <code>-rnm_coerce</code> with parameters to turn ON or OFF the wreal coercion feature. The default is <code>ON</code> for whole design.</p>
+</div>
+</div>
+
+<p>See also<a href="#RealNumberModeling-1044390"> &quot;Instantiating VHDL Blocks with Real Signal Ports on a Schematic&quot; </a>and &#160;&quot;<a href="Preparing_the_Design__Using_Mixed_Languages.html">Connecting VHDL and VHDL-AMS Blocks to Verilog and Verilog-AMS Blocks</a>.&quot;</p>
+</li></ul><ul><li><code> wreal </code>nets with inherited connections<br />This includes:</li></ul><ul><ul><li>Connection between a<code> wreal </code>nettype and another<code> wreal </code>nettype through an inherited connection.</li></ul></ul><ul><ul><li>
+<p>Connection between a<code> wreal </code>nettype and an<code> electrical </code>nettype through an inherited connection.<br />Wreal nets with inherited connections are also supported in the analog design environment (<a href="Glossary.html#Glossary-1033531"> ADE </a>) flow. However, for this, you need to explicitly define the target nets of the inherited connection to wreal nets.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>Connection between the<code>&#160;wreal&#160;</code>nettype and the <code>real</code> nettype is not supported.</p>
+</div>
+</div>
+
+<p><span style="color: rgb(0,0,0);"><strong>Example&#160;</strong></span>(<code>wreal</code>&#160;nettype with another <code>wreal</code>&#160;nettype):<code> <br /></code></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module top; 
+
+wreal (* integer inh_conn_prop_name=&quot;global_prop_wreal&quot;;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;integer inh_conn_def_value=&quot;cds_globals.wr&quot;; *) local;
+&#160;
+always @(local) begin 
+$display(&quot;======= local=&quot;, local);
+end
+
+initial begin
+
+#1 $display(&quot;======= (ini) local=&quot;, local);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#1 $display(&quot;======= (ini) local=&quot;, local);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#1 $display(&quot;======= (ini) local=&quot;, local);
+end
+
+endmodule</pre>
+</div>
+</div>
+
+<p>where module <code>cds_globals</code>&#160;might look like the following:<br /><code> </code></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module cds_globals;
+
+electrical el, gnd;
+&#160;&#160;&#160;&#160;wreal wr;
+&#160;&#160;&#160;&#160;real re;
+&#160;&#160;&#160;&#160;wire wi;
+&#160;&#160;&#160;&#160;reg rg;
+&#160;&#160;&#160;&#160;ground gnd;
+
+&#160;&#160;&#160;&#160;assign wr = re;
+&#160;&#160;&#160;&#160;assign wi = rg;
+
+&#160;&#160;&#160;&#160;vsource #(.dc(3.3)) v1 (el, gnd);
+
+&#160;&#160;&#160;&#160;initial begin 
+#0 re = 0.0; rg = 0;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#1 re = 1.1; rg = 1;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#1 re = 2.2; rg = 0;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#1 re = 3.3; rg = 1;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#1 re = 4.4; rg = 0;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#1 re = 5.5; rg = 1;
+end
+
+endmodule</pre>
+</div>
+</div>
+</li></ul></ul><ul><li><code> -wreal_resolution </code>command-line option for specifying a resolution function for<code> wreal </code>nets with more than one driver<br />For more information, see &quot;<a href="#RealNumberModeling-1049176">Selecting a wreal Resolution Function</a>.&quot;</li></ul><ul><li><code> wreal </code>as an independent variable in the&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap9.html#table_model">$table_model</a>&#160;</span>function<br />For more information, see &quot;<a href="#RealNumberModeling-1044267">Using wreal Independent Variables in a $table_model</a>.&quot;</li></ul><ul><li><span class="confluence-anchor-link" id="RealNumberModeling-delayonwreal"></span>Delays on<code> wreal </code>netsSingle net delays and assignment delays are supported on<code> wreal </code>nets. Assignment delays are supported when they are used with wreal nets that are part of continuous assignment declaration or net assignment declaration. This includes:</li></ul><ul><ul><li>real to wreal assignments<code> <br />real r,<br />wreal w;<br />assign #5 w = r;<br /> </code></li></ul></ul><ul><ul><li>wreal to wreal assignments<span style="color: rgb(0,0,0);"><span style="color: rgb(0,0,0);"> <br /><code>wreal x,</code><br /><code>wreal w;</code><br /><code>assign #5 w = x;</code><br /> </span></span></li></ul></ul><p style="margin-left: 60.0px;">Following are not supported:</p>
+<ul><ul><li>Multiple delays in a net delay. For example:<br /><code> wreal #(10,11) w; </code></li></ul></ul><ul><ul><li>Multiple delays (rise, fall or rise, fall to-z) in an assignment delay. For example:<br /><code> assign #(2,3,4) a = b; </code></li></ul></ul><h2 id="RealNumberModeling-UsingwrealIndependentVariablesina$table_modeltable_model_wreal1044267">Using wreal Independent Variables in a $table_model<span class="confluence-anchor-link" id="RealNumberModeling-table_model_wreal"></span><span class="confluence-anchor-link" id="RealNumberModeling-1044267"></span></h2>
+
+<p><span class="confluence-anchor-link" id="RealNumberModeling-table_model_digital_context"></span>You can use the Verilog-AMS&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap9.html#table_model">$table_model</a></span>&#160;function in the analog context (in an <code>analog </code>block) and in the digital context (such as in an<code> initial</code>&#160;or an<code> always </code>block) with<code> wreal </code>independent variables.</p>
+
+<p>Using the <code>$table_model</code>&#160;function in your functional and timing simulation, you can replace transistor circuitry with a table model, where the table model operates on real number sweep data that you measure. For example, consider the following Verilog-AMS module, which measures input and output voltage values and saves the data into an ASCII text file as a two-dimensional table that we can reuse in a <code>$table_model</code>&#160;function:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">`include &quot;disciplines.vams&quot;
+`timescale 1ns/100ps
+module probe2table ( a, b, clk );
+input a, b, clk;
+electrical a, b;
+parameter lsb=1u;
+real previous_b_value=0;
+integer fptr;
+integer index=1;
+
+initial begin
+&#160;&#160;&#160;&#160;fptr = $fopen(&quot;table2d.dat&quot;, &quot;w&quot;);
+&#160;&#160;&#160;&#160;if( !fptr ) $stop;
+&#160;&#160;&#160;&#160;$display(&quot; &gt;&gt; Open the file for writing&quot; );
+&#160;&#160;&#160;&#160;previous_b_value = V(b);
+end
+
+always @( posedge(clk)) begin
+&#160;&#160;&#160;&#160;if (V(b) - previous_b_value &gt; lsb ) begin
+&#160;&#160;&#160;&#160;$fwrite(fptr, &quot;%d %1.9f %1.9f\n&quot;, index, V(a), V(b) );
+&#160;&#160;&#160;&#160;$display(&quot;&gt;&gt; Write the data t=%-6d ns V(a)=%1.9f V(b)=%1.9f &quot;,$time,V(a),V(b));
+&#160;&#160;&#160;&#160;previous_b_value = V(b);
+&#160;&#160;&#160;&#160;index = index +1;
+end
+end
+endmodule</pre>
+</div>
+</div>
+
+<p>You can reuse the table model in the resulting&#160;<code>table2d.dat</code>&#160;file in a <code>$table_model</code>&#160;function that has a wreal as the independent variable as follows:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">`define TABLE_FILE_NAME &quot;table2d.dat&quot;
+`timescale 1ns / 100ps
+module inv_table ( a, y );
+&#160;&#160;&#160;&#160;output&#160;&#160;y;
+&#160;&#160;&#160;&#160;wreal&#160;&#160;&#160;y;
+&#160;&#160;&#160;&#160;parameter real td=10p;
+
+&#160;&#160;&#160;&#160;input&#160;&#160;a;
+&#160;&#160;&#160;&#160;wreal&#160;&#160;a;
+&#160;&#160;&#160;&#160;real&#160;&#160;&#160;y_reg;
+&#160;&#160;&#160;&#160;real&#160;&#160;&#160;delay_ns= td / 1.0e9;
+
+&#160;&#160;&#160;&#160;initial begin
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;y_reg =$table_model(a,`TABLE_FILE_NAME,&quot;I,1L&quot;);
+
+&#160;&#160;&#160;&#160;end
+
+&#160;&#160;&#160;&#160;always @(a) begin&#160;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;#delay_ns y_reg =$table_model(a,`TABLE_FILE_NAME,&quot;I,1L&quot;);
+&#160;&#160;&#160;&#160;end
+&#160;&#160;&#160;&#160;assign y = y_reg;
+
+endmodule</pre>
+</div>
+</div>
+
+<p>In the<code> initial </code>and<code> always </code>blocks, you assign the interpolated data to a real variable,<code> y_reg.</code> The value of the<code> td </code>(<code>real</code>) parameter--which represents the propagation delay of an inverter gate--determines when to assign the value of <code>y_reg</code>&#160;to the <code>wreal</code>&#160;output value, <code>y.</code></p>
+
+<p>The software interpolates and extrapolates, using the control string you specify, to estimate each value from the known set of values. The first part of the control string (in this case,<code> I</code>) controls the numerical aspects of the interpolation process. For this example, the<code> I </code>causes the software to ignore the corresponding dimension (column) in the data file. The number (<code>1</code>) is the degree of the interpolation splines. The last part of the control string (in this case,<code> L</code>) specifies the extrapolation method: how the simulator evaluates a point that is outside the region of sample points included in the data file. The letter<code> L </code>indicates<em><code><span style="color: rgb(0,0,0);"> linear </span></code></em>extrapolation.<span>&#160;</span></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><span style="color: rgb(0,0,0);">Y</span>ou can use an environment variable to specify the location of the table file in the<code> $table_model </code>function in digital context (such as<code> initial </code>or<code> always </code>block). For example:</p>
+
+<p><code> initial begin </code></p>
+
+<p><code> out1 = $table_model(wb,&quot;$WORKAREA/$FILENAME&quot;, &quot;&quot;); </code></p>
+
+<p><code> end </code></p>
+
+<p>In addition, you can use real array as a table model data source in a digital block. For example:</p>
+
+<p><code> real tvar1[0:50]; </code></p>
+
+<p><code> real ftyp[0:50]; </code></p>
+
+<p><code> &#160; </code></p>
+
+<p><code> always @ (en) begin </code></p>
+
+<p><code> test_out_real = $table_model(w_t_in , tvar1, ftyp,&quot;3CC&quot;); </code></p>
+
+<p><code> end</code></p>
+</div>
+</div>
+
+<p><br />For more information about the&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap9.html#table_model">$table_model</a>&#160;</span>function, see&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../verilogamsref/chap9.html#table_model">&quot;Interpolating with Table Models&quot;</a>&#160;</span>in the<span style="color: rgb(0,0,0);"><em> Cadence Verilog-AMS Language Reference</em>.</span></p>
+<h2 id="RealNumberModeling-ConnectingVerilog-AMSwrealSignalstoAnalogSignalswrealToElectrical1047557">Connecting Verilog-AMS wreal Signals to Analog Signals<span class="confluence-anchor-link" id="RealNumberModeling-wrealToElectrical"></span><span class="confluence-anchor-link" id="RealNumberModeling-1047557"></span></h2>
+
+<p>In AMS-Spectre, you can connect&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a>&#160;</span>nets to<code> electrical </code>nets, with either one on top, provided that appropriate connect modules are available to translate between signal types. For example, you can specify the following connection (<code>wreal </code>connected to<code> electrical</code>) when you have appropriate connect rules and modules available.</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module top;
+&#160;&#160;&#160;&#160;wreal w;
+&#160;&#160;&#160;&#160;child c1(w); // wreal connected to electrical
+endmodule
+
+module child(e);
+&#160; &#160; input e;
+&#160;&#160;&#160;&#160;electrical e;
+endmodule</pre>
+</div>
+</div>
+
+<p>When the<code> wreal </code>and<code> electrical </code>nets are connected, the port can be<code> input</code>,<code> output</code>, or<code> inout.</code></p>
+
+<p>The elaborator uses the signal type (<code>wreal </code>or<code> electrical</code>) to identify appropriate connect rules. For example, if<code> myrule </code>is defined as</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">connectrules myrule;
+&#160;&#160;&#160;&#160;connect a2d input electrical output logic;
+&#160;&#160;&#160;&#160;connect wreal_a2d input electrical output logic;
+endconnectrules;</pre>
+</div>
+</div>
+
+<p><code>the domains and directions are insufficient to distinguish between the<code> a2d </code>rule and the<code> wreal_a2d </code>rule. If you add the information that the logic domain signal is actually<code> wreal </code>, the elaborator can select the connect module that has a<code> wreal </code>port of the appropriate direction.</code></p>
+
+<p>You will find the&#160;<a href="Glossary.html#Glossary-1033873">E2R</a>&#160;and&#160;<a href="Glossary.html#Glossary-1036188">R2E</a>&#160;connect modules in the Cadence hierarchy at</p>
+
+<p><code><em> your_install_dir</em>/tools/affirma_ams/etc/connect_lib/E2R.vams</code></p>
+
+<p>and</p>
+
+<p><code><em> your_install_dir</em>/tools/affirma_ams/etc/connect_lib/R2E.vams</code></p>
+
+<p>These connect modules have appropriate port types and directions for use in connecting<code> wreal </code>nets to<code> electrical </code>nets. For example,</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">connectrules ConnRules_full_fast;
+&#160;&#160;connect L2E_2;
+&#160;&#160;connect E2L_2;
+&#160;&#160;connect Bidir_2;
+&#160;&#160;connect E2R;
+&#160;&#160;connect R2E;
+&#160;&#160;connect ER_bidir;
+endconnectrules</pre>
+</div>
+</div>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>In addition to connecting Verilog-AMS wreals to electrical nets, you can connect the SystemVerilog real ports to electrical nets.</p>
+</div>
+</div>
+
+<p><span style="color: rgb(51,51,51);">The basic, full, and full_fast R2E connect modules have been enhanced to support the current mode, in which electrical current is converted between wreal and electrical connection.</span></p>
+
+<p>Following new parameters have been added to these connect modules to support wreal current. You can specify all the parameters in the <code>ie</code>&#160;card.</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 649.0px;"><colgroup><col /><col /><col /></colgroup><tbody><tr><th class="confluenceTh" valign="middle" width="121">
+<p>Parameter Name</p>
+</th><th class="confluenceTh" valign="middle" width="150">
+<p>Default Value</p>
+</th><th class="confluenceTh" valign="middle" width="377">
+<p>Description</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><span style="color: rgb(0,0,0);">currentmode </span></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>0</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1 for wreal current</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><span style="color: rgb(0,0,0);">clamp </span></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>0</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>When set to 1, enables voltage clamp. It limits the signal voltage level to be within the supply voltage range, regardless of the value of the wreal current.</p>
+<ul><li>With parameter<code> dvclamp</code>, the clamp zone is defined to be from vss to vss + dvclamp and from vdd - dvclamp to vdd.</li></ul><ul><li>When wreal current signal drives the electrical signal voltage to be entering clamp zone, the electrical current converted from the wreal signal is reduced so that the electrical voltage never goes beyond the supply voltage range.</li></ul><ul><li>When the signals goes into the clamp zone, the converted electrical signal is distorted and is not equal to wreal signal value.</li></ul><ul><li>When<code> clamp </code>is enabled, the simulation may be more stable. However, to ensure the accuracy of circuit function, you need to ensure that the converted electrical signal does not go into the clamp zone.</li></ul></td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><span style="color: rgb(0,0,0);">rin </span></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>200</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Current load resistance</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><span style="color: rgb(0,0,0);">idelta </span></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>10u</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Current delta of absdelta</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><span style="color: rgb(0,0,0);">itoldelta </span></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>(`idelta) </code>/4</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Current tolerance of absdelta</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><span style="color: rgb(0,0,0);">ix </span></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>0</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Current of wreal x</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><span style="color: rgb(0,0,0);">vbias </span></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>`vss+(`vsup)/2 </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Bias voltage of current load</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><span style="color: rgb(0,0,0);">vcclamp </span></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>(`vsup)/20 </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Voltage clamp zone</p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>You can create a customized connect rule<code> CR_full_fast_current </code>with discipline<code> wreal_current </code>and define<code> wreal_current </code>on applicable wreal ports of Verilog-AMS modules.</p>
+
+<p>The current polarity of wreal port for wreal current modeling should be defined such that:</p>
+<ul><li>For wreal input port, positive current means current flowing into the module.</li><li>For wreal output port, positive current means current flowing out of the module.</li></ul>
+<p>Note that this wreal port current definition is different than the port current definition of Verilog-A/SPICE, in which positive current means current flowing into the module/subckt (regardless the port direction declaration if any).</p>
+
+<p>With this wreal port current definition and the Verilog-A port current definition, the Electrical-Wreal connect modules in current mode are basically modeled as:</p>
+<ul><li>&#160;R2E (input wreal Din, electrical Aout):<br />&#160;<code>I(Aout) &lt;- -Din;</code></li><li>E2R (electrical Ain, output wreal Dout):<br /><code>Dout = I(Ain);</code></li></ul>
+<p>The following figures show the equivalent circuits for current-based connect modules:</p>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236032/305236033.png" data-linked-resource-container-id="305236032" data-linked-resource-container-version="3" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image2019-3-14_12-43-54.png" data-linked-resource-id="305236033" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" height="192" src="attachments/305236032/305236033.png" /></span></p>
+<h2 id="RealNumberModeling-ResolvingDisciplinesforVerilog-AMSwrealNetswrealDisciplineResolution1044287">Resolving Disciplines for Verilog-AMS wreal Nets<span class="confluence-anchor-link" id="RealNumberModeling-wrealDisciplineResolution"></span><span class="confluence-anchor-link" id="RealNumberModeling-1044287"></span></h2>
+
+<p>The software treats&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a>&#160;</span>nets as Verilog-AMS wires from a discipline resolution point of view. The elaborator resolves<code> wreal </code>nets to either the digital or the analog domain based on how they are connected in the design and how the discipline resolution process propagates domain and disciplines up and down the design hierarchy.</p>
+
+<p>Like Verilog-AMS wires, <code>wreal </code>nets can have any discipline (discrete or continuous) based on how they are declared, used, or resolved. You can use the&#160;<code>-ams_dig_wreal</code>&#160;option to keep wreal signals in discrete domain.</p>
+
+<p>Using default discipline resolution with a default discipline of<code> logic</code>, discrete nets that connect to<code> wreal </code>nets can become<code> wreal </code>nets. Consider the following example:</p>
+
+<p><br /></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module top;
+&#160;&#160;wreal a;
+&#160;&#160;child1 c1(a);
+endmodule
+
+module child1(b) ;
+&#160;&#160;input b;
+&#160;&#160;logic b;
+&#160;&#160;child2 c2(b);
+endmodule
+
+module child2(c);
+&#160;&#160;input c;
+&#160;&#160;electrical c;
+&#160;&#160;child3 c3(c);
+endmodule
+
+module child3(d);
+&#160;&#160;input d;
+&#160;&#160;wire d;
+&#160;&#160;child4 c4(d);
+endmodule
+
+module child4(e);
+&#160;&#160;input e;
+&#160;&#160;wire e;
+&#160;&#160;assign e = 1&#39;b1;
+&#160;&#160;...
+endmodule</pre>
+</div>
+</div>
+
+<p><br /></p>
+
+<p>According to the default discipline resolution where the default discipline is<code> logic </code>, nets<code> top.a </code>(a<code> wreal</code>) and<code> top.c1.b </code>(discrete net with discipline<code> logic</code>) are equivalent and<code> top.c1.b </code>resolves to a<code> wreal </code>(discipline<code> logic</code>).</p>
+
+<p>Nets<code> top.c1.b </code>(discrete) and<code> top.c1.c2.c </code>(continuous) have incompatible disciplines (<code>logic</code>/<code>wreal </code>versus<code> electrical</code>) as do nets<code> top.c1.c2.c </code>and<code> top.c1.c2.c3.d </code>(<code>electrical </code>versus<code> logic</code>/<code>wire</code>) so the software needs to insert connect modules where these nets connect. The software determines which connect module to insert using connect rules. For example:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">connectrules myrules;
+&#160;&#160;connect w2e input logic, output electrical;
+&#160;&#160;connect a2d input electrical, output logic;
+endconnectrules</pre>
+</div>
+</div>
+
+<p>The port value type (<code>wreal</code>,<code> electrical</code>,<code> logic</code>) defines the selection of a connect module. The first connect rule above says to use the<code> w2e </code>connect module when connecting<code> wreal </code>(defaults to<code> logic </code>discipline) to<code> electrical </code>nets. The second connect rule above says to use the<code> a2d </code>connect module when connecting<code> electrical </code>to<code> logic </code>nets.</p>
+
+<p>Nets<code> top.c1.c2.c3.d </code>and<code> top.c1.c1.c3.c4.e </code>are both discrete wires so the software does not need to insert connect modules here.</p>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236032/305236037.png" data-linked-resource-container-id="305236032" data-linked-resource-container-version="3" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="wrealModeling.12.1.2.png" data-linked-resource-id="305236037" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236032/305236037.png" width="640px" /></span></p>
+
+<p>In the absence of unidirectional ports, the number of drivers on the<code> wreal </code>net determines the behavior of the connect module. For example, when an<code> inout wreal </code>connects to an<code> inout </code><code> electrical</code>, you can use the&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap9.html#driver_count">$driver_count</a>&#160;</span>function in the connect module definition to determine the number of drivers on the<code> wreal </code>net. If there are no drivers on the<code> wreal </code>net, the connect module does the conversion from<code> electrical </code>to<code> wreal.</code> (See also &quot;<a href="#RealNumberModeling-1047557">Connecting Verilog-AMS wreal Signals to Analog Signals</a>&quot;.)</p>
+<h2 id="RealNumberModeling-UsingwrealNetsatMixed-LanguageBoundarieswrealVHDL1044381">Using wreal Nets at Mixed-Language Boundaries<span class="confluence-anchor-link" id="RealNumberModeling-wrealVHDL"></span><span class="confluence-anchor-link" id="RealNumberModeling-1044381"></span></h2>
+
+<p>You can use&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a>&#160;</span>nets at mixed-language boundaries. However, if you have any Verilog-AMS<code> wreal </code>nets driving a VHDL real number receiver, that receiver must be able to handle the <code>wrealZState </code>aand<code> wrealXState </code>state values. The software represents these values as double-precision (64-bit) NaNs (Not-a-Number) using the IEEE 754 Standard for Binary Floating-Point Arithmetic. The<code> wrealZState</code>&#160;value has a 64-bit pattern of 0xFFFFFFFF00000000 and the <code>wrealXState</code>&#160;value is any NaN that does not have the bit pattern of <code>wrealZState</code>. The set of connect rules that Cadence provides (in<em><code> your_install_dir</code></em><code>/tools/affirma_ams/etc/connect_lib</code>) supports <code>wrealZState</code>&#160;and <code>wrealXState</code>&#160;state values.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>See<code>&#160;<em>your_install_dir</em></code><code>/tools/affirma_ams/etc/connect_lib/README&#160;</code>for detailed information about the set of connect rules that Cadence provides.</p>
+</div>
+</div>
+
+<p>See also &quot;<a href="#RealNumberModeling-1049176">Selecting a wreal Resolution Function</a>&quot; for information about using the <code>-wreal_resolution</code>&#160;command-line option during elaboration to select a<code> wreal </code>resolution function.</p>
+<h2 id="RealNumberModeling-WritingBidirectionalModelBehaviorwtran_model">Writing Bidirectional Model Behavior<span class="confluence-anchor-link" id="RealNumberModeling-wtran_model"></span></h2>
+
+<p>You can use the&#160;<code>$cds_get_external_drivers</code>&#160;system task in module definitions to model bidirectional behavior like pass gates, for nets with user-defined nettypes (UDNs). For example, you may use <code>$cds_get_external_drivers</code>&#160;in module definitions to model the bidirectional behavior of WTRAN models with SV-wreal nettypes.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You can also use the abbreviated name, <span><code>$cged</code> instead of <code>$cds_get_external_drivers</code>.</span></p>
+</div>
+</div>
+
+<p>The use model is similar to the connect modules that support SIE with the following differences:</p>
+<ul><li>The module cannot contain any analog ports</li><li>The module is not limited to just two ports like the SIE connect modules</li></ul>
+<p>The module can have an arbitrary number of digital ports. All inout ports that have&#160;<code>$cds_get_external_drivers</code>&#160;call associated with them receive additional SIE processing to create shadow networks. All ports that do not have an associated <code>$cds_get_external_drivers</code>&#160;call associated with them receive normal SystemVerilog port processing.</p>
+
+<p>The module cannot have&#160;<code>$cds_get_external_drivers</code>&#160;call associated with a port that is not declared (or has default direction) as <code>inout</code>. Also, all ports that have <code>$cds_get_external_drivers</code>&#160;calls associated with them must be nets; <code>$cds_get_external_drivers</code>&#160;cannot be called on a var port. However, normal ports that do not get SIE processing can have any legal port kind, type, or direction. Also, module/UDP instantiation inside SIE model is not supported.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>From the 19.09 Xcelium release, bidirectional behavior of WTRAN models is supported with mixed-language (Verilog/VHDL) net connections also. So, you can instantiate Verilog SIE model inside VHDL (VHDL on parent and Verilog SIE model on child).</p>
+</div>
+</div>
+
+<p>Following is an example of a <code style="letter-spacing: 0.0px;">wreal1driver</code>&#160;pass gate model that can be modeled with SIE ports:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">import cdn_rnm_pkg::*;
+module wreal1driver_pass_gate(inout wreal1driver a, inout wreal1driver b, wire en);
+real aVal, bVal;
+real aOut, bOut;
+initial
+begin
+$cds_get_external_drivers(a, aVal);
+$cds_get_external_drivers(b, bVal);
+aOut = `wrealZState;
+bOut = `wrealZState;
+end
+
+always @(aVal, bVal, en)
+begin
+//en is high so the pass gate is open
+if(en===1)
+begin
+if(aVal === `wrealZState)
+begin
+// a is Z so we pass b to a
+aOut = bVal;
+bOut = `wrealZState;
+end
+else if(bVal === `wrealZState)
+begin
+// b is Z so pass a to b
+bOut = aVal;
+aOut = `wrealZState;
+end
+else
+begin
+// both a and b are nonZ so we have contention and output X
+aOut = `wrealXState;
+bOut = `wrealXState;
+end
+end
+else if(en===0)
+begin
+// en is low so we aren&#39;t passing values. just drive Z
+aOut = `wrealZState;
+bOut = `wrealZState;
+end
+else
+begin
+// en is X or Z so output X
+aOut = `wrealXState;
+bOut = `wrealXState;
+end
+end
+// assign the pass values to the port so they are visible to external receivers
+assign a = aOut;
+assign b = bOut;
+endmodule</pre>
+</div>
+</div>
+
+<p>In the above example, if the enable is high and only one of the model port is driven, that value is passed to the other side. For cases where both ports are driven and the enable is high, both sides of the pass gate resolve to&#160;<code>wrealXState</code>. If the enable is low, both sides of the pass gate are isolated from each other (the pass gate drives out&#160;<code>`wrealZValue)</code>. If the enable is X or Z, both sides resolve to&#160;<code>`wrealXState</code>.</p>
+
+<p>Following is an example of a&#160;<code>WTRANIF1</code>&#160;model that can be modeled with SIE ports:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">import cds_rnm_pkg::*;
+&#160;
+module wtranif1(inout wreal4state a, inout wreal4state b, input var bit en);
+real a_val;
+real b_val;
+wreal4state a_ord;
+wreal4state b_ord;
+real Zval;
+real Xval;
+&#160;
+initial
+begin
+Zval = `wrealZState;
+Xval = `wrealXState;
+$cds_get_external_value(a, a_ord);
+$cds_get_external_value(b, b_ord);
+end
+/* disable full resolution on the shadow net */
+assign a_ord = (en!==1)? Xval : Zval;
+assign b_ord = (en!==1)? Xval : Zval;
+
+assign #1 a = (en!==1&#39;b1)? Zval : b_ord;
+assign #1 b = (en!==1&#39;b1)? Zval : a_ord;
+
+endmodule // wtranif1</pre>
+</div>
+</div>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><code>wreal4state</code> is analogous to a digital 4-state wire and is the only type that can be used to model a WTRANIF gate.</p>
+</div>
+</div>
+
+<p>The following figure illustrates a typical use scenario of the WTRANIF1 switch.</p>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236032/305236035.png" data-linked-resource-container-id="305236032" data-linked-resource-container-version="3" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="chap4.11.1.4.png" data-linked-resource-id="305236035" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236032/305236035.png" width="640px" /></span></p>
+
+<p>The&#160;<code>$cds_get_external_value</code>&#160;function is used to resolve the drive strength of A and B.</p>
+<ul><li>When enable EN=1<ul><li>If A is&#160;<code>wrealZState</code>&#160;and B is not, value of B drives A</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>If B is&#160;<code>wrealZState</code>&#160;and A is not, value of A drives B</li></ul></li></ul><ul><li style="list-style-type: none;background-image: none;"><ul><li>If none of them are&#160;<code>wrealZState</code>, they resolve to wrealXState</li></ul></li><li>When enable EN=0, A and B maintain their values</li></ul>
+<p>Modeling bidirectional behavior for WTRAN models may affect elaboration performance. You can use the&#160;<code>xrun</code>&#160;option,&#160;<code>-amsie_task_perf</code>, to optimize elaboration performance for such models.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>Modeling arbitrary networks of pass gates may not be possible for every resolution function as the pass gate model relies heavily on the resolution behavior of the net. For some resolutions (like for instance wrealavg), it may not be possible to use this methodology to model pass gate like behavior (wrealavg ports may have different values on each port because the internal driver gets averaged with the external drivers, which may be different on each port in a multi-driver situation). Therefore, if you intend to model pass gate behavior, you should define the resolution function such that it supports your pass gate models.</p>
+</div>
+</div>
+<h2 id="RealNumberModeling-UsingwrealinAssertionsassertionswrealAssert1047353">Using wreal in Assertions<span class="confluence-anchor-link" id="RealNumberModeling-assertions"></span><span class="confluence-anchor-link" id="RealNumberModeling-wrealAssert"></span><span class="confluence-anchor-link" id="RealNumberModeling-1047353"></span></h2>
+
+<p>The AMS Designer simulator lets you use SystemVerilog Assertions (SVAs) on SystemVerilog <code>real</code>&#160;variables (or ports) that connect to&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a></span>&#160;or <code>electrical</code>&#160;nets, and PSL assertions on <code>real</code>&#160;and Verilog-AMS <code>wreal</code>&#160;nets that connect to <code>electrical</code>&#160;nets.</p>
+<div class="table-wrap"><table border="0" cellpadding="4" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /></colgroup><tbody><tr><td class="confluenceTd" valign="top" width="324"><div class="content-wrapper"><p align="left"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236032/305236041.png" data-linked-resource-container-id="305236032" data-linked-resource-container-version="3" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="wrealModeling.12.1.3.png" data-linked-resource-id="305236041" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236032/305236041.png" /></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top" width="324"><div class="content-wrapper"><p align="left"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236032/305236040.png" data-linked-resource-container-id="305236032" data-linked-resource-container-version="3" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="wrealModeling.12.1.4.png" data-linked-resource-id="305236040" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236032/305236040.png" /></span></p>
+</div>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>For more information, refer to&#160;<a href="SystemVerilog_and_AMS_Extensions.html#SystemVerilogandAMSExtensions-1075263">Applying Assertions to real, wreal, and electrical Nets</a>.</p>
+<h2 id="RealNumberModeling-InstantiatingVHDLBlockswithRealSignalPortsonaSchematic1044390">Instantiating VHDL Blocks with Real Signal Ports on a Schematic<span class="confluence-anchor-link" id="RealNumberModeling-1044390"></span></h2>
+
+<p>When you instantiate a VHDL block containing real signal ports on a schematic, you create a connection of VHDL real signals to Verilog-AMS wires from above. In such a situation, the simulator coerces the Verilog-AMS wire to become a digital<code> wreal </code>to integrate such VHDL blocks into the AMS flow.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>AMS Designer resolves Verilog-AMS&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a>&#160;</span>nets to the analog or digital domain during the discipline resolution process (see &quot;<a href="#RealNumberModeling-1044287">Resolving Disciplines for Verilog-AMS wreal Nets</a>&quot;). AMS Designer does something similar with Verilog-AMS wires. When AMS Designer resolves to the digital domain, it is the digital simulator that handles the computations for that net.</p>
+</div>
+</div>
+<h2 id="RealNumberModeling-SelectingawrealResolutionFunctionwreal_resolution1049176">Selecting a wreal Resolution Function<span class="confluence-anchor-link" id="RealNumberModeling-wreal_resolution"></span><span class="confluence-anchor-link" id="RealNumberModeling-1049176"></span></h2>
+
+<p>You can define a resolution function for each net in a design on per scope basis by using the Verilog-AMS discipline mechanism. You can also designate a global resolution function that will be used for undisciplined nets and for the nets with disciplines that do not define a<code> wreal </code>resolution function.</p>
+<h3 id="RealNumberModeling-DefiningawrealResolutionFunctionforaDiscipline">Defining a wreal Resolution Function for a Discipline</h3>
+
+<p>There are two methods for defining<code> wreal </code>resolution functions for a discipline.</p>
+<ul><li><a href="#RealNumberModeling-1050077"> Defining a Resolution Function Directly in the Discipline Definition </a></li></ul><ul><li><a href="#RealNumberModeling-1050106"> Defining a Resolution Function with the AMSCB connectmap Card </a></li></ul><h4 id="RealNumberModeling-DefiningaResolutionFunctionDirectlyintheDisciplineDefinition1050077">Defining a Resolution Function Directly in the Discipline Definition<span class="confluence-anchor-link" id="RealNumberModeling-1050077"></span></h4>
+
+<p>To define a<code> wreal </code>resolution function for a discipline, use the<code> realresolve </code>parameter in the discipline definition. The syntax of this parameter is as follows:</p>
+
+<p><code>realresolve&#160; <em>resolveFunction </em></code></p>
+
+<p>where the<em><code> resolveFunction </code></em>can have any of the following values:</p>
+<ul><li><a href="#RealNumberModeling-1062848"> default </a></li></ul><ul><li><a href="#RealNumberModeling-1044551"> fourstate </a></li></ul><ul><li><a href="#RealNumberModeling-1044644"> sum </a></li></ul><ul><li><a href="#RealNumberModeling-1044732"> avg </a></li></ul><ul><li><a href="#RealNumberModeling-1044818"> min </a></li></ul><ul><li><a href="#RealNumberModeling-1044904"> max </a></li></ul><ul><li><code> none</code></li></ul><div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you specify the value of<code>&#160;resolveFunction&#160;</code>as<code>&#160;none&#160;</code>, it is equivalent to not using the<code>&#160;realresolve&#160;</code>parameter at all. Nets of such disciplines will use the global resolution function. An error will occur if an invalid value is specified for the<code>&#160;resolveFunction&#160;</code>variable.</p>
+</div>
+</div>
+
+<p>The following example defines a discrete discipline named<code> wrealavg </code>that uses the<code> avg </code>resolution function for wreal nets.</p>
+
+<p><br /></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">discipline wrealavg
+
+&#160;&#160;&#160;&#160;domain discrete;
+
+&#160;&#160;&#160;&#160;realresolve avg;
+
+enddisicipline</pre>
+</div>
+</div>
+<div><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>Note that wreal resolution function names are case-sensitive. Therefore, if you specify the <code>sum</code> resolution function name as <code>Sum</code> or <code>SUM</code> , it will result in an error.</p>
+</div>
+</div>
+
+<p><br /></p>
+</div>
+<h4 id="RealNumberModeling-DefiningaResolutionFunctionwiththeAMSCBconnectmapCard1050106">Defining a Resolution Function with the AMSCB connectmap Card<span class="confluence-anchor-link" id="RealNumberModeling-1050106"></span></h4>
+
+<p>You can use the<code> realresolve </code>parameter with the<code> connectmap </code>card to define a resolution function for one or more disciplines.</p>
+
+<p>For more information about the<code> connectmap </code>card, its syntax, and examples, see&#160;<a href="Using_an_amsd_Block.html#UsinganamsdBlock-1058645">connectmap</a>.</p>
+<h3 id="RealNumberModeling-DefiningaGlobalwrealResolutionFunction">Defining a Global wreal Resolution Function</h3>
+
+<p>There are two methods that can be used to define a global<code> wreal </code>resolution function:</p>
+<ul><li><a href="#RealNumberModeling-1050287"> Using the -wreal_resolution Command-Line Option to xmelab and xrun </a></li></ul><ul><li><a href="#RealNumberModeling-1050258"> Using the AMSCB connectmap Card </a></li></ul>
+<p>The resolution function defined through the<code> -wreal_resolution </code>command-line option will have precedence over the one defined through the AMSCB<code> connectmap </code>card. So, if both methods are used and they specify different resolution functions, the global<code> wreal </code>resolution function will take its value from the command-line option and a warning will be printed on the screen.</p>
+
+<p>If no global<code> wreal </code>resolution function is specified using these two methods, it will be set to the&#160;<code><a href="#RealNumberModeling-1062848">default</a> wreal </code>resolution function.</p>
+<h4 id="RealNumberModeling-Usingthe-wreal_resolutionCommand-LineOptiontoxmelabandxrun1050287">Using the -wreal_resolution Command-Line Option to xmelab and xrun<span class="confluence-anchor-link" id="RealNumberModeling-1050287"></span></h4>
+
+<p>You can use the&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-wreal_resolution">-wreal_resolution</a>&#160;</span>command-line option with<code> xmelab </code>or<code> xrun </code>to specify how you want the elaborator to resolve&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a>&#160;</span>nets that have more than one driver. The format of this command-line option is as follows:</p>
+
+<p><code>-wreal_resolution resolutionFunction </code></p>
+
+<p>where<em><code> resolutionFunction </code></em>can be any of the following:</p>
+<ul><li><a href="#RealNumberModeling-1062848"> default </a></li></ul><ul><li><a href="#RealNumberModeling-1044551"> fourstate </a></li></ul><ul><li><a href="#RealNumberModeling-1044644"> sum </a></li></ul><ul><li><a href="#RealNumberModeling-1044732"> avg </a></li></ul><ul><li><a href="#RealNumberModeling-1044818"> min </a></li></ul><ul><li><a href="#RealNumberModeling-1044904"> max </a></li></ul>
+<p>If you do not specify a resolution function using this command-line option, the elaborator uses the&#160;<code><a href="#RealNumberModeling-1062848">default</a>&#160;</code>resolution function algorithm.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For those cases where the elaborator issues a run-time warning message, you can cause the message to be fatal using the<code>&#160;-xmfatal&#160;</code>command-line option. For more information about this option, look for<code>&#160;-xmfatal&#160;</code>in <span style="color: rgb(0,0,255);"><a class="message-url" href="../vlogcompopts/xmvlog_Command_Options.html">&quot;Compiling Verilog Source Files with xmvlog&quot;</a> </span>in<span style="color: rgb(0,0,0);">&#160;<em>Cadence Verilog Simulation User Guide</em>.<span class="confluence-anchor-link" id="RealNumberModeling-ncfatal"></span><span class="confluence-anchor-link" id="RealNumberModeling-ncfatal"></span><span class="confluence-anchor-link" id="RealNumberModeling-1044454"></span></span></p>
+</div>
+</div>
+<div class="confluence-information-macro confluence-information-macro-warning"><span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The <code>none</code> resolution function is not a valid option to<code> -wreal_resolution</code>. It is only a valid value to the <code>realresolution</code> parameter of the discipline. An error will be issued ifnoneis passed as an argument to <code>-wreal_resolution</code>.</p>
+</div>
+</div>
+<h4 id="RealNumberModeling-UsingtheAMSCBconnectmapCard1050258">Using the AMSCB connectmap Card<span class="confluence-anchor-link" id="RealNumberModeling-1050258"></span></h4>
+
+<p>For a<code> connectmap </code>card, if the<code> discipline </code>parameter is absent, the resolution function specified by the<code> realresolve </code>parameter applies globally to all disciplines that are not covered by other<code> connectmap </code>cards.</p>
+
+<p>Consider the following example:</p>
+
+<p><code> amsd{ </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;&#160;connectmap realresolve=max </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;&#160;connectmap discipline=&quot;disc1 disc2&quot; realresolve=min </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;&#160;connectmap discipline=&quot;disc3 disc4&quot; realresolve=sum </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;&#160;} </code></p>
+
+<p>In the above example:</p>
+<ul><li>The<code> disc1 </code>and<code> disc2 </code>disciplines will have the resolution function<code> min.</code></li></ul><ul><li>The<code> disc3 </code>and<code> disc4 </code>disciplines will have the resolution function<code> sum.</code></li></ul><ul><li>Any other discipline will have the resolution function<code> max.</code></li></ul><h3 id="RealNumberModeling-OrderofPrecedenceforDeterminingtheResolutionFunctiononaNet">Order of Precedence for Determining the Resolution Function on a Net</h3>
+
+<p>If a discipline has a resolution function defined in the discipline definition and also has a resolution function defined in the AMS Control Block using the<code> connectmap </code>card, the<code> connectmap </code>card resolution function will take precedence and will be used as the resolution function for all nets of that discipline. This allows you to override the resolution function without changing the discipline definition.</p>
+
+<p>Following is the order of precedence for determining the resolution function on a net:</p>
+<ol><li>Explicitly declared resolution on a net it is connected to (typed wreal or SV-RNM nettype)</li><li>Resolution function explicitly defined in the AMS Control Block using the<code> connectmap </code>card</li><li>Resolution function explicitly defined in the nets discipline definition</li><li>Resolution function of the discipline of the net to which a given net is connected</li><li>Global resolution function specified with the<code> -wreal_resolution </code>command-line option</li><li>Global resolution function specified with the<code> connectmap </code>card (without the<code> discipline </code>parameter)</li><li>The<code> default </code>global resolution function</li></ol><h3 id="RealNumberModeling-DeterminingtheResolvedResolutionFunctionforConnectedwrealNets">Determining the Resolved Resolution Function for Connected wreal Nets</h3>
+
+<p>During elaboration, the connected<code> wreal </code>nets are collapsed into a single simulated<code> wreal </code>net with a single resolution function. The resolved value of this simulated<code> wreal </code>net is determined by considering all its drivers and processing their values through the resolved resolution function.</p>
+
+<p>The set of rules listed below are followed to determine the resolved resolution function.</p>
+<ul><li>
+<p>If all connected<code> wreal </code>nets have the same resolution function, the resolved resolution function will be that resolution function.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The connected<code>&#160;wreal&#160;</code>nets need not have the same discipline as long as the resolution function of each net is the same.</p>
+</div>
+</div>
+</li></ul><ul><li>If two or more<code> wreal </code>nets are connected together and they do not have the same<code> wreal </code>resolution function, an error will occur.</li></ul><ul><li>If a<code> wreal </code>net does not belong to any discipline or its discipline does not have a specified resolution function, the resolution function of the<code> wreal </code>net will be the global resolution function. When a<code> wreal </code>net with the global resolution function is connected to other<code> wreal </code>nets, its resolution function is ignored for the purpose of determining the resolved resolution function for the connection.</li></ul><ul><li>If none of the<code> wreal </code>nets in a connection has a specified resolution function, the resolved resolution function for the connection will be the global resolution function.</li></ul>
+<p>The table below summarizes how the resolved resolution function is determined from the resolution functions of the three<code> wreal </code>nets:<code> w1</code>,<code> w2</code>, and<code> w3.</code></p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 612.0px;"><colgroup><col /><col /><col /><col /></colgroup><tbody><tr><th class="confluenceTh" valign="middle" width="144">
+<p>w1</p>
+</th><th class="confluenceTh" valign="middle" width="144">
+<p>w2</p>
+</th><th class="confluenceTh" valign="middle" width="156">
+<p>w3</p>
+</th><th class="confluenceTh" valign="middle" width="168">
+<p>Resolved</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> avg </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> avg </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> avg </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> avg </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> avg </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>UNSPECIFIED</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>UNSPECIFIED</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> avg </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> avg </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>UNSPECIFIED</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code> sum </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>ERROR</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>UNSPECIFIED</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>UNSPECIFIED</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>UNSPECIFIED</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>GLOBAL</p>
+</td>
+</tr>
+</tbody></table></div>
+<h3 id="RealNumberModeling-PredefinedwrealResolutionFunctions">Predefined wreal Resolution Functions</h3>
+
+<p>The following predefined<code> wreal </code>resolution functions can be associated with a discipline.</p>
+<h4 id="RealNumberModeling-defaultdefault_wreal_resolution1062848">default<span class="confluence-anchor-link" id="RealNumberModeling-default_wreal_resolution"></span><span class="confluence-anchor-link" id="RealNumberModeling-1062848"></span></h4>
+
+<p>The<code> default </code>resolution function algorithm for&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a>&#160;</span>nets that have more than one driver is as follows:</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /></colgroup><tbody><tr><th class="confluenceTh" valign="middle" width="288">
+<p>Conditions</p>
+</th><th class="confluenceTh" valign="middle" width="360">
+<p>Resolution</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>All drivers are driving <span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealZState">wrealZState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>Exactly one driver is not driving<code> wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using the only non-<code> wrealZState </code>value</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>More than one driver is not driving<code> wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealXState </code>and issue a <a href="#RealNumberModeling-1044454">run-time warning message</a></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>Any driver is driving <span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealXState">wrealXState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealXState </code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>Here is an example of how the elaborator determines the resolved value of two drivers,<code> wreal1 </code>and<code> wreal2 </code>using the<code> default </code>resolution function.</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="216">
+<p>wreal1 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>wreal2 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>Resolved Value</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code><sup><a href="#RealNumberModeling-1044521">1</a></sup></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code><sup><a href="#RealNumberModeling-1044521">1</a></sup></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p><span>1&#160;</span><span class="confluence-anchor-link" id="RealNumberModeling-tfootnote1"></span><span class="confluence-anchor-link" id="RealNumberModeling-1044521"></span>If there is more than one non-<code>wrealZState </code>driver, the software issues a run-time warning message.</p>
+
+<p>See also <span style="color: rgb(0,0,255);"><a class="message-url" href="../verilogamsref/chap4.html#wrealStates">&quot;Real Nets with More than One Driver&quot;</a> </span>in the<em><span style="color: rgb(0,0,0);"> Cadence </span><span style="color: rgb(0,0,0);"><sup>&#174;</sup></span><span style="color: rgb(0,0,0);"> Verilog </span><span style="color: rgb(0,0,0);"><sup>&#174;</sup></span><span style="color: rgb(0,0,0);"> -AMS Language Reference </span></em>for information about the<code> wrealXState </code>and<code> wrealZState.</code></p>
+<h4 id="RealNumberModeling-fourstate4state_wreal_resolution1044551">fourstate<span class="confluence-anchor-link" id="RealNumberModeling-4state_wreal_resolution"></span><span class="confluence-anchor-link" id="RealNumberModeling-1044551"></span></h4>
+
+<p>The<code> fourstate </code>resolution function algorithm for&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a>&#160;</span>nets that have more than one driver is the same as the Verilog 4-state logic resolution algorithm. It is similar to the<code> default </code>algorithm except that identical drivers resolve to the driven value instead of to<code> wrealXState.</code></p>
+
+<p>The<code> fourstate </code>resolution function algorithm is as follows:</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="288">
+<p>Conditions</p>
+</th><th class="confluenceTh" valign="middle" width="360">
+<p>Resolution</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>All drivers are driving <span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealZState">wrealZState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>Exactly one driver is not driving<code> wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using the only non-<code> wrealZState </code>value</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>More than one driver is not driving<code> wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top"><ul><li>When all non-<code> wrealZState </code>drivers drive the same value, drive the receivers using that value and issue a <a href="#RealNumberModeling-1044454">run-time warning message</a></li></ul><ul><li>When all non-<code> wrealZState </code>driver do not drive the same value, drive the receivers using<code> wrealXState </code>and issue a <a href="#RealNumberModeling-1044454">run-time warning message</a></li></ul></td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>Any driver is driving<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealXState">wrealXState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealXState </code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>Here is an example of how the elaborator determines the resolved value of two drivers,<code> wreal1 </code>and<code> wreal2 </code>using the<code> fourstate </code>resolution function.</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /><col /></colgroup><tbody><tr><th class="confluenceTh" valign="middle" width="216">
+<p>wreal1 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>wreal2 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>Resolved Value</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code><sup><a href="#RealNumberModeling-1">1</a></sup></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p><span>1&#160;<span>If there is more than one non-</span></span><code>wrealZState</code> <span><span>driver, the software issues a run-time warning message.<span class="confluence-anchor-link" id="RealNumberModeling-1"></span></span></span></p>
+<h4 id="RealNumberModeling-sumsum_wreal_resolution1044644">sum<span class="confluence-anchor-link" id="RealNumberModeling-sum_wreal_resolution"></span><span class="confluence-anchor-link" id="RealNumberModeling-1044644"></span></h4>
+
+<p>The<code> sum </code>resolution function algorithm for&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a>&#160;</span>nets that have more than one driver resolves to the summation of all the drivers, ignoring<code> wrealZState </code>drivers. If any drivers are driving<code> wrealXState</code>, the elaborator resolves the value to<code> wrealXState.</code> Any nets driving<code> wrealZState </code>do not contribute to the resolved value.</p>
+
+<p>The<code> sum </code>resolution function algorithm for<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a></span>nets that have more than one driver is as follows:</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="288">
+<p>Conditions</p>
+</th><th class="confluenceTh" valign="middle" width="360">
+<p>Resolution</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>All drivers are driving <span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealZState">wrealZState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>Any driver is driving<code> wrealZState</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers with the summation of all non-<code> wrealZState </code>values (that is, ignore all<code> wrealZState </code>drivers)</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>No driver is driving<code> wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers with the summation of all the drivers</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>Any driver is driving <span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealXState">wrealXState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealXState</code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>Here is an example of how the elaborator determines the resolved value of two drivers,<code> wreal1 </code>and<code> wreal2 </code>using the<code> sum </code>resolution function.</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="216">
+<p>wreal1 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>wreal2 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>Resolved Value</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>2.46</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>4.56</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+</tbody></table></div>
+<h4 id="RealNumberModeling-avgavg_wreal_resolution1044732">avg<span class="confluence-anchor-link" id="RealNumberModeling-avg_wreal_resolution"></span><span class="confluence-anchor-link" id="RealNumberModeling-1044732"></span></h4>
+
+<p>The<code> avg </code>resolution function algorithm for<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a></span>nets that have more than one driver is as follows:</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="288">
+<p>Conditions</p>
+</th><th class="confluenceTh" valign="middle" width="360">
+<p>Resolution</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>All drivers are driving <span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealZState">wrealZState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>Any driver is driving<code> wrealZState</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers with the average of all non-<code> wrealZState </code>values (that is, ignore all<code> wrealZState </code>drivers)</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>No driver is driving<code> wrealZState</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers with the average of all the drivers</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>Any driver is driving <span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealXState">wrealXState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealXState </code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>Here is an example of how the elaborator determines the resolved value of two drivers,<code> wreal1 </code>and<code> wreal2 </code>using the<code> avg </code>resolution function.</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="216">
+<p>wreal1 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>wreal2 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>Resolved Value</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>2.28</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+</tbody></table></div>
+<h4 id="RealNumberModeling-minmin_wreal_resolution1044818">min<span class="confluence-anchor-link" id="RealNumberModeling-min_wreal_resolution"></span><span class="confluence-anchor-link" id="RealNumberModeling-1044818"></span></h4>
+
+<p>The<code> min </code>resolution function algorithm for&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a>&#160;</span>nets that have more than one driver is as follows:</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="288">
+<p>Conditions</p>
+</th><th class="confluenceTh" valign="middle" width="360">
+<p>Resolution</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>All drivers are driving <span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealZState">wrealZState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>Any driver is driving<code> wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers with the minimum of all non-<code> wrealZState </code>values (that is, ignore all<code> wrealZState </code>drivers)</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>No driver is driving<code> wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers with the minimum of all the drivers</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>Any driver is driving <span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealXState">wrealXState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealXState </code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>Here is an example of how the elaborator determines the resolved value of two drivers,<code> wreal1 </code>and<code> wreal2 </code>using the<code> min </code>resolution function.</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="216">
+<p>wreal1 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>wreal2 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>Resolved Value</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+</tbody></table></div>
+<h4 id="RealNumberModeling-maxmax_wreal_resolution1044904">max<span class="confluence-anchor-link" id="RealNumberModeling-max_wreal_resolution"></span><span class="confluence-anchor-link" id="RealNumberModeling-1044904"></span></h4>
+
+<p>The<code> max </code>resolution function algorithm for&#160;<span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wreal">wreal</a>&#160;</span>nets that have more than one driver is as follows:</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="288">
+<p>Conditions</p>
+</th><th class="confluenceTh" valign="middle" width="360">
+<p>Resolution</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>All drivers are driving <span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealZState">wrealZState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>Any driver is driving<code> wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers with the maximum of all non-<code> wrealZState </code>values (that is, ignore all<code> wrealZState </code>drivers)</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>No driver is driving<code> wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers with the maximum of all the drivers</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>Any driver is driving <span style="color: rgb(0,0,255);font-family: Courier New;font-size: small;"><a class="message-url" href="../verilogamsref/chap4.html#wrealXState">wrealXState</a></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Drive the receivers using<code> wrealXState </code></p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>Here is an example of how the elaborator determines the resolved value of two drivers,<code> wreal1 </code>and<code> wreal2 </code>using the<code> max </code>resolution function.</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="216">
+<p>wreal1 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>wreal2 Value</p>
+</th><th class="confluenceTh" valign="middle" width="216">
+<p>Resolved Value</p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>1.23</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>3.33</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealZState </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p><code>wrealXState </code></p>
+</td>
+</tr>
+</tbody></table></div>
+<h2 id="RealNumberModeling-UsingVerilog-AMS&#8211;BasedRNMforWrealsvamsrnm1062743">Using Verilog-AMS&#8211;Based RNM for Wreals<span class="confluence-anchor-link" id="RealNumberModeling-vamsrnm"></span><span class="confluence-anchor-link" id="RealNumberModeling-1062743"></span></h2>
+
+<p>The Verilog-AMS based real number modeling (RNM) solution facilitates high performance and reasonably accurate modeling of analog behavior to aid verification of mixed-signal designs. You can use the Verilog-AMS based RNM functionality to write:</p>
+<ul><li>SystemVerilog-compliant RNMs using disciplineless wreal nettypes (discrete time domain) (see&#160;<a href="#RealNumberModeling-1062755">Writing RNMs Using Disciplineless Wreal Nets</a>)</li></ul><ul><li>Portable Verilog-AMS wreal models for use in SystemVerilog (SV) (see&#160;<a href="#RealNumberModeling-1062772">Writing Portable Verilog-AMS Wreal Models for Use in SV</a>)</li></ul>
+<p>This capability enables you to reuse your code according to the changes to the SV modeling features.</p>
+<h4 id="RealNumberModeling-WritingRNMsUsingDisciplinelessWrealNets1062755">Writing RNMs Using Disciplineless Wreal Nets<span class="confluence-anchor-link" id="RealNumberModeling-1062755"></span></h4>
+
+<p>You can resolve multiple drivers on wreal signals to suit the expected changes in SV. To accomplish this, you can use the six new disciplineless wreal net types--wrealavg, wrealsum, wrealmax, wrealmin, wreal1driver, and wreal4state--added to Verilog-AMS.</p>
+
+<p>These disciplineless wreal nettypes enable you to write wreal models that align with the SV-RNM requirement.</p>
+
+<p>Example:</p>
+
+<p>To declare disciplineless wreal nets that have resolution associated to them, write:</p>
+
+<p><code> wrealsum wr_sum_1;<br /> </code><code> wrealavg wr_avg_1;<br /> </code><code> wrealmin wr_min_1; </code></p>
+
+<p>Here is a full code example using the new wreal nettypes:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module top();
+
+&#160; //new discipline-less with resolution function avg
+&#160; wrealavg real_wire;
+&#160; source1 I12 (real_wire);
+&#160; source2 I22 (real_wire);
+&#160; sink I32(real_wire);
+
+endmodule</pre>
+</div>
+</div>
+<h4 id="RealNumberModeling-WritingPortableVerilog-AMSWrealModelsforUseinSV1062772"><br />Writing Portable Verilog-AMS Wreal Models for Use in SV<span class="confluence-anchor-link" id="RealNumberModeling-1062772"></span></h4>
+
+<p>The disciplineless net types combine resolution functions with data type declaration. This new use model enables you to write Verilog-AMS models that can be fully transported to SV once the new LRM is released. The use model is as follows:</p>
+<ol><li>Create wreal models in Verilog-AMS using the new disciplineless nettypes.</li><li>Once the IEEE 1800-2012 standard is released and implemented, rename your model file extension from<code> .vams </code>to<code> .sv.</code></li><li>
+<p>Add a library import (provided by Cadence) to your SV model in Verilog-AMS. This library brings in the SV nettypes that correspond to the current disciplineless wreal nettypes.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><span style="color: rgb(0,0,0);">The Cadence library uses built-in resolution functions for Cadence simulators. For other simulators, you will also need a library of resolution functions.</span></p>
+</div>
+</div>
+</li><li>
+<p>Add the Cadence SV library to your simulation command.</p>
+</li></ol>
+<p>To build portable models, your Verilog-AMS models should:</p>
+<ul><li>Not contain analog procedural blocks, discipline definition or usage, and electrical nets.</li></ul><ul><li>Only use the new nettypes, for example wrealsum, for multiple driver resolution function.</li></ul>
+<p>Example:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module cc_amplifier (i_in, vout); // Current-controlled amplifier
+
+&#160; &#160;input i_in; wrealsum i_in; // Input using discipline-less wreal
+&#160; &#160;output vout; wreal vout; // Output using built-in type
+&#160; &#160;parameter real gain = 1; // voltage gain constant
+&#160; &#160;assign vout = gain * i_in; // update voltage output
+
+endmodule</pre>
+</div>
+</div>
+<h2 id="RealNumberModeling-UsingWrealConcatenationExpressionswrealconcats1063763"><br />Using Wreal Concatenation Expressions<span class="confluence-anchor-link" id="RealNumberModeling-wrealconcats"></span><span class="confluence-anchor-link" id="RealNumberModeling-1063763"></span></h2>
+
+<p>The AMS Designer simulator supports the following:</p>
+<ul><li>Concatenation expressions involving wreals in port maps</li></ul><ul><li>Connections of concatenation expressions, which contain wreal nets, to wreal or logic wire ports using R2L connect modules</li></ul><ul><li>Selective coercion of nets used in concatenation expressions that contain nets to wreal</li></ul>
+<p>The following are the limitations of this feature:</p>
+<ul><li>The use of concatenation expressions involving wreals to assign to a wreal array is not supported.<br />For example, use the following:<code> <br />wreal d[0:1];<br />wreal a, b;<br />assign d[0] = a; //legal assignment <br />assign d[1] = b; //legal assignment<br /><br /> </code>instead of the following:<br /><code> wreal d[0:1];<br />wreal a, b;<br />assign d = {a, b}; //illegal assignment </code></li></ul><ul><li>
+<p>Explicit declaration of wreal in non-collapsible concatenation is not allowed and results in an error.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>A port connection is collapsible if the upper and lower connections are nets. For connections of selects of packed or unpacked net arrays, the selects must have constant indices to be collapsible. Amongst other things, the presence of variables or constant expressions on either side of the connections makes the port connections non-collapsible.</p>
+</div>
+</div>
+
+<p>A non-collapsible concatenation expression contains one or more non-collapsible nets including reg, expression, parameter, and constant objects. The non-collapsible nets are not coerced and coercion does not proceed through such concatenated expressions. R2L IEs are inserted between these expressions/nets and wreal ports.<br /><br />Example of a non-collapsible concatenation expression:<br /><code> wire w1, w2;<br />reg val1, val2;<br />parameter integ g, h;<br /></code><code><br />{1&#39;b1, 1&#39;b0}, //constants<br />{val1, val2}, //regs<br />{g, h}, //parameters<br />{cos(1), 1+1}, //expressions<br />{w1, wrealZState}, //constants<br />{w1, w2, val1}, //regs </code></p>
+</li></ul><ul><li>Concatenation expressions that contain wreal nets and non-collapsible expressions, such as constants and variables, are not supported.</li></ul><ul><li>Connection of concatenation expressions that contain wreal nets to non-collapsible expressions, such as&#160;<a href="Glossary.html#Glossary-1034860">SV</a>&#160;variable ports, Verilog reg ports, and constants, are not supported.</li></ul><ul><li>The following nets used in concatenation expressions are not coerced to wreal:</li></ul><ul><ul><li>Nets containing non-collapsible elements</li></ul></ul><ul><ul><li>If a concatenation expression containing nets is the upper or lower expression of a port, and if the other expression is non-collapsible</li></ul></ul><h2 id="RealNumberModeling-CreatingL2RandR2LConnectModules1056409">Creating L2R and R2L Connect Modules<span class="confluence-anchor-link" id="RealNumberModeling-1056409"></span></h2>
+
+<p>Logic-to-Wreal connect modules (L2R) are similar to Logic-to-Electrical (L2E) connect modules. They are also declared with the keyword<code> connectmodule </code>and contain two ports: one a scalar wreal net (R) and the other a scalar logic net (L). They must be flat and can contain no sub-hierarchies. They take their parameter overrides from the connect rules, just like the L2E connect modules. The internals of the L2R connect modules convert the driven value of one side of the logic/real boundary to the appropriate data type, and drive it to the other side of the boundary.</p>
+
+<p>The L2R and R2L connect modules are defined for unidirectional ports (input and output) and only pass driver information in a single direction as indicated by the port directions.</p>
+
+<p>Here is an example of an L2R connect module:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">connectmodule L2R(L, R);
+&#160;&#160;&#160;&#160;input L; \logic L;
+&#160;&#160;&#160;&#160;output R; wreal_dsp R;
+
+&#160;&#160;&#160;&#160;parameter real vsup = 1.8 from (0:inf);
+&#160;&#160;&#160;&#160;parameter real vlo = 0;
+&#160;&#160;&#160;&#160;parameter real vhi = vsup from (vlo:vsup);
+&#160;&#160;&#160;&#160;parameter real vtlo = vsup / 3;
+&#160;&#160;&#160;&#160;parameter real vthi = vsup /1.5;
+
+&#160; &#160; wire [31:0] L_val;
+&#160;&#160;&#160;&#160;reg [1:0] L_code;
+&#160;&#160;&#160;&#160;real L_real;
+
+&#160;&#160;&#160;&#160;initial
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;begin
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$BIE_input_strength(L, L_val);
+&#160;&#160;&#160;&#160;end
+
+&#160;&#160;&#160;&#160;// Determine the value and strength of L and convert to a real number
+&#160;&#160;&#160;&#160;always
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;begin
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;L_code = L_val &amp; 2&#39;b11;
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case (L_code)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;2&#39;b00: L_real = vlo;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;2&#39;b01: L_real = vsup;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;2&#39;b11: L_real = `wrealXState
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;2&#39;b10: L_real = `wrealZState;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;endcase
+
+&#160; &#160; &#160; &#160; &#160; &#160; @(L_val)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;end
+
+&#160;&#160;&#160;&#160;// drive the converted value back onto the R output pin
+
+assign R = L_real;
+
+endmodule</pre>
+</div>
+</div>
+
+<p><br />Here is an example of an R2L connect module:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">connectmodule R2L(L, R);
+&#160;&#160;&#160;&#160;output L; \logic L;
+&#160;&#160;&#160;&#160;input R; wreal_dsp R;
+
+&#160;&#160;&#160;&#160;parameter real vsup = 1.8 from (0:inf);
+&#160;&#160;&#160;&#160;parameter real vlo = 0;
+&#160;&#160;&#160;&#160;parameter real vhi = vsup from (vlo:vsup);
+&#160;&#160;&#160;&#160;parameter real vtlo = vsup / 3;
+&#160;&#160;&#160;&#160;parameter real vthi = vsup /1.5;
+
+&#160;&#160;&#160;&#160;wreal R_val;
+&#160;&#160;&#160;&#160;reg R_logic;
+
+&#160;&#160;&#160;&#160;initial
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;begin
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$BIE_input_real(R, R_val);
+&#160;&#160;&#160;&#160;end
+
+&#160;&#160;&#160;&#160;// Determine the value of R and convert to a logic value
+&#160;&#160;&#160;&#160;always
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;begin
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if(R_val &gt;= vthi)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;R_logic = 1&#39;b1;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else if (R_val &lt;= vtlo)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;R_logic = 1&#39;b0;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else if(R_val === `wrealZState)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;R_logic = 1&#39;bz;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;R_logic = 1&#39;bx;
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@(R_val);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;end
+
+&#160;&#160;&#160;&#160;// drive the converted value back onto the output L pin
+&#160;&#160;&#160;&#160;assign L = R_logic;
+
+endmodule</pre>
+</div>
+</div>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>Currently, R2L/L2R connect modules with mixed-signal and/or mixed-language interactions are not supported.</p>
+</div>
+</div>
+
+<p>Inherited connections are allowed inside the L2R and R2L connect modules with the following limitations:</p>
+<ul><li>The net you are inheriting from must be a wreal net.</li></ul><ul><li>The discipline of the wreal net you are inheriting from must be digital.&#160;<a href="Glossary.html#Glossary-1033873">E2R</a>&#160;connect modules are not inserted into L2R connect modules.</li></ul><ul><li>The connect module cannot drive a value onto the inherited connection.</li></ul>
+<p>If any of these conditions is violated, an error will occur.</p>
+
+<p><br /></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The discipline restriction also affects the logic nets. Logic nets in the connect modules cannot inherit from nets with incompatible discipline.</p>
+</div>
+</div>
+<h3 id="RealNumberModeling-AddingPortConnectionsthroughR2LConnectModulesportconnection">Adding Port Connections through R2L Connect Modules<span class="confluence-anchor-link" id="RealNumberModeling-portconnection"></span></h3>
+
+<p>You can add the following port connections through R2L connect modules:</p>
+<ul><li>A wreal upper connection to SystemVerilog (<a href="Glossary.html#Glossary-1034860"> SV </a>) logic output ports</li></ul><ul><li>An SV logic variable or expression upper connection to wreal input ports</li></ul><ul><li>SV real variables or expressions to Verilog-compatible logic nets</li></ul>
+<p>Note that this feature does not support the following scenarios:</p>
+<ul><li>A wreal upper connection to an SV logic input port</li></ul><ul><li>An SV logic variable upper connection to a wreal output port</li></ul>
+<p>You can insert R2L connect modules in SV scopes, when the upper or lower connection is a variable or expression, and the other is a net. For example, you can connect an&#160;<a href="Glossary.html#Glossary-1034860">SV</a>&#160;real variable to a Verilog net input port with logic data type by inserting an R2L connect module. This converts the value of the real variables to a Verilog 4-state logic value, and drives that value onto the net. When you insert an R2L connect module, the mixed-signal elaborator connects the ports.</p>
+
+<p>This feature supports the following port connection scenarios:</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The term &quot;variable&quot; refers to a variable identifier such as a scalar, whole array, constant bit select, and constant part select. The term &quot;expression&quot; represents other possible expressions including constants, concatenations, and mutable selects.</p>
+</div>
+</div>
+<ul><li>An SV scalar real variable or expression upper connection connected to an SV or Verilog-AMS (VAMS) scalar logic net lower connection port</li></ul><ul><ul><li>If the lower connection port is:<br /><br /><span style="color: rgb(0,0,0);"><span style="color: rgb(0,0,0);"><strong>input:</strong></span>insert R2L connect module<br /></span><strong>output:</strong><span style="color: rgb(0,0,0);">insert L2R connect module</span></li></ul></ul><ul><ul><li>If the upper connection is not an lvalue expression (can be on the left-hand side of a continuous assignment), it is an error<br /><br /><span style="color: rgb(0,0,0);"><span style="color: rgb(0,0,0);"><strong>inout:</strong></span>error</span></li></ul></ul><ul><li>An SV scalar logic variable or expression upper connection connected to a VAMS scalar wreal net lower connection port</li></ul><ul><ul><li>If the lower connection port is:<br /><br /><span style="color: rgb(0,0,0);"><span style="color: rgb(0,0,0);"><strong>input:</strong></span>insert L2R connect module<br /></span><span style="color: rgb(0,0,0);"><strong>output:</strong></span>error<br /><span style="color: rgb(0,0,0);"><strong>inout:</strong>error</span></li></ul></ul><ul><li>A VAMS scalar wreal net upper connection connected to an SV scalar logic variable lower connection port</li></ul><ul><ul><li>If the lower connection port is:<br /><br /><span style="color: rgb(0,0,0);"><span style="color: rgb(0,0,0);"><strong>input:</strong></span>error<br /></span><span style="color: rgb(0,0,0);"><strong>output:</strong></span>insert L2R connect module<br /><span style="color: rgb(0,0,0);"><strong>inout:</strong>error</span></li></ul></ul><ul><li>An SV or VAMS scalar logic net upper connection connected to an SV scalar real variable lower connection port</li></ul><ul><ul><li>If the lower connection port is:<span style="color: rgb(0,0,0);"><span style="color: rgb(0,0,0);"><strong><br /><br />input:</strong></span>insert L2R connect module<br /></span><span style="color: rgb(0,0,0);"><strong>output:</strong></span>insert R2L connect module<br /><span style="color: rgb(0,0,0);"><strong>inout:</strong>error</span></li></ul></ul><ul><li>An SV unpacked real variable array or real array expression upper connection connected to an SV or VAMS packed vector logic net lower connection port</li></ul><ul><ul><li>If the lower connection port is:<br /><br /><span style="color: rgb(0,0,0);"><span style="color: rgb(0,0,0);"><strong>input:</strong></span>insert R2L connect modules for each element (the lower and upper connection expressions must be of the same size)<br /></span><strong>output:</strong><span style="color: rgb(0,0,0);">insert L2R connect modules for each element (the lower and upper connection expressions must be of the same size)</span></li></ul></ul><ul><ul><li>If the upper connection is not an lvalue expression (can be on the left-hand side of a continuous assignment), it is an error<br /><br /><span style="color: rgb(0,0,0);"><span style="color: rgb(0,0,0);"><strong>inout:</strong></span>error</span></li></ul></ul><ul><li>An&#160;<a href="Glossary.html#Glossary-1034860">SV</a>&#160;packed logic variable array or packed logic expression upper connection connected to a VAMS unpacked wreal array net lower connection port</li></ul><ul><ul><li>If the lower connection port is:<br /><br /><span style="color: rgb(0,0,0);"><span style="color: rgb(0,0,0);"><strong>input:</strong></span>insert R2L connect modules for each element (the lower and upper connection expressions must be of the same size)<br /></span><span style="color: rgb(0,0,0);"><strong>output:</strong></span>error<br /><span style="color: rgb(0,0,0);"><strong>inout:</strong>error</span></li></ul></ul><ul><li>A VAMS unpacked wreal array net upper connection connected to an SV packed logic variable array lower connection port</li></ul><ul><ul><li>If the lower connection port is:<br /><br /><span style="color: rgb(0,0,0);"><span style="color: rgb(0,0,0);"><strong>input:</strong></span>error<br /></span><span style="color: rgb(0,0,0);"><strong>output:</strong></span>insert L2R connect modules for each element (the lower and upper connection expressions must be of the same size)<br /><span style="color: rgb(0,0,0);"><strong>inout:</strong>error</span></li></ul></ul><ul><li>An SV or VAMS packed logic array net upper connection connected to an SV unpacked real variable array lower connection port</li></ul><ul><ul><li>If the lower connection port is:<br /><br /><span style="color: rgb(0,0,0);"><span style="color: rgb(0,0,0);"><strong>input:</strong></span>insert L2R connect modules for each element (the lower and upper connection expressions must be of the same size)<br /></span><span style="color: rgb(0,0,0);"><strong>output:</strong></span>insert R2L connect modules for each element (the lower and upper connection expressions must be of the same size)<br /><span style="color: rgb(0,0,0);"><strong>inout:</strong>error</span></li></ul></ul>
+<p>Other scenarios involving real connections to logic that are not supported in the SV LRM explicitly, results in an error. Cases where an R2L is required to drive a logic variable also result in an error.</p>
+<h3 id="RealNumberModeling-InheritedConnectionsinR2L/L2RConnectModules">Inherited Connections in R2L/L2R Connect Modules</h3>
+
+<p>You can create R2L/L2R connect modules that use inherited connections to read global power and ground values, so that you can use a dynamic supply to control the wreal/logic conversion threshold. Similarly, appropriate connect rules are created along with the new connect modules.</p>
+
+<p>Here is an example of an L2R connect module that uses inherited connection:</p>
+
+<p><br /></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">`include &quot;disciplines.vams&quot;
+
+`timescale 1ns / 1ps
+
+connectmodule L2R_inhconn(Rout, Lin);
+
+input Lin;
+
+output Rout; wreal Rout;
+
+// Inherited vdd! and vss!
+
+wreal
+
+(* integer inh_conn_prop_name=&quot;vdd&quot;;
+
+integer inh_conn_def_value=&quot;cds_globals.\\vdd! &quot;; *) \vdd! ;
+
+wreal
+
+(* integer inh_conn_prop_name=&quot;vss&quot;;
+
+integer inh_conn_def_value=&quot;cds_globals.\\vss! &quot;; *) \vss! ;
+
+parameter real vsup_min=0.5 from (0:inf); // min supply for normal operation
+
+parameter real vlo = 0; // logic low voltage
+
+reg supOK;
+
+real L_conv;
+
+initial begin
+
+L_conv = `wrealZState;
+
+end
+
+always begin
+
+if ( \vdd! - \vss! &gt; vsup_min) supOK = 1&#39;b1;
+
+else supOK = 1&#39;b0;
+
+@(\vdd! , \vss! );
+
+end
+
+// Determine the value of L and convert to a real value
+
+always begin
+
+if ( supOK ) begin
+
+case (Lin)
+
+1&#39;b0:
+
+L_conv = \vss! ;
+
+1&#39;b1:
+
+L_conv = \vdd! ;
+
+1&#39;bz:
+
+L_conv = `wrealZState;
+
+default:
+
+L_conv = `wrealXState;
+
+endcase // case(L_code)
+
+end
+
+else
+
+L_conv = `wrealXState;
+
+@(Lin, supOK);
+
+end
+
+// drive the converted value back onto the output R pin
+
+assign Rout = L_conv;
+
+endmodule</pre>
+</div>
+</div>
+
+<p><br /></p>
+
+<p>Here is an example R2L connect module that uses inherited connection:</p>
+
+<p><br /></p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">`include &quot;disciplines.vams&quot;
+
+`timescale 1ns / 1ps
+
+connectmodule R2L_inhconn(Rin, Lout);
+
+output Lout;
+
+input Rin; wreal Rin;
+
+// Inherited vdd! and vss!
+
+wreal
+
+(* integer inh_conn_prop_name=&quot;vdd&quot;;
+
+integer inh_conn_def_value=&quot;cds_globals.\\vdd! &quot;; *) \vdd! ;
+
+wreal
+
+(* integer inh_conn_prop_name=&quot;vss&quot;;
+
+integer inh_conn_def_value=&quot;cds_globals.\\vss! &quot;; *) \vss! ;
+
+parameter real vsup_min=0.5 from (0:inf); // min supply for normal operation
+
+parameter real vthi=1/1.5 from (0:1); // frac. for high thres (def=2/3)
+
+parameter real vtlo=vthi/2 from (0:vthi); // frac. for low thres (def=1/3)
+
+parameter real txdel=0.8n from (0:1m); // time midrange til output X
+
+real vsup, vtl, vth, txdig=txdel/1n;
+
+reg supOK, Xin=0, R_conv = 1&#39;bz;
+
+always begin
+
+vsup = \vdd! - \vss! ;
+
+if ( vsup &gt; vsup_min)
+
+begin
+
+supOK &lt;= 1&#39;b1 ;
+
+vtl &lt;= vsup * vtlo + \vss! ;
+
+vth &lt;= vsup * vthi + \vss! ;
+
+end
+
+else begin
+
+supOK &lt;= 1&#39;b0 ;
+
+end
+
+@(\vdd! , \vss! );
+
+end
+
+// Determine the value of R and convert to a logic value
+
+always begin
+
+if ( supOK ) begin
+
+if(Rin &gt;= vth)
+
+begin R_conv = 1&#39;b1; Xin = 0; disable GoToX; end
+
+else if (Rin &lt;= vtl)
+
+begin R_conv = 1&#39;b0; Xin = 0; disable GoToX; end
+
+else if(Rin === `wrealZState)
+
+begin R_conv = 1&#39;bz; Xin = 0; disable GoToX; end
+
+else
+
+Xin = 1;
+
+end
+
+else
+
+Xin= 1;
+
+@(Rin, supOK, vth, vtl);
+
+end
+
+// see if it is a stable X
+
+always @ (posedge(Xin)) begin: GoToX
+
+#(txdig)
+
+if (Xin == 1 ) R_conv = 1&#39;bx;
+
+end
+
+// drive the converted value back onto the output L pin
+
+assign Lout = R_conv;
+
+endmodule</pre>
+</div>
+</div>
+
+<p>For L2R/R2L connect modules that use inherited connection:</p>
+<ul><li>The two global nets<code> cds_globals.vdd! </code>and<code> cds_globals.vss! </code>must be wreal.</li></ul><ul><li>It is an error if the two global nets are not wreal and need IE insertion again.</li></ul><h3 id="RealNumberModeling-AliasingNetstoHierarchicalNetsinL2R/R2LInterfaceElementsAliasing_Nets_to_Hierarchical_Nets">Aliasing Nets to Hierarchical Nets in L2R/R2L Interface Elements<span class="confluence-anchor-link" id="RealNumberModeling-Aliasing_Nets_to_Hierarchical_Nets"></span></h3>
+
+<p>You can use the<code> $real_net_alias</code>&#160;system function to alias a local net to hierarchical net within L2R/R2L interface elements.</p>
+
+<p><code> real_net_alias_system_function ::= </code></p>
+
+<p><code> &#160;&#160;&#160;&#160;$real_net_alias (real_net_reference , hierarchical_reference_string) </code></p>
+
+<p>Here,<code> real_net_reference</code>&#160;is a local net that is declared in the module containing the function call. It can be a scalar or a vector wreal net,&#160;a wreal array or SV-UDN real net array. The array reference must be part-select.</p>
+
+<p><code>hierarchical_reference_string </code>can be a string literal or a string parameter containing a hierarchical reference to the wreal net,&#160;a scalar element of a vector wreal net, a wreal array, or SV-UDN real net array. The array reference can be bit-select or part-select.</p>
+
+<p>When both the <code>real_net_reference</code> and <code>hierarchical_reference_string</code> arguments are arrays, each bit of the first argument connects to each of the second argument. When <code>real_net_reference</code> is array and <code>hierarchical_reference_string</code> is scalar or bit-select, each bit of the array would connect to the scalar or bit-select. And, when the <code>hierarchical_reference_string</code> is array, the width of both arguments should be identical.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You must use the <code>-udn_real_net_alias</code> command-line option to use SV-UDN real net arrays.</p>
+</div>
+</div>
+
+<p>The <code>$real_net_alias</code>&#160;system function returns <code>1</code>&#160;if <code>hierarchical_reference_string</code>&#160;points to a valid discrete wreal net and returns <code>0 </code>(zero) otherwise.</p>
+
+<p>The <code>$real_net_alias</code>&#160;system function can only be used in a digital block. You can use the <code>$real_net_alias</code>&#160;system function in both connect modules and Verilog-AMS modules.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The <code>$real_net_alias</code> system function does not support SV-UDN nets with struct type; and, returns zero value in this case.</p>
+</div>
+</div>
+
+<p>You can use the Verilog-AMS function, <code>$analog_node_alias</code>, to alias a node to a hierarchical node within connect modules and regular modules.</p>
+
+<p>In the following example both <code>real_net_reference</code> and <code>hierarchical_reference_string</code> arguments are wreal arrays, and the <code>real_net_reference</code> array reference, <code>top.top_sig[3:1]</code> is part-select.</p>
+
+<p><code>// top.sv</code><br /><code>module top;</code><br /><code>&#160; &#160; wreal top_sig[3:0];</code></p>
+
+<p><code>&#160;&#160;&#160; assign top_sig[0] = 0.1;</code><br /><code>&#160; &#160; assign top_sig[1] = 1.2;</code><br /><code>&#160; &#160; assign top_sig[2] = 2.3;</code><br /><code>&#160; &#160; assign top_sig[3] = 3.4;</code></p>
+
+<p><code>&#160;&#160;&#160; foo f1 ();</code><br /><code>endmodule</code></p>
+
+<p><code>module foo;</code><br /><code>&#160; &#160; wreal foo_sig[2:4];</code></p>
+
+<p><code>&#160;&#160;&#160; reg r;</code><br /><code>&#160; &#160; initial begin</code><br /><code>&#160; &#160; &#160; &#160; r = $real_net_alias(foo_sig, &quot;top.top_sig[3:1]&quot;); // support part selection</code><br /><code>&#160; &#160; &#160; &#160; #3 $display(r,,foo_sig[2],, foo_sig[3],, foo_sig[4]);</code><br /><code>&#160; &#160; end</code><br /><code>endmodule</code></p>
+
+<p>For more information on the <code>$real_net_alias</code>&#160;and <code>$analog_node_alias</code>&#160;functions, see<span style="color: rgb(0,0,255);"> <a class="message-url" href="../verilogamsref/chap9.html#node_alias">Node/Net Aliasing System Functions</a> </span>in the<span style="color: rgb(0,0,0);"><em> Cadence Verilog-AMS Language Reference</em> </span>manual.</p>
+<h3 id="RealNumberModeling-InteractionbetweenL2R/R2LandL2E/E2LInterfaceElementsonaHierarchicalNetRLERLE">Interaction between L2R/R2L and L2E/E2L Interface Elements on a Hierarchical Net<span class="confluence-anchor-link" id="RealNumberModeling-RLE"></span><span class="confluence-anchor-link" id="RealNumberModeling-RLE"></span></h3>
+
+<p>When a hierarchical net has segments where one or more of those segments are digital-logic type, digital-real type, and analog-real type, it requires an R-L-E interaction. The following interactions are possible between different segments of such a net:</p>
+<ul><li>Logic-to-Electrical (L2E)</li></ul><ul><li>Wreal-to-Electrical (R2E)</li></ul><ul><li>Wreal-to-Logic (R2L)</li></ul>
+<p>The R-L-E interaction is enabled by default. If a hierarchical signal has both R2L/L2R and L2E/E2L interface elements (IEs), then driver-receiver segregation (DRS) is not performed on any of those IEs. This means that all AMS IEs inserted across that signal use the SIE technology (see<a href="Preparing_the_Design__Using_Mixed_Languages.html#PreparingtheDesign:UsingMixedLanguages-SIE">Using the Strength-Based Interface Element (SIE)</a>).</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>R-L-E optimization is supported in the AMS-CPF flow. If an isolation device is required on the L-R or L-E boundary, it is applied on the logic side of the connect module. However, if an isolation device is required on the E-R boundary, it is ignored and a warning message is generated.</p>
+</div>
+</div>
+<h3 id="RealNumberModeling-ElectricalSupplyinR2L/L2RInterfaceElementsr2l_ie">Electrical Supply in R2L/L2R Interface Elements<span class="confluence-anchor-link" id="RealNumberModeling-r2l_ie"></span></h3>
+
+<p>Starting with the INCISIV 14.2 release, following built-in inherited connect modules and supply sensitivity modules have been added that accept electrical supply.</p>
+<ul><li>R2L_electrical_inh</li></ul><ul><li>L2R_electrical_inh</li></ul><ul><li>RL_bidir_electrical_inh</li></ul><ul><li>R2L_electrical_ss</li></ul><ul><li>L2R_electrical_ss</li></ul><ul><li>RL_bidir_electrical_ss</li></ul>
+<p>These connect modules can be located at<code> &lt;your_install_directory&gt;/tools.&lt;plat&gt;/affirma_ams/etc/connect_lib/connectLib. </code></p>
+
+<p>To use these connect modules, you must specify the xrun option<code> -r2l_electrical_inh.</code> When this option is specified, the simulator uses the R2L IEs with electrical inherited connections instead of R2L IEs with wreal inherited connections.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For built-in inherited connect modules and supply sensitivity modules to work, the design should use the same kind of supply, that is, electrical or wreal.</p>
+</div>
+</div>
+<h3 id="RealNumberModeling-R2L/L2RInsertioninMultiple-SupplyDesignsdesign_multiple_supply">R2L/L2R Insertion in Multiple-Supply Designs<span class="confluence-anchor-link" id="RealNumberModeling-design_multiple_supply"></span></h3>
+
+<p>To use the in-built R2L/L2R connect modules for multiple-supply designs, you must specify the <code>xrun</code> option <code>-R2L_MSUP</code>. For instance, in&#160;designs where a logic net with discrete discipline, say<code> discipline_1</code>, connects to a wreal net with discrete discipline, say<code> discipline_2</code>, the elaborator treats these disciplines as not compatible and inserts an R2L/L2R connect module.</p>
+
+<p>For example:</p>
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">module dig_in ( in, out );
+input in;
+output out;
+assign #10 out = in;
+endmodule
+&#160;
+module top;
+wreal wr_drv;
+dig_in dsink ( wr_drv, wo );
+endmodule
+&#160;
+amsd{
+ie vsup=5 discipline=discipline_1
+ie vsup=1.8 cell=dig_in discipline=discipline_2
+}</pre>
+</div>
+</div>
+
+<p>The R2L/L2R connect module is inserted based solely only on the discrete discipline of the scalar logic net, when it is available. However, if a scalar logic net does not have a discrete discipline and scalar wreal net has, then an R2L/L2R connect module is inserted based on the discrete discipline of the scalar wreal net.</p>
+<h2 id="RealNumberModeling-UsingVirtuosoVisualizationandAnalysisinxrunandADEFlowsforSimulationswithRealNumberModels1054702">Using Virtuoso Visualization and Analysis in xrun and ADE Flows for Simulations with Real Number Models<span class="confluence-anchor-link" id="RealNumberModeling-1054702"></span></h2>
+
+<p>You can use the Cadence<sup>&#174;</sup> Virtuoso<sup>&#174;</sup> Visualization and Analysis tool with AMS Designer for wreal simulations involving the digital solver, through the Xcelium xrun and the Virtuoso ADE flows.</p>
+
+<p>For more information, refer to the<span style="color: rgb(0,0,0);"> Plotting Wreal Signals </span>section in the<span style="color: rgb(0,0,0);"><em> Virtuoso Visualization and Analysis XL User Guide</em>.</span></p>
+<h2 id="RealNumberModeling-RNMDebuggingCommandsRNMDebuggingCommands">RNM Debugging Commands<span class="confluence-anchor-link" id="RealNumberModeling-RNMDebuggingCommands"></span></h2>
+
+<p><span style="color: rgb(0,0,0);">The following are the commands that you can use to debug issues in designs using real number modeling.</span></p>
+<h3 id="RealNumberModeling-ReportingtheResolutionFunctionsofwrealNets">Reporting the Resolution Functions of wreal Nets</h3>
+
+<p>You can use the <code>+wreal_res_info</code>&#160;argument with <code>xmelab</code>&#160;and <code>xrun</code>&#160;to print a report of all <code>wreal</code>&#160;nets in the design and their resolution functions.</p>
+<h3 id="RealNumberModeling-ReportingNettypeCoercion">Reporting Nettype Coercion</h3>
+
+<p>You can use the <code>-rnm_info</code> argument with <code>xmelab</code> and <code>xrun</code> to print a report of all .vams, wreal, SV-wreal nettypes, and SV-UDN structs within the design, including nettype declaration and coercion information of these nets.</p>
+<h3 id="RealNumberModeling-ReportingLicenseInformationforRNMinCoverage">Reporting License Information for RNM in Coverage</h3>
+
+<p>You can use the <code>-show_rnm_cover</code> command-line option with <code>xmelab</code> and <code>xrun</code> to print file name and line number of RNM element inside coverage group that enabled the DMSO license.</p>
+
+<p>Additionally, you can also use the&#160;<code>-show_rnm_rand</code>&#160;option to get the filename and line number of real randomization that enabled the DMSO license.</p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Preparing_the_Design__Using_Mixed_Languages.html" id="prev" title="Preparing_the_Design__Using_Mixed_Languages">Preparing_the_Design__Using_Mi ...</a></em></b><b><em><a href="Using_xrun_for_AMS_Simulation.html" id="nex" title="Using_xrun_for_AMS_Simulation">Using_xrun_for_AMS_Simulation</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

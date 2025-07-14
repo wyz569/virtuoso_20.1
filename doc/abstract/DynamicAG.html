@@ -1,0 +1,648 @@
+
+<html><head><title>Dynamic Abstract Generation</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-08-16" />
+<meta name="CreateTime" content="1597635249" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso Abstract Generator that you can use to create abstracts from layout data." />
+<meta name="DocTitle" content="Virtuoso Abstract Generator User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Dynamic Abstract Generation" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="abstract" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-16" />
+<meta name="ModifiedTime" content="1597635249" />
+<meta name="NextFile" content="20nm_Support_AG.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Layout" />
+<meta name="PrevFile" content="iAG.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Abstract Generator User Guide -- Dynamic Abstract Generation" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="abstractICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="abstractTOC.html">Contents</a></li><li><a class="prev" href="iAG.html" title="Integrated Abstract Generator">Integrated Abstract Generator</a></li><li style="float: right;"><a class="viewPrint" href="abstract.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="20nm_Support_AG.html" title="Multi-Patterning Technology Support in Abstract Generator (ICADVM20.1 Only)">Multi-Patterning Technology Su ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Abstract Generator User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>7
+<a id="pgfId-168316"></a></h1>
+<h1>
+<a id="pgfId-168348"></a><hr />
+Dynamic Abstract Generation<hr />
+</h1>
+
+<p>
+<a id="pgfId-168352"></a>D<a id="DynamicAG"></a>ynamic Abstract Generation automatically creates abstracts for the Pcells based on a set of abstraction rules. The abstract data is stored in memory and is annotated to the Pcell submasters corresponding to the Pcells in the design. Because an annotated Pcell submaster contains abstract data annotated over the layout geometries, it is called the dual view. The dual view can be used directly by the router without the need to master and remaster the layout.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-159782"></a>Dynamic Abstract Generation is used by Virtuoso Space-Based Router and Create Wire.</div>
+
+<p>
+<a id="pgfId-157906"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="344" src="images/DynamicAG-2.gif" /></div>
+
+<p>
+<a id="pgfId-157965"></a>Dynamic Abstract Generation has been developed specially for device-level routing&#8212; the blockage information that the abstracts contain helps avoid routing over devices. The following additional capabilities of Dynamic Abstract Generation also helps in routing:</p>
+<ul><li>
+<a id="pgfId-158087"></a>Creates an accurate place and route boundary (prBoundary)</li><li>
+<a id="pgfId-158094"></a>Creates detailed blockages by default; also provides the option to create cover blockages</li><li>
+<a id="pgfId-165621"></a>Creates and resizes pins and preserves existing pins; pins can also be created from text labels</li><li>
+<a id="pgfId-165622"></a>Identifies strongly connected pins, weakly connected pins, and mustjoin pins</li><li>
+<a id="pgfId-165623"></a>Extracts nets by using the layer-geometry specification</li></ul>
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-148613"></a>Applications using the Dynamic Abstract Generation API, need to check out the Layout XL license. It does not require a separate license.</div>
+
+<h2>
+<a id="pgfId-148272"></a>Prerequisites for Dynamic Abstract Generation</h2>
+
+<p>
+<a id="pgfId-148237"></a>By default, Dynamic Abstract Generation uses the <code>Wire</code> constraint group that is specified in the <em>Wire Editing</em> section of the Layout Editor options form. For more information about the <code>Wire </code>constraint group, refer to <em><a actuate="user" class="URL" href="../vlehelp/appA.html#layoutEditorOptionsForm" show="replace" xml:link="simple">Virtuoso Layout Suite L User Guide</a></em>.</p>
+<p>
+<a id="pgfId-148747"></a>The prerequisites for Dynamic Abstract Generation are as follows:</p>
+<ul><li>
+<a id="pgfId-148238"></a>Valid vias and valid layers must be defined in the specified constraint group. If valid vias and valid layers are not present in the constraint group, a warning message is displayed in the CIW stating that the required information be added in the technology file.</li><li>
+<a id="pgfId-165476"></a>The <code>minSpacing</code> and <code>minWidth</code> layer rules must be present in the technology file. During Dynamic Abstract Generation, the constraint groups are searched for layer rules in the following order:<ul><li>
+<a id="pgfId-165806"></a><code>Wire</code> (user-defined) constraint group</li><li>
+<a id="pgfId-166514"></a><code>LefDefaultRouteSpec </code>constraint group by type </li><li>
+<a id="pgfId-166515"></a><code>LefDefaultRouteSpec</code> constraint group by name </li><li>
+<a id="pgfId-166516"></a><code>Foundry</code> constraint group </li></ul><br />
+<a id="pgfId-166964"></a>For example, if the <code>minSpacing</code> value for <em>metal3</em> is required, the <code>minSpacing</code> value is first searched for in the <code>Wire</code> constraint group. If the <code>minSpacing</code> value is found in the <code>Wire</code> constraint group, it is used. If the <code>minSpacing </code>value is not found in the <code>Wire</code> constraint group, the <code>minSpacing</code> value is searched for in the <code>LefDefaultRouteSpec</code> constraint group first by type and then by name. If the <code>minSpacing</code> value is not found in the <code>LefDefaultRouteSpec</code> constraint group too, the <code>Foundry</code> constraint group is searched for the <code>minSpacing</code> value.</li><li>
+<a id="pgfId-165478"></a>Net and pin technology purpose must be present in the technology file. During Dynamic Abstract Generation, the net and pin purpose is used for net extraction and pin creation. If the net and pin purpose is not present in the technology file, Dynamic Abstract Generation adds the layer purpose pair information in the technology file, provided the write permission is available for the technology file.</li><li>
+<a id="pgfId-172669"></a>If an <code>alternate foundry</code> constraint group (AFCG) is defined in the <code>.cdsenv</code> file, Dynamic Abstract Generator replaces the <code>foundry</code> constraint group and uses the specified AFCG instead.<br />
+<a id="pgfId-172670"></a>You can specify an AFCG by setting the following environment variable in your <code>.cdsenv</code> file:</li></ul>
+
+
+
+
+
+
+
+
+
+
+<a id="pgfId-172671"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ cdba.layout AlternateFoundryCG string &quot;<code><em>AFCG_name</em></code>&quot;</pre>
+<h2>
+<a id="pgfId-157226"></a>Dynamic Abstraction Generation Use Model</h2>
+
+<p>
+<a id="pgfId-157318"></a>In an OpenAccess design that contains Pcells, you can run Dynamic Abstract Generation manually by using the commands that can be accessed from the following three locations:</p>
+<ul><li>
+<a id="pgfId-158189"></a><em>Tools &#8211; Dynamic Abstract Generation for Pcells</em> </li><li>
+<a id="pgfId-158193"></a>Navigator assistant (by using the context-sensitive menu). For example, you can use the Navigator assistant to run Dynamic Abstract Generation for Module Generator (Modgen) instances. To do this, select a Modgen instance in the Navigator assistant and select <em>Dynamic Abstract </em>&#8211; <em>Abstract Pcells </em>from the context-sensitive menu. To know more about Modgens, see <a actuate="user" class="URL" href="../modgenuser/GettingStarted.html#createModgen" show="replace" xml:link="simple">Working with Module Generators</a>.</li><li>
+<a id="pgfId-158255"></a>Layout canvas (by using the context-sensitive menu)</li></ul>
+
+
+<p>
+<a id="pgfId-161633"></a>You can create abstracts for all the Pcells in the design or for only the selected Pcells, and then run the routing or wire editing commands. To create abstracts, you use either the default options or specify your own abstraction rules in the Abstract Pcells form. For more information, refer to <a href="DynamicAG.html#35990">Abstracting Pcells</a>.</p>
+<p>
+<a id="pgfId-161634"></a>When you run the automatic routing or wire editing commands, Dynamic Abstract Generation is run in the background for all the Pcell instances based on the predefined abstraction rules. </p>
+<p>
+<a id="pgfId-161696"></a>If the routing results are satisfactory, the routing process is complete. Otherwise, you can modify the abstraction rules, such as modify layer information for blockages, as required and run the process until satisfactory results are obtained.</p>
+<p>
+<a id="pgfId-161588"></a>The following flow diagram illustrates the Dynamic Abstract Generation process.</p>
+
+<p>
+<a id="pgfId-158351"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="550" src="images/DynamicAG-3.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-168412"></a>By default, all Pcells are marked for abstraction. If a Pcell is unmarked for abstraction, the Pcell needs to be marked again for abstraction. For more information, refer to <a href="DynamicAG.html#13716">Marking or Unmarking Pcells for Abstraction</a>.</div>
+
+<h2>
+<a id="pgfId-168419"></a>Dynamic Abstract Generation Commands</h2>
+
+<p>
+<a id="pgfId-150192"></a>You can use the Dynamic Abstract Generation commands to abstract, unabstract, highlight, mark, and unmark Pcells. To access the commands, in the Layout window, choose <em>Tools &#8211; Dynamic Abstract Generation for Pcells</em>. A submenu is displayed with the commands shown in the figure below.</p>
+
+<p>
+<a id="pgfId-140173"></a></p>
+<div class="webflare-div-image">
+<img width="667" height="323" src="images/DynamicAG-4.gif" /></div>
+
+<ul><li>
+<a id="pgfId-146560"></a><a href="DynamicAG.html#35990">Abstracting Pcells</a></li><li>
+<a id="pgfId-147241"></a><a href="DynamicAG.html#30754">Unabstracting Pcells</a></li><li>
+<a id="pgfId-147256"></a><a href="DynamicAG.html#13736">Highlighting Unabstracted Pcells</a></li><li>
+<a id="pgfId-170706"></a><a href="DynamicAG.html#13716">Marking or Unmarking Pcells for Abstraction</a></li></ul>
+
+
+
+
+<div class="webflare-information-macro webflare-macro-video">
+<a id="pgfId-170717"></a>
+</div>
+<p class="webflare-indent2">
+<a id="pgfId-170719"></a>For quick reference of Dynamic Abstract Generator commands, refer to the <a actuate="user" class="URL" href="https://support.cadence.com/apex/ArticleAttachmentPortal?id=a1Od000000050hVEAQ&amp;pageName=ArticleContent&amp;sq=005d0000001T4DAAA0" show="replace" xml:link="simple">Using Dynamic Abstract Generator</a> demonstration.</p>
+<h3>
+<a id="pgfId-147319"></a><a id="35990"></a>Abst<a id="AbstractPcells"></a>racting Pcells</h3>
+
+<p>
+<a id="pgfId-164187"></a>To generate an abstract of a Pcell, in the Layout window, choose <em>Tools &#8211; Dynamic Abstract Generation For Pcells &#8211; Abstract Pcells</em>. The Abstract Pcells form is displayed as shown in the figure below. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-164196"></a>When you point to an option in the Abstract Pcells form, an info balloon that describes the purpose of the option is displayed.</div>
+
+<p>
+<a id="pgfId-164191"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="464" src="images/DynamicAG-6.gif" /></div>
+<h4>
+<a id="pgfId-153410"></a>Selecting Pcells </h4>
+
+<p>
+<a id="pgfId-161377"></a>When the All Pcells option is selected in the Abstract Pcells form, abstracts are created for all the Pcells in the design. If you do not want to create the abstracts for all the Pcells, you can select the required Pcells in the layout canvas or from the Navigator assistant and ensure that the Selected Pcells option is selected. After you have run the command, you can select additional Pcells for abstraction, if required, and run the command again.</p>
+<p>
+<a id="pgfId-153269"></a>The abstracts are created for all Pcells that are selected, except the ones that are unmarked for abstraction. A warning message is displayed stating that some Pcells could not be abstracted because the Pcells were unmarked for abstraction.</p>
+<p>
+<a id="pgfId-153303"></a>A warning message is also displayed if abstract data already exists for a Pcell. To generate an abstract for such a Pcell, delete the abstract data by using the<em> Unabstract Pcells</em> command, and again abstract the required Pcells.</p>
+
+<h4><em>
+<a id="pgfId-163133"></a>Viewing the Abstract Status</em></h4>
+
+<p>
+<a id="pgfId-163144"></a>To determine whether the abstracts were created successfully:</p>
+<ul><li>
+<a id="pgfId-163151"></a>View the blockages created at level-1in the layout canvas, as shown in the following figure.<br />
+<a id="pgfId-163477"></a><div class="webflare-div-image">
+<img width="668" height="352" src="images/DynamicAG-7.gif" /></div></li><li>
+<a id="pgfId-163272"></a>View the status icons associated with the various Pcells in the Navigator assistant. For more information on the status icons, refer to <a href="DynamicAG.html#78539">Navigator Assistant (Using the Context-Sensitive Menu)</a>. <br />
+<a id="pgfId-153354"></a> <div class="webflare-div-image">
+<img width="668" height="484" src="images/DynamicAG-8.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-149206"></a>Specifying Abstraction options</h4>
+
+<p>
+<a id="pgfId-150780"></a>You use the <em>options</em> group box in the Abstract Pcells form to specify the settings for blockage generation and for loading or saving an options file.</p>
+
+<h4><em>
+<a id="pgfId-149375"></a>Specifying Blockages</em></h4>
+
+<ul><li>
+<a id="pgfId-149376"></a>Cover Blockage Layers<br />
+<a id="pgfId-167774"></a>Specify layers in the <em>Cover Blockage Layer</em>s field. This creates cover blockages for all layers and layer purpose pairs specified in the <em>Cover Blockage Layer</em>s field. For example if you specify <code>Metal1 Metal2 Metal3</code>, the cover blockage is created on all the three metal layers. By default, the <em>Cover Blockage Layers</em> field is empty. <br />
+<a id="pgfId-167775"></a>A warning message is displayed if the layers specified in the <em>Cover Blockage Layers</em> field are not complementary to the ones specified in the <em>Detailed Blockage Layers</em> field. For example, if you specify <code>Metal1</code> in the <em>Cover Blockages Layer</em> field and <code>Metal1 (Metal1 or Oxide) </code>in the <em>Detailed Blockage Layers</em> field, the following<code> </code>message is displayed:<br />
+<a id="pgfId-168075"></a>Cover blockage layers (<code>&quot;Metal1&quot;</code>) are already part of detailed blockage layer list (<code>&quot;Metal1&quot; &quot;Oxide&quot;</code>). Specify cover blockage layer list such that cover blockage layers are complementary to detailed blockage layers.</li><li>
+<a id="pgfId-168076"></a>Detailed Blockage Layers<br />
+<a id="pgfId-165553"></a>Specify a layer-geometry specification in the <em>Detailed Blockage Layers</em> field. This creates detailed blockages for all layers and layer purpose pairs specified in the <em>Detailed Blockage Layers</em> field. The layer geometry specification that is displayed by default in the <em>Detailed Blockage Layers</em> field is determined by the technology file with which you are working. For example, if you specify<code> (Metal1 (Metal1 or Oxide)) (Metal2 (Metal2 or Oxide))</code>, the detailed blockage is created on <code>Metal1</code> and <code>Metal2 </code>layer for, <code>Metal1</code> or <code>Oxide</code> and <code>Metal2</code> or <code>Oxide</code> layer-geometry in the design. For more information about layer-geometry specification, refer to <a href="chap4.html#60784">Geometry Specification</a>. <br /><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-164317"></a>
+When you type a value in a field in the <em>Blockages</em> group box, the checker running in the background validates the specified value. If the specified value is invalid, a pink highlight appears around the text box. A warning message is also displayed in CIW explaining why the value is invalid.</div></li></ul>
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-158557"></a>Loading and Saving an options File</h4>
+
+<p>
+<a id="pgfId-162702"></a>The options file is an editable text file that contains the abstraction rules used by Dynamic Abstract Generation to create abstracts. You can use the following methods to load and save an options file:</p>
+<ul><li>
+<a id="pgfId-162999"></a>Save the abstraction rules specified in the Abstract Pcells form to an options file.To save the abstraction rules to an options file, click <em>Save</em>. Specify the name of the options file to which you want to save the abstraction rules in the <em>options File Name</em> field. You can also load an existing options file, edit it, and save the changes. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-167479"></a>By default, the name that appears in the <em>options File Name</em> field is <em>.dynamicAbstract.options</em>.</div></li><li>
+<a id="pgfId-166880"></a>Load the various rules contained in an options file to the Abstract Pcells form. To load the abstraction rules contained in an options file, select the required options file and click <em>Load</em>.</li><li>
+<a id="pgfId-166872"></a>Directly edit an existing options file in a text editor and save the changes.</li></ul>
+
+
+
+<p>
+<a id="pgfId-162793"></a>The following figure shows a sample options file.</p>
+
+<p>
+<a id="pgfId-162800"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="361" src="images/DynamicAG-10.gif" /></div>
+<h4><em>
+<a id="pgfId-169100"></a>Setting the dynamicAGsFile<a id="autoAbutment"></a> Environment Variable</em></h4>
+
+<p>
+<a id="pgfId-170397"></a>You can set the layout XL environment variable <code>dynamicAGsFile</code> to specify the options file that you want to load, when the <em>Tools</em> <em>&#8211;</em> <em>Dynamic Abstract Generation for Pcells</em> <em>&#8211;</em> <em>Abstract Pcell</em>s command is run. By default, the <code>dynamicAGsFile</code> environment variable loads the options file named .<code>dynamicAbstract.options</code> when the Abstract Pcells form is opened for the first time in a Virtuoso session. You can then change the values of the fields and click <em>OK</em>. The next time when you open the Abstract Pcells form in the same Virtuoso session, the <code>.dynamicAbstract.options</code> file is not loaded and the modified values, if any, are retained.</p>
+<p>
+<a id="pgfId-170060"></a>You can either read the <code>dynamicAGsFile</code> environment variable from the <code>.cdsenv</code> file or set it in the CIW. To set environment variable, in the CIW, type:</p>
+<p>
+<a id="pgfId-169857"></a><code>envGetVal (&quot;layout XL&quot; </code>&quot;dynamicAGsFile&quot; &#39;string <code>&quot;</code>dynamicAGsFile<code>&quot;)</code></p>
+<p>
+<a id="pgfId-170001"></a>Here, the <code>dynamicAGsFile</code> is the name of the options file that is to be loaded. </p>
+
+<h4><em>
+<a id="pgfId-170003"></a>Specifying Advanced options</em></h4>
+
+<p>
+<a id="pgfId-150883"></a>To specify the advanced abstraction rules, click the Advanced options button. The Save Dynamic Abstract Generation options form is displayed as shown in the following figure. </p>
+
+<p>
+<a id="pgfId-164254"></a></p>
+<div class="webflare-div-image">
+<img src="images/SaveDAGOptions.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-164255"></a>When you point to an option in the Abstract Pcells form, an info balloon that describes the purpose of the option is displayed</div>
+<p>
+<a id="pgfId-164256"></a>The form has three tabs. </p>
+<ul><li>
+<a id="pgfId-137511"></a>General tab</li><li>
+<a id="pgfId-137522"></a>Extraction tab</li><li>
+<a id="pgfId-148144"></a>Antenna tab</li></ul>
+
+
+<p>
+<a id="pgfId-150840"></a>The various advanced abstraction rules that are available on the three tabs are discussed in detail below.</p>
+
+<h4>
+<a id="pgfId-148145"></a>General Tab</h4>
+
+<p>
+<a id="pgfId-148146"></a>You can specify the following settings on the General tab.</p>
+<ul><li>
+<a id="pgfId-144086"></a><a href="DynamicAG.html#67620">Specifying Pin Settings</a></li><li>
+<a id="pgfId-144067"></a><a href="DynamicAG.html#73307">Specifying prBoundary</a></li><li>
+<a id="pgfId-170626"></a><a href="DynamicAG.html#15279">Specifying Blockages</a></li></ul>
+
+
+
+<h4><em>
+<a id="pgfId-144129"></a><a id="61609"></a><a id="67620"></a>Specifying Pin Settings</em></h4>
+
+<ul><li>
+<a id="pgfId-144234"></a><em>Mapping text labels to pins</em> <br />
+<a id="pgfId-160873"></a>In the <em>Map Text Labels to Pins</em><a id="maptextlabelstopins"></a> field, you can specify the text labels that you want to map from the layout view to be created as pins in the layout dual view. The <em>Map Text Labels to Pins</em> field is case-sensitive. The syntax for specifying the text labels is as follows:<pre class="webflare-pre-block webflare-courier-new" id="#id152726">
+<a id="pgfId-152726"></a><code>(textLPP1 geomLPP1 geomLPP2)
+(textLPP2 geomLPP3 geomLPP4)</code></pre>
+<a id="pgfId-153052"></a>where,<ul><li>
+<a id="pgfId-153053"></a>The syntax of <code>textLPP</code> is <code>(textLayer textPurpose)</code> or <code>textLayer</code>.</li><li>
+<a id="pgfId-153054"></a>The syntax of <code>geomLPP</code> is <code>(geomLayer geomPurpose)</code> or <code>geomLayer</code>.</li></ul><br />
+<a id="pgfId-144875"></a>An example of this is as follows:<br />
+<a id="pgfId-144882"></a><code>(textLayer (metal1 drawing) (metal2 drawing))</code><br />
+<a id="pgfId-144901"></a>In this example, the text labels on layer <code>textLayer</code> for all purposes are mapped first to the shapes on layer <code>metal1</code> with purpose <code>drawing</code>, and then to shapes on layer purpose pair <code>metal2 drawing</code>.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-152716"></a>Instead of specifying a layer purpose pair, if you specify only the layer name, &#8216;all&#8217; purposes for the specified layer are considered during Dynamic Abstract Generation.</div>
+<a id="pgfId-152720"></a>For more information, refer to <a href="chap3.html#26718">Mapping Text Labels to Pins</a>.</li><li>
+<a id="pgfId-152721"></a>Specifying Pin Names<br />
+<a id="pgfId-149826"></a>In the <em>Power Pin Names</em>, <em>Ground Pin Names</em>, <em>Clock Pin Names</em>, <em>Analog Pin Names, </em>and Output Pin Names fields, specify a list of names for power pin, ground pin, clock pin, analog pin, and output pin, respectively. Specifying the pin names enables you to distinguish the pin types in the design. You can specify a list of pin names in the form of regular expressions, with each pin name separated by a space. For more information about regular expressions, refer to <a href="chap3.html#36593">Writing Regular Expressions</a>.<br />
+<a id="pgfId-149853"></a>By default, the <em>Clock Pin Names</em>, <em>Analog Pin Names</em>, and <em>Output Pin Names</em> fields are empty.</li><li>
+<a id="pgfId-141015"></a><em>Specifying Geometry Search Depth</em><br />
+<a id="pgfId-144261"></a>In the <em>Geometry Search Depth</em> box, specify the hierarchy depth &#8212; the number of levels in the design hierarchy the Dynamic Abstract Generation process must search for metal shapes that lie underneath a text label. The default value is <code>20</code>. For more information, refer to <a href="chap3.html#71380">Specifying the Search Depth</a>.</li><li>
+<a id="pgfId-137979"></a>Preserving Text Labels<br />
+<a id="pgfId-144292"></a>Select the <em>Preserve text labels</em> check box to retain the text labels from the layout view in the layout dual view.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-144139"></a><a id="73307"></a>Specifying prBoundary</em></h4>
+
+<p>
+<a id="pgfId-137861"></a>In the <em>Using geometry on layers</em> field, specify a list of layers or layer purpose pairs to be used to define the prBoundary. The boundary is drawn so that it encloses all the geometries found on the specified layers or layer purpose pairs. The syntax for specifying the layers is as follows:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-144998"></a>LPP1 LPP2</pre>
+
+<p>
+<a id="pgfId-145008"></a>An example of this is as follows.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-145015"></a>metal1 (metal2 drawing)</pre>
+
+<p>
+<a id="pgfId-145025"></a>In this example, all geometries on layer metal1 for all purposes and on layer metal2 for drawing purpose are enclosed by prBoundary.</p>
+
+<h4><em>
+<a id="pgfId-170609"></a><a id="15279"></a>Specifying Blockages</em></h4>
+
+<p>
+<a id="pgfId-170610"></a>In the Blockage Spacing Constraint field, specify a list of layer purpose pairs on which you want to define a spacing constraint along with the spacing value. For example, you can specify (METAL1 0.75) (METAL2 0.3). If you do not specify the value for the spacing constraint, than the default spacing value is the minSpacing value that is defined in the technology file for that particular layer. You can also specify the blockage spacing constraint in the Dynamic Abstract Generation options file as follows.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-170611"></a>absSetOption( &quot;AbstractBlockageUserDefinedSpacing&quot; &quot;(MET1 0.75) (MET2 0.3)&quot;)</pre>
+
+<p>
+<a id="pgfId-141356"></a></p>
+
+<h4>
+<a id="pgfId-141358"></a>Extraction Tab</h4>
+
+<p>
+<a id="pgfId-138053"></a>On the <em>Extraction</em> tab, you can specify the extraction information for signal and power nets.</p>
+
+<p>
+<a id="pgfId-141389"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="474" src="images/DynamicAG-12.gif" /></div>
+<h4><em>
+<a id="pgfId-141390"></a>Specifying Signal Extraction Information</em></h4>
+
+<p>
+<a id="pgfId-145073"></a>In the <em>Signal Extraction</em> group box, you can specify the following options for extracting signal nets.</p>
+<ul><li>
+<a id="pgfId-144336"></a>Extract Signal Nets<br />
+<a id="pgfId-141445"></a>Select the <em>Extract Signal Nets</em> check box if you want to run connectivity extraction on signal nets. By default, the <em>Extract Signal Net</em> check box is deselected.</li><li>
+<a id="pgfId-144379"></a>Extract Layers<br />
+<a id="pgfId-152492"></a>In the <em>Extract Layers</em> field, specify the layers or layer purpose pairs on which signal net extraction is to be performed. </li><li>
+<a id="pgfId-152493"></a>Weak Layers<br />
+<a id="pgfId-152494"></a>When extracting signal nets, you can set certain layers as weak layers and instruct the extractor to extract through these as well. In the Weak Layers field, specify the layers that you want to be considered as weak layers. The weakly connected pins will be created for the layers specified in the <em>Weak Layers</em> field. By default, the <em>Weak Layers</em> field is empty.</li><li>
+<a id="pgfId-141480"></a>Pin Layers<br />
+<a id="pgfId-144432"></a>In the <em>Pin Layers</em> field, specify the layers on which you want the pins to be created. This can be a subset of layers that are specified in the <em>Extract Layers</em> field.</li><li>
+<a id="pgfId-144434"></a>Extraction Depth<br />
+<a id="pgfId-144465"></a>In the <em>Extraction Depth</em> field, specify how many levels down the instance hierarchy the Dynamic Abstract Generation process must search for the shapes to be extracted. The default value is <code>32</code>, which is the maximum number of levels in a design hierarchy stored in the database.</li><li>
+<a id="pgfId-144479"></a>Extract Must Join Terms<br />
+<a id="pgfId-144480"></a>Select the <em>Extract Must Join Terms </em>check box to establish a must-join relationship between all disjoint groups of geometries extracted from separate pins on the same net.</li><li>
+<a id="pgfId-138480"></a>Must Join Term<br />
+<a id="pgfId-144491"></a>In the Must Join Term field, specify a list of terminal names, each separated by a space. If the extractor finds a terminal name that matches one of the specified terminal names, and if there are disjoint geometries from different pins on the net after extraction, a <code>MUSTJOIN</code> relationship is created for that terminal.</li><li>
+<a id="pgfId-141719"></a>Layer Connectivity<br />
+<a id="pgfId-149945"></a>In the <em>Layer connectivity</em> field, specify the connectivity between layers. This enables you to specify the layer connectivity without having to add via definitions in the technology file. The default value of this field is based on the connectivity derived from analyzing the vias in the technology file.<br />
+<a id="pgfId-144504"></a>The format for specifying a value in this field is to list the layers as shown below.<br />
+<a id="pgfId-141776"></a><t-times>
+(layer1 layer2 layer3) (layer4 layer5 layer6) ... (layer7 layer8) ...</t-times>
+<br />
+<a id="pgfId-149968"></a>In the example above, a triple layer entry means that layer1 connects to layer2 through the via layer layer3. A pair means that the first layer, layer7, connects to the second layer, layer8, by overlap (for example, local interconnect to polysilicon).<br />
+<a id="pgfId-150007"></a>For more information, refer to <a href="chap4.html#76818">Considerations for Specifying Layer Connectivity</a>.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-141846"></a>Specifying Power Extraction Information</em></h4>
+
+<p>
+<a id="pgfId-145096"></a>In the <em>Power Extraction</em> group box, you can specify the following options for extracting power nets.</p>
+
+<p>
+<a id="pgfId-141850"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="174" src="images/DynamicAG-13.gif" /></div>
+
+<ul><li>
+<a id="pgfId-141855"></a>Extract Power Nets<br />
+<a id="pgfId-144521"></a>Select the <em>Extract Power Nets</em><a id="extractpowernets"></a> check box to run connectivity extraction for power nets. If this check box is selected, all the pin shapes created during the Pins step are extracted. By default, the <em>Extract Power Nets</em> check box is deselected.</li><li>
+<a id="pgfId-138766"></a>Extract Layers<br />
+<a id="pgfId-138776"></a>In the Extract Layers field, specify the layers or layer purpose pairs through which you want the power nets to be extracted.</li><li>
+<a id="pgfId-138801"></a>Pin Layers<br />
+<a id="pgfId-144539"></a>In the Pin Layers field, specify the layers on which you want the pins to be created. Creating pins on a layer helps to determine the shapes found by the extractor that are converted into pins.</li><li>
+<a id="pgfId-141881"></a>Extraction Depth<br />
+<a id="pgfId-144554"></a>In the <em>Extraction Depth</em> field, specify how many levels down the instance hierarchy the Dynamic Abstract Generation process must search for the shapes to be extracted. The default value is <code>32</code>, which is the maximum number of levels in a design hierarchy stored in the database.</li></ul>
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-138827"></a>Antenna Tab</h4>
+
+<p>
+<a id="pgfId-152532"></a>By using the options on the <em>Antenna</em> tab, you can create process antenna data for Pcells. By default, all the check boxes on this tab are deselected.</p>
+
+<p>
+<a id="pgfId-152537"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="474" src="images/DynamicAG-14.gif" /></div>
+
+<ul><li>
+<a id="pgfId-144583"></a>Calculating Antenna Data<br />
+<a id="pgfId-152592"></a>Dynamic Abstract Generation computes the process antenna data for a given layer by using the following options on the <em>Antenna</em> tab.<ul><li>
+<a id="pgfId-144588"></a>Hierarchical Antenna </li><li>
+<a id="pgfId-141973"></a>Antenna for Input Pin </li><li>
+<a id="pgfId-141975"></a>Antenna for Output Pin</li><li>
+<a id="pgfId-152574"></a>Antenna for In-Out Pin</li><li>
+<a id="pgfId-152585"></a>Extract Metal Area</li><li>
+<a id="pgfId-141987"></a>Extract Metal Side Area</li></ul><br />
+<a id="pgfId-142093"></a>For more information, refer to <a href="chap4.html#39867">Performing Process Antenna Calculations</a>.</li><li>
+<a id="pgfId-142094"></a>Selecting Diffusion Layers<br />
+<a id="pgfId-144596"></a>Select the <em>Diffusion Layers</em> check box to extract diffusion layers specified in the technology file.</li><li>
+<a id="pgfId-142095"></a>Specifying Antenna Layers<br />
+<a id="pgfId-144612"></a>In the <em>Antenna Layers</em> field, specify the layers for which you want to calculate their process antenna data.</li><li>
+<a id="pgfId-139201"></a>Defining Area<br />
+<a id="pgfId-144625"></a>In the <em>Define Gate Area</em> and <em>Define Drain Area</em> fields, specify the layer-geometry specification for defining the gate and drain geometry regions, respectively. An example that defines the gate area region is as follows:<pre class="webflare-pre-block webflare-courier-new" id="#id150070">
+<a id="pgfId-150070"></a>(poly and fiff)</pre>
+<a id="pgfId-150056"></a>An example that defines the drain region area is as follows:<pre class="webflare-pre-block webflare-courier-new" id="#id150063">
+<a id="pgfId-150063"></a>(diff andnot poly)</pre>
+<a id="pgfId-150045"></a>For more information, refer to <a href="chap4.html#37519">Region</a>.</li><li>
+<a id="pgfId-139178"></a>Define Oxide Number<br />
+<a id="pgfId-151936"></a>From the <em>Define Oxide Number </em>drop-down list, select the oxide model to be extracted for a particular diffusion layer. The list contains four oxide types: <code>Oxide1</code>, <code>Oxide2</code>, <code>Oxide3</code>, and <code>Oxide4</code>. You can apply a unique oxide model for up to four diffusion layers. For more information, refer to <a href="chap4.html#13219">Oxide</a>.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-163935"></a><a id="30754"></a><a id="46557"></a>Unabstr<a id="UnabstractPcells"></a>acting Pcells</h3>
+
+<p>
+<a id="pgfId-163936"></a>Unabstracting a Pcell involves deleting the abstract data that exists for a Pcell. If an abstract data that you created for a Pcell does not meet your requirements and you want to create the abstract data again based on a new set of abstraction options, you need to first unabstract a Pcell and then run Dynamic Abstract Generation again.</p>
+<p>
+<a id="pgfId-158849"></a>To unabstract a Pcell, in the Layout window, choose Tools &#8211; <em>Dynamic Abstract Generation For Pcells</em> &#8211; <em>UnAbstract Pcells</em>. The UnAbstract Pcells form is displayed. You can choose to unabstract all Pcells or the selected Pcells.</p>
+
+<p>
+<a id="pgfId-148449"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="158" src="images/DynamicAG-15.gif" /></div>
+<h3>
+<a id="pgfId-148458"></a><a id="13736"></a>Highlighting Unabstracted Pcells</h3>
+
+<p>
+<a id="pgfId-148459"></a>To highlight the Pcells that are marked for abstraction but have not yet been abstracted, in the Layout window, choose <em>Tools</em> &#8211; <em>Dynamic Abstract Generation From Pcells</em> &#8211; <em>Highlight Unabstracted Pcells</em>. A highlight is displayed around each Pcell that has not been abstracted, as shown below.</p>
+
+<p>
+<a id="pgfId-148463"></a></p>
+<div class="webflare-div-image">
+<img width="667" height="374" src="images/DynamicAG-16.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-148464"></a>If you click anywhere in the layout canvas, the highlights around the unabstracted Pcells are removed.</div>
+
+<h3>
+<a id="pgfId-148466"></a><a id="13716"></a>Marking or Unmarki<a id="MarkUnmarkPcells"></a>ng Pcells for Abstraction</h3>
+
+<p>
+<a id="pgfId-148467"></a>To mark or unmark Pcells for abstraction, in the Layout window, choose <em>Tools</em> &#8211; <em>Dynamic Abstract Generation for Pcells</em> &#8211; Mark/Unmark Pcells for Abstraction. The Mark/Unmark Pcells for Abstraction form appears, as shown below.</p>
+
+<p>
+<a id="pgfId-148472"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="152" src="images/DynamicAG-17.gif" /></div>
+
+<p>
+<a id="pgfId-168145"></a>You can either mark or unmark the Pcells for abstraction. To mark a Pcell for abstraction, select <em>Mark</em>. This is also the default option. To unmark a Pcell, select <em>Unmark</em>. As a result, the Pcell is ignored for the abstraction process. By default, all the Pcells are marked for abstraction.</p>
+
+<h3>
+<a id="pgfId-168148"></a><a id="78539"></a>N<a id="NavigatorAsst"></a>avigator Assistant (Using the Context-Sensitive Menu)</h3>
+
+<p>
+<a id="pgfId-168149"></a>When the <em>Pcells</em> filter is selected from the <em>Show</em> drop-down list in the Navigator assistant, the <em>Abstract Status </em>column is displayed in the Navigator assistant. This column displays the dynamic abstract status for each Pcell by using an appropriate status icon. The following table describes the dynamic abstract status icons.<a id="absstatusicon"></a></p>
+<p>
+<a id="pgfId-153889"></a></p>
+<table class="webflareTable" id="#id153897">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id153899">
+<a id="pgfId-153899"></a>Icon</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id153901">
+<a id="pgfId-153901"></a>Name</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id153903">
+<a id="pgfId-153903"></a>Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-153908"></a><img width="36" height="34" src="images/DynamicAG-18.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-153911"></a><a id="42187"></a>Unmarked for abstraction</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-153913"></a>Indicates that the Pcell is unmarked for abstraction</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-153919"></a><img width="36" height="34" src="images/DynamicAG-19.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-153922"></a><a id="45986"></a> Dynamic Abstract does not exist (Marked for abstraction/Unabstracted Pcell)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-153924"></a>Indicates that the Pcell is marked for abstraction, but the abstraction data does not exist for the Pcell</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-154041"></a><img width="36" height="34" src="images/DynamicAG-20.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-154052"></a>Dynamic Abstract exists (Abstracted Pcell)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-154054"></a>Indicates that the abstraction data exists for the Pcell</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-153853"></a>You can right-click a Pcell in the Navigator Assistant and choose from the context-sensitive menu the required Dynamic Abstract Generation commands. </p>
+<p>
+<a id="pgfId-155580"></a>Depending on the abstract status of a Pcell, the context-sensitive menu provides the <em>Dynamic Abstract</em> commands for Dynamic Abstract Generation. For example, if a Pcell displays the abstract status as &#8220;Dynamic Abstract does not exist&#8221;, the context-sensitive menu for the Pcell contains commands for unmarking the Pcell for abstraction, abstracting the Pcell, and unabstracting the Pcell, as shown in the figure below.</p>
+
+<p>
+<a id="pgfId-155585"></a><a id="44598"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="576" src="images/DynamicAG-21.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-168100"></a>Selecting the <em>Abstract Pcells</em> command from the context-sensitive menu does not display the Abstract Pcells form. The abstract is created automatically based on the abstraction rules specified in the options file.</div>
+
+<h3>
+<a id="pgfId-155675"></a><a id="17331"></a>Layout Canvas (Using the Context-Sensitive Menu)</h3>
+
+<p>
+<a id="pgfId-155682"></a>You need to select a Pcell in the layout canvas to view the context-sensitive menu. The Dynamic Abstract submenu that is available on the context-sensitive menu contains commands that can be used for Dynamic Abstract Generation. Right-click a selected Pcell to view this menu, as shown below. </p>
+
+<p>
+<a id="pgfId-160453"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="378" src="images/DynamicAG-22.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-151726"></a>Selecting the <em>Abstract Pcells</em> command from the context-sensitive menu does not display the Abstract Pcells form. The abstract is created automatically based on the abstraction rules specified in the default options file, namely, <code>.dynamicAbstract.options</code>.</div>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="iAG.html" id="prev" title="Integrated Abstract Generator">Integrated Abstract Generator</a></em></b><b><em><a href="20nm_Support_AG.html" id="nex" title="Multi-Patterning Technology Support in Abstract Generator (ICADVM20.1 Only)">Multi-Patterning Technology Su ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

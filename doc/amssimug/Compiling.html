@@ -1,0 +1,539 @@
+
+<html><head><title>Compiling</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jommy" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864913" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Compiling" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864913" />
+<meta name="NextFile" content="Elaborating.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Designing_with_Multiple_Power_Supplies.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Compiling" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Designing_with_Multiple_Power_Supplies.html" title="Designing_with_Multiple_Power_Supplies">Designing_with_Multiple_Power_ ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Elaborating.html" title="Elaborating">Elaborating</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <div style="width: 100%; font-size: 32px; text-align: left;               font-weight: bold;">13</div>
+<h1 style="margin: 4px 0 4px;"><span>Compiling</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p><span class="confluence-anchor-link" id="Compiling-1031356"></span></p>
+
+<p>After writing or editing your source files, the next step is to analyze and compile them. The program that you use to analyze and compile Verilog<span style="color: rgb(0,0,0);"><sup>&#174;</sup></span>-AMS source is called<code> xmvlog.<a href="Using_xrun_for_AMS_Simulation.html">xrun</a></code><span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;">&#160;</span>runs<code> xmvlog </code>automatically during the compilation phase.</p>
+
+<p><code> xmvlog </code>performs syntactic and static semantic checking on the&#160;<a href="Glossary.html#Glossary-1032191">HDL</a>&#160;design units (modules, macromodules, or UDPs). If no errors are found, compilation produces an internal representation for each HDL design unit in the source files. These intermediate objects are stored in a library database file in the library directory.</p>
+
+<p>You run<code> xmvlog </code>with options and one or more source file names. The arguments can be used in any order provided that option parameters immediately follow the option they modify. You can also run<code> xmvlog </code>with the<code> -unit </code>or<code> -specificunit </code>option and a design unit name.</p>
+
+<p>To run<code> xmvlog </code>on Verilog-AMS modules, be sure to use the<code> -ams </code>option.</p>
+
+<p>For example</p>
+
+<p><code> xmvlog -ams foo.v foo2.vms&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// foo.v and foo2.vms are source files </code></p>
+
+<p><code> xmvlog -ams -unit worklib.mymod&#160;&#160;&#160;&#160;&#160;// mymod is an HDL design unit</code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you are running <code><a href="Using_xrun_for_AMS_Simulation.html">xrun</a></code>, read the important note about using<code>&#160;-ams&#160;</code>in &quot;<a href="Using_xrun_for_AMS_Simulation.html#UsingxrunforAMSSimulation-1038257">xrun Command Syntax</a>&quot;.</p>
+</div>
+</div>
+
+<p><code>xmvlog </code>treats each command-line argument that is not an option or a parameter to an option as a filename. For each filename,<code> xmvlog </code>first tries to open the file as specified. If this fails, each file extension specified with the<code> VERILOG_SUFFIX </code>variable is appended to the name, and<code> xmvlog </code>tries to open the file. The default file extension is<code> .v.</code> If no match is found,<code> xmvlog </code>tries the list of possible suffixes in the<code> hdl.var </code>variable<code> VIEW_MAP.</code> If all suffixes are exhausted,<code> xmvlog </code>issues an error.</p>
+
+<p>For details on the<code> VERILOG_SUFFIX </code>and<code> VIEW_MAP </code>variables, see &quot;hdl.var Variables&quot; in the&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../vlogcompile/XMVLOG_hdl.var_Variables.htmll">&quot;Xcelium Direct Invocation: Verilog Compilation&quot;</a>&#160;</span>book.</p>
+
+<p><code> xmvlog </code>compiles each design unit into a Library.Cell:View. See &quot;The Library.Cell:View Approach&quot;for information on the Spectre<span style="color: rgb(0,0,0);"><sup>&#174;</sup></span>AMS Designer simulator library system.</p>
+
+<p><code> xmvlog </code>always sets the cell name to the name of the design unit, but you can specify the library where the compiler stores compiled objects and the view names that are assigned to them. See &quot;<a href="#Compiling-1033454">Controlling the Compilation of Design Units into Library.Cell:View</a>&quot; for more information.</p>
+
+<p>In addition to the intermediate objects for each&#160;<a href="Glossary.html#Glossary-1032191">HDL</a>&#160;design unit,<code> xmvlog </code>can generate three other files:<code> master.tag</code>,<code> verilog.v</code>, and<code> pc.db.</code> These files are required if you want to</p>
+<ul><li>Browse libraries using Cadence&#39;s Virtuoso<span style="color: rgb(0,0,0);"><sup>&#174;</sup></span>Design Environment software</li></ul><ul><li>Use configurations</li></ul>
+<p>To generate these files, specify the<code> -use5x </code>option or define the<code> XMUSE5X </code>variable in the<code> hdl.var </code>file.</p>
+
+<p>The following figure illustrates the<code> xmvlog </code>process flow:</p>
+<p align="left"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236050/305236051.png" data-linked-resource-container-id="305236050" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="chap6.16.1.1.png" data-linked-resource-id="305236051" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236050/305236051.png" /></span></p>
+<h2 id="Compiling-xmvlogCommandSyntaxandOptionsncvlogcommandsyntax1031416">xmvlog Command Syntax and Options<span class="confluence-anchor-link" id="Compiling-ncvlogcommandsyntax"></span><span class="confluence-anchor-link" id="Compiling-1031416"></span></h2>
+
+<p>This section briefly describes the syntax and options for the<code> xmvlog </code>command. For more information, see the&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../vlogcompile/XMVLOG_hdl.var_Variables.html">&quot;Xcelium Direct Invocation: Verilog Compilation&quot;</a>&#160;</span>book.</p>
+
+<p><code>xmvlog[ options ] filename { filename }</code></p>
+
+<p><code>xmvlog[ options ] {-specificunit[ Lib .] Cell [: View ] filename |</code><br /><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;-unit[ Lib .] Cell [: View ] }</code></p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /></colgroup><tbody><tr><th class="confluenceTh" valign="middle" width="265">
+<p><span>xmvlog Command Option</span></p>
+</th><th class="confluenceTh" valign="middle" width="383">
+<p><span>Effect</span></p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-AMs</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Enables analysis of Verilog-AMS design units. For more information, see &quot;<a href="#Compiling-1035152">-AMs option</a>&quot;.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-APpend_log</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Appends log data from multiple runs of<code> xmvlog </code>to one log file.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>-<code>CDS_IMPLICIT_TMPDir implicitTmpDir</code> <span class="confluence-anchor-link" id="Compiling-cds_implicit_tmpdir"></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Writes the compiled design data to<code> implicitTmpDir </code>, the implicit TMP directory for all libraries in the design.</p>
+
+<p>For more information, see &quot;<a href="#Compiling-1035139">-CDS_IMPLICIT_TMPDir option</a>&quot;.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>-CDS_IMPLICIT_TMPOnly</code><span class="confluence-anchor-link" id="Compiling-cds_implicit_tmponly"></span><span class="confluence-anchor-link" id="Compiling-1034947"></span></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>When you use this option with the <span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="#Compiling-1032555">-update</a> </span>option, the update operation looks only at design data in the<code> implicitTmpDir </code>you specify using the<code> -CDS_IMPLICIT_TMPDir </code>option. If you do not use this option, the update operation also considers design data it finds in libraries defined in<code> cds.lib </code>files.</p>
+
+<p>You can use the<code> -CDS_IMPLICIT_TMPOnly </code>option only when you also use the<code> -CDS_IMPLICIT_TMPDir </code>option.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-CDSLib cdslib_pathname </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies the<code> cds.lib </code>file to use.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-CHecktasks</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Checks that all $tasks are predefined system tasks.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-Define identifier [= value ]</code></p>
+</td>
+<td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>Defines a macro. For more information, see the <a class="message-url" href="../vlogcompile/XMVLOG_hdl.var_Variables.html">&quot;Xcelium Direct Invocation: Verilog Compilation&quot;</a> book.</p>
+</div>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-Errormax integer </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies the maximum number of errors to process.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-File arguments_filename </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies a file of command-line arguments for<code> xmvlog </code>to use.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-HDlvar hdlvar_pathname </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies the<code> hdl.var </code>file to use.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-HElp</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Displays a list of the<code> xmvlog </code>command-line options.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-IEee1364</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Reports errors according to the IEEE 1364 Verilog standard.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-INcdir directory </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies an include directory.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-LExpragma</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Enables processing of lexical pragmas.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-LIBcell</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Marks all cells with<code> `celldefine.</code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-LINedebug</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Enables line debug capabilities.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-LOgfile filename </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies the file to contain log data.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-MEssages</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Turns on the printing of informative messages.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-MOdelincdir pathname {:&#160; pathname}</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies a list of paths to be searched for model files, included files, or files that are passed as instance parameter values.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-NEverwarn</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Disables printing of all warning messages.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-NOCopyright</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Suppresses printing of the copyright banner.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-NOLIne</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Turns off source line locations for errors.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-NOLOg</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Turns off generation of a log file.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-NOMempack</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Enables use of the <a href="Glossary.html#Glossary-1035591">PLI</a> routine<code> tf_nodeinfo()</code>, which is used to access memory array values.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-NOPragmawarn</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Disables pragma-related warning messages.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-NOStdout</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Suppresses the printing of most output to the screen.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-NOWarn warning_code </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Disables printing of the specified warning message.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-Pragma</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Enables pragma processing.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-SPecificunit[ lib .] cell [: view ] filename ]</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Compiles the specified unit from the source file.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-STatus</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Prints statistics on memory and CPU usage.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-UNit[ lib .] cell [: view ]</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies the unit to be compiled.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-UPCase</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Changes all identifiers (including keywords) to upper case (case-insensitive).</p>
+
+<p>Using this option can cause conflicts. For example, if you use this option, you must create and use a case-insensitive version of the<code> disciplines.vams </code>file that distinguishes<code> Voltage </code>nature from<code> voltage </code>discipline and<code> Current </code>nature from<code> current </code>discipline. In addition, using this option causes a clash between the<code> Force </code>nature and the<code> force </code>keyword.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>-UPDate<span class="confluence-anchor-link" id="Compiling-update"></span><span class="confluence-anchor-link" id="Compiling-1032555"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Recompiles out-of-date design units.</p>
+
+<p><span style="color: rgb(0,0,0);"><strong>Note:</strong>&#160;</span>The <code><a href="#Compiling-1034947">-CDS_IMPLICIT_TMPOnly</a></code> option affects the behavior of the<code> -update </code>option.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-USe5x</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Enables full 5x library system operation. You need full 5x library operation if you plan to use configurations.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-VErsion</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Prints the compiler version number.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-VIew view_name </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies a view association.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-Work library </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies the library to be used as the work library.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>-Zparse SKILL_file <span class="confluence-anchor-link" id="Compiling-zparse"></span><span class="confluence-anchor-link" id="Compiling-1034220"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Enables zparsing. The<code> SKILL_file </code>argument specifies the name of the SKILL file this option creates for importing Verilog-AMS text modules into the Virtuoso<span style="color: rgb(0,0,0);"><sup>&#174;</sup></span>design environment.</p>
+</td>
+</tr>
+</tbody></table></div>
+<h3 id="Compiling-xmvlogCommandOptionsDetails">xmvlog Command Options Details</h3>
+
+<p>Most of the<code> xmvlog </code>command options are described in the&#160;<a class="message-url" href="../vlogcompile/vlogcompileTOC.html">&quot;Xcelium Direct Invocation: Verilog Compilation&quot;</a><span style="color: rgb(0,0,255);">&#160;</span>book. This section describes only the<code> -ams </code>and<code> -cds_implicit_tmpdir </code>options.</p>
+<h4 id="Compiling--AMsoptionamsoptionncvlog_ams1035152">-AMs option<span class="confluence-anchor-link" id="Compiling-amsoption"></span><span class="confluence-anchor-link" id="Compiling-ncvlog_ams"></span><span class="confluence-anchor-link" id="Compiling-1035152"></span></h4>
+
+<p>Enables analysis of Verilog-AMS design units. Use this option to tell<code> xmvlog </code>that some or all of the<a href="Glossary.html#Glossary-1032191"> HDL </a>design units are written in the Verilog-AMS language. If you do not use this option,<code> xmvlog </code>analyzes for the Verilog language, which is likely to result in many errors when the language is actually Verilog-AMS.</p>
+
+<p>For example, to compile the files<code> ms10.v </code>and<code> ms12.v </code>, which both contain modules written with Verilog-AMS, you can use a command like</p>
+
+<p><code> xmvlog -ams ms10.v ms12.v </code></p>
+
+<p>Be careful to use the<code> -ams </code>option only when appropriate. For example, using the option with legacy digital Verilog modules can cause errors if Verilog-AMS keywords are used as identifiers in the Verilog modules.</p>
+<h4 id="Compiling--CDS_IMPLICIT_TMPDiroptioncds_implicit_tmpdiroption1035139">-CDS_IMPLICIT_TMPDir option<span class="confluence-anchor-link" id="Compiling-cds_implicit_tmpdiroption"></span><span class="confluence-anchor-link" id="Compiling-1035139"></span></h4>
+
+<p>Establishes a directory to hold any created temporary libraries. This directory is used even when<code> ASSIGN </code>statements in the<code> cds.lib </code>file specify different directories.</p>
+
+<p>For example, your<code> cds.lib </code>contains</p>
+
+<p><code> DEFINE amstestLib ./amstest<br />DEFINE basicLib ./basic<br />ASSIGN basicLib TMP ./basicTMP<br />DEFINE analogLib ./analog<br />ASSIGN AllLibs TmpRootDir ./myTMPs </code></p>
+
+<p>Without a<code> -cds_implicit_tmpdir </code>option in effect, new data is written to</p>
+
+<p><code> ./myTMPs/amstest<br />./basicTMP/basic<br />./myTMPs/analog </code></p>
+
+<p>Using the same<code> cds.lib </code>but with the option</p>
+
+<p><code> -cds_implicit_tmpdir ./myImplTMPs </code></p>
+
+<p>in effect, however, new data is written to</p>
+
+<p><code> ./myImplTMPs/amstest<br />./myImplTMPs/basic<br />./myImplTMPs/analog </code></p>
+<h3 id="Compiling-ExamplexmvlogCommandLines">Example xmvlog Command Lines</h3>
+
+<p>The following command includes the<code> -messages </code>option, which prints compiler messages.</p>
+
+<p><code> xmvlog -messages 2bit_adder_test.v<br /><br />xmvlog: v1.0.(p1): (c) Copyright 1995 - 2000 Cadence Design Systems, Inc.<br />file: 2bit_adder_test.v <br />       module worklib.top <br />               errors: 0, warnings: 0<br />% </code></p>
+
+<p>The following example uses the<code> -work </code>option to define the current working library as<code> aludesign.</code> This overrides the definition of the<code> WORK </code>variable in the<code> hdl.var </code>file.</p>
+
+<p><code> xmvlog -work aludesign 2bit_adder_test.v </code></p>
+
+<p>The following example uses the<code> -file </code>option to include a file called<code> xmvlog.vc </code>, which includes a set of command-line options, such as<code> -messages </code>,<code> -nocopyright </code>,<code> -errormax </code>, and<code> -incdir.</code></p>
+
+<p><code> xmvlog -file xmvlog.vc 2bit_adder_test.v </code></p>
+
+<p>In the following example, the<code> -ieee1364 </code>option checks for compatibility with the IEEE specification. Error messages reference the<span style="color: rgb(0,0,0);"> IEEE Language Reference Manual.</span></p>
+
+<p><code> xmvlog -ieee1364 2bit_adder_test.v </code></p>
+
+<p>The following example includes the<code> -incdir </code>option to specify a directory to search for include files.</p>
+
+<p><code> xmvlog -incdir ~larrybird/bigdesign 2bit_adder_test.v </code></p>
+
+<p>In the following example,<code> -errormax 10 </code>tells the compiler to stop compiling after 10 errors. The<code> -noline </code>option suppresses the reporting of source lines when errors are encountered. Using this option can improve performance when compiling very large source files that contain errors.</p>
+
+<p><code> xmvlog -errormax 10 -noline 2bit_adder.v </code></p>
+
+<p>The following example includes the<code> -logfile </code>option to send output to a log file called<code> adder.log </code>instead of to the default log file<code> xmvlog.log.</code></p>
+
+<p><code> xmvlog -messages -logfile adder.log 2bit_adder.v </code></p>
+
+<p>The following example includes the<code> -linedebug </code>option, which disables the optimizations that prevent line debug capabilities.</p>
+
+<p><code> xmvlog -linedebug 2bit_adder.v </code></p>
+
+<p>The following example illustrates how to use the<code> -ams </code>options to compile Verilog-AMS module.</p>
+
+<p><code> xmvlog -ams 2bit_adder.v </code></p>
+
+<p>The following example illustrates using the -use5x option. You need to use this option if you plan to use a configuration when you elaborate.</p>
+
+<p><code> xmvlog -ams -use5x top </code></p>
+<h2 id="Compiling-hdl.varVariables">hdl.var Variables</h2>
+
+<p>This section lists the<code> hdl.var </code>variables used by<code> xmvlog.</code> For more information, see &quot;hdl.var Variables&quot; in the&#160;<a class="message-url" href="../vlogcompile/XMVLOG_hdl.var_Variables.html">&quot;Xcelium Direct Invocation: Verilog Compilation&quot;</a><span style="color: rgb(0,0,255);">&#160;</span>book.</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /></colgroup><tbody><tr><th class="confluenceTh" valign="middle" width="193">
+<p><span>hdl.var Variables Used by xmvlog</span></p>
+</th><th class="confluenceTh" valign="middle" width="455">
+<p><span>Description</span></p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>LIB_MAP </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Maps files and directories to the names of libraries where you want them to be compiled.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>XMUSE5X </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Turns on generation of the<code> master.tag</code>,<code> verilog.v</code>, and<code> pc.db </code>files, which are required if you want to use the library browser using Cadence&#39;s Virtuoso<span style="color: rgb(0,0,0);"><sup>&#174;</sup></span>Design Environment software. You also need these files if you plan to use configurations.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>XMVLOGOPTS </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Adds additional argument to the<code> xmvlog </code>command.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>SRC_ROOT </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Defines an ordered list of paths to search for source files when you are updating a design.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>VERILOG_SUFFIX </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies valid file extensions for Verilog source files.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>VIEW </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies the view name to use.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>VIEW_MAP </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Maps file extensions to view names.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>WORK </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies the work library.</p>
+</td>
+</tr>
+</tbody></table></div>
+<h2 id="Compiling-ConditionallyCompilingSourceCode">Conditionally Compiling Source Code</h2>
+
+<p>Use the conditional compilation compiler directives (<code>`ifdef</code>,<code> `else</code>, and<code> `endif</code>) to include lines of an&#160;<a href="Glossary.html#Glossary-1032191">HDL</a>&#160;source description conditionally during compilation. The<code> `ifdef </code>compiler directive checks whether a variable name is defined either in the source code or on the command line. If the variable name is defined, the compiler includes the lines in the source description.</p>
+
+<p>For more information on these directives and on other directives that you can use for conditional compilation, see the&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../verilogamsref/chap12.html">&quot;Controlling the Compiler&quot;</a>&#160;</span>chapter of<span style="color: rgb(0,0,0);"><em> Cadence Verilog-AMS Language Reference</em>.</span></p>
+<h2 id="Compiling-ControllingtheCompilationofDesignUnitsintoLibrary.Cell:ViewcompilerControlcompilerControl1033454">Controlling the Compilation of Design Units into Library.Cell:View<span class="confluence-anchor-link" id="Compiling-compilerControl"></span><span class="confluence-anchor-link" id="Compiling-compilerControl"></span><span class="confluence-anchor-link" id="Compiling-1033454"></span></h2>
+
+<p>When you run the<code> xmvlog </code>compiler, your&#160;<a href="Glossary.html#Glossary-1032191">HDL</a>&#160;design units (modules, macromodules, and UDPs) are compiled into a Library.Cell:View. The cell name is always set to the name of the design unit, but you can control where the compiler stores compiled objects and the view names that are assigned to them.</p>
+
+<p>To specify the library and view, you can use variables defined in the<code> hdl.var </code>file, command-line options, or compiler directives. The order of precedence is as follows (with cross-references to sections in the&#160;<a class="message-url" href="../vlogcompile/XMVLOG_hdl.var_Variables.html">&quot;Xcelium Direct Invocation: Verilog Compilation&quot;</a><span style="color: rgb(0,0,255);">&#160;</span>book).</p>
+<ol><li>By default, the library to compile into is the work library. See &quot;The Default&quot; section.</li><li>The definitions of the<code> LIB_MAP </code>and<code> VIEW_MAP </code>variables in the<code> hdl.var </code>file. See &quot;The LIB_MAP and VIEW_MAP Variables&quot;.</li><li>The definitions of the<code> WORK </code>and<code> VIEW </code>variables in the<code> hdl.var </code>file. See &quot;The WORK and VIEW Variables&quot;.</li><li>The<code> -work </code>or<code> -view </code>command-line options. See &quot;The -work and -view Options&quot;.</li><li>The<code> -specificunit </code>command-line option with a library and/or view specification. See &quot;The -specificunit Option&quot;.</li><li>The<code> `worklib </code>and<code> `view </code>compiler directives. See &quot;The `worklib and `view Compiler Directives&quot;.</li></ol>
+<p>See &quot;Mapping of Modules Defined Within `include Files&quot; in the&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../vlogcompile/compiling_ncvlog.html">&quot;Compiling Verilog Source Files&quot;</a>&#160;</span>book for information on the library and view mapping of modules defined within<code> `include </code>files.</p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Designing_with_Multiple_Power_Supplies.html" id="prev" title="Designing_with_Multiple_Power_Supplies">Designing_with_Multiple_Power_ ...</a></em></b><b><em><a href="Elaborating.html" id="nex" title="Elaborating">Elaborating</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

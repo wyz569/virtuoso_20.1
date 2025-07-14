@@ -1,0 +1,160 @@
+
+<html><head><title>Using Wildcard-Named Port Connections in AMS</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864931" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Using Wildcard-Named Port Connections in AMS" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="Digital Mixed Signal,Analog Mixed Signal,Explorer,AMS Designer," />
+<meta name="prod_subfeature" content="SV-MS,SV-MS,AMS Designer," />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864931" />
+<meta name="NextFile" content="Applying_Assertions_to_real__wreal__and_electrical_Nets.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Using_SystemVerilog_Modules.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Using Wildcard-Named Port Connections in AMS" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Using_SystemVerilog_Modules.html" title="Using_SystemVerilog_Modules">Using_SystemVerilog_Modules</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Applying_Assertions_to_real__wreal__and_electrical_Nets.html" title="Applying_Assertions_to_real__wreal__and_electrical_Nets">Applying_Assertions_to_real__w ...</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <h1 style="margin: 4px 0 4px;"><span>Using Wildcard-Named Port Connections in AMS</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p><span class="confluence-anchor-link" id="UsingWildcard-NamedPortConnectionsinAMS-1075213"></span><span class="confluence-anchor-link" id="UsingWildcard-NamedPortConnectionsinAMS-wildcardconstruct"></span><span style="letter-spacing: 0.0px;">In SystemVerilog,&#160;</span>you can use the wildcard-named port connections, which are represented using the dot-star notation (.*), to specify port connections in the AMS flow. It provides a concise and a powerful implicit port connection, and avoids the top-level verbosity to explicitly detail the port connection for each instance.</p>
+
+<p>Currently, the following are supported:</p>
+<ul><li>Ports that are basic Verilog types, Verilog-AMS signals, or a combination of both</li></ul><ul><li>Ports that are of user-defined nettype (UDN). Currently, only those port connections where both the port expression and the formal port are UDNs that have structure as their user-defined type are supported.Supported UDN-to-UDN connections include:</li></ul><ul><li>explicit or implicit interconnects or wires coerced to UDNs</li></ul><ul><li>scalars</li></ul><ul><li>arraysUnsupported UDN-to-UDN connections include:</li></ul><ul><li>Concats and selects in the named port connection</li></ul><ul><li>Unsupported scenarios for all connections as explicit named port connections</li></ul><ul><li>Usage in mixed-signal context</li></ul><ul><li>Complete list of port signals connected using a single<code>&#160;.*.</code></li></ul><ul><li>Arrays and vectors</li></ul>
+<p>You must use the&#160;<code>-sv_udnwcard</code>&#160;command-line option for wildcard-named port connections of UDNs with UDTs and UDRs that are supported using explicit port connections.</p>
+
+<p>The following do not support the .* wildcard construct:</p>
+<ul><li>Complex SV data types including enum, union, class, and interface class</li></ul><ul><li>Generic wreals on SV side</li></ul><ul><li>SimVision</li></ul>
+<p>Following is an example of wildcard-named port connections:</p>
+
+<p><code>test.sv:</code></p>
+
+<p><code>`timescale 1ns/1ps</code></p>
+
+<p><code>module top;</code></p>
+
+<p><code>&#160; wire m,n;</code><br /><code>&#160; m_ams ams(.*);</code><br /><code>&#160; assign m = 1;</code></p>
+
+<p><code>endmodule</code></p>
+
+<p><code>module m_sv(input logic m, output logic n);</code><br /><code>endmodule</code></p>
+
+<p><code>test.vams:</code></p>
+
+<p><code>`include &quot;disciplines.vams&quot;</code></p>
+
+<p><code>`timescale 1ns/1ps</code></p>
+
+<p><code>module m_ams(m,n);</code></p>
+
+<p><code>&#160; input m;</code><br /><code>&#160; wire m;</code><br /><code>&#160; output n;</code><br /><code>&#160; electrical n;</code></p>
+
+<p><code>m_sv sv(.m(m),.n(n));</code></p>
+
+<p><code>analog begin</code></p>
+
+<p><code>&#160; &#160;V(n) &lt;+ 1.8;</code></p>
+
+<p><code>end</code></p>
+
+<p><code>endmodule</code></p>
+
+<p>The following example illustrates the use of arrays and vectors as port connections that are connected using wildcard-named port connection.</p>
+
+<p><code>tb.sv:<br />module tb();<br />&#160;&#160;&#160;&#160;reg lll;<br />&#160;&#160;&#160;&#160;reg [3:0] mmm;<br />&#160;&#160;&#160;&#160;dut dut_inst(.*);<br />endmodule</code></p>
+
+<p><code>dut.v:<br />module dut (lll, mmm);<br />&#160;&#160;&#160;&#160;input lll;<br />&#160;&#160;&#160;&#160;input [3:0] mmm;<br />&#160;&#160;&#160;&#160;spicex myspicex (.lll(lll),.mmm(mmm));<br />endmodule</code></p>
+
+<p><code>spice.scs:<br />simulator lang=spectre<br />&#160;&#160;&#160;&#160;subckt spicex lll mmm_3 mmm_2 mmm_1 mmm_0<br />ends spicex</code></p>
+
+<p><code>spice.v:<br />module spicex (input lll, input [3:0] mmm);<br />endmodule</code></p>
+
+<p><code>amscf.scs:<br />simulator lang=spectre<br />include &quot;spice.scs&quot;<br />tran tran stop=1u<br />amsd{</code></p>
+
+<p><code>portmap subckt=spicex porttype=name reffile=&quot;spice.v&quot;<br />&#160;&#160;&#160;&#160;config cell=spicex use=spice<br />&#160;&#160;&#160;&#160;ie vsup=1.8<br />}</code></p>
+
+<p><code>xrun tb.sv dut.v spice.v amscf.scs -timescale 1ns/1ps&#160;-sv_udnwcard</code></p>
+
+<p>Following is an example of connecting a UDN port using wildcard-named port connection:</p>
+
+<p><code>//Custom package</code></p>
+
+<p><code>package myPkg;</code><br /><code>typedef struct{</code></p>
+
+<p><code>&#160; &#160;real x;</code><br /><code>}myStruct;</code></p>
+
+<p><code>function automatic myStruct res_myStruct(input myStruct driver[]);</code></p>
+
+<p><code>&#160;foreach(driver[i])</code><br /><code>&#160; &#160; &#160; res_myStruct.x += driver[i].x;</code></p>
+
+<p><code>endfunction</code><br /><code>nettype myStruct mySum with res_myStruct;</code><br /><code>endpackage&#160;</code></p>
+
+<p><code>//import native packages</code></p>
+
+<p><code>import cds_rnm_pkg::*;</code></p>
+
+<p><code>import EE_pkg::*;</code></p>
+
+<p><code>//import custom packages</code><br /><code>import myPkg::*;</code></p>
+
+<p><code>//.* connected testbench</code><br /><code>module top;</code><br /><code>&#160; interconnect x,y;</code><br /><code>&#160; interconnect u,v;</code></p>
+
+<p><code>&#160; test1 u0(.*);</code><br /><code>&#160; test2 u1(.*);&#160;</code></p>
+
+<p><code>endmodule // top</code></p>
+
+<p><code>//Module Definitions</code><br /><code>module test1(x,y,u,v);</code></p>
+
+<p><code>&#160; input wreal1driver x;</code><br /><code>&#160; input mySum y;</code><br /><code>&#160; inout EEnet u;</code><br /><code>&#160; inout wire v;&#160;</code></p>
+
+<p><code>endmodule // test&#160;</code></p>
+
+<p><code>module test2(x,y,u,v);</code></p>
+
+<p><code>&#160; output wreal1driver x;</code><br /><code>&#160; inout mySum y;</code><br /><code>&#160; inout EEnet u;</code><br /><code>&#160; inout wire v;</code></p>
+
+<p><code>endmodule // test</code></p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Using_SystemVerilog_Modules.html" id="prev" title="Using_SystemVerilog_Modules">Using_SystemVerilog_Modules</a></em></b><b><em><a href="Applying_Assertions_to_real__wreal__and_electrical_Nets.html" id="nex" title="Applying_Assertions_to_real__wreal__and_electrical_Nets">Applying_Assertions_to_real__w ...</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>
