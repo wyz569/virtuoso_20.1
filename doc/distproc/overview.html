@@ -1,0 +1,2323 @@
+
+<html><head><title>Distributed Processing in Virtuoso ADE Explorer and Virtuoso ADE Assembler</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="rgirdhar" />
+<meta name="CreateDate" content="2020-09-21" />
+<meta name="CreateTime" content="1600703346" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso Analog Distributed Processing option. This option lets you choose how, when and where to run computation - intensive simulations." />
+<meta name="DocTitle" content="Virtuoso ADE Explorer and Virtuoso ADE Assembler: Distributed Processing" />
+<meta name="DocType" content="Reference" />
+<meta name="FileTitle" content="Distributed Processing in Virtuoso ADE Explorer and Virtuoso ADE Assembler" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="distproc" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-21" />
+<meta name="ModifiedTime" content="1600703346" />
+<meta name="NextFile" content="" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="preface.html" />
+<meta name="c_product" content="Virtuoso Analog Design Environment" />
+<meta name="Product" content="Virtuoso Analog Design Environment" />
+<meta name="ProductFamily" content="Virtuoso Analog Design Environment" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso ADE Explorer and Virtuoso ADE Assembler: Distributed Processing -- Distributed Processing in Virtuoso ADE Explorer and Virtuoso ADE Assembler" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="distprocICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="distprocTOC.html">Contents</a></li><li><a class="prev" href="preface.html" title="Preface">Preface</a></li><li style="float: right;"><a class="viewPrint" href="distproc.pdf">View/Print PDF</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso ADE Explorer and Virtuoso ADE Assembler: Distributed Processing<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>1
+<a id="pgfId-1017948"></a></h1>
+<h1>
+<a id="pgfId-1017949"></a><hr />
+Distributed Processing in Virtuoso ADE Explorer and Virtuoso ADE Assembler<hr />
+</h1>
+
+<p>
+<a id="pgfId-1019610"></a>This chapter describes how to set up and use distributed processing for job simulation in the Virtuoso.</p>
+<p>
+<a id="pgfId-1039773"></a>See the following sections:</p>
+<ul><li>
+<a id="pgfId-1014368"></a><a href="overview.html#20622">Introduction to Distributed Processing</a></li><li>
+<a id="pgfId-1030650"></a><a href="overview.html#55316">Preparing the Setup for Distributed Processing of Jobs</a></li><li>
+<a id="pgfId-1043122"></a><a href="overview.html#93659">Validating the Distributed Processing Setup</a></li><li>
+<a id="pgfId-1043365"></a><a href="overview.html#27465">Submitting Simulation Jobs for Distributed Processing</a></li><li>
+<a id="pgfId-1041933"></a><a href="overview.html#97879">Accessing Results of Jobs in Distributed Processing</a></li><li>
+<a id="pgfId-1041872"></a><a href="overview.html#90638">Monitoring Jobs in Distributed Processing</a></li><li>
+<a id="pgfId-1037744"></a><a href="overview.html#33849">Debugging a Distributed Processing Setup</a></li><li>
+<a id="pgfId-1039504"></a><a href="overview.html#56329">Using Environment Variables in Distributed Processing</a></li></ul>
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1014845"></a><a id="20622"></a>Introduction to Distributed Processing</h2>
+
+<p>
+<a id="pgfId-1044267"></a>Distributed processing is the setup used for distribution of a program, task, or job across multiple hosts. In such a setup, the multiple hosts work together to complete the task or job. </p>
+<p>
+<a id="pgfId-1014850"></a>ADE Explorer and ADE Assembler support a simple distribution system &#8211; Load Balancing Software (LBS). It lets you set up queues, which are collections of host machines. You can set up any number of queues and hosts per queue. Each queue has a job-per-host limit. LBS dispatches the submitted jobs to the hosts in the order that you specify. </p>
+<p>
+<a id="pgfId-1018056"></a>Distributed processing is supported by the Spectre simulator, as well as the simulators that are integrated using OASIS. </p>
+<p>
+<a id="pgfId-1042578"></a>See <a href="overview.html#55316">Preparing the Setup for Distributed Processing of Jobs</a> for more information.</p>
+
+<h3>
+<a id="pgfId-1064755"></a><a id="85725"></a>Supported DRMS in Distributed Processing</h3>
+
+<p>
+<a id="pgfId-1018584"></a>By default, LBS uses the Cadence Queue Manager (<code>cdsqmgr</code>) for distributed processing of jobs. In addition, it provides a built-in hook into the following third-party Distributed Resource Management System (DRMS) tools that support distributed processing of jobs:</p>
+<ul><li style="list-style-type: none;background-image: none;"><ul><li>
+<a id="pgfId-1018585"></a>Load Sharing Facility (<code>LSF</code>) load balancer software from IBM.</li><li>
+<a id="pgfId-1032612"></a>OpenLava (<code>OLV</code>) Workload Management System (open source)</li><li>
+<a id="pgfId-1018572"></a>Sun Grid Engine (<code>SGE</code>) load balancer software from Oracle.</li></ul></li></ul>
+
+
+<p>
+<a id="pgfId-1044422"></a>The LBS software consists of both an LBS client library and an LBS server program. The LBS client library is used by Cadence applications to interact with the LBS server process. This server process uses the client library provided by the DRMS to interact with the DRMS cluster. Therefore, the LBS server process is considered an DRMS client application. </p>
+
+<h2>
+<a id="pgfId-1016065"></a><a id="55316"></a>Preparing the Setup for Distributed Processing of Jobs</h2>
+
+<p>
+<a id="pgfId-1020042"></a>This section contains information that system administrators need to configure LBS and the distributed processing clusters. To use distributed processing successfully, ensure that your setup follows the requirements described in the following sub-sections:</p>
+<ul><li>
+<a id="pgfId-1028533"></a><a href="overview.html#24167">Common Setup Requirements</a><ul><li>
+<a id="pgfId-1064883"></a><a href="overview.html#11362">Defining Variables for Distributed Processing</a></li></ul></li><li>
+<a id="pgfId-1028501"></a><a href="overview.html#19419">System Requirements for cdsqmgr Setup</a><ul><li>
+<a id="pgfId-1020050"></a><a href="overview.html#64317">Using cdsqmgr with remote shell (rsh)</a></li><li>
+<a id="pgfId-1020054"></a><a href="overview.html#58000">Using cdsqmgr with secure shell (ssh)</a></li></ul></li><li>
+<a id="pgfId-1020062"></a><a href="overview.html#88247">System Requirements for LSF Setup</a></li><li>
+<a id="pgfId-1020066"></a><a href="overview.html#99517">System Requirements for OLV Setup</a></li><li>
+<a id="pgfId-1064171"></a><a href="overview.html#40509">Resource Requirement String Format</a></li><li>
+<a id="pgfId-1030590"></a><a href="overview.html#99392">System Requirements for SGE Setup</a></li><li>
+<a id="pgfId-1042193"></a><a href="overview.html#90799">Other Requirements</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1020137"></a><a id="31711"></a><a id="24167"></a>Common Setup Requirements</h3>
+
+<p>
+<a id="pgfId-1020138"></a>You must ensure that your site meets the following list of basic requirements or assumptions so that the distributed processing software works smoothly: </p>
+<ul><li>
+<a id="pgfId-1046373"></a>To submit a job, you must have an account and a home directory on the submission host and the execution host. <br />
+<a id="pgfId-1020140"></a><strong>Example:</strong> If a user <code>morrison</code> who submits a job from <code>machine A</code> to <code>machine B </code>does not have an account on <code>machine B</code>, the submit request for <code>morrison</code> fails. </li><li>
+<a id="pgfId-1020141"></a>You must have access to the OS specific Cadence<sup>&#174;</sup> software on every execution host that might receive a job from you.</li><li>
+<a id="pgfId-1020142"></a>The directory on your local machine from which you run the distributed processing software must be exported if you are using the <code>v/net</code>,<code> /home</code>, or<code> /hm</code>. Network mode also assumes that your working directory, and all your design data are under your account and are mirrored. Whenever the remote job references a path, that path goes directly back to the original directory on your home machine.</li><li>
+<a id="pgfId-1020150"></a>The <code>uid</code> (UNIX user ID) of a user must not change when the user switches from one machine to another. For example, <code>uid</code> of <code>8819</code> must not identify user <code>morrison</code> on <code>machine A</code> and user <code>doe</code> on <code>machine B</code>. </li><li>
+<a id="pgfId-1020151"></a>To submit jobs, all users must have write-access to the <code>/tmp</code> file system on the execution and submission hosts. The job submission and execution processes create certain temporary files that are saved in the <code>/tmp</code> file system. </li><li>
+<a id="pgfId-1020152"></a>The setup considers that all files &#8211; input, output, error, and any command or OCEAN files &#8211; have absolute or relative locations, depending on whether they are preceded by a <code>/</code>. All relative locations are searched relative to the working directory of the job. Ensure that you specify the correct path for all files. </li><li>
+<a id="pgfId-1020153"></a>The directory structure on the home machine and the remote machine must be identical. For example, if the working directory of the job on your machine is <code>/net/salmon/u1/morrison</code>, the design directory on the execution machine must be <code>/net/coho/u1/morrison</code>. If the directory structure does not match on <code>salmon</code> and <code>coho</code>, use a link to mirror the directory structure on the home machine.</li></ul>
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1064804"></a><a id="11362"></a>Defining Variables for Distributed Processing</h4>
+
+<p>
+<a id="pgfId-1064863"></a>The LBS distribution software supports the <code>cdsqmgr</code>, <code>LSF</code>, <code>OLV</code>, and <code>SGE</code> DRMS. To distribute and process jobs, you need to set the environment variables based on the DRMS that you use on your local system. </p>
+<p>
+<a id="pgfId-1018358"></a>You must define the following variables for each distributed processing client machine:</p>
+<p>
+<a id="pgfId-1065214"></a></p>
+<table class="webflareTable" id="#id1065221">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018351"></a><code>LBS_CLUSTER_MASTER</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018353"></a>Set this to the LBS master host that controls job distribution to the queues. Your system administrator can help in this setup. </p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1040027"></a>You need to set <code>LBS_CLUSTER_MASTER</code> variable for LSF, OLV, and SGE.</div>
+<p>
+<a id="pgfId-1044732"></a>In .cshrc:</p>
+
+<p>
+<a id="pgfId-1040802"></a>setenv LBS_CLUSTER_MASTER <span class="webflare-courier-new" style="white-space:pre"><em>LBS_master_host</em></span></p>
+
+<p>
+<a id="pgfId-1044803"></a><span class="webflare-courier-new" style="white-space:pre"><em>LBS_master_host</em></span> is the host on which the LBS queue manager runs for controlling job distribution to the queues. Take your system administrator&#8217;s help in setting this up. By default, LBS uses the <code>cdsqmgr</code> load balancer. </p>
+
+<p>
+<a id="pgfId-1044795"></a>You can skip setting the <code>LBS_BASE_SYSTEM</code> variable if you use LBS. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018355"></a><code>LBS_BASE_SYSTEM</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-1064601"></a>Set this to define the load balancer that you want to use with LBS. For this, add one of the following commands in your <code>.cshrc</code> file:</p>
+<ul><li>
+<a id="pgfId-1064602"></a>To use the default Cadence (cdsqmgr) load balancer <br /><pre class="webflare-pre-block webflare-courier-new" id="#id1064603">
+<a id="pgfId-1064603"></a>setenv LBS_BASE_SYSTEM </pre></li><li>
+<a id="pgfId-1064604"></a>To use the Platform Load Sharing Facility (LSF) load balancer<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1064605">
+<a id="pgfId-1064605"></a>setenv LBS_BASE_SYSTEM LBS_LSF</pre></li><li>
+<a id="pgfId-1064606"></a>To use the OpenLava (OLV) load balancer <br /><pre class="webflare-pre-block webflare-courier-new" id="#id1064607">
+<a id="pgfId-1064607"></a>setenv LBS_BASE_SYSTEM LBS_OLV</pre></li><li>
+<a id="pgfId-1064608"></a>To use the Sun Grid Engine (SGE) load balancer<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1064609">
+<a id="pgfId-1064609"></a>setenv LBS_BASE_SYSTEM LBS_SGE</pre></li></ul>
+
+
+
+
+
+
+
+
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1064711"></a>The variable values that you specify differ based on whether you use LBS, or LBS with third-party DRMS. However, ensure that you set the appropriate variables based on the DRMS that you use. If you specify none of these variables, you can use distributed processing only in the command-line mode. </p>
+
+<h3>
+<a id="pgfId-1020085"></a><a id="19419"></a>S<a id="marker-1051952"></a>ystem Requirements for cdsqmgr Setup</h3>
+
+<p>
+<a id="pgfId-1033022"></a>LBS <code>cdsqmgr</code> is a Cadence load balancing software that helps you set up a simple distributed system for multiple users based on the config file that you specify. It helps to run distributed processing jobs in queue mode. </p>
+<p>
+<a id="pgfId-1033023"></a>Using LBS with <code>cdsqmgr</code>, you can set up any number of queues (collections of host machines) and hosts per queue. Each queue has a job-per-host limit. LBS <code>cdsqmgr</code> dispatches jobs to the hosts in the order that you specify.</p>
+<p>
+<a id="pgfId-1032932"></a>Distributed processing using LBS <code>cdsqmgr</code> is supported by the Cadence analog simulator Spectre, APS, XPS, and mixed-signal simulator AMS. </p>
+<p>
+<a id="pgfId-1020086"></a>Setting up a site for an LBS system with <code>cdsqmgr</code> involves the following steps:</p>
+<ul><li>
+<a id="pgfId-1042052"></a><a href="overview.html#64317">Using cdsqmgr with remote shell (rsh)</a></li><li>
+<a id="pgfId-1042071"></a><a href="overview.html#58000">Using cdsqmgr with secure shell (ssh)</a></li></ul>
+
+
+<h4>
+<a id="pgfId-1028598"></a><a id="64317"></a>Using cdsqmgr with remote shell (rsh)</h4>
+
+<p>
+<a id="pgfId-1032405"></a>To set up distributed processing with LBS <code>cdsqmgr</code>, ensure that you have the required system administrator rights or root permissions, and do the following:</p>
+<ol><li>
+<a id="pgfId-1032406"></a><a href="overview.html#configFile">Create the config file</a>. </li><li>
+<a id="pgfId-1032407"></a><a href="overview.html#hostReqs">Check the host requirements</a>. Ensure the following: <ol><li>
+<a id="pgfId-1032408"></a>You must not need a password to log in to other hosts using <code>rsh</code>.</li><li>
+<a id="pgfId-1032409"></a>All hosts must have a path set to the Cadence tools.</li><li>
+<a id="pgfId-1032410"></a>The <code>checkSysConf</code> command must run successfully on all hosts.</li><li>
+<a id="pgfId-1032411"></a>All hosts must be mapped to a common directory structure.</li></ol></li><li>
+<a id="pgfId-1032412"></a><a href="overview.html#daemonStart">Start the daemon process</a>. </li><li>
+<a id="pgfId-1032413"></a><a href="overview.html#unixSetup">Set up the UNIX environment for distributed processing users</a>.</li><li>
+<a id="pgfId-1032414"></a><a href="overview.html#configTestScript">Run the configuration testing script</a>. </li></ol>
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1032415"></a>By default, the tool uses <code>rsh</code> to communicate between the hosts. Therefore, no additional settings are required to run <code>rsh</code>.</div>
+
+<h4><em>
+<a id="pgfId-1020088"></a><a id="63228"></a>Cre<a id="configFile"></a>ating the Config File</em></h4>
+
+<p>
+<a id="pgfId-1020091"></a>Cluster configuration files can have any name and reside in any location. This file contains names of queues, machines in queues, number of hosts in a queue, names of hosts in a queue, and the job limit of individual hosts. The syntax for these files is as follows:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1020093"></a>queue_1_name  N_-_number_of_hosts_in_queue_1<br />host_1       job_limit_for_host_1_on_queue_1<br />host_2       job_limit_for_host_2_on_queue_1<br />...<br />host_N       job_limit_for_host_N_on_queue_1<br /></pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1020094"></a>queue_2_name  N_-_number_of_hosts_in_queue_2<br />host_1       job_limit_for_host_1_on_queue_2<br />host_2       job_limit_for_host_2_on_queue_2<br />...<br />host_N&#160;&#160;     job_limit_for_host_N_on_queue_2</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1020095"></a>...</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1020096"></a>queue_n_name  N_-_number_of_hosts_in_queue_n<br />host_1       job_limit_for_host_1_on_queue_n<br />host_2       job_limit_for_host_2_on_queue_n<br />...<br />host_N&#160;&#160;     job_limit_for_host_N_on_queue_n</pre>
+<p>
+<a id="pgfId-1020097"></a>For example, the contents of a sample configuration file <code>lbs.config</code> are as follows:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032856"></a>************************ lbs.config ***************************</pre>
+
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1032857"></a>queueA 2</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1032858"></a>noi-user1 3</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1032859"></a>noi-user2 2</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1032860"></a>queueB 3</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1032861"></a>noi-user1 4</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1032862"></a>noi-user2 2</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1032863"></a>noi-user3 3</pre>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032864"></a>****************************************************************</pre>
+
+<p>
+<a id="pgfId-1047009"></a>Place this file in your <code>$HOME. </code></p>
+<p>
+<a id="pgfId-1032852"></a>In the above configuration file, <code>queueA</code> and <code>queueB</code> are the names of two queues. The first statement <code>queueA 2</code> indicates that the queue <code>queueA</code> has two hosts. These hosts are <code>noi-user1</code> and <code>noi-user2</code>. The statement <code>noi-user1</code> <code>3</code> indicates that the host <code>noi-user1</code> can handle a maximum of <code>3</code> jobs. Similarly, host <code>noi-user2</code> can handle a maximum of <code>2</code> jobs.</p>
+
+<h4><em>
+<a id="pgfId-1028745"></a><a id="79214"></a>Che<a id="hostReqs"></a>cking the Host Requirements</em></h4>
+
+<ol><li>
+<a id="pgfId-1032184"></a>For LBS <code>cdsqmgr</code> to work smoothly, you must be able to use <code>rsh</code> to log in to another host without a password. If you receive a prompt for a password, disable the password.</li><li>
+<a id="pgfId-1032185"></a>Ensure that all host machines can access the Cadence tools. To check if the path to the Cadence tool is available on each host, log in to all the hosts individually and run the following command in the Unix terminal window:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1047192">
+<a id="pgfId-1047192"></a>&gt; which spectre 
+&gt; which virtuoso</pre></li><li>
+<a id="pgfId-1032187"></a>Use <code>rlogin</code> to log in to each host and check if the host passes the <code>checkSysConf</code> test. The following command ensures that the machine has all the required patches for running the tool.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1032188">
+<a id="pgfId-1032188"></a><code>&lt;ic_install_path&gt;/tools/bin/checkSysConf &lt;ic_install_version&gt;</code></pre>
+<a id="pgfId-1032189"></a>For example, if you are running Virtuoso IC6.1.8, use the following command:<pre class="webflare-pre-block webflare-courier-new" id="#id1032190">
+<a id="pgfId-1032190"></a>/software/IC6.1.8_ISR4/tools/bin/checkSysConf IC6.1.8</pre>
+<a id="pgfId-1028740"></a>Repeat this test on each host for all Cadence tools (like simulators). For more details, refer to the Cadence article: <a actuate="user" class="URL" href="../https://support.cadence.com/apex/ArticleAttachmentPortal?id=a1Od0000000vK87EAE&amp;pageName=ArticleContent" show="replace" xml:link="simple">Running checkSysConf to verify system patch levels</a>.</li><li>
+<a id="pgfId-1032230"></a>Ensure that all hosts are connected to a common directory structure so that the project work area and the simulation directories are visible to each host.</li></ol>
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1020100"></a><a id="77151"></a>St<a id="daemonStart"></a>arting the Daemon</em></h4>
+<div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1028465"></a>
+A <code>daemon</code> is a program or process that runs as a background process.</div>
+
+<p>
+<a id="pgfId-1032335"></a>To run <code>cdsqmgr</code> on the identified cluster master, do the following:</p>
+<ol><li>
+<a id="pgfId-1032336"></a>Identify the cluster master, which is the host on which the <code>daemon</code> needs to be run. If the master host is <code>noi-user1</code>, <code>rlogin</code> to host <code>noi-user1</code>.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1032337">
+<a id="pgfId-1032337"></a>&gt; rlogin noi-user1</pre></li><li>
+<a id="pgfId-1032338"></a>Kill any <code>cdsqmgr</code> process that is already running under the root directory or any other account. Use the following command to find the process:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1032339">
+<a id="pgfId-1032339"></a>Unix&gt; ps -aef |grep cdsqmgr</pre>
+<a id="pgfId-1047679"></a>Running this command may result in an output as follows:<pre class="webflare-pre-block webflare-courier-new" id="#id1032340">
+<a id="pgfId-1032340"></a>userA 14494 1 0 19:05 ? 00:00:00 /ccstools/cdsind1/Software/IC618ISR_lnx86/tools/bin/32bit/cdsqmgr lbs.config</pre>
+<a id="pgfId-1032341"></a>Here, <code>cdsqmgr</code> is already running with <code>PID</code> <code>14494</code>. To kill this <code>PID</code>, use the following command:<pre class="webflare-pre-block webflare-courier-new" id="#id1032342">
+<a id="pgfId-1032342"></a>&gt; kill 14494</pre></li><li>
+<a id="pgfId-1032343"></a>Kill any <code>cdsNameServer</code> process that is already running under the root directory or any other account. To do this, use the following commands:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1032344">
+<a id="pgfId-1032344"></a>Unix&gt; ps -aef |grep cdsNameServer
+userA 764 1 0 Jul30 ? 00:00:00 /ccstools/cdsind1/Software/IC618ISR_lnx86/tools/bin/32bit/cdsNameServer
+userA 4181 14330 0 20:47 pts/8 00:00:00 grep cdsNameServer</pre>
+<a id="pgfId-1032347"></a>Here, the <code>cdsNameServer</code> is already running with <code>PID</code> <code>764</code>. To kill this <code>PID</code>, use the following command:<pre class="webflare-pre-block webflare-courier-new" id="#id1032348">
+<a id="pgfId-1032348"></a>Unix&gt; kill 764</pre></li><li>
+<a id="pgfId-1032349"></a>Start <code>cdsqmgr</code> as a root user on this master host (<code>noi-user1)</code> by providing the full path to the queue configuration file. The syntax is as follows:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1020105">
+<a id="pgfId-1020105"></a>cdsqmgr &lt;full_path_to_config_file&gt;/lbs.config</pre>
+<a id="pgfId-1033145"></a>For example:<pre class="webflare-pre-block webflare-courier-new" id="#id1033141">
+<a id="pgfId-1033141"></a>Unix&gt; cdsqmgr /home/user/lbs.config</pre></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1020107"></a>If a non-root user starts <code>cdsqmgr</code> from a user account on a cluster master machine, only that user will be able to submit jobs through that <code>cdsqmgr</code>. This is not recommended because jobs of individual users will not be queued together, and as a result, shared resources might not be used optimally.</div>
+
+<h4><em>
+<a id="pgfId-1020109"></a><a id="32012"></a>UNIX Envir<a id="unixSetup"></a>onment Setup for Distributed Processing Users</em></h4>
+
+<p>
+<a id="pgfId-1020113"></a>To prepare your UNIX environment for distributed processing, do the following:</p>
+<ol><li>
+<a id="pgfId-1048011"></a>Ensure that your setup meets the common setup requirements. See <a href="overview.html#24167">Common Setup Requirements</a>.</li><li>
+<a id="pgfId-1020114"></a>Set the following in the <code>.cshrc</code> files for every user environment that intends to run the distributed simulation with LBS: <br /><pre class="webflare-pre-block webflare-courier-new" id="#id1020115">
+<a id="pgfId-1020115"></a>setenv LBS_CLUSTER_MASTER <code><em>LBS_master_host</em></code></pre>
+<a id="pgfId-1033239"></a>Here, <code>LBS_master_host</code> is the host on which the <code>cdsqmgr</code> daemon is running with root permissions. See <a href="overview.html#77151">Starting the Daemon</a>.<br />
+<a id="pgfId-1033240"></a>For example:<pre class="webflare-pre-block webflare-courier-new" id="#id1033241">
+<a id="pgfId-1033241"></a>Unix&gt; setenv LBS_CLUSTER_MASTER noi-user1</pre>
+<a id="pgfId-1028681"></a>In the above command, <code>noi-user1</code> is set as the cluster master in every user environment. </li></ol>
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1028828"></a><a id="30956"></a>Config<a id="configTestScript"></a>uration Testing Script</em></h4>
+
+<p>
+<a id="pgfId-1020224"></a>To test your setup for some common mistakes, run the <code>adptest</code> script. The script, together with the other Cadence binaries, is available at <code>&lt;ic_install_path&gt;/tools/dfII/bin</code>. To run the script, type the following at the terminal prompt:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1020225"></a>adptest</pre>
+<p>
+<a id="pgfId-1020226"></a>The script displays messages in the same window where you run the script.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033364"></a>&gt;&gt;
+BEGIN Analog Design Environment Distributed Processing Setup Test
+Testing for existence of LBS_CLUSTER_MASTER variable...
+&#160;&#160;&#160;&#160;PASSED.
+Testing opening of Analog Design Environment Job Server...
+Launching Analog Design Environment job server...
+Analog Design Environment job server has initialized!
+&#160;&#160;&#160;&#160;PASSED.
+Please be patient - the remaining portion of the test takes some time.
+Testing job submission to host `noi-user3&#39; on queue &#39;queueB&#39;...
+&#160;&#160;&#160;&#160;PASSED.
+Testing job submission to host &#39;noi-user2&#39; on queue &#39;queueB&#39;...
+&#160;&#160;&#160;&#160;PASSED.
+Testing job submission to host &#39;noi-user1&#39; on queue &#39;queueB&#39;...
+&#160;&#160;&#160;&#160;PASSED.
+Testing job submission to host &#39;noi-user2&#39; on queue &#39;queueA&#39;...
+&#160;&#160;&#160;&#160;PASSED.
+Testing job submission to host &#39;noi-user1&#39; on queue &#39;queueA&#39;...
+&#160;&#160;&#160;&#160;PASSED.<br />END Analog Design Environment Distributed Processing Setup Test<br />t<br />&lt;&lt;</pre>
+<h4>
+<a id="pgfId-1028644"></a><a id="58000"></a>Using cdsqmgr with secure shell (ssh)</h4>
+
+<p>
+<a id="pgfId-1033753"></a>By default, Virtuoso uses <code>rsh</code> to utilize any distribution processing system. However, several organizations may block <code>rsh</code> and allow only the <code>ssh</code> setup, because of its higher security. You can configure Virtuoso to use <code>ssh</code> for distributed processing. </p>
+<p>
+<a id="pgfId-1048531"></a>To configure Virtuoso for using <code>ssh</code>, ensure that you have the required root permissions or administrative rights, and do one of the following: </p>
+<ul><li>
+<a id="pgfId-1048355"></a><a href="overview.html#configNoPassword">Configure Remote Hosts to Accept ssh Connection without a Password</a> </li><li>
+<a id="pgfId-1048424"></a><a href="overview.html#cdsRemoteFile">Edit the cdsRemote.scr File</a> </li><li>
+<a id="pgfId-1048441"></a><a href="overview.html#remoteEnvVar">Set Virtuoso Environment Variable in the .cdsinit File</a> </li></ul>
+
+
+
+<h4><em>
+<a id="pgfId-1028896"></a>Configuring Re<a id="configNoPassword"></a>mote Hosts to Accept ssh Connection without a Password </em></h4>
+
+<p>
+<a id="pgfId-1033769"></a>For Virtuoso distributed system to work with <code>ssh</code>, you need to use <code>ssh</code> to log in to the execution hosts without any password. For example:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033770"></a>shyam@noi-userA$ ssh noi-userB</pre>
+
+<p>
+<a id="pgfId-1033771"></a>If you have <code>ssh</code> access on the execution hosts without any password, you immediately get a prompt on that machine as follows:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033772"></a>Last login: Mon Aug 19 17:23:58 2019 from noi-userA.cadence.com</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033773"></a>------------------------------------------------------------------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033774"></a>This Cadence-owned computer system and Cadence&#39;s computer network are made</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033775"></a>available to you for the purpose of conducting authorized company business.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033776"></a>You have no reasonable expectation of privacy with regard to content created,</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033777"></a>stored and/or transmitted on this system, except as provided by applicable law.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033778"></a>Cadence may - at any time, for any reason and with or without notice - search,</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033779"></a>monitor and inspect this computer and network to the full extent permitted by</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033780"></a>applicable law.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033781"></a>==================================================================</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033782"></a>/usr/local/rc/cadence.login: No such file or directory.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033783"></a>[userA@noi-userB ~]$</pre>
+
+<p>
+<a id="pgfId-1033784"></a>If you do not configure <code>ssh</code> to work without password, the system may give you a message as shown below or may ask for the password.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033765"></a>The authenticity of host &#39;noi-userB (172.23.65.158)&#39; can&#39;t be established.RSA key fingerprint is ac:d9:69:47:10:8d:7f:83:86:53:5f:10:07:e3:20:82.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033859"></a>Are you sure you want to continue connecting (yes/no)?</pre>
+
+<p>
+<a id="pgfId-1033860"></a>You need to contact your IT department for creating a setup in which users can use <code>ssh</code> to log in to execution hosts without any password. </p>
+<p>
+<a id="pgfId-1049524"></a>Alternatively, create an <code>ssh</code> setup that does not require a password. This method creates a private or public key and registers the execution hosts. Ensure that you have <code>ssh</code> installed on the machines. To create this setup, do the following: </p>
+<ol><li>
+<a id="pgfId-1049609"></a><a href="overview.html#keyPair">Create a public or private key</a>.</li><li>
+<a id="pgfId-1049642"></a><a href="overview.html#copyKeys">Copy the public key file as authorized_keys and add the remote host in the known_hosts list</a>.</li><li>
+<a id="pgfId-1049757"></a><a href="overview.html#locateFile">Locate the known_hosts files to validate addition of specified host</a>. </li><li>
+<a id="pgfId-1050058"></a><a href="overview.html#addHosts">Add more execution hosts in the known_hosts file</a>. </li></ol>
+
+
+
+<p>
+<a id="pgfId-1033861"></a><strong>Creating a public private key</strong><a id="keyPair"></a></p>
+<p>
+<a id="pgfId-1049992"></a>To create a public or private key, do the following:</p>
+<ol><li>
+<a id="pgfId-1052210"></a>Run the following Unix command:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1033862">
+<a id="pgfId-1033862"></a>unix&gt; cd $HOME/.ssh</pre></li><li>
+<a id="pgfId-1033863"></a>Run the following Unix command to create a public or private RSA key pair:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1033864">
+<a id="pgfId-1033864"></a>unix&gt; ssh-keygen &#8211;t rsa</pre>
+<a id="pgfId-1034011"></a> <br /><div class="webflare-div-image">
+<img width="598" height="64" src="images/overview-3.gif" /></div></li><li>
+<a id="pgfId-1033866"></a>Press <code>Enter</code>. If an <code>id_rsa</code> file already exists, you get a prompt to overwrite the file (<code>Overwrite (y/n)?</code>). Type <code>y</code> and press <code>Enter</code> to overwrite the file.</li><li>
+<a id="pgfId-1033867"></a>Press <code>Enter</code> on the next prompt (<code>Enter passphrase (empty for no passphrase):</code>), to keep the passphrase null:<br />
+<a id="pgfId-1034003"></a><br /><div class="webflare-div-image">
+<img width="615" height="69" src="images/overview-4.gif" /></div></li><li>
+<a id="pgfId-1033868"></a>Press <code>Enter</code> on the next prompt (<code>Enter same passphrase again:</code>), press <code>Enter</code>.<br />
+<a id="pgfId-1034032"></a><br /><div class="webflare-div-image">
+<img width="512" height="75" src="images/overview-5.gif" /></div>
+<a id="pgfId-1033825"></a>The following message appears: 
+<br /><div class="webflare-div-image">
+<img width="521" height="317" src="images/overview-6.gif" /></div>
+<a id="pgfId-1033884"></a>The preceding procedure generates two files:<code> id_rsa</code> and <code>id_rsa.pub</code> in your <code>~/.ssh</code> directory.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1062857"></a><strong>Adding remote hosts in the known_hosts list</strong><a id="copyKeys"></a></p>
+<p>
+<a id="pgfId-1033885"></a>To add the remote hosts in the known_hosts list, copy the id_rsa.pub public key file as authorized_keys. For this, run the following command:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1033886"></a>unix&gt; cat id_rsa.pub | ssh userA@noi-userB &quot;mkdir -p ~/.ssh &amp;&amp; chmod 700 ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&quot;</pre>
+<p>
+<a id="pgfId-1033887"></a>You receive a prompt to confirm your connection to the host: <br /></p>
+
+<div class="webflare-div-image">
+<img width="672" height="62" src="images/overview-7.gif" /></div>
+
+<p>
+<a id="pgfId-1033888"></a>Type <code>yes</code> and press <code>Enter</code>. You are asked for the user password (<code>userA</code>).<br /></p>
+
+<div class="webflare-div-image">
+<img width="641" height="82" src="images/overview-8.gif" /></div>
+
+<p>
+<a id="pgfId-1033880"></a>After providing the password, the host <code>noi-userB</code> is added into the <code>known_hosts</code> file.<br /></p>
+
+<div class="webflare-div-image">
+<img width="661" height="86" src="images/overview-9.gif" /></div>
+
+<p>
+<a id="pgfId-1033911"></a>Now, if you use <code>ssh</code> to connect to <code>noi-userB</code>, you will not get any query or prompt for entering a password.</p>
+<p>
+<a id="pgfId-1062961"></a><strong>Validating the addition of new hosts</strong><a id="locateFile"></a></p>
+<p>
+<a id="pgfId-1033912"></a>You will now find two more files, <code>authorized_keys</code> and <code>known_hosts</code> that are created in the <code>.ssh</code> directory. Run <code>ll</code> in the directory to find these files. </p>
+<p>
+<a id="pgfId-1065481"></a></p>
+
+<div class="webflare-div-image">
+<img width="442" height="96" src="images/overview-10.gif" /></div>
+
+<p>
+<a id="pgfId-1033913"></a>Open the <code>known_hosts</code> file and validate that the host <code>noi-userB</code> is added.</p>
+<p>
+<a id="pgfId-1063026"></a><strong>Adding more hosts in the known_hosts file</strong><a id="addHosts"></a></p>
+<p>
+<a id="pgfId-1033914"></a>Repeat the command in <h-hot><a href="overview.html#copyKeys">Adding remote hosts in the known_hosts list</a></h-hot> to add more hosts (execution hosts) in the known_hosts file for the user. For example:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1033915"></a>unix&gt; cat id_rsa.pub | ssh userA@noi-user1 &quot;mkdir -p ~/.ssh &amp;&amp; chmod 700 ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&quot;</pre>
+<p>
+<a id="pgfId-1033907"></a>Open the <code>known_host</code> file. You will find the <code>noi-userB </code>and <code>noi-user1</code> hosts added to it. </p>
+
+<div class="webflare-div-image">
+<img width="679" height="156" src="images/overview-11.gif" /></div>
+<h4><em>
+<a id="pgfId-1028891"></a>Editing the cdsRe<a id="cdsRemoteFile"></a>mote.scr File </em></h4>
+
+<p>
+<a id="pgfId-1034222"></a>By default, the <code>cdsRemote.scr</code> file, which is available in the <code>$CDSHOME/share/cdssetup/&lt;username&gt;/</code> directory, specifies the default configuration as follows:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1050575"></a><code>remoteSystem=rsh </code>// Default configuration</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1050571"></a><code>#remoteSystem=ssh</code> </pre>
+<p>
+<a id="pgfId-1050587"></a>To use <code>ssh</code> instead of <code>rsh</code>, make the following changes in the <code>cdsRemote.scr</code> file:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1050447"></a><code>#remoteSystem=rsh </code>// To configure for generic ssh </pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1034218"></a><code>remoteSystem=ssh</code> </pre>
+<p>
+<a id="pgfId-1034235"></a>This enables the <code>remoteSystem=ssh</code> switch for the <code>ssh</code> method. </p>
+<p>
+<a id="pgfId-1034277"></a></p>
+
+<div class="webflare-div-image">
+<img width="660" height="318" src="images/overview-12.gif" /></div>
+<h4><em>
+<a id="pgfId-1028886"></a>Setting Virtu<a id="remoteEnvVar"></a>oso Environment Variable in the .cdsinit File </em></h4>
+
+<p>
+<a id="pgfId-1034311"></a>To use <code>ssh</code>, set the following in your <code>.cdsinit</code> file:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1034312"></a>envSetVal(&quot;asimenv.distributed&quot; &quot;remoteShell&quot; &#39;string &quot;ssh&quot;)</pre>
+<p>
+<a id="pgfId-1034313"></a>You can now run distributed LBS with <code>ssh</code> in Virtuoso.</p>
+<p>
+<a id="pgfId-1034314"></a>Follow the steps in the &#8220;<a href="overview.html#64317">Using cdsqmgr with remote shell (rsh)</a>&#8221; section to set up and configure LBS with <code>rsh</code>.</p>
+
+<h4>
+<a id="pgfId-1028944"></a>Additional Requirements for LBS</h4>
+
+<ul><li>
+<a id="pgfId-1020165"></a>Check if <code>LBS_CLUSTER_MASTER</code> is set. If <code>LBS_CLUSTER_MASTER</code> is not set, then set this variable appropriately and proceed to the next step.</li><li>
+<a id="pgfId-1020167"></a>Check if <code>LBS_BASE_SYSTEM</code> is set. If <code>LBS_BASE_SYSTEM</code> is set, ensure that it is set to <code>LBS_DEFAULT</code>.</li><li>
+<a id="pgfId-1020169"></a>Check if <code>cdsqmgr</code> is running on the machine specified as <code>LBS_CLUSTER_MASTER</code>. If <code>cdsqmgr</code> is not running, kill <code>cdsNameServer</code> and re-run <code>cdsqmgr </code>from the root. See <a href="overview.html#77151">Starting the Daemon</a>.</li><li>
+<a id="pgfId-1020173"></a>Ensure that only one copy of <code>cdsqmgr</code> is running from the root account. If multiple copies of <code>cdsqmgr</code> are running, kill all the copies and <code>cdsNameServer</code>, and rerun <code>cdsqmgr</code> as root. See <a href="overview.html#77151">Starting the Daemon</a>.</li><li>
+<a id="pgfId-1020177"></a>Check if <code>cdsNameServer</code> is running on <code>LBS_CLUSTER_MASTER</code>. If it is not running, kill any <code>cdsqmgr</code> that may be running and rerun <code>cdsqmgr</code> as root. See <a href="overview.html#77151">Starting the Daemon</a>.</li><li>
+<a id="pgfId-1020181"></a>Ensure that you rerun <code>cdsqmgr</code> and <code>cdsNameServer</code> whenever the <code>queueConfig</code> file used by <code>cdsqmgr</code> is modified. See <a href="overview.html#32012">UNIX Environment Setup for Distributed Processing Users</a>.</li><li>
+<a id="pgfId-1020185"></a>Ensure that all machines specified in the <code>queueConfig</code> file are active and do not prompt you to enter the password at login. You can use <code>ping</code> to check if the machines are active. To check password-related issues, type <code>remsh &lt;any_host_in_queue&gt; pwd</code> in the submission host terminal.</li><li>
+<a id="pgfId-1020186"></a>Take your system administrator&#8217;s help to ensure that the timestamp of all the machines specified in <code>queueConfig</code> file matches with the machine specified as <code>LBS_CLUSTER_MASTER</code>.</li></ul>
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1020122"></a><a id="88247"></a>System Requirements for LSF Setup</h3>
+
+<p>
+<a id="pgfId-1020125"></a>In addition to the <a href="overview.html#24167">Common Setup Requirements</a>, ensure that the following initial setup requirements are met before you submit jobs to hosts that run the distributed processing option with LSF. The LSF cluster must already be installed and configured as per the LSF installation guide. To troubleshoot any LSF installation issue, contact the LSF system administrator at your site.</p>
+<p>
+<a id="pgfId-1020128"></a>Ensure that the LSF server version at your site is compatible with the LSF client version used by the Cadence LSF interface. If the LSF server and client versions (the version of LSF libraries integrated with Cadence LSF daemon) do not match and are not compatible, contact the LSF vendor (Platform Computing, http://www.platform.com) to determine the LSF version compatibility.</p>
+<ul><li>
+<a id="pgfId-1020129"></a>LSF Client Version integrated in Virtuoso Design Framework 5.0 release: LSF 5.1</li><li>
+<a id="pgfId-1020130"></a>Compatible LSF Server Versions: 5.1 and 6.1</li></ul>
+
+<p>
+<a id="pgfId-1020131"></a>You must set the environment variable <code>LBS_BASE_SYSTEM</code> to <code>LBS_LSF</code> in each shell from which you start a Cadence tool to submit jobs. </p>
+<p>
+<a id="pgfId-1020132"></a><code>setenv LBS_BASE_SYSTEM LBS_LSF</code> </p>
+<p>
+<a id="pgfId-1020133"></a>Here, <code>LBS_LSF</code> specifies that you want to use the LSF load balancer. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1020134"></a>You can skip setting the LBS_CLUSTER_MASTER variable for LSF and . Your local Cadence session will communicate directly with LSF.</div>
+
+<h4>
+<a id="pgfId-1029047"></a>Additional Requirements for LSF</h4>
+
+<ul><li>
+<a id="pgfId-1020188"></a>Ensure that <code>LBS_CLUSTER_MASTER </code>is not set.</li><li>
+<a id="pgfId-1063140"></a>Ensure that <code>cdsqmgr</code> is not running.</li><li>
+<a id="pgfId-1020189"></a>Ensure that <code>LBS_BASE_SYSTEM</code> is set to <code>LBS_LSF</code>.<code></code></li><li>
+<a id="pgfId-1020190"></a>Check if <code>LSF</code> software is installed and running on this machine. Ensure that <code>sbatchd</code>, <code>lim</code>, <code>pim</code> and <code>res</code> daemons are running on this machine, and that you can run the <code>lsload</code>, <code>bjobs</code> and <code>bsub</code> <code>pwd</code> commands without generating any errors.</li><li>
+<a id="pgfId-1020191"></a>Ensure that machines specified in the LSF cluster are active and do not prompt you to enter a password when you log in to these machines. Use <code>ping</code> to check if the machines are active. To check for password-related issues, type <code>remsh &lt;any_host_in_queue&gt; pwd</code> in the submission host terminal.</li></ul>
+
+
+
+
+<p>
+<a id="pgfId-1033035"></a>In the LSF setup, the Job Policy Setup form displays a few additional fields as shown in the following figure:</p>
+
+<ffi2-fig-frame-in-2 id="#id1032936">
+<a id="pgfId-1032936"></a></ffi2-fig-frame-in-2>
+<div class="webflare-div-image">
+<img src="images/DP_LSF_submit.gif" /></div>
+
+<p>
+<a id="pgfId-1032937"></a>These additional fields are:</p>
+<ul><li>
+<a id="pgfId-1032938"></a><em>LSF Resource String</em>: Lets you specify the additional resource requirements for the job that are not available as separate options in the <em>Job Submit</em> form &#8211; for example, <code>mem</code> (available memory), <code>swp</code> (available swap space), <code>pg</code> (paging rate). You can specify the additional resource requirements using a valid LSF resource requirement string. For more details and examples of LSF resource requirement string, refer to <a href="overview.html#40509">Resource Requirement String Format</a>.</li><li>
+<a id="pgfId-1032942"></a><em>No of Processors</em>: Lets you specify the number of parallel processors that you must use to run the submitted job. To use the value specified in this field, select the check box next to this field.</li><li>
+<a id="pgfId-1032943"></a><em>License Project Name</em>: Lets you specify the name of the license project. To use the value specified in this field, select the check box next to this field.</li><li>
+<a id="pgfId-1032944"></a><em>Application Profile Name</em>: Lets you specify the name of an application profile that you must use to run the submitted job. To use the value specified in this field, select the check box next to this field.</li><li>
+<a id="pgfId-1032945"></a><em>Project Name</em>: Lets you specify the name of a project associated with the job. To use the value specified in this field, select the check box next to this field.</li><li>
+<a id="pgfId-1032946"></a><em>User Group</em> lets you assign the submitted jobs to the groups of user.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1032947"></a>The group should not contain any sub-group.</div></li><li>
+<a id="pgfId-1033086"></a><em>Number of Tasks</em>:<em> </em>Lets you specify a numerical value that indicates the number of tasks in which TransNoise jobs needs to be divided for simulation. This option appears if you select the <em>Transient Noise</em> option for the <em>tran</em> analysis in the <em>Choosing Analyses</em> form. To achieve better performance with <em>Transient Noise</em>, specify the values of this field in a way that the number of runs divided by the number of tasks results in a whole integer value.</li></ul>
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1029135"></a><a id="99517"></a>System Requirements for OLV Setup</h3>
+
+<p>
+<a id="pgfId-1034419"></a>In the OLV setup, the Job Policy Setup form displays a few additional fields as shown in the following figure:</p>
+
+<p>
+<a id="pgfId-1034424"></a></p>
+<div class="webflare-div-image">
+<img width="427" height="238" src="images/overview-14.gif" /></div>
+
+<p>
+<a id="pgfId-1034425"></a>These additional fields are:</p>
+<ul><li>
+<a id="pgfId-1034426"></a><em>OLV Resource String</em>: Lets you specify the additional scheduling resource requirements for the job, such as <code>mem</code> (available memory), <code>swp</code> (available swap space), <code>pg</code> (paging rate) and so on, that are not available as separate options in the <em>Job Policy Setup </em>form. You can specify these additional resource requirements using a valid OLV resource requirement string. For more details and examples of LSF resource requirement string, refer to <a href="overview.html#40509">Resource Requirement String Format</a>. <br />
+<a id="pgfId-1034430"></a>This property is used by the OLV scheduler to identify an appropriate execution host for the job. To use the value specified in this field, select the check box next to this field. Alternatively, specify the additional scheduling resource requirements value by using the <a href="overview.html#41352">olvResourceString</a> environment variable.</li><li>
+<a id="pgfId-1034431"></a><em>No Of Processors</em>: Lets you specify the number of processors that you must use to run the submitted job. To use the value specified in this field, select the check box given next to this field. Alternatively, you can specify the number of processors by using the <a href="overview.html#69573">olvNoOfProcessors</a> environment variable. <br />
+<a id="pgfId-1034432"></a>This option is reasonably portable when the CPUs or cores are consumed by multiple threads in a single process. When multiple processes are used on one or more hosts, different DRMSs have different launch requirements. </li><li>
+<a id="pgfId-1051343"></a><em>Project Name</em>: Lets you specify the name of a project associated with the job. To use the value specified in this field, select the check box given next to this field. Alternatively, you can specify the name of a project by using the <a href="overview.html#27178">olvProjectName</a> environment variable. </li><li>
+<a id="pgfId-1034434"></a><em>User Group</em>: Lets you assign the submitted jobs to the groups of user. The group should not contain any sub-group. To use the value specified in this field, select the check box given next to this field. Alternatively, you can assign the submitted jobs to the groups of user by using the <a href="overview.html#35330">olvUserGroup</a> environment variable. </li></ul>
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1029148"></a><a id="99392"></a>System Requirements for SGE Setup</h3>
+
+<p>
+<a id="pgfId-1034828"></a>In the SGE setup, the Job Policy Setup form displays a few additional fields as shown in the following figure: </p>
+
+<p>
+<a id="pgfId-1034834"></a></p>
+<div class="webflare-div-image">
+<img width="467" height="580" src="images/overview-15.gif" /></div>
+
+<p>
+<a id="pgfId-1034835"></a>These additional fields are: </p>
+<ul><li>
+<a id="pgfId-1034836"></a><em>SGE Soft Resources</em>: Specifies requirements for soft resources.</li><li>
+<a id="pgfId-1034837"></a><em>SGE Hard Resources</em>: Specifies requirements for hard resources.</li><li>
+<a id="pgfId-1034838"></a><em>SGE Priority</em>: Specifies the priority of the submitted job.</li><li>
+<a id="pgfId-1034839"></a><em>SGE Parallel Env Name</em>: Specifies the name of a parallel environment.</li><li>
+<a id="pgfId-1034840"></a><em>SGE No Of Processors</em>: Specifies the number of processors that you can use. Using this field, you can ensure that the job is run on a machine with sufficient number of CPUs available. You can also reserve these slots to stop many other jobs running on the same machine.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1034841"></a>The <em>QueueName</em> field is also editable for SGE. Using this field, you can specify the name of a queue in which you want to run the job. The default value, <code>SGE_QUEUE</code> specifies that no queue name is provided by the user.</div></li></ul>
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1034437"></a><a id="40509"></a><a id="LSFResourceReqString"></a>Resource Requirement String Format</h3>
+
+<p>
+<a id="pgfId-1034438"></a>LSF and OLV use the resource requirement string to select hosts for remote execution and job execution. For example, you can specify the following resource requirement string in the <em>&lt;DRMS&gt; Resource String</em> field, where <em>&lt;DRMS&gt; </em>stands for <em>LSF</em> or <em>OLV</em>: </p>
+<p>
+<a id="pgfId-1034439"></a><code>select[swp &gt; 50 &amp;&amp; mem &gt; 500]rusage[mem=100]</code></p>
+<p>
+<a id="pgfId-1051705"></a>This resource requirement string runs a job only on a host that has 50 MB or more of available swap space and 500 MB or more of available memory, and also reserves 100 MB memory for the job.</p>
+<p>
+<a id="pgfId-1034443"></a>The resource requirement string can have the following sections: </p>
+<ul><li>
+<a id="pgfId-1051695"></a>Selection section (<code>select</code>) &#8211; Specifies the criteria for selecting hosts for a job.</li><li>
+<a id="pgfId-1034445"></a>Ordering section (<code>order</code>) &#8211; Indicates how the hosts that meet the selection criteria must be sorted.</li><li>
+<a id="pgfId-1034446"></a>Resource usage section (<code>rusage</code>) &#8211; Specifies the expected resource consumption of the job.</li><li>
+<a id="pgfId-1034447"></a>Job spanning section (<code>span</code>) &#8211; Indicates if a parallel batch job must span across multiple hosts.</li><li>
+<a id="pgfId-1051670"></a>Same resource section (<code>same</code>) &#8211; Indicates that all processes of a parallel job must run on the same type of host.</li></ul>
+
+
+
+
+<p>
+<a id="pgfId-1051687"></a>See <a href="overview.html#96719">Table&#160;1-1</a> for examples of each section. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1034495"></a>Ensure that you enclose arguments for each section within square brackets. </div>
+<table class="webflareTable" id="#id1064215">
+<caption style="text-align:left;"><p>
+</p><h4>Table 1-1
+<a id="pgfId-1034452"></a><a id="96719"></a>Resource Requirement String Examples</h4></caption>
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1034456">
+<a id="pgfId-1034456"></a>Resource Requirement String</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1034458">
+<a id="pgfId-1034458"></a>Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034460"></a><code>select[swp &gt; 50 &amp;&amp; mem &gt; 500]</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034462"></a>Runs the job only on a host that has 50 MB or more of available swap space and 500 MB or more of available memory.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034464"></a>order[cpu]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034466"></a>Sorts hosts based on their CPU utilization and runs the job on the hosts with lower CPU utilization.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034468"></a><code>rusage[mem=100]</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034470"></a>Reserves 100 MB memory for the job. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034472"></a>span[hosts=1]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034474"></a>Indicates that all the processors allocated to the job must be on the same host.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034476"></a>span[ptile=2]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034478"></a>Indicates that the job requests 2 processors on each available host, regardless of how many processors the host has.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034480"></a>select[type===LINUX2.4 || type==SOL10] same[type]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034482"></a>Runs all parallel processes on the same host type &#8211;either LINUX2.4 or Solaris 10, but not both.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034484"></a>select[linux &amp;&amp;mem&gt;2000]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034486"></a>Selects LINUX machines with memory greater than 2 GB.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034488"></a>select[osVersion==&#39;&lt;version&gt;&#39; &amp;&amp; mem&gt;2000]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034490"></a>Selects LINUX machines with the specified OS version and memory greater than 2 GB.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034492"></a>select[mem&gt;2000] order[-ncpus]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1034494"></a>Selects LINUX machines with a minimum number of CPUs and memory greater than 2 GB.</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1034496"></a>For more information about resource requirement strings in LSF, see the product documentation for LSF at <h-hot><a actuate="user" class="URL" href="http://www.platform.com" show="replace" xml:link="simple">Platform Computing, Inc</a></h-hot>. </p>
+<p>
+<a id="pgfId-1051940"></a>For more information about resource requirement strings in OLV, see the product documentation for OLV at <h-hot><a actuate="user" class="URL" href="http://www.openlava.org" show="replace" xml:link="simple">www.openlava.org</a></h-hot>.</p>
+<p>
+<a id="pgfId-1034499"></a>Note the following:</p>
+<ul><li>
+<a id="pgfId-1034500"></a>If the resource requirement string cannot be satisfied, the job will not run and the results are undefined. <br />
+<a id="pgfId-1034501"></a>For example, if you specify <code>select[tmp&gt;100]</code> as the resource requirement string and no machine in the queue has <code>100 MB</code> or more of memory in <code>/tmp</code>, the job will not run and no message will be displayed in the CIW window. </li><li>
+<a id="pgfId-1034502"></a>If you specify a resource requirement string that conflicts with an option that you specify in the Job Policy Setup form, the job does not run and the results are undefined. <br />
+<a id="pgfId-1034503"></a>For example, if you specify the host <code>tez</code> as the host to run the job under the <em>Hosts</em> section of the Job Policy Setup form and also select the <code>Only Use Selected Host</code> option and also specify the host name as <code>pvsol7</code> in the <em>LSF Resource String</em> field or in the <em>OLV Resource String</em> field, the job will not be run and the status of the job will be undefined.</li></ul>
+
+
+
+
+<h3>
+<a id="pgfId-1040987"></a><a id="90799"></a>Other Requirements</h3>
+
+<p>
+<a id="pgfId-1040981"></a>In addition to the common and DRMS-specific requirements, ensure that your system administrator also considers the following:</p>
+<ul><li>
+<a id="pgfId-1041188"></a><a href="overview.html#17372">Time Clock Consideration</a></li><li>
+<a id="pgfId-1041197"></a><a href="overview.html#58499">Network Mode Consideration</a></li></ul>
+
+
+<h4>
+<a id="pgfId-1020160"></a><a id="17372"></a>Time Cl<a id="marker-1020159"></a>ock Consideration</h4>
+
+<p>
+<a id="pgfId-1020161"></a>All users in a cluster must synchronize the clocks on all computers. Failure to synchronize the clocks can cause errors when you submit jobs. For example, machine Y&#8217;s clock reports the time as 11:50, and machine Z&#8217;s clock reports the time as 12:00. If a user on machine Y submits a job to machine Z to run &#8216;Today&#8217; at 11:55, machine Z cannot run the job. The simulation will fail to run on machine Z because the specified run time occurred before the job was submitted.</p>
+
+<h4>
+<a id="pgfId-1020197"></a><a id="58499"></a>Network Mode Consideration</h4>
+
+<p>
+<a id="pgfId-1020198"></a>To run the distributed processing software, the default mode is the <a id="91170"></a>Network Mode. Network mode assumes that your home account is mirrored (linked) on every remote machine on which you might run a job, using commands such as, <code>/net</code>,<code> /home</code>,<code> </code>or<code> /hm</code>. Network mode also assumes that your working directory and all your design data are under your account and are mirrored. Whenever the remote job references a path, that path goes directly back to the original directory on your home machine. </p>
+
+<h2>
+<a id="pgfId-1035280"></a><a id="93659"></a>Validating the Distributed Processing Setup </h2>
+
+<p>
+<a id="pgfId-1035282"></a>To <a id="SetupReq"></a>enable the distributed processing method, you need to specify a significant number of settings. Specifying the correct settings ensures that the setup is valid and appropriate messages are generated.</p>
+<p>
+<a id="pgfId-1035283"></a>To specify the settings: </p>
+
+<ul><li>
+<a id="pgfId-1054388"></a>Choose <em>Setup &#8211; Job Setup in ADE Explorer, </em>or <em>Options &#8211; Job Setup in ADE Assembler</em>. <br />
+<a id="pgfId-1054398"></a>The<em> Job Policy Setup </em>form appears.</li></ul>
+
+
+<p>
+<a id="pgfId-1035296"></a>The Job Policy Setup form tests the setup for enabling distributed processing and performs several checks to ensure that the distributed processing environment is set up correctly. The Job Policy Setup ensures the following:</p>
+<ul><li>
+<a id="pgfId-1035297"></a>If the environment variables needed for distributed processing are set properly. </li><li>
+<a id="pgfId-1035298"></a>If the LSF settings are correct, when you select LSF as the distribution method. It also verifies if you have set the path properly and the installed LSF version is supported. </li><li>
+<a id="pgfId-1035299"></a>If the machines mentioned in the LBS queue are active and <code>cdsqmgr</code> DRMS is running on the cluster master machine. It also verifies the hierarchy setup for the machines in queue. </li></ul>
+
+
+<p>
+<a id="pgfId-1035300"></a>The Job Policy Setup performs all the specified checks and displays an appropriate <code>Error</code> or <code>Warning</code> message, if required. If an error occurs, it quits the subsequent checking, but continues to submit jobs with warnings. The Job Policy Setup uses <code>rsh</code> and <code>remsh</code> commands internally for performing the above mentioned checks. Therefore, you must ensure that these commands are run without a password. The Job Policy Setup performs only static checks. It does not submit test jobs to validate the setup.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1035302"></a>Ensure that there is no <code>echo</code> or <code>stty</code> command in your shell setup files because the check utility will not work properly if <code>echo</code> or <code>stty</code> commands exist in your shell setup files.</div>
+
+<h2>
+<a id="pgfId-1043158"></a><a id="27465"></a>Submitting Simulation Jobs for Distributed Processing</h2>
+
+<p>
+<a id="pgfId-1045929"></a>In distributed processing, the order of unused processing capacity of a job determines its assignment to a machine. The job-limit of the job has no impact on this assignment. Hence, when you use a DRMS such as LSF, distributed processing may send jobs to different machines in a different order, as compared to the jobs it sends without LSF.</p>
+<p>
+<a id="pgfId-1015966"></a>In distributed processing, you can submit a job from one machine to another. These machines must have access to Cadence software, but they do not need to be in a predefined queue. For example, when you use the distributed processing mode with LSF, both the machines &#8211; the machine that you are submitting the job from and the machine running the job &#8211; must be in the cluster that has the license to use LSF.</p>
+<p>
+<a id="pgfId-1015996"></a>When a job fails using the on of the supported DRMS, all its dependent jobs fail too. Jobs dependent on other jobs that fail are held in the DRMS database indefinitely until you use a DRMS command to force the job to run. </p>
+<p>
+<a id="pgfId-1043151"></a>You can submit simulation jobs for distributed processing in one of the following ways:</p>
+<ul><li>
+<a id="pgfId-1043263"></a><a href="overview.html#distProcADE">Using the ADE Assembler Graphical User Interface</a></li><li>
+<a id="pgfId-1043316"></a><a href="overview.html#distProcOCEAN">Using OCEAN</a></li><li>
+<a id="pgfId-1043330"></a>Using Command-Line Mode<a id="distProcCLI"></a></li></ul>
+
+
+
+<h3>
+<a id="pgfId-1043691"></a><a id="47149"></a>Submitting Distrib<a id="distProcADE"></a>uted Processing Jobs </h3>
+
+<p>
+<a id="pgfId-1065618"></a>To use distributed processing in ADE Explorer or ADE Assembler, you need the following:</p>
+<ul><li>
+<a id="pgfId-1065619"></a><strong>Load Balancing Software (LBS)</strong> to monitor the activity on the machines that you use for simulations. To know more about a default LBS setup, see <a href="overview.html#19419">System Requirements for cdsqmgr Setup</a>.</li><li>
+<a id="pgfId-1065624"></a><strong>Job Policy Setup form</strong> lets you specify the time, the queue, or host for submitting your distributed job.</li><li>
+<a id="pgfId-1065626"></a><strong>Job Monitor form</strong> lets you view, suspend, resume, or kill jobs. </li></ul>
+
+
+<p>
+<a id="pgfId-1065628"></a>Additionally, command-line job submission and monitoring from the UNIX terminal window lets you submit, suspend, resume, monitor, or kill jobs. </p>
+<p>
+<a id="pgfId-1043692"></a>You can submit simulation jobs using the Job Policy Setup form in ADE Assembler and ADE Explorer. </p>
+<ul><li>
+<a id="pgfId-1064411"></a>To know more about submitting jobs in ADE Assembler, see <a actuate="user" class="URL" href="../assembler/asmSimulating.html#startingSimulation" show="replace" xml:link="simple">Starting a Simulation</a>.</li><li>
+<a id="pgfId-1061232"></a>To know more about submitting jobs in ADE Explorer, see <a actuate="user" class="URL" href="../Explorer/chap7.html#startingSimulation" show="replace" xml:link="simple">Starting a Simulation</a>.</li></ul>
+
+
+<h3>
+<a id="pgfId-1019722"></a><a id="40512"></a><a id="22594"></a><a id="71255"></a>Submitting Distrib<a id="distProcOCEAN"></a>uted Processing Jobs in OCEAN</h3>
+
+<p>
+<a id="pgfId-1019729"></a>This section describes how you can submit a distributed job using the Open Command Environment for Analysis (OCEAN). See the following sections:</p>
+<ul><li>
+<a id="pgfId-1019733"></a><a href="overview.html#23467">Preparing the OCEAN Environment for Distributed Processing</a></li><li>
+<a id="pgfId-1019737"></a><a href="overview.html#25506">Submitting a Job in OCEAN</a></li><li>
+<a id="pgfId-1019741"></a><a href="overview.html#23116">Selecting Results by Job Name</a></li><li>
+<a id="pgfId-1019745"></a><a href="overview.html#15036">Viewing Results</a></li></ul>
+
+
+
+<p>
+<a id="pgfId-1019751"></a>For more information, see the <em><a actuate="user" class="URL" href="../oceanref/chap12.html#firstpage" show="replace" xml:link="simple">OCEAN Reference</a></em>.</p>
+
+<h4>
+<a id="pgfId-1019754"></a><a id="23467"></a><a id="marker-1027162"></a>Preparing the OCEAN Environment for Distributed Processing</h4>
+
+<p>
+<a id="pgfId-1019755"></a>This section describes the basics of setting up OCEAN to use distributed processing. For detailed information on distributed processing commands in OCEAN, see the <h-hot><a actuate="user" class="URL" href="../oceanref/chap12.html#firstpage" show="replace" xml:link="simple">OCEAN Reference</a></h-hot> manual. </p>
+<p>
+<a id="pgfId-1042720"></a>To use OCEAN for distributing jobs, you must do the following:</p>
+<ol><li>
+<a id="pgfId-1042787"></a><a href="overview.html#startOCEAN">Start OCEAN</a>.</li><li>
+<a id="pgfId-1042800"></a><a href="overview.html#enableDistProcOcean">Enable distributed processing in OCEAN</a>.</li><li>
+<a id="pgfId-1042851"></a><a href="overview.html#disableDistProcOcean">Disable distributed processing in OCEAN</a>, when required. </li></ol>
+
+
+
+<h4><em>
+<a id="pgfId-1019758"></a>Starting O<a id="marker-1042972"></a>CE<a id="startOCEAN"></a>AN</em></h4>
+
+<p>
+<a id="pgfId-1019759"></a>To start OCEAN, type the following at the command line of your terminal window: </p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1019760"></a>&gt;&gt; ocean</pre>
+<h4><em>
+<a id="pgfId-1019762"></a>Enabling Distributed Processing in OCEAN<a id="marker-1027170"></a><a id="enableDistProcOcean"></a></em></h4>
+
+<p>
+<a id="pgfId-1019763"></a>To enable distributed processing, do one of the following:</p>
+<ul><li>
+<a id="pgfId-1034629"></a>Type the following at the command line: <br /><pre class="webflare-pre-block webflare-courier-new" id="#id1019764">
+<a id="pgfId-1019764"></a>&gt;&gt; hostMode( &#8217;distributed )</pre></li><li>
+<a id="pgfId-1019765"></a>Set the <code>asimenv.startup</code> hostMode environment variable to <code>distributed </code>in the <code><a href="appC.html#cdsenvVar">.cdsenv</a></code> file.</li></ul>
+
+
+
+<h4><em>
+<a id="pgfId-1019768"></a>Disabling Distributed Processing in OCEAN <a id="marker-1034694"></a><a id="disableDistProcOcean"></a></em></h4>
+
+<p>
+<a id="pgfId-1019769"></a>To disable distributed processing, type the following at the command line of your terminal window:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1019770"></a>&gt;&gt; hostMode( &#8217;local )</pre>
+<h4>
+<a id="pgfId-1019773"></a>Submitting a Job in OCEAN<a id="25506"></a><a id="marker-1027181"></a></h4>
+
+<p>
+<a id="pgfId-1019775"></a>To submit a job, use the <code><a actuate="user" class="URL" href="../oceanref/chap6.html#ocean_ch6_run" show="replace" xml:link="simple">run</a></code> command, as follows:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1019776"></a>&gt;&gt; ocean&gt; run()</pre>
+
+<p>
+<a id="pgfId-1019777"></a>The job is submitted, and if the submission is successful, the <code>jobName</code> is returned. After you submit the job, use <code>simJobMonitor</code> to monitor the status of your job. </p>
+<p>
+<a id="pgfId-1019779"></a>The terminal window running OCEAN may display the following message: </p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1019780"></a>Job &#8216;job004&#8217; ran on &#8217;tez&#8217; and completed successfully</pre>
+
+<p>
+<a id="pgfId-1019781"></a>This message notifies you about the completion of a job. To turn off display of such messages, set the <code>asimenv.startup showMessages</code> environment variable to <code>nil</code> in your .cdsenv file. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1019784"></a>To stop or abort a running OCEAN script, use the <code><a actuate="user" class="URL" href="../oceanref/chap12.html#ocean_ch12_wait" show="replace" xml:link="simple">wait</a></code> command or the block argument with <code>run()</code>.</div>
+
+<h4>
+<a id="pgfId-1019787"></a><a id="23116"></a>Selecting Results by Job Name<a id="marker-1061273"></a></h4>
+
+<p>
+<a id="pgfId-1019788"></a>To access results based on the job name, type the following on the OCEAN terminal: </p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1019789"></a>&gt;&gt; openResults( jobName )</pre>
+
+<p>
+<a id="pgfId-1019790"></a>This is equivalent to calling <code>openResults</code> with a results directory path.</p>
+
+<h4>
+<a id="pgfId-1019791"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1019792"></a>openResults( &#8217;job001)</pre>
+
+<p>
+<a id="pgfId-1019793"></a>The preceeding command opens the results of <code>job001</code>.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1019794"></a>You can use the <code>openResults</code> command only after the job is complete.</div>
+
+<h4>
+<a id="pgfId-1019796"></a>Viewing Results<a id="15036"></a></h4>
+
+<p>
+<a id="pgfId-1019797"></a>Distributed processing in ADE Explorer or ADE Assembler creates a unique directory structure to contain your results. The results are stored in the following location on the submission host:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1019798"></a>simulation/cell_name/simulator/schematic/distributed/job_name/psf</pre>
+<p>
+<a id="pgfId-1019799"></a>If you are using parametric analysis, the results are saved in the <code>/param</code> directory instead of the <code>/distributed</code> directory. For details, see <a href="overview.html#55512">Accessing Partial Results</a>. </p>
+<p>
+<a id="pgfId-1019807"></a>To know more about OCEAN commands for distributed processing, see the <em><a actuate="user" class="URL" href="../oceanref/chap12.html#firstpage" show="replace" xml:link="simple">OCEAN Reference</a></em>. </p>
+
+<h3>
+<a id="pgfId-1034740"></a><a href="overview.html#distProcCLI">Submitting Distributed Processing Jobs using the Command Mode</a><a id="74599"></a></h3>
+
+<p>
+<a id="pgfId-1034741"></a>The <em>command</em> option is meant for the advanced users who have full understanding of the DRMS (Distributed Resource Management System) commands and their corresponding syntax and options. Ensure that you enter a valid DRMS command to submit the job. The environment does not validate or check the command for errors because it assumes that any DRMS command that you enter is valid. </p>
+<p>
+<a id="pgfId-1034742"></a>The command mode supports all DRMSs, especially LSF and SGE, that provide a command-line interface of the type &lt;<span class="webflare-courier-new" style="white-space:pre"><em>job_submission_command job_command</em></span>&gt;. </p>
+<p>
+<a id="pgfId-1034743"></a>In general, the following assumptions are made about the command-line interface of the DRMS:</p>
+<ul><li>
+<a id="pgfId-1034744"></a>The DRMS command-line interface accepts a single string as a job command. This string is the last argument of the job submission command.</li><li>
+<a id="pgfId-1034745"></a>The DRMS job submission command is a non-blocking command. This means that the job submission command exits after queuing the job into the DRMS and does not wait for the job to complete.</li><li>
+<a id="pgfId-1034746"></a>The DRMS job submission command returns the value <code>0</code> upon successful submission of the job. A non-zero return value indicates an error in job submission.</li></ul>
+
+
+<p>
+<a id="pgfId-1034747"></a>To use only the DRMS command mode for distributed processing, skip setting the value for<code> LBS_BASE_SYSTEM</code> and<code> LBS_CLUSTER_MASTER</code>.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1034748"></a>In this mode, the blocking mode and the autoplotting feature do not work, and all fields in the Job Policy Setup form (except <em>Job Name</em> and <em>Number of Tasks</em>) are disabled. </div>
+
+<h2>
+<a id="pgfId-1035035"></a><a id="97879"></a>Accessing Results of Jobs in Distributed Processing</h2>
+
+<p>
+<a id="pgfId-1035036"></a>After all the tasks of a job are submitted to the DRMS, the Results Browser shows the path of the results directory for the job. </p>
+<p>
+<a id="pgfId-1035041"></a>You can access the Results Browser by choosing <em>Tools &#8211; Results Browser </em>in the <em>ADE Assembler </em>or<em> ADE Explorer </em>window. The distributed processing mode creates a unique directory structure to save your results. In the distributed processing mode, results are saved as follows:</p>
+
+<h3>
+<a id="pgfId-1035042"></a>Understanding How Results Are Saved</h3>
+<h4>
+<a id="pgfId-1035079"></a>Single Job Simulation</h4>
+
+<p>
+<a id="pgfId-1035080"></a>Analysis results of Single Job Simulation are stored in the directory structure as follows: </p>
+
+<p>
+<a id="pgfId-1035092"></a></p>
+<div class="webflare-div-image">
+<img width="630" height="140" src="images/overview-16.gif" /></div>
+<h4>
+<a id="pgfId-1036016"></a>Mixed-signal Simulation</h4>
+
+<p>
+<a id="pgfId-1035093"></a>Analysis results of mixed-signal simulations are stored in a directory structure as follows: </p>
+
+<p>
+<a id="pgfId-1035113"></a></p>
+<div class="webflare-div-image">
+<img width="630" height="207" src="images/overview-17.gif" /></div>
+
+<p>
+<a id="pgfId-1035114"></a>By default, the job directory is selected automatically. </p>
+
+<h3>
+<a id="pgfId-1035116"></a><a id="18331"></a>Selecting Results Automatically</h3>
+
+<p>
+<a id="pgfId-1035117"></a>The default job directory appears for the current job in the Results Browser. If multiple jobs are running simultaneously, the results directory of the last submitted job is selected as the default. All user operations, such as partial results access, plot outputs, display of output logs, and display of netlist, apply to that job. If one of the multiple jobs submitted is completed, its results directory is selected by default. If all the jobs are completed, the results directory of the last completed job is selected as the default and all user operations are applied to that job.</p>
+<p>
+<a id="pgfId-1035132"></a><a id="Selecting Results Manually"></a>Each directory has jobs grouped according to the analysis for which they are generated. The table below shows the analysis-to-directory mapping:</p>
+
+<h4>Table 1-2
+<a id="pgfId-1035146"></a>Analysis and Directory Mapping in Distributed Processing </h4>
+<table class="webflareTable" id="#id1035133">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1035135">
+<a id="pgfId-1035135"></a>Analysis</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1035137">
+<a id="pgfId-1035137"></a>Directory to Select</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1035139"></a>Single Job Analysis</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1035141"></a>distributed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1035143"></a>Parametric Analysis</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1035145"></a>param</p>
+</td>
+</tr>
+</tbody></table>
+<h3>
+<a id="pgfId-1035172"></a><a id="55512"></a>Accessing Partial Results</h3>
+
+<p>
+<a id="pgfId-1035173"></a>It is possible to access the partial results of a Single Job Analysis. Partial Results access means that you are able to access the results as soon as the job starts running and generating data. You do not need to wait until the job finishes to access the results. This feature is extremely useful if you are running a long simulation, which takes a significant amount of time. After selecting the results, whenever you try to view the results, the data generated until that point in time is displayed. You can view the complete results when the simulation finishes. </p>
+
+<h3>
+<a id="pgfId-1035179"></a>Displaying Output Logs for a Simulation</h3>
+
+<p>
+<a id="pgfId-1035180"></a>The output logs of a job can be viewed by using <em>Simulation &#8211; Output Log</em> in ADE Explorer. To access the output logs in ADE Assembler, right-click an output in the <em>Results</em> tab and choose the contextual menu command <em>Output Log</em>. By default, you can view the output logs or <code>spectre.out</code> files of the job. If you want to view the output logs of any other job, you must manually select the results directory of that job. Running multiple tasks creates multiple <code>spectre.out</code> files. When the tasks finish, the output files are concatenated.</p>
+<p>
+<a id="pgfId-1035181"></a>The output file created for a simple simulation is:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1035183"></a>&lt;base_dir&gt;/distributed/jobxxx/psf/spectre.out</pre>
+
+<h3>
+<a id="pgfId-1035188"></a>Displaying the Netlist</h3>
+
+<p>
+<a id="pgfId-1035189"></a>To view the netlist file of a simple simulation, choose <em>Simulation &#8211; Netlist &#8211; Display</em> in ADE Explorer. This typically shows the <code>input.scs</code> files located at <code>&lt;base_dir/distributed/jobxxx/netlist/</code>. </p>
+<p>
+<a id="pgfId-1035190"></a>For multi-simulation jobs, multiple <code>input.scs</code> files are created. Typically, these files differ only slightly. The differences between these <code>input.scs</code> files is displayed along with one <code>input.scs</code> in a single window. </p>
+
+<h2>
+<a id="pgfId-1035200"></a><a id="jm"></a><a id="90638"></a>Mon<a id="monitor"></a>itori<a id="marker-1035198"></a><a id="marker-1035199"></a>ng Jobs in Distributed Processing</h2>
+
+<p>
+<a id="pgfId-1035201"></a>The job monitor lets you view the status of submitted jobs. This section describes the basics of using the job monitor. </p>
+<p>
+<a id="pgfId-1059173"></a>See the following:</p>
+<ul><li>
+<a id="pgfId-1059195"></a><a href="overview.html#85295">Viewing Active Jobs in the Job Monitor</a></li><li>
+<a id="pgfId-1059202"></a><a href="overview.html#81938">Saving Configuratons</a></li><li>
+<a id="pgfId-1059221"></a><a href="overview.html#51508">Viewing Log Files</a></li><li>
+<a id="pgfId-1059240"></a><a href="overview.html#79192">Setting Job Monitor Options</a></li><li>
+<a id="pgfId-1059258"></a><a href="overview.html#23362">Setting Filters</a></li><li>
+<a id="pgfId-1059296"></a><a href="overview.html#90658">Viewing Job Properties</a></li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-1059193"></a>For more information, see the <em><a actuate="user" class="URL" href="../jobmonitor/jobmonitorTOC.html#firstpage" show="replace" xml:link="simple">Cadence&#174; Job Monitor Reference</a></em>. </p>
+
+<h3>
+<a id="pgfId-1035203"></a><a id="85295"></a>Viewing Active Jobs in the Job Monitor</h3>
+
+<p>
+<a id="pgfId-1035204"></a>You can view the active jobs using one of the following methods: </p>
+
+<ul><li>
+<a id="pgfId-1035205"></a>To open the Job Monitor from the command line, type<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1035206">
+<a id="pgfId-1035206"></a>cdsJobMonitor &amp;</pre></li><li>
+<a id="pgfId-1035207"></a>To open the Job Monitor from ADE Assembler or ADE Explorer, choose <em>Tools &#8211; Job Monitor</em>.<br />
+<a id="pgfId-1065606"></a>The Job Monitor window appears. <br />
+<a id="pgfId-1035212"></a><div class="webflare-div-image">
+<img src="images/jobMonitor.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1035213"></a>The queues set up for your use appear in the <em>Queues</em> column of the window. The <em>Jobs</em> list box displays information about the jobs. If no jobs appear in the <em>Jobs</em> list box, click a different queue name. </p>
+<p>
+<a id="pgfId-1059387"></a>The Jobs list shows the following information:</p>
+<ul><li>
+<a id="pgfId-1035214"></a><em>Job Id</em> displays the identification number assigned to a job.
+The job Id is always displayed and cannot be disabled.</li><li>
+<a id="pgfId-1036624"></a><em>Job Name</em> displays the name of the job.</li><li>
+<a id="pgfId-1036740"></a><em>Queue</em> displays the job queue assigned to a job.</li><li>
+<a id="pgfId-1036641"></a><em>Host Name</em> displays the name of the machine on which the job was launched.</li><li>
+<a id="pgfId-1035225"></a><em>Submit Time</em> displays the time a job was submitted.</li><li>
+<a id="pgfId-1035218"></a><em>Status</em> displays the status of the job. Possible values are: <ul><li>
+<a id="pgfId-1035219"></a><em>FAILED</em>, for jobs that were completed but were not successful. The return code of a non-zero value determines the failure status. </li><li>
+<a id="pgfId-1035220"></a><em>SUCCEEDED,</em> for jobs that were completed and were successful. The return code of a <code>0</code> value determines the success status.</li><li>
+<a id="pgfId-1035221"></a><em>SUSPENDED</em>, for jobs that are suspended.</li><li>
+<a id="pgfId-1035222"></a><em>RUNNING</em>, for jobs that are running.</li><li>
+<a id="pgfId-1035223"></a><em>SCHEDULED</em>, for jobs that have been submitted but have not yet started running.</li><li>
+<a id="pgfId-1035224"></a><em>ABORTED</em>, for running or scheduled jobs that were terminated forcefully. This status also applies to jobs that exceeded their time limit and were terminated by the system.</li></ul></li><li>
+<a id="pgfId-1036650"></a><em>Start Time</em> displays the time a job was started.</li><li>
+<a id="pgfId-1036662"></a><em>Stop Time</em> displays the time a job was stopped.</li><li>
+<a id="pgfId-1035216"></a><em>Owner</em> displays the user ID of a job&#8217;s owner.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1035226"></a><a id="81938"></a>Saving Configuratons</h3>
+
+<p>
+<a id="pgfId-1035227"></a>To save the current Job Monitor configuration, type the following command in the CIW:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1035234"></a>setenv CDS_JOB_MONITOR_DEFAULTS &quot;frame_width=&lt;width&gt; frame_height=&lt;height&gt; frame_x=&lt;x_value&gt; frame_y=&lt;y_value&gt; columns_order=JobID|JobName|Queue|HostName|SubmitTime|Status|Command|Owner show_owner=true show_command=true&quot;</pre>
+
+<h3>
+<a id="pgfId-1035236"></a><a id="51508"></a>Viewing Log Files</h3>
+
+<p>
+<a id="pgfId-1035237"></a>In the Job Monitor window, you can view output or error report log files for a specific job. </p>
+<ul><li>
+<a id="pgfId-1059714"></a>To view the output log file of a job, choose <em>View &#8211; Log Files &#8211; Output</em>.</li><li>
+<a id="pgfId-1035238"></a>To view the error report of a job, choose <em>View</em> <em>&#8211; Log Files &#8211; Error</em>.</li></ul>
+
+
+<h3>
+<a id="pgfId-1035239"></a><a id="79192"></a>Setting Job Monitor Options</h3>
+
+<p>
+<a id="pgfId-1035240"></a>You can change the display options in the Job Monitor to make the output appear in an order you choose. To change the display options:</p>
+<ol><li>
+<a id="pgfId-1035241"></a>Choose <em>View &#8211; Options</em>.<br />
+<a id="pgfId-1035242"></a>The <em>Options</em> form appears.<br />
+<a id="pgfId-1035246"></a><div class="webflare-div-image">
+<img src="images/jobMonitor_options.gif" /></div></li><li>
+<a id="pgfId-1035247"></a>In the <em>Refresh Mode</em> group box, specify how often you want the Job Monitor to update the information. Possible values are: <ul><li>
+<a id="pgfId-1035248"></a><em>Manual</em> lets you set the refresh mode to update the display only on demand. </li><li>
+<a id="pgfId-1059840"></a><em>Auto</em> lets you set the refresh mode to update the display automatically at the specified time. The default refresh rate is 2 seconds. You can move the slider to the right to increase the rate or to the left to decrease the rate.</li></ul></li><li>
+<a id="pgfId-1035249"></a>Select<em> Show confirmations before terminating jobs</em>. This allows the Job Monitor to display a dialog box to alert you before terminating a job.</li><li>
+<a id="pgfId-1035250"></a>In the <em>Show Columns</em> group box, select the job attributes to be shown. <br />
+<a id="pgfId-1035251"></a>Select the checkboxes for the attributes that you want to show. To remove columns from the Job Monitor, deselect the corresponding checkboxes.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1035252"></a><a id="23362"></a>Setting Filters</h3>
+
+<p>
+<a id="pgfId-1035253"></a>The Job Monitor lets you find jobs that match a set of features that you specify in the Filters form.</p>
+<p>
+<a id="pgfId-1035254"></a>To filter job data:</p>
+<ol><li>
+<a id="pgfId-1035255"></a>Choose <em>View &#8211; Filters</em>.<br />
+<a id="pgfId-1035256"></a>The <em>Filters</em> form appears.<br />
+<a id="pgfId-1035260"></a><div class="webflare-div-image">
+<img src="images/jobMonitor_filters.gif" /></div></li><li>
+<a id="pgfId-1035261"></a>Click the check boxes next to the attributes that you want to select as the filter criteria.</li><li>
+<a id="pgfId-1035262"></a>Type or select the values you want for each attribute.</li><li>
+<a id="pgfId-1035263"></a>Click <em>OK</em>.<br />
+<a id="pgfId-1035264"></a>The <em>Jobs</em> list displays the jobs according to the filters that you specify.</li></ol>
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1035270"></a><a id="90658"></a>Viewing Job Properties</h3>
+
+<p>
+<a id="pgfId-1035271"></a>In the Job Monitor, you can also view properties of a specific job. </p>
+<p>
+<a id="pgfId-1060095"></a>To view the properties of a job:</p>
+<ol><li>
+<a id="pgfId-1060099"></a>Select the job and choose <em>Job &#8211; Properties</em>. <br />
+<a id="pgfId-1060023"></a>The <em>Job Properties</em> form appears.<br />
+<a id="pgfId-1035277"></a><br /><div class="webflare-div-image">
+<img src="images/jobMonitor_jobProp.gif" /></div></li><li>
+<a id="pgfId-1035278"></a>Click <em>OK</em> to close the window.</li></ol>
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1020351"></a><a id="49249"></a><a id="33849"></a>Debugging a Distributed Processing Setup</h2>
+
+<p>
+<a id="pgfId-1040314"></a>You can debug your distributed processing setup based on the DRMS that you use. </p>
+<p>
+<a id="pgfId-1060134"></a>See the following:</p>
+<ul><li>
+<a id="pgfId-1040458"></a><a href="overview.html#45756">Debugging LBS with cdsqmgr</a></li><li>
+<a id="pgfId-1040468"></a><a href="overview.html#36916">Debugging LBS with Third-Party DRMS</a></li></ul>
+
+
+<h3>
+<a id="pgfId-1040416"></a><a id="45756"></a>Debugging LBS with cdsqmgr</h3>
+
+<p>
+<a id="pgfId-1030799"></a>In case of errors while running LBS with cdsqmgr, do the following:</p>
+<ol><li>
+<a id="pgfId-1030800"></a>Check that all the submission hosts and execution hosts pass the <code>checkSysConf</code> test. If <code>checkSysConf</code> fails, install the missing OS patches reported.
+
+You need to do this check for all IC tools and simulators that you run. </li><li>
+<a id="pgfId-1031130"></a>Check if the <code>/etc/hosts</code> file is set up properly. For example: <ol><li>
+<a id="pgfId-1031133"></a>Use: <br />
+<a id="pgfId-1031108"></a><code>127.0.0.1 localhost.localdomain localhost </code></li><li>
+<a id="pgfId-1031109"></a>Avoid: <br />
+<a id="pgfId-1031159"></a><code>127.0.0.1 machine_name.machine_domain machine_name 
+127.0.0.1 localhost.localdomain localhost machine_name.machine_domain machine_name 
+127.0.0.1 localhost.localdomain localhost machine_name</code></li></ol></li><li>
+<a id="pgfId-1031235"></a>Check if <code>cdsqmgr</code> has been started from the root. In the Unix terminal, use the <code>ps -eaf</code> command as follows:<br /><span class="indent-as-level2">
+<a id="pgfId-1031236"></a><code>ps -eaf | grep cdsqmgr</code></span></li><li>
+<a id="pgfId-1031237"></a>Run the following command to check if <code>LBS_CLUSTER_MASTER</code> is set correctly. It must point to the host on which <code>cdsqmgr</code> is running.<br /><span class="indent-as-level2">
+<a id="pgfId-1031238"></a><code>echo $LBS_CLUSTER_MASTER</code></span></li><li>
+<a id="pgfId-1031239"></a>5. Check that the <code>LBS_BASE_SYSTEM</code> variable is not set in your environment. On typing the following command, your system must return <code>Undefined variable</code>:<br /><span class="indent-as-level2">
+<a id="pgfId-1031240"></a><code>echo $LBS_BASE_SYSTEM</code></span></li><li>
+<a id="pgfId-1031241"></a>Ensure that the remote hosts can access the path to the design libraries, the project directory, and the path from where you launch Virtuoso.</li><li>
+<a id="pgfId-1031227"></a>Restart <code>cdsqmgr</code> if any information in the config file (<code>lbs.config</code>) contains updates, to make the changes effective for all users. For this, kill any running <code>cdsqmgr</code> and <code>cdsNameServer</code> process on <code>hostA</code> and start <code>cdsqmgr</code> again.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1034925"></a><a id="36916"></a>Debugging LBS with Third-Party DRMS</h3>
+
+<p>
+<a id="pgfId-1040474"></a>You can debug the LBS settings based on the third-party DRMS that you choose for distributed processing of yours jobs. </p>
+
+<h2>
+<a id="pgfId-1039020"></a><a id="56329"></a>Using <a id="78579"></a>Environment Variables in Distributed Processing</h2>
+
+<p>
+<a id="pgfId-1039021"></a>This section describes the following:</p>
+<ul><li>
+<a id="pgfId-1039025"></a><a href="overview.html#44423">Specifying Distributed Processing Environment Variables</a></li><li>
+<a id="pgfId-1039029"></a><a href="overview.html#60507">Specifying Different Environment Variables for Different Simulators</a></li></ul>
+
+
+<h3>
+<a id="pgfId-1039031"></a>Specifying <a id="44423"></a>Distributed Processing Environment Variables</h3>
+
+<p>
+<a id="pgfId-1039032"></a>This section describes the environment variables that control various distributed processing options. Add the variables you want to use in your <code>.cdsenv</code><a id="cdsenvVar"></a><a id="marker-1039034"></a> file. </p>
+
+<h4>
+<a id="pgfId-1039035"></a>userDefinedJobName</h4>
+<p>
+<a id="pgfId-1039038"></a>The def<a id="marker-1039036"></a>ault va<a id="marker-1039037"></a>lue is <code>nil</code>.By default, DP starts job names with the prefix &quot;job&quot;. When specified before a <code>virtuoso</code> run, this variable overrides the default job value in the Job Name field in Job Submit form. This will be effective until you explicitly change the job name in the Job Submit form. You cannot set this variable during a session. This variable is most useful in regression runs with distributed systems and with different job names in each run set through the environment variable. </p>
+<p>
+<a id="pgfId-1039039"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039040"></a><code>asimenv.distributed userDefinedJobName string&#160;&#160;&quot;&quot;&#160;&#160;nil</code></p>
+<h4>
+<a id="pgfId-1039041"></a>Example</h4>
+<p>
+<a id="pgfId-1039042"></a>envSetval <code>&quot;asimenv.distributed&quot; &quot;userDefinedJobName&quot; &#39;string &quot;sandeep&quot;</code></p>
+<h4>
+<a id="pgfId-1039054"></a>copyModeDir</h4>
+
+<p>
+<a id="pgfId-1039056"></a>The directory, relative to the execution host, that is set up as the working directory of a copy mode job.</p>
+<p>
+<a id="pgfId-1039057"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039058"></a><code>asimenv.distributed copyModeDir&#160;&#160;string&#160;&#160;&quot;/tmp&quot;&#160;&#160;nil</code></p>
+
+<h4>
+<a id="pgfId-1039059"></a>hostMode</h4>
+
+<p>
+<a id="pgfId-1039060"></a>Makes the distributed processing option the default in the analog circuit design environment.</p>
+<p>
+<a id="pgfId-1039061"></a>To set the variiable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039063"></a><code>asimenv.startup hostMode </code><a id="marker-1039062"></a>&quot;<code>distributed</code>&quot;</p>
+
+<h4>
+<a id="pgfId-1039064"></a>autoJobSubmit</h4>
+
+<p>
+<a id="pgfId-1039065"></a>If set to <code>nil</code>, the job submit form is presented to the user at job submit time. If set to <code>t</code>, jobs are submitted automatically.</p>
+<p>
+<a id="pgfId-1039066"></a>To set the variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039068"></a><code>asimenv.distributed autoJobSubmit boolean t </code><a id="marker-1039067"></a> </p>
+
+<h4>
+<a id="pgfId-1039069"></a>bypassNetlist</h4>
+
+<p>
+<a id="pgfId-1039070"></a>If this variable is set to its default value, <code>nil</code>, netlisting is done for all the subtasks of a multitask job before job submission. If it is set to <code>t</code>, netlisting is bypassed for subtasks.</p>
+<p>
+<a id="pgfId-1039071"></a>To set the variable in the .cdsenv file, you should enter the following:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1039073"></a><code>asimenv.distributed bypassNetlist boolean nil</code><a id="marker-1039072"></a></pre>
+<h4>
+<a id="pgfId-1039074"></a>lsfResourceString</h4>
+
+<p>
+<a id="pgfId-1039075"></a>Specifies the LSF resource requirement string. The resource requirement string is displayed in the LSF Resource String field in the <em>Job Submit</em> form. To use the resource requirement string when submitting a job, select the <em>LSF Resource String</em> check box in the <em>Job Submit </em>form, or add the <code>selectLsfResourceString</code> <code>t</code> variable. For more information about resource requirement strings, see <a href="overview.html#88247">System Requirements for LSF Setup</a>.</p>
+<p>
+<a id="pgfId-1039079"></a>To set the variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039081"></a><code>asimenv.distributed lsfResourceString string &quot;&quot;</code><a id="marker-1039080"></a></p>
+
+<h4>
+<a id="pgfId-1039082"></a>selectLsfResourceString</h4>
+
+<p>
+<a id="pgfId-1039083"></a>If set to nil, the specified LSF resource string is not used when you submit a job, unless you select the <em>LSF Resource String</em> check box in the Job Submit form. If set to <code>t</code>, the specified LSF resource string is used when a job is submitted.</p>
+<p>
+<a id="pgfId-1039084"></a>To set the variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039086"></a><code>asimenv.distributed selectLsfResourceString&#160;&#160;boolean&#160;&#160;t </code><a id="marker-1039085"></a> </p>
+
+<h4>
+<a id="pgfId-1039088"></a><a id="drmsCommand"></a>drmsCommand</h4>
+
+<p>
+<a id="pgfId-1039089"></a>Specifies the DRMS (Distributed Resource Management System) commands you want to use to submit jobs in the command mode. For example, you can specify <code>bsub</code> commands for LSF or <code>qsub</code> commands for SGE (Sun Grid Engine) for submitting jobs using this environment variable. When this environment variable is set, the command option in the Job Submit form is selected by default and the specified DRMS commands are displayed in the command field. For more information about submitting jobs using the command mode, see <a href="overview.html#74599">Submitting Distributed Processing Jobs using the Command Mode</a>.</p>
+<p>
+<a id="pgfId-1039093"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039095"></a><code>asimenv.distributed drmsCommand string &quot;&quot;</code><a id="marker-1039094"></a></p>
+
+<h4>
+<a id="pgfId-1039096"></a>queueName</h4>
+
+<p>
+<a id="pgfId-1039097"></a>Sets the default queue name. If unspecified, the system default specified in your setup file is used.</p>
+<p>
+<a id="pgfId-1039098"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039100"></a><code>asimenv.distributed queueName&#160;&#160;string&#160;&#160;&quot;&quot;&#160;&#160;nil</code><a id="marker-1039099"></a> </p>
+
+<h4>
+<a id="pgfId-1039101"></a>queueNameExclusionList</h4>
+
+<p>
+<a id="pgfId-1039102"></a>Removes the specified queues from the list of queues available to DP for submitting jobs. For example, if there are four LSF queues named Q1, Q2, Q3, and Q4&#160;&#160;and you set the variable to &quot;Q1 Q3&quot;, then only Q2 and Q4 will be available to DP for submitting jobs.</p>
+<p>
+<a id="pgfId-1039103"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039105"></a><code>asimenv.distributed queueNameExclusionList string &quot;&quot; nil</code><a id="marker-1039104"></a></p>
+
+<h4>
+<a id="pgfId-1039106"></a>queueNameInclusionList</h4>
+
+<p>
+<a id="pgfId-1039107"></a>Makes only the specified queues available to DP for submitting jobs. For example, if there are four LSF queues named Q1, Q2, Q3, and Q4 and you set the variable to &quot;Q1 Q4&quot;, then only Q1 and Q4 will be available to DP for submitting jobs.</p>
+<p>
+<a id="pgfId-1039108"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039110"></a><code>asimenv.distributed queueNameInclusionList string &quot;&quot;</code><a id="marker-1039109"></a></p>
+
+<h4>
+<a id="pgfId-1039111"></a>hostName</h4>
+
+<p>
+<a id="pgfId-1039112"></a>Sets the default host name. If unspecified, the load balancer automatically selects the host.</p>
+<p>
+<a id="pgfId-1039113"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039115"></a><code>asimenv.distributed hostName&#160;&#160;string&#160;&#160;  nil</code><a id="marker-1039114"></a> </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1039116"></a>If the environment variables <code>queueName</code>, <code>hostName</code>, and <code>drmsCommand</code> are specified in the <code>.cdsinit</code> file, then the mode is selected as per the order of precedence &#8211;queue, list, and command. This means that if all the environment variables are specified, the queue mode will be selected; if <code>hostName</code> and <code>drmsCommand</code> are specified, the list mode will be used; whereas, if only the <code>drmsCommand</code> is specified, the command mode will be used.</div>
+
+<h4>
+<a id="pgfId-1039117"></a>remoteShell</h4>
+
+<p>
+<a id="pgfId-1039118"></a>Sets rsh as the default remote connection mode and rcp as the default remote copy mode for DP. Specify the value ssh to use ssh as the connection mode and scp as the copy mode for DP. You can also specify the path to any other script or command to be used as the default remote connection mode. If you do this, rcp will be used as the default remote copy mode for DP. You can use the <h-hot><a href="overview.html#remoteCopy">remoteCopy</a></h-hot> environment variable to specify a different command to be used as the default remote copy mode for DP.</p>
+<p>
+<a id="pgfId-1039120"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039122"></a><code>asimenv.distributed remoteShell string &#8220;rsh&#8221;</code><a id="remoteShell"></a></p>
+<p>
+<a id="pgfId-1039123"></a>Valid Values: <code>rsh</code>, <code>ssh</code>, or the path to any other script or command.</p>
+<p>
+<a id="pgfId-1039124"></a>Default Values: <code>rsh</code></p>
+
+<h4>
+<a id="pgfId-1039126"></a>re<a id="remoteCopy"></a>moteCopy</h4>
+
+<p>
+<a id="pgfId-1039127"></a>Allows you specify the path to the command to be used as the default remote copy mode for DP. If this environment variable is not set, the default remote copy mode for DP will depend on the settings for the <h-hot>remoteShell </h-hot><a id="remoteShell"></a>environment variable.</p>
+<p>
+<a id="pgfId-1039129"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039131"></a><code>asimenv.distributed remoteCopy string &quot;&quot; </code><a id="remoteCopy"></a></p>
+
+<h4>
+<a id="pgfId-1039134"></a>sta<a id="starttime"></a>rtTim<a id="marker-1039133"></a>e</h4>
+
+<p>
+<a id="pgfId-1039135"></a>Sets 8:00 p.m. as the default start time for a job. If unspecified, the job runs immediately.</p>
+<p>
+<a id="pgfId-1039136"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039138"></a><code>asimenv.distributed startTime&#160;&#160;string&#160;&#160;&quot;20:00&quot;&#160;&#160;nil</code><a id="marker-1039137"></a> </p>
+
+<h4>
+<a id="pgfId-1039139"></a>mailTo</h4>
+
+<p>
+<a id="pgfId-1039140"></a>Sets the default list of users who will receive an e-mail when the job terminates. If unspecified, no e-mail notification is provided.</p>
+<p>
+<a id="pgfId-1039141"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039143"></a><code>asimenv.distributed mailTo&#160;&#160;string&#160;&#160;&quot;&quot;&#160;&#160;nil</code><a id="marker-1039142"></a> </p>
+
+<h4>
+<a id="pgfId-1039144"></a>stateFile</h4>
+
+<p>
+<a id="pgfId-1039145"></a>By default, the system creates a file named .<code>adpState</code> in your home directory containing the job server&#8217;s state. You can rename the file and put it in a different directory by modifying the statefile string.</p>
+<p>
+<a id="pgfId-1039146"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039148"></a><code>asimenv.distributed stateFile&#160;&#160;string&#160;&#160;&quot;</code><a id="marker-1039147"></a><span class="webflare-courier-new" style="white-space:pre"><em>statefile</em></span><code>&quot;&#160;&#160;nil</code></p>
+
+<h4>
+<a id="pgfId-1039149"></a>showMessages</h4>
+
+<p>
+<a id="pgfId-1039150"></a>If set to <code>t</code>, a message is displayed in the CIW or OCEAN terminal when a job is completed.</p>
+<p>
+<a id="pgfId-1039151"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039152"></a><code>asimenv.distributed showMessages boolean&#160;&#160;t&#160;&#160;nil</code></p>
+
+<h4>
+<a id="pgfId-1039153"></a>startDay</h4>
+
+<p>
+<a id="pgfId-1039154"></a>Sets the default start day for a job. If set to today, the job will always run on the same day it is submitted. </p>
+<p>
+<a id="pgfId-1039155"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039156"></a><code>asimenv.distributed startDay&#160;&#160;cyclic&#160;&#160;&quot;</code><span class="webflare-courier-new" style="white-space:pre"><em>day</em></span><code>&quot;&#160;&#160;nil</code></p>
+<p>
+<a id="pgfId-1039157"></a>Valid Values: <code>today</code>,<code> Sunday</code>, <code>Monday</code>, <code>Tuesday</code>, <code>Wednesday</code>, <code>Thursday</code>, <code>Friday</code>, <code>and Saturday</code>.</p>
+
+<h4>
+<a id="pgfId-1039158"></a>expTime</h4>
+
+<p>
+<a id="pgfId-1039159"></a>Sets 6:30 a.m. as the default expiration time for the job. If unspecified, expiration time is based on the value of the timeLimit variable.</p>
+<p>
+<a id="pgfId-1039160"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039161"></a><code>asimenv.distributed expTime string&#160;&#160;&quot;06:30&quot;&#160;&#160;nil</code></p>
+
+<h4>
+<a id="pgfId-1039162"></a>expDay</h4>
+
+<p>
+<a id="pgfId-1039163"></a>Sets the default expiration day for a job. If set to today, the job always runs on the same day it is submitted. </p>
+<p>
+<a id="pgfId-1039164"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039165"></a><code>asimenv.distributed expDay cyclic&#160;&#160;</code><span class="webflare-courier-new" style="white-space:pre"><em>day</em></span><code>  nil </code></p>
+<p>
+<a id="pgfId-1039166"></a>Valid Values: <code>today</code>,<code> Sunday</code>, <code>Monday</code>, <code>Tuesday</code>, <code>Wednesday</code>, <code>Thursday</code>, <code>Friday</code>, <code>and Saturday</code>.</p>
+
+<h4>
+<a id="pgfId-1039167"></a>timeLimit</h4>
+
+<p>
+<a id="pgfId-1039168"></a>Sets the default time limit for a job. If set to none, no time limit is imposed. If set to unspecified, the expiration time is based on the value of expTime and expDay variables.</p>
+<p>
+<a id="pgfId-1039169"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039170"></a><code>asimenv.distributed timeLimit cyclic&#160;&#160;</code><span class="webflare-courier-new" style="white-space:pre"><em>time</em></span><code>  nil</code></p>
+<p>
+<a id="pgfId-1039171"></a>Valid Values: <code>unspecified</code>, <code>none</code>, <code>5 minutes</code>, <code>15 minutes</code>, <code>30 minutes</code>, <code>1 hour</code>, <code>3 hours</code>, <code>6 hours</code>, <code>12 hours</code>, <code>1 day</code>, <code>2 days</code>, <code>3 days</code>, <code>5 days</code>, and<code> 10 days</code>.</p>
+
+<h4>
+<a id="pgfId-1039172"></a>emailNotify</h4>
+
+<p>
+<a id="pgfId-1039174"></a>If set to <code>t</code>, e-mail notification is provided following job termination.</p>
+<p>
+<a id="pgfId-1039175"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039176"></a><code>asimenv.distributed emailNotify boolean&#160;&#160;t&#160;&#160;nil</code></p>
+
+<h4>
+<a id="pgfId-1039177"></a>logsInEmail</h4>
+
+<p>
+<a id="pgfId-1039179"></a>If set to <code>t</code>, stdout and stderr logs are included in the termination e-mail.</p>
+<p>
+<a id="pgfId-1039180"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039181"></a><code>asimenv.distributed logsInEmail boolean&#160;&#160;t&#160;&#160;nil</code></p>
+
+<h4>
+<a id="pgfId-1039182"></a>daysBeforeExpire</h4>
+
+<p>
+<a id="pgfId-1039183"></a>Specifies the number of days after which terminated jobs are deleted from the job server.</p>
+<p>
+<a id="pgfId-1039184"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039186"></a><code>asimenv.distributed daysBeforeExpire int&#160;&#160;3&#160;&#160;nil</code><a id="daysBeforeExpire"></a></p>
+
+<h4>
+<a id="pgfId-1039187"></a>block</h4>
+
+<p>
+<a id="pgfId-1039188"></a>If set to <code>t</code>, analog circuit design environment or OCEAN will be blocked until all the jobs have completed.</p>
+<p>
+<a id="pgfId-1039189"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039190"></a><code>asimenv.distributed block boolean&#160;&#160;nil</code></p>
+
+<h4>
+<a id="pgfId-1039191"></a>loginShell</h4>
+
+<p>
+<a id="pgfId-1039192"></a>Specifies login shell for the job. If set to none, the user&#8217;s local environment is copied over to the execution host and used as the job&#8217;s environment.</p>
+<p>
+<a id="pgfId-1039193"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039194"></a><code>asimenv.distributed loginShell&#160;&#160;cyclic&#160;&#160; </code><span class="webflare-courier-new" style="white-space:pre"><em>shell</em></span><code>  nil </code></p>
+<p>
+<a id="pgfId-1039195"></a>Valid Values: <code>none</code>, <code>csh</code>, <code>ksh</code>, and <code>sh.</code></p>
+
+<h4>
+<a id="pgfId-1039196"></a>puttogetherqueue</h4>
+
+<p>
+<a id="pgfId-1039197"></a>Used to specify the queue to be used for Put Together Job.</p>
+<p>
+<a id="pgfId-1039198"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039199"></a><code>asimenv.distributed puttogetherqueue string &quot;&quot; n</code></p>
+
+<h4>
+<a id="pgfId-1039200"></a>copyNetlist</h4>
+
+<p>
+<a id="pgfId-1039201"></a>Used to specify whether the netlist directory needs to be copied from the execution host to the submission host. This may be required during simulation if some files are generated under netlist dir. </p>
+<p>
+<a id="pgfId-1039202"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039203"></a><code>asimenv.distributed copyNetlist boolean nil</code></p>
+
+<h4>
+<a id="pgfId-1039204"></a>logsDir</h4>
+
+<p>
+<a id="pgfId-1039205"></a>Used to specify the directory name where log files of jobs submitted through Distributed Processing are stored. The default value of the variable is &quot;/tmp&quot;. There are some specific checks made for the value specified for <code>logsDir</code>, which are as follows:</p>
+<ul><li>
+<a id="pgfId-1039206"></a>If the value specified starts from  &quot;.&quot; or &quot;~&quot;, it is expanded using <code>simplifyFilename</code>().</li><li>
+<a id="pgfId-1039207"></a>If a directory named <code>logsDir</code> exists, it is used as the log directory for the current job.</li><li>
+<a id="pgfId-1039208"></a>Otherwise, display a message requesting for creation of a directory. If the user response is a No, the job is not submitted. If the user response is a Yes, create a directory as specified in <code>logsDir</code>:<ul><li>
+<a id="pgfId-1039209"></a>If the directory is created successfully, use this as logsDir.</li><li>
+<a id="pgfId-1039210"></a>Else, display a message stating that the directory cannot be created. In this message ask if the user wishes to use &quot;/tmp&quot; as logsDir and then continue. If the response is a <code>Yes</code>, &quot;/tmp&quot; used as logsDir. If the response is a <code>No</code>, it stops at this point without any job submission.The value of this variable can be changed from one job to another.</li></ul></li></ul>
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1039211"></a>The user must ensure that the logsDir specified is exported on all the hosts participating in DP.</div>
+<p>
+<a id="pgfId-1039212"></a>To set this variable in the <code>.cdsenv</code> file, you should enter the following:<br /><code>asimenv.distributed logsDir string &quot;/tmp&quot; nil</code></p>
+
+<h4>
+<a id="pgfId-1039213"></a>mailAllLogs</h4>
+
+<p>
+<a id="pgfId-1039215"></a>If set to <code>t</code>, sends out a mail after completion of all the tasks and each individual task.</p>
+<p>
+<a id="pgfId-1039216"></a>To set this variable in the <code>.cdsenv</code> file, you should enter the following:<br /><code>asimenv.distributed mailAllLogs boolean&#160;&#160;nil</code></p>
+
+<h4>
+<a id="pgfId-1039217"></a>logsInPsf</h4>
+
+<p>
+<a id="pgfId-1039218"></a>If set to <code>t</code>, stores the stdout/stderr log file in the corresponding psf directory.</p>
+<p>
+<a id="pgfId-1039219"></a>To set this variable in the <code>.cdsenv</code> file, you should enter the following:<br /><code>asimenv.distributed logsInPsf boolean&#160;&#160;nil</code></p>
+
+<h4>
+<a id="pgfId-1039220"></a>shellCmd</h4>
+
+<p>
+<a id="pgfId-1039221"></a>Specifies the default value for Shell_Cmd_at_Finish as available in the <em>Job Submit</em> form.</p>
+<p>
+<a id="pgfId-1039222"></a>To set this variable in the <code>.cdsenv</code> file, you should enter the following:<br /><code>asimenv.distributed shellCmd string &quot;&quot;</code></p>
+
+<h4>
+<a id="pgfId-1039223"></a>listMode</h4>
+
+<p>
+<a id="pgfId-1039224"></a>Specifies whether the list option for specifying hosts needs to be displayed in the <em>Job Submit </em>form. If set to <code>nil</code>, the list option will not be displayed. Therefore, you will only be able to submit jobs from queues.</p>
+<p>
+<a id="pgfId-1039225"></a>To set this variable in the <code>.cdsenv</code> file, you should enter the following:<br /><code>asimenv.distributed listMode boolean t</code></p>
+
+<h4>
+<a id="pgfId-1039226"></a>deleteJob</h4>
+
+<p>
+<a id="pgfId-1039227"></a>Specifies whether to remove a job and its log files from the DP database after the job is complete. If this variable is set to <code>t</code>, the same job name can be used in successive runs. For example, if you submit a job by the name <span class="webflare-courier-new" style="white-space:pre"><em>Job001</em></span>, the data for this job is generated in the <code>&lt;&gt;/..../job001</code> directory. When you submit another job after the completion of <span class="webflare-courier-new" style="white-space:pre"><em>job001</em></span>, the same job name can be used in the <em>Job Name</em> field of the <em>Job Submit</em> form and the data for that is generated at the same directory <code>&lt;&gt;/..../job001</code>. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1039228"></a>The results of the previous run are not deleted. However, results of all the runs for the same job name are saved in the same directory. To delete the data specifically, use the <em>Results &#8211; Delete</em> menu option.</div>
+<p>
+<a id="pgfId-1039229"></a>The GUI option corresponding to the <code>deleteJob</code> environment variable is the <em>Reuse Job Name After Completion</em> option on the <em>Job Submit</em> form. To set this variable in the <code>.cdsenv</code> file use the following call:<br /><code>asimenv.distributed deleteJob boolean t</code></p>
+<p>
+<a id="pgfId-1039230"></a>To set this variable in the <code>.cdsinit</code> file or CIW, use the following call:<br /><code>envSetVal(&quot;asimenv.distributed&quot; &quot;deleteJob&quot; &#39;boolean t)</code></p>
+<p>
+<a id="pgfId-1039231"></a>Remote login is required in order to remove the error or log files. You can delete the error or log files without the remote login, by setting the following variable in <code>.cdsenv</code> file:<br /><code>asimenv.distributed deleteWithoutRemLogin&#160;&#160;boolean&#160;&#160;t</code></p>
+<p>
+<a id="pgfId-1039232"></a>If set to <code>t</code>, the log files are removed from the NFS mounted path without the remote login.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1039233"></a>Make sure that the <code>/tmp/cds_erasefile.&lt;userID&gt;</code> is deleted from all the remote machines.</div>
+
+<h4>
+<a id="pgfId-1039234"></a>removeJobData</h4>
+
+<p>
+<a id="pgfId-1039235"></a>Specifies whether to remove the results data of a job from the DP database before submitting a new job with the same name. For example, if you submit a job by the name <span class="webflare-courier-new" style="white-space:pre"><em>Job001</em></span>, the data for this job is generated in the <code>&lt;&gt;/..../job001</code> directory. When you submit another job with the same name, the data for that would be generated at the same location <code>&lt;&gt;/..../job001</code>. However, if the <code>removeJobData</code> variable is set to <code>t</code>, the results of the previous run are deleted before submitting the new job. The GUI option corresponding to the <code>removeJobData</code> environment variables is the <em>Remove Data before job submission</em> option on the <em>Job Submit </em>form.</p>
+<p>
+<a id="pgfId-1039236"></a>To set this variable in the <code>.cdsenv</code> file, you should enter the following:<br /><code>asimenv.distributed removeJobData boolean nil</code></p>
+
+<h4>
+<a id="pgfId-1039237"></a>queueName</h4>
+
+<p>
+<a id="pgfId-1039238"></a>Specifies name of the queue in which the job is to be submitted. This variable is used in both SGE and LSF modes.</p>
+<p>
+<a id="pgfId-1039239"></a>To set this variable in the <code>.cdsenv</code> file, you should enter the following:<br /><code>asimenv.distributed queueName string nil</code></p>
+
+<h4>
+<a id="pgfId-1039240"></a>lsfApplicationProfile</h4>
+
+<p>
+<a id="pgfId-1039241"></a>Specifies name of an application profile to be used in LSF mode.</p>
+<p>
+<a id="pgfId-1039242"></a>To set this variable in the .cdsenv file, you should enter the following:<br /><code>asimenv.distributed lsfApplicationProfile string</code></p>
+
+<h4>
+<a id="pgfId-1039243"></a>selectLsfApplicationProfile</h4>
+
+<p>
+<a id="pgfId-1039244"></a>Specifies if the value specified by lsfApplicationProfile is to be used in LSF mode.</p>
+<p>
+<a id="pgfId-1039245"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039246"></a><code>asimenv.distributed selectLsfApplicationProfile boolean</code></p>
+
+<h4>
+<a id="pgfId-1039247"></a>lsfNoOfProcessors</h4>
+
+<p>
+<a id="pgfId-1039248"></a>Specifies the number of parallel processors to be used in LSF mode.</p>
+<p>
+<a id="pgfId-1039249"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039250"></a><code>asimenv.distributed lsfNoOfProcessors string &quot;3&quot;</code></p>
+
+<h4>
+<a id="pgfId-1039251"></a>selectLsfNoOfProcessors</h4>
+
+<p>
+<a id="pgfId-1039252"></a>Specifies if the value specified by lsfNoOfProcessors is to be used in LSF mode.</p>
+<p>
+<a id="pgfId-1039253"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039254"></a><code>asimenv.distributed selectLsfNoOfProcessors boolean</code> </p>
+
+<h4>
+<a id="pgfId-1039255"></a>sgeNoOfProcessors</h4>
+
+<p>
+<a id="pgfId-1039256"></a>Specifies the default number of processors to be used in SGE mode.</p>
+<p>
+<a id="pgfId-1039257"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039258"></a><code>asimenv.distributed sgeNoOfProcessors string nil</code></p>
+
+<h4>
+<a id="pgfId-1039259"></a>sgeParallelEnvName</h4>
+
+<p>
+<a id="pgfId-1039260"></a>Specifies name of the parallel environment in SGE mode.</p>
+<p>
+<a id="pgfId-1039261"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039262"></a><code>asimenv.distributed sgeParallelEnvName string nil</code></p>
+
+<h4>
+<a id="pgfId-1039263"></a>sgeSoftResources</h4>
+
+<p>
+<a id="pgfId-1039264"></a>Specifies the default soft resources to be used in SGE mode.</p>
+<p>
+<a id="pgfId-1039265"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039266"></a><code>asimenv.distributed sgeSoftResources string nil</code></p>
+
+<h4>
+<a id="pgfId-1039267"></a>sgeHardResources</h4>
+
+<p>
+<a id="pgfId-1039268"></a>Specifies the default hard resources to be used in SGE mode.</p>
+<p>
+<a id="pgfId-1039269"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039270"></a><code>asimenv.distributed sgeHardResources string nil</code></p>
+
+<h4>
+<a id="pgfId-1039271"></a>sgePriority</h4>
+
+<p>
+<a id="pgfId-1039272"></a>Specifies the default priority to be set for a job submitted in SGE mode. Default value set to 0.</p>
+<p>
+<a id="pgfId-1039273"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039274"></a><code>asimenv.distributed sgePriority int nil</code></p>
+
+<h4>
+<a id="pgfId-1039276"></a><a id="olvResourceString"></a><a id="41352"></a>olvResourceString</h4>
+
+<p>
+<a id="pgfId-1039277"></a>Specifies the default OLV resource requirement string to be displayed in the Job Submit form. </p>
+<p>
+<a id="pgfId-1039278"></a>To use the resource requirement string when submitting a job, select the <em>OLV Resource String</em> check box in the Job Submit form, or set the <code>selectOlvResourceString</code> variable to <code>t</code>. </p>
+<p>
+<a id="pgfId-1039279"></a>To set the variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039280"></a><code>asimenv.distributed olvResourceString&#160;&#160; string&#160;&#160; &quot;&quot;&#160;&#160; nil</code></p>
+
+<h4>
+<a id="pgfId-1039282"></a><a id="selectOlvResourceString"></a>selectOlvResourceString</h4>
+
+<p>
+<a id="pgfId-1039283"></a>If set to <code>t</code>, the OLV resource string specified in the Job Submit form (or specified by the <code>olvResourceString</code> environment variable) is used when a job is submitted. If set to <code>nil</code>, the specified OLV resource string is not used when you submit a job, unless you select the <em>OLV Resource String</em> check box in the Job Submit form.</p>
+<p>
+<a id="pgfId-1039284"></a>To set the variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039285"></a><code>asimenv.distributed selectOlvResourceString&#160;&#160;    boolean    nil   nil</code></p>
+
+<h4>
+<a id="pgfId-1039287"></a><a id="olvNoOfProcessors"></a><a id="69573"></a>olvNoOfProcessors</h4>
+
+<p>
+<a id="pgfId-1039288"></a>Specifies the number of parallel processors to be used in OLV mode. </p>
+<p>
+<a id="pgfId-1039289"></a>To use the specified value when submitting a job, select the check box next to the <em>No Of Processors </em>field in the Job Submit form, or set the <code>selectOlvNoOfProcessors</code> variable to <code>t</code>.</p>
+<p>
+<a id="pgfId-1039290"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039291"></a><code>asimenv.distributed olvNoOfProcessors&#160;&#160;    string    &quot;&quot;   nil</code></p>
+
+<h4>
+<a id="pgfId-1039293"></a><a id="selectOlvNoOfProcessors"></a>selectOlvNoOfProcessors</h4>
+
+<p>
+<a id="pgfId-1039294"></a>Specifies if the value specified by <code>olvNoOfProcessors</code> is to be used in OLV mode.</p>
+<p>
+<a id="pgfId-1039295"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039296"></a><code>asimenv.distributed selectOlvNoOfProcessors&#160;&#160;    boolean    nil   nil</code></p>
+
+<h4>
+<a id="pgfId-1039298"></a><a id="olvProjectName"></a><a id="27178"></a>olvProjectName</h4>
+
+<p>
+<a id="pgfId-1039299"></a>Specifies the default OLV project name.</p>
+<p>
+<a id="pgfId-1039300"></a>To use the specified value when submitting a job, select the check box next to the <em>Project Name </em>field in the Job Submit form, or set the <code>selectOlvProjectName</code> variable to <code>t</code>.</p>
+<p>
+<a id="pgfId-1039301"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039302"></a><code>asimenv.distributed olvProjectName&#160;&#160;    string    &quot;&quot;   nil</code></p>
+
+<h4>
+<a id="pgfId-1039304"></a><a id="selectOlvProjectName"></a>selectOlvProjectName</h4>
+
+<p>
+<a id="pgfId-1039305"></a>Specifies if the value specified by <code>olvProjectName</code> is to be used in OLV mode.</p>
+<p>
+<a id="pgfId-1039306"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039307"></a><code>asimenv.distributed selectOlvProjectName&#160;&#160;    boolean    nil   nil</code></p>
+
+<h4>
+<a id="pgfId-1039309"></a><a id="olvUserGroup"></a><a id="35330"></a>olvUserGroup </h4>
+
+<p>
+<a id="pgfId-1039310"></a>Specifies the default OLV user group.</p>
+<p>
+<a id="pgfId-1039311"></a>To use the specified value when submitting a job, select the check box next to the <em>User Group </em>field in the Job Submit form, or set the <code>selectOlvUserGroup</code> variable to <code>t</code>.</p>
+<p>
+<a id="pgfId-1039312"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039313"></a><code>asimenv.distributed olvUserGroup&#160;&#160;    string    &quot;&quot;   nil</code></p>
+
+<h4>
+<a id="pgfId-1039315"></a><a id="selectOlvUserGroup"></a>selectOlvUserGroup</h4>
+
+<p>
+<a id="pgfId-1039316"></a>Specifies if the value specified by <code>olvUserGroup</code> is to be used in OLV mode.</p>
+<p>
+<a id="pgfId-1039317"></a>To set this variable in the .cdsenv file, you should enter the following:</p>
+<p>
+<a id="pgfId-1039318"></a><code>asimenv.distributed selectOlvUserGroup&#160;&#160;    boolean    nil   nil</code></p>
+
+<h3>
+<a id="pgfId-1039320"></a><a id="60507"></a>Specifying Different Environment Variables for Different Simulators</h3>
+
+<p>
+<a id="pgfId-1039321"></a>Environment variables that you add in your .<code>cdsinit</code> file are applicable to all the simulators that you want to use. To specify environment variables that apply only to specific simulators, define the <code>sessInitTrigFunc</code> function in your .<code>cdsinit</code> file.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1039322"></a>Ensure that the name of this function does not begin with a lower-case character.</div>
+<p>
+<a id="pgfId-1039323"></a>After the <code>sessInitTrigFunc</code> function is defined in the .<code>cdsinit</code> file, you can create an entry for this function in the .<code>cdsenv</code> or .<code>cdsinit</code> files to indicate the specified function name.</p>
+<p>
+<a id="pgfId-1039324"></a>Consider the following example in which you specify different resource requirement strings for the Spectre simulator and UltraSim simulator. </p>
+<p>
+<a id="pgfId-1039325"></a>Add the following in your .<code>cdsinit</code> file:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1039326"></a>procedure(CCSsessInitTrigFunc(session)
+&#160;&#160;&#160;&#160;case(asiGetSimName(session)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1039327"></a>  (&quot;spectre&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1039328"></a> envSetVal(&quot;asimenv.distributed&quot; &quot;lsfResourceString&quot; &#39;string &quot;lsfStringForSpectre&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1039329"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1039330"></a>  (&quot;UltraSim&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1039331"></a> envSetVal(&quot;asimenv.distributed&quot; &quot;lsfResourceString&quot; &#39;string &quot;lsfStringForUltraSim&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1039332"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1039333"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1039334"></a>  )</pre>
+
+<p>
+<a id="pgfId-1039335"></a>Here,</p>
+<ul><li>
+<a id="pgfId-1039336"></a><code>session</code> is the name of the asi session.</li><li>
+<a id="pgfId-1039337"></a><code>lsfStringForSpectre</code> is the LSF resource requirement string for the Spectre simulator.</li><li>
+<a id="pgfId-1039338"></a><code>lsfStringForUltraSim</code> is the LSF resource requirement string for the UltraSim simulator.</li></ul>
+
+
+<p>
+<a id="pgfId-1039339"></a>Set the following environment variables in your .<code>cdsenv</code> and .<code>cdsinit</code> files, indicating the name of the <code>sessInitTrigFunc</code> function to be used:</p>
+<p>
+<a id="pgfId-1039340"></a>In the .<code>cdsenv</code> file:<br /><code>asimenv.startup sessInitTrigFunc string &quot;CCSsessInitTrigFunc&quot;</code></p>
+<p>
+<a id="pgfId-1039341"></a>In the .<code>cdsinit</code> file:<br /><code>envSetVal(&quot;asimenv.startup&quot; &quot;sessInitTrigFunc&quot; &#39;string &quot;CCSsessInitTrigFunc&quot;)</code></p>
+
+<h2>
+<a id="pgfId-1038818"></a>Troubleshooting FAQs</h2>
+
+<p>
+<a id="pgfId-1038819"></a>This section describes how to troubleshoot some of the common difficulties that you can experience while running distributed simulations. See the following problem statements and their corresponding solutions:</p>
+<ol><li>
+<a id="pgfId-1038823"></a><a href="overview.html#14244">Distributed processing does not work.</a></li><li>
+<a id="pgfId-1038826"></a><a href="overview.html#44883">I specify an LSF Resource Requirement String in the Job Policy Setup form and submit a job. The job does not run even after a long time, and I do not see any error message.</a></li><li>
+<a id="pgfId-1038830"></a><a href="overview.html#61919">I select LBS as the distribution method on the Job Policy Setup form, and the form expands, but I cannot use distributed processing.</a></li><li>
+<a id="pgfId-1038839"></a><a href="overview.html#11724">I start the Job Monitor but it is blank. There are no jobs listed.</a></li><li>
+<a id="pgfId-1038843"></a><a href="overview.html#85609">I name a job analysis2 and the system renames it to analysis2001.</a></li><li>
+<a id="pgfId-1038847"></a><a href="overview.html#82308">The machine I want to use is not in the host list on the Job Submit form.</a></li><li>
+<a id="pgfId-1038850"></a><a href="overview.html#60094">When I click Run, I get a long error message that says that I cannot connect to the LBS queue manager.</a></li><li>
+<a id="pgfId-1038854"></a><a href="overview.html#30681">When I run a distributed simulation, I get an error message saying that the job submission failed.</a></li><li>
+<a id="pgfId-1038859"></a><a href="overview.html#84868">When I submit a job, it fails and comes back with an error message such as</a></li><li>
+<a id="pgfId-1038863"></a><a href="overview.html#54953">I made job B dependent on job A. Job A ran, but job B did not. What is wrong?</a></li><li>
+<a id="pgfId-1038867"></a><a href="overview.html#29174">My simulation finished, but I cannot find the PSF results.</a></li><li>
+<a id="pgfId-1038871"></a><a href="overview.html#78729">My simulation finished, but I cannot find the PSF results.</a></li><li>
+<a id="pgfId-1038874"></a><a href="overview.html#94715">I am using LSF with the distributed processing mode. When I try to run my jobs, I get an error message &#8211; &#8220;LSF setup is not proper&#8221;. I cannot submit any jobs.</a></li><li>
+<a id="pgfId-1038878"></a><a href="overview.html#66779">The distributed processing mode randomly quits working. My jobs fail and I get an error message &#8211; &#8220;Could not connect to the LBS queue manager&#8221;. I usually keep a design framework II session running all night.</a></li><li>
+<a id="pgfId-1038882"></a><a href="overview.html#51308">I am able to successfully submit distributed processing jobs to all hosts except the cluster master machine, even though it is in one of the cluster&#8217;s queues. The job status says: &quot;Job dispatch failed; Cluster master timed out on ACK from execution host&quot;.</a></li><li>
+<a id="pgfId-1038887"></a><a href="overview.html#22768">I encountered an error message containing a numeric identifier. For example:</a></li><li>
+<a id="pgfId-1038891"></a><a href="overview.html#69303">What does this numeric identifier signify?</a></li><li>
+<a id="pgfId-1038895"></a><a href="overview.html#43155">How do I specify a queue for a put together job?</a></li><li>
+<a id="pgfId-1038899"></a><a href="overview.html#74045">What is the version of LSF that is integrated with the 5.1 release?</a></li><li>
+<a id="pgfId-1038903"></a><a href="overview.html#78326">LSF shutdown causes job distribution to freeze?</a></li><li>
+<a id="pgfId-1038906"></a><a href="overview.html#58506">When I run a simulation successfully using LSF on Linux, and add new queues, the new queues do not reflect in the Job Policy Setup form.</a></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1038909"></a><a id="14244"></a>Distributed processing does not work.</p>
+<p>
+<a id="pgfId-1038911"></a>Use the following general troubleshooting tips as one of these could be the reason for the problem in a distributed processing run:</p>
+<ol><li>
+<a id="pgfId-1038912"></a>Ensure that when you use <code>rlogin</code> for logging in to remote hosts, you do not receive a password prompt. Authenticate the submission host as a trusted host by using <code>xhost</code>. Alternatively, create an <code>.rhosts</code> file in the home directory and ensure that it contains a &#8216;+&#8217; character.</li><li>
+<a id="pgfId-1038913"></a>Ensure that the remote hosts can access the paths to all the model files and the simulation directory.</li><li>
+<a id="pgfId-1038914"></a>Ensure that the remote hosts can access the Cadence tools hierarchy. To do this, use <code>rlogin</code> for logging in to the remote host. Run the following command and check if it returns the path to the Cadence hierarchy:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1038915">
+<a id="pgfId-1038915"></a>unix&gt; which virtuoso </pre>
+<a id="pgfId-1038916"></a><strong>Example of .cshrc content</strong><br />
+<a id="pgfId-1038917"></a>Adding the following statements in the <code>.cshrc</code> file selects the appropriate hierarchy for different hosts:<pre class="webflare-pre-block webflare-courier-new" id="#id1038918">
+<a id="pgfId-1038918"></a>if (&#8216;uname&#8217; == &quot;SunOS&quot;) then</pre><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1038919">
+<a id="pgfId-1038919"></a>setenv CDSPATH /net/nas-aus/export/csc/vol2/Software/IC50_sun4v</pre></span><pre class="webflare-pre-block webflare-courier-new" id="#id1038920">
+<a id="pgfId-1038920"></a>else if (&#8216;uname&#8217; == &quot;Linux&quot;) then</pre><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1038921">
+<a id="pgfId-1038921"></a>setenv CDSPATH /net/nas-aus/export/csc/vol2/Software/IC50_lnx86</pre></span><pre class="webflare-pre-block webflare-courier-new" id="#id1038922">
+<a id="pgfId-1038922"></a>endif</pre></li><li>
+<a id="pgfId-1038923"></a>Ensure that a user submitting a job has an account and a home directory on the submission host and the execution host. <br />
+<a id="pgfId-1038924"></a>For example, if a user submits a job from machine A to machine B but does not have an account on machine B, the submit request fails.</li><li>
+<a id="pgfId-1038925"></a>Ensure that the directory on your local machine from which you run the distributed processing software is exported.</li><li>
+<a id="pgfId-1038926"></a>Ensure that the uid (UNIX user ID) of a user does not change as the user switches from one machine to another. For example, if the user <code>morrison</code> has uid <code>8819</code> on machine A, another user <code>doe</code> cannot use uid <code>8819</code> on machine B. </li><li>
+<a id="pgfId-1038927"></a>Ensure that all users who want to submit jobs have write-access to the <code>/tmp</code> file system on the execution and submission hosts. The host machines use this file system to save certain temporary files that are created as a result of the submission and execution processes. </li><li>
+<a id="pgfId-1038929"></a>Ensure that the directory structure on the home machine and the remote machine is identical. For example, if the job&#8217;s working directory on your machine is <code>/net/salmon/u1/morrison</code>, the design directory on the execution machine must be <code>/net/coho/u1/morrison</code>. If the directory structure on <code>salmon</code> does not match that on <code>coho</code>, use a link to mirror the directory structure on the home machine. </li><li>
+<a id="pgfId-1057981"></a>Ensure that you specify the correct file paths. Distributed processing considers all files &#8211; input, output, error, and any command or OCEAN files &#8211; to have absolute or relative locations, depending on whether they are preceded by a forward slash (/). If relative, their location is searched relative to the working directory of the job.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1038931"></a><a id="44883"></a>I specify an LSF Resource Requirement String in the Job Policy Setup form and submit a job. The job does not run even after a long time, and I do not see any error message. </p>
+<p>
+<a id="pgfId-1038932"></a>This can happen if you specify a resource requirement that is not possible to implement or conflicts with an existing option in the Job Policy Setup form. In such a case, run <code>xlsbatch</code> from the UNIX prompt to monitor the status of your job. <code>xlsbatch</code> is a job monitoring tool provided by Platform Computing. To know more details, refer to the LSF documentation. </p>
+<p>
+<a id="pgfId-1038934"></a>The status of a job may remain <code>PEND</code> for a long time because of a complication associated with the <em>LSF Resource Requirement String</em>. In the job details of <code>xlsbatch</code>, the <code>PENDING REASON</code> indicates why the job is in a <code>PEND</code> state. You can resolve this by modifying some of the job properties using <em>Job &#8211; Manipulate &#8211; Modify</em> in <code>xlsbatch</code>.</p>
+<p>
+<a id="pgfId-1038936"></a><a id="61919"></a>I select LBS as the distribution method on the Job Policy Setup form, and the form expands, but I cannot use distributed processing.</p>
+<p>
+<a id="pgfId-1038938"></a>Distributed processing is available for the Spectre simulator and all the simulators integrated using OASIS. Ensure that you set the appropriate simulator in ADE Explorer or ADE Assembler. See the Command Interface Window (CIW) for error messages or warnings.</p>
+<p>
+<a id="pgfId-1038944"></a><a id="11724"></a>I start the Job Monitor but it is blank. There are no jobs listed.</p>
+<p>
+<a id="pgfId-1038945"></a>This might be normal. The Job Monitor may not show any job for the following reasons:</p>
+<ul><li style="list-style-type: none;background-image: none;"><ul><li>
+<a id="pgfId-1038946"></a>You have not started any jobs yet.</li><li>
+<a id="pgfId-1038947"></a>You started jobs, but a long duration has elapsed and the jobs are finished and consequently terminated.</li><li>
+<a id="pgfId-1038948"></a>The Job Monitor lists jobs by queue, usually in one queue at a time. If you are unsure about the queue that contains your jobs, select ALL under the Queues tab. </li></ul></li></ul>
+
+
+<p>
+<a id="pgfId-1038951"></a><a id="85609"></a>I name a job analysis2 and the system renames it to analysis2001.</p>
+<p>
+<a id="pgfId-1038952"></a>This indicates that a job <code>analysis2</code> already exists in the same session. The distributed processing environment automatically appends a three-digit number to any duplicate job names to keep them unique.</p>
+<p>
+<a id="pgfId-1038954"></a><a id="82308"></a>The machine I want to use is not in the host list on the Job Submit form.</p>
+<p>
+<a id="pgfId-1038955"></a>Contact your system administrator, or cluster master operator, to add the machine to a queue. You can use the list field in the Job Policy Setup form to specify the machine you want to use.</p>
+<p>
+<a id="pgfId-1038957"></a><a id="60094"></a>When I click Run, I get a long error message that says that I cannot connect to the LBS queue manager.</p>
+<p>
+<a id="pgfId-1038958"></a>Log on to the distributed processing cluster master and list the running processes. Find and kill the <code>cdsqmgr</code> process running under your user name. If you find this process, kill it. </p>
+<p>
+<a id="pgfId-1038959"></a>Verify that a <code>cdsqmgr</code> is running under root. If it is not running, contact the cluster operator to restart it.</p>
+<p>
+<a id="pgfId-1038960"></a>Exit the Cadence&#174; software on your local host, and then restart it.</p>
+<p>
+<a id="pgfId-1038961"></a>You can also get this error when you do not set your environment variables properly. Make sure that LBS_BASE_SYSTEM and LBS_CLUSTER_MASTER are set properly. Also verify that the master host is only in one cluster.</p>
+<p>
+<a id="pgfId-1038963"></a><a id="30681"></a>When I run a distributed simulation, I get an error message saying that the job submission failed.</p>
+<p>
+<a id="pgfId-1038964"></a>Several situations can cause this error message:</p>
+<ul><li style="list-style-type: none;background-image: none;"><ul><li>
+<a id="pgfId-1038965"></a>You do not have an account on the machine to which your job is submitted.</li><li>
+<a id="pgfId-1038966"></a>The specified machine is disconnected from the network or shut down.</li><li>
+<a id="pgfId-1038967"></a>The remote machine does not have access to the Cadence software, especially the distributed processing DRMS. By default, the local setting of the path environment variable should be valid for each execution host.</li></ul></li></ul>
+
+
+<p>
+<a id="pgfId-1038969"></a><a id="84868"></a>When I submit a job, it fails and comes back with an error message such as </p>
+<p>
+<a id="pgfId-1038970"></a><code>sh: ./runSpectre not found, spectre not found.</code></p>
+<p>
+<a id="pgfId-1038971"></a>The simulation fails because the remote job cannot find the simulator. You must have a path to the Cadence software on each of the remote machines. By default, distributed processing uses your local environment settings to initialize the session on the remote host. The search path on the remote host will be the same as the path setting on your local host. You must ensure that the path setting on the remote host is relevant, else the simulator will not be found.</p>
+<p>
+<a id="pgfId-1038972"></a>For example, on your home machine you have a link to the Cadence software at <code>/u1/users/bill/Cadence</code>. However, your account is at <code>/usr1/mnt3/bill</code> on the machine that you run your job. The remote job goes to <code>/u1/users/bill/Cadence/tools/dfII/bin</code> on the remote machine and finds no account. You must either move the account to <code>/u1/users</code>, to match your home machine, or create a link from <code>/u1/users</code> to <code>/user1/mnt3</code>. </p>
+<p>
+<a id="pgfId-1038974"></a><a id="54953"></a>I made job B dependent on job A. Job A ran, but job B did not. What is wrong?</p>
+<p>
+<a id="pgfId-1038975"></a>The dependency feature is not based on whether a job runs, but whether the simulation succeeds. If the simulation fails, subsequent dependent jobs will not run.</p>
+<p>
+<a id="pgfId-1038978"></a><a id="29174"></a><a id="78729"></a>My simulation finished, but I cannot find the PSF results.</p>
+<p>
+<a id="pgfId-1038979"></a>Distributed processing does not store its results in the standard <code>/psf</code> directory. Instead, it creates a <code>/distributed</code> directory at the same level as <code>/psf</code> and <code>/netlist</code>. The <code>/distributed</code> directory contains a directory for each job. This directory contains the <code>/netlist</code> and <code>/psf</code> directory for each job.</p>
+<p>
+<a id="pgfId-1038983"></a>For details, see <a href="overview.html#97879">Accessing Results of Jobs in Distributed Processing</a>.</p>
+<p>
+<a id="pgfId-1038985"></a><a id="94715"></a>I am using LSF with the distributed processing mode. When I try to run my jobs, I get an error message &#8211; &#8220;LSF setup is not proper&#8221;. I cannot submit any jobs.</p>
+<p>
+<a id="pgfId-1038986"></a>When you use LSF, both the machines &#8211; the machine you are submitting the job from, and the machine you are submitting the job to &#8211; must be in the predefined LSF cluster. The scenario that you describe occurs if your home machine, or the machine that you are submitting from, is not in the LSF machine cluster.</p>
+<p>
+<a id="pgfId-1038988"></a><a id="66779"></a>The distributed processing mode randomly quits working. My jobs fail and I get an error message &#8211; &#8220;Could not connect to the LBS queue manager&#8221;. I usually keep a design framework II session running all night.</p>
+<p>
+<a id="pgfId-1038989"></a>The most likely reason is that your system administrator is making changes to the job queue. These changes may include changes to the depth or nature of the queue, or to the list of machines included in the queue. Each time the system administrator makes such changes this, they must shut down the Cadence Queue Manager (<code>cdsqmgr</code>). This disrupts any distributed jobs that you have in progress. You must exit your Cadence session and start again. </p>
+<p>
+<a id="pgfId-1038991"></a><a id="51308"></a>I am able to successfully submit distributed processing jobs to all hosts except the cluster master machine, even though it is in one of the cluster&#8217;s queues. The job status says: &quot;Job dispatch failed; Cluster master timed out on ACK from execution host&quot;.</p>
+<p>
+<a id="pgfId-1038992"></a>Verify that when the <code>cdsqmgr</code> process starts on the cluster master, your PATH variable contains the path to the bin directory in the Cadence software hierarchy. This means that your <code>PATH</code> variable must contain <code>CDS_INST_DIR/tools/bin</code>).</p>
+<p>
+<a id="pgfId-1038994"></a><a id="22768"></a>I encountered an error message containing a numeric identifier. For example:</p>
+<p>
+<a id="pgfId-1038995"></a>ERROR (28): There was an error connecting to the distributed job server service. This host may not be set up correctly for using Distributed Processing.</p>
+<p>
+<a id="pgfId-1038997"></a><a id="69303"></a>What does this numeric identifier signify?</p>
+<p>
+<a id="pgfId-1038998"></a>Each error message in distributed processing is given a unique numeric identifier. You can use this numeric identifier to access extended help (if available) on an error message by typing the following in the CIW:</p>
+
+<a id="pgfId-1038999"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+msgHelp &lt;prodID&gt; &lt;<code>errorID</code>&gt;</pre>
+
+<p>
+<a id="pgfId-1039000"></a>where,</p>
+<table class="webflareTable" id="#id1061663">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060968"></a><code>prodID</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060970"></a>is the product ID. In case of distributed processing, it is <code>&#8216;DP.</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060972"></a><code>errorID</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1060974"></a>is the error message ID number. This is the numeric identifier that is available in the error message box.</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1039003"></a>For example, </p>
+
+<a id="pgfId-1039004"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+msgHelp &#8217;DP 28</pre>
+
+<p>
+<a id="pgfId-1039005"></a>This displays the extended help for the DP error message, whose message ID is 28.</p>
+<p>
+<a id="pgfId-1039007"></a><a id="43155"></a>How do I specify a queue for a put together job?</p>
+<p>
+<a id="pgfId-1039008"></a>You can specify a queue for a put together job by specifying an environment variable as follows:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1039009"></a>asimenv.distributed puttogetherqueue string &quot;&quot; nil</pre>
+
+<p>
+<a id="pgfId-1039011"></a><a id="74045"></a>What is the version of LSF that is integrated with the 5.1 release?</p>
+<p>
+<a id="pgfId-1039013"></a>The version of LSF that is integrated with the 5.1 release is 5.1 and 6.1.</p>
+<p>
+<a id="pgfId-1039015"></a><a id="78326"></a>LSF shutdown causes job distribution to freeze?</p>
+<p>
+<a id="pgfId-1039016"></a>From the same terminal window that is running the workbench, kill the <code>cdsfrb_lsf</code> daemon and restart the workbench to get into distributed processing mode.</p>
+<p>
+<a id="pgfId-1039018"></a><a id="58506"></a>When I run a simulation successfully using LSF on Linux, and add new queues, the new queues do not reflect in the Job Policy Setup form.</p>
+<p>
+<a id="pgfId-1039019"></a>Ensure that you set the environment variable as, <code>LANG=&#8217;C&#8217;.</code></p>
+<p>
+<a id="pgfId-1061485"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="preface.html" id="prev" title="Preface">Preface</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

@@ -1,0 +1,93 @@
+
+<html><head><title>Introduction to Command-Line IP Selector</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="shubh" />
+<meta name="CreateDate" content="2020-08-14" />
+<meta name="CreateTime" content="1597403438" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="User guide for Command-Line IP Selector" />
+<meta name="DocTitle" content="Command-Line IP Selector (CLIPS) User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Introduction to Command-Line IP Selector" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="clips" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-14" />
+<meta name="ModifiedTime" content="1597403438" />
+<meta name="NextFile" content="gettingStarted.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="preface.html" />
+<meta name="c_product" content="Virtuoso Analog Design Environment" />
+<meta name="Product" content="Virtuoso Analog Design Environment" />
+<meta name="ProductFamily" content="Virtuoso Analog Design Environment" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Command-Line IP Selector (CLIPS) User Guide -- Introduction to Command-Line IP Selector" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="clipsICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="clipsTOC.html">Contents</a></li><li><a class="prev" href="preface.html" title="Preface">Preface</a></li><li style="float: right;"><a class="viewPrint" href="clips.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="gettingStarted.html" title="Getting Started with CLIPS">Getting Started with CLIPS</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Command-Line IP Selector (CLIPS) User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>1
+<a id="pgfId-1017386"></a></h1>
+<h1>
+<a id="pgfId-1017387"></a><hr />
+<a id="89515"></a>Introduction to Command-Line IP Selector<hr />
+</h1>
+
+<p>
+<a id="pgfId-1016569"></a>In an advanced mixed-signal design flow, a mixed-signal block is commonly used as a part of the System on Chip (SoC) simulation with the Digital on Top (DoT) methodology. Spectre AMS Designer, which is a powerful tool used to simulate mixed-signal designs, uses a config or schematic view from the Virtuoso database to manage a complex binding configuration in a mixed-signal block. However, when this mixed-signal block or mixed-signal IP is reused in the DoT flow, manual export and reconfiguration of these blocks become challenging for a designer. Command-Line IP Selector (CLIPS) is a utility that simplifies the Virtuoso mixed-signal IP reuse.</p>
+
+<h2>
+<a id="pgfId-1016616"></a>Benefits of Using CLIPS</h2>
+
+<p>
+<a id="pgfId-1019819"></a>CLIPS provides a bridge between Virtuoso, which is a UI-based, analog, and mixed-signal design environment, and other command-line, digital, and mixed-signal simulation tools and flows that use text-based tests. The design verification team can use CLIPS to verify the digital representation of an IP with their corresponding analog representation. CLIPS has several benefits for mixed-signal designers:</p>
+<ul><li>
+<a id="pgfId-1016660"></a>Leverages an existing testbench setup</li><li>
+<a id="pgfId-1016661"></a>Provides a powerful digital verification mechanism</li><li>
+<a id="pgfId-1016662"></a>Eliminates the need to import large and complex digital designs in Virtuoso</li><li>
+<a id="pgfId-1016663"></a>Provides an integrated design management system</li></ul>
+
+
+
+
+<h2>
+<a id="pgfId-1018491"></a>The CLIPS Flow</h2>
+
+<p>
+<a id="pgfId-1016794"></a>The illustration given below shows how CLIPS works with Virtuoso and Xcelium:</p>
+<p>
+<a id="pgfId-1019537"></a></p>
+
+<div class="webflare-div-image">
+<img width="675" height="347" src="images/overview-2.gif" /></div>
+
+<ol><li>
+<a id="pgfId-1016687"></a>In Xcelium, a high-level simulation and verification is run after the top-down flow sets up the SoC-level verification methodology by using Metric-Driven Verification (MDV) with Universal Verification Methodology (UVM) or SystemVerilog (SV). </li><li>
+<a id="pgfId-1019520"></a>In Virtuoso Analog Design Environment (ADE), a bottom-up mixed-signal IP is designed and verified. </li><li>
+<a id="pgfId-1019529"></a>CLIPS bridges the gap between the top-down flow of the Xcelium environment and the bottom-up flow of the Virtuoso environment. When you import the Xcelium simulation setup and the Virtuoso AMS IP configuration in CLIPS with the help of the <code>xrunArgs</code> files and the <code>cds.lib</code> files respectively, it automatically generates netlist and packages the IP config into an independent directory, and generates an incremental file, <code>clips.f</code>, on top of the existing <code>xrunArgs</code> file. When both these files, <code>xrunArgs</code> and <code>clips.f</code>, are added to the <code>xrun</code> command, the AMS IP automatically replaces its digital counterpart in the SoC simulation setup.<br />
+<a id="pgfId-1016789"></a></li></ol>
+
+
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="preface.html" id="prev" title="Preface">Preface</a></em></b><b><em><a href="gettingStarted.html" id="nex" title="Getting Started with CLIPS">Getting Started with CLIPS</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

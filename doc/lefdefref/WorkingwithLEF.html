@@ -1,0 +1,262 @@
+
+<html><head><title>Working with LEF</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="leenap" />
+<meta name="CreateDate" content="2020-02-28" />
+<meta name="CreateTime" content="1582884614" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the syntax for Library Exchange Format (LEF) and Design Exchange Format (DEF) files." />
+<meta name="DocTitle" content="LEF/DEF 5.8 Language Reference" />
+<meta name="DocType" content="Reference" />
+<meta name="FileTitle" content="Working with LEF" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="lefdefref" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-02-28" />
+<meta name="ModifiedTime" content="1582884614" />
+<meta name="NextFile" content="DEFSyntax.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Digital Implementation,Cadence Shared Tools" />
+<meta name="PrevFile" content="DEFINEandALIAS.html" />
+<meta name="Product" content="Innovus,Languages" />
+<meta name="ProductFamily" content="Innovus,Languages" />
+<meta name="ProductVersion" content="5.8" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="LEF/DEF 5.8 Language Reference -- Working with LEF" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="product_feature" content="" />
+<meta name="product_subfeature" content="" />
+<meta name="Version" content="5.8" />
+<meta name="SpaceKey" content="lefdefref58" />
+<meta name="webflare-version" content="1.5" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="lefdefrefTOC.html">Contents</a></li><li><a class="prev" href="DEFINEandALIAS.html" title="ALIAS Statements">ALIAS Statements</a></li><li style="float: right;"><a class="viewPrint" href="lefdefref.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="DEFSyntax.html" title="DEF Syntax">DEF Syntax</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>LEF/DEF 5.8 Language Reference<br />Product Version 5.8, March 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>7
+<a id="pgfId-918624"></a></h1>
+<h1>
+<a id="pgfId-922000"></a><hr />
+<a id="29244"></a>Working with LEF<hr />
+</h1>
+
+<p>
+<a id="pgfId-922001"></a>This chapter contains information about the following topics. </p>
+<ul><li>
+<a id="pgfId-922005"></a><a href="WorkingwithLEF.html#32059">Incremental LEF</a></li><li>
+<a id="pgfId-921485"></a><a href="WorkingwithLEF.html#41350">Error Checking</a></li></ul>
+
+
+<h2>
+<a id="pgfId-918646"></a><a id="32059"></a>Incremental LEF</h2>
+
+<p>
+<a id="pgfId-918647"></a><code>INPUT LEF</code> can add new data to the current database, providing an incremental LEF capability. Although it is possible to put an entire LEF library in one file, some systems require that you put certain data in separate files. </p>
+<p>
+<a id="pgfId-918648"></a>This feature also is useful, for example, when combined with the <code>INPUT GDSII</code> command, to extract geometric data from a GDSII-format file and add the data to the database. </p>
+<p>
+<a id="pgfId-918649"></a>When using <code>INPUT LEF</code> on a database that has been modified previously, save the previous version before invoking <code>INPUT LEF</code>. This provides a backup in case the library information has problems and the database gets corrupted or lost.<a id="marker-918650"></a></p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-918652"></a>
+<a id="marker-918651"></a>The original LEF file, created with <code>FINPUT LEF</code> (or with <code>INPUT LEF</code> when no database is loaded), must contain all the layers.</div>
+<h4>
+<a id="pgfId-918653"></a>Adding Objects to the Library</h4>
+
+<p>
+<a id="pgfId-918654"></a><code>INPUT LEF</code> can add the following objects to the database:</p>
+<ul><li>
+<a id="pgfId-918655"></a>New via</li><li>
+<a id="pgfId-918656"></a>New via rule</li><li>
+<a id="pgfId-918657"></a>Samenet spacings (if none have been specified previously)</li><li>
+<a id="pgfId-918658"></a>New macro</li></ul>
+
+
+
+<p>
+<a id="pgfId-918659"></a>If geometries have not been specified for an existing via, <code>INPUT LEF</code> can add layers and associated rectangle geometries. If not specified previously for a macro, <code>INPUT LEF</code> can add the following:</p>
+<ul><li>
+<a id="pgfId-918660"></a><code>FOREIGN</code> statement</li><li>
+<a id="pgfId-918661"></a>EEQ</li><li>
+<a id="pgfId-918662"></a>LEQ</li><li>
+<a id="pgfId-918663"></a>Size</li><li>
+<a id="pgfId-918664"></a>Overlap geometries</li><li>
+<a id="pgfId-918665"></a>Obstruction geometries</li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-918666"></a>If not previously specified for an existing macro pin, <code>INPUT LEF</code> can add the following:</p>
+<ul><li>
+<a id="pgfId-918667"></a>Mustjoins</li><li>
+<a id="pgfId-918668"></a>Ports and geometries</li></ul>
+
+<p>
+<a id="pgfId-918669"></a>The database created by <code>INPUT LEF</code> can contain a partial library. Run <code>VERIFY LIBRARY</code> before proceeding. </p>
+<p>
+<a id="pgfId-918670"></a>If new geometries are added to a routed database, run <code>VERIFY GEOMETRY</code> and <code>VERIFY CONNECTIVITY</code> to identify new violations.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-918671"></a>
+When defining a pin with no port geometries with the intent of incrementally adding them, <em>do not</em> include an empty <code>PORT</code> statement as shown below.</div>
+<a id="pgfId-923027"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+MACRO abc
+...
+PIN a
+      ...
+      PORT  # dummy pin-port, do not
+      END   # include these two lines
+END a
+...</pre>
+<h2>
+<a id="pgfId-918868"></a><a id="41350"></a>Error Checking<a id="Error Checking"></a></h2>
+
+<p>
+<a id="pgfId-918871"></a><a id="marker-918869"></a><a id="marker-918870"></a>To help develop, test, and debug generic libraries and parametric macros, LEF and DEF have a user-defined error checking facility. This facility consists of seven utilities that you can use from within a LEF or DEF file during the scanning phase of LEF/DEF readers. These utilities have the following features:</p>
+<ul><li>
+<a id="pgfId-918872"></a>A message facility that writes to one or more text files during LEF or DEF input</li><li>
+<a id="pgfId-918873"></a>An error handling facility that logs user detected warnings, errors, and fatal errors</li></ul>
+
+<p>
+<a id="pgfId-918874"></a>The error checking utilities have the following syntax:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-918875"></a>&amp;CREATEFILE &amp;fileAlias = 
+&#160;&#160;&#160;&#160;{ <code><em>stringExpression</em></code> 
+&#160;&#160;&#160;&#160;| <code><em>stringIF</em></code><em>-</em><code><em>ELSEexpression</em></code> } ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-918876"></a>&amp;OPENFILE &amp;fileAlias ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-918877"></a>&amp;CLOSEFILE &amp;fileAlias ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-918878"></a>&amp;MESSAGE 
+&#160;&#160;&#160;&#160;{&amp;fileAlias | &amp;MSGWINDOW} = <code><em>message</em></code>;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-918879"></a>&amp;WARNING 
+&#160;&#160;&#160;&#160;{&amp;fileAlias | &amp;MSGWINDOW} = <code><em>message</em></code> ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-918880"></a>&amp;ERROR 
+&#160;&#160;&#160;&#160;{&amp;fileAlias | &amp;MSGWINDOW} = <code><em>message</em></code> ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-918881"></a>&amp;FATALERROR 
+&#160;&#160;&#160;&#160;{&amp;fileAlias | &amp;MSGWINDOW} = <code><em>message</em></code>;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-918883"></a><code><em>message</em></code> =
+&#160;&#160;&#160;&#160;{ &amp;fileAlias | <code><em>stringExpression</em></code> 
+&#160;&#160;&#160;&#160;| <code><em>stringIF</em></code><em>-</em><code><em>ELSEexpression<br /></em></code> | <code><em>stringIFexpression</em></code> }</pre>
+<h3>
+<a id="pgfId-918885"></a><a id="27118"></a>Message Facility<a id="Message Facility"></a></h3>
+
+<p>
+<a id="pgfId-918886"></a>The message facility outputs user-defined messages during the scanning phase of LEF and DEF input. These messages can be directed to the message window.</p>
+
+<h4><em>
+<a id="pgfId-918887"></a>&amp;CREATEFILE</em></h4>
+
+<p>
+<a id="pgfId-918888"></a>The <code>&amp;CREATEFILE</code> utility first assigns a token (<em>&amp;fileAlias</em>) to represent a named file. The file name is derived from a previously defined string, a quoted string, or an <code>IF-ELSE</code> expression that evaluates to a string. The following example illustrates these three cases.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-918889"></a>&amp;DEFINES &amp;messagefile = &quot;demo1.messages&quot; ;
+&amp;CREATEFILE &amp;outfile = &amp;messagefile ;
+&amp;CREATEFILE &amp;msgs = 
+&#160;&#160;&#160;&#160; &quot;/usr/asics/cmos/fif4/errors.txt&quot; ;<br />&amp;CREATEFILE &amp;messages = 
+&#160;&#160;&#160;&#160; IF &amp;errortrap <br />   THEN &quot;errs.txt&quot;<br />   ELSE &quot;/dev/null&quot; ;</pre>
+
+<p>
+<a id="pgfId-918890"></a>The derived file name must be a legal file name in the host environment. The default directory is the current working directory. The file names are case sensitive.</p>
+<p>
+<a id="pgfId-918891"></a><code>&amp;CREATEFILE</code> creates an empty file with the given name and opens the file. If the token is already bound to another open file, a warning is issued, the file is closed, and the new file is opened. If the file already exists, the version number is incremented.</p>
+
+<h4><em>
+<a id="pgfId-918892"></a>&amp;CLOSEFILE and &amp;OPENFILE</em></h4>
+
+<p>
+<a id="pgfId-918893"></a>The <code>&amp;CLOSEFILE</code> utility closes the file bound to a given token; <code>&amp;OPENFILE</code> opens the file bound to a given token. <code>&amp;CLOSEFILE</code> and <code>&amp;OPENFILE </code>control the number of open files. Each operating system has a limit for the number of open files. Therefore, <code>&amp;CLOSEFILE</code> might be needed to free up extra file descriptors. </p>
+<p>
+<a id="pgfId-918894"></a>Files are closed in the following ways.</p>
+<ul><li>
+<a id="pgfId-918895"></a>All user files are closed at the end of the scanning phase of the LEF and DEF readers.</li><li>
+<a id="pgfId-918896"></a>All user files are closed if the scanning phase aborts.</li><li>
+<a id="pgfId-918897"></a>If <code>&amp;CREATEFILE</code> is invoked with a token that is already bound to an open file, that file is closed before opening the new file.</li></ul>
+
+
+
+<h4><em>
+<a id="pgfId-918898"></a>&amp;MESSAGE</em></h4>
+
+<p>
+<a id="pgfId-918899"></a>The <code>&amp;MESSAGE</code> utility appends text to the file represented by the <em>&amp;fileAlias </em>token, or to the message window if <code>&amp;MSGWINDOW </code>is specified.</p>
+<p>
+<a id="pgfId-918900"></a><code>&amp;MSGWINDOW</code> is a special file alias that is not created, opened, or closed. The assigned expression (right side of the statement) can be one of the following:</p>
+
+<p><strong>
+<a id="pgfId-918901"></a><span class="webflare-courier-new" style="white-space:pre"><em>&amp;fileAlias</em></span></strong></p>
+
+<p class="webflare-indent1">
+<a id="pgfId-923664"></a>Must correspond to a valid file that has been successfully opened. The contents of the file are appended to the target file (or message window).</p>
+
+<p><strong>
+<a id="pgfId-923672"></a><span class="webflare-courier-new" style="white-space:pre"><em>stringExpression</em></span></strong></p>
+
+<p class="webflare-indent1">
+<a id="pgfId-923709"></a>Either a string or a string token.<br />
+For example:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-923710"></a>    &amp;DEFINES &amp;romword16 = <br />     &quot;ROM word size = 16 bits&quot; ;<br />    &amp;MESSAGE &amp;mesgs = &quot;ROM size = 256&quot; ;<br />    &amp;MESSAGE &amp;mesgs = &amp;romword16 ;</pre>
+<p><strong>
+<a id="pgfId-918905"></a><span class="webflare-courier-new" style="white-space:pre"><em>stringIF-ELSEexpression</em></span></strong></p>
+
+<p class="webflare-indent1">
+<a id="pgfId-923718"></a>String <code>IF-ELSE</code> expressions evaluate a Boolean expression and then branch to string values, for example:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-918906"></a>    &amp;&amp;MESSAGE &amp;mesgs =<br />     IF (&amp;&amp;c_flag = 0)<br />      THEN &quot;FLAG C set to 0&quot;<br />     ELSE IF ( &amp;&amp;c_flag = 1 )<br />      THEN &quot;FLAG C set to 1&quot;<br />     ELSE &quot;FLAG C set to 2&quot; ;</pre>
+
+<p class="webflare-indent1">
+<a id="pgfId-918907"></a>As shown in this example, <code>IF-ELSE</code> expressions can be nested.</p>
+
+<p><strong>
+<a id="pgfId-923730"></a><span class="webflare-courier-new" style="white-space:pre"><em>stringIFexpression</em></span></strong></p>
+
+<p class="webflare-indent1">
+<a id="pgfId-923737"></a>A string <code>IF</code> expression is an <code>IF-ELSE</code> expression without the <code>ELSE</code> phrase. The Boolean expression is evaluated, and if true, the <code>THEN</code> string is sent to the target file; if false, no string is sent, for example,</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-918909"></a>    &amp;MESSAGE &amp;mesgs = <br />     IF ( &amp;&amp;buf = &quot;INV_BIG&quot; )<br />      THEN &quot;INV_BIG buffers&quot; ;</pre>
+
+<p>
+<a id="pgfId-918910"></a>Neither the file alias token nor <code>&amp;MSGWINDOW</code> can be part of the assigned expression.</p>
+
+<h3>
+<a id="pgfId-918911"></a><a id="20354"></a>Error-Checking Facility<a id="Error-Checking Facility"></a></h3>
+
+<p>
+<a id="pgfId-918913"></a>In addition to the message facility, you have partial control of the error checking facility of the LEF and DEF readers. When scanning LEF or DEF input, the readers record warnings, errors, and fatal errors. At the end of the scan, the total number of each is sent to the message window before proceeding with the reader phase. </p>
+<p>
+<a id="pgfId-918914"></a>If a fatal error is detected, input is aborted after the scanning phase.</p>
+<p>
+<a id="pgfId-918915"></a>With the user interface to the error checking facility, the LEF and DEF files can include custom error checking. User detected warnings, errors, and fatal errors, can be logged, thereby incrementing the DEF/LEF reader&#8217;s warning, error, and fatal error counts. </p>
+<p>
+<a id="pgfId-918916"></a>A user-detected fatal error terminates input just as with the resident error checking facility. In addition, the user defined error checking facility utilities can send message strings to the message window.</p>
+
+<h4><em>
+<a id="pgfId-918917"></a>&amp;WARNING, &amp;ERROR, and &amp;FATALERROR </em></h4>
+
+<p>
+<a id="pgfId-918918"></a>The <code>&amp;WARNING</code>, <code>&amp;ERROR</code>, and <code>&amp;FATALERROR</code> utilities use the same syntax as the <code>&amp;MESSAGE</code> utility. These utilities can send message strings to files and to the message window in the same manner as <code>&amp;MESSAGE</code>. In addition, when the assigned expression is a string <code>IF</code> expression, or a string <code>IF-ELSE</code> expression, then the associated counter (warnings, errors, or fatal errors) is incremented by 1 if any <code>IF</code> condition evaluates to true.</p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="DEFINEandALIAS.html" id="prev" title="ALIAS Statements">ALIAS Statements</a></em></b><b><em><a href="DEFSyntax.html" id="nex" title="DEF Syntax">DEF Syntax</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

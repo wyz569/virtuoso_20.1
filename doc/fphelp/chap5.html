@@ -1,0 +1,572 @@
+
+<html><head><title>I/O Planning and Placement</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="spriya" />
+<meta name="CreateDate" content="2020-09-20" />
+<meta name="CreateTime" content="1600670095" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="You can use this manual as a reference for the Virtuoso Floorplanner, which includes automatic and interactive floorplanning tools that let you specify the rough topology of a physical chip." />
+<meta name="DocTitle" content="Virtuoso Floorplanner User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="I/O Planning and Placement" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="fphelp" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-20" />
+<meta name="ModifiedTime" content="1600670095" />
+<meta name="NextFile" content="chap6.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="chap4.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Floorplanner User Guide -- I/O Planning and Placement" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="fphelpICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="fphelpTOC.html">Contents</a></li><li><a class="prev" href="chap4.html" title="Reinitializing the Design">Reinitializing the Design</a></li><li style="float: right;"><a class="viewPrint" href="fphelp.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="chap6.html" title="Placing Blocks">Placing Blocks</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Floorplanner User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>4
+<a id="pgfId-1035470"></a></h1>
+<h1>
+<a id="pgfId-1035472"></a><hr />
+<a id="19872"></a>I/O Planning and Placement<hr />
+</h1>
+<h2>
+<a id="pgfId-1084563"></a>Introduction to IO Planning</h2>
+
+<p>
+<a id="pgfId-1058511"></a>The IO placement engine consists of set of commands by which user can optimize IO position. It is a row based placement methodology. The first step in IO planning and placement is to create IO rows. Once the IO rows are created, then place PADs inside the IO rows. After PADs are placed inside the IO rows, you can insert filler cells in the gaps between the pads and the rows. Thereafter, you can place corner cells on the 4 corners of the design. </p>
+<p>
+<a id="pgfId-1076689"></a>The following commands have been provided for IO placement engine in the Virtuoso platform:</p>
+<ul><li>
+<a id="pgfId-1075762"></a><a href="chap5.html#39269">Row Creation</a> <br />
+<a id="pgfId-1079194"></a>Creates IO rows of PAD type siteDefs available in technology.</li><li>
+<a id="pgfId-1075763"></a><a href="chap5.html#11253">PAD Placement</a> <br />
+<a id="pgfId-1079208"></a>Places celltype of PAD instances in IO rows.</li><li>
+<a id="pgfId-1075775"></a><a href="chap5.html#67344">Filler Cells</a> <br />
+<a id="pgfId-1079218"></a>Inserts filler cells once Pads instances are placed to maintain signal continuity in the IO row.</li><li>
+<a id="pgfId-1075765"></a><a href="chap5.html#92070">Corner Cells</a><br />
+<a id="pgfId-1079229"></a>Inserts corner cells not in the row but in between the rows to maintain signal continuity between IO ring.</li></ul>
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1075769"></a>The following diagram describes the flow of IO placement engine.</p>
+<p>
+<a id="pgfId-1076704"></a></p>
+
+<div class="webflare-div-image">
+<img width="668" height="491" src="images/chap5-2.gif" /></div>
+<h3>
+<a id="pgfId-1076732"></a>Database Preparation </h3>
+
+<p>
+<a id="pgfId-1078598"></a>In database preparation, IO Placer requires information about the technology file, Site pattern, and cell type for pads, fillers, and corners.</p>
+<p>
+<a id="pgfId-1078599"></a>In <h-hot><a actuate="user" class="URL" href="../ascitechfile/ascitechfileTOC.html#firstpage" show="replace" xml:link="simple">technology file</a></h-hot>, ensure that at least one SiteDefs exists and is of PAD type.</p>
+<p>
+<a id="pgfId-1078600"></a>Site pattern - for each instance, that is, pad, corner, filler, you can define a site pattern. A site pattern is a set of sitedefs. The site definition is read from the technology file. For more information on how to set site definition, refer to the <em><a actuate="user" class="URL" href="../ascitechfile/ascitechfileTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso Technology Data ASCII Files Reference</a></em> user guide.</p>
+<p>
+<a id="pgfId-1077671"></a><a href="chap2.html#95824">Setting the Cell Type</a> - The various CellTypes for the I/O planning and placement are shown in the table below:</p>
+<table class="webflareTable" id="#id1077672">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1077674">
+<a id="pgfId-1077674"></a>I/O</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1077676">
+<a id="pgfId-1077676"></a>OpenAccess Object</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1077678">
+<a id="pgfId-1077678"></a>Cell Type</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1077680">
+<a id="pgfId-1077680"></a>Supported By</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077682"></a>I/O</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077684"></a>PadCellType<br /></p>
+<p>
+<a id="pgfId-1077685"></a>PadSpacerCellType</p>
+<p>
+<a id="pgfId-1077686"></a>CornerCellType</p>
+<p>
+<a id="pgfId-1077687"></a>PadAreaIOCellType</p>
+<p>
+<a id="pgfId-1077688"></a>CoverBumpCellType </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077690"></a>pad<br />padAreaIO</p>
+<p>
+<a id="pgfId-1077691"></a>padSpacer</p>
+<p>
+<a id="pgfId-1077692"></a>corner</p>
+<p>
+<a id="pgfId-1077693"></a>padAreaIO</p>
+<p>
+<a id="pgfId-1077694"></a>coverBump</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077696"></a>PAD placement<br /></p>
+<p>
+<a id="pgfId-1077697"></a>Filler Cell</p>
+<p>
+<a id="pgfId-1077698"></a>Corner Cell</p>
+<p>
+<a id="pgfId-1077699"></a>Not Supported</p>
+<p>
+<a id="pgfId-1077700"></a>Not Supported</p>
+</td>
+</tr>
+</tbody></table>
+
+<h2>
+<a id="pgfId-1076353"></a><a id="56217"></a><a id="39269"></a><a id="iorowcreate"></a>Row Creation</h2>
+
+<p>
+<a id="pgfId-1076354"></a>In Floorplanner, the first step that IO planning and placement has is to create IO rows. The rows determine the legal placement area for pads, where to place the PADs and the type of PADs that are to be placed. You can manually create rows and use IO Placer with manually created rows. However, the manually created rows need to have the right settings. There is no restriction on where should the rows be created. Also, it is not mandatory to create rows on the periphery.</p>
+<p>
+<a id="pgfId-1080393"></a></p>
+
+<div class="webflare-div-image">
+<img src="images/RowCreate.gif" /></div>
+
+<p>
+<a id="pgfId-1077182"></a>To create rows, you can click the <em>Floorplan &#8211; I/O Placer</em> - <em>I/O Row Create</em> command. The Create IO Row form is displayed.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1082843"></a>
+(ICADVM20.1 Only) In Layout EXL, choose <em>Plan &#8211; I/O Planning &#8211; I/O Row Create</em>.</div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1077208"></a>The site definition of the type &#8216;PAD&#8217; will be read from the technology file and displayed in the <em>Site Pattern</em> fields. If there is no site definition of type PAD available, the row creation UI is not displayed.</div>
+<p>
+<a id="pgfId-1077212"></a></p>
+
+<div class="webflare-div-image">
+<img width="668" height="482" src="images/chap5-5.gif" /></div>
+
+<p>
+<a id="pgfId-1077201"></a>In the Create IO Row form, the <em>Rows Per Side</em> section has two options,<em> One Row</em> and <em>Two Rows</em>. <em>One Row</em> is selected by default and the options for Row 1 are displayed. A maximum of two rows can be created on each side (i.e. TOP, LEFT, BOTTOM, and RIGHT) of the top level boundary. If you want to create two rows on each side, select <em>Two Rows</em>. This will insert the UI for the second row, as displayed in the following figure</p>
+
+<p>
+<a id="pgfId-1077124"></a></p>
+<div class="webflare-div-image">
+<img src="images/iorow.gif" /></div>
+
+<p>
+<a id="pgfId-1077600"></a>To create a row, you need to specify the row site patterns and their orientation for each side from the <em>Site Pattern </em>and <em>Site Orient</em> combo fields, respectively and then click <em>OK</em>. This will create the row at the appropriate position. If the row already exists at the position where new row is to be created, the existing pad rows will be replaced by the new row. If you run this command again and some rows already exists, they will be deleted automatically.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1077611"></a>The site pattern is extracted from the technology file. The site orientation is the relative orientation of the pad inside the row and not the final pad orientation.</div>
+
+<p>
+<a id="pgfId-1077739"></a></p>
+<div class="webflare-div-image">
+<img src="images/sitePattern.gif" /></div>
+<h2>
+<a id="pgfId-1058533"></a><a id=""></a><a id="11253"></a>PAD Placement</h2>
+
+<p>
+<a id="pgfId-1075800"></a>PAD placement is an essential part of the IO placement methodology. It is the next step after row creation in IO Placer. IO rows should be present before running PAD placement. The PADs are placed on the periphery of the design in the IO rows. </p>
+<p>
+<a id="pgfId-1076774"></a>To place PADS on IO rows, click the <em>Floorplan &#8211; I/O Placer &#8211; I/O PAD Placer</em> command. The IO PAD Placer form is displayed.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1082862"></a>
+(ICADVM20.1 Only) In Layout EXL, choose <em>Plan &#8211; I/O Planning &#8211; I/O Pad Placer</em>.</div>
+
+<p>
+<a id="pgfId-1076668"></a></p>
+
+<div class="webflare-div-image">
+<img width="668" height="330" src="images/chap5-8.gif" /></div>
+
+<p>
+<a id="pgfId-1076670"></a>The IO PAD Placement form has two sections &#8212; <em>Style</em> and <em>Spacing</em>. When the IO Placer form is invoked, you can select the placement style and put the placement constraints if required.</p>
+
+<h3>
+<a id="pgfId-1072514"></a>Style</h3>
+
+<p>
+<a id="pgfId-1076403"></a>There are two types of placement styles that are supported, Connectivity Based and Non-Connectivity Based. The Style section allows you to select either &#8216;Connectivity Based&#8217; or &#8216;Non Connectivity Based&#8217; style of placement. By default, Connectivity Based style is selected.</p>
+<ul><li>
+<a id="pgfId-1072502"></a><em>Connectivity Based </em><br />
+<a id="pgfId-1079257"></a>You can use this option to place the PADs in the rows minimizing the net length between the PADs and the placed blocks in the design. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1077275"></a>The assumption is that in Connectivity mode, the core instances re placed inside the prBoundary.</div></li><li>
+<a id="pgfId-1058542"></a><em>Non Connectivity Based</em><br />
+<a id="pgfId-1079267"></a>This option enables you to distribute the PADs around the periphery of the design boundary without considering the connectivity between PADs and blocks placed in the design. </li></ul>
+
+
+
+
+
+<h3>
+<a id="pgfId-1075518"></a>Spacing</h3>
+
+<p>
+<a id="pgfId-1058547"></a>Spacing constraints defines the inter spacing between the PADs in a given row. This is a post processing step for the PAD placement engine. To define the inter spacing between PADs on per row basis, you can select any one of the following four spacing constraints</p>
+<ul><li>
+<a id="pgfId-1075530"></a><em>None</em> <br />
+<a id="pgfId-1079277"></a>This option is selected by default. This means that all the placement constraints are OFF by default and pads will be placed with spacing value 0.</li><li>
+<a id="pgfId-1075541"></a><em>Even</em> <br />
+<a id="pgfId-1079287"></a><em>Y</em>ou can select this option to distribute PADs evenly (with same spacing between PADs) in the designated row.</li><li>
+<a id="pgfId-1075546"></a><em>Abut</em> <br />
+<a id="pgfId-1079297"></a>This option guides the placement engine to abut the PADs in the designated row. The selection of abutment will depend upon the row side.<ul><li>
+<a id="pgfId-1075552"></a>If the row is horizontal (TOP or BOTTOM), then the choices are &#8216;LEFT&#8217;, &#8216;RIGHT&#8217;, and &#8216;CENTER&#8217;. </li><li>
+<a id="pgfId-1075553"></a>If the row is vertical (LEFT or RIGHT), then the choices are &#8216;TOP&#8217;, &#8216;BOTTOM&#8217;, and &#8216;CENTER&#8217;.</li></ul><br />
+<a id="pgfId-1075565"></a>For example you may specify area as <em>Left</em>, <em>Right</em>, and <em>Center</em> for the top and bottom rows and <em>Top</em>, <em>Bottom</em>, and <em>Center</em> for the left and right rows. </li></ul>
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1075566"></a>The following figure describes the various areas for each row.</p>
+
+<div class="webflare-div-image">
+<img width="668" height="441" src="images/chap5-9.gif" /></div>
+
+<p>
+<a id="pgfId-1058603"></a>The following table lists the various abutment options.<a id="64850"></a></p>
+<table class="webflareTable" id="#id1058581">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1058583">
+<a id="pgfId-1058583"></a>Rows</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1058585">
+<a id="pgfId-1058585"></a>Area</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1058587"></a>Top</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1058589"></a>Center, Left, Right</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1058591"></a>Bottom</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1058593"></a>Center, Left, Right</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1058595"></a>Left</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1058597"></a>Center, Top, Bottom</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1058599"></a>Right</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1058601"></a>Center, Top, Bottom</p>
+</td>
+</tr>
+</tbody></table>
+<ul><li>
+<a id="pgfId-1077058"></a>Custom <br />
+<a id="pgfId-1079310"></a><em>This option guides the placement engine to place the PAD with the specified inter spacing value.</em></li></ul>
+
+
+<h3>
+<a id="pgfId-1077276"></a>Supported Constraints</h3>
+
+<p>
+<a id="pgfId-1079009"></a>The IO Pad Placer supports the following constraints:</p>
+<ul><li>
+<a id="pgfId-1079156"></a>Fixed/Locked Constraint <br />
+<a id="pgfId-1079320"></a>IOPlacer does not place PADS that have the fixed or locked constraints. <sup>The following table lists the placement status of I/Os before and after I/O placement.</sup><br /><table class="webflareTable" id="#id1079157">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1079159">
+<a id="pgfId-1079159"></a>Placement status before I/O Placement </span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1079161">
+<a id="pgfId-1079161"></a>Placement status after I/O Placement</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1079167"></a>Placed</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1079169"></a>Placed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1079171"></a>Firm</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1079173"></a>Firm</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1079175"></a>Locked</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1079177"></a>Locked</p>
+</td>
+</tr>
+</tbody></table></li><li>
+<a id="pgfId-1079781"></a><a actuate="user" class="URL" href="../constraints/appA.html#alignmentOrientation" show="replace" xml:link="simple">Alignment Constraint</a> <br />
+<a id="pgfId-1079782"></a>You need to specify the side (TOP, BOTTOM, LEFT, RIGHT) for pad instances.<br />
+<a id="pgfId-1079953"></a>IO Placer preserves the order in which the pad instances are placed in the design. In some cases, you may need to set the <em>PreserveOrder</em> parameter of the alignment constraint to <code>TRUE</code> to get the required results.</li><li>
+<a id="pgfId-1077283"></a><a actuate="user" class="URL" href="../constraints/appA.html#orientationConstraint" show="replace" xml:link="simple">Orientation Constraint</a> <br />
+<a id="pgfId-1079340"></a>You need to specify the orientation for pad instances.</li><li>
+<a id="pgfId-1079937"></a>Spacing constraints <br />
+<a id="pgfId-1079938"></a>The spacing constraint is defined in the IO Pad Placement form (Even, Abut, and Custom).</li><li>
+<a id="pgfId-1079073"></a>Placement Blockage<br />
+<a id="pgfId-1079350"></a>I/O Pad Placer respects placement blockages and pre-placed instances and does not allow you to place an instance in the design. This means while placing a PAD, if an instance is found on a location where the PAD is to be placed, the placement of the PAD is accordingly adjusted leaving the instance as is.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1077061"></a><a id="insertfiller"></a><a id="67344"></a>Filler Cells</h2>
+
+<p>
+<a id="pgfId-1075872"></a>The Filler cells insertion is needed to maintain signal continuity in the IO ring for power and ground distribution and for ElectroStatics Discharge (ESD) protection reasons.</p>
+
+<p>
+<a id="pgfId-1076054"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="261" src="images/chap5-10.gif" /></div>
+
+<p>
+<a id="pgfId-1076042"></a>Filler cells insertion is done after PAD placement is done in the IO rows of the design. The filler cells are inserted in the empty space between PADs in an IO row. In order to fill the gap, the filler instances with the exact height matching the row site height are chosen. This is done to minimize the number of filler cells that are inserted by the insert filler engine. The filler cells that are to be inserted will be used from the Filler Cells table in the Insert Filler Cells form.</p>
+<p>
+<a id="pgfId-1076059"></a>To insert filler cells, you first need to define the design area. It could either be an entire design or a selected region of a design. After defining the design area, select the filler cells from the libraries that are to be used. </p>
+<p>
+<a id="pgfId-1080690"></a>To open the Insert Filler Cells form click the <em>Floorplan &#8211; I/O Placer &#8211; </em>Insert Filler command. The Insert Filler Cells form is displayed. </p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1082884"></a>
+(ICADVM20.1 Only) In Layout EXL, all Floorplan commands are available under the <em>Plan</em> menu.</div>
+
+<p>
+<a id="pgfId-1082881"></a>The Insert Filler Cells form has three sections.</p>
+<ul><li>
+<a id="pgfId-1075935"></a>Region Selection Mode</li><li>
+<a id="pgfId-1075953"></a>Select Filler Cells</li><li>
+<a id="pgfId-1075958"></a>Filler Instance Attribute<br />
+<a id="pgfId-1076498"></a><div class="webflare-div-image">
+<img src="images/InsertFiller.gif" /></div></li></ul>
+
+
+
+
+
+<h3>
+<a id="pgfId-1075910"></a>Region Selection Mode</h3>
+
+<p>
+<a id="pgfId-1076855"></a>In this section, you can select either of the two modes, i.e, work on entire design or work on a selected region.</p>
+<ul><li>
+<a id="pgfId-1079429"></a><em>Entire Design</em><br />
+<a id="pgfId-1079430"></a>Enables you to select the entire design for inserting filler cells. This means that filler cells will be inserted in all the IO rows of the design.</li><li>
+<a id="pgfId-1079431"></a>Selected Region <br />
+<a id="pgfId-1079439"></a>Enables you to select a region for inserting filler cells. This means that only few IO rows need to be used for filler insertions.<ul><li>
+<a id="pgfId-1075967"></a><em>Draw</em> <br />
+<a id="pgfId-1079452"></a>Clicking <em>Draw</em> will enable you to select the area of the design in the canvas, on which operation needs to be performed. This will automatically populate the <em>Coordinates</em> field accordingly.</li><li>
+<a id="pgfId-1075966"></a><em>Coordinates</em> <br />
+<a id="pgfId-1079468"></a>Defines the coordinates of the selected region. You can manually edit the value in the coordinates.</li><li>
+<a id="pgfId-1079493"></a><em>Zoom to</em><br />
+<a id="pgfId-1079494"></a>Clicking the <em>Zoom to</em> button will zoom in the selected region.</li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1079495"></a>Select Filler Cells</h3>
+
+<p>
+<a id="pgfId-1075973"></a>The Select Filler Cells section facilitates you in selection of few cells from entire gamut of libraries/cells/views. The few selected cells will be used by the engine as filler cells.</p>
+<p>
+<a id="pgfId-1076616"></a>To select a lib:cell:view for the filler cell, do one of the following:</p>
+<ul><li>
+<a id="pgfId-1080720"></a>Type the library, cell, and view names in corresponding fields.</li><li>
+<a id="pgfId-1080731"></a>Click <em>Browse</em> to display the Library Browser window. Select the lib:cell:view name from the window. The value of the selected lib:cell:view name will be displayed in the <em>Library Name</em>, <em>Cell Name</em>, and <em>View Name</em> fields, respectively. You can keep the Library Manager window open and click <em>Add Filler</em> as soon as a new cell is selected.<ul><li>
+<a id="pgfId-1076619"></a><em>Add Filler</em> <br />
+<a id="pgfId-1079509"></a>To add the selected lib:cell:view name as a filler, click <em>Add Filler</em>. The selected lib:cell:view name will be displayed in the filler table. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1080809"></a>Invalid lib:cell:view values are not added to the filler table. An appropriate warning message is displayed in the CIW.</div></li><li>
+<a id="pgfId-1076620"></a><em>Remove Filler </em><br />
+<a id="pgfId-1079524"></a>To delete the selected lib:cell:view name as a filler, click <em>Remove Filler</em>. It will just remove the selected rows from the table.</li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1076001"></a>Filler Instance Attribute</h3>
+
+<p>
+<a id="pgfId-1076860"></a>In this section, you can define the instance name prefix and the placement status of the filler cell.</p>
+<ul><li>
+<a id="pgfId-1079562"></a><em>Instance Name Prefix</em> <br />
+<a id="pgfId-1079563"></a>Contains the instance name prefix, which will be pre-pended to the inserted physical only filler instances. This will help you recognize the filler inserted in a specific row or location for deleting them or doing some edits.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1079596"></a>The physicalOnly attribute is automatically added to the new cells that are inserted.</div></li><li>
+<a id="pgfId-1079597"></a><em>Mark Fillers as Fixed</em> <br />
+<a id="pgfId-1079598"></a>Select this field to specify the placement status of inserted cells as Fixed. By default, the check box is not selected. When the check box is deselected, the placement status of the inserted cells is set to Placed.</li></ul>
+
+
+
+
+<p>
+<a id="pgfId-1077454"></a>After clicking <em>OK</em> or <em>Apply</em> in the Insert Filler Cells form, the filler will be inserted according to their site pattern (to choose the correct row to place them) and then filler cells will be placed from the biggest to the smallest in order to minimize the number of inserted filler cells.</p>
+
+<p>
+<a id="pgfId-1077803"></a></p>
+<div class="webflare-div-image">
+<img width="670" height="508" src="images/chap5-12.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1078322"></a>Filler cells with height less than row site height will not be considered. This is because if we have filler cells lesser than the row site there will be discontinuity in the rails.</div>
+
+<h2>
+<a id="pgfId-1077456"></a><a id="cornercell"></a><a id="92070"></a>Corner Cells</h2>
+
+<p>
+<a id="pgfId-1076108"></a>Corner cells insertion is needed to maintain signal continuity in the IO ring between the IO row power and ground distribution. The four corner cells are required to be placed on the four corners of the design.</p>
+
+<p>
+<a id="pgfId-1061800"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="209" src="images/chap5-13.gif" /></div>
+
+<p>
+<a id="pgfId-1076129"></a>Corner cells insertion and deletion is done after PAD and filler cell placement is done in the IO rows of the design.</p>
+<p>
+<a id="pgfId-1076220"></a>The high level algorithm for corner cells is as follows:</p>
+<ul><li>
+<a id="pgfId-1076221"></a>The list of the selected instances are filled in the corner UI. </li><li>
+<a id="pgfId-1076222"></a>Engine takes the inputs instance name and its orientation for each corner from the UI. </li><li>
+<a id="pgfId-1076223"></a>The corner row is created of appropriate site(s) in the design before placing the corner cells.</li><li>
+<a id="pgfId-1076224"></a>Corner cells will be placed in the appropriate row as per the orientation specified.</li></ul>
+
+
+
+<p>
+<a id="pgfId-1080910"></a>Before inserting corner cells, ensure the following:</p>
+<ul><li>
+<a id="pgfId-1080911"></a>The library has at least four instances with their <code>cellType</code> set to corner. If not, a suitable message is displayed in the CIW.</li><li>
+<a id="pgfId-1080884"></a>The row in which the corner cells must be placed has the same <code>sitePattern</code> as the corner cells. Corner cells can be placed only in rows with matching <code>sitePattern</code>.</li><li>
+<a id="pgfId-1080885"></a>The technology file contains the <code>sitePattern</code> under the <code>siteDefs</code> section. If not, a suitable message is displayed in the CIW.</li></ul>
+
+
+<p>
+<a id="pgfId-1080887"></a>If all the above conditions are met, a corner row of the given <code>sitePattern</code> is created, and cells with <code>cellType</code> corner are inserted in these rows.</p>
+<p>
+<a id="pgfId-1080862"></a>The procedure to insert corner cells is as follows</p>
+<ul><li>
+<a id="pgfId-1076990"></a>Selecting corner instances <br />
+<a id="pgfId-1079381"></a>Ensure that the corner instances are already present in the design. The corner instances can be selected in the following ways:<ul><li>
+<a id="pgfId-1081841"></a>Navigator</li><li>
+<a id="pgfId-1081842"></a>Search Engine</li><li>
+<a id="pgfId-1081837"></a>Canvas Selection</li></ul></li></ul>
+
+
+
+
+<p>
+<a id="pgfId-1076537"></a>Once the corner instances are selected in the design, invoke the Corner Pad Placer command by clicking <em>Floorplan &#8211; I/O Placer</em> - Corner Pad Placer. The Corner Pad Placement form is displayed. The form is by default populated with the selected instances. However, if the corner instances are not selected, the form will not be displayed and a corresponding message is displayed in the status bar.</p>
+
+<p>
+<a id="pgfId-1076554"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="315" src="images/chap5-14.gif" /></div>
+
+<ul><li>
+<a id="pgfId-1076540"></a>Placing the corner - In the Corner Pad Placement form, you can specify another instance for each corner from the Instance Name list. You can also set the orientation for each corner from the Orientation drop-down list box. Once the instance is selected and the orientation is set, click the OK button. A row will be created automatically. Simultaneously, a corner cell is placed in that row.<br />
+<a id="pgfId-1077827"></a><div class="webflare-div-image">
+<img width="667" height="526" src="images/chap5-15.gif" /></div></li></ul>
+
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="chap4.html" id="prev" title="Reinitializing the Design">Reinitializing the Design</a></em></b><b><em><a href="chap6.html" id="nex" title="Placing Blocks">Placing Blocks</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

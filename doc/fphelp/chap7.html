@@ -1,0 +1,2090 @@
+
+<html><head><title>Pin Placement</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="spriya" />
+<meta name="CreateDate" content="2020-09-20" />
+<meta name="CreateTime" content="1600670110" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="You can use this manual as a reference for the Virtuoso Floorplanner, which includes automatic and interactive floorplanning tools that let you specify the rough topology of a physical chip." />
+<meta name="DocTitle" content="Virtuoso Floorplanner User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Pin Placement" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="fphelp" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-20" />
+<meta name="ModifiedTime" content="1600670110" />
+<meta name="NextFile" content="PinAssistant.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="PGG.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Floorplanner User Guide -- Pin Placement" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="fphelpICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="fphelpTOC.html">Contents</a></li><li><a class="prev" href="PGG.html" title="Creating Pin Group Guides">Creating Pin Group Guides</a></li><li style="float: right;"><a class="viewPrint" href="fphelp.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="PinAssistant.html" title="Using the Pin Tool">Using the Pin Tool</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Floorplanner User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>8
+<a id="pgfId-1094091"></a></h1>
+<h1>
+<a id="pgfId-1094093"></a><hr />
+<a id="30747"></a>Pin Placement<hr />
+</h1>
+
+<p>
+<a id="pgfId-1094389"></a>This chapter describes Virtuoso<sup>&#174; </sup>Floorplanner&#8217;s capability to place and optimize pins. This chapter discusses the following topics:</p>
+<ul><li>
+<a id="pgfId-1097460"></a><a href="chap7.html#28778">Pin Planning</a><ul><li>
+<a id="pgfId-1097489"></a><a href="chap7.html#25302">Using the Pin Placement Form</a></li></ul></li><li>
+<a id="pgfId-1097684"></a><a href="chap7.html#46301">Pin Optimization</a><ul><li>
+<a id="pgfId-1100383"></a><a href="chap7.html#67386">Using the Pin Optimization Tab</a></li><li>
+<a id="pgfId-1104710"></a><a href="chap7.html#73132">Synchronizing Pin Optimization Options between Command Line and GUI</a></li><li>
+<a id="pgfId-1104733"></a><a href="chap7.html#46728">Alignment Issues During Pin Optimization</a></li><li>
+<a id="pgfId-1107234"></a><a href="chap7.html#53239">WSP/SP Support (ICADVM20.1 Only)</a></li></ul></li><li>
+<a id="pgfId-1104680"></a><a href="chap7.html#81072"></a><a href="chap7.html#77971">Using a Pin Constraints File</a></li><li>
+<a id="pgfId-1112665"></a><a href="chap7.html#37513">Running the Pin Checker (ICADVM20.1 Only)</a></li></ul>
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1100384"></a>After placing blocks, next you plan<a id="PinPlacementForm"></a> and optimize pins in the layout design. Use either <em>Floorplan &#8211; Pin Planner</em> or <em>Floorplan &#8211; Pin Optimization</em> command to open the Pin Placement form. The Pin Placement form includes the <a href="chap7.html#28778">Pin Planning</a> and <a href="chap7.html#46301">Pin Optimization</a> tabs.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1121123"></a>
+In Layout EXL, these commands are available under <em>Plan &#8211; Pin Planning</em>.</div>
+
+<p>
+<a id="pgfId-1100308"></a>Use Pin Planner to:</p>
+<ul><li>
+<a id="pgfId-1100309"></a>Assign or refine pin constraints, such as the side constraint (Left, Right, Top, Bottom), placement status (Fixed, Locked), and pin order</li><li>
+<a id="pgfId-1100310"></a>Assign or refine pin attributes, such as pin layer and size </li></ul>
+
+<p>
+<a id="pgfId-1100312"></a>When an alignment constraint is defined, a basic placer engine distributes the pins on the edge. For example, if five pins are assigned to the left edge, then the left edge is divided into five sections and the pins and evenly distributed. However, any existing shapes, blockages, or spacing rules on these edges are not considered. Pin planner only provides a visualization of the placement of the pins.</p>
+<p>
+<a id="pgfId-1100314"></a>Pin Optimizer: </p>
+<ul><li>
+<a id="pgfId-1100315"></a>Is a powerful algorithm that intelligently decides where to place the pins in design for optimal wire length, while honoring the constraints</li><li>
+<a id="pgfId-1100316"></a>Determines the placement of pins based on several factors, such as the minimal net length between the pins, routability of pins, and DRC-correct placement, while honoring the blockages, all constraint sets on the pins, including the ones done through Pin Planner.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1109953"></a>
+The Pin Placement form supports level-1 editing even when the top design is open in the read-only mode or when the top design has no pins. You can descend into and edit the soft blocks of such designs.</div></li></ul>
+
+
+
+<h2>
+<a id="pgfId-1096023"></a><a id="28778"></a>Pin Pla<a id="PinPlace"></a>nning</h2>
+
+<p>
+<a id="pgfId-1094102"></a>This section explains how you can use the pin planning functionality to set constraints on and plan the placement of the top-level or level-1 pins in your design.</p>
+
+<div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1093660"></a>
+You can use Pin Planner functionality only if there is a place and route boundary available in the layout view. To generate a place and route boundary, use the <em>Connectivity &#8211; Generate &#8211; All From Source</em><em> </em>command. For more information, see <a actuate="user" class="URL" href="../vxlhelp/chap6.html#designBoundary" show="replace" xml:link="simple">Design Boundary</a> in the <em>Virtuoso Layout Suite XL User Guide</em>.</div>
+<h3>
+<a id="pgfId-1093662"></a><a id="25302"></a>Using the Pin Placement Form</h3>
+
+<p>
+<a id="pgfId-1093663"></a>To use the Pin Placement form:</p>
+<ol><li>
+<a id="pgfId-1093665"></a>Open the Pin Placement form.<br />
+<a id="pgfId-1093666"></a>The <em>Pin Planner</em> tab is displayed listing all the pins in the current scope in the pin table.<br />
+<a id="pgfId-1098061"></a><div class="webflare-div-image">
+<img src="images/pinPlacement.gif" /></div>
+<a id="pgfId-1093667"></a>The entries are expressed as <em>termName:pinName:figName</em> because the pin figure is the physical entity that you are placing. If a pin has more than two pin figures attached to it, but the pin figures have the same name, they are represented by a single entry in the pin table.<br />
+<a id="pgfId-1093668"></a>The constraints generated by Pin Planner also use the <em>termName:pinName:figName</em> convention, thus enabling the constraints system to distinguish between pin figures in constraints from pins. This format is used only when the pin has more than one figure. If a pin has only one figure then the old format <em>termName:pinName</em> is used when creating the constraint.<br />
+<a id="pgfId-1108899"></a>You can filter and otherwise manipulate the list using the controls provided. Click the <em>Pin Name</em> column heading to view an alphanumeric listing of the pins. For example:<ul><li>
+<a id="pgfId-1108900"></a><code>APIN</code> is listed before <code>BPIN</code></li><li>
+<a id="pgfId-1108901"></a><code>APIN2</code> is listed before <code>APIN19</code></li><li>
+<a id="pgfId-1094153"></a>Bus bit <code>APIN&lt;4&gt;</code> is listed before bus bit <code>APIN&lt;18&gt;</code></li></ul><br />
+<a id="pgfId-1101023"></a>When a pin is selected in the pin table, Pin Planner recognizes the corresponding net PRO and displays the values in the <em>Layer</em>, <em>Width</em> and <em>Height</em> fields. You can edit these values manually, while ensuring that the net PRO constraint values are not violated. If the specified pin size is less than the <code>minWidth</code> defined in net PRO, then the pin size is reverted to its original value. If the specified pin <em>Width</em> or <em>Height</em> is equal to or greater than the net PRO value, then the new value is applied. For more information, see <a href="chap2.html#33746">Support for Net PROs in Virtuoso Floorplanner</a>.<br />
+<a id="pgfId-1101171"></a>Pin Planner supports the placement and distribution of member pins in pin groups in the specified guide region. <br />
+<a id="pgfId-1101209"></a><div class="webflare-div-image">
+<img width="668" height="274" src="images/chap7-5.gif" /></div>
+<a id="pgfId-1101223"></a>You can continue to use Pin Planner to create and display side (alignment) constraints for pins. However, if you assign an alignment constraint to a pin that is already part of a pin group guide constraint, then an error message is displayed in the CIW.<br />
+<a id="pgfId-1114009"></a>(ICADVM20.1 Only) The <em>Connectivity</em> column annotates whether pins are connected to buried pins or multiple hard block pins.</li><li>
+<a id="pgfId-1093674"></a>Use this form to do one or more of the following.<ul><li>
+<a id="pgfId-1114571"></a>Place pins in the same relative positions as in the schematic view. Click <em>Schematic</em> in the <em>Place As In</em> section.</li><li>
+<a id="pgfId-1114802"></a>Place pins in the same relative positions as in the symbol view. Click <em>Symbol</em> in the <em>Place As In</em> section. Pin Planner looks for a symbol view at the same location as the schematic view, followed by the layout view. If not found at both locations, an appropriate warning message is displayed and pins are not placed.</li><li>
+<a id="pgfId-1093675"></a>Place pins in fixed positions on the boundary. See:<ul><li>
+<a id="pgfId-1093678"></a><a href="chap7.html#73179">Placing a Pin on a Boundary Edge</a></li><li>
+<a id="pgfId-1093682"></a><a href="chap7.html#75429">Placing Ordered Pins on a Boundary Edge</a></li></ul></li><li>
+<a id="pgfId-1093684"></a>Place pins in fixed positions that are not on the boundary. See:<ul><li>
+<a id="pgfId-1093687"></a><a href="chap7.html#54792">Placing a Pin in a Fixed Position not on the Boundary</a>.</li></ul></li><li>
+<a id="pgfId-1093689"></a>Place pins directly on lower-level instance terminals on the same layer. See:<ul><li>
+<a id="pgfId-1093692"></a><a href="chap7.html#45325">Placing a Pin on a Lower-level Instance Terminal</a></li></ul></li><li>
+<a id="pgfId-1121228"></a>Align level-1 instance pins with the top-level routes. See:<ul><li>
+<a id="pgfId-1121249"></a><a href="chap7.html#38541">Aligning Level-1 Pins to Top-Level Routes</a></li></ul></li><li>
+<a id="pgfId-1121311"></a>Align soft block pins with the level-1 routes. See:<ul><li>
+<a id="pgfId-1121307"></a><a href="chap7.html#70020">Aligning Level-1 Pins with Level-1 Routes</a></li></ul></li><li>
+<a id="pgfId-1093694"></a>(ICADVM20.1 Only) Place soft block or top-level pins that are connected to multiple hard block pins. See:<ul><li>
+<a id="pgfId-1113863"></a><a href="chap7.html#97020">Placing Pins that Are Connected to Hard Block Pins (ICADVM20.1 Only)</a></li></ul></li><li>
+<a id="pgfId-1113852"></a>Place level-1 pins below top-level buried pins. See:<ul><li>
+<a id="pgfId-1113896"></a><a href="chap7.html#85701">Placing Buried Pins (ICADVM20.1 Only)</a></li></ul></li><li>
+<a id="pgfId-1113889"></a>Place pin groups with any given pin pitch spacing. See:<ul><li>
+<a id="pgfId-1093697"></a><a href="chap7.html#15987">Spacing Pins</a></li></ul></li><li>
+<a id="pgfId-1093699"></a>Create vertical and horizontal rails. See:<ul><li>
+<a id="pgfId-1093702"></a><a href="chap7.html#64903">Converting a Pin into a Rail</a></li><li>
+<a id="pgfId-1121271"></a><a href="chap7.html#36818">Converting a Rail into a Pin</a></li></ul></li><li>
+<a id="pgfId-1093704"></a>Report pins and their assigned locations.</li><li>
+<a id="pgfId-1093705"></a>Expand and collapse iterated bus pins (<code>Q&lt;7:0&gt;</code> = <code>Q&lt;7&gt;</code>, <code>Q&lt;6&gt;</code>, <code>Q&lt;5&gt;</code>, and so on.)</li><li>
+<a id="pgfId-1093706"></a>Handle multiple pins on the same net, <code>gnd.1</code> <code>gnd.2</code> <code>gnd.3</code>.</li></ul></li><li>
+<a id="pgfId-1093707"></a>When you have finished setting pin constraints, use the <em>Re-Place Pins</em> pull-down to specify which pins can be moved by the placer. For more information about these options, see <a href="chap7.html#67750">Pin Optimization</a>.</li><li>
+<a id="pgfId-1093711"></a>Click <em>Apply</em> to set the new attributes for the specified pins.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1093712"></a>Pins with placement status as &#8220;none&#8221; or &#8220;unplaced&#8221; will not be reinitialized. Instead, a warning message is issued indicating the presence of such pins.</div></li><li>
+<a id="pgfId-1093713"></a>Click <em>Defaults</em> to return all pins to their default positions.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1101315"></a>
+Using both the Pin Placement form and the Constraint Manager to constrain pins can result in conflicting and redundant constraints. Create pin constraints using <em>either</em> the Pin Placement form or the Constraint Manager and its associated SKILL functions.</div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1101317"></a><a id="73179"></a>Placing a Pin on a Boundary Edge</h4>
+
+<p>
+<a id="pgfId-1101318"></a>To place a pin in a fixed position on the boundary,</p>
+<ol><li>
+<a id="pgfId-1096839"></a>From the layout window menu bar, c<a id="31837"></a>hoose <em>Floorplan &#8211; Pin Planner</em>.<br />
+<a id="pgfId-1096844"></a>The Pin Placement form is displayed.</li><li>
+<a id="pgfId-1096845"></a>Choose <em>Unplaced</em> from the <em>Status or Type</em> drop-down list.<br />
+<a id="pgfId-1093725"></a><div class="webflare-div-image">
+<img width="668" height="171" src="images/chap7-6.gif" /></div></li><li>
+<a id="pgfId-1093727"></a><a id="83772"></a>Select the pin you want to place from the pin table.<br />
+<a id="pgfId-1093728"></a>You can expand iterated bus pins (for example, <code>A&lt;7:0&gt;</code>) using the <em>Expand</em> button in the <em>Iterated Pins</em> group box. This expands the bus into individual pins, which you can then place individually with different constraints.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1130974"></a>Use the <a href="FPenvvars.html#13695">enableNoPinsBetweenBusPins</a> environment variable to disable placement of other pins between bus pins.</div></li><li>
+<a id="pgfId-1093729"></a>From the <em>Edge</em> drop-down list, choose the edge on which the selected pins are to be placed. For rectangular boundaries, the edge sides are listed as <em>Left</em>, <em>Top, Right</em>, <em>Bottom, Level-1 pin,</em> <em>Top-Level Route</em>, <em>To Hard Block Multi Pin</em>, <em>Any, </em>and <em>As is</em>. <br />
+<a id="pgfId-1093730"></a><div class="webflare-div-image">
+<img width="668" height="220" src="images/chap7-7.gif" /></div>
+<a id="pgfId-1093731"></a>For rectilinear boundaries, both the edge numbers and the edge sides are listed.<br />
+<a id="pgfId-1099647"></a><div class="webflare-div-image">
+<img width="668" height="398" src="images/chap7-8.gif" /></div>
+<a id="pgfId-1099655"></a>Edge numbers are assigned in the increasing order, starting with zero, which is assigned to the edge at the right-top vertex, followed by the adjoining edge in the anti-clockwise direction.<br />
+<a id="pgfId-1099648"></a>An edge side for rectilinear boundaries may correspond to one or more edges. In the above example, the &quot;<code>Top</code>&quot; edge side can correspond to edge numbers <code>0</code> or <code>2</code>. Therefore, Pin Planner has a choice of edges.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1099649"></a>The alignment Edge/Side constraint is disregarded and a warning message is displayed in the following situations:</div><ul><li>
+<a id="pgfId-1093732"></a>Situation 1 - Edge number is specified for a cell with a rectangular boundary.</li><li>
+<a id="pgfId-1093733"></a>Situation 2 - The specified edge does not have enough available slots.</li><li>
+<a id="pgfId-1093734"></a>Situation 3 - The PR boundary is not a member of the alignment constraint. </li></ul><br />
+<a id="pgfId-1093735"></a>For situations 1 and 2, although the alignment Edge/Side constraint is disregarded, the pitch value, if set, is honored. For situation 3, however, the pitch value is not honored.</li><li>
+<a id="pgfId-1093736"></a>Choose <em>Fix at Placed Location </em>from the <em>Placement Status Constraint </em>drop-down list.<br />
+<a id="pgfId-1093737"></a><div class="webflare-div-image">
+<img width="668" height="150" src="images/chap7-9.gif" /></div>
+<a id="pgfId-1093738"></a><em>Fix at Placed Location</em> places the pin at a location on the boundary and then fixes the pin at that location, meaning that it cannot be moved by the automatic placement functions; however, you can move it manually, for example, using the <em>Edit &#8211; Move</em> command.<br /><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1093739"></a>
+Use <em>Lock at Placed Location</em> to lock the selected pins after they are placed. A locked pin cannot be moved either by the automatic placement functions or manually by the user.</div></li><li>
+<a id="pgfId-1093740"></a>Click <em>Apply</em> to align the pin to the specified boundary edge in the layout.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1093741"></a>If required, use the <em>Re-Place Pins</em> pull-down to limit the pins that can be moved by the placer when you click <em>Apply</em>. </div>
+<a id="pgfId-1093742"></a>The <em>Status</em> field is updated in the pin table and the label in the <em>Placement Status Constraint </em>field<em> </em>changes to show the coordinates of the center of the pin.</li><li>
+<a id="pgfId-1093743"></a>Repeat <strong>step 3</strong> through <strong>step 6</strong> for each pin you want to place on the boundary.</li><li>
+<a id="pgfId-1104560"></a>Click <em>Close</em> to close the Pin Placement form.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1104562"></a><a id="75429"></a>Placing Ordered Pins on a Boundary Edge</h4>
+
+<p>
+<a id="pgfId-1104563"></a>To place a group of pins in a specific order along a boundary edge:</p>
+<ol><li>
+<a id="pgfId-1093748"></a>From the layout window menu bar, choose <em>Floorplan &#8211; Pin Planner</em>.<br />
+<a id="pgfId-1093752"></a>The Pin Placement form is displayed.</li><li>
+<a id="pgfId-1093753"></a>Select one or more pins from the pin table.<br />
+<a id="pgfId-1093754"></a>Change the order of the pins by selecting a pin in the list and clicking on of the arrows that surround the <em>Move pins</em> label. The up and left arrows move items up in the list; the down and right arrows move items down.<br />
+<a id="pgfId-1093755"></a>Use the <em>Swap order</em> option to swap the position of two selected pins.</li><li>
+<a id="pgfId-1093756"></a>Choose the edge you want from the <em>Edge</em> drop-down list.</li><li>
+<a id="pgfId-1093757"></a>Type a number in the <em>Order</em> field.<br />
+<a id="pgfId-1093758"></a><div class="webflare-div-image">
+<img width="668" height="151" src="images/chap7-10.gif" /></div>
+<a id="pgfId-1093759"></a>You can type any number into the field; the selected pins are assigned an integer based on the order in which they are listed in the pin table.<br />
+<a id="pgfId-1117078"></a>When an <em>Order</em> is specified, the <em>Width</em> and wire <em>Type</em> values are ignored. Pins are placed in adjacent tracks following the specified order. Set the <a href="FPenvvars.html#73814">enableTrackSkipping</a> environment variable to <code>t</code> to honor the pin order along with the width and wire type values. If the adjacent track does not meet the required wire type or width requirements, then tracks are skipped until a suitable track is found.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1117079"></a>By default, <a href="FPenvvars.html#73814">enableTrackSkipping</a> is set to <code>nil</code>. Therefore, pins with order constraint are placed in continuous adjacent tracks meeting the order constraint. The wire type and width requirements are ignored.</div></li><li>
+<a id="pgfId-1093760"></a>Click <em>Apply </em>to apply each pin assignment.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1093761"></a>If required, use the <em>Re-Place Pins</em> pull-down to limit the pins that can be moved by the placer when you click <em>Apply</em>. </div>
+<a id="pgfId-1093762"></a>The pins are aligned to the specified boundary edge in the layout in the order you specified.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1093764"></a><a id="54792"></a>Placing a Pin in a Fixed Position not on the Boundary</h4>
+
+<p>
+<a id="pgfId-1093765"></a>To place a pin in a fixed location not aligned with the boundary,</p>
+<ol><li>
+<a id="pgfId-1093766"></a>From the layout window menu bar, choose <em>Edit &#8211; Move</em>.</li><li>
+<a id="pgfId-1093767"></a>In the layout window, select an unplaced pin and move it to the required location.</li><li>
+<a id="pgfId-1093768"></a>From the layout window menu bar, choose <em>Floorplan &#8211; Pin Planner</em>.<br />
+<a id="pgfId-1093772"></a>The Pin Placement form is displayed.</li><li>
+<a id="pgfId-1093773"></a>Select the pin in the pin table.</li><li>
+<a id="pgfId-1093774"></a>Choose <em>Fix at Placed Location </em>from the <em>Placement Status Constraint</em> drop-down list.</li><li>
+<a id="pgfId-1093775"></a>Click <em>Apply</em>. The pin is fixed at its current location and is not aligned with any edge.</li></ol>
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1093776"></a>You can optionally assign the pin to an edge immediately prior to step 5. If you do this, the pin is fixed at the location but the pin width and design rules are projected to the specified edge. This projection leaves open a channel on the aligned edge for the fixed pin to facilitate better routing from outside the boundary.</div>
+
+<h4>
+<a id="pgfId-1093779"></a><a id="45325"></a>Placing<a id="placePinOnInstTerm"></a> a Pin on a Lower-level Instance Terminal</h4>
+
+<p>
+<a id="pgfId-1093780"></a>To place a pin directly onto its corresponding instance terminal at a lower level of the design hierarchy:</p>
+<ol><li>
+<a id="pgfId-1093781"></a>From the layout window menu bar, choose <em>Floorplan &#8211; Pin Planner</em>. The Pin Placement form is displayed.</li><li>
+<a id="pgfId-1093786"></a>Select the pin from the pin table.</li><li>
+<a id="pgfId-1093787"></a>Choose <em>Level-1 pin </em>from the <em>Edge</em> drop-down list.</li><li>
+<a id="pgfId-1093788"></a>Choose <em>No Constraint (Floating) </em>from the <em>Placement Status Constraint</em> drop-down list.</li><li>
+<a id="pgfId-1093789"></a>Click <em>Apply</em>. The pin you selected is placed over its corresponding instance terminal in the layout window.</li></ol>
+
+
+
+
+<p>
+<a id="pgfId-1113955"></a>The <em>Connectivity</em> column in the pin table annotates whether pins are connected to buried pins or multiple hard block pins. Pins are re-layered and re-sized automatically. Pin labels are updated if the <a href="FPenvvars.html#87265"><h-hot>matchLabelLayerWithPin</h-hot><code></code></a> environment variable is set to <code>t</code>.</p>
+
+<h4>
+<a id="pgfId-1118848"></a><a id="38541"></a>Aligning Level-1 Pins to T<a id="PinAlignToRoute"></a>op-Level Routes</h4>
+
+<p>
+<a id="pgfId-1118874"></a>Pin Planner lets you align level-1 instance pins with the top-level routes to which they are connected. You can also choose to resize the pins to match the dimensions of the corresponding top-level route, as shown in the following diagram:</p>
+
+<p>
+<a id="pgfId-1118876"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="202" src="images/chap7-11.gif" /></div>
+
+<p>
+<a id="pgfId-1118878"></a>To align level-1 instance pins with the top-level routes:</p>
+<ol><li>
+<a id="pgfId-1118879"></a>Select <em>Level-1 Pins</em> in the <em>Edit</em> section of Pin Planner.</li><li>
+<a id="pgfId-1118880"></a>Select <em>Top-Level Route</em> from the <em>Edge</em> drop-down list. </li><li>
+<a id="pgfId-1118881"></a>Click <em>Apply</em>.</li></ol>
+
+
+<p>
+<a id="pgfId-1118883"></a>The pin resize behavior is controlled by the <h-hot><a actuate="user" class="URL" href="../vlehelp/appB.html#alignMatchRefSize" show="replace" xml:link="simple">alignMatchRefSize</a></h-hot> environment variable. Set it to <code>t</code> to enable pin resizing.</p>
+
+<h4>
+<a id="pgfId-1121354"></a><a id="70020"></a>Aligning Level-1 Pi<a id="alignLevel1Route"></a>ns with Level-1 Routes</h4>
+
+<p>
+<a id="pgfId-1123158"></a>Pin Planner lets you align level-1 pins with level-1 routes that belong to the same net. You can also use environment variables to define the following pin settings:</p>
+<ul><li>
+<a id="pgfId-1125778"></a>Relayer the level-1 pin to the same layer as the level-1 route: <a actuate="user" class="URL" href="../vlehelp/appB.html#alignMatchRefLayer" show="replace" xml:link="simple">alignMatchRefLayer</a></li><li>
+<a id="pgfId-1125779"></a>Resize the level-1 pin to match the width of the level-1 route: <a actuate="user" class="URL" href="../vlehelp/appB.html#alignMatchRefSize" show="replace" xml:link="simple">alignMatchRefSize</a></li></ul>
+
+<p>
+<a id="pgfId-1125692"></a>To align pins with the level-1 routes:</p>
+<ol><li>
+<a id="pgfId-1126020"></a>Set the required environment variables in the CIW.</li><li>
+<a id="pgfId-1123159"></a>Select the required pins in the <em>Edit</em> section of Pin Planner.</li><li>
+<a id="pgfId-1123160"></a>Select <em>Level-1 Route</em> from the <em>Edge</em> drop-down list. </li><li>
+<a id="pgfId-1123161"></a>Click <em>Apply</em>.</li></ol>
+
+
+
+<p>
+<a id="pgfId-1121415"></a>Alignment of level-1 pins with level-1 routes is supported in the following scenarios:</p>
+<ul><li>
+<a id="pgfId-1123697"></a><a href="chap7.html#57374">In the Presence of a Guide Pin</a></li><li>
+<a id="pgfId-1123708"></a><a href="chap7.html#24910">In the Absence of a Guide Pin</a></li></ul>
+
+
+<h4><em>
+<a id="pgfId-1123589"></a><a id="57374"></a>In the Presence of a Guide Pin</em></h4>
+
+<p>
+<a id="pgfId-1123015"></a>In the following example, a single net connects the following pins:</p>
+<ul><li>
+<a id="pgfId-1124269"></a>Pin 1 - A level-1 pin <code>clk</code>, located in a subcell </li><li>
+<a id="pgfId-1124361"></a>Pin 2 - A top-level pin placed on a level-1 route, within a layout cell instance</li><li>
+<a id="pgfId-1124526"></a>Pin 3 - A level-1 pin, which is the guide pin, located in the layout cell</li></ul>
+
+
+<p>
+<a id="pgfId-1124205"></a>The <h-hot><a actuate="user" class="URL" href="../vlehelp/appB.html#alignMatchRefSize" show="replace" xml:link="simple">alignMatchRefSize</a></h-hot> environment variable is set to t.</p>
+<p>
+<a id="pgfId-1124203"></a>With the <em>Edge</em> set to <em>Level-1 Route</em>, Pin Planner aligns Pin 1 with the Level-1 route. The guide pin helps retain the net connectivity during pin placement and optimization.</p>
+
+<p>
+<a id="pgfId-1123734"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="622" src="images/chap7-12.gif" /></div>
+<h4><em>
+<a id="pgfId-1121527"></a><a id="24910"></a>In the Absence of a Guide Pin</em></h4>
+
+<p>
+<a id="pgfId-1123683"></a>In the following example, there are no guide pins. Pin A, a level-1 pin, is located in a subcell. It is aligned with a Level-1 route and is resized as per the width of the level-1 route.</p>
+
+<p>
+<a id="pgfId-1121509"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="605" src="images/chap7-13.gif" /></div>
+<h4>
+<a id="pgfId-1110593"></a><a id="97020"></a>Placing Pins that Are Connected to H<a id="PlaceHBPins"></a>ard Block Pins (ICADVM20.1 Only) </h4>
+
+<p>
+<a id="pgfId-1110594"></a>There may be situations where one top-level or level-1 pin is connected to two or more hard block pins. To place such pins:</p>
+<ol><li>
+<a id="pgfId-1110626"></a>From the layout window menu bar, choose <em>Floorplan &#8211; Pin Planner</em>.<br />
+<a id="pgfId-1110627"></a>The Pin Placement form is displayed.</li><li>
+<a id="pgfId-1110628"></a>Select the soft block or top-level pin from the pin table.</li><li>
+<a id="pgfId-1110629"></a>Choose <em>To Hard Block Multi Pin </em>from the <em>Edge</em> drop-down list.</li><li>
+<a id="pgfId-1110658"></a>Choose <em>No Constraint (Floating) </em>from the <em>Placement Status Constraint</em> drop-down list.</li><li>
+<a id="pgfId-1110659"></a>Click <em>Apply</em>.</li></ol>
+
+
+
+
+
+<p>
+<a id="pgfId-1110696"></a>The <em>Connectivity</em> column in the pin table annotates whether pins are connected to buried pins or multiple hard block pins.</p>
+<p>
+<a id="pgfId-1113986"></a>Additional pins are created in the soft block (or at the top-level) to match the number of pins in the hard block. Therefore, each soft block or top-level pin is connected to a corresponding hard block pin, as shown below:</p>
+
+<p>
+<a id="pgfId-1110894"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="312" src="images/chap7-14.gif" /></div>
+
+<p>
+<a id="pgfId-1113525"></a>A summary report is displayed in the CIW that provides detailed information about hard block pin placement:</p>
+
+<p>
+<a id="pgfId-1113550"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="308" src="images/chap7-15.gif" /></div>
+
+<p>
+<a id="pgfId-1113810"></a>The summary report includes the following information:</p>
+<ul><li>
+<a id="pgfId-1116731"></a>A list of messages generated while placing soft block pins that are connected to multiple hard block pin.</li><li>
+<a id="pgfId-1113624"></a>Number of soft pins found.</li><li>
+<a id="pgfId-1113639"></a>Number of soft block pins that are aligned to hard block pins.</li><li>
+<a id="pgfId-1113661"></a>Number of soft block pins that could not be aligned to hard block pins.</li><li>
+<a id="pgfId-1113653"></a>Number of new soft pins created.</li><li>
+<a id="pgfId-1113683"></a>Number of hard pins found.</li><li>
+<a id="pgfId-1113722"></a>Number of hard block pins to which soft block pins have been aligned.</li><li>
+<a id="pgfId-1113723"></a>Number of hard block pins to which soft block pins could not be aligned.</li></ul>
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1110740"></a><a id="85701"></a>Placing Bur<a id="placeBuriedPins"></a>ied Pins (ICADVM20.1 Only) </h4>
+
+<p>
+<a id="pgfId-1110758"></a>Buried pins are the top-level pins that are also bound by a level-1 PR boundary. To place a level-1 pin below a top-level buried pin:</p>
+<ol><li>
+<a id="pgfId-1110793"></a>From the layout window menu bar, choose <em>Floorplan &#8211; Pin Planner</em>.<br />
+<a id="pgfId-1110794"></a>The Pin Placement form is displayed.</li><li>
+<a id="pgfId-1110795"></a>Choose <em>Level-1 Pins</em> in the <em>Edit</em> region.</li><li>
+<a id="pgfId-1110812"></a>Select the level-1 pin from the pin table.</li><li>
+<a id="pgfId-1110796"></a>Choose <em>To Buried Pin </em>from the <em>Edge</em> drop-down list.<br />
+<a id="pgfId-1111720"></a><div class="webflare-div-image">
+<img width="668" height="328" src="images/chap7-16.gif" /></div></li><li>
+<a id="pgfId-1110797"></a>Choose <em>No Constraint (Floating) </em>from the <em>Placement Status Constraint</em> drop-down list.</li><li>
+<a id="pgfId-1110785"></a>Click <em>Apply</em>. </li></ol>
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1110850"></a>The level-1 pin is moved below the top-level pin. Its size and layer are matched to the buried pin. The status of both the pins (level-1 pin and buried pin) is marked as <em>Fixed</em> in the <em>Status</em> column of the pin table.</p>
+
+<h4>
+<a id="pgfId-1110731"></a><a id="15987"></a>Spacing Pins</h4>
+
+<p>
+<a id="pgfId-1093792"></a>Spacing values are enforced only between adjacent pins on an edge, even if the spacing is set between two non-adjacent pins. If you specify a spacing between a pin and an iterated pin, the software applies the spacing between the last pin of the iterated pin and the individual pin. If the specified spacing cannot be satisfied, you see a warning in the CIW and the pins are not moved.</p>
+<p>
+<a id="pgfId-1093793"></a>To set the exact distance between two or more ordered pins or between the individual bits of a bus pin:</p>
+<ol><li>
+<a id="pgfId-1093794"></a>From the layout window menu bar, choose <em>Floorplan &#8211; Pin Planner</em>.<br />
+<a id="pgfId-1093798"></a>The Pin Placement form is displayed.</li><li>
+<a id="pgfId-1093799"></a>Filter the list of pin names as required using the <em>Display</em> drop-down list.</li><li>
+<a id="pgfId-1093800"></a>Select the pins from the pin table.</li><li>
+<a id="pgfId-1093801"></a>In the <em>Pin Spacing</em> group box, type the spacing you require in the <em>Value</em> field, choose the type of spacing from the <em>Spacing type</em> pull down, and check <em>Update Constraints</em> to automatically update any constraints (for example, alignment constraints) associated with the selected pins.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1093802"></a>If a pin to be spaced has the alignment constraint set up, the placer reads the constraint to determine the appropriate access direction for the pin.</div>
+<a id="pgfId-1093803"></a><div class="webflare-div-image">
+<img width="668" height="151" src="images/chap7-17.gif" /></div></li><li>
+<a id="pgfId-1093804"></a>Click one of the <em>Space</em> buttons, depending on which pin is to be the reference pin for the spacing operation. For information about the spacing options, see <a href="chap7.html#67750">Pin Optimization</a>.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1093809"></a>
+Pins are spaced and constraints updated only by clicking one of the <em>Space</em> buttons in this section and not by clicking the <em>Apply</em> button in the <em>Attributes</em> section of the Placement Planning form.</div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1093811"></a><a id="64903"></a>Converting a Pin into a Rail</h4>
+
+<p>
+<a id="pgfId-1093812"></a>To convert a pin into a rail,</p>
+<ol><li>
+<a id="pgfId-1093813"></a>From the layout window menu bar, choose <em>Floorplan &#8211; Pin Planner</em>.<br />
+<a id="pgfId-1093817"></a>The Pin Placement form is displayed.</li><li>
+<a id="pgfId-1093818"></a>Choose <em>Unplaced</em> from the <em>Status or Type </em>drop-down list.</li><li>
+<a id="pgfId-1093819"></a>Select a pin from the pin table.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1093820"></a>To select multiple pins to be converted to a rail, hold down the <code>Ctrl</code> key and select the pins.</div></li><li>
+<a id="pgfId-1093821"></a>Choose an edge from the <em>Edge</em> drop-down list.</li><li>
+<a id="pgfId-1093822"></a>Click <em>Apply</em>. The pin is placed on the boundary. If you have selected multiple pins, they will all be placed on the boundary.</li><li>
+<a id="pgfId-1093823"></a>Select the pin in the layout and do one of the following:<ul><li>
+<a id="pgfId-1093824"></a>Click <em>HRail</em> to convert it into a horizontal rail.</li><li>
+<a id="pgfId-1093825"></a>Click <em>VRail</em> to convert it into a vertical rail.<br /><ffi2-fig-frame-in-2 id="#id1093826">
+<a id="pgfId-1093826"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="150" src="images/chap7-18.gif" /></div></li></ul>
+<a id="pgfId-1093827"></a>When a pin is changed into a rail, it becomes aligned with two edges of the boundary. For a horizontal rail, the alignment is to the left and right edges. For a vertical rail, the alignment is the bottom and top edges. The rail stretches with the boundary in the Constraint-Aware Editing mode.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1093828"></a>
+The Pin Placement form does not distinguish layer information when the pins are placed on the boundary edges. For example, you cannot convert a <code>metal2</code> pin to a rail if that pin occupies the same location as a <code>metal1</code> pin.</div></li><li>
+<a id="pgfId-1093829"></a>(Optional) Use the Constraint Manager Assistant to view the alignment constraints on the rail.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1093830"></a><a id="36818"></a>Converting a Rail into a Pin</h4>
+
+<p>
+<a id="pgfId-1093831"></a>To convert a rail back into a pin:</p>
+<ol><li>
+<a id="pgfId-1093832"></a>From the layout window menu bar, choose <em>Floorplan &#8211; Pin Planner</em>.<br />
+<a id="pgfId-1093836"></a>The Pin Placement form is displayed.</li><li>
+<a id="pgfId-1093837"></a>In the layout window, select the rail you want to change.</li><li>
+<a id="pgfId-1093838"></a>In the Pin Placement form, click <em>unHRail</em> or <em>unVRail</em> as required.<br />
+<a id="pgfId-1093839"></a>The rail is converted back into a pin and returned to its original size and edge, regardless of the railing direction.</li></ol>
+
+
+
+
+
+<h3>
+<a id="pgfId-1093840"></a><a id="40493"></a>Interleaving the Bits of Iterated Pins</h3>
+
+<p>
+<a id="pgfId-1093841"></a>Use the Pin Placement form&#8217;s <em>Interleave</em> button to interleave the bits of the selected iterated pins and automatically apply an order constraint to constrain how the individual bits will be placed.</p>
+
+<p>
+<a id="pgfId-1093842"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="278" src="images/chap7-19.gif" /></div>
+
+<p>
+<a id="pgfId-1093843"></a>The selected set must contain at least one pin already assigned to an edge. Any unplaced pins are automatically placed on the same edge and their bits are interleaved. Interleave does not work if the pins in the selected set are assigned to more than one edge or to no edge at all. In this case, the command generates an error message and does nothing.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1093844"></a>
+You can no longer select only unplaced pins, select an <em>Edge</em> in the <em>Attributes</em> section, and then press <em>Interleave</em>. The edge must be specified before you select the pins to be interleaved.</div>
+
+<p>
+<a id="pgfId-1093845"></a>If you select both buses and single pins, interleave processes them in two steps: first it interleaves the buses, then it gets the single pin array, splits it into two parts, and interleaves those also.</p>
+<p>
+<a id="pgfId-1093846"></a>For example, </p>
+<p class="webflare-indent1">
+<a id="pgfId-1093847"></a><strong>Before Interleave:
+</strong><code>A&lt;0:2&gt; A1 B&lt;0:2&gt; B1 C&lt;0:1&gt; C1 D1 E1 F1</code></p>
+<p class="webflare-indent1">
+<a id="pgfId-1093848"></a><strong>After Interleave:
+</strong><code>A&lt;0&gt; B&lt;0&gt; C&lt;0&gt; A&lt;1&gt; B&lt;1&gt; C&lt;1&gt; A&lt;2&gt; B&lt;2&gt; A1 D1 B1 E1 C1 F1</code></p>
+<p>
+<a id="pgfId-1096665"></a>The <em>Uninterleave</em> command works with pins assigned to any number of edges. However, it does not move pins from one edge to another, but instead deals with the pins on each edge separately. <em>Uninterleave</em> does nothing with unplaced pins - they are ignored.</p>
+
+<h2>
+<a id="pgfId-1093640"></a><a id="67750"></a><a id="46301"></a>Pin Opti<a id="PinOptimization"></a>mization</h2>
+
+<p>
+<a id="pgfId-1093569"></a>Pin optimization is done to position pins of blocks in a manner that helps obtain the shortest possible net length at a particular level in the design. Pin optimization must be done even for blocks that are placed by the block placer because the aggregate length of nets connecting pins of the blocks may not be optimal or the shortest. Pin optimization should be done before routing the design.</p>
+<p>
+<a id="pgfId-1077643"></a>The table lists the objects that you can select for pin optimization. </p>
+<table class="webflareTable" id="#id1077622">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1077624">
+<a id="pgfId-1077624"></a>Object</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1077626">
+<a id="pgfId-1077626"></a>Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077628"></a>top-level and soft block pins</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077630"></a>Selected top-level and soft-block pins are optimized.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077632"></a>top-level PR boundary</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077634"></a>All top-level pins are optimized.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077636"></a>Soft block instances</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077638"></a>Pins in the selected soft block instances are optimized.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077640"></a>Nets</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1077642"></a>Pins associated with the selected nets are optimized.</p>
+</td>
+</tr>
+</tbody></table>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1078466"></a>When the soft block pins are optimized using Pin Optimizer, the soft block master becomes editable automatically.</div>
+<p>
+<a id="pgfId-1086595"></a>Pin Optimizer tries to align all connected pins in the design, including the top-level pins connected to level-1 pins and the level-1 pins connected to other level1-pins.</p>
+<p>
+<a id="pgfId-1114116"></a>While creating a layout, you should first place the top-level and level-1 pins and then optimize the placed pins. You can place pins using the <em>Pin Planner</em> tab in the <em>Pin Placement </em>form. For more information on how to place pins, refer to <a href="chap7.html#28778">Pin Planning</a>. Using the <em>Pin Planner</em> tab, you can also set the side constraints on the top-level and the level-1 pins.</p>
+<p>
+<a id="pgfId-1091061"></a>You can run Pin Optimizer either using <em>Floorplan </em>&#8211;<em> Pin Optimization</em> or through the <a href="../sklayoutref/vfp.html#vpaOptimizePins">vpaOptimizePins</a> command-line SKILL API.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1091336"></a>
+Pin optimization cannot be done if the total net length of a design is zero. Pin Optimizer, when run for such designs, issues a warning message and exits.</div>
+<h4>
+<a id="pgfId-1101487"></a>Selecting Pins for Optimization</h4>
+
+<p>
+<a id="pgfId-1101564"></a>You can choose to optimize all pins or only a few selected pins in the design. To select the required pins, either select the individual pins or select the nets, instances, or PR boundary that contain the required pins. In addition, you can use the <code>VFP_EXT_MULTIFIG_THRESHOLD SHELL </code>environment variable to filter out the required pins from the selected pins. Use this environment variable to choose the nets that contain the required number of pins. For example, if the <code>VFP_EXT_MULTIFIG_THRESHOLD SHELL</code> environment variable is set to <code>2</code>, then the pins of only those nets that connect two pins or less are selected for optimization. Pins connected to the remaining nets are treated as fixed pins, and are therefore not optimized. Therefore, this environment variable serves as an additional check on the number of pins selected for optimization.</p>
+<p>
+<a id="pgfId-1101489"></a>The default value of the <code>VFP_EXT_MULTIFIG_THRESHOLD SHELL</code> environment variable is <code>50</code>, which is used by Pin Optimizer in the default mode. To optimize the pins of nets that have not been selected as a result of the default value 50, increase the threshold value. </p>
+
+<h4><em>
+<a id="pgfId-1101491"></a>Examples:</em></h4>
+
+<p>
+<a id="pgfId-1101492"></a>To increase the threshold to value 100:</p>
+<p>
+<a id="pgfId-1101493"></a><code>setShellEnvVar(&#8220;VFP_EXT_MULTIFIG_THRESHOLD&#8221; &#8220;100&#8221;)</code></p>
+<p>
+<a id="pgfId-1101495"></a>To decrease the threshold to value 2:</p>
+<p>
+<a id="pgfId-1101496"></a><code>setShellEnvVar(&#8220;VFP_EXT_MULTIFIG_THRESHOLD&#8221; &#8220;2&#8221;)</code></p>
+
+<h4>
+<a id="pgfId-1101475"></a>Support for net PRO definitions </h4>
+
+<p>
+<a id="pgfId-1101583"></a>Pin Optimizer recognizes net process rule override (net PRO) definitions in the design, and performs the following tasks:</p>
+<ul><li>
+<a id="pgfId-1101091"></a>Resizes the pins connected to the net to the minimum width specified in net PRO.</li><li>
+<a id="pgfId-1101092"></a>Moves pins that are connected to the net to the valid layers specified in net PRO.<ul><li>
+<a id="pgfId-1101093"></a>If there is a single valid layer, then all pins on the net are re-layered to the valid layer, and the pins are placed at feasible locations to ensure minimum net length. </li><li>
+<a id="pgfId-1101094"></a>If there is a list of valid layers, then the behavior depends on the state of the <em>Respect layer priority for valid routing layers constraint on net </em>option in the <em>Floorplan Global Options form (Layout GXL Options form in IC6.1.8)</em>. For more information about this option, see <a href="chap9.html#60027">Respecting Layer Priority for Valid Routing Layers</a>.</li></ul></li><li>
+<a id="pgfId-1101098"></a>Applies the minimum spacing value mentioned in the net PRO to all pins in the selected net.</li></ul>
+
+
+
+
+<p>
+<a id="pgfId-1100921"></a>For more information, see <a href="chap2.html#33746">Support for Net PROs in Virtuoso Floorplanner</a>.</p>
+
+<h3>
+<a id="pgfId-1098220"></a><a id="67386"></a>Using the Pin Optim<a id="allpinoptimizer"></a>ization Tab</h3>
+
+<p>
+<a id="pgfId-1098222"></a>Choose <em>Floorplan</em> &#8211; <em>Pin Optimization</em> to display the <em>Pin Optimization</em> tab of the <em>Pin Placement </em>form. </p>
+
+<p>
+<a id="pgfId-1080519"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="735" src="images/chap7-20.gif" /></div>
+
+<p>
+<a id="pgfId-1080520"></a>The <em>Mode</em> is set to <em>All</em> or <em>Selected</em> depending on whether all or some of the pins are selected in the layout. You can change your initial selection by selecting the required <em>Mode</em> option in the form. </p>
+<p>
+<a id="pgfId-1100673"></a>In the <em>Selected</em> mode, the <em>High Effort </em>o<a id="highEffort"></a>ption is available. With this option selected, Pin Optimizer runs extra iterations to get better results (better than normal run). Pin Optimizer checks all available slots to achieve the least possible net length. However, these improvements are limited to the pins placed on parallel edges.</p>
+<p>
+<a id="pgfId-1079106"></a>The options on the <em>Pin Optimization</em> tab are grouped as follows:</p>
+<ul><li>
+<a id="pgfId-1059257"></a><em><a href="chap7.html#34242">Pin Spacing</a><em></em></em></li><li>
+<a id="pgfId-1099684"></a><em><a href="chap7.html#65118">Pin Offset</a><em></em></em></li><li>
+<a id="pgfId-1083205"></a><a href="chap7.html#86459">Bus Pins</a></li><li>
+<a id="pgfId-1059261"></a><em><a href="chap7.html#90923">Target Pin Side</a><em></em></em></li><li>
+<a id="pgfId-1059265"></a><a href="chap7.html#35054">Pin Layer/Side Constraints</a></li><li>
+<a id="pgfId-1106210"></a><a href="chap7.html#64839">Match Fixed Pins Layer/Size</a></li><li>
+<a id="pgfId-1106257"></a><a href="chap7.html#69365">Place Rectangular Pin</a></li></ul>
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1059267"></a><a id="34242"></a>Pin Sp<a id="PinSpacing"></a>acing</h4>
+
+<p>
+<a id="pgfId-1106175"></a>While placing the pins in a design, Pin Optimizer should maintain a minimum spacing between the pins. The Pin Spacing section provides various options to specify pin spacing values either from the technology file or by letting you enter the values manually.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1131262"></a>
+The specified spacing value may be ignored when there are connected pins on the same net, but in different blocks. If the PR boundaries of the blocks are abutted, then the pins would also be abutted, without considering any potential DRC spacing violations.</div>
+
+<p>
+<a id="pgfId-1106179"></a>Select the <em>Use Table Spacing</em> check box to scale up the spacing values as per the table spacing rules defined for different widths of the pins. If this option is turned off, then use the minimum spacing values that are defined for the layers in the technology file.</p>
+<p>
+<a id="pgfId-1098586"></a>Environment Variable: <a href="FPenvvars.html#60959">tableSpacingRule</a></p>
+<p>
+<a id="pgfId-1109885"></a>Pin Optimization is layer aware. Therefore, you can use or define separate pin spacing values for each layer. </p>
+
+<div class="webflare-information-macro webflare-macro-video">
+<a id="pgfId-1109886"></a>
+</div>
+
+<p>
+<a id="pgfId-1109888"></a>For quick reference of this feature, refer to the <h-hot><a actuate="user" class="URL" href="https://support.cadence.com/apex/ArticleAttachmentPortal?id=a1Od00000066PxnEAE&amp;pageName=ArticleContent&amp;sq=005d0000001T4DAAA0_20171251043678" show="replace" xml:link="simple">Advanced Pin Optimization Support in Virtuoso Floor Planner (VFP)</a></h-hot> demonstration.</p>
+<p>
+<a id="pgfId-1109827"></a>Select one of the following pin spacing modes to define pin spacing values for the various layers in the current design.</p>
+
+<h4><em>
+<a id="pgfId-1098614"></a>Auto</em></h4>
+
+<p>
+<a id="pgfId-1098602"></a>When the <em>Auto</em> option, which is the default option, is selected, the minimum spacing values are based on the <a href="chap7.html#91951">line-line</a> spacing mode. If the <em>Use Table Spacing </em>check box is selected, then the spacing values are defined as per the table spacing rules for different pin widths.</p>
+
+<h4><em>
+<a id="pgfId-1098645"></a>Custom</em></h4>
+
+<p>
+<a id="pgfId-1098646"></a>The <em>Custom</em> option lets you select a pin spacing type for specifying the pin spacing values for each layer. Click the <em>Options</em> button to display the Pin Spaci<a id="pinSpacingOptForm"></a>ng Options form.</p>
+<p>
+<a id="pgfId-1098633"></a>Environment Variable: <a href="FPenvvars.html#33822">spacingMode</a></p>
+
+<p>
+<a id="pgfId-1098665"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="420" src="images/chap7-23.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1098708"></a>If the <em>Use Table Spacing</em> option is selected, then the spacing values are defined as per the table spacing rules for different pin widths.</div>
+<p>
+<a id="pgfId-1078510"></a>You can choose one of the following <em>Spacing Type</em> options:</p>
+<ul><li>
+<a id="pgfId-1059269"></a><a id="91951"></a>line-line<br />
+<a id="pgfId-1079305"></a>This option uses the minimum spacing between two wires on a layer for spacing pins. Pin Optimizer reads appropriate spacing rules from the technology file to identify the spacing value. Use this option if you are using a single layer. In multi-layer designs, line-line spacing can cause congestion when vias are inserted, because of the extra jogs that you add to wires to allow for vias.<br /><div class="webflare-div-image">
+<img width="668" height="74" src="images/chap7-24.gif" /></div>
+<a id="pgfId-1059280"></a>The options in the <em>Define Pin Spacing (Edge to Edge) </em>section are not editable in this mode. However, the layer spacing values that are retrieved from the technology file are displayed in the individual fields.</li><li>
+<a id="pgfId-1098732"></a>line-via<br />
+<a id="pgfId-1079321"></a>This option uses the minimum spacing between a wire and a via on a layer for spacing pins. In addition to the minimum spacing rules, Pin Optimizer reads valid via definitions and minimum extension rules from the technology file to calculate the spacing value.<br /><div class="webflare-div-image">
+<img width="668" height="91" src="images/chap7-25.gif" /></div>
+<a id="pgfId-1059296"></a>The options in the <em>Define Pin Spacing (Edge to Edge) </em>section are not editable in this mode. However, the layer spacing values that are retrieved from the technology file are displayed in the individual fields.</li><li>
+<a id="pgfId-1098762"></a>via-via<br />
+<a id="pgfId-1098814"></a>This option uses the minimum spacing between two vias on a layer for spacing pins. Similar to the line-via option, Pin Optimizer reads valid via definitions, minimum spacing rules, and minimum extension rules from the technology file to calculate the spacing value.<br /><div class="webflare-div-image">
+<img width="668" height="88" src="images/chap7-26.gif" /></div>
+<a id="pgfId-1098835"></a>The options in the <em>Define Pin Spacing (Edge to Edge) </em>section are not editable in this mode. However, the layer spacing values that are retrieved from the technology file are displayed in the individual fields.</li><li>
+<a id="pgfId-1081616"></a>specify<br />
+<a id="pgfId-1098871"></a>This option enables you to enter pin spacing values for each layer in the current design manually. By default, the pin spacing values that are retrieved from the technology file are displayed in the individual fields. You can specify the same or different spacing values for each layer.<br />
+<a id="pgfId-1098895"></a>Environment Variables: <a href="FPenvvars.html#19635">spacingType</a>, <a href="FPenvvars.html#96938">spacingValue</a><br />
+<a id="pgfId-1098896"></a>To specify the same pin spacing value for all layers, enter the value in the text box next to the <em>specify</em> option and click <em>Update All</em>.<br />
+<a id="pgfId-1098904"></a><div class="webflare-div-image">
+<img width="668" height="343" src="images/chap7-27.gif" /></div>
+<a id="pgfId-1098949"></a>To specify different pin spacing values for each layer, type the values in the corresponding text boxes. Pin spacing values cannot be smaller than the <code>minSpacing</code> or the <code>tableSpacing</code> value specified in the technology file. <br />
+<a id="pgfId-1098953"></a>Environment Variable: <a href="FPenvvars.html#36536">perLayerSpacingList</a><br />
+<a id="pgfId-1099740"></a>Clicking <em>Defaults</em> changes the form values to the default values, which correspond to the original factory settings.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1098954"></a>
+Values specified in the <em>Define Pin Spacing (Edge to Edge)</em> are the minimum values. These values are scaled up as per the table spacing rules if the <em>Use Table Spacing</em> check box is selected.</div><br />
+<a id="pgfId-1098937"></a>Pin Optimizer checks for pin overlaps and the validity of the spacing value on each layer. </li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1098996"></a>Advanced Options<a id="42576"></a></em></h4>
+
+<p>
+<a id="pgfId-1098983"></a>Click the <em>Advanced Options</em><a id="pinSpacingAdvOptForm"></a> button to display the Pin Spacing Advanced Options form. </p>
+
+<p>
+<a id="pgfId-1099016"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="680" src="images/chap7-28.gif" /></div>
+
+<p>
+<a id="pgfId-1099053"></a>Use options in the Pin Spacing Advanced Options form to define pin grids. A pin grid defines the points at which pins need to be placed. Each layer has a separate pin grid. Typically, the pin grid value is the sum of the layer spacing value and the pin width value.</p>
+<p>
+<a id="pgfId-1099054"></a>The Pin Spacing Advanced Options form provides the following options to define the pin grid:</p>
+<ul><li>
+<a id="pgfId-1099066"></a>Choose width for Grid: Use this option only when the pins on a layer have different pin widths. In this section, specify whether the width of the grid should correspond to the <em>Width of the Smallest Pin</em> in the design, or to the value that is picked from the technology file (default). The <em>Choose width for Grid</em> option is available for both, the <em>Auto</em> and <em>Custom</em> pin spacing modes.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1114084"></a>For layers that do not have any pins, the layer <code>minWidth</code> value is considered the minimum pin width for creating the pin grid.</div>
+<a id="pgfId-1099070"></a>Environment Variable: <a href="FPenvvars.html#19106">widthForPinGrid</a></li><li>
+<a id="pgfId-1099071"></a>Pin Grid Adjustment Factor: In this section, specify the value by which the pin grid needs to be scaled for each layer. For example, if you specify the Pin Grid Adjustment Factor as 0.5 for a layer, then the width of the grid is reduced to half its current value. The <em>Pin Grid Adjustment Factor </em>option is available for both, the <em>Auto</em> and <em>Custom</em> pin spacing modes.<br />
+<a id="pgfId-1099078"></a>Environment Variables: <a href="FPenvvars.html#52416">perLayerAdjustmentFactorList</a>, <a href="FPenvvars.html#54979">pinGridAdjustmentFactor</a></li><li>
+<a id="pgfId-1099079"></a>Custom Pin Grid: In this section, specify absolute values for the width of the pin grid for each layer. Pin spacing values, as specified in the Pin Spacing Options form, are applied. The <em>Custom Pin Grid</em> option is available only for the <em>Custom</em> pin spacing mode.<br />
+<a id="pgfId-1099086"></a>Environment Variable: <a href="FPenvvars.html#41238">customPinGrid</a>, <a href="FPenvvars.html#70402">perLayerCustomPinGridList</a></li></ul>
+
+
+
+
+
+
+<p>
+<a id="pgfId-1099767"></a>Clicking <em>Defaults</em> changes the form values to the default values, which correspond to the original factory settings.</p>
+
+<h4>
+<a id="pgfId-1099102"></a><a id="65118"></a>Pin Off<a id="PinOffset"></a>set</h4>
+
+<p>
+<a id="pgfId-1099103"></a>Pin offse<a id="pinOffsetOptForm"></a>t defines the first valid point for placing a pin on a grid. The pin offset value specifies the distance between the adjacent side and the centre point of the first pin. Pin offset values are layer aware, which means that each layer can have a different pin offset value.</p>
+<p>
+<a id="pgfId-1099104"></a>Use the <em>Control Pin Offset </em>section of the Pin Placement form to define pin offset values for all layers in the current design. </p>
+<p>
+<a id="pgfId-1099105"></a>Select one of the following modes:</p>
+<ul><li>
+<a id="pgfId-1099106"></a>Auto: This is the default mode. During pin optimization, the first pin is placed on a grid such that it is aligned with the corner pins of the adjacent side and there is no spacing violation. Pin Optimizer also ensures that there is no wastage of grid space. <br />
+<a id="pgfId-1099819"></a>In this mode, Pin Optimizer respects both, the pin spacing value and the pin pitch from the instance corners.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1099107"></a>The <em>Options</em> button is not available in this mode.</div></li><li>
+<a id="pgfId-1099133"></a>Custom: This mode provides options to control the pin offset values for all layers in a design. Custom Offset number is the value from the boundary edge to the first pin slot to which the pin needs to be centered. In this mode, Pin Optimizer respects the pin pitch values from instance corners, independent of offset mode. However, Pin Optimizer does not respect the pin spacing from instance corners, but ensures that pins do not lie outside the instance boundaries.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1100174"></a>Adding a Pin Grid Adjustment factor for custom pins may be error-prone as the distance from the boundary edge to pin edge may not be the value used to adjust the offset.</div>
+<a id="pgfId-1099861"></a>When you select the <em>Custom</em> check box, the <em>Options</em> button is made available. Click the <em>Options</em> button to display the Pin Offset Options form.<br />
+<a id="pgfId-1099041"></a><div class="webflare-div-image">
+<img src="images/PinOffsetOptions.gif" /></div><span class="indent-as-level2">
+<a id="pgfId-1099174"></a>Environment Variable: <a href="FPenvvars.html#77011">offSetMode</a></span><br /><span class="indent-as-level2">
+<a id="pgfId-1099175"></a>Use the Pin Offset Options form to define pin offset values in terms of one or both of the following parameters:</span><ul><li>
+<a id="pgfId-1099187"></a>Spacing: Specifies the absolute space between the cell boundary and the first pin.<br /><ffi2-fig-frame-in-2 id="#id1099159">
+<a id="pgfId-1099159"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img src="images/PinOffsetOptionsSpacing.gif" /></div>
+<a id="pgfId-1099230"></a>Environment Variables: <a href="FPenvvars.html#22039">offSetBySpacing</a>, <a href="FPenvvars.html#82764">perLayerOffsetBySpacingList</a></li><li>
+<a id="pgfId-1099246"></a>Grids: Specifies the number of grids to skip before placing the first pin. Manufacturing grids apply for custom pins, and routing grids apply for digital pins.<br /><ffi2-fig-frame-in-2 id="#id1099212">
+<a id="pgfId-1099212"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img src="images/PinOffsetOptionsGrids.gif" /></div></li></ul>
+<a id="pgfId-1099288"></a>Choose one of the above options and specify the pin offset values for individual layers.<br />
+<a id="pgfId-1099289"></a>If the pin offset values are specified in terms of both, spacing and grids, then the grids values override the spacing values. If both, <em>Spacing</em> and <em>Grids</em> check boxes are turned off, then the <em>Auto</em> option is applied.<br />
+<a id="pgfId-1099296"></a>Environment Variables: <a href="FPenvvars.html#95601">offSetByGrids</a>, <a href="FPenvvars.html#37940">perLayerOffsetByMfgGridList</a>, <a href="FPenvvars.html#97050">perLayerOffsetByRoutingGridList</a><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1099429"></a>If a negative pin offset value is specified, a warning for that metal and instance is displayed and the Auto offset value is used during pin optimization.</div><span class="indent-as-level2">
+<a id="pgfId-1099430"></a>If the pin offset value is specified as zero, a warning for that metal and instance is displayed and the manufacturing grid is used as the offset value during pin optimization.</span></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1099793"></a>Clicking <em>Defaults</em> changes the form values to the default values, which correspond to the original factory settings.</p>
+
+<h4>
+<a id="pgfId-1098899"></a><a id="86459"></a>Bus Pi<a id="buspins"></a>ns</h4>
+
+<p>
+<a id="pgfId-1084532"></a>Pin Optimizer places all the pins of a bus that have flexible pins on both the sides. Flexible pins are yet to be placed and can be moved during pin optimization.</p>
+<p>
+<a id="pgfId-1085334"></a>For a bus that has fixed reference pins on one side and flexible pins on the other side, Pin Optimizer places only the flexible pins. The fixed reference pins are pre-placed and cannot be moved.</p>
+<p>
+<a id="pgfId-1085335"></a>By default, Pin Optimizer does not group the flexible pins of a bus that have fixed reference pins on the other side. The nets of such buses are optimized individually. Therefore, the placement of the flexible pins is independent of the order of the fixed reference pins of the bus. This methodology gives maximal alignment, even if the fixed pins are unordered. To avoid formation of criss-cross connections, nets with fixed reference pins on one side are first optimized, followed by the other nets in the design. This is because any other location for flexible pins connected to fixed pins will result in misalignments and criss-cross flight lines.</p>
+
+<div class="webflare-information-macro webflare-macro-video">
+<a id="pgfId-1108596"></a>
+</div>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1108598"></a>For quick reference of this feature, refer to the<h-hot><a actuate="user" class="URL" href="https://support.cadence.com/wps/mypoc/cos?uri=deeplinkmin:VideoViewer;src=wp;q=Video/Custom_IC_Design/IC615_Using_the_Pin_Optimizer_FeatureCOS.html;DocumentType=video,norcfeat" show="replace" xml:link="simple"> Using the Pin Optimizer feature</a></h-hot> demonstration.</pre>
+<h4>
+<a id="pgfId-1097147"></a><a id="90923"></a>Target Pin Side</h4>
+
+<p>
+<a id="pgfId-1078037"></a>The Target pin side is the side of the boundary on which Pin Optimizer should try to place the pins. The options in the Target Pin Side group box are used to specify the side of the block or the top-level PR boundary on which pins should be placed. A check box is available for each side on which pins can be placed. The image below each check box shows the definition of that side for rectangular and rectilinear blocks. For rectilinear blocks, the <em>Target Pin Side </em>setting specifies the access direction for pins.</p>
+
+<p>
+<a id="pgfId-1081721"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="133" src="images/chap7-32.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1081725"></a>The <em>Target Pin Side </em>settings are considered after considering the constraints specified in the Constraint Manager.</div>
+<p>
+<a id="pgfId-1093354"></a>Pin Optimizer treats the edge of any soft block or top-level block as a range. Pin Optimizer places pins at different points of the range to find the best location so that minimum net length is achieved. </p>
+
+<h4>
+<a id="pgfId-1081354"></a><a id="35054"></a>Pin Layer/Side Constraints</h4>
+
+<p>
+<a id="pgfId-1081355"></a>The Pin layer/side constraints are used to switch the pin layer depending on the side of the block on which the pin is placed by Pin Optimizer.</p>
+
+<p>
+<a id="pgfId-1081440"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="283" src="images/chap7-33.gif" /></div>
+
+<p>
+<a id="pgfId-1112922"></a>To set the pin layer/side constraints, you select the Respect pin layer/side constraints check box. You will notice that the two list boxes below the check box are available. By default, these two list boxes are disabled. </p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1112963"></a>
+(ICADVM20.1 Only) At advanced nodes, default values are automatically applied to the tables in the <em>Pin layer/side constraints</em> section. The default pin layer/side constraint values are based on the <code>snapGridVertical</code> and <code>snapGridHorizontal</code> constraints defined in the technology file.</div>
+
+<p class="webflare-indent1">
+<a id="pgfId-1112964"></a>- WSSPDefs with <code>snapGridVertical</code> constraint have tracks intersecting with the left and right edges.</p>
+<p class="webflare-indent1">
+<a id="pgfId-1112885"></a>- WSSPDefs with <code>snapGridHorizontal</code> constraint have track intersecting with the top and bottom edges.</p>
+<p>
+<a id="pgfId-1081442"></a>The <em>first </em>list box has two columns i.e <em>Side</em> and <em>Pin Layers</em>. <em>Side</em> specifies four different sides as &#8220;<em>Left</em>&#8221; &#8220;<em>Right</em>&#8221; &#8220;<em>Top</em>&#8221; and &#8220;<em>Bottom</em>&#8221;. <em>Pin Layers</em> specifies one or more pin layers for each side. You can define the pin layers for a side by selecting a pin layer from the list box before the <em>Update Pin Layers </em>button. If no side is specified, then the existing pin layer remains unchanged. </p>
+<p>
+<a id="pgfId-1081542"></a>To add/update a pin layer for the side, select a pin layer from the list box before the Update Pin Layers button and then click the Update Pin Layers button. The selected pin layer is displayed in the <em>Pin Layers</em> column in the <em>first</em> list box. If you want to clear the pin layers of the selected side, click the <em>Clear Pin Layers</em> button.</p>
+<p>
+<a id="pgfId-1081443"></a>During pin optimization, when a pin layer is switched, the pin label associated with the pin is also switched to the same layer on which the pin is changed. However, if the pin layer is not switched, the layer of the pin label will remain unchanged.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1106100"></a>The pin label should be associated with the pin.</div>
+<p>
+<a id="pgfId-1106104"></a>Related environment variables: <a href="FPenvvars.html#80177">enablePinLayerSideConstraints</a>, <a href="FPenvvars.html#10692">leftSidePinLayersConstraints</a>, <a href="FPenvvars.html#25054">rightSidePinLayersConstraints</a>, <a href="FPenvvars.html#44136">topSidePinLayersConstraints</a>, <a href="FPenvvars.html#35141">bottomSidePinLayersConstraints</a>.</p>
+
+<h4>
+<a id="pgfId-1090670"></a><a id="64839"></a>Match Fixed <a id="MatchPinLayerSize"></a>Pins Layer/Size</h4>
+
+<p>
+<a id="pgfId-1114198"></a>To change the layer or purpose of the &#39;to be placed&#39; or movable pins to match the layer of purpose of the connected fixed pins, select the <em>Match Pin Layer</em> check box. For example, if a movable pin is on <code>(Metal2 drawing)</code> layer purpose and the connected fixed pin is on <code>(Metal1 drawing)</code> layer purpose, then selecting this option will change the movable pin layer to <code>(Metal1 drawing)</code>.</p>
+<p>
+<a id="pgfId-1100808"></a>To change the size of the movable pins to that of the connected fixed pins, select the <em>Match Pin Size</em> check box. For example if the target pin size is 0.6 x 0.6 and the reference pin size is 1.0 x 1.0, then selecting this option will change the target pin size to 0.6 x 0.6.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1100809"></a><em>Match Pin Size</em> is available only when you select <em>Match Pin Layer</em>.</div>
+<p>
+<a id="pgfId-1114222"></a>The options in the <em>Match Fixed Pins Layer/Size</em> section are applicable only to nets with fixed (non-movable) pins connected to movable pins. A pin is considered fixed if:</p>
+<ul><li>
+<a id="pgfId-1114223"></a>The pin is not selected for pin optimization. This is applicable when <em>Mode</em> is set to <em>Selected</em> and the pins on one side of a net are selected. The selected pins are movable, while pins on the other side of the net are fixed.</li><li>
+<a id="pgfId-1114224"></a>The placement status of the pin is set to fixed or locked.</li></ul>
+
+<p>
+<a id="pgfId-1106221"></a>When <em>Mode</em> is set to <em>All</em>, pins on both side of nets are selected for optimization. Therefore, there are no reference (fixed) pins, and so the <em>Match Fixed Pins Layer/Size</em> settings are not applicable. To honor these settings, you must manually change the placement status of the required pins to fixed or locked.</p>
+
+<h4>
+<a id="pgfId-1114207"></a><a id="69365"></a>Place Rect<a id="PlaceRectangular"></a>angular Pin</h4>
+
+<p>
+<a id="pgfId-1106371"></a>Pin Optimizer supports rectangular as well as square pins. For rectangular pins, you can use the options in the <em>Place Rectangular Pin</em> group box to select the pin edge that needs to be abutted to the PR boundary. Choose one of the following edge options for placing rectangular pins:</p>
+<ul><li>
+<a id="pgfId-1107034"></a>As Is: During pin optimization, the rectangular pin is abutted as-is to the PR boundary, irrespective of whether the abutted edge is short or long. Depending on the original position of the pin and the PR boundary side, either the long edge or the short edge of the pin is abutted to the PR boundary, as shown below:<br />
+<a id="pgfId-1107053"></a><div class="webflare-div-image">
+<img width="668" height="433" src="images/chap7-34.gif" /></div></li><li>
+<a id="pgfId-1107048"></a>Short Edge: During pin optimization, the short edge of the rectangular pin is abutted to the PR Boundary, as shown below:<br />
+<a id="pgfId-1106505"></a><div class="webflare-div-image">
+<img width="668" height="172" src="images/chap7-35.gif" /></div></li><li>
+<a id="pgfId-1106407"></a>Long Edge: During pin optimization, the long edge of the rectangular pin is abutted to the PR boundary, as shown below:<br />
+<a id="pgfId-1106570"></a><div class="webflare-div-image">
+<img width="668" height="171" src="images/chap7-36.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1107133"></a>Environment variable: <a href="FPenvvars.html#96191">rectangularPinEdgeOnPRB</a></p>
+
+<h4>
+<a id="pgfId-1115465"></a><a id="19100"></a>(ICADVM20.1 Only) Sn<a id="SnapPinsWSPTrack"></a>apping Pins to WSP Tracks</h4>
+
+<p>
+<a id="pgfId-1115466"></a>Select <em>Honor Current Pin Location</em> on the <em>Pin Optimization</em> tab to snap pins (selected or all) to their nearest WSP tracks by moving them by a minimum distance from their current position. The following constraints set on the pins are honored:</p>
+<ul><li>
+<a id="pgfId-1115467"></a>Wire Type</li><li>
+<a id="pgfId-1115468"></a>Width </li><li>
+<a id="pgfId-1115469"></a>Side/Edge</li><li>
+<a id="pgfId-1115470"></a>Order</li><li>
+<a id="pgfId-1115471"></a><code>minSpacing</code> violations in blockages and pre-placed pins</li></ul>
+
+
+
+
+<p>
+<a id="pgfId-1115601"></a>Choose <em>Select Honor Current Pin Location</em> in the following situations:</p>
+<ul><li>
+<a id="pgfId-1115474"></a>When optimizing unconnected pins leads to issues such as bunching of pins. Unconnected pins are pins with either no connectivity, or they are connected to instances that are located or placed outside the PR boundary. To avoid such bunching issues, choose <em>Select Honor Current Pin Location</em>. The pins are only snapped to their nearest WSP tracks, while honoring any applicable pin constraints.</li><li>
+<a id="pgfId-1115475"></a>When pins are placed after performing design placement using placement tools such as Pin Planner, Virtuoso Custom Digital Placer, and Virtuoso Analog Placer. The pins are snapped to their nearest tracks, while honoring any applicable pin constraints.</li></ul>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1115664"></a>When <em>Select Honor Current Pin Location</em> is selected, Pin Optimizer does not try to achieve the minimum net length. </div>
+<p>
+<a id="pgfId-1116188"></a>Environment variable: <a href="FPenvvars.html#64576">honorCurrentPinLocation</a></p>
+
+<h4>
+<a id="pgfId-1127262"></a>Congestion-Aw<a id="congestion"></a>are Pin Placement <a id="14119"></a>(ICADVM20.1 EXL Only) </h4>
+
+<p>
+<a id="pgfId-1127329"></a>By default, Pin Optimizer places pins considering DRC, minimum wire length, design constraints, and process rules, but does not consider routing information such as routing channel paths and congestion data. In certain designs, this might cause hot spots after pin optimization.</p>
+<p>
+<a id="pgfId-1127930"></a>The following image shows the result of standard wire length-based pin optimization on a design. </p>
+
+<p>
+<a id="pgfId-1127573"></a></p>
+<div class="webflare-div-image">
+<img width="665" height="236" src="images/chap7-37.gif" /></div>
+
+<p>
+<a id="pgfId-1130437"></a>After running global routing and congestion analysis on the design, the routing channel appears highly congested.</p>
+
+<p>
+<a id="pgfId-1130298"></a></p>
+<div class="webflare-div-image">
+<img width="665" height="225" src="images/chap7-38.gif" /></div>
+
+<p>
+<a id="pgfId-1128903"></a>When pin placement becomes congestion aware, the routability of such designs improves.</p>
+<p>
+<a id="pgfId-1127353"></a>Select <em>Congestion Aware</em> in the <em>Congestion Aware Pin Placement</em> section of Pin Optimizer to consider the channel congestion while optimizing pins.</p>
+<p>
+<a id="pgfId-1129509"></a>The following example shows how congestion-aware pin optimizer helps with pin placement. Pin Optimizer internally uses the results from Global Router to find congestion-aware placement positions for pins and places the pins accordingly.</p>
+
+<p>
+<a id="pgfId-1130624"></a></p>
+<div class="webflare-div-image">
+<img src="images/CongestionAware_PinOpt.gif" /></div>
+
+<p>
+<a id="pgfId-1129515"></a>The following image shows the result of congestion analysis after running congestion-aware pin optimizer.</p>
+
+<p>
+<a id="pgfId-1130725"></a></p>
+<div class="webflare-div-image">
+<img src="images/CongestionAware_PinOpt2.gif" /></div>
+
+<p>
+<a id="pgfId-1127641"></a>For more information about running congestion analysis using Global Router, see <h-hot><a actuate="user" class="URL" href="../autouser/congestion_analysis.html#firstpage" show="replace" xml:link="simple">Running Congestion Analysis</a></h-hot>.</p>
+<p>
+<a id="pgfId-1129649"></a>Running Pin Optimizer in the congestion-aware mode may result in an increase in total net length, which is expected because target pins might be placed further away. This is done to increase the routability of the design without increasing the design size or modifying the block locations.</p>
+
+<p>
+<a id="pgfId-1129858"></a></p>
+<div class="webflare-div-image">
+<img src="images/CongestionAware_netLength.gif" /></div>
+<h3>
+<a id="pgfId-1113220"></a>Optimizing Pins that are Partially Outside the PR Boundary</h3>
+
+<p>
+<a id="pgfId-1113221"></a>Pin Optimizer supports optimization of pins in instances that are partially outside the top-level PR boundary. Set the <a href="FPenvvars.html#85889"><h-hot>optimizeInstancesPartiallyOutsidePRB</h-hot><code></code></a> environment variable to <code>t</code> to enable optimization of such pins. Consider the following placement of instances:</p>
+
+<p>
+<a id="pgfId-1113231"></a></p>
+<div class="webflare-div-image">
+<img src="images/OptimizePartialOutsidePins1.gif" /></div>
+
+<p>
+<a id="pgfId-1113270"></a>The following table explains the behavior when <code>optimizeInstancesPartiallyOutsidePRB</code> is set to <code>nil</code> (default) and <code>t</code>, respectively:</p>
+
+<p>
+<a id="pgfId-1113295"></a></p>
+<div class="webflare-div-image">
+<img src="images/OptimizePartialOutsidePins2.gif" /></div>
+
+<p>
+<a id="pgfId-1113343"></a>Blocks 4, 5, and 7 are partially outside the PR boundary. Therefore pins in these blocks are optimized when <code>optimizeInstancesPartiallyOutsidePRB</code> is set to <code>t</code>.</p>
+<p>
+<a id="pgfId-1113409"></a>However all vertices of Block 3 are outside the PR boundary, while block 6 is completely outside the PR boundary. So pins in these blocks are not optimized even when <code>optimizeInstancesPartiallyOutsidePRB</code> is set to <code>t</code>.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1113457"></a>To consider an instance to be partially inside or outside the PR boundary, at least one of its corner (vertex) should lie inside the PR boundary. </div>
+
+<h3>
+<a id="pgfId-1113223"></a><a id="73132"></a>Synchronizing Pin Optimization Options between Command Line and GUI</h3>
+
+<p>
+<a id="pgfId-1090854"></a>Use the <a href="../sklayoutref/vfp.html#vpaOptimizePins">vpaOptimizePins</a> command-line SKILL API to run pin optimization without opening the <em>Pin Optimization</em> GUI.</p>
+<p>
+<a id="pgfId-1089339"></a>Each pin optimization option in the GUI and its corresponding pin optimization option in the SKILL API is associated with a Layout XL Floorplan environment variable. This set of environment variables keeps the pin optimization options synchronized between the GUI and SKILL API, as shown in the figure below. For more information, see <a href="FPenvvars.html#27010">Layout XL Floorplan Environment Variables</a>.</p>
+
+<p>
+<a id="pgfId-1089128"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="251" src="images/chap7-44.gif" /></div>
+
+<p>
+<a id="pgfId-1092590"></a>When you run the <code>vpaOptimizePins</code> SKILL API, you specify values for various pin optimization options. If you do not specify the value for a pin optimization option when you run the SKILL API, the value of the option is read from the corresponding Layout XL Floorplan environment variable. The Layout XL Floorplan environment variables are updated with the existing pin optimization option values once the command has successfully completed. Now, when the GUI is opened, the pin optimization options are updated with these values from the Layout XL Floorplan environment variables.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1088197"></a>If the Pin Optimization GUI is already open when the SKILL API is run, the options in the GUI are not updated. You need to close the GUI and reopen it to view the updated options.</div>
+<p>
+<a id="pgfId-1088248"></a>When you specify the pin optimization options in the GUI and click <em>Optimize</em>, the Layout XL Floorplan environment variables are updated with the values that exist in the GUI. The SKILL API read the default values of the pin optimization options from these updated Layout XL Floorplan environment variables. </p>
+
+<div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1090054"></a>
+The updated Layout XL Floorplan environment variables can be saved for future in a local <code>.cdsenv</code> file on the disk. For more information, refer to Customizing Your Design Environment in the <em>Virtuoso Design Environment User Guide</em>.</div>
+
+<p>
+<a id="pgfId-1086230"></a>The following example explains how the values of the pin optimization options in the SKILL API are synchronized with the options on the <em>Pin Optimization</em> tab.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1087466"></a>vpaOptimizePins(?layoutLCV &#39;(&quot;ether&quot; &quot;top&quot; &quot;before_pin_opt&quot;) ?spacingType &quot;specify&quot; ?spacingValue 0.1)</pre>
+
+<p>
+<a id="pgfId-1090418"></a>The values that are assigned to the pin optimization options when the command above is run are listed below.</p>
+<table class="webflareTable" id="#id1090419">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1090421">
+<a id="pgfId-1090421"></a>Argument</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1090423">
+<a id="pgfId-1090423"></a>Value</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1090425">
+<a id="pgfId-1090425"></a>Notes</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090427"></a><code>spacingType</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090429"></a>specify</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090431"></a>provided by user</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090433"></a><code>spacingValue</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090435"></a>0.1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090437"></a>provided by user</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090439"></a><a href="FPenvvars.html#19987"><h-hot>selectedOnly</h-hot><code></code></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090441"></a>nil</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090443"></a>Read from the Layout XL Floorplan environment variable</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090445"></a><a href="FPenvvars.html#94456"><h-hot>targetPinSide</h-hot><code></code></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090447"></a>left, right, top, bottom</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1090449"></a>Read from the Layout XL Floorplan environment variable</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1090469"></a>Values returned are:</p>
+<ul><li>
+<a id="pgfId-1095828"></a><code>t </code>- Pin optimization was successfully run. The Layout XL Floorplan environment variables were updated as per the specified values.</li><li>
+<a id="pgfId-1095829"></a>No value - Pin optimization failed on some of the blocks (partially) or on all blocks (completely). Related error messages are displayed in the CIW.</li></ul>
+
+<p>
+<a id="pgfId-1087558"></a>If you now open the Pin Placement form, you will notice that the values displayed on the <em>Pin Optimization</em> tab are the same as those assigned to the pin optimization options while running the <code>vpaOptimizePins</code> SKILL API. The following figure shows the pin optimization options, in the GUI, with the updated values.</p>
+
+<p>
+<a id="pgfId-1092726"></a></p>
+<div class="webflare-div-image">
+<img src="images/PinOpt.gif" /></div>
+<h4><em>
+<a id="pgfId-1092825"></a>Using cphID In Conjunction With vpaOptimizePins</em></h4>
+
+<p>
+<a id="pgfId-1095597"></a>A special optional argument, <code>cphId</code>, is available for the <code>vpaOptimizePins</code> API, which identifies a physical configuration cellview created using the <code>cphCreatePhyConfig</code> API. This optional argument can be used along with the <code>vpaOptimizePins</code> API only when the soft blocks in the design are created through command-line-based CPH-GPH flow. The <code>cphId</code> argument acts as a quick prototype to check whether the generated soft blocks can be correctly used by the pin optimizer engine. In a way, this argument impacts the behavior of Pin Optimizer and the returned value. There is no corresponding GUI-equivalent for the <code>cphId</code> option in the Pin Placement form. If the <code>cphId</code> is not specified, then Pin Optimizer retains its original behavior and there is no impact of the CPH-GPH flow on Pin Optimizer behavior.</p>
+<p>
+<a id="pgfId-1095605"></a>On executing the API, one of the following values is returned:</p>
+<ul><li>
+<a id="pgfId-1095606"></a><code>t </code>- Pin optimization was successfully run.</li><li>
+<a id="pgfId-1095598"></a><code>nil</code> - Pin optimization failed on all blocks</li><li>
+<a id="pgfId-1095728"></a>A list of blocks - Pin optimization failed on some of the blocks. The list of blocks indicates whether pin optimization was performed for each soft block. </li></ul>
+
+
+
+<a id="pgfId-1092627"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ (</pre>
+<a id="pgfId-1092628"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ (sbId  lib:cell:view  status)</pre>
+<a id="pgfId-1092629"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ (sbId lib:cell:view   status)</pre>
+<a id="pgfId-1092630"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+ )</pre>
+
+<ul><li style="list-style-type: none;background-image: none;"><ul><li>
+<a id="pgfId-1092631"></a><code>sbId</code> &#8211; ID of the soft-block that was created using <code>cphSbDefineSoftBlock</code> API</li><li>
+<a id="pgfId-1092632"></a><code>lib:cell:view </code>&#8211; Physical LCV of the soft block</li><li>
+<a id="pgfId-1092633"></a><code>status</code> &#8211; Status of the soft block after running Pin Optimizer. Values returned are:<ul><li>
+<a id="pgfId-1092634"></a><code>t </code>&#8211; Soft block is successfully optimized.</li><li>
+<a id="pgfId-1092635"></a><code>nil</code> &#8211; Soft block could not be optimized. </li></ul></li></ul></li></ul>
+
+
+
+
+
+<h4>
+<a id="pgfId-1092613"></a><a id="29745"></a>Constraints Supported by Pin Optimizer</h4>
+
+<p>
+<a id="pgfId-1088277"></a>Pin Optimizer supports the following constraints.</p>
+<ul><li>
+<a id="pgfId-1079435"></a><a href="chap7.html#41115">Side Constraint</a></li><li>
+<a id="pgfId-1079446"></a><a href="chap7.html#72708">Order Constraint</a></li><li>
+<a id="pgfId-1079453"></a><a href="chap7.html#26872">Priority Constraint</a></li><li>
+<a id="pgfId-1098405"></a><a href="appE.html#50478">Pitch Constraint</a></li><li>
+<a id="pgfId-1098419"></a><a href="appE.html#22335">Status Constraint</a></li></ul>
+
+
+
+
+
+<h4>
+<a id="pgfId-1081008"></a><a id="41115"></a>Side Constraint</h4>
+
+<p>
+<a id="pgfId-1081009"></a>In the <em>Target Pin Side</em> group box on the <em>Pin Optimization</em> tab, you can specify the side of the block or the top-level PR boundary on which the pins should be placed. For example, if you want to place all the pins in the design or the selected pins on the left side of the soft block, you select the <em>Left</em> check box and deselect the <em>Right</em>, <em>Top</em>, and <em>Bottom</em> check boxes. Pin Optimizer tries to place all or the selected pins on the left edge.</p>
+<p>
+<a id="pgfId-1067390"></a>However, if you want to place a selective few pins on another edge, you can specify the side on which pins will be placed by using Pin Planner. For example, if you want only five pins in the design to be placed on the right edge of the block and the remaining pins on the left edge of the block, you can selectively specify the side for the five pins by using Pin Planner. </p>
+<p>
+<a id="pgfId-1066963"></a>To specify the side for a pin using Pin Planner, perform the following steps:</p>
+<ol><li>
+<a id="pgfId-1066964"></a>Select the pins in the <em>Pin Placement</em> form. </li><li>
+<a id="pgfId-1066969"></a>Specify the side for the selected pin in the <em>Edge</em> drop-down box.</li><li>
+<a id="pgfId-1066970"></a>Click <em>Apply</em>. </li></ol>
+
+
+<p>
+<a id="pgfId-1067001"></a>The pins are placed on the side specified in the <em>Edge</em> drop-down box as shown in the graphic. </p>
+
+<p>
+<a id="pgfId-1081101"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="550" src="images/chap7-46.gif" /></div>
+
+<p>
+<a id="pgfId-1097181"></a>When you specify the side for selective pins in the design, Pin Planner internally creates an alignment constraint for the selected pins and updates the Constraint Manager accordingly. Now if you optimize the pins in the design, Pin Optimizer respects the alignment constraint for the selected pins. For rectilinear blocks and top level PR boundary, the target side refers to the access direction of pins.</p>
+<p>
+<a id="pgfId-1097190"></a>When side constraints are defined for bus pins, during pin optimization, the bus pins are split based on connected pin side constraints. Consider bus pins in the following design. Some of the pins are assigned to the right side, and some are assigned to the left side.</p>
+
+<p>
+<a id="pgfId-1097191"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="439" src="images/chap7-47.gif" /></div>
+
+<p>
+<a id="pgfId-1097182"></a>During pin optimization, the bus pins are split depending on the specified target pin side to achieve minimum net length.</p>
+
+<p>
+<a id="pgfId-1097241"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="318" src="images/chap7-48.gif" /></div>
+<h4><em>
+<a id="pgfId-1097184"></a><a id="72708"></a>Order Constraint</em></h4>
+
+<p>
+<a id="pgfId-1081104"></a>Pin Optimizer enables you to specify the order in which Pin Optimizer places the pins during optimization. The priority of respecting the Order Constraints is as follows:</p>
+<ul><li>
+<a id="pgfId-1082195"></a><a id="20930"></a>Alignment Constraint<br />
+<a id="pgfId-1082196"></a>You can specify the order of the optimized pins by using Pin Planner. To specify the order of three pins using Pin Planner, perform the following steps:<br />
+<a id="pgfId-1082189"></a>1. Select the pins in the <em>Pin Placement</em> form. <br />
+<a id="pgfId-1082190"></a>2. Specify the order for the selected pin in the <em>Order </em>field.<br />
+<a id="pgfId-1082012"></a>3. Click <em>Apply</em>. <br />
+<a id="pgfId-1081989"></a>Pin Optimizer respects the order of the optimized pins in the Alignment constraint. This is done by specifying the value of the PreserveOrder attribute of alignment constraint to TRUE as shown in the following figure. By default, the PreserveOrder attribute is set to false.<br />
+<a id="pgfId-1079235"></a>Also, when the pitch value is set in the alignment constraint with PreserveOrder set to TRUE, Pin Optimizer will consider it as the spacing required between the pins and will try to place those pins with this pin spacing (i.e the pitch value).</li></ul>
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1079236"></a>If the PreserveOrder attribute is set to false, then the value specified for the pitch attribute will be ignored.</div>
+
+<p>
+<a id="pgfId-1082930"></a></p>
+<div class="webflare-div-image">
+<img width="666" height="606" src="images/chap7-49.gif" /></div>
+
+<ul><li>
+<a id="pgfId-1082931"></a>Bus Constraint<br />
+<a id="pgfId-1082932"></a>If you want the A0, A1, A2, A3, A4, A5, A6, and A7 pins to be arranged in the same order, define the Bus constraint using Constraint Manager. Pin Optimizer respects the Bus constraint and places the pins as shown in the graphic.<br />
+<a id="pgfId-1067156"></a><div class="webflare-div-image">
+<img width="668" height="181" src="images/chap7-50.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1099896"></a>When selecting bus pins for optimization, ensure that you select all pins on both sides of the bus. If only a few pins are selected, then the bus constraint is not recognized. The pins are treated as scalar pins and placed accordingly.</div>
+<a id="pgfId-1099881"></a>To define the Bus constraint in Constraint Manager, perform the following steps:<ol><li>
+<a id="pgfId-1075798"></a> Select the nets in the Navigator window.</li><li>
+<a id="pgfId-1075799"></a> Click <em>Bus </em>in the constraints list of Constraint Manager.</li></ol><br />
+<a id="pgfId-1075800"></a>The Bus constraint is defined for the pins and Pin Optimizer respects the constraint during optimization. </li><li>
+<a id="pgfId-1075723"></a>Bus Pins in Layout<br />
+<a id="pgfId-1079274"></a>By default, Pin Optimizer respects the order of bus pins in the layout during optimization. Bus nets get transferred to the layout from the schematic.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1067281"></a><a id="26872"></a>Priority Constraint</em></h4>
+
+<p>
+<a id="pgfId-1067302"></a>Pin Optimizer enables you to specify the priority in which it optimizes the pins. For example, if you want P0 to be optimized before P1, you can specify a higher priority for P0 as compared to P1. Pin Optimizer uses the associated priority of the pins during optimization and pins with higher priority are optimized first. You can specify the priority of pins in the -128 to 128 range, where -128 is the lowest priority. </p>
+<p>
+<a id="pgfId-1067311"></a>To define the priority of a pin, perform the following steps:</p>
+<ol><li>
+<a id="pgfId-1067312"></a>Select the net in the Navigator window.</li><li>
+<a id="pgfId-1067314"></a>Click <em>Net Priority</em> in the constraint list of Constraint Manager. 
+The <em>Create Priority</em> window is displayed. </li><li>
+<a id="pgfId-1067317"></a>Specify the priority in the <em>Priority</em> textbox. </li><li>
+<a id="pgfId-1067320"></a>Click <em>OK</em>.
+The priority of the pin is set.</li></ol>
+
+
+
+<p>
+<a id="pgfId-1067313"></a>Now if you optimize the pins, Pin Optimizer optimizes the pins based on the associated priority.</p>
+
+<h4><em>
+<a id="pgfId-1108253"></a><a id="91764"></a>Support for Rectangular and Square Pins and Blockages</em></h4>
+
+<p>
+<a id="pgfId-1067321"></a>In addition to the supported constraints described above, Pin Optimizer supports the following:</p>
+<ul><li>
+<a id="pgfId-1066765"></a>Pin optimization supports rectangular as well as square pins. If a design consists of pins that are polygonal or rectilinear in shape, they are placed using their bounding box shape. </li><li>
+<a id="pgfId-1082444"></a>Pin Optimizer supports routing blockages on top-level and level-1. For example, if you have pins on the Metal1 layer and a routing blockage is defined on the same layer, then while placing the pins, Pin Optimizer places the pins away from the blockage with the shortest possible net length. Consider the placement of pin in the figures given below.</li></ul>
+
+<p>
+<a id="pgfId-1082824"></a></p>
+
+<div class="webflare-div-image">
+<img width="668" height="437" src="images/chap7-51.gif" /></div>
+
+<ul><li>
+<a id="pgfId-1066766"></a>Pin Optimizer also supports layer blockages of the design. If there is a layer blockage between two blocks, Pin Optimizer ensures the following while moving the pins:<ul><li>
+<a id="pgfId-1066767"></a>Connects the pins with the shortest possible nets</li><li>
+<a id="pgfId-1066768"></a>Circumvents the layer in between the blockages</li></ul><br />
+<a id="pgfId-1066769"></a>If a layer blockage is on a particular layer and the pins are on another layer, then the blockage will not be considered. Consider the example in the diagrams below:<br />
+<a id="pgfId-1066773"></a><div class="webflare-div-image">
+<img width="668" height="472" src="images/chap7-52.gif" /></div></li></ul>
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1066750"></a>Pin Optimizer does not move pins with &#8220;firm&#8221; and &#8220;locked&#8221; status. If the design has previously placed pins whose status is not firm, Pin Optimizer re-places them and snaps all pins to the placement or manufacturing grid depending on the block type.</p>
+
+<h3>
+<a id="pgfId-1102167"></a><a id="46728"></a>Alignment Issues During Pin Optimization</h3>
+
+<p>
+<a id="pgfId-1102168"></a>There are certain possible scenarios where running Pin Optimizer may lead to certain alignment issues among the connecting pins.</p>
+<p>
+<a id="pgfId-1102169"></a>Scenarios:</p>
+<ul><li>
+<a id="pgfId-1102170"></a>When the connected pins are located on different layers: Each layer may have different pin grids on which the pins are placed. This may result in alignment issues.<br />
+<a id="pgfId-1102950"></a>In the following example, Pin A is on metal1 and Pin B is on metal2. Metal1 and metal2 have different pin grids. Pins A and B are placed and snapped to their corresponding layer grids. This has resulted in misalignment between the two pins.<br />
+<a id="pgfId-1102221"></a><div class="webflare-div-image">
+<img width="668" height="164" src="images/chap7-53.gif" /></div></li><li>
+<a id="pgfId-1102222"></a>When there are multi-pin nets: Optimizing all pins in these nets may cause alignment issues.</li><li>
+<a id="pgfId-1102223"></a>When the connected pins belong to different types of blocks: Pins in custom blocks are snapped to the manufacturing grid, those in digital blocks are snapped to the digital or routing grid, and the ones assigned to block type <code>nil</code> are snapped to the user-defined grid. Therefore, there may be misalignments when such pins are connected. The following example depicts misalignment between connected pins that are located in different types of blocks&#8212;custom block and digital block.<br />
+<a id="pgfId-1102283"></a><div class="webflare-div-image">
+<img width="668" height="167" src="images/chap7-54.gif" /></div></li><li>
+<a id="pgfId-1104516"></a>When there are multiple instances of a block: Pins in one instance will be aligned correctly. However, there may be alignment issues with the other instances. In the following example, there are two instances of a soft block. Pins in these instances are connected to top-level pins. On running Pin Optimizer, pins in one of the instances are aligned correctly, whereas there is a misalignment with the other instance.<br />
+<a id="pgfId-1103330"></a><div class="webflare-div-image">
+<img width="668" height="244" src="images/chap7-55.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1108978"></a>Viewing the Slot Density Report</h4>
+
+<p>
+<a id="pgfId-1108980"></a>In case the Pin Optimizer fails, use the detailed slot density report to view information about occupied and unoccupied slots for each soft block in the design. To view the slot density report, you need to set the <code>PIN_OPT_PIN_DENSITY_INFO</code> shell environment to any positive integer number, for example:</p>
+
+<a id="pgfId-1108982"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+setShellEnvVar(&quot;PIN_OPT_PIN_DENSITY_INFO&quot; &quot;1&quot;)</pre>
+<p>
+<a id="pgfId-1110023"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="514" src="images/chap7-56.gif" /></div>
+<h3>
+<a id="pgfId-1110047"></a><a id="53239"></a>WSP/SP Sup<a id="pinOptWSP"></a>port (ICADVM20.1 Only)</h3>
+
+<p>
+<a id="pgfId-1110027"></a>Pin Optimizer has been enhanced to support width-aware and constraint (CST)-aware optimization of pins. </p>
+<p>
+<a id="pgfId-1107255"></a>Pin Optimizer recognizes the Width Spacing Snap Pattern grid defined using the <code>widthSpacingSnapPatternDef</code> rule in the technology file. The <code>widthSpacingSnapPatternDef</code> definitions are available in the technology database as well as in the design. Pin Optimizer recognizes both global and local <code>widthSpacingSnapPatternDef</code> definitions.</p>
+<p>
+<a id="pgfId-1107256"></a>For more information about the <code>widthSpacingSnapPatternDef</code> rule and related technology file information, see the <h-hot><a actuate="user" class="URL" href="../ascitechfile/chap4.html#wsp_widthSpacingSnapPatternDefs" show="replace" xml:link="simple">Width Spacing Pattern Layer Rules</a></h-hot> section in <em>Virtuoso Technology Data ASCII Files Reference</em>.</p>
+<p>
+<a id="pgfId-1107257"></a>The pin optimization and snapping behavior for connected pins is different from that of unconnected pins. In both cases, the pin width is determined and compared with the WSP/SP track width. The pin width is determined by comparing the width of the pin with the <code>minWidth</code> constraint based on the CST lookup. The larger value is considered.</p>
+
+<p class="webflare-indent2">
+<a id="pgfId-1107258"></a>Example:</p>
+<p class="webflare-indent2">
+<a id="pgfId-1107259"></a>Pin width=0.4 (considered)</p>
+<p class="webflare-indent2">
+<a id="pgfId-1108209"></a>CST=0.3</p>
+
+<p>
+<a id="pgfId-1108210"></a>For information about CST lookup, see the <h-hot><a actuate="user" class="URL" href="../constraints/chap1.html#objectprocessrules" show="replace" xml:link="simple">Process Rules for Objects</a></h-hot> section in V<em>irtuoso Unified Custom Constraints User Guide</em>.</p>
+<p>
+<a id="pgfId-1109285"></a>Pin Optimizer honors the pin layer/side constraints while placing the pins on the WSP/SP tracks. The pin layer/side constraints are honored only when WSP/SP tracks are available on the specified side. For example, consider a technology in which <code>Metal2</code> WSP tracks are available in the horizontal direction. The pin layer/side constraint on this layer is honored only when the pins are assigned to the <em>Left</em> or <em>Right</em> side. The constraint is not honored when pins are assigned to the <em>Top</em> or <em>Bottom</em> side because there are no WSP/SP tracks on this side. </p>
+<p>
+<a id="pgfId-1109545"></a>For more information about the pin layer/side constraint, see <a href="chap7.html#35054">Pin Layer/Side Constraints</a>.</p>
+
+<h4><em>
+<a id="pgfId-1107262"></a>Connected Pins</em></h4>
+
+<p>
+<a id="pgfId-1107264"></a>Connected pins are snapped to tracks with widths greater than or equal to the pin width, while ensuring the minimum net length. While snapping, pins are resized to square-shaped pins with dimensions that match the WSP/SP track width. Pins are centered along the WSP/SP tracks on the snapping layer that is identified in the WSP/SP definition.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1107265"></a>
+The original pin area may not be maintained during pin snapping.</div>
+
+<p>
+<a id="pgfId-1117667"></a>Set the <a href="FPenvvars.html#67944">retainLongPin</a> environment variable to <code>t</code> to retain the dimension of long, rectangular pins while snapping to WSP/SP tracks. The default value is <code>nil</code>, in which case pins are resized to square-shaped pins to match the WSP/SP track width. </p>
+<p>
+<a id="pgfId-1117668"></a>The following examples depict the snapping behavior in various scenarios when <code>retainLongPin</code> is set to <code>t</code>.</p>
+<p>
+<a id="pgfId-1117219"></a>Example 1: A long pin is snapped to a track of the same width. There is no change in the pin dimensions.</p>
+
+<p>
+<a id="pgfId-1117315"></a></p>
+<div class="webflare-div-image">
+<img src="images/LongPinOpt_SameWidthTrack.gif" /></div>
+
+<p>
+<a id="pgfId-1117271"></a>Example 2: A long pin is snapped to a wider track. The pin width is adjusted as per the track width, but the orthogonal pin dimension remains the same.</p>
+
+<p>
+<a id="pgfId-1117321"></a></p>
+<div class="webflare-div-image">
+<img src="images/LongPinOpt_DiffWidthTrack_wide.gif" /></div>
+
+<p>
+<a id="pgfId-1117284"></a>Example 3: A long pin is snapped to a narrower track. The pin width is adjusted as per the track width, but the orthogonal pin dimension remains the same.</p>
+
+<p>
+<a id="pgfId-1117327"></a></p>
+<div class="webflare-div-image">
+<img src="images/LongPinOpt_DiffWidthTrack_narrow.gif" /></div>
+
+<p>
+<a id="pgfId-1117297"></a>Example 4: A long pin is snapped to an orthogonal edge, typically due to a layer change. The shorter pin dimension is used to find a suitable width-aware track. The shorter pin edge is snapped to the track, and so the orthogonal dimension is maintained.</p>
+
+<p>
+<a id="pgfId-1117431"></a></p>
+<div class="webflare-div-image">
+<img src="images/LongPinOpt_Orthogonal.gif" /></div>
+
+<p>
+<a id="pgfId-1117312"></a>Example 5: A square pin is snapped to a wider width track. A square pin is created that matches the width of the snapped track.</p>
+
+<p>
+<a id="pgfId-1117444"></a></p>
+<div class="webflare-div-image">
+<img src="images/LongPinOpt_SquarePins.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1107349"></a>The Alignment (Side/Edge), Order, and Fixed constraints continue to have the highest priority. For example, if <code>pin_1</code> has the side <code>Left</code> edge constraint, then only the tracks on the left side are considered.</div>
+
+<p>
+<a id="pgfId-1107350"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="744" src="images/chap7-62.gif" /></div>
+
+<p>
+<a id="pgfId-1107351"></a>In the above figure, for the yellow pins, only those tracks with width &gt;=0.6 are considered for placement; whereas for the red pins, all the tracks are considered.</p>
+<p>
+<a id="pgfId-1107269"></a>During pin optimization, the yellow pin is snapped to a track such that the minimum net length is achieved.</p>
+<p>
+<a id="pgfId-1107270"></a>The red pin has multiple tracks available. Such pins are snapped to ensure minimal net length, and not minimal pin resize. Further, the pins are placed on the left to ensure minimum net length. While snapping, the pins are resized to square-shaped pins with dimensions that match the WSP/SP track width.</p>
+<p>
+<a id="pgfId-1107271"></a>If no matching WSP/SP tracks are found, then the pins are snapped to tracks such that the minimum net length is achieved.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1107272"></a>If WSP/SP tracks are not available, then pins are snapped to the manufacturing or routing grids, depending on the block type.</div>
+<p>
+<a id="pgfId-1107832"></a>To match a pin&#8217;s layer and size to the connected fixed pin&#8217;s layer and size, use the options in the <em>Match Fixed Pins Layer/Size</em> section on the <em>Pin Optimization</em> tab of the Pin Placement form. For more information about this option, see <a href="chap7.html#64839">Match Fixed Pins Layer/Size</a>.</p>
+
+<h4><em>
+<a id="pgfId-1107274"></a>Unconnected Pins</em></h4>
+
+<p>
+<a id="pgfId-1107682"></a>Unconnected pins are snapped to WSP/SP tracks with widths equal to or greater than the pin width. While snapping, the pins are resized to square-shaped pins with dimensions that match the WSP/SP track width. The following figures depict the snapping behavior of a pin with an original size 0.03. </p>
+<p>
+<a id="pgfId-1107683"></a>In Situation 1, there are two available tracks of widths 0.08 and 0.04. So, the pin is snapped to the WSP/SP track with width 0.04, and resized accordingly.</p>
+<p>
+<a id="pgfId-1107671"></a>In Situation 2, there are two available tracks of widths 0.08 and 0.02. This time, the pin is snapped to the WSP/SP track with width 0.08, and resized accordingly.</p>
+
+<p>
+<a id="pgfId-1107277"></a><a id="80443"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="526" src="images/chap7-63.gif" /></div>
+<h4><em>
+<a id="pgfId-1107280"></a>Blockage Support</em></h4>
+
+<p>
+<a id="pgfId-1108235"></a>Pin Optimizer supports routing blockages. Therefore, during pin optimization, a pin is not placed on a WSP track if the placement would lead to an overlap between the pin and blockages on the pin&#8217;s layer. For more information, see <a href="chap7.html#91764">Support for Rectangular and Square Pins and Blockages</a>.</p>
+
+<h4><em>
+<a id="pgfId-1108236"></a>Pin Snapping for Overlapping Regions</em></h4>
+
+<p>
+<a id="pgfId-1107282"></a>In certain designs, there could be an overlap between two WSP regions that have the same snapping layer. The following types of overlaps are possible:</p>
+<ul><li>
+<a id="pgfId-1108749"></a>Partial, between two regions</li><li>
+<a id="pgfId-1108782"></a>Exact, between two regions of the same size</li><li>
+<a id="pgfId-1108783"></a>Complete enclosure of a smaller region within another larger region</li></ul>
+
+
+<p>
+<a id="pgfId-1108876"></a>Pin Optimizer follows certain rules that define the pin snapping behavior for such overlapping regions. For more information about these rules, see <h-hot><a actuate="user" class="URL" href="../vlehelp/leWSP.html#wsp_pinSnappingOverlap" show="replace" xml:link="simple">Pin Snapping for Overlapping Regions</a></h-hot>.</p>
+
+<h4>
+<a id="pgfId-1107288"></a>Support for the <code>allowedWireTypes</code> Constraint</h4>
+
+<p>
+<a id="pgfId-1107289"></a>Pin Optimizer has been enhanced to support the <code>allowedWireTypes</code> constraint. When this constraint is set on a net, pins on that net are placed on tracks with allowed wire types. Pin Optimizer matches the <code>allowedWireTypes</code> constraint specified on the nets with the track <code>wiretype</code> value. If multiple matches are found, then the tack with the minimum net length is chosen for placement. </p>
+<p>
+<a id="pgfId-1107290"></a>For more information on the <code>allowedWireTypes</code> constraint, see <h-hot><a actuate="user" class="URL" href="../constraints/appA.html#wsp_assignWireType" show="replace" xml:link="simple">Assigning a Wire Type to a Net (ICADVM20.1 Only)</a></h-hot>.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1107291"></a>Pin Optimizer achieves the minimum net length while honoring the constraints and the priority order mentioned below:</div>
+<ol><li style="list-style-type: none;background-image: none;"><ol><li>
+<a id="pgfId-1107292"></a>Matching wire type </li><li>
+<a id="pgfId-1107293"></a>Matching width</li></ol></li></ol>
+
+<p>
+<a id="pgfId-1105740"></a>For information about CST lookup, see the <h-hot><a actuate="user" class="URL" href="../constraints/appA.html#wsp_assignWireType" show="replace" xml:link="simple">Assigning a Wire Type to a Net (ICADVM20.1 Only) &gt; Default Constraint Types</a></h-hot> section in Virtuoso Unified Custom Constraints User Guide.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1108014"></a>
+As WSP is a space-corrected grid, a pitch value does not make sense. Therefore, it is not supported.</div>
+<h4>
+<a id="pgfId-1109168"></a>Support for Pin Group Guides</h4>
+
+<p>
+<a id="pgfId-1109182"></a>If a design with WSP patterns has a pin group guide defined on its PR boundary, then the pins in the pin group guide are snapped to nearest WSP/SP track within the guide. However, if a pin group guide only intercepts a WSP/SP track, then the pins cannot be placed on the intercepting track, as shown below:</p>
+
+<p>
+<a id="pgfId-1109215"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="315" src="images/chap7-64.gif" /></div>
+
+<p>
+<a id="pgfId-1109205"></a>For more information about pin group guides, see <a href="PGG.html#72508">Creating Pin Group Guides</a>.</p>
+
+<h4>
+<a id="pgfId-1132506"></a>Cross-Selectio<a id="pinSelectionUseModel"></a>n of Pins</h4>
+
+<p>
+<a id="pgfId-1132507"></a>Any pin that you select in the pin table, as shown below, also gets selected in the navigator assistant and the layout canvas, or vice versa.</p>
+
+<p>
+<a id="pgfId-1132514"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="406" src="images/chap7-65.gif" /></div>
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1132515"></a>
+The pin selection use-model has been enhanced such that any pins selected in the pin table are now highlighted and selected in the layout canvas. This enables directly selecting the pins from the pin table and editing them in the layout canvas.</div>
+
+<p>
+<a id="pgfId-1132516"></a>If you select a top-level pin in the layout canvas and the <em>Pin Planner</em> tab has the <strong>
+Top Level Pins</strong>
+ edit mode selected, the pin table displays the selected pin as highlighted. However, if the edit mode selected in the <em>Pin Planner </em>tab is <strong>
+Level-1 Pins</strong>
+, the form automatically switches to the <strong>
+Top Level Pins</strong>
+ mode to show the cross-selection. The automatic mode switching works as long as the selected layout pins belong to the same level&#8212;top or level-1. If you select a mix of top-level and level-1 pins in the layout canvas, the <em>Pin Planner</em> tab continues to be in the current selected mode and displays only those pins as highlighted in the pin table that belong to the current edit mode.</p>
+<p>
+<a id="pgfId-1132517"></a>The table below summarizes how the <em>Pin Planner</em> tab handles the cross-selection depending on the layout pins selected. Let us assume here that the default edit mode selected is <strong>
+Top Level Pins:</strong>
+</p>
+
+<p>
+<a id="pgfId-1132560"></a></p>
+<table class="webflareTable" id="#id1132518">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1132520">
+<a id="pgfId-1132520"></a>Selected Pin</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1132522">
+<a id="pgfId-1132522"></a>Pin Planner Tab Behavior</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132524"></a>Only top pins</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132526"></a>Shows the selected top pins in the pin table.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132528"></a>Only soft block instance pins</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132530"></a>Automatically switches to the <strong>
+Level-1 Pins </strong>
+mode and shows the selected instance pins in the pin table.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132532"></a>Top pins + Soft block instance pins</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132534"></a>No automatic mode switching.</p>
+<p>
+<a id="pgfId-1132535"></a>The <strong>
+Top Level Pins</strong>
+ mode shows the selected top pins and the <strong>
+Level-1 Pins</strong>
+ mode shows the selected instance pins.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132537"></a>Only soft block instance</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132539"></a>Automatically switches to the <strong>
+Level-1 Pins </strong>
+mode<strong></strong>
+but shows no selection in the pin table as the instance &#8220;pin&#8221; is not selected.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132541"></a>Soft block instance + Soft block instance pins</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132543"></a>Automatically switches to the <strong>
+Level-1 Pins </strong>
+mode<strong></strong>
+and shows the selected instance pins in the pin table.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132545"></a>Top pins + Soft block instance</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132547"></a>No automatic mode switching.</p>
+<p>
+<a id="pgfId-1132548"></a>The <strong>
+Top Level Pins</strong>
+ mode shows the selected top pins.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132550"></a>Top pins + Soft block instance + Soft block instance pins</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132552"></a>No automatic mode switching.</p>
+<p>
+<a id="pgfId-1132553"></a>The <strong>
+Top Level Pins</strong>
+ mode shows the selected top pins and the <strong>
+Level-1 Pins</strong>
+ mode shows the selected instance pins.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132555"></a>Top pins + Soft block instance + Soft block instance pins + Pins of another soft block</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1132557"></a>No automatic mode switching.</p>
+<p>
+<a id="pgfId-1132558"></a>Each level shows the selected pins at that level. </p>
+<p>
+<a id="pgfId-1132559"></a></p>
+</td>
+</tr>
+</tbody></table>
+
+<b>Note:</b><br />
+<a id="pgfId-1132561"></a>
+<ul><li>
+<a id="pgfId-1132562"></a>To add to your selection set in the pin table, incrementally select the pins using the <code>Ctrl</code> or <code>Shift</code> key, as appropriate.</li><li>
+<a id="pgfId-1132563"></a>To nullify your existing selection:<ul><li>
+<a id="pgfId-1132564"></a>In the pin table, click any pin. This nullifies the previous selection and shows only the clicked pin as selected.</li><li>
+<a id="pgfId-1132565"></a>In the layout canvas, click anywhere. This nullifies the previous selection and shows no pins as selected. However, if you click a pin in the layout canvas, the previous selection is nullified and the clicked pin appears as selected.</li></ul></li></ul>
+
+
+
+
+<h2>
+<a id="pgfId-1105728"></a><a id="77971"></a>Using a Pin Constr<a id="pinConstraintsFile"></a>aints File</h2>
+
+<p>
+<a id="pgfId-1091413"></a>Typically, designers use Pin Optimizer, Pin Planner, or Constraint Manager to set pin constraints. These methods are useful while setting pin constraints for smaller designs with few pins. However, for large, complicated designs with hundreds of pins, these methods may require a lot of time and effort. For such designs, you can create a pin constraints file that includes all the pin constraint definitions. This file can be loaded using a SKILL function. Once loaded, constraints are created, which can be viewed and edited in the Constraint Manager. During pin optimization, these constraints are honored.</p>
+<p>
+<a id="pgfId-1091414"></a>The following image depicts the use of a pin constraints file for defining constraints:</p>
+
+<p>
+<a id="pgfId-1091395"></a></p>
+<div class="webflare-div-image">
+<img src="images/PinConstraintsFileFlow.gif" /></div>
+<h4>
+<a id="pgfId-1091449"></a>Step 1: Creating a Pin Constraints File</h4>
+
+<p>
+<a id="pgfId-1091495"></a>A pin constraints file is a SKILL file with the following constraints entered in a SKILL list:</p>
+<ul><li>
+<a id="pgfId-1091496"></a><a href="appE.html#39353">Edge Constraint</a></li><li>
+<a id="pgfId-1091497"></a><a href="appE.html#50478">Pitch Constraint</a></li><li>
+<a id="pgfId-1091498"></a><a href="appE.html#22335">Status Constraint</a></li></ul>
+
+
+<p>
+<a id="pgfId-1091503"></a>The pin constraints file also includes: </p>
+<ul><li>
+<a id="pgfId-1091504"></a>A <a href="appE.html#92807">Sanity Checker</a> to validate all parameters before running Pin Optimizer.</li><li>
+<a id="pgfId-1091505"></a>An API that automatically loads constraints from the pin constraints file while the file is being read.</li></ul>
+
+<p>
+<a id="pgfId-1091635"></a>You can create a pin constraints file by either entering the constraints manually in a text editor or using a script to generate the file. </p>
+
+<div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1091623"></a>
+A sample pin constraints file, <code>vfpLoadPinCons.il</code>, is available in the <code>dfII/samples/vfp/ </code>directory for your reference. Use the file as a reference for creating a pin constraints file.</div>
+
+<p>
+<a id="pgfId-1092093"></a>For more information about the pin constraints file, see <a href="appE.html#66528">Pin Constraints File</a>. </p>
+<p>
+<a id="pgfId-1092094"></a>To know more about the constraints supported by Pin Optimizer, see <a href="chap7.html#29745">Constraints Supported by Pin Optimizer</a>.</p>
+
+<h4>
+<a id="pgfId-1092095"></a>Step 2: Loading the Pin Constraints File</h4>
+
+<p>
+<a id="pgfId-1095111"></a>Use the <code>load(file_name)</code> command to load the pin constraints file. The constraints in the file are read and loaded in the Constraint Manager. </p>
+
+<div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1095212"></a>
+Utility functions to load pin constraint file with and without sanity checkers are available in the sample file. To use these functions, un-comment them as per your requirement.</div>
+
+<p>
+<a id="pgfId-1095112"></a>Step 3: Edit Constraints in the Pin Constraints File and Reload the File</p>
+<p>
+<a id="pgfId-1095140"></a>While loading the pin constraints file, parsing errors, if any, are displayed in the CIW. Make the required edits to the pin constraints file and reload the updated file. Ensure that there are no parsing errors.</p>
+
+<h4>
+<a id="pgfId-1095113"></a>Step 4: Viewing and Editing Constraints in the Constraint Manager</h4>
+
+<p>
+<a id="pgfId-1091657"></a>Open the Constraint Manager to view the constraints. Notice that the constraints in the pin constraints file are updated in the Constraint Manager. Make edits, if required, before running Pin Optimizer.</p>
+
+<p>
+<a id="pgfId-1091476"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="526" src="images/chap7-67.gif" /></div>
+<h4>
+<a id="pgfId-1091721"></a>Step 5: Running Pin Optimizer</h4>
+
+<p>
+<a id="pgfId-1091776"></a>To run Pin Optimizer, choose <em>Floorplan &#8211; Pin Optimization</em>. For more information about Pin Optimization, see <strong><a href="chap7.html#67386"></a><h-hot>Using the Pin Optimization Tab</h-hot><strong></strong></strong>.</p>
+<p>
+<a id="pgfId-1091777"></a>Notice that Pin Optimizer has honored the constraints during pin optimization.</p>
+
+<p>
+<a id="pgfId-1091709"></a><a id="81072"></a></p>
+<div class="webflare-div-image">
+<img src="images/PinsOptimized1.gif" /></div>
+<h2>
+<a id="pgfId-1111787"></a>Running the <a id="37513"></a>Pin Ch<a id="RunPinCheck"></a>ecker (ICADVM20.1 Only)</h2>
+
+<p>
+<a id="pgfId-1111827"></a>Pin Checker lets you perform the following checks on pins and report the results:</p>
+<ul><li>
+<a id="pgfId-1111830"></a>Check whether the pin layer directions match the assigned edge directions.</li><li>
+<a id="pgfId-1111833"></a>Check whether soft blocks pins are:<ul><li>
+<a id="pgfId-1111834"></a>Aligned.</li><li>
+<a id="pgfId-1111835"></a>On the same layer.</li><li>
+<a id="pgfId-1111836"></a>Of the same size.</li></ul></li><li>
+<a id="pgfId-1111837"></a>Check for exact pin-to-pin abutment of connected pins.</li><li>
+<a id="pgfId-1111838"></a>Report nets with multiple pin shapes.</li><li>
+<a id="pgfId-1112769"></a>Report pin overlaps, if any.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1112732"></a>
+It is recommended that you use the Pin Checker to validate Pin Optimization results.</div></li></ul>
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1111815"></a><a id="28721"></a>Using the Pin <a id="PinChecker"></a>Checker</h3>
+
+<p>
+<a id="pgfId-1111878"></a>Select <em>Floorplan &#8211; Pin Checker</em> to display the Pin Checker form.</p>
+
+<p>
+<a id="pgfId-1111914"></a></p>
+<div class="webflare-div-image">
+<img src="images/PinChecker.gif" /></div>
+
+<p>
+<a id="pgfId-1111936"></a>The form is divided into three sections that let you perform the following tasks:</p>
+<ul><li>
+<a id="pgfId-1111947"></a><a href="chap7.html#16227">Check Two Pin Nets</a></li><li>
+<a id="pgfId-1112018"></a><a href="chap7.html#87801">Check All Nets</a></li><li>
+<a id="pgfId-1112041"></a><a href="chap7.html#64467">Customize the Pin Check Report</a></li></ul>
+
+
+
+<h4>
+<a id="pgfId-1111958"></a><a id="16227"></a>Check Two Pin Nets</h4>
+
+<p>
+<a id="pgfId-1111968"></a>The options in this section are applicable only to the nets that are connected to two pins. Violations are reported in the Pin Check Report.</p>
+<ul><li>
+<a id="pgfId-1112077"></a>Mis-aligned: Checks whether the connected pins are correctly aligned. </li><li>
+<a id="pgfId-1112095"></a>Layer mismatch: Checks whether the connected pins are on the same layer.</li><li>
+<a id="pgfId-1112102"></a>Size mismatch: Checks whether the dimensions of the connected pins are the same.</li><li>
+<a id="pgfId-1112112"></a>Abut: Checks whether the connected pins are abutted to each other.</li><li>
+<a id="pgfId-1112119"></a>Overlap: Checks whether the connected pins overlap each other.</li></ul>
+
+
+
+
+
+<h4>
+<a id="pgfId-1112134"></a><a id="87801"></a>Check All Nets</h4>
+
+<p>
+<a id="pgfId-1112363"></a>The options in this section are applicable to all nets. Violations are reported in the Pin Check Report.</p>
+<ul><li>
+<a id="pgfId-1112352"></a>Multi pin nets: Identifies nets that have multiple pins and lists their names in the Pin Check Report. Specify a <em>Pin Threshold</em> to restrict the check to nets that have the specified number of pins.</li><li>
+<a id="pgfId-1112353"></a>Pin layer direction mismatch with side: This check, applicable only to the pins that have side layer constraints, identifies the pins for which pin layers do not have tracks in the specified pin side.</li></ul>
+
+
+<h4>
+<a id="pgfId-1111986"></a><a id="64467"></a>Customize the Pin Check Report</h4>
+
+<p>
+<a id="pgfId-1112435"></a>After running Pin Checker, the Pin Check Report is generated in the CIW. This report provides information about the violations. The following options in the Pin Check Report section let you customize the information displayed in the report:</p>
+<ul><li>
+<a id="pgfId-1112160"></a>Summary: Generates a summary report about the checks, as shown below:<br />
+<a id="pgfId-1112501"></a><div class="webflare-div-image">
+<img src="images/PinCheckReport_Summary.gif" /></div></li><li>
+<a id="pgfId-1112167"></a>Detailed: Generates a detailed report in the CIW with information about nets as per the settings. The violations are also listed in the <em>Misc</em> tab of Annotation Browser. The following image shows a detailed report: <br />
+<a id="pgfId-1112575"></a><div class="webflare-div-image">
+<img src="images/PinCheckReport_Detailed.gif" /></div></li><li>
+<a id="pgfId-1112576"></a>Selected In Canvas: Restricts the information displayed in the Pin Checker Report only to those nets that are selected in the design canvas.<ul><li>
+<a id="pgfId-1112181"></a>Threshold: Specifies the maximum number of nets to be considered for each check.</li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="PGG.html" id="prev" title="Creating Pin Group Guides">Creating Pin Group Guides</a></em></b><b><em><a href="PinAssistant.html" id="nex" title="Using the Pin Tool">Using the Pin Tool</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>
