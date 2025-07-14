@@ -1,0 +1,612 @@
+
+<html><head><title>Creating Rows</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="spriya" />
+<meta name="CreateDate" content="2020-09-10" />
+<meta name="CreateTime" content="1599806261" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the features and functionality of the Virtuoso Custom Placer in the ICADV 12.2 release." />
+<meta name="DocTitle" content="Virtuoso Placer User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Creating Rows" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="vplacer" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-10" />
+<meta name="ModifiedTime" content="1599806261" />
+<meta name="NextFile" content="Placement.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="GettingStarted.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Placer User Guide -- Creating Rows" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vplacerICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vplacerTOC.html">Contents</a></li><li><a class="prev" href="GettingStarted.html" title="Getting Started with Virtuoso Placer">Getting Started with Virtuoso  ...</a></li><li style="float: right;"><a class="viewPrint" href="vplacer.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Placement.html" title="Performing Design Placement">Performing Design Placement</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Placer User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>2
+<a id="pgfId-1065082"></a></h1>
+<h1>
+<a id="pgfId-1065530"></a><hr />
+<a id="45940"></a>Creating Rows<hr />
+</h1>
+
+<p>
+<a id="pgfId-1078262"></a>Advanced node processes support multiple grid types. As a result, advanced node designs easily adapt to a row-based placement methodology. Though it is not necessary that you create rows for placement, it is recommended because row-based placement improves routability, achieves better wire length after routing, and resolves illegal placements by balancing the number of instances placed in each row. It also helps resolve overlaps between devices in each row. </p>
+<p>
+<a id="pgfId-1078489"></a>The Row Template Manager feature provides the capability to define row templates. You can create row templates specific to your design type, and then use these templates to generate rows in the layout canvas. Rows are created in objects called row regions. Row regions reference a row template that determines how rows are created in that region. Rows, in turn, contain component type attributes that determine which instances are placed in that row and the manner in which they are placed.</p>
+<p>
+<a id="pgfId-1078437"></a>You can save row templates and reuse them in multiple designs. Row templates can be used to place both analog and digital designs.</p>
+<p>
+<a id="pgfId-1071948"></a>This chapter gives a brief introduction about rows and row templates; and describes the procedure to use the Row Template Manager to create, edit, and import row templates.</p>
+<p>
+<a id="pgfId-1071849"></a>The topics covered in this chapter are:</p>
+<ul><li>
+<a id="pgfId-1065732"></a><a href="Rows.html#92122">Introducing the Row Infrastructure</a><ul><li>
+<a id="pgfId-1071359"></a><a href="Rows.html#39944">Row Attributes</a></li><li>
+<a id="pgfId-1071374"></a><a href="Rows.html#34106">Row Templates</a></li></ul></li><li>
+<a id="pgfId-1065762"></a><a href="Rows.html#72524">Row Template Manager</a><ul><li>
+<a id="pgfId-1065785"></a><a href="Rows.html#63954">Creating and Editing a Row Template</a></li><li>
+<a id="pgfId-1071308"></a><a href="Rows.html#16828">Importing a Row Template from Another Cellview</a></li></ul></li><li>
+<a id="pgfId-1076703"></a><a href="Rows.html#52000">Layout Support for Row Regions</a></li></ul>
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1065734"></a><a id="92122"></a>Introducing the Row Infrastructure</h2>
+
+<p>
+<a id="pgfId-1072110"></a>A row represents the location for placing standard cells, macros, or devices. In a layout design, you define rows within the PR boundary. You can then place instances within these rows. </p>
+
+<h3>
+<a id="pgfId-1074171"></a><a id="39944"></a>Row Attributes</h3>
+
+<p>
+<a id="pgfId-1066964"></a>The following diagram depicts a row and its attributes:</p>
+
+<p>
+<a id="pgfId-1066981"></a></p>
+<table class="webflareTable" id="#id1066965">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068273"></a>Row Edge</p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1068275"></a>Row edge is defined by the row offset and row height values.</p>
+<p>
+<a id="pgfId-1068312"></a>The reference edge is specified by the row offset value. The other edge is at a distance equal to the row height away from the reference edge. </p>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072337"></a>Row Orientation</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1072339"></a>Is the orientation of the row with respect to the x and y axes. </p>
+<p>
+<a id="pgfId-1072340"></a>The two possible row orientations are: no orientation (<code>R0</code>) and mirrored orientation along the x axis (<code>MX</code>).</p>
+<p>
+<a id="pgfId-1072341"></a>If the row orientation is <code>R0</code>, the row height is measured as a positive value from the bottom edge. If the row orientation is <code>MX</code>, the row height is measured from top to bottom.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066971"></a>Row Offset</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066973"></a>Refers to the distance from the base line to the reference edge. </p>
+<p>
+<a id="pgfId-1072273"></a>The reference edge depends on the row orientation. When the row orientation is <code>R0</code>, the reference edge is at the bottom and the row offset is the distance from the base line to the bottom edge. However, when the row orientation is <code>MX</code> (mirrored), the reference edge is at the top and the row offset defines the distance from the base line to the top edge, as indicated in the right-hand picture.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066975"></a>Row Height</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1066977"></a>Is the distance between the top and bottom edges of the row.</p>
+</td>
+</tr>
+</tbody></table>
+<div class="webflare-div-image">
+<img width="668" height="156" src="images/Rows-2.gif" /></div>
+<h3>
+<a id="pgfId-1066982"></a><a id="34106"></a>Row Templates</h3>
+
+<p>
+<a id="pgfId-1066908"></a>A row template is a container that defines one or more rows. It comprises specifications for a set of rows to be generated in the layout canvas. A row template can be repeated multiple times, one on top of the other, based on the required height. The following diagram depicts how a row template can be used multiple times in a design. One instance is zoomed in to view details:</p>
+
+<p>
+<a id="pgfId-1067878"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="427" src="images/Rows-3.gif" /></div>
+
+<p>
+<a id="pgfId-1067901"></a>In the above diagram, you can see that:</p>
+<ul><li>
+<a id="pgfId-1068835"></a>The row template period is the total height of the row template, inclusive of all the rows in it. </li><li>
+<a id="pgfId-1067926"></a>Each row has a different row offset value.</li></ul>
+
+<p>
+<a id="pgfId-1067942"></a>Here is a snapshot of a row template with three rows, Row 1, Row 2, and Row 3:</p>
+
+<p>
+<a id="pgfId-1066875"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="478" src="images/Rows-4.gif" /></div>
+
+<p>
+<a id="pgfId-1075846"></a>Before generating rows in the layout canvas using a row template, ensure that:</p>
+<ul><li>
+<a id="pgfId-1075855"></a>The row template has at least one row.</li><li>
+<a id="pgfId-1075856"></a>All rows have either a row height or a siteDef valued defined.</li><li>
+<a id="pgfId-1075857"></a>All rows fit inside the template period.</li><li>
+<a id="pgfId-1075858"></a>All row have an allowed orientation value set.</li><li>
+<a id="pgfId-1075859"></a>All rows have either a component type or a component master filter, but not both.</li><li>
+<a id="pgfId-1075847"></a>All attributes are specified for generating rails, if required.</li></ul>
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1075849"></a><a id="72524"></a>Row Template Manager</h2>
+
+<p>
+<a id="pgfId-1072169"></a>Before running Virtuoso Placer, you must have generated rows in the layout canvas. </p>
+<p>
+<a id="pgfId-1072235"></a>Row generation involves the following steps:</p>
+<ol><li>
+<a id="pgfId-1072728"></a>Defining one or more row templates: Use the Row Template Manager to define row templates. <br />
+<a id="pgfId-1072919"></a>Row templates will typically be set up centrally for use with a particular project or process node and it&#39;s unlikely that the layout designer will have to edit them. <br />
+<a id="pgfId-1072933"></a>The Placement Planning form includes the <em>Row Template</em> field. This section covers the process of defining and generating rows using the Row Template Manager. </li><li>
+<a id="pgfId-1072729"></a>Defining the area where rows should be generated: Use the <em>Region</em> tab of the Placement Planning form to specify the area (<em>Boundary</em>) in which the rows must be generated. <br />
+<a id="pgfId-1072940"></a>Depending on the area, which could be the PR boundary or a custom placement area, row templates are repeated to accommodate as many rows as possible within the area. <br />
+<a id="pgfId-1072818"></a>When you select a row template, the <em>Row</em> tab is automatically disabled. You cannot edit row attributes. <br />
+<a id="pgfId-1072950"></a>If you do not select a row template, you can use the options on the <em>Row</em> tab to define row attributes, as shown in the following picture:<br />
+<a id="pgfId-1075972"></a><div class="webflare-div-image">
+<img width="668" height="438" src="images/Rows-5.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1075973"></a>Click <em>Generate Rows</em> to generate rows in the layout canvas as per the specifications in the Placement Planning form.</p>
+<p>
+<a id="pgfId-1075992"></a>For more information, see <h-hot><a actuate="user" class="URL" href="../vcphelp/chap3.html#firstpage" show="replace" xml:link="simple">Placement Planning</a></h-hot> in <em>Virtuoso Custom Digital Placer User Guide</em>.</p>
+
+<h3>
+<a id="pgfId-1075975"></a><a id="63954"></a>Creating and Editing a Row Template</h3>
+
+<p>
+<a id="pgfId-1072994"></a>Use the <a href="vPlaceForms.html#43062">Row Template Manager</a> to create and edit row templates. Click <em>Place</em> &#8211; <em>Row Template Manager </em>to display Row Template Manager.</p>
+
+<p class="webflare-indent1">
+<a id="pgfId-1070801"></a></p>
+<div class="webflare-div-image">
+<img src="images/RowTemplate.gif" /></div>
+
+<p>
+<a id="pgfId-1070787"></a>The form has two tabs: </p>
+<ul><li>
+<a id="pgfId-1070700"></a>Edit: Use this tab to create new row templates or to edit existing templates. Row templates are stored directly in the layout.</li><li>
+<a id="pgfId-1070701"></a>Import: Use this tab to import existing row templates from a different cellview in your design library. The <em>Import</em> tab is displayed by default when you open the Row Template Editor. Once a template is defined, you can reuse it any number of times. Use the options on the <em>Edit</em> tab to make further changes to an imported row template. For more information, see <a href="Rows.html#16828">Importing a Row Template from Another Cellview</a>.</li></ul>
+
+<p>
+<a id="pgfId-1073047"></a>The tasks involved in creating a new row template are:</p>
+<ul><li>
+<a id="pgfId-1073234"></a><a href="Rows.html#28265">Defining Row Template Name and Placement Grid</a></li><li>
+<a id="pgfId-1073252"></a><a href="Rows.html#71400">Defining a Row</a></li><li>
+<a id="pgfId-1073275"></a><a href="Rows.html#26849">Defining Component Types and Rails</a></li></ul>
+
+
+
+<h4>
+<a id="pgfId-1073221"></a><a id="28265"></a>Defining Row Template Name and Placement Grid</h4>
+
+<p>
+<a id="pgfId-1073222"></a>With the Row Template Manager open:</p>
+<ol><li>
+<a id="pgfId-1078652"></a>Click the <em>Edit</em> tab.</li><li>
+<a id="pgfId-1078672"></a>Click <em>New </em>to generate a new unique row template name, which, by default, is <em>RowTemplateN</em>, where <em>N</em> = 1, 2, 3, &#8230; You can modify this default value to specify a more descriptive name for your row template. <br /><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1078673"></a>
+To edit an existing row template, select its name from the drop-down list.</div><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1077199"></a>
+At any point, click <em>Update</em> to save changes. Click <em>View</em> to preview the row template in a separate window. Whenever you make changes to a row template and click <em>Update</em>, the rows in the design and the view in the placement window are dynamically updated.</div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1077200"></a>The <em>Update</em> and <em>View</em> buttons are disabled when there are invalid entries in the table. Incorrect entries are indicated by yellow highlights. You can hover the mouse over the entry to get a detailed explanation of the error.</div></li><li>
+<a id="pgfId-1073523"></a>Specify the row <em>Template Period</em>. It is the sum of the heights of all rows in the template and the spacing between these rows. In other words, it is the distance after which the template repeats.<br />
+<a id="pgfId-1073529"></a><div class="webflare-div-image">
+<img width="668" height="184" src="images/Rows-8.gif" /></div>
+<a id="pgfId-1073524"></a>The combo box beside the <em>Template Period</em> field specifies the number of rows that can be accommodated in the specified row template period. If you modify the number, then the <em>Template Period </em>is adjusted accordingly. For example, <code>4*0.048</code> indicates that the <em>Template Period</em> is four times the vertical grid&#39;s period (0.048). Therefore, the <em>Template Period</em> field is automatically reset to <code>0.192</code> to accommodate the vertical grid.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1068954"></a>To specif<a id="regionType"></a>y the grid period, select the vertical grid (<em>Ref Y Grid</em>) first.</div></li><li>
+<a id="pgfId-1082979"></a>Specify the <em>Region Type</em>, which is a RowRegionSpec (RRS) type attribute from which settings are inherited. After generating the row region in the layout canvas, Virtuoso can automatically query the RowRegionSpec type attribute, derive the predefined actions, and run these actions on the new row region.</li><li>
+<a id="pgfId-1069037"></a>The <em>Placement Grid</em> section ensures that row placement is compatible with the Width Spacing Pattern/Snap Pattern (WSP/SP) tracks. In this section:<ol><li>
+<a id="pgfId-1069045"></a>Optionally, select the vertical and horizontal reference grids (along the x and y axes) for snapping the devices during placement. </li><li>
+<a id="pgfId-1079443"></a>Optionally, specify the vertical and horizontal offset values, which indicate the reference row offset values that need to be applied to rows on each axis after they are snapped to the reference grids. The offset value is a correction factor for the SP.</li><li>
+<a id="pgfId-1079444"></a>Optionally, select a <em>Related Snap Pattern</em>, which is a predefined grouping of snap pattern definitions (SPDef) and width spacing snap pattern definitions (WSSPDef). If you choose a <em>Related Snap Pattern</em>, a corresponding WSP region that is equivalent to and in addition to the row region is created.</li></ol></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1078138"></a><a id="71400"></a>Defining a Row</h4>
+
+<p>
+<a id="pgfId-1073298"></a>Use the <em>Rows</em> section to specify row parameters. The <em>Row Information</em> table initially has a placeholder for the first row. When you edit the row, a placeholder for the next row is automatically added. This way, you can create a list of rows to be included in the row template. You can also right-click a row to display the following shortcut menu:</p>
+
+<p>
+<a id="pgfId-1069483"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="145" src="images/Rows-9.gif" /></div>
+
+<p>
+<a id="pgfId-1081549"></a>Select <em>Auto-compute row offset</em> to automatically calculate and update the row offsets whenever rows are modified, for example, when a row is added, duplicated, or deleted. The offsets of all rows in the template are re-calculated and updated such that they are next to each other, without any overlaps. The row offset calculation is also done when the row height or offset values are modified. </p>
+<p>
+<a id="pgfId-1069164"></a>To specify the row parameters:</p>
+<ol><li>
+<a id="pgfId-1073311"></a>After adding a row, edit its <em>Row Name</em>.</li><li>
+<a id="pgfId-1069545"></a><em>Row Offset</em>, the offset from the base of the template, is initially set to <code>0</code> for the first row. You can edit the value. Row offset values must be greater than or equal to zero and less than or equal to the template period. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069575"></a>You must ensure that the <em>Row Offset</em> value adheres to the <em>Template Period</em> and <em>Row Height</em> values. An example of an error condition is given <a href="Rows.html#ErrorHeight">below</a>.</div>
+<a id="pgfId-1081659"></a>If <em>Auto-compute row offset </em>is selected, the row offset values are automatically adjusted such that rows are created next to each other, without any overlaps.<a id="autoComputeOffset"></a><br />
+<a id="pgfId-1081655"></a><div class="webflare-div-image">
+<img width="668" height="756" src="images/Rows-10.gif" /></div></li><li>
+<a id="pgfId-1069145"></a><em>Row Orientation</em> is the current orientation of the row. Valid orientations are <code>R0</code> (default) and <code>MX</code> (Mirrored about the x axis).<br /><div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1076173"></a>
+Chains are considered incompatible if they have one or more instances with orientations that do not match the orientation of the row in which they are placed.</div></li><li>
+<a id="pgfId-1069110"></a>The <em>Row Height</em> value defaults to the period of the vertical grid or to <code>0</code> if the vertical grid is not set. In the following example, the <em>Template Period </em>is set to <code>0.192</code> and the row template has a single row of height <code>0.192</code>: <br />
+<a id="pgfId-1069381"></a><div class="webflare-div-image">
+<img width="668" height="161" src="images/Rows-12.gif" /></div>
+<a id="pgfId-1078839"></a>On adding a new row to the above definition, the <em>Template Period </em>value is highlighted, indicating that the end of the row exceeds the Template Period value. Therefore, the row is partially or fully outside of the template. <br />
+<a id="pgfId-1075297"></a>In such situations, select the <em>Auto compute minimum period</em> to automatically calculate a minimum template period value. <br />
+<a id="pgfId-1075307"></a>The following figure depicts such a situation:<br />
+<a id="pgfId-1069448"></a><a id="ErrorHeight"></a><div class="webflare-div-image">
+<img width="668" height="480" src="images/Rows-13.gif" /></div></li><li>
+<a id="pgfId-1074303"></a>If you select a <em>Site Def</em>, then the specified <em>Row Height</em> is overridden by the row height value of the siteDef. The Inst Pitch value is also reset to the width of the siteDef, which you can further edit. Standard cells snap to the site defined in the siteDef.<br />
+<a id="pgfId-1074345"></a>The following pictures depict the differences between the siteDef height and row height values:<br />
+<a id="pgfId-1074304"></a><div class="webflare-div-image">
+<img width="668" height="234" src="images/Rows-14.gif" /></div></li><li>
+<a id="pgfId-1069837"></a>Select a <em>Background LPP</em> to fill the given row with a rectangle on the specified layer-purpose pair (LPP). This option is useful when you want to use well layers. You can use either an Nwell row with a Pwell behind it, or a Pwell row with an Nwell behind it. In the following example, an Nwell layer is selected as the <em>Background LPP</em>:<br />
+<a id="pgfId-1069916"></a><div class="webflare-div-image">
+<img width="668" height="492" src="images/Rows-15.gif" /></div>
+<a id="pgfId-1069946"></a>A rectangle shape is created in the row, which can be used for placing wells.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1073151"></a><a id="26849"></a>Defining Component Types and Rails</h4>
+
+<p>
+<a id="pgfId-1073143"></a>Select a row to display its component attributes in the <em>Row Attributes</em> section. Use the options in this section to define the component types and rails.</p>
+<ol><li>
+<a id="pgfId-1070209"></a>In the <em>Types</em> field, specify the component types that can be placed in the row. These components are defined in the Configure Physical Hierarchy form. Click the Browse button to choose from a list of available component types. <br />
+<a id="pgfId-1070035"></a><div class="webflare-div-image">
+<img width="668" height="218" src="images/Rows-16.gif" /></div></li><li>
+<a id="pgfId-1073900"></a>If you have not specified component types, specify the device <em>Master</em>. Only the devices belonging to the specified master can be placed in a row. You can specify either a single master cellview or only the <code>lib</code>, <code>cell</code>, or <code>view</code> value. For example, <em>Master</em> can be set to <code>*/pfinFet/*</code> for a p-type row or <code>*/nfinFet/* </code>for a n-type row. Default is <code>*/*/*</code>.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1074662"></a>
+A row can use either a component type or a component master, but not both. Adding a master will delete the component type information, and vice versa.</div></li><li>
+<a id="pgfId-1070188"></a>Specify the component <em>Orientation</em>. This orientation is applied relative to the <em>Row Orientation</em> specified above. Therefore, if the row orientation is <code>R0</code>, the component orientation is followed as specified. However, if the row orientation is set to <code>MX</code> (mirrored) and the component orientation is also set to <code>MX</code>, then the devices are flipped twice, and so the resulting orientation will be <code>R0</code>. Click the Browse button to select from the list of supported orientations.<br />
+<a id="pgfId-1070358"></a><div class="webflare-div-image">
+<img src="images/Rows_RowOrient.gif" /></div></li><li>
+<a id="pgfId-1070347"></a>Choose an <em>Align Reference</em>, which specifies the row edge to which components need to be aligned. Valid values are <code>BOTTOM</code>, <code>TOP</code>, and <code>CENTER</code>. <br />
+<a id="pgfId-1075680"></a><div class="webflare-div-image">
+<img width="668" height="102" src="images/Rows-19.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1070439"></a>Consider a row with <em>Row Orientation</em> set to <code>MX</code> and <em>Align Reference</em> set to <code>BOTTOM</code> edge. The devices will seem to be aligned to the top edge due to the mirrored orientation of the row. However, they are aligned to the <code>BOTTOM</code> edge, which happens to be the upper one as displayed in the canvas.</div></li><li>
+<a id="pgfId-1071110"></a>Specify an <em>Align Offset</em> value, which specifies the distance from the <em>Align Reference</em> edge that the components can be placed. In the following example, <em>Align Reference</em> is <code>BOTTOM</code> and <em>Align Offset</em> is <code>0.48</code>. So, the component is placed at the specified distance from the <code>BOTTOM</code> edge.<br />
+<a id="pgfId-1071115"></a><div class="webflare-div-image">
+<img width="668" height="217" src="images/Rows-20.gif" /></div><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1071121"></a>
+Depending on your need, you can sort rows based on their <em>Align Offset</em>, <em>Align Reference</em>, or <em>Inst Pitch </em>values.</div></li><li>
+<a id="pgfId-1073982"></a><em>InstPitch</em> specifies the minimum distance between instances of the same component in a row. If <em>InstPitch</em> is set to <code>0</code>, then you can place two instances of the same component at any distance from each other. If you set <em>InstPitch</em> to any number greater than <code>0</code>, then the distance between instances must be a multiple of <em>InstPitch</em>. <em>InstPitch</em> can also be used to override the default snapping definitions. A reference grid is created based on the specified value, and instances are snapped to this new grid. For example, if <em>InstPitch</em> is set to <code>1</code>, then devices can snap by only one unit in the X-direction.</li><li>
+<a id="pgfId-1073984"></a>Use the options in the <em>Rail Definition</em> section to generate rails in the selected row. Specify the <em>Net</em> that defines the rail connectivity. Select the <em>LPP</em> on which the rail is drawn and specify the rail <em>Width</em>.</li><li>
+<a id="pgfId-1077846"></a><em>WSP Track</em> lists all WSP tracks available within the template period range. Choose a WSP track based on which the rail layer, width, and offset values must be set. </li><li>
+<a id="pgfId-1071070"></a>In the <em>Align Reference</em> field, specify the reference edge for aligning the rail in relation to the row. Valid values are <code>TOP</code>, <code>BOTTOM</code>, and <code>CENTER</code>.</li><li>
+<a id="pgfId-1071058"></a>Specify the <em>Align Offset</em>, which is the distance of the rail from the reference edge (<em>Align Reference</em>) specified above. <em>Align Offset</em> is automatically set to <em>BOTTOM</em> if a WSP track is selected.<br /><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1074014"></a>
+Depending on your need, you can sort rows based on their <em>Rail Width</em>, <em>Align Reference</em>, or <em>Align Offset</em> values.Here is a quick look at a design with rail definition:</div>
+<a id="pgfId-1071200"></a><div class="webflare-div-image">
+<img width="668" height="434" src="images/Rows-21.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1078972"></a>After creating row templates, use the <h-hot><a actuate="user" class="URL" href="../vcphelp/chap3.html#firstpage" show="replace" xml:link="simple">Placement Planning</a></h-hot> form to generate rows in the layout canvas. For digital designs, you can use the Placement Planning form to create rows without selecting a row template, and then use the options available on the <em>Row</em> tab to specify how the rows should be created. Alternatively, you can select the required row template from the <em>Row Template</em> drop-down list and choose on the <em>Region</em> tab the required placement options. This second method helps achieve greater precision required in advanced nodes designs.</p>
+
+<h3>
+<a id="pgfId-1065383"></a><a id="26311"></a><a id="16828"></a>Importing a Row Template from Another Cellview</h3>
+
+<p>
+<a id="pgfId-1067859"></a>Once defined, a row template is a reusable object, which makes it possible for you to import a row template defined for one design to another similar design. You can also define a set of row templates that can be used in a variety of designs and include them in the design library.</p>
+<p>
+<a id="pgfId-1078875"></a>Use the <em>Import</em> tab of the Row Template Manager to import row templates from a different cellview in your design library. </p>
+<p>
+<a id="pgfId-1074080"></a>To import existing row templates:</p>
+<ol><li>
+<a id="pgfId-1070636"></a>Click <em>Place</em> &#8211; <em>Row Template Manager</em> to display the <a href="vPlaceForms.html#43062">Row Template Manager</a>. <br />
+<a id="pgfId-1070861"></a><div class="webflare-div-image">
+<img src="images/RowTemplateManager_Import.gif" /></div></li><li>
+<a id="pgfId-1070839"></a>Select the <em>Import</em> tab.</li><li>
+<a id="pgfId-1070923"></a>Choose the <em>Library</em>, <em>Cell</em>, and <em>View</em> which contains the row template you want to import.</li><li>
+<a id="pgfId-1070934"></a><em>Templates</em> lists all row templates that are available in the specified cellview. <em>Active Templates</em> in the <em>Current CellView</em> section lists all active row templates in the current cellview. Choose the required row templates.</li><li>
+<a id="pgfId-1070960"></a>Click <em>Import Selected</em>.</li></ol>
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1076063"></a>After importing templates, use the <h-hot><a actuate="user" class="URL" href="../vcphelp/chap3.html#firstpage" show="replace" xml:link="simple">Placement Planning</a></h-hot> form to generate rows in the layout canvas.</p>
+
+<h3>
+<a id="pgfId-1075905"></a>Deleting a Row Template</h3>
+
+<p>
+<a id="pgfId-1074058"></a>To delete a row template:</p>
+<ol><li>
+<a id="pgfId-1074059"></a>With the <em>Edit</em> tab open, choose the <em>Template Name</em> from the drop-down list.</li><li>
+<a id="pgfId-1074060"></a>Click <em>Delete</em>. The selected row template is deleted. <br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1074061"></a>
+You cannot delete a template that is being used in the current design.</div></li></ol>
+
+
+
+<h2>
+<a id="pgfId-1076247"></a><a id="52000"></a>Layout Support for Row Regions<a id="rowRegion"></a></h2>
+
+<p>
+<a id="pgfId-1077464"></a>This section describes the areas which have been enhanced in the layout editor to support row regions.</p>
+
+<h4>
+<a id="pgfId-1077465"></a>Palette</h4>
+
+<p>
+<a id="pgfId-1076999"></a>Row regions can be selected from the <em>Objects</em> panel of the Palette. Only the selectability (<em>S</em>) option is supported for row regions, as shown in the figure below.</p>
+
+<p>
+<a id="pgfId-1076253"></a></p>
+<div class="webflare-div-image">
+<img width="157" height="254" src="images/Rows-23.gif" /></div>
+<h4>
+<a id="pgfId-1077482"></a>Property Editor</h4>
+
+<p>
+<a id="pgfId-1076254"></a>Similar to other shapes and objects, you can use the Edit Properties form or the Property Editor assistant to edit the properties of the row regions.</p>
+
+<p>
+<a id="pgfId-1076270"></a></p>
+<div class="webflare-div-image">
+<img width="628" height="182" src="images/Rows-24.gif" /></div>
+<p>
+<a id="pgfId-1076590"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="130" src="images/Rows-25.gif" /></div>
+<h4><em>
+<a id="pgfId-1077495"></a>Row Region Attributes</em></h4>
+
+<p>
+<a id="pgfId-1077496"></a><strong>Name</strong> displays the name of the row region.</p>
+<p>
+<a id="pgfId-1077497"></a><strong>Row Template</strong> lets you select the row template used to create the row region.</p>
+<p>
+<a id="pgfId-1077498"></a><strong>Points</strong> sets the coordinates each point of the row region.</p>
+<p>
+<a id="pgfId-1077499"></a><strong>Use Partial Row Template</strong>, if selected, the row region spec repeats partially till there is space to fill a whole row. If not selected, only a full row region spec is created. If the space remaining on the top is less than the height of a row region spec, it is left empty.</p>
+
+<h4>
+<a id="pgfId-1077528"></a>Dynamic Display</h4>
+
+<p>
+<a id="pgfId-1077276"></a>Dynamic measurement and info balloon also support row regions. You can select the parameters to include in the <em>Info Balloon </em>and <em>Dynamic Measurement </em>display in the Dynamic Display form, as shown in the figure below.</p>
+
+<p>
+<a id="pgfId-1077283"></a></p>
+<div class="webflare-div-image">
+<img width="509" height="360" src="images/Rows-26.gif" /></div>
+
+<p>
+<a id="pgfId-1077284"></a>The figures below display the info balloon for the row regions.</p>
+
+<p>
+<a id="pgfId-1077291"></a></p>
+<div class="webflare-div-image">
+<img width="550" height="375" src="images/Rows-27.gif" /></div>
+
+<p>
+<a id="pgfId-1077636"></a>The figure below displays the dynamic measurement for the row region object.</p>
+
+<p>
+<a id="pgfId-1077292"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="169" src="images/Rows-28.gif" /></div>
+<h4>
+<a id="pgfId-1077670"></a>Show Selection Info Toolbar</h4>
+
+<p>
+<a id="pgfId-1077671"></a>The preselect and select information for row regions is displayed on the Show Selection Info toolbar, as shown in the figures below.</p>
+
+<p>
+<a id="pgfId-1077300"></a>f</p>
+<div class="webflare-div-image">
+<img width="323" height="78" src="images/Rows-29.gif" /></div>
+<h4>
+<a id="pgfId-1077689"></a>Summary Window</h4>
+
+<p>
+<a id="pgfId-1077690"></a>You can also view the row region statistics in the Summary window, as shown in the figure below.</p>
+
+<p>
+<a id="pgfId-1077136"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="101" src="images/Rows-30.gif" /></div>
+<h4>
+<a id="pgfId-1077714"></a>Dynamic Selection Assistant</h4>
+
+<p>
+<a id="pgfId-1076892"></a>The <em>Dynamic Selection</em> assistant displays the row regions in a hierarchical manner. The properties of the row region and its subobjects are listed in the assistant, as shown in the figure below.</p>
+
+<p>
+<a id="pgfId-1076278"></a></p>
+<div class="webflare-div-image">
+<img width="429" height="234" src="images/Rows-31.gif" /></div>
+<h3>
+<a id="pgfId-1077756"></a>Editing Support for Row Regions</h3>
+
+<p>
+<a id="pgfId-1077757"></a>Row region objects can be edited like other shapes in the layout editor.</p>
+<p>
+<a id="pgfId-1077758"></a>Some exceptions for a few commands are:</p>
+<ul><li>
+<a id="pgfId-1077759"></a>For the <code>Delete</code> command, partial deletion (for example a vertex) is not supported. </li><li>
+<a id="pgfId-1077760"></a>For the <code>Rotate</code> and <code>Chop</code> command, only orthogonal editing is supported. </li></ul>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1077761"></a>Group editing commands, such as <code>Add to Group</code> and <code>Ungroup</code> are not supported for row regions.</div>
+<p>
+<a id="pgfId-1077762"></a>A context-sensitive menu is also available for row region objects. You can use the context-sensitive menu to access the commonly used editing commands.</p>
+
+<p>
+<a id="pgfId-1076288"></a></p>
+<div class="webflare-div-image">
+<img src="images/rowRegionRMB.gif" /></div>
+<h4>
+<a id="pgfId-1077778"></a>Snap Pattern Snapping Support </h4>
+
+<p>
+<a id="pgfId-1077779"></a>Snap pattern snapping to the reference grids specified by the row region template is also supported. You can specify the reference grid for the horizontal or vertical direction. In the example below, the horizontal grid is set to M1WSP and the vertical grid is set to M2WSP, with offsets (0.04 and 0.05). </p>
+
+<p>
+<a id="pgfId-1076302"></a></p>
+<div class="webflare-div-image">
+<img width="639" height="447" src="images/Rows-33.gif" /></div>
+<h3>
+<a id="pgfId-1076834"></a>Importing Row Regions</h3>
+
+<p>
+<a id="pgfId-1076228"></a>The <em>Replace Rows</em> section of the Load Physical View form includes the <em>Row Regions</em> check box. When selected, the existing row regions in the target cellview are deleted and replaced with the row regions defined in the source cellview. </p>
+<p>
+<a id="pgfId-1076877"></a>For more information, see <h-hot><a actuate="user" class="URL" href="../vxlhelp/appD.html#loadPhysicalView" show="replace" xml:link="simple">Load Physical View</a></h-hot>.</p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="GettingStarted.html" id="prev" title="Getting Started with Virtuoso Placer">Getting Started with Virtuoso  ...</a></em></b><b><em><a href="Placement.html" id="nex" title="Performing Design Placement">Performing Design Placement</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>
