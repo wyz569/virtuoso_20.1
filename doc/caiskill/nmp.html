@@ -1,0 +1,5109 @@
+
+<html><head><title>Name Mapping Functions</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="sumehta" />
+<meta name="CreateDate" content="2020-08-19" />
+<meta name="CreateTime" content="1597903740" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes SKILL functions used to create parameterized cells." />
+<meta name="DocTitle" content="Cadence Application Infrastructure SKILL Reference" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Name Mapping Functions" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="caiskill" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-19" />
+<meta name="ModifiedTime" content="1597903740" />
+<meta name="NextFile" content="cdsCopy.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Cadence Shared Tools,Cadence Shared Tools" />
+<meta name="PrevFile" content="gdm.html" />
+<meta name="c_product" content="Cadence Shared Tools,Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="Cadence Shared Tools,SKILL" />
+<meta name="ProductFamily" content="Cadence Shared Tools,SKILL" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Cadence Application Infrastructure SKILL Reference -- Name Mapping Functions" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="caiskillICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="caiskillTOC.html">Contents</a></li><li><a class="prev" href="gdm.html" title="Generic Design Management (GDM) Functions">Generic Design Management (GDM ...</a></li><li style="float: right;"><a class="viewPrint" href="caiskill.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="cdsCopy.html" title="cdsCopy Functions">cdsCopy Functions</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Cadence Application Infrastructure SKILL Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>2
+<a name="pgfId-962694"></a></h1>
+<h1>
+<a name="pgfId-962695"></a><hr />
+Name Mapping Functions<hr />
+</h1>
+
+<p>
+<a name="pgfId-986486"></a>This chapter provides several SKILL functions for name spaces. These functions have the prefix <code>nmp</code>.</p>
+<p>
+<a name="pgfId-986487"></a>You can use <code>nmp</code> functions to</p>
+<ul><li>
+<a name="pgfId-986488"></a>Get a list of all current name spaces</li><li>
+<a name="pgfId-986489"></a>Check if an identifier is legal in a name space</li><li>
+<a name="pgfId-986490"></a>Map an identifier from one name space to another name space</li><li>
+<a name="pgfId-986491"></a>Map an identifier from a name space to an nmp Ident<br />
+<a name="pgfId-986492"></a>An nmp Ident is an opaque data structure that is the intermediate form to which identifiers are mapped when they are translated from one name space to another.</li><li>
+<a name="pgfId-986493"></a>Map an nmp Ident to a name space</li></ul>
+
+
+
+
+
+<p>
+<a name="pgfId-986494"></a>This section describes the syntax and usage of nmp SKILL functions. For a complete list of nmp SKILL functions, see <a href="nmp.html#70918">nmp SKILL Functions</a>.</p>
+
+<h4>
+<a name="pgfId-986498"></a>Prefixes Used in Argument Names</h4>
+
+<p>
+<a name="pgfId-986499"></a>Argument names in the SKILL functions described in this section have a one-character prefix that denotes the data type of the argument. The prefix is followed by an underscore character (_). For example, <span class="webflare-courier-new" style="white-space:pre"><em>t_identifier</em></span><code> </code>indicates the argument is a string, while <span class="webflare-courier-new" style="white-space:pre"><em>l_namespaces</em></span> indicates the argument is a list. The prefix and the underscore are just naming conventions; you do not need to type them when you specify the value of the argument. </p>
+<p>
+<a name="pgfId-986500"></a>The following data type prefixes are used in this section:</p>
+
+<p>
+<a name="pgfId-986514"></a></p>
+<table class="webflareTable" id="#id986501">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986503"></a><code>l</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986505"></a>list</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986507"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986509"></a>string</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986511"></a><code>m</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986513"></a>nmp Ident</p>
+</td>
+</tr>
+</tbody></table>
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=nmpGetSpaceNames
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-986516"></a><a name="26755"></a>nmpGetSpa<a name="nmpGetSpaceNames"></a>
+ceNames</h3>
+<a name="pgfId-986518"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+nmp<code></code>GetSpaceNames()
+=&gt; <code><em>l_namespaces</em></code></pre>
+<h4>
+<a name="pgfId-986519"></a>Description</h4>
+
+<p>
+<a name="pgfId-986521"></a>Returns a li<code></code>st of name spaces used by Cadence applications.</p>
+
+<h4>
+<a name="pgfId-986522"></a>Arguments</h4>
+
+<p>
+<a name="pgfId-986523"></a>This function has no arguments.</p>
+
+<h4>
+<a name="pgfId-986524"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1005760">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005762"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_namespaces</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005764"></a>List of name spaces used by Cadence applications.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=nmpIsLegal<NameSpace>
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-986528"></a><a name="25865"></a>nmp<a name="nmpIsLegalNameSpace"></a>IsLegal<em>&lt;NameSpace&gt;</em> </h3>
+<a name="pgfId-986530"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+nmpIsLegal&lt;<code><em>NameSpace</em></code>&gt; (
+<code><em>t_identifier
+</em></code>)
+=&gt; <code>t / nil</code></pre>
+<h4>
+<a name="pgfId-986531"></a>Description</h4>
+
+<p>
+<a name="pgfId-986533"></a>Checks if the identifier you specify is legal in the name space. In the function name, substitute <span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> with any of the name spaces returned by the function <code>nmpGetSpaceNames()</code>. For example, <code>nmpIsLegalVerilog()</code> or <code>nmpIsLegalVHDL()</code>.</p>
+<p>
+<a name="pgfId-986536"></a>For a complete list of <code>nmpIsLegal</code> functions, see <a href="nmp.html#40515">&#8220;nmpIsLegal</a><em>&lt;NameSpace&gt; </em><a href="nmp.html#40515">Functions&#8221;</a>.</p>
+
+<h4>
+<a name="pgfId-986538"></a>Argument</h4>
+<table class="webflareTable" id="#id1005769">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005771"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_identifier</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005773"></a>The identifier you want to check.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-986540"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1005778">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005780"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005782"></a>The identifier is legal in the name space.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005784"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005786"></a>The identifier is illegal in the name space.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=nmp<NameSpace>To<NameSpace>
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-986545"></a><a name="18705"></a>nmp<a name="nmpNameSpaceToNameSpace"></a><em>&lt;NameSpace&gt;</em>To<em>&lt;NameSpace&gt;</em> </h3>
+<a name="pgfId-986547"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+nmp<code><em>&lt;NameSpace&gt;</em></code>To<code><em>&lt;NameSpace&gt;</em></code>(
+<code><em>t_identifier
+</em></code>)
+=&gt; <code><em>t_identifier</em></code></pre>
+<h4>
+<a name="pgfId-986548"></a>Description</h4>
+
+<p>
+<a name="pgfId-986550"></a>Maps <span class="webflare-courier-new" style="white-space:pre"><em>t_identifier</em></span> from the first name space to the second name space. In the function name, substitute the first <span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> with the name space to which the identifier belongs and substitute the second <span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> with the name space to which you want to convert the identifier. For example, <code>nmpCDBAToVerilog()</code> or <code>nmpVHDLAMSToVHDL()</code>.</p>
+<p>
+<a name="pgfId-986551"></a>You can get a list of Cadence name spaces from the <code>nmpGetSpaceNames()</code> function. </p>
+<p>
+<a name="pgfId-986552"></a>For a complete list of <code>nmp</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span><code>To</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> functions, see <a href="nmp.html#23639">&#8220;nmp</a><em>&lt;NameSpace&gt;</em><a href="nmp.html#23639">To</a><em>&lt;NameSpace&gt; </em><a href="nmp.html#23639">Functions&#8221;</a>.</p>
+
+<h4>
+<a name="pgfId-986556"></a>Arguments</h4>
+<table class="webflareTable" id="#id1005791">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005793"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_identifier</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005795"></a>The identifier you want to map to another name space.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-986558"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1005800">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005802"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_identifier</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005804"></a>The identifier in the new name space.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=nmp<NameSpace>ToIdent
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-986562"></a><a name="13494"></a>nmp<a name="nmpNameSpaceToIdent"></a><em>&lt;NameSpace&gt;</em>ToIdent</h3>
+<a name="pgfId-986564"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+nmp<code><em>&lt;NameSpace&gt;</em></code>ToIdent(
+<code><em>t_identifier
+</em></code>)
+=&gt; <code><em>m_Ident</em></code></pre>
+<h4>
+<a name="pgfId-986565"></a>Description</h4>
+
+<p>
+<a name="pgfId-986567"></a>Maps <span class="webflare-courier-new" style="white-space:pre"><em>t_identifier</em></span> from a name space to an nmp Ident. In the function name, substitute <span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> with the name space to which the identifier belongs. For example, <code>nmpCDBAToIdent()</code>. You can get a list of Cadence name spaces from the <code>nmpGetSpaceNames()</code> function. </p>
+<p>
+<a name="pgfId-986568"></a>You can map the Ident that is returned from this function to another name space with the <code><a href="nmp.html#25817"></a><h-hot>nmpIdentTo</h-hot><em>&lt;NameSpace&gt;</em><code></code></code> function.</p>
+<p>
+<a name="pgfId-986572"></a>For a complete list of <code>nmp</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span><code>ToIdent</code> functions, see <a href="nmp.html#32120">&#8220;nmp</a><em>&lt;NameSpace&gt;</em><a href="nmp.html#32120">ToIdent Functions&#8221;</a>.</p>
+
+<h4>
+<a name="pgfId-986576"></a>Arguments</h4>
+<table class="webflareTable" id="#id1005809">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005811"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_identifier</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005813"></a>The identifier you want to map to Ident.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-986578"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1005818">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005820"></a><span class="webflare-courier-new" style="white-space:pre"><em>m_Ident</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005822"></a>The identifier in Ident form. An nmp Ident is an opaque data structure that is the intermediate form to which identifiers are mapped when they are translated from one name space to another.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=nmpIdentTo<NameSpace>
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-986582"></a><a name="25817"></a>nmp<a name="nmpIdentToNameSpace"></a>IdentTo<em>&lt;NameSpace&gt;</em> </h3>
+<a name="pgfId-986584"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+nmpIdentTo<code><em>&lt;NameSpace&gt;</em></code>(
+<code><em>m_Ident
+</em></code>)
+=&gt; <code><em>t_identifier</em></code></pre>
+<h4>
+<a name="pgfId-986585"></a>Description</h4>
+
+<p>
+<a name="pgfId-986587"></a>Maps an nmp Ident to a name space. In the function name, substitute <span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> with the name space to which you want to map the Ident. For example, <code>nmpIdentToSpectre()</code>. You can get a list of Cadence name spaces from the <code>nmpGetSpaceNames()</code> function.</p>
+<p>
+<a name="pgfId-986588"></a>For a complete list of <code>nmpIdentTo</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> functions, see <a href="nmp.html#20778">&#8220;nmpIdentTo</a><em>&lt;NameSpace&gt; </em><a href="nmp.html#20778">Functions&#8221;</a>.</p>
+
+<h4>
+<a name="pgfId-986592"></a>Arguments</h4>
+<table class="webflareTable" id="#id1005827">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005829"></a><span class="webflare-courier-new" style="white-space:pre"><em>m_Ident</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005831"></a>The Ident you want to map to the name space. An nmp Ident is an opaque data structure that is the intermediate form to which identifiers are mapped when they are translated from one name space to another.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-986594"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1005836">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005838"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_identifier</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1005840"></a>The identifier in the name space you specified.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=nmpPath<NameSpace>To<NameSpace>
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1006421"></a><a name="84695"></a>nmp<a name="nmpPathNameSpaceToNameSpace"></a>Path<em>&lt;NameSpace&gt;</em>To<em>&lt;NameSpace&gt;</em> </h3>
+<a name="pgfId-1006423"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+nmpPath<code><em>&lt;NameSpace&gt;</em></code>To<code><em>&lt;NameSpace&gt;</em></code>(
+<code><em>t_Inst
+</em></code>)
+=&gt; <code><em>t_Inst </em></code><code>/ nil</code></pre>
+<h4>
+<a name="pgfId-1006424"></a>Description</h4>
+
+<p>
+<a name="pgfId-1006512"></a>Converts a simple instance vector from the first name space to the second name space.</p>
+<p>
+<a name="pgfId-1006427"></a>For a complete list of <code>nmpPath</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span><code>To</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> functions, see <a href="nmp.html#80008">&#8220;nmpPath</a><em>&lt;NameSpace&gt;</em><a href="nmp.html#80008">To</a><em>&lt;NameSpace&gt;</em><a href="nmp.html#80008"> Functions&#8221;</a>.</p>
+
+<h4>
+<a name="pgfId-1006436"></a>Argument</h4>
+<table class="webflareTable" id="#id1006431">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1006433"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_Inst</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1006435"></a>A simple (non-hierarchical) instance vector you want to convert to another name space.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1006442"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1006437">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1006594"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_Inst</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1006596"></a>The instance vector in the new name space.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1006439"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1006441"></a>The input string is not legal in the first name space.</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-1006405"></a></p>
+
+<!-- [TOPIC_END] -->
+<h2>
+<a name="pgfId-986650"></a><a name="70918"></a>n<a name="nmpskillfns"></a>mp SKILL Functions</h2>
+
+<p>
+<a name="pgfId-989888"></a>This section lists all nmp SKILL functions.</p>
+<ul><li>
+<a name="pgfId-986658"></a><a href="nmp.html#40515">nmpIsLegal</a><em>&lt;NameSpace&gt; </em><a href="nmp.html#40515">Functions</a></li><li>
+<a name="pgfId-986662"></a><a href="nmp.html#32120">nmp</a><em>&lt;NameSpace&gt;</em><a href="nmp.html#32120">ToIdent Functions</a></li><li>
+<a name="pgfId-986666"></a><a href="nmp.html#20778">nmpIdentTo</a><em>&lt;NameSpace&gt; </em><a href="nmp.html#20778">Functions</a></li><li>
+<a name="pgfId-986670"></a><a href="nmp.html#23639">nmp</a><em>&lt;NameSpace&gt;</em><a href="nmp.html#23639">To</a><em>&lt;NameSpace&gt; </em><a href="nmp.html#23639">Functions</a></li><li>
+<a name="pgfId-1006695"></a><a href="nmp.html#80008">nmpPath</a><em>&lt;NameSpace&gt;</em><a href="nmp.html#80008">To</a><em>&lt;NameSpace&gt;</em><a href="nmp.html#80008"> Functions</a></li></ul>
+
+
+
+
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=nmpIsLegal<NameSpace> Functions
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-986672"></a><a name="40515"></a>nmpIsL<a name="nmpIsLegal"></a>egal<em>&lt;NameSpace&gt; </em>Functions</h3>
+
+<p>
+<a name="pgfId-989942"></a>The following table lists all current <code>nmpIsLegal</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> functions. For information about these functions, see <a href="nmp.html#25865">nmpIsLegal</a><em>&lt;NameSpace&gt;</em>.</p>
+
+<p>
+<a name="pgfId-990064"></a></p>
+<table class="webflareTable" id="#id989943">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989946"></a><code>nmpIsLegalCDBA()</code><a name="nmpIsLegalCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989949"></a>Checks if the identifier you specify is legal in CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989952"></a><code>nmpIsLegalConcept()</code><a name="nmpIsLegalConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989954"></a>Checks if the identifier you specify is legal in Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989958"></a><code>nmpIsLegalDef()</code><a name="nmpIsLegalDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989961"></a>Checks if the identifier you specify is legal in DEF.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989964"></a><code>nmpIsLegalGcf()</code><a name="nmpIsLegalGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989967"></a>Checks if the identifier you specify is legal in GCF.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989970"></a><code>nmpIsLegalGenesis()</code><a name="nmpIsLegalGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989973"></a>Checks if the identifier you specify is legal in Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989976"></a><code>nmpIsLegalLef()</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989979"></a>Checks if the identifier you specify is legal in LEF.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989982"></a><code>nmpIsLegalPrint()</code><a name="nmpIsLegalPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989985"></a>Checks if the identifier you specify is legal in Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989988"></a><code>nmpIsLegalSdf()</code><a name="nmpIsLegalSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989991"></a>Checks if the identifier you specify is legal in SDF.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989994"></a><code>nmpIsLegalSpf()</code><a name="nmpIsLegalSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-989997"></a>Checks if the identifier you specify is legal in SPF.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990000"></a><code>nmpIsLegalSpectre()</code><a name="nmpIsLegalSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990003"></a>Checks if the identifier you specify is legal in Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990006"></a><code>nmpIsLegalSpectreHDL()</code><a name="nmpIsLegalSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990008"></a>Checks if the identifier you specify is legal in SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990012"></a><code>nmpIsLegalSpef()</code><a name="nmpIsLegalSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990015"></a>Checks if the identifier you specify is legal in SPEF.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990018"></a><code>nmpIsLegalSpice()</code><a name="nmpIsLegalSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990021"></a>Checks if the identifier you specify is legal in Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990024"></a><code>nmpIsLegalSysVerilog()</code><a name="nmpIsLegalSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990026"></a>Checks if the identifier you specify is legal in SysVerilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990030"></a><code>nmpIsLegalVerilog()</code><a name="nmpIsLegalVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990033"></a>Checks if the identifier you specify is legal in Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990036"></a><code>nmpIsLegalVerilogA()</code><a name="nmpIsLegalVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990038"></a>Checks if the identifier you specify is legal in VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990042"></a><code>nmpIsLegalVerilogAMS()</code><a name="nmpIsLegalVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990044"></a>Checks if the identifier you specify is legal in VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990048"></a><code>nmpIsLegalVHDL()</code><a name="nmpIsLegalVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990051"></a>Checks if the identifier you specify is legal in VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990054"></a><code>nmpIsLegalVHDLAMS()</code><a name="nmpIsLegalVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990056"></a>Checks if the identifier you specify is legal in VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990060"></a>nmpIsLegalVHDL87()<a name="nmpIsLegalVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-990062"></a>Checks if the identifier you specify is legal in VHDL87.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=nmp<NameSpace>ToIdent Functions
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-986801"></a><a name="32120"></a>nmp<em>&lt;NameSpace&gt;</em>ToIdent Functions<a name="ToIdent"></a></h3>
+
+<p>
+<a name="pgfId-986802"></a>The following table lists all current <code>nmp</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span><code>ToIdent</code> functions. For information about these functions, see <a href="nmp.html#13494">nmp</a><em>&lt;NameSpace&gt;</em><a href="nmp.html#13494">ToIdent</a>.</p>
+
+<p>
+<a name="pgfId-986940"></a></p>
+<table class="webflareTable" id="#id986806">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986809"></a><code>nmpCDBAToIdent()</code><a name="nmpCDBAToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986812"></a>Maps identifier from CDBA to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986816"></a><code>nmpConceptToIdent()</code><a name="nmpConceptToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986819"></a>Maps identifier from Concept to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986823"></a><code>nmpDefToIdent()</code><a name="nmpDefToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986826"></a>Maps identifier from Def to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986830"></a><code>nmpGcfToIdent()</code><a name="nmpGcfToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986833"></a>Maps identifier from Gcf to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986837"></a><code>nmpGenesisToIdent()</code><a name="nmpGenesisToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986840"></a>Maps identifier from Genesis to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986844"></a><code>nmpLefToIdent()</code><a name="nmpLefToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986847"></a>Maps identifier from Lef to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986851"></a><code>nmpPrintToIdent()</code><a name="nmpPrintToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986854"></a>Maps identifier from Print to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986858"></a><code>nmpSdfToIdent()</code><a name="nmpSdfToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986861"></a>Maps identifier from Sdf to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986865"></a><code>nmpSpfToIdent()</code><a name="nmpSpfToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986868"></a>Maps identifier from Spf to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986872"></a><code>nmpSpectreToIdent()</code><a name="nmpSpectreToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986875"></a>Maps identifier from Spectre to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986879"></a><code>nmpSpectreHDLToIdent()</code><a name="nmpSpectreHDLToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986882"></a>Maps identifier from SpectreHDL to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986886"></a><code>nmpSpefToIdent()</code><a name="nmpSpefToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986889"></a>Maps identifier from Spef to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986893"></a><code>nmpSpiceToIdent()</code><a name="nmpSpiceToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986896"></a>Maps identifier from Spice to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-997291"></a><code>nmpSysVerilogToIdent()</code><a name="nmpSysVerilogToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-997294"></a>Maps identifier from SysVerilog to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986900"></a><code>nmpVerilogToIdent()</code><a name="nmpVerilogToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986903"></a>Maps identifier from Verilog to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986907"></a><code>nmpVerilogAToIdent()</code><a name="nmpVerilogAToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986910"></a>Maps identifier from VerilogA to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986914"></a><code>nmpVerilogAMSToIdent()</code><a name="nmpVerilogAMSToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986917"></a>Maps identifier from VerilogAMS to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986921"></a><code>nmpVHDLToIdent()</code><a name="nmpVHDLToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986924"></a>Maps identifier from VHDL to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986928"></a><code>nmpVHDLAMSToIdent()</code><a name="nmpVHDLAMSToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986931"></a>Maps identifier from VHDLAMS to an nmp Ident.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986935"></a><code>nmpVHDL87ToIdent()</code><a name="nmpVHDL87ToIdent"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986938"></a>Maps identifier from VHDL87 to an nmp Ident.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=nmpIdentTo<NameSpace> Functions
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-986942"></a><a name="20778"></a>nmpIde<a name="nmpIdentTo"></a>ntTo<em>&lt;NameSpace&gt; </em>Functions</h3>
+
+<p>
+<a name="pgfId-986943"></a>The following table lists all current <code>nmpIdentTo</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> functions. For information about these functions, see <a href="nmp.html#25817">nmpIdentTo</a><em>&lt;NameSpace&gt;</em>.</p>
+
+<p>
+<a name="pgfId-987081"></a></p>
+<table class="webflareTable" id="#id986947">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986950"></a><code>nmpIdentToCDBA()</code><a name="nmpIdentToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986953"></a>Maps an nmp Ident to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986957"></a><code>nmpIdentToConcept()</code><a name="nmpIdentToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986960"></a>Maps an nmp Ident to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986964"></a><code>nmpIdentToDef()</code><a name="nmpIdentToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986967"></a>Maps an nmp Ident to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986971"></a><code>nmpIdentToGcf()</code><a name="nmpIdentToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986974"></a>Maps an nmp Ident to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986978"></a><code>nmpIdentToGenesis()</code><a name="nmpIdentToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986981"></a>Maps an nmp Ident to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986985"></a><code>nmpIdentToLef()</code><a name="nmpIdentToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986988"></a>Maps an nmp Ident to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986992"></a><code>nmpIdentToPrint()</code><a name="nmpIdentToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986995"></a>Maps an nmp Ident to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-986999"></a><code>nmpIdentToSdf()</code><a name="nmpIdentToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987002"></a>Maps an nmp Ident to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987006"></a><code>nmpIdentToSpf()</code><a name="nmpIdentToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987009"></a>Maps an nmp Ident to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987013"></a><code>nmpIdentToSpectre()</code><a name="nmpIdentToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987016"></a>Maps an nmp Ident to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987020"></a><code>nmpIdentToSpectreHDL()</code><a name="nmpIdentToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987023"></a>Maps an nmp Ident to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987027"></a><code>nmpIdentToSpef()</code><a name="nmpIdentToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987030"></a>Maps an nmp Ident to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987034"></a><code>nmpIdentToSpice()</code><a name="nmpIdentToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987037"></a>Maps an nmp Ident to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-997275"></a><code>nmpIdentToSysVerilog()</code><a name="nmpIdentToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-997278"></a>Maps an nmp Ident to SysVerilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987041"></a><code>nmpIdentToVerilog()</code><a name="nmpIdentToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987044"></a>Maps an nmp Ident to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987048"></a><code>nmpIdentToVerilogA()</code><a name="nmpIdentToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987051"></a>Maps an nmp Ident to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987055"></a><code>nmpIdentToVerilogAMS()</code><a name="nmpIdentToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987058"></a>Maps an nmp Ident to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987062"></a><code>nmpIdentToVHDL()</code><a name="nmpIdentToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987065"></a>Maps an nmp Ident to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987069"></a><code>nmpIdentToVHDLAMS()</code><a name="nmpIdentToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987072"></a>Maps an nmp Ident to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987076"></a><code>nmpIdentToVHDL87()</code><a name="nmpIdentToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-987079"></a>Maps an nmp Ident to VHDL87.</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-987082"></a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=nmp<NameSpace>To<NameSpace> Functions
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-987084"></a><a name="23639"></a>nmp<em>&lt;NameSpace&gt;</em>To<em>&lt;NameSpace&gt;</em> Functions</h3>
+
+<p>
+<a name="pgfId-987085"></a>The following table lists all current <code>nmp</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span><code>To</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> functions. For information about these functions, see <a href="nmp.html#18705">nmp</a><em>&lt;NameSpace&gt;</em><a href="nmp.html#18705">To</a><em>&lt;NameSpace&gt;</em>.</p>
+
+<p>
+<a name="pgfId-1012193"></a></p>
+<table class="webflareTable" id="#id1009504">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009508"></a><code>nmpAsciiToSysVerilog()</code><a name="nmpAsciiToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009511"></a>Maps identifier from Ascii to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009515"></a><code>nmpCDBAToConcept()</code><a name="nmpCDBAToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009518"></a>Maps identifier from CDBA to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009522"></a><code>nmpCDBAToCDBAFlat()</code><a name="nmpCDBAToCDBAFlat"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009525"></a>Maps identifier from CDBA to CDBAFlat.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009529"></a><code>nmpCDBAToDef()</code><a name="nmpCDBAToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009532"></a>Maps identifier from CDBA to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009536"></a><code>nmpCDBAToGcf()</code><a name="nmpCDBAToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009539"></a>Maps identifier from CDBA to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009543"></a><code>nmpCDBAToGenesis()</code><a name="nmpCDBAToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009546"></a>Maps identifier from CDBA to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009550"></a><code>nmpCDBAToLef()</code><a name="nmpCDBAToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009553"></a>Maps identifier from CDBA to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009557"></a><code>nmpCDBAToPrint()</code><a name="nmpCDBAToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009560"></a>Maps identifier from CDBA to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009564"></a><code>nmpCDBAToSdf()</code><a name="nmpCDBAToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009567"></a>Maps identifier from CDBA to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009571"></a><code>nmpCDBAToSpf()</code><a name="nmpCDBAToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009574"></a>Maps identifier from CDBA to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009578"></a><code>nmpCDBAToSpectre()</code><a name="nmpCDBAToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009581"></a>Maps identifier from CDBA to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009585"></a><code>nmpCDBAToSpectreHDL()</code><a name="nmpCDBAToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009588"></a>Maps identifier from CDBA to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009592"></a><code>nmpCDBAToSpef()</code><a name="nmpCDBAToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009595"></a>Maps identifier from CDBA to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009599"></a><code>nmpCDBAToSpice()</code><a name="nmpCDBAToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009602"></a>Maps identifier from CDBA to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009606"></a><code>nmpCDBAToSysVerilog()</code><a name="nmpCDBAToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009609"></a>Maps identifier from CDBA to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009613"></a><code>nmpCDBAToVerilog()</code><a name="nmpCDBAToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009616"></a>Maps identifier from CDBA to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009620"></a><code>nmpCDBAToVerilogA()</code><a name="nmpCDBAToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009623"></a>Maps identifier from CDBA to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009627"></a><code>nmpCDBAToVerilogAMS()</code><a name="nmpCDBAToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009630"></a>Maps identifier from CDBA to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009634"></a><code>nmpCDBAToVHDL()</code><a name="nmpCDBAToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009637"></a>Maps identifier from CDBA to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009641"></a><code>nmpCDBAToVHDLAMS()</code><a name="nmpCDBAToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009644"></a>Maps identifier from CDBA to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009648"></a><code>nmpCDBAToVHDL87()</code><a name="nmpCDBAToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009651"></a>Maps identifier from CDBA to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009655"></a><code>nmpCDBAFlatToCDBA()</code><a name="nmpCDBAFlatToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009658"></a>Maps identifier from CDBAFlat to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009662"></a><code>nmpConceptToCDBA()</code><a name="nmpConceptToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009665"></a>Maps identifier from Concept to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009669"></a><code>nmpConceptToDef()</code><a name="nmpConceptToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009672"></a>Maps identifier from Concept to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009676"></a><code>nmpConceptToGcf()</code><a name="nmpConceptToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009679"></a>Maps identifier from Concept to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009683"></a><code>nmpConceptToGenesis()</code><a name="nmpConceptToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009686"></a>Maps identifier from Concept to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009690"></a><code>nmpConceptToLef()</code><a name="nmpConceptToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009693"></a>Maps identifier from Concept to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009697"></a><code>nmpConceptToPrint()</code><a name="nmpConceptToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009700"></a>Maps identifier from Concept to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009704"></a><code>nmpConceptToSdf()</code><a name="nmpConceptToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009707"></a>Maps identifier from Concept to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009711"></a><code>nmpConceptToSpf()</code><a name="nmpConceptToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009714"></a>Maps identifier from Concept to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009718"></a><code>nmpConceptToSpectre()</code><a name="nmpConceptToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009721"></a>Maps identifier from Concept to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009725"></a><code>nmpConceptToSpectreHDL()</code><a name="nmpConceptToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009728"></a>Maps identifier from Concept to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009732"></a><code>nmpConceptToSpef()</code><a name="nmpConceptToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009735"></a>Maps identifier from Concept to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009739"></a><code>nmpConceptToSpice()</code><a name="nmpConceptToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009742"></a>Maps identifier from Concept to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009746"></a><code>nmpConceptToSysVerilog()</code><a name="nmpConceptToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009749"></a>Maps identifier from Concept to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009753"></a><code>nmpConceptToVerilog()</code><a name="nmpConceptToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009756"></a>Maps identifier from Concept to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009760"></a><code>nmpConceptToVerilogA()</code><a name="nmpConceptToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009763"></a>Maps identifier from Concept to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009767"></a><code>nmpConceptToVerilogAMS()</code><a name="nmpConceptToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009770"></a>Maps identifier from Concept to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009774"></a><code>nmpConceptToVHDL()</code><a name="nmpConceptToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009777"></a>Maps identifier from Concept to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009781"></a><code>nmpConceptToVHDLAMS()</code><a name="nmpConceptToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009784"></a>Maps identifier from Concept to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009788"></a><code>nmpConceptToVHDL87()</code><a name="nmpConceptToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009791"></a>Maps identifier from Concept to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009795"></a><code>nmpDefToCDBA()</code><a name="nmpDefToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009798"></a>Maps identifier from Def to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009802"></a><code>nmpDefToConcept()</code><a name="nmpDefToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009805"></a>Maps identifier from Def to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009809"></a><code>nmpDefToGcf()</code><a name="nmpDefToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009812"></a>Maps identifier from Def to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009816"></a><code>nmpDefToGenesis()</code><a name="nmpDefToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009819"></a>Maps identifier from Def to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009823"></a><code>nmpDefToLef()</code><a name="nmpDefToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009826"></a>Maps identifier from Def to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009830"></a><code>nmpDefToPrint()</code><a name="nmpDefToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009833"></a>Maps identifier from Def to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009837"></a><code>nmpDefToSdf()</code><a name="nmpDefToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009840"></a>Maps identifier from Def to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009844"></a><code>nmpDefToSpf()</code><a name="nmpDefToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009847"></a>Maps identifier from Def to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009851"></a><code>nmpDefToSpectre()</code><a name="nmpDefToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009854"></a>Maps identifier from Def to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009858"></a><code>nmpDefToSpectreHDL()</code><a name="nmpDefToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009861"></a>Maps identifier from Def to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009865"></a><code>nmpDefToSpef()</code><a name="nmpDefToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009868"></a>Maps identifier from Def to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009872"></a><code>nmpDefToSpice()</code><a name="nmpDefToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009875"></a>Maps identifier from Def to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009879"></a><code>nmpDefToSysVerilog()</code><a name="nmpDefToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009882"></a>Maps identifier from Def to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009886"></a><code>nmpDefToVerilog()</code><a name="nmpDefToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009889"></a>Maps identifier from Def to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009893"></a><code>nmpDefToVerilogA()</code><a name="nmpDefToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009896"></a>Maps identifier from Def to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009900"></a><code>nmpDefToVerilogAMS()</code><a name="nmpDefToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009903"></a>Maps identifier from Def to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009907"></a><code>nmpDefToVHDL()</code><a name="nmpDefToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009910"></a>Maps identifier from Def to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009914"></a><code>nmpDefToVHDLAMS()</code><a name="nmpDefToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009917"></a>Maps identifier from Def to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009921"></a><code>nmpDefToVHDL87()</code><a name="nmpDefToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009924"></a>Maps identifier from Def to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009928"></a><code>nmpGcfToCDBA()</code><a name="nmpGcfToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009931"></a>Maps identifier from Gcf to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009935"></a><code>nmpGcfToConcept()</code><a name="nmpGcfToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009938"></a>Maps identifier from Gcf to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009942"></a><code>nmpGcfToDef()</code><a name="nmpGcfToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009945"></a>Maps identifier from Gcf to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009949"></a><code>nmpGcfToGenesis()</code><a name="nmpGcfToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009952"></a>Maps identifier from Gcf to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009956"></a><code>nmpGcfToLef()</code><a name="nmpGcfToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009959"></a>Maps identifier from Gcf to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009963"></a><code>nmpGcfToPrint()</code><a name="nmpGcfToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009966"></a>Maps identifier from Gcf to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009970"></a><code>nmpGcfToSdf()</code><a name="nmpGcfToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009973"></a>Maps identifier from Gcf to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009977"></a><code>nmpGcfToSpf()</code><a name="nmpGcfToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009980"></a>Maps identifier from Gcf to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009984"></a><code>nmpGcfToSpectre()</code><a name="nmpGcfToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009987"></a>Maps identifier from Gcf to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009991"></a><code>nmpGcfToSpectreHDL()</code><a name="nmpGcfToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009994"></a>Maps identifier from Gcf to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1009998"></a><code>nmpGcfToSpef()</code><a name="nmpGcfToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010001"></a>Maps identifier from Gcf to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010005"></a><code>nmpGcfToSpice()</code><a name="nmpGcfToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010008"></a>Maps identifier from Gcf to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010012"></a><code>nmpGcfToSysVerilog()</code><a name="nmpGcfToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010015"></a>Maps identifier from Gcf to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010019"></a><code>nmpGcfToVerilog()</code><a name="nmpGcfToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010022"></a>Maps identifier from Gcf to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010026"></a><code>nmpGcfToVerilogA()</code><a name="nmpGcfToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010029"></a>Maps identifier from Gcf to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010033"></a><code>nmpGcfToVerilogAMS()</code><a name="nmpGcfToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010036"></a>Maps identifier from Gcf to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010040"></a><code>nmpGcfToVHDL()</code><a name="nmpGcfToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010043"></a>Maps identifier from Gcf to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010047"></a><code>nmpGcfToVHDLAMS()</code><a name="nmpGcfToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010050"></a>Maps identifier from Gcf to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010054"></a><code>nmpGcfToVHDL87()</code><a name="nmpGcfToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010057"></a>Maps identifier from Gcf to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010061"></a><code>nmpGenesisToCDBA()</code><a name="nmpGenesisToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010064"></a>Maps identifier from Genesis to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010068"></a><code>nmpGenesisToConcept()</code><a name="nmpGenesisToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010071"></a>Maps identifier from Genesis to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010075"></a><code>nmpGenesisToDef()</code><a name="nmpGenesisToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010078"></a>Maps identifier from Genesis to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010082"></a><code>nmpGenesisToGcf()</code><a name="nmpGenesisToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010085"></a>Maps identifier from Genesis to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010089"></a><code>nmpGenesisToLef()</code><a name="nmpGenesisToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010092"></a>Maps identifier from Genesis to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010096"></a><code>nmpGenesisToPrint()</code><a name="nmpGenesisToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010099"></a>Maps identifier from Genesis to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010103"></a><code>nmpGenesisToSdf()</code><a name="nmpGenesisToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010106"></a>Maps identifier from Genesis to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010110"></a><code>nmpGenesisToSpf()</code><a name="nmpGenesisToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010113"></a>Maps identifier from Genesis to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010117"></a><code>nmpGenesisToSpectre()</code><a name="nmpGenesisToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010120"></a>Maps identifier from Genesis to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010124"></a><code>nmpGenesisToSpectreHDL()</code><a name="nmpGenesisToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010127"></a>Maps identifier from Genesis to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010131"></a><code>nmpGenesisToSpef()</code><a name="nmpGenesisToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010134"></a>Maps identifier from Genesis to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010138"></a><code>nmpGenesisToSpice()</code><a name="nmpGenesisToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010141"></a>Maps identifier from Genesis to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010145"></a><code>nmpGenesisToSysVerilog()</code><a name="nmpGenesisToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010148"></a>Maps identifier from Genesis to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010152"></a><code>nmpGenesisToVerilog()</code><a name="nmpGenesisToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010155"></a>Maps identifier from Genesis to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010159"></a><code>nmpGenesisToVerilogA()</code><a name="nmpGenesisToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010162"></a>Maps identifier from Genesis to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010166"></a><code>nmpGenesisToVerilogAMS()</code><a name="nmpGenesisToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010169"></a>Maps identifier from Genesis to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010173"></a><code>nmpGenesisToVHDL()</code><a name="nmpGenesisToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010176"></a>Maps identifier from Genesis to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010180"></a><code>nmpGenesisToVHDLAMS()</code><a name="nmpGenesisToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010183"></a>Maps identifier from Genesis to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010187"></a><code>nmpGenesisToVHDL87()</code><a name="nmpGenesisToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010190"></a>Maps identifier from Genesis to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010194"></a><code>nmpLefToCDBA()</code><a name="nmpLefToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010197"></a>Maps identifier from Lef to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010201"></a><code>nmpLefToConcept()</code><a name="nmpLefToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010204"></a>Maps identifier from Lef to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010208"></a><code>nmpLefToDef()</code><a name="nmpLefToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010211"></a>Maps identifier from Lef to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010215"></a><code>nmpLefToGcf()</code><a name="nmpLefToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010218"></a>Maps identifier from Lef to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010222"></a><code>nmpLefToGenesis()</code><a name="nmpLefToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010225"></a>Maps identifier from Lef to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010229"></a><code>nmpLefToPrint()</code><a name="nmpLefToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010232"></a>Maps identifier from Lef to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010236"></a><code>nmpLefToSdf()</code><a name="nmpLefToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010239"></a>Maps identifier from Lef to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010243"></a><code>nmpLefToSpf()</code><a name="nmpLefToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010246"></a>Maps identifier from Lef to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010250"></a><code>nmpLefToSpectre()</code><a name="nmpLefToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010253"></a>Maps identifier from Lef to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010257"></a><code>nmpLefToSpectreHDL()</code><a name="nmpLefToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010260"></a>Maps identifier from Lef to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010264"></a><code>nmpLefToSpef()</code><a name="nmpLefToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010267"></a>Maps identifier from Lef to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010271"></a><code>nmpLefToSpice()</code><a name="nmpLefToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010274"></a>Maps identifier from Lef to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010278"></a><code>nmpLefToSysVerilog()</code><a name="nmpLefToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010281"></a>Maps identifier from Lef to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010285"></a><code>nmpLefToVerilog()</code><a name="nmpLefToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010288"></a>Maps identifier from Lef to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010292"></a><code>nmpLefToVerilogA()</code><a name="nmpLefToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010295"></a>Maps identifier from Lef to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010299"></a><code>nmpLefToVerilogAMS()</code><a name="nmpLefToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010302"></a>Maps identifier from Lef to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010306"></a><code>nmpLefToVHDL()</code><a name="nmpLefToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010309"></a>Maps identifier from Lef to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010313"></a><code>nmpLefToVHDLAMS()</code><a name="nmpLefToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010316"></a>Maps identifier from Lef to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010320"></a><code>nmpLefToVHDL87()</code><a name="nmpLefToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010323"></a>Maps identifier from Lef to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010327"></a><code>nmpPrintToCDBA()</code><a name="nmpPrintToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010330"></a>Maps identifier from Print to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010334"></a><code>nmpPrintToConcept()</code><a name="nmpPrintToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010337"></a>Maps identifier from Print to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010341"></a><code>nmpPrintToDef()</code><a name="nmpPrintToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010344"></a>Maps identifier from Print to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010348"></a><code>nmpPrintToGcf()</code><a name="nmpPrintToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010351"></a>Maps identifier from Print to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010355"></a><code>nmpPrintToGenesis()</code><a name="nmpPrintToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010358"></a>Maps identifier from Print to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010362"></a><code>nmpPrintToLef()</code><a name="nmpPrintToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010365"></a>Maps identifier from Print to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010369"></a><code>nmpPrintToSdf()</code><a name="nmpPrintToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010372"></a>Maps identifier from Print to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010376"></a><code>nmpPrintToSpf()</code><a name="nmpPrintToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010379"></a>Maps identifier from Print to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010383"></a><code>nmpPrintToSpectre()</code><a name="nmpPrintToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010386"></a>Maps identifier from Print to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010390"></a><code>nmpPrintToSpectreHDL()</code><a name="nmpPrintToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010393"></a>Maps identifier from Print to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010397"></a><code>nmpPrintToSpef()</code><a name="nmpPrintToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010400"></a>Maps identifier from Print to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010404"></a><code>nmpPrintToSpice()</code><a name="nmpPrintToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010407"></a>Maps identifier from Print to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010411"></a><code>nmpPrintToSysVerilog()</code><a name="nmpPrintToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010414"></a>Maps identifier from Print to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010418"></a><code>nmpPrintToVerilog()</code><a name="nmpPrintToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010421"></a>Maps identifier from Print to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010425"></a><code>nmpPrintToVerilogA()</code><a name="nmpPrintToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010428"></a>Maps identifier from Print to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010432"></a><code>nmpPrintToVerilogAMS()</code><a name="nmpPrintToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010435"></a>Maps identifier from Print to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010439"></a><code>nmpPrintToVHDL()</code><a name="nmpPrintToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010442"></a>Maps identifier from Print to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010446"></a><code>nmpPrintToVHDLAMS()</code><a name="nmpPrintToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010449"></a>Maps identifier from Print to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010453"></a><code>nmpPrintToVHDL87()</code><a name="nmpPrintToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010456"></a>Maps identifier from Print to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010460"></a><code>nmpSdfToCDBA()</code><a name="nmpSdfToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010463"></a>Maps identifier from Sdf to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010467"></a><code>nmpSdfToConcept()</code><a name="nmpSdfToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010470"></a>Maps identifier from Sdf to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010474"></a><code>nmpSdfToDef()</code><a name="nmpSdfToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010477"></a>Maps identifier from Sdf to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010481"></a><code>nmpSdfToGcf()</code><a name="nmpSdfToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010484"></a>Maps identifier from Sdf to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010488"></a><code>nmpSdfToGenesis()</code><a name="nmpSdfToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010491"></a>Maps identifier from Sdf to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010495"></a><code>nmpSdfToLef()</code><a name="nmpSdfToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010498"></a>Maps identifier from Sdf to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010502"></a><code>nmpSdfToPrint()</code><a name="nmpSdfToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010505"></a>Maps identifier from Sdf to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010509"></a><code>nmpSdfToSpf()</code><a name="nmpSdfToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010512"></a>Maps identifier from Sdf to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010516"></a><code>nmpSdfToSpectre()</code><a name="nmpSdfToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010519"></a>Maps identifier from Sdf to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010523"></a><code>nmpSdfToSpectreHDL()</code><a name="nmpSdfToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010526"></a>Maps identifier from Sdf to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010530"></a><code>nmpSdfToSpef()</code><a name="nmpSdfToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010533"></a>Maps identifier from Sdf to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010537"></a><code>nmpSdfToSpice()</code><a name="nmpSdfToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010540"></a>Maps identifier from Sdf to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010544"></a><code>nmpSdfToSysVerilog()</code><a name="nmpSdfToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010547"></a>Maps identifier from Sdf to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010551"></a><code>nmpSdfToVerilog()</code><a name="nmpSdfToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010554"></a>Maps identifier from Sdf to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010558"></a><code>nmpSdfToVerilogA()</code><a name="nmpSdfToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010561"></a>Maps identifier from Sdf to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010565"></a><code>nmpSdfToVerilogAMS()</code><a name="nmpSdfToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010568"></a>Maps identifier from Sdf to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010572"></a><code>nmpSdfToVHDL()</code><a name="nmpSdfToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010575"></a>Maps identifier from Sdf to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010579"></a><code>nmpSdfToVHDLAMS()</code><a name="nmpSdfToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010582"></a>Maps identifier from Sdf to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010586"></a><code>nmpSdfToVHDL87()</code><a name="nmpSdfToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010589"></a>Maps identifier from Sdf to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010593"></a><code>nmpSpfToCDBA()</code><a name="nmpSpfToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010596"></a>Maps identifier from Spf to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010600"></a><code>nmpSpfToConcept()</code><a name="nmpSpfToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010603"></a>Maps identifier from Spf to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010607"></a><code>nmpSpfToDef()</code><a name="nmpSpfToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010610"></a>Maps identifier from Spf to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010614"></a><code>nmpSpfToGcf()</code><a name="nmpSpfToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010617"></a>Maps identifier from Spf to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010621"></a><code>nmpSpfToGenesis()</code><a name="nmpSpfToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010624"></a>Maps identifier from Spf to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010628"></a><code>nmpSpfToLef()</code><a name="nmpSpfToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010631"></a>Maps identifier from Spf to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010635"></a><code>nmpSpfToPrint()</code><a name="nmpSpfToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010638"></a>Maps identifier from Spf to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010642"></a><code>nmpSpfToSdf()</code><a name="nmpSpfToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010645"></a>Maps identifier from Spf to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010649"></a><code>nmpSpfToSpectre()</code><a name="nmpSpfToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010652"></a>Maps identifier from Spf to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010656"></a><code>nmpSpfToSpectreHDL()</code><a name="nmpSpfToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010659"></a>Maps identifier from Spf to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010663"></a><code>nmpSpfToSpef()</code><a name="nmpSpfToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010666"></a>Maps identifier from Spf to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010670"></a><code>nmpSpfToSpice()</code><a name="nmpSpfToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010673"></a>Maps identifier from Spf to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010677"></a><code>nmpSpfToSysVerilog()</code><a name="nmpSpfToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010680"></a>Maps identifier from Spf to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010684"></a><code>nmpSpfToVerilog()</code><a name="nmpSpfToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010687"></a>Maps identifier from Spf to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010691"></a><code>nmpSpfToVerilogA()</code><a name="nmpSpfToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010694"></a>Maps identifier from Spf to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010698"></a><code>nmpSpfToVerilogAMS()</code><a name="nmpSpfToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010701"></a>Maps identifier from Spf to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010705"></a><code>nmpSpfToVHDL()</code><a name="nmpSpfToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010708"></a>Maps identifier from Spf to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010712"></a><code>nmpSpfToVHDLAMS()</code><a name="nmpSpfToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010715"></a>Maps identifier from Spf to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010719"></a><code>nmpSpfToVHDL87()</code><a name="nmpSpfToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010722"></a>Maps identifier from Spf to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010726"></a><code>nmpSpectreToCDBA()</code><a name="nmpSpectreToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010729"></a>Maps identifier from Spectre to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010733"></a><code>nmpSpectreToConcept()</code><a name="nmpSpectreToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010736"></a>Maps identifier from Spectre to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010740"></a><code>nmpSpectreToDef()</code><a name="nmpSpectreToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010743"></a>Maps identifier from Spectre to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010747"></a><code>nmpSpectreToGcf()</code><a name="nmpSpectreToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010750"></a>Maps identifier from Spectre to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010754"></a><code>nmpSpectreToGenesis()</code><a name="nmpSpectreToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010757"></a>Maps identifier from Spectre to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010761"></a><code>nmpSpectreToLef()</code><a name="nmpSpectreToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010764"></a>Maps identifier from Spectre to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010768"></a><code>nmpSpectreToPrint()</code><a name="nmpSpectreToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010771"></a>Maps identifier from Spectre to Print<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010775"></a><code>nmpSpectreToSdf()</code><a name="nmpSpectreToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010778"></a>Maps identifier from Spectre to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010782"></a><code>nmpSpectreToSpf()</code><a name="nmpSpectreToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010785"></a>Maps identifier from Spectre to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010789"></a><code>nmpSpectreToSpectreHDL()</code><a name="nmpSpectreToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010792"></a>Maps identifier from Spectre to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010796"></a><code>nmpSpectreToSpef()</code><a name="nmpSpectreToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010799"></a>Maps identifier from Spectre to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010803"></a><code>nmpSpectreToSpice()</code><a name="nmpSpectreToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010806"></a>Maps identifier from Spectre to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010810"></a><code>nmpSpectreToSysVerilog()</code><a name="nmpSpectreToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010813"></a>Maps identifier from Spectre to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010817"></a><code>nmpSpectreToVerilog()</code><a name="nmpSpectreToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010820"></a>Maps identifier from Spectre to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010824"></a><code>nmpSpectreToVerilogA()</code><a name="nmpSpectreToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010827"></a>Maps identifier from Spectre to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010831"></a><code>nmpSpectreToVerilogAMS()</code><a name="nmpSpectreToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010834"></a>Maps identifier from Spectre to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010838"></a><code>nmpSpectreToVHDL()</code><a name="nmpSpectreToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010841"></a>Maps identifier from Spectre to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010845"></a><code>nmpSpectreToVHDLAMS()</code><a name="nmpSpectreToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010848"></a>Maps identifier from Spectre to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010852"></a><code>nmpSpectreToVHDL87()</code><a name="nmpSpectreToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010855"></a>Maps identifier from Spectre to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010859"></a><code>nmpSpectreHDLToCDBA()</code><a name="nmpSpectreHDLToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010862"></a>Maps identifier from SpectreHDL to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010866"></a><code>nmpSpectreHDLToConcept()</code><a name="nmpSpectreHDLToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010869"></a>Maps identifier from SpectreHDL to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010873"></a><code>nmpSpectreHDLToDef()</code><a name="nmpSpectreHDLToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010876"></a>Maps identifier from SpectreHDL to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010880"></a><code>nmpSpectreHDLToGcf()</code><a name="nmpSpectreHDLToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010883"></a>Maps identifier from SpectreHDL to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010887"></a><code>nmpSpectreHDLToGenesis()</code><a name="nmpSpectreHDLToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010890"></a>Maps identifier from SpectreHDL to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010894"></a><code>nmpSpectreHDLToLef()</code><a name="nmpSpectreHDLToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010897"></a>Maps identifier from SpectreHDL to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010901"></a><code>nmpSpectreHDLToPrint()</code><a name="nmpSpectreHDLToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010904"></a>Maps identifier from SpectreHDL to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010908"></a><code>nmpSpectreHDLToSdf()</code><a name="nmpSpectreHDLToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010911"></a>Maps identifier from SpectreHDL to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010915"></a><code>nmpSpectreHDLToSpf()</code><a name="nmpSpectreHDLToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010918"></a>Maps identifier from SpectreHDL to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010922"></a><code>nmpSpectreHDLToSpectre()</code><a name="nmpSpectreHDLToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010925"></a>Maps identifier from SpectreHDL to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010929"></a><code>nmpSpectreHDLToSpef()</code><a name="nmpSpectreHDLToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010932"></a>Maps identifier from SpectreHDL to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010936"></a><code>nmpSpectreHDLToSpice()</code><a name="nmpSpectreHDLToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010939"></a>Maps identifier from SpectreHDL to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010943"></a><code>nmpSpectreHDLToSysVerilog()</code><a name="nmpSpectreHDLToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010946"></a>Maps identifier from Spectre to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010950"></a><code>nmpSpectreHDLToVerilog()</code><a name="nmpSpectreHDLToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010953"></a>Maps identifier from SpectreHDL to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010957"></a><code>nmpSpectreHDLToVerilogA()</code><a name="nmpSpectreHDLToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010960"></a>Maps identifier from SpectreHDL to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010964"></a><code>nmpSpectreHDLToVerilogAMS()</code><a name="nmpSpectreHDLToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010967"></a>Maps identifier from SpectreHDL to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010971"></a><code>nmpSpectreHDLToVHDL()</code><a name="nmpSpectreHDLToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010974"></a>Maps identifier from SpectreHDL to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010978"></a><code>nmpSpectreHDLToVHDLAMS()</code><a name="nmpSpectreHDLToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010981"></a>Maps identifier from SpectreHDL to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010985"></a><code>nmpSpectreHDLToVHDL87()</code><a name="nmpSpectreHDLToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010988"></a>Maps identifier from SpectreHDL to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010992"></a><code>nmpSpefToCDBA()</code><a name="nmpSpefToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010995"></a>Maps identifier from Spef to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1010999"></a><code>nmpSpefToConcept()</code><a name="nmpSpefToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011002"></a>Maps identifier from Spef to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011006"></a><code>nmpSpefToDef()</code><a name="nmpSpefToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011009"></a>Maps identifier from Spef to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011013"></a><code>nmpSpefToGcf()</code><a name="nmpSpefToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011016"></a>Maps identifier from Spef to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011020"></a><code>nmpSpefToGenesis()</code><a name="nmpSpefToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011023"></a>Maps identifier from Spef to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011027"></a><code>nmpSpefToLef()</code><a name="nmpSpefToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011030"></a>Maps identifier from Spef to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011034"></a><code>nmpSpefToPrint()</code><a name="nmpSpefToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011037"></a>Maps identifier from Spef to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011041"></a><code>nmpSpefToSdf()</code><a name="nmpSpefToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011044"></a>Maps identifier from Spef to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011048"></a><code>nmpSpefToSpf()</code><a name="nmpSpefToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011051"></a>Maps identifier from Spef to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011055"></a><code>nmpSpefToSpectre()</code><a name="nmpSpefToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011058"></a>Maps identifier from Spef to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011062"></a><code>nmpSpefToSpectreHDL()</code><a name="nmpSpefToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011065"></a>Maps identifier from Spef to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011069"></a><code>nmpSpefToSpice()</code><a name="nmpSpefToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011072"></a>Maps identifier from Spef to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011076"></a><code>nmpSpefToSysVerilog()</code><a name="nmpSpefToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011079"></a>Maps identifier from Spef to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011083"></a><code>nmpSpefToVerilog()</code><a name="nmpSpefToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011086"></a>Maps identifier from Spef to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011090"></a><code>nmpSpefToVerilogA()</code><a name="nmpSpefToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011093"></a>Maps identifier from Spef to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011097"></a><code>nmpSpefToVerilogAMS()</code><a name="nmpSpefToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011100"></a>Maps identifier from Spef to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011104"></a><code>nmpSpefToVHDL()</code><a name="nmpSpefToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011107"></a>Maps identifier from Spef to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011111"></a><code>nmpSpefToVHDLAMS()</code><a name="nmpSpefToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011114"></a>Maps identifier from Spef to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011118"></a><code>nmpSpefToVHDL87()</code><a name="nmpSpefToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011121"></a>Maps identifier from Spef to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011125"></a><code>nmpSpiceToCDBA()</code><a name="nmpSpiceToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011128"></a>Maps identifier from Spice to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011132"></a><code>nmpSpiceToConcept()</code><a name="nmpSpiceToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011135"></a>Maps identifier from Spice to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011139"></a><code>nmpSpiceToDef()</code><a name="nmpSpiceToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011142"></a>Maps identifier from Spice to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011146"></a><code>nmpSpiceToGcf()</code><a name="nmpSpiceToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011149"></a>Maps identifier from Spice to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011153"></a><code>nmpSpiceToGenesis()</code><a name="nmpSpiceToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011156"></a>Maps identifier from Spice to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011160"></a><code>nmpSpiceToLef()</code><a name="nmpSpiceToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011163"></a>Maps identifier from Spice to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011167"></a><code>nmpSpiceToPrint()</code><a name="nmpSpiceToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011170"></a>Maps identifier from Spice to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011174"></a><code>nmpSpiceToSdf()</code><a name="nmpSpiceToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011177"></a>Maps identifier from Spice to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011181"></a><code>nmpSpiceToSpf()</code><a name="nmpSpiceToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011184"></a>Maps identifier from Spice to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011188"></a><code>nmpSpiceToSpectre()</code><a name="nmpSpiceToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011191"></a>Maps identifier from Spice to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011195"></a><code>nmpSpiceToSpectreHDL()</code><a name="nmpSpiceToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011198"></a>Maps identifier from Spice to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011202"></a><code>nmpSpiceToSpef()</code><a name="nmpSpiceToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011205"></a>Maps identifier from Spice to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011209"></a><code>nmpSpiceToSysVerilog()</code><a name="nmpSpiceToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011212"></a>Maps identifier from Spice to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011216"></a><code>nmpSpiceToVerilog()</code><a name="nmpSpiceToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011219"></a>Maps identifier from Spice to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011223"></a><code>nmpSpiceToVerilogA()</code><a name="nmpSpiceToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011226"></a>Maps identifier from Spice to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011230"></a><code>nmpSpiceToVerilogAMS()</code><a name="nmpSpiceToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011233"></a>Maps identifier from Spice to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011237"></a><code>nmpSpiceToVHDL()</code><a name="nmpSpiceToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011240"></a>Maps identifier from Spice to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011244"></a><code>nmpSpiceToVHDLAMS()</code><a name="nmpSpiceToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011247"></a>Maps identifier from Spice to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011251"></a><code>nmpSpiceToVHDL87()</code><a name="nmpSpiceToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011254"></a>Maps identifier from Spice to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011258"></a><code>nmpSysVerilogToAscii()</code><a name="nmpSysVerilogToAscii"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011261"></a>Maps identifier from SysVerilog to Ascii.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011265"></a><code>nmpSysVerilogToCDBA()</code><a name="nmpSysVerilogToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011268"></a>Maps identifier from SysVerilog to CDBA.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011272"></a><code>nmpSysVerilogToConcept()</code><a name="nmpSysVerilogToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011275"></a>Maps identifier from SysVerilog to Concept.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011279"></a><code>nmpSysVerilogToDef()</code><a name="nmpSysVerilogToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011282"></a>Maps identifier from SysVerilog to Def.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011286"></a><code>nmpSysVerilogToGcf()</code><a name="nmpSysVerilogToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011289"></a>Maps identifier from SysVerilog to Gcf.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011293"></a><code>nmpSysVerilogToGenesis()</code><a name="nmpSysVerilogToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011296"></a>Maps identifier from SysVerilog to Genesis.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011300"></a><code>nmpSysVerilogToLef()</code><a name="nmpSysVerilogToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011303"></a>Maps identifier from SysVerilog to Lef.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011307"></a><code>nmpSysVerilogToPrint()</code><a name="nmpSysVerilogToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011310"></a>Maps identifier from SysVerilog to Print.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011314"></a><code>nmpSysVerilogToSdf()</code><a name="nmpSysVerilogToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011317"></a>Maps identifier from SysVerilog to Sdf.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011321"></a><code>nmpSysVerilogToSpf()</code><a name="nmpSysVerilogToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011324"></a>Maps identifier from SysVerilog to Spf.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011328"></a><code>nmpSysVerilogToSpectre()</code><a name="nmpSysVerilogToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011331"></a>Maps identifier from SysVerilog to Spectre.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011335"></a><code>nmpSysVerilogToSpectreHDL()</code><a name="nmpSysVerilogToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011338"></a>Maps identifier from SysVerilog to SpectreHDL.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011342"></a><code>nmpSysVerilogToSpef()</code><a name="nmpSysVerilogToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011345"></a>Maps identifier from SysVerilog to Spef.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011349"></a><code>nmpSysVerilogToSpice()</code><a name="nmpSysVerilogToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011352"></a>Maps identifier from SysVerilog to Spice.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011356"></a><code>nmpSysVerilogToVHDL()</code><a name="nmpSysVerilogToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011359"></a>Maps identifier from SysVerilog to VHDL.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011363"></a><code>nmpSysVerilogToVHDL87()</code><a name="nmpSysVerilogToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011366"></a>Maps identifier from SysVerilog to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011370"></a><code>nmpSysVerilogToVHDLAMS()</code><a name="nmpSysVerilogToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011373"></a>Maps identifier from SysVerilog to VHDLAMS.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011377"></a><code>nmpSysVerilogToVerilog()</code><a name="nmpSysVerilogToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011380"></a>Maps identifier from SysVerilog to Verilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011384"></a><code>nmpSysVerilogToVerilogA()</code><a name="nmpSysVerilogToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011387"></a>Maps identifier from SysVerilog to VerilogA.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011391"></a><code>nmpSysVerilogToVerilogAMS()</code><a name="nmpSysVerilogToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011394"></a>Maps identifier from SysVerilog to VerilogAMS.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011398"></a><code>nmpVerilogToCDBA()</code><a name="nmpVerilogToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011401"></a>Maps identifier from Verilog to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011405"></a><code>nmpVerilogToConcept()</code><a name="nmpVerilogToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011408"></a>Maps identifier from Verilog to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011412"></a><code>nmpVerilogToDef()</code><a name="nmpVerilogToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011415"></a>Maps identifier from Verilog to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011419"></a><code>nmpVerilogToGcf()</code><a name="nmpVerilogToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011422"></a>Maps identifier from Verilog to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011426"></a><code>nmpVerilogToGenesis()</code><a name="nmpVerilogToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011429"></a>Maps identifier from Verilog to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011433"></a><code>nmpVerilogToLef()</code><a name="nmpVerilogToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011436"></a>Maps identifier from Verilog to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011440"></a><code>nmpVerilogToPrint()</code><a name="nmpVerilogToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011443"></a>Maps identifier from Verilog to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011447"></a><code>nmpVerilogToSdf()</code><a name="nmpVerilogToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011450"></a>Maps identifier from Verilog to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011454"></a><code>nmpVerilogToSpf()</code><a name="nmpVerilogToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011457"></a>Maps identifier from Verilog to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011461"></a><code>nmpVerilogToSpectre()</code><a name="nmpVerilogToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011464"></a>Maps identifier from Verilog to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011468"></a><code>nmpVerilogToSpectreHDL()</code><a name="nmpVerilogToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011471"></a>Maps identifier from Verilog to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011475"></a><code>nmpVerilogToSpef()</code><a name="nmpVerilogToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011478"></a>Maps identifier from Verilog to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011482"></a><code>nmpVerilogToSpice()</code><a name="nmpVerilogToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011485"></a>Maps identifier from Verilog to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011489"></a><code>nmpVerilogToSysVerilog()</code><a name="nmpVerilogToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011492"></a>Maps identifier from Verilog to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011496"></a><code>nmpVerilogToVerilogA()</code><a name="nmpVerilogToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011499"></a>Maps identifier from Verilog to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011503"></a><code>nmpVerilogToVerilogAMS()</code><a name="nmpVerilogToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011506"></a>Maps identifier from Verilog to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011510"></a><code>nmpVerilogToVHDL()</code><a name="nmpVerilogToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011513"></a>Maps identifier from Verilog to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011517"></a><code>nmpVerilogToVHDLAMS()</code><a name="nmpVerilogToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011520"></a>Maps identifier from Verilog to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011524"></a><code>nmpVerilogToVHDL87()</code><a name="nmpVerilogToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011527"></a>Maps identifier from Verilog to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011531"></a><code>nmpVerilogAToCDBA()</code><a name="nmpVerilogAToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011534"></a>Maps identifier from VerilogA to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011538"></a><code>nmpVerilogAToConcept()</code><a name="nmpVerilogAToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011541"></a>Maps identifier from VerilogA to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011545"></a><code>nmpVerilogAToDef()</code><a name="nmpVerilogAToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011548"></a>Maps identifier from VerilogA to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011552"></a><code>nmpVerilogAToGcf()</code><a name="nmpVerilogAToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011555"></a>Maps identifier from VerilogA to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011559"></a><code>nmpVerilogAToGenesis()</code><a name="nmpVerilogAToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011562"></a>Maps identifier from VerilogA to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011566"></a><code>nmpVerilogAToLef()</code><a name="nmpVerilogAToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011569"></a>Maps identifier from VerilogA to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011573"></a><code>nmpVerilogAToPrint()</code><a name="nmpVerilogAToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011576"></a>Maps identifier from VerilogA to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011580"></a><code>nmpVerilogAToSdf()</code><a name="nmpVerilogAToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011583"></a>Maps identifier from VerilogA to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011587"></a><code>nmpVerilogAToSpf()</code><a name="nmpVerilogAToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011590"></a>Maps identifier from VerilogA to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011594"></a><code>nmpVerilogAToSpectre()</code><a name="nmpVerilogAToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011597"></a>Maps identifier from VerilogA to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011601"></a><code>nmpVerilogAToSpectreHDL()</code><a name="nmpVerilogAToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011604"></a>Maps identifier from VerilogA to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011608"></a><code>nmpVerilogAToSpef()</code><a name="nmpVerilogAToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011611"></a>Maps identifier from VerilogA to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011615"></a><code>nmpVerilogAToSpice()</code><a name="nmpVerilogAToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011618"></a>Maps identifier from VerilogA to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011622"></a><code>nmpVerilogAToSysVerilog()</code><a name="nmpVerilogAToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011625"></a>Maps identifier from VerilogA to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011629"></a><code>nmpVerilogAToVerilog()</code><a name="nmpVerilogAToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011632"></a>Maps identifier from VerilogA to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011636"></a><code>nmpVerilogAToVerilogAMS()</code><a name="nmpVerilogAToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011639"></a>Maps identifier from VerilogA to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011643"></a><code>nmpVerilogAToVHDL()</code><a name="nmpVerilogAToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011646"></a>Maps identifier from VerilogA to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011650"></a><code>nmpVerilogAToVHDLAMS()</code><a name="nmpVerilogAToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011653"></a>Maps identifier from VerilogA to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011657"></a><code>nmpVerilogAToVHDL87()</code><a name="nmpVerilogAToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011660"></a>Maps identifier from VerilogA to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011664"></a><code>nmpVerilogAMSToCDBA()</code><a name="nmpVerilogAMSToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011667"></a>Maps identifier from VerilogAMS to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011671"></a><code>nmpVerilogAMSToConcept()</code><a name="nmpVerilogAMSToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011674"></a>Maps identifier from VerilogAMS to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011678"></a><code>nmpVerilogAMSToDef()</code><a name="nmpVerilogAMSToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011681"></a>Maps identifier from VerilogAMS to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011685"></a><code>nmpVerilogAMSToGcf()</code><a name="nmpVerilogAMSToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011688"></a>Maps identifier from VerilogAMS to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011692"></a><code>nmpVerilogAMSToGenesis()</code><a name="nmpVerilogAMSToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011695"></a>Maps identifier from VerilogAMS to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011699"></a><code>nmpVerilogAMSToLef()</code><a name="nmpVerilogAMSToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011702"></a>Maps identifier from VerilogAMS to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011706"></a><code>nmpVerilogAMSToPrint()</code><a name="nmpVerilogAMSToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011709"></a>Maps identifier from VerilogAMS to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011713"></a><code>nmpVerilogAMSToSdf()</code><a name="nmpVerilogAMSToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011716"></a>Maps identifier from VerilogAMS to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011720"></a><code>nmpVerilogAMSToSpf()</code><a name="nmpVerilogAMSToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011723"></a>Maps identifier from VerilogAMS to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011727"></a><code>nmpVerilogAMSToSpectre()</code><a name="nmpVerilogAMSToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011730"></a>Maps identifier from VerilogAMS to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011734"></a><code>nmpVerilogAMSToSpectreHDL()</code><a name="nmpVerilogAMSToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011737"></a>Maps identifier from VerilogAMS to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011741"></a><code>nmpVerilogAMSToSpef()</code><a name="nmpVerilogAMSToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011744"></a>Maps identifier from VerilogAMS to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011748"></a><code>nmpVerilogAMSToSpice()</code><a name="nmpVerilogAMSToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011751"></a>Maps identifier from VerilogAMS to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011755"></a><code>nmpVerilogAMSToSysVerilog()</code><a name="nmpVerilogAMSToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011758"></a>Maps identifier from VerilogAMS to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011762"></a><code>nmpVerilogAMSToVerilog()</code><a name="nmpVerilogAMSToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011765"></a>Maps identifier from VerilogAMS to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011769"></a><code>nmpVerilogAMSToVerilogA()</code><a name="nmpVerilogAMSToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011772"></a>Maps identifier from VerilogAMS to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011776"></a><code>nmpVerilogAMSToVHDL()</code><a name="nmpVerilogAMSToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011779"></a>Maps identifier from VerilogAMS to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011783"></a><code>nmpVerilogAMSToVHDLAMS()</code><a name="nmpVerilogAMSToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011786"></a>Maps identifier from VerilogAMS to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011790"></a><code>nmpVerilogAMSToVHDL87()</code><a name="nmpVerilogAMSToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011793"></a>Maps identifier from VerilogAMS to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011797"></a><code>nmpVHDLToCDBA()</code><a name="nmpVHDLToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011800"></a>Maps identifier from VHDL to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011804"></a><code>nmpVHDLToConcept()</code><a name="nmpVHDLToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011807"></a>Maps identifier from VHDL to Concept<code></code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011811"></a><code>nmpVHDLToDef()</code><a name="nmpVHDLToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011814"></a>Maps identifier from VHDL to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011818"></a><code>nmpVHDLToGcf()</code><a name="nmpVHDLToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011821"></a>Maps identifier from VHDL to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011825"></a><code>nmpVHDLToGenesis()</code><a name="nmpVHDLToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011828"></a>Maps identifier from VHDL to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011832"></a><code>nmpVHDLToLef()</code><a name="nmpVHDLToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011835"></a>Maps identifier from VHDL to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011839"></a><code>nmpVHDLToPrint()</code><a name="nmpVHDLToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011842"></a>Maps identifier from VHDL to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011846"></a><code>nmpVHDLToSdf()</code><a name="nmpVHDLToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011849"></a>Maps identifier from VHDL to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011853"></a><code>nmpVHDLToSpf()</code><a name="nmpVHDLToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011856"></a>Maps identifier from VHDL to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011860"></a><code>nmpVHDLToSpectre()</code><a name="nmpVHDLToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011863"></a>Maps identifier from VHDL to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011867"></a><code>nmpVHDLToSpectreHDL()</code><a name="nmpVHDLToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011870"></a>Maps identifier from VHDL to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011874"></a><code>nmpVHDLToSpef()</code><a name="nmpVHDLToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011877"></a>Maps identifier from VHDL to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011881"></a><code>nmpVHDLToSpice()</code><a name="nmpVHDLToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011884"></a>Maps identifier from VHDL to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011888"></a><code>nmpVHDLToSysVerilog()</code><a name="nmpVHDLToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011891"></a>Maps identifier from VHDL to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011895"></a><code>nmpVHDLToVerilog()</code><a name="nmpVHDLToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011898"></a>Maps identifier from VHDL to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011902"></a><code>nmpVHDLToVerilogA()</code><a name="nmpVHDLToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011905"></a>Maps identifier from VHDL to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011909"></a><code>nmpVHDLToVerilogAMS()</code><a name="nmpVHDLToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011912"></a>Maps identifier from VHDL to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011916"></a><code>nmpVHDLToVHDLAMS()</code><a name="nmpVHDLToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011919"></a>Maps identifier from VHDL to VHDLAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011923"></a><code>nmpVHDLToVHDL87()</code><a name="nmpVHDLToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011926"></a>Maps identifier from VHDL to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011930"></a><code>nmpVHDLAMSToCDBA()</code><a name="nmpVHDLAMSToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011933"></a>Maps identifier from VHDLAMS to CDBA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011937"></a><code>nmpVHDLAMSToConcept()</code><a name="nmpVHDLAMSToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011940"></a>Maps identifier from VHDLAMS to Concept.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011944"></a><code>nmpVHDLAMSToDef()</code><a name="nmpVHDLAMSToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011947"></a>Maps identifier from VHDLAMS to Def.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011951"></a><code>nmpVHDLAMSToGcf()</code><a name="nmpVHDLAMSToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011954"></a>Maps identifier from VHDLAMS to Gcf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011958"></a><code>nmpVHDLAMSToGenesis()</code><a name="nmpVHDLAMSToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011961"></a>Maps identifier from VHDLAMS to Genesis.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011965"></a><code>nmpVHDLAMSToLef()</code><a name="nmpVHDLAMSToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011968"></a>Maps identifier from VHDLAMS to Lef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011972"></a><code>nmpVHDLAMSToPrint()</code><a name="nmpVHDLAMSToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011975"></a>Maps identifier from VHDLAMS to Print.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011979"></a><code>nmpVHDLAMSToSdf()</code><a name="nmpVHDLAMSToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011982"></a>Maps identifier from VHDLAMS to Sdf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011986"></a><code>nmpVHDLAMSToSpf()</code><a name="nmpVHDLAMSToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011989"></a>Maps identifier from VHDLAMS to Spf.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011993"></a><code>nmpVHDLAMSToSpectre()</code><a name="nmpVHDLAMSToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1011996"></a>Maps identifier from VHDLAMS to Spectre.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012000"></a><code>nmpVHDLAMSToSpectreHDL()</code><a name="nmpVHDLAMSToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012003"></a>Maps identifier from VHDLAMS to SpectreHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012007"></a><code>nmpVHDLAMSToSpef()</code><a name="nmpVHDLAMSToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012010"></a>Maps identifier from VHDLAMS to Spef.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012014"></a><code>nmpVHDLAMSToSpice()</code><a name="nmpVHDLAMSToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012017"></a>Maps identifier from VHDLAMS to Spice.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012021"></a><code>nmpVHDLAMSToSysVerilog()</code><a name="nmpVHDLAMSToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012024"></a>Maps identifier from VHDLAMS to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012028"></a><code>nmpVHDLAMSToVerilog()</code><a name="nmpVHDLAMSToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012031"></a>Maps identifier from VHDLAMS to Verilog.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012035"></a><code>nmpVHDLAMSToVerilogA()</code><a name="nmpVHDLAMSToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012038"></a>Maps identifier from VHDLAMS to VerilogA.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012042"></a><code>nmpVHDLAMSToVerilogAMS()</code><a name="nmpVHDLAMSToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012045"></a>Maps identifier from VHDLAMS to VerilogAMS.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012049"></a><code>nmpVHDLAMSToVHDL()</code><a name="nmpVHDLAMSToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012052"></a>Maps identifier from VHDLAMS to VHDL.<code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012056"></a><code>nmpVHDLAMSToVHDL87()</code><a name="nmpVHDLAMSToVHDL87"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012059"></a>Maps identifier from VHDLAMS to VHDL87.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012063"></a><code>nmpVHDL87ToCDBA()</code><a name="nmpVHDL87ToCDBA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012066"></a>Maps identifier from VHDL87 to CDBA.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012070"></a><code>nmpVHDL87ToConcept()</code><a name="nmpVHDL87ToConcept"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012073"></a>Maps identifier from VHDL87 to Concept.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012077"></a><code>nmpVHDL87ToDef()</code><a name="nmpVHDL87ToDef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012080"></a>Maps identifier from VHDL87 to Def.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012084"></a><code>nmpVHDL87ToGcf()</code><a name="nmpVHDL87ToGcf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012087"></a>Maps identifier from VHDL87 to Gcf.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012091"></a><code>nmpVHDL87ToGenesis()</code><a name="nmpVHDL87ToGenesis"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012094"></a>Maps identifier from VHDL87 to Genesis.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012098"></a><code>nmpVHDL87ToLef()</code><a name="nmpVHDL87ToLef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012101"></a>Maps identifier from VHDL87 to Lef.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012105"></a><code>nmpVHDL87ToPrint()</code><a name="nmpVHDL87ToPrint"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012108"></a>Maps identifier from VHDL87 to Print.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012112"></a><code>nmpVHDL87ToSdf()</code><a name="nmpVHDL87ToSdf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012115"></a>Maps identifier from VHDL87 to Sdf.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012119"></a><code>nmpVHDL87ToSpf()</code><a name="nmpVHDL87ToSpf"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012122"></a>Maps identifier from VHDL87 to Spf.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012126"></a><code>nmpVHDL87ToSpectre()</code><a name="nmpVHDL87ToSpectre"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012129"></a>Maps identifier from VHDL87 to Spectre.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012133"></a><code>nmpVHDL87ToSpectreHDL()</code><a name="nmpVHDL87ToSpectreHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012136"></a>Maps identifier from VHDL87 to SpectreHDL.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012140"></a><code>nmpVHDL87ToSpef()</code><a name="nmpVHDL87ToSpef"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012143"></a>Maps identifier from VHDL87 to Spef.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012147"></a><code>nmpVHDL87ToSpice()</code><a name="nmpVHDL87ToSpice"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012150"></a>Maps identifier from VHDL87 to Spice.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012154"></a><code>nmpVHDL87ToSysVerilog()</code><a name="nmpVHDL87ToSysVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012157"></a>Maps identifier from VHDL87 to SysVerilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012161"></a><code>nmpVHDL87ToVerilog()</code><a name="nmpVHDL87ToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012164"></a>Maps identifier from VHDL87 to Verilog.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012168"></a><code>nmpVHDL87ToVerilogA()</code><a name="nmpVHDL87ToVerilogA"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012171"></a>Maps identifier from VHDL87 to VerilogA.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012175"></a><code>nmpVHDL87ToVerilogAMS()</code><a name="nmpVHDL87ToVerilogAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012178"></a>Maps identifier from VHDL87 to VerilogAMS.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012182"></a><code>nmpVHDL87ToVHDL()</code><a name="nmpVHDL87ToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012185"></a>Maps identifier from VHDL87 to VHDL.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012189"></a><code>nmpVHDL87ToVHDLAMS()</code><a name="nmpVHDL87ToVHDLAMS"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012192"></a>Maps identifier from VHDL87 to VHDLAMS.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=nmpPath<NameSpace>To<NameSpace> Functions
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1012202"></a><a name="80008"></a>nmpPath<em>&lt;NameSpace&gt;</em>To<em>&lt;NameSpace&gt;</em><a name="nmpPath"></a> Functions</h3>
+
+<p>
+<a name="pgfId-1012203"></a>The following table lists all current <code>nmpPath</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span><code>To</code><span class="webflare-courier-new" style="white-space:pre"><em>&lt;NameSpace&gt;</em></span> functions. For information about these functions, see <a href="nmp.html#84695">nmpPath</a><em>&lt;NameSpace&gt;</em><a href="nmp.html#84695">To</a><em>&lt;NameSpace&gt;</em>.</p>
+
+<p>
+<a name="pgfId-1012348"></a></p>
+<table class="webflareTable" id="#id1012207">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012211"></a><code>nmpPathCDBAToVHDL()</code><a name="nmpPathCDBAToVHDL"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012214"></a>Converts a simple instance vector in the CDBA namespace to the VHDL namespace.<code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012386"></a>Examples:</p>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1012508"></a>nmpPathCDBAToVHDL( &quot;i8&lt;0:3&gt;&quot; ) =&gt; &quot;i8(0 to 3)&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1012639"></a>nmpPathCDBAToVHDL( &quot;I8&lt;0:3&gt;&quot; ) =&gt; &quot;\I8\(0 to 3)&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1012510"></a>nmpPathCDBAToVHDL( &quot;instName&lt;4&gt;&quot; ) =&gt; &quot;\instName\(4)&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1012500"></a>nmpPathCDBAToVHDL( &quot;inst_name&lt;4&gt;&quot; ) =&gt; &quot;inst_name(4)&quot;</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012218"></a><code>nmpPathCDBAToVerilog()</code><a name="nmpPathCDBAToVerilog"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012582"></a>Converts a simple instance vector in the CDBA namespace to the Verilog namespace.<code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1012389"></a>Examples:</p>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1012622"></a>nmpPathCDBAToVerilog( &quot;I8&lt;0:3&gt;&quot; ) =&gt; &quot;I8[0:3]&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1012651"></a>nmpPathCDBAToVerilog( &quot;instName&lt;4&gt;&quot; ) =&gt; &quot;instName[4]&quot;</pre>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-1012194"></a></p>
+<p>
+<a name="pgfId-1012195"></a></p>
+<p>
+<a name="pgfId-1006207"></a></p>
+
+<!-- [TOPIC_END] -->
+
+<p>
+<a name="pgfId-1012889"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="gdm.html" id="prev" title="Generic Design Management (GDM) Functions">Generic Design Management (GDM ...</a></em></b><b><em><a href="cdsCopy.html" id="nex" title="cdsCopy Functions">cdsCopy Functions</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

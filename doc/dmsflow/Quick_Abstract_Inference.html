@@ -1,0 +1,307 @@
+
+<html><head><title>Quick Abstract Inference</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="leenap" />
+<meta name="CreateDate" content="2020-02-20" />
+<meta name="CreateTime" content="1582191951" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="" />
+<meta name="DocTitle" content="Mixed Signal (MS) Interoperability Guide" />
+<meta name="DocType" content="Methodology" />
+<meta name="FileTitle" content="Quick Abstract Inference" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="dmsflow" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-02-20" />
+<meta name="ModifiedTime" content="1582191951" />
+<meta name="NextFile" content="Netlist-Driven_Mixed_Signal_Design_Flow.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="" />
+<meta name="PrevFile" content="Virtuoso_Digital_Implementation.html" />
+<meta name="Product" content="Virtuoso Layout Suite,Innovus," />
+<meta name="ProductFamily" content="Custom IC Design,Digital IC Design," />
+<meta name="ProductVersion" content="20.10" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Mixed Signal (MS) Interoperability Guide -- Quick Abstract Inference" />
+<meta name="Version" content="20.10" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="dmsflow201" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="dmsflowTOC.html">Contents</a></li><li><a class="prev" href="Virtuoso_Digital_Implementation.html" title="Virtuoso_Digital_Implementation">Virtuoso_Digital_Implementatio ...</a></li><li style="float: right;"><a class="viewPrint" href="dmsflow.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Netlist-Driven_Mixed_Signal_Design_Flow.html" title="Netlist-Driven_Mixed_Signal_Design_Flow">Netlist-Driven_Mixed_Signal_De ...</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Mixed Signal (MS) Interoperability Guide<br />Product Version 20.10, March 2020</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <div style="width: 100%; font-size: 32px; text-align: left;               font-weight: bold;">7</div>
+<h1 style="margin: 4px 0 4px;"><span>Quick Abstract Inference</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p></p>
+<div class="toc-macro rbtoc1582191929925">
+<ul class="toc-indentation">
+<li><a href="#QuickAbstractInference-OverviewofQuickAbstractInference">Overview of Quick Abstract Inference</a>
+<ul class="toc-indentation">
+<li><a href="#QuickAbstractInference-RulesforAbstractInference">Rules for Abstract Inference</a></li>
+<li><a href="#QuickAbstractInference-DetailedDescriptionofDataObjects">Detailed Description of Data Objects</a></li>
+<li><a href="#QuickAbstractInference-AntennaAnnotationUtilityforCreatingAccurateAntennaInformationfortheInnovusFlow">Antenna Annotation Utility for Creating Accurate Antenna Information for the Innovus Flow</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="QuickAbstractInference-OverviewofQuickAbstractInference">Overview of Quick Abstract Inference</h2>
+
+<p><span class="fontredcadence">
+<p>Innovus reads the library cells (LEF equivalent) from the list of reference libraries provided by the<code>&#160;init_oa_ref_lib</code>&#160;variable.</p>
+</span></p>
+
+<p>As there can be many views of a cell, the name of the abstract view to look for is provided by the&#160;<code><span class="fontredcadence">init_abstract_view</span></code>&#160;<span class="fontredcadence">variable</span>.&#160;The OAX reader reads all the cells present in the reference libraries, irrespective of whether or not these cells are used inside the design. This results in some performance penalty when there are many cells in the library that are not used in the design but are still read into Innovus. To avoid this performance issue, library cells are processed on demand. This means that if a library cell is not defined in the list of reference library, Innovus reads that particular cell from its corresponding binding (lib/cell/view) in the OpenAccess design database. This on-demand processing helps improve performance by reading only those library cells that are actually required by the design. For example, IP block libraries are generally not provided in the reflib list and they are read using on-demand processing.&#160;</p>
+
+<p>Another aspect of on-demand processing is determining the type of the view that is bound. The binding could point to an under-development IP (layout view) or its abstract equivalent. Innovus detects the view type automatically by applying heuristic methods. For the layout view, Innovus uses Quick Abstract Inference to internally infer the abstract equivalent from the layout information during design import. This process is called on-the-fly abstract inference.</p>
+
+<p>A summary report is printed in the&#160;<code><em>design</em>.oaread.rpt</code>&#160;file. This report contains the summary of all the blocks read by inferring the layout view of the block.</p>
+
+<p><br /></p>
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For automatic abstract inference, pin shapes and <code>prBoundary</code> must be available in the layout view.</p>
+</div>
+</div>
+
+<p>Innovus supports dual views. A dual view is a layout view that also contains abstract &#160;information, such as&#160;<code>prBoundary</code>, antenna, site, symmetry, and cell type, in the same cellview. A dual view&#160;can be used both as a layout in Virtuoso and as an abstract in Innovus through Quick Abstract Inference.&#160;</p>
+
+<p><strong>Note:&#160;</strong>You need not generate abstracts each time you change the layout view of the block. To generate detailed abstracts after finalizing the block design, use the Virtuoso Abstract Generator.</p>
+
+<p></p>
+<h3 id="QuickAbstractInference-RulesforAbstractInference">Rules for Abstract Inference</h3>
+
+<p>The following table describes the behavior of auto-abstract inference when the following data objects are present in the layout view. To know more about these data objects, refer to&#160;<a href="#QuickAbstractInference-dataobjdesc">Detailed Description of Data Objects</a>.</p>
+<div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col /><col /><col /></colgroup><tbody><tr><td class="confluenceTd">
+<p><strong>Data objects in the<br />cell layout view</strong></p>
+</td>
+<td class="confluenceTd">
+<p><strong>Behavior of Innovus if present<br />in the layout view</strong></p>
+</td>
+<td class="confluenceTd">
+<p><strong>Behavior of Innovus if not present<br />in the layout view or the value is null</strong></p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><a href="#QuickAbstractInference-Pin">Pin</a></p>
+</td>
+<td class="confluenceTd">
+<p>All the top-level pin shapes are copied to the abstract view.</p>
+</td>
+<td class="confluenceTd">
+<p>No pins appear in the abstract view.</p>
+
+<p><strong>Note: </strong>Create pins as required at the top level.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><a href="#QuickAbstractInference-Celltype">Cell type</a></p>
+</td>
+<td class="confluenceTd">
+<p>The specified type is considered.</p>
+
+<p><strong>Note: </strong>If the cell type is <code>none</code>, then the <code>BLOCK</code> cell type is assigned by default.</p>
+</td>
+<td class="confluenceTd">
+<p>The default type <code>BLOCK</code> is considered.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p>Cover Obstruction</p>
+
+<p>Virtuoso commands for applying obstruction up to metal layer <code>Metalx</code>:</p>
+
+<p><br /></p>
+
+<p><code>cv=geGetEditCellView()</code></p>
+
+<p><code>dbCreateCoverObstruction(cv~&gt;prBoundary</code></p>
+
+<p><code>techGetLayerMaskNumber(techGetTechFile(cv) &quot;Metalx&quot;))</code></p>
+
+<p><br /></p>
+
+<p><code>dbDeleteObject(cv~&gt;prBoundary~&gt;coverObstruction)</code></p>
+</td>
+<td class="confluenceTd">
+<p>Obstructions are created only on the routing layers up to the <code>Metalx</code> routinglayer specified.</p>
+
+<p><br /></p>
+
+<p>Gets ID of currently open cellview.</p>
+
+<p>Specifies the top metal layer to be obstructed.</p>
+
+<p><br /></p>
+
+<p>Removes the cover blockage created by <code>dbCreateCoverObstruction</code></p>
+</td>
+<td class="confluenceTd">
+<p>The tool automatically determines the top metal layer used in the design hierarchy.</p>
+
+<p>All layers up to the top layer are blocked.</p>
+
+<p><br /></p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><a href="#QuickAbstractInference-prBoundary">prBoundary</a></p>
+</td>
+<td class="confluenceTd">
+<p>Exact region as enclosed by <code>prBoundary</code> is taken.</p>
+</td>
+<td class="confluenceTd">
+<p><code>prBoundary</code> is required for the cell types <code>CORE</code> and <code>ENDCAP</code>. An error message is displayed if <code>prBoundary</code> is not present for these cell types.</p>
+
+<p>If you do not specify <code>prBoundary</code> for cells other than core, auto-abstract inference will set its value to zero. However, while reading this data, Innovus tries to auto compute the box for the cell from the pin shapes, if possible.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><a href="#QuickAbstractInference-Symmetry">Symmetry</a></p>
+</td>
+<td class="confluenceTd">
+<p>The specified symmetry option is taken.</p>
+
+<p><strong>Note: </strong>If the symmetry value is <code>none</code>, then the default value <code>XYR90</code> is considered.</p>
+</td>
+<td class="confluenceTd">
+<p>The default value <code>XYR90</code> is taken.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><a href="#QuickAbstractInference-Site">Site</a></p>
+</td>
+<td class="confluenceTd">
+<p>The values specified in the layout are copied without any changes.</p>
+</td>
+<td class="confluenceTd">
+<p>If the <code>SITE</code> value is not specified for cell types <code>CORE</code> and <code>ENDCAP</code>, an error message is displayed.</p>
+
+<p>For other cell types, it is left blank.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd">
+<p><a href="#QuickAbstractInference-Antenna">Antenna</a></p>
+</td>
+<td class="confluenceTd">
+<p>The values specified in the layout are copied without any changes.</p>
+</td>
+<td class="confluenceTd">
+<p>A warning message is displayed. This message describes the number of cells and missing antenna values for <code>SIGNAL</code>, <code>SCAN</code>, <code>CLOCK</code>, and <code>RESET</code> pins.</p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p></p>
+
+<p><span class="confluence-anchor-link" id="QuickAbstractInference-dataobjdesc"></span></p>
+<h3 id="QuickAbstractInference-DetailedDescriptionofDataObjects">Detailed Description of Data Objects</h3>
+
+<p>The following table describes the data objects that are used for inferring the abstracts:</p>
+<p align="left"><br /></p>
+<div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col /><col /></colgroup><tbody><tr><td class="confluenceTd">
+<p><strong>Data Object</strong></p>
+</td>
+<td class="confluenceTd">
+<p><strong>Description</strong></p>
+</td>
+</tr>
+<tr><td class="confluenceTd"><div class="content-wrapper">
+<p><span class="confluence-anchor-link" id="QuickAbstractInference-Pin"></span>Pin</p>
+</div>
+</td>
+<td class="confluenceTd">
+<p>Specifies a physical shape through which one block connects to other blocks in a netlist.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd"><div class="content-wrapper">
+<p><span class="confluence-anchor-link" id="QuickAbstractInference-Celltype"></span>Cell type</p>
+</div>
+</td>
+<td class="confluenceTd">
+<p>Specifies various cell types, such as <code>CORE</code>, <code>ENDCAP</code>, <code>COVER</code>, <code>RING</code>, <code>BLOCK</code>, and <code>PAD</code>.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd"><div class="content-wrapper">
+<p><span class="confluence-anchor-link" id="QuickAbstractInference-prBoundary"></span><code>prBoundary</code></p>
+</div>
+</td>
+<td class="confluenceTd">
+<p>Specifies the block boundary for place-and-route applications. Any shape or instance created for the block should be enclosed within the <code>prBoundary</code>.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd"><div class="content-wrapper">
+<p><span class="confluence-anchor-link" id="QuickAbstractInference-Symmetry"></span>Symmetry</p>
+</div>
+</td>
+<td class="confluenceTd">
+<p>Specifies the possible orientation of the block.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd"><div class="content-wrapper">
+<p><span class="confluence-anchor-link" id="QuickAbstractInference-Site"></span>Site</p>
+</div>
+</td>
+<td class="confluenceTd">
+<p>Provides placement for the family of macros, such as I/O, core, block, analog, digital, short, tall, and so on, in a design.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd"><div class="content-wrapper">
+<p><span class="confluence-anchor-link" id="QuickAbstractInference-Antenna"></span>Antenna</p>
+</div>
+</td>
+<td class="confluenceTd"><div class="content-wrapper">
+<p>During deep sub-micron wafer fabrication, gate damage can occur when excessive static charges accumulate and discharge, passing high current through a gate.</p>
+
+<p>If the area of the layer connected directly to the gate or connected to the gate through lower layers is large relative to the area of the gate and the static charges are discharged through the gate, the discharge can damage the oxide that insulates the gate and cause the chip to fail. This phenomenon is called the process antenna effect (PAE).</p>
+
+<p>Run Virtuoso Abstract Generator to obtain the antenna value.</p>
+
+<p>For more information, see the <a class="message-url" href="../lefdefref/lefdefrefTOC.html">LEF/DEF Language Reference</a>.</p>
+</div>
+</td>
+</tr>
+</tbody></table></div>
+<h3 id="QuickAbstractInference-AntennaAnnotationUtilityforCreatingAccurateAntennaInformationfortheInnovusFlow">Antenna Annotation Utility for Creating Accurate Antenna Information for the Innovus Flow</h3>
+
+<p>As mentioned earlier in this section, when the Open Access flow is invoked in Innovus, if a macro block/cell does not have abstract views provided, Quick Abstract Inference (QAI) creates an abstract view on the fly, in addition to the already available layout view. This abstract has only the basic information for the block/cell, such as&#160;<code>prBoundary</code>, pin, and site information; it does not contain the process antenna information. The process antenna information is needed by routers, such as NanoRoute, to fix and repair the violations that are generated when using the process antenna information available on the pins. One way to process the antenna information accurately is to annotate the layout with the antenna. This can be done by specifying the layer, poly, gate, and oxide information through the antenna options file&#160;and then running the&#160;antenna annotation utility (<code>antenna_annotate.csh</code>&#160;script file) available in the directory below:</p>
+
+<p>The antenna annotation utility (<code>antenna_annotate.csh</code>&#160;script file) is available in the directory below.&#160;</p>
+
+<p><code><em>&lt;Innovus Installation directory&gt;</em>/lnx86/share/innovus/gift/MixedSignal/Utilities/skill</code></p>
+
+<p>&#160;You can execute the antenna annotation utility with the desired layout and the options file. This utility runs the Abstract Generator, which extracts the antenna information from&#160;the antenna options file and annotates it to the layout.&#160;When automatic abstract inference is done, the antenna information is included in the abstract created through abstract inference.&#160;</p>
+
+<p>In addition to the&#160;<code>antenna_annotate.csh</code>&#160;script,&#160;the skill directory above has&#160;the readme file,&#160;<code>annotate_antenna.readme.txt</code>, which is necessary for creation of the options file. The readme file also contains the command usage of the script.</p>
+
+<p>A sample test case named <code>Antenna_annotation.tar.gz</code>&#160;is also available for the users to test the utility. Please see the readme file inside the test case directory for more information.</p>
+
+<p><strong>Note</strong>: Before invoking the script, make sure that the Abstract Generator path is set and the necessary license is available.</p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Virtuoso_Digital_Implementation.html" id="prev" title="Virtuoso_Digital_Implementation">Virtuoso_Digital_Implementatio ...</a></em></b><b><em><a href="Netlist-Driven_Mixed_Signal_Design_Flow.html" id="nex" title="Netlist-Driven_Mixed_Signal_Design_Flow">Netlist-Driven_Mixed_Signal_De ...</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>
