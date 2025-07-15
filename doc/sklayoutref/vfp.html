@@ -1,0 +1,4482 @@
+
+<html><head><title>Floorplanning Functions</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="spriya" />
+<meta name="CreateDate" content="2020-09-18" />
+<meta name="CreateTime" content="1600419472" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso Layout Suite SKILL functions." />
+<meta name="DocTitle" content="Virtuoso Layout Suite SKILL Reference" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Floorplanning Functions" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="sklayoutref" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-18" />
+<meta name="ModifiedTime" content="1600419472" />
+<meta name="NextFile" content="anaplace.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="vsr.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Layout Suite SKILL Reference -- Floorplanning Functions" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="sklayoutrefICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="sklayoutrefTOC.html">Contents</a></li><li><a class="prev" href="vsr.html" title="Space-based Router Functions">Space-based Router Functions</a></li><li style="float: right;"><a class="viewPrint" href="sklayoutref.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="anaplace.html" title="Analog Placer Functions (IC6.1.8 Only)">Analog Placer Functions (IC6.1 ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Layout Suite SKILL Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>7
+<a name="pgfId-1035470"></a></h1>
+<h1>
+<a name="pgfId-1035472"></a><hr />
+<a name="15808"></a>Floorplanning Functions<hr />
+</h1>
+<h2>
+<a name="pgfId-1066644"></a><a name="95728"></a>Introduction Floorplanner Place and Route SKILL</h2>
+
+<p>
+<a name="pgfId-1047353"></a>Virtuoso floorplanner SKILL functions are not interactive. They accept information as parameters and return status codes when specific tasks are complete. </p>
+<p>
+<a name="pgfId-1047345"></a>Two levels of place and route functions exist: </p>
+<ul><li>
+<a name="pgfId-1088209"></a>High-level menu functions</li><li>
+<a name="pgfId-1088221"></a>Low-level procedural access call functions</li></ul>
+
+<p>
+<a name="pgfId-1088223"></a>A <em>high-level menu function</em> is associated with each menu command or bindkey to control the user interaction. High-level menu functions provide the interface that collects and validates information before it is passed as parameters to one or more <em>low-level procedural access functions</em> performing the requested tasks. </p>
+<p>
+<a name="pgfId-1035687"></a>This dual-level structure allows error checking and alternative action. Each low-level procedural access function returns status information following task completion, allowing the high-level menu functions to examine the status and to take alternative action if errors occur.</p>
+<p>
+<a name="pgfId-1035689"></a>This chapter describes all the <a name="marker-1087935"></a>Virtuoso Floorplanner SKILL functions that help you floorplan your design. The floorplanning SKILL functions are organized functionally in the order that Cadence recommends you to use them. See the following flowchart.</p>
+<p>
+<a name="pgfId-1035690"></a>Based on your design process, you can use all or just a subset of the functions in this chapter. </p>
+
+<ft-figtabl-title id="#id1035693">
+<a name="pgfId-1035693"></a><a name="35501"></a><a name="marker-1087939"></a>Floorplanning Flowchart Using Virtuoso Floorplanner SKILL Functions</ft-figtabl-title>
+<p>
+<a name="pgfId-1089170"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="802" src="images/vfp-2.gif" /></div>
+<h2>
+<a name="pgfId-1035493"></a><a name="ListofFloorplanningSKILLFunctions"></a>List of Floorplanning SKILL Functions</h2>
+
+<ul><li>
+<a name="pgfId-1053664"></a><a href="vfp.html#11212">adpInitFloorplan</a></li><li>
+<a name="pgfId-1071932"></a><a href="vfp.html#95550">adpnlSetEnv</a></li><li>
+<a name="pgfId-1073345"></a><a href="vfp.html#57541">vfpAlignPins</a></li><li>
+<a name="pgfId-1089971"></a><a href="vfp.html#54083">vfpAutoPin</a></li><li>
+<a name="pgfId-1046589"></a><a href="vfp.html#27161">vfpCPHGenPhysicalHier</a></li><li>
+<a name="pgfId-1068723"></a><a href="vfp.html#18297">vfpCPHGenPhysicalHierNoPropFile</a></li><li>
+<a name="pgfId-1046594"></a><a href="vfp.html#30217">vfpCPHLoadFloorplanFile</a></li><li>
+<a name="pgfId-1068228"></a><a href="vfp.html#99361">vfpCreateBoundaryPinsForSelectedShapes</a></li><li>
+<a name="pgfId-1046599"></a><a href="vfp.html#16265">vfpLoadPhysicalView</a></li><li>
+<a name="pgfId-1046604"></a><a href="vfp.html#63878">vfpHiPushPreRoutesDown</a></li><li>
+<a name="pgfId-1085728"></a><a href="vfp.html#54803">vfpPtAddPinResizeEstimator</a></li><li>
+<a name="pgfId-1086011"></a><a href="vfp.html#91472">vfpPtGetPinResizeEstimators</a></li><li>
+<a name="pgfId-1086029"></a><a href="vfp.html#75156">vfpPtLoadPinResizeFile</a></li><li>
+<a name="pgfId-1086047"></a><a href="vfp.html#66155">vfpPtRemovePinResizeEstimator</a></li><li>
+<a name="pgfId-1086065"></a><a href="vfp.html#78821">vfpPtRunPinResizeEstimator</a></li><li>
+<a name="pgfId-1046609"></a><a href="vfp.html#27791">vfpPushPreRoutesDown</a></li><li>
+<a name="pgfId-1059804"></a><a href="vfp.html#24050">vfpReportIOPadLocation</a></li><li>
+<a name="pgfId-1066641"></a><a href="vfp.html#76806">vfpPinConnectivitySetting</a></li><li>
+<a name="pgfId-1068745"></a><a href="vfp.html#42274">vfpSbDefineObstruction</a></li><li>
+<a name="pgfId-1069372"></a><a href="vfp.html#18943">vfpSbDeleteObstruction</a></li><li>
+<a name="pgfId-1069395"></a><a href="vfp.html#96109">vfpSbEditIOPin</a></li><li>
+<a name="pgfId-1069417"></a><a href="vfp.html#13339">vfpSbEditSoftBlockType</a></li><li>
+<a name="pgfId-1069439"></a><a href="vfp.html#79455">vfpSbSetPolygonalBoundary</a></li><li>
+<a name="pgfId-1069461"></a><a href="vfp.html#22689">vfpSbSetRectangularBoundary</a></li><li>
+<a name="pgfId-1066642"></a><a href="vfp.html#71907">vpaOptimizePins</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=adpInitFloorplan
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1051867"></a><a name="adpInitFloorPlan"></a><a name="11212"></a>adpInitFloorplan</h3>
+<a name="pgfId-1053661"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+adpInitFloorplan(
+<code><em>d_cv
+t_engine
+</em></code><code>?all</code> <code><em>g_all
+</em></code><code>?deleteClusterBndry</code> <code><em>g_deleteClusterBndry
+</em></code><code>?deleteCluster</code> <code><em>g_deleteCluster
+</em></code><code>?deleteBlockages</code> <code><em>g_deleteBlockages
+</em></code><code>?prsvPlacementBkg </code><code><em>g_prsvPlacementBkg
+</em></code><code>?prsvRoutingBkg</code> <code><em>g_prsvRoutingBkg
+</em></code><code>?prsvAreaHaloBkg</code> <code><em>g_prsvAreaHaloBkg
+</em></code><code>?prsvFeedthruBkg </code><code><em>g_prsvFeedthruBkg
+</em></code><code>?prsvFillBkg </code><code><em>g_prsvFillBkg
+</em></code><code>?prsvPinBkg</code> <code><em>g_prsvPinBkg
+</em></code><code>?prsvScreenBkg </code><code><em>g_prsvScreenBkg
+</em></code><code>?prsvSlotBkg </code><code><em>g_prsvSlotBkg
+</em></code><code>?prsvWiringBkg</code> <code><em>g_prsvWiringBkg
+</em></code><code>?deleteWires</code> <code><em>g_deleteWires
+</em></code><code>?deleteRows</code> <code><em>g_deleteRows
+</em></code><code>?deleteFillers</code> <code><em>g_deleteFillers
+</em></code><code>?fillerPrefix</code> <code><em>t_fillerPrefix
+</em></code><code>?deleteShapes </code><code><em>g_deleteShapes
+</em></code><code>?prsvCircle </code><code><em>g_prsvCircle
+</em></code><code>?prsvDonut </code><code><em>g_prsvDonut
+</em></code><code>?prsvEllipse </code><code><em>g_prsvEllipse
+</em></code><code>?prsvPath</code> <code><em>g_prsvPath
+</em></code><code>?prsvPolygon </code><code><em>g_prsvPolygon
+</em></code><code>?prsvRectangle </code><code><em>g_prsvRectangle
+</em></code><code>?deleteBndry</code> <code><em>g_deleteBndry
+</em></code><code>?prsvAreaBndry</code> <code><em>g_prsvAreaBndry
+</em></code><code>?prsvSnapBndry </code><code><em>g_prsvSnapBndry
+</em></code><code>?initGrid </code><code><em>g_initGrid
+</em></code><code>?designBndry </code><code><em>g_designBndry
+</em></code><code>?origin </code><code><em>t_origin
+</em></code><code>?aspectRatio </code><code><em>f_aspectRatio
+</em></code><code>?chipWidth </code><code><em>f_chipWidth
+</em></code><code>?chipHeight </code><code><em>f_chipHeight
+</em></code><code>?boundaryShapeType </code><code><em>t_boundaryShapeType
+</em></code><code>?boundaryPoints </code><code><em>g_boundaryPoints
+</em></code><code>?designArea </code><code><em>f_designArea
+</em></code><code>?initInstances </code><code><em>g_initInstances
+</em></code><code>?prsvIO </code><code><em>g_prsvIO
+</em></code><code>?prsvStd </code><code><em>g_prsvStd
+</em></code><code>?prsvMacro </code><code><em>g_prsvMacro
+</em></code><code>?prsvCustomCell </code><code><em>g_prsvCustomCell
+</em></code><code>?initPins </code><code><em>g_initPins
+</em></code><code>?prsvPlacedPin</code> <code><em>g_prsvPlacedPin
+</em></code><code>?prsvFixedPin </code><code><em>g_prsvFixedPin
+</em></code><code>?prsvLockedPin </code><code><em>g_prsvLockedPin
+</em></code><code>?prsvFigGrp </code><code><em>g_prsvFigGrp
+</em></code><code>?window </code><code><em>g_window
+</em></code>)
+<code><em>=&gt; </em></code><code>t</code><code><em> / </em></code><code>nil</code></pre>
+<h4>
+<a name="pgfId-1049291"></a>Description</h4>
+
+<p>
+<a name="pgfId-1079804"></a>Initializes the floorplan of a design based on the options you specify. Most of the options being keywords, you need to specify only those parameters that you want to control. The parameters that you do not specify use the default values.</p>
+
+<h4>
+<a name="pgfId-1080207"></a>Arguments</h4>
+<table class="webflareTable" id="#id1080270">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080272"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cv</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080274"></a>Specifies the cellview identifier.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080276"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_engine</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080278"></a> Runs with any string value. This is now a redundant argument. It is only kept for backward portability reasons. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-1080280"></a>For all of the following arguments, you must specify the keyword preceding the variable as shown in the syntax sample at the beginning of this function. However, for brevity, only the variables that you can specify are shown and described here. </div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080284"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_all</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080286"></a>When this option is set to t, reinitializes the design as if the <span class="webflare-courier-new" style="white-space:pre"><em>g_designBndry</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>g_deleteClusterBndry</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>g_deleteCluster</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>g_initGrid</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>g_initInstances</em></span>, <span class="webflare-courier-new" style="white-space:pre"><em>g_deleteWires</em></span>, and <span class="webflare-courier-new" style="white-space:pre"><em>g_deleteRows</em></span> arguments are set to <code>t</code>. The default is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080288"></a><code>?deleteClusterBndry</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_deleteClusterBndry</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080292"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080294"></a>Removes all cluster boundaries when this option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080296"></a><code>?deleteCluster </code><span class="webflare-courier-new" style="white-space:pre"><em>g_deleteCluster</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080300"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080302"></a>Removes all clusters when this option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080304"></a><code>?deleteBlockages</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_deleteBlockages</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080308"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080310"></a>Removes all the placement and routing blockages when this option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080312"></a><code>?prsvPlacementBkg </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvPlacementBkg</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080316"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080318"></a>Preserves the placement blockages when the <code>deleteBlockages</code> option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080320"></a><code>?prsvRoutingBkg</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_prsvRoutingBkg</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080324"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080326"></a>Preserves the routing blockages when the <code>deleteBlockages</code> option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080328"></a><code>?prsvAreaHaloBkg</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_prsvAreaHaloBkg</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080332"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080334"></a>Preserves the halo blockages when the <code>deleteBlockages</code> option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080336"></a><code>?prsvFeedthruBkg </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvFeedthruBkg</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080340"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080342"></a>Preserves the feedthru blockages when the <code>deleteBlockages</code> option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080344"></a><code>?prsvFillBkg </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvFillBkg</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080348"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080350"></a>Preserves the fill blockages when the <code>deleteBlockages</code> option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080352"></a><code>?prsvPinBkg</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_prsvPinBkg</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080356"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080358"></a>Preserves the pin blockages when the <code>deleteBlockages</code> option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080360"></a><code>?prsvScreenBkg </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvScreenBkg</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080364"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080366"></a>Preserves the screen blockages when the <code>deleteBlockages</code> option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080368"></a><code>?prsvSlotBkg </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvSlotBkg</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080372"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080374"></a>Preserves the slot blockages when the <code>deleteBlockages</code> option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080376"></a><code>?prsvWiringBkg</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_prsvWiringBkg</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080380"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080382"></a>Preserves the wiring blockages when the <code>deleteBlockages</code> option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080384"></a><code>?deleteWires</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_deleteWires</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080388"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080390"></a>Removes all wires when this option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080392"></a><code>?deleteRows</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_deleteRows</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080396"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080398"></a>Removes all rows when this option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080400"></a><code>?deleteFillers</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_deleteFillers</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080404"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080406"></a>Removes the fillers with the specified prefix when the deleteFillers option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080408"></a><code>?fillerPrefix</code> <span class="webflare-courier-new" style="white-space:pre"><em>t_fillerPrefix</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080412"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080414"></a>&lt;string argument&gt;. Specifies the string for the filler prefix. The default value is set to &#8216;Filler_&#8217;.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080416"></a><code>?deleteShapes </code><span class="webflare-courier-new" style="white-space:pre"><em>g_deleteShapes</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080420"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080422"></a>Removes all shapes when this option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080424"></a><code>?prsvCircle </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvCircle</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080428"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080430"></a>Preserves circles when deleteShapes option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080432"></a><code>?prsvDonut </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvDonut</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080434"></a>Preserves donut when deleteShapes option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080436"></a><code>?prsvEllipse </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvEllipse</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080440"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080442"></a>Preserves ellipse when deleteShapes option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080444"></a><code>?prsvPath</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_prsvPath</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080446"></a>Preserves path when deleteShapes option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080448"></a><code>?prsvPolygon </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvPolygon</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080452"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080454"></a>Preserves polygon when deleteShapes option is set <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080456"></a><code>?prsvRectangle </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvRectangle</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080460"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080462"></a>Preserves rectangles when deleteShapes option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080464"></a><code>?deleteBndry</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_deleteBndry</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080468"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080470"></a>Removes all area and snap boundaries when this option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080472"></a><code>?prsvAreaBndry</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_prsvAreaBndry</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080476"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080478"></a>Preserves area boundary when deleteBndry option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080480"></a><code>?prsvSnapBndry </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvSnapBndry</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080484"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080486"></a>Preserves snap boundary when deleteBndry option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080488"></a><code>?initGrid </code><span class="webflare-courier-new" style="white-space:pre"><em>g_initGrid</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080490"></a>Initializes or re initializes routing, placement, and manufacturing grids when this option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080492"></a><code>?designBndry </code><span class="webflare-courier-new" style="white-space:pre"><em>g_designBndry</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080496"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080498"></a>Resets the design size by estimation based on the aspect ratio or using the <span class="webflare-courier-new" style="white-space:pre"><em>f_chipWidth</em></span> and <span class="webflare-courier-new" style="white-space:pre"><em>f_chipHeight</em></span> options. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080500"></a><code>?origin </code><span class="webflare-courier-new" style="white-space:pre"><em>t_origin</em></span> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080502"></a>Specifies the location of the design origin as &#8216;<code>center</code>&#8217; or &#8216;<code>lower left</code>&#8217;. The default value is &#8216;<code>lower left</code>&#8217;.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080504"></a><code>?aspectRatio </code><span class="webflare-courier-new" style="white-space:pre"><em>f_aspectRatio</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080508"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080510"></a>Specifies the design aspect ratio. You use this option when the <code>chipWidth</code> and the <code>chipHeight</code> are not defined. The default value is &#8216;1.0&#8217;.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080512"></a><code>?chipWidth </code><span class="webflare-courier-new" style="white-space:pre"><em>f_chipWidth</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080514"></a>Specifies the design width in user units. When you specify this option, estimation is turned off. The default is &#8216;0.0&#8217; user units.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080516"></a><code>?chipHeight </code><span class="webflare-courier-new" style="white-space:pre"><em>f_chipHeight</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080520"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080522"></a>Specifies the design height in user units. When you specify this option, estimation is turned off. The default is &#8216;0.0&#8217; user units.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080524"></a><code>?boundaryShapeType </code><span class="webflare-courier-new" style="white-space:pre"><em>t_boundaryShapeType</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080528"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080530"></a>Specifies the shape of the boundary as rectangle or polygon. The default shape is &#8216;<code>rectangle</code>&#8217;.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080532"></a><code>?boundaryPoints </code><span class="webflare-courier-new" style="white-space:pre"><em>g_boundaryPoints</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080536"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080538"></a>Specifies the points of the PR boundary of the cellview that needs to be created. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080540"></a><code>?designArea </code><span class="webflare-courier-new" style="white-space:pre"><em>f_designArea</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080544"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080546"></a>Specifies the area calculated by the user defined area estimator. The default value is &#8216;0.0&#8217;.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080548"></a><code>?initInstances </code><span class="webflare-courier-new" style="white-space:pre"><em>g_initInstances</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080552"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080554"></a>Sets the placement status of all placed instances to unplaced when this option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080556"></a><code>?prsvIO </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvIO</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080558"></a>Preserves the placed IOs when the initInstance option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080560"></a><code>?prsvStd </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvStd</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080562"></a>Preserves the placement status of placed standard cells when the initInstance option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080564"></a><code>?prsvMacro </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvMacro</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080566"></a>Preserves the placement status of placed macro cells when the initInstance option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080568"></a><code>?prsvCustomCell </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvCustomCell</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080572"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080574"></a>Preserves the placement status of placed custom cells when the initInstance option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080576"></a><code>?initPins </code><span class="webflare-courier-new" style="white-space:pre"><em>g_initPins</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080578"></a>When this option is set to <code>t</code>, initializes the status of all pins to unplaced. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080580"></a><code>?prsvPlacedPin</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_prsvPlacedPin</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080584"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080586"></a>Preserves the placement status of placed pins when the initPins option is set to <code>t</code>. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080588"></a><code>?prsvFixedPin </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvFixedPin</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080592"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080594"></a>Preserves the placement status of fixed pins when the initPins option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080596"></a><code>?prsvLockedPin </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvLockedPin</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080600"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080602"></a>Preserves the placement status of locked pins when the initPins option is set to <code>t</code>. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1080604"></a><code>?prsvFigGrp </code><span class="webflare-courier-new" style="white-space:pre"><em>g_prsvFigGrp</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080608"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080610"></a>Preserves the fig group and maintain the placement of its members. The default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080612"></a><code>?window </code><span class="webflare-courier-new" style="white-space:pre"><em>g_window</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080614"></a>Specifies the window id with which the re-initialize form is attached. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1080267"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1080258">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080260"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080262"></a>Returns <code>t</code> when adpInitFloorplan successfully initializes the design.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080264"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1080266"></a>Returns <code>nil</code> when <code>adpInitFloorplan</code> does not successfully initialize a design.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=adpnlSetEnv
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1071083"></a><a name="95550"></a>adpnlSe<a name="adpnlSetEnv"></a>tEnv</h3>
+<a name="pgfId-1071090"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+adpnlSetEnv(
+<code><em>t_variable
+g_value
+</em></code>[ <code>?d</code>omain<code><em> s_domain</em></code> ]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1071147"></a>Description</h4>
+
+<p>
+<a name="pgfId-1071049"></a>Sets a variable in the specified domain. If the environment variable does not exist in the domain, a variable is created.</p>
+
+<h4>
+<a name="pgfId-1071182"></a>Arguments</h4>
+<table class="webflareTable" id="#id1071183">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071185"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_variable</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071187"></a>Name of the variable.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071189"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071191"></a>Value of the variable.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071193"></a><code>?domain </code><span class="webflare-courier-new" style="white-space:pre"><em>s_domain</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071306"></a>Domain in which the variable is present. By default it is <code>&#8216;adpEnvNL</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1071213"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1071214">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071216"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071218"></a>Returns <code>t</code> if the variable value is set.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071220"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1071222"></a>Returns <code>nil</code> if the variable value is not set.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1071325"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1073350"></a>adpnlSetEnv(&#39;adpEnvPinsPerNetThreshold 200 ?domain &#39;adpEnv)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpAlignPins
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1073383"></a><a name="57541"></a>vfpAlig<a name="vfpAlignPins"></a>nPins</h3>
+<a name="pgfId-1073384"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpAlignPins(
+<code><em>t_referencePinFigNameList
+t_targetPinfigNameList
+g_topCellViewId
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1073385"></a>Description</h4>
+
+<p>
+<a name="pgfId-1073386"></a>Aligns a list of target pins with respect to the position of a list of reference pins. </p>
+
+<h4>
+<a name="pgfId-1073387"></a>Arguments</h4>
+<table class="webflareTable" id="#id1073388">
+<tbody><tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1078814"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_referencePinFigNameList</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073390"></a><span class="webflare-courier-new" style="white-space:pre"><em></em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073392"></a>List of reference pins. The following formats are supported to specify pin names:</p>
+
+<ul><li>
+<a name="pgfId-1073393"></a>The <code>Term:Pin:PinFig</code> format</li><li>
+<a name="pgfId-1073394"></a>The &#39;.*&#39; wildcard character and other regular expression constructs</li><li>
+<a name="pgfId-1073395"></a>Hierarchy delimiter &#39;/&#39; to specify level-1 pin names</li><li>
+<a name="pgfId-1073396"></a>Vector single and vector bit notations such as <code>A&lt;0&gt;, A&lt;0:4&gt;, A&lt;2&gt;:A&lt;2&gt; </code>in pin names</li></ul>
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073398"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_targetPinfigNameList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073400"></a>List of target pins. The following formats are supported to specify pin names:</p>
+
+<ul><li>
+<a name="pgfId-1073401"></a>The <code>Term:Pin:PinFig</code> format</li><li>
+<a name="pgfId-1073402"></a>The &#39;.*&#39; wildcard character and other regular expression constructs</li><li>
+<a name="pgfId-1073403"></a>Hierarchy delimiter &#39;/&#39; to specify level-1 pin names</li><li>
+<a name="pgfId-1073404"></a>Vector single and vector bit notations such as <code>A&lt;0&gt;, A&lt;0:4&gt;, A&lt;2&gt;:A&lt;2&gt; </code>in pin names</li></ul>
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073406"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_topCellViewId</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073408"></a>ID of the topCell view</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1079782"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1079783">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1079785"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1079787"></a>Pin alignment completed successfully. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1079789"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1079791"></a>Pin alignment failed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1079793"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1073422"></a>vfpAlignPins(&quot;A B C&quot; &quot;I0/A I0/B I0/C&quot;) </pre>
+
+<p>
+<a name="pgfId-1073423"></a>Here, the level-1 Pins; A,B,C; of Instance &quot;IO&quot; are aligned with reference to the top-level Pins; A,B,C.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1073424"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1073425"></a>vfpAlignPins(&quot;|IO/.*&quot; &quot;.*&quot;)</pre>
+
+<p>
+<a name="pgfId-1073426"></a>Here, all the top-level pins are aligned with reference to the level-1 pins of instance &quot;IO&quot;.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1073427"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1073428"></a>vfpAlignPins(&quot;A:A:A B:B:B&quot; &quot;I1/A:A:A I2/B:B:B&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1073429"></a>vfpAlignPins(&quot;IN&lt;0:10&gt;&quot; &quot;OUT&lt;0:10&gt;&quot;) </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1073430"></a>vfpAlignPins(&quot;|I2/OUT&lt;0:15&gt;&quot; &quot;OUT&lt;0:15&gt;&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1073431"></a>vfpAlignPins(&quot;|I0/OUT&lt;0:15&gt;&quot; &quot;|I2/IN&lt;0:15&gt;&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1073432"></a>vfpAlignPins(&quot;|I0/.* |I2/.*&quot; &quot;|I0/.* .*&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1073433"></a>vfpAlignPins(&quot;|I0/IN&lt;0:8&gt; |I2/IN&lt;0:9&gt; |I2/OUT&lt;0:12&gt;&quot; &quot;|I0/OUT&lt;0:12&gt; IN_top&lt;0:9&gt; OUT&lt;0:8&gt;&quot;)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpAutoPin
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1089974"></a><a name="54083"></a>vfpAu<a name="vfpAutoPin"></a>toPin</h3>
+<a name="pgfId-1100487"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpAutoPin(
+<code><em>d_refView
+</em></code><code>?mode</code> { <code>cellview</code> | <code>selected</code> }
+[ <code>?validRoutingLayer</code> <code><em>g_shapesOnRoutingLayersOnly</em></code> ] 
+[ <code>?purpose</code> <code><em>t_shapesOnSpecificPurpose</em></code> ] 
+[ <code>?schematicCheck</code> <code><em>g_schematicCheck</em></code> ] 
+[ <code>?deleteMode</code> { <code>auto</code> | <code>all</code> } ] 
+[ ?checkDuplicatePin <code><em>g_checkDuplicatePin</em></code> ]
+[ <code>?boundarySignalMode</code> { <code>single</code> | <code>multiple</code> } ] 
+[ <code>?buriedSignalMode</code> { <code>single</code> | <code>multiple</code> } ]
+[ <code>?boundaryMultipleMode</code> { <code>topLayer</code> | <code>useLayer</code> } ]
+[ <code>?buriedMultipleMode</code> { <code>topLayer</code> | <code>useLayer</code> } ]
+[ <code>?boundarySignalPinLayers</code> <code><em>t_boundarySignalPinLayers</em></code> ]
+[ <code>?buriedSignalPinLayers</code> <code><em>t_buriedSignalPinLayers</em></code> ]
+[ <code>?boundaryPowerPinLayers</code> <code><em>t_boundaryPowerPinLayers</em></code> ] 
+[ <code>?buriedPowerPinLayers</code> <code><em>t_buriedPowerPinLayers</em></code> ] 
+[ <code>?boundaryPinSize</code> <code><em>t_boundaryPinSize</em></code> ] 
+[ <code>?targetLPP</code> <code><em>t_targetLPP</em></code> ] 
+[ <code>?pinConnectivity</code> <code><em>t_pinConnectivity</em></code> ] 
+[ <code>?createLabel</code> <code><em>g_createLabel</em></code> ] 
+[ <code>?enableColoring</code> <code><em>g_enableColoring</em></code> ]
+[ <code>?createMetalShape</code> <code><em>g_createMetalShape</em></code> ]
+[ ?metalShapeType { path | rectangle } ]
+[ <code>?preview</code> <code><em>g_preview</em></code> ] 
+)
+=&gt; t / nil<code></code></pre>
+<h4>
+<a name="pgfId-1090000"></a>Description</h4>
+
+<p>
+<a name="pgfId-1090015"></a>Searches for net shapes in the specified window or cellview and automatically creates boundary and buried pins on these net shapes.</p>
+
+<h4>
+<a name="pgfId-1090045"></a>Arguments</h4>
+<table class="webflareTable" id="#id1090016">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090852"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_refView</em></span><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090854"></a>Specifies the cellView ID in which pins are to be created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1100328"></a><code>?mode</code> <code>{ cellview</code> | <code>selected }</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1100332"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1100334"></a>Specifies the mode in which the command must be run.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1090856"></a><code>?validRoutingLayer</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_shapesOnRoutingLayersOnly</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090860"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090862"></a>Restricts the search for net shapes to the routing layers. The default value is nil, where all layers are searched.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1090916"></a><code>?purpose</code> <span class="webflare-courier-new" style="white-space:pre"><em>t_shapesOnSpecificPurpose</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090868"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090870"></a>Filters the net shapes based on the specified purpose. The default value is <code>&quot;&quot;</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1090872"></a><code>?schematicCheck</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_schematicCheck</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090876"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090878"></a>Specifies whether the tool must search for corresponding shapes in the schematic view before creating pins. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1090918"></a><code>?deleteMode</code> { <code>auto</code> | <code>all</code> }</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090884"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091568"></a>Specifies the mode in which existing pins must be deleted before new ones are created. The valid values are: </p>
+
+<ul><li>
+<a name="pgfId-1091569"></a><code>auto</code>: Specifies that only those pins that were created automatically by using the Auto Pin tool are to be deleted. </li><li>
+<a name="pgfId-1090886"></a><code>all</code>: Specifies that all pins in the current cellview are to be deleted.</li></ul>
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1101981"></a><code>?checkDuplicatePin</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_checkDuplicatePin</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1101985"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1101987"></a>Checks for the presence of any similar pins in the design. If a similar pin is found, then a duplicate pin is not created. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1090888"></a><code>?boundarySignalMode</code> { <code>single</code> | <code>multiple</code> }</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090892"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091587"></a>Specifies the way in which boundary pins are created on shapes that are abutted to the PR boundary. The valid values are:</p>
+
+<ul><li>
+<a name="pgfId-1091588"></a><code>single</code>: Creates a single boundary pin on the highest metal layer. </li><li>
+<a name="pgfId-1090894"></a><code>multiple</code>: Creates as many boundary pins as the number of boundary shapes, in the same layers as the shapes.</li></ul>
+
+
+<p>
+<a name="pgfId-1097225"></a>The default value is <code>&quot;&quot;</code>, which indicates that boundary signal pins are not created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1090896"></a><code>?buriedSignalMode</code> { <code>single</code> | <code>multiple</code> }</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090900"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091630"></a>Specifies the way in which buried pins are created on shapes that are completely inside the PR boundary, without any contact with the edges. The valid values are:</p>
+
+<ul><li>
+<a name="pgfId-1091631"></a><code>single</code>: Creates a single buried pin on the highest metal layer. </li><li>
+<a name="pgfId-1091632"></a><code>multiple</code>: Creates as many buried pins as the number of buried shapes, in the same layers as the shapes.</li></ul>
+
+
+<p>
+<a name="pgfId-1097336"></a>The default value is <code>&quot;&quot;</code>, which indicates that buried signal pins are not created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1100567"></a><code>?boundaryMultipleMode</code> { <code>topLayer</code> | <code>useLayer</code> } </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1100571"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1101059"></a>Specifies the following layer selection options:</p>
+
+<ul><li>
+<a name="pgfId-1100573"></a><code>topLayer</code>: Creates multiple boundary pins on the highest metal layer.</li><li>
+<a name="pgfId-1101098"></a><code>useLayer</code>: Lets you specify the layers on which boundary pins are to be created. Use the <code>?boundarySignalPinLayers</code> argument to specify the layers.</li></ul>
+
+
+<p>
+<a name="pgfId-1101403"></a>The default value is <code>toplayer</code> when <code>boundarySignalMode</code> is set to <code>multiple</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1100575"></a><code>?buriedMultipleMode</code> { <code>topLayer</code> | <code>useLayer</code> } </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1100579"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1101189"></a>Specifies the following layer selection options:</p>
+
+<ul><li>
+<a name="pgfId-1101190"></a><code>topLayer</code>: Creates multiple buried pins on the highest metal layer.</li><li>
+<a name="pgfId-1101191"></a><code>useLayer</code>: Lets you specify the layers on which buried pins are to be created. Use the <code>?buriedSignalPinLayers</code> argument to specify the layers.</li></ul>
+
+
+<p>
+<a name="pgfId-1101506"></a>The default value is <code>toplayer</code> when <code>buriedSignalMode</code> is set to <code>multiple</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1100583"></a><code>?boundarySignalPinLayers</code> <span class="webflare-courier-new" style="white-space:pre"><em>t_boundarySignalPinLayers</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1100587"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1100589"></a>Specifies the layers on which boundary signal pins must be generated when <code>?boundaryMultipleMode</code> is set to <code>useLayer</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1100591"></a><code>?buriedSignalPinLayers</code> <span class="webflare-courier-new" style="white-space:pre"><em>t_buriedSignalPinLayers</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1100595"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1100597"></a>Specifies the layers on which buried signal pins must be generated when <code>?buriedMultipleMode</code> is set to <code>useLayer</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1090904"></a><code>?boundaryPowerPinLayers</code> <span class="webflare-courier-new" style="white-space:pre"><em>t_boundaryPowerPinLayers</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090908"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090910"></a>Specifies the names of layers on which the boundary power pins can be created.</p>
+<p>
+<a name="pgfId-1097420"></a>The default value is <code>&quot;&quot;</code>, which indicates that no layers are specified, and therefore no pins are to be created on the boundary power net shape.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1090922"></a><code>?buriedPowerPinLayers</code> <span class="webflare-courier-new" style="white-space:pre"><em>t_buriedPowerPinLayers</em></span> </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091098"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091100"></a>Specifies the names of layers on which the buried power pins can be created.</p>
+<p>
+<a name="pgfId-1101680"></a>The default value is <code>&quot;&quot;</code>, which indicates that no layers are specified, and therefore no pins are to be created on the buried power net shape.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1090923"></a><code>?boundaryPinSize</code> <span class="webflare-courier-new" style="white-space:pre"><em>t_boundaryPinSize</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091124"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091126"></a>Specifies the boundary pin size. The valid values are:</p>
+
+<ul><li>
+<a name="pgfId-1091858"></a><code>auto</code> (Default): Creates square-shaped pins. </li><li>
+<a name="pgfId-1091866"></a><code>whole</code>: Creates pins in the same shape as the corresponding net shapes.</li></ul>
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1091134"></a><code>?targetLPP</code> <span class="webflare-courier-new" style="white-space:pre"><em>t_targetLPP</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091138"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091140"></a>Specifies the LPP on which pins must be generated. The valid values are: </p>
+
+<ul><li>
+<a name="pgfId-1091979"></a><code>sameLPP</code> (Default): Creates pins on the same LPPs as the original net shapes.</li><li>
+<a name="pgfId-1091983"></a><code>customPurpose</code>: Lets you specify a different purpose for the same layer.</li><li>
+<a name="pgfId-1091999"></a><code>customLPP</code>: Lets you specify a different LPP on which pins must be created.</li></ul>
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1091154"></a><code>?pinConnectivity</code> <span class="webflare-courier-new" style="white-space:pre"><em>t_pinConnectivity</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091174"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091176"></a>Specifies the following pin connectivity options:</p>
+
+<ul><li>
+<a name="pgfId-1092128"></a><code>stronglyConnected</code> (Default): Specifies that the router must connect the pins internally within the device.</li><li>
+<a name="pgfId-1092124"></a><code>mustJoin</code>: Specifies that the router must connect the pins externally at a higher level.</li></ul>
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1091178"></a><code>?createLabel</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_createLabel</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091198"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091200"></a>Specifies whether text labels are created for pins. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1102090"></a><code>?enableColoring</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_enableColoring</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1102066"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1102068"></a>Specifies that the multiple patterning coloring engine be used to assign colors to the new pins based on their positions relative to the WSP tracks. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1102070"></a><code>?createMetalShape</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_createMetalShape</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1102074"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1102076"></a>Creates a metal shape under each auto-created level-1 (soft block) pin. The metal shapes are assigned to the same layers as the parent pin and to the <code>drawing</code> purpose.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1102078"></a><code>?metalShapeType</code> { <code>path</code> | <code>rectangle</code> }</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1102082"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1102084"></a>Specifies the dimensions of the metal shapes that are created under automatically created pins when <code>?createMetalShape</code> is set to <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1091202"></a><code>?preview</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_preview</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091220"></a><code>&#160;&#160;   </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1091222"></a>Displays a preview of how the settings would be applied to the design. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1090066"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1090057">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090059"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090061"></a>Pins were created as specified.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090063"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1090065"></a>Pins were not created.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1090078"></a>Examples</h4>
+
+<p>
+<a name="pgfId-1092293"></a>The following examples show how <code>vfpAutoPin</code> can be used with different argument combinations.</p>
+<p>
+<a name="pgfId-1095309"></a>Searches for net shapes in the selected nets and creates a single boundary signal pin on the highest metal layer.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1092276"></a>vfpAutoPin(cvId &quot;selected&quot; ?boundarySignalMode &quot;single&quot;)</pre>
+
+<p>
+<a name="pgfId-1092277"></a>Searches for net shapes with purpose <code>drawing</code> in the selected nets and creates multiple must-join boundary signal pins of the same shapes as the original net shapes.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1092278"></a>vfpAutoPin(cvId &quot;selected&quot; ?purpose &quot;drawing&quot; ?boundarySignalMode &quot;multiple&quot; ?boundaryPinSize &quot;whole&quot; ?pinConnectivity &quot;mustJoin&quot; ?preview t)</pre>
+
+<p>
+<a name="pgfId-1092279"></a>Searches for net shapes on routing layers in the selected nets. Pins that were created using the auto pin tool are deleted before new ones are generated on the canvas. New boundary signal pins, boundary power pins, and buried power pins as per the specified arguments.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1092280"></a>vfpAutoPin(cvId &quot;selected&quot; ?validRoutingLayer t ?deleteMode &quot;auto&quot; ?boundarySignalMode &quot;multiple&quot; ?buriedSignalMode &quot;single&quot; ?boundaryPowerPinLayers &quot;Metal1 Metal2&quot; ?buriedPowerPinLayers &quot;Meta1 Metal2&quot; ?targetLPP &quot;sameLPP&quot; ?createLabel t)</pre>
+
+<p>
+<a name="pgfId-1092281"></a>Searches for net shapes in the current cellview and creates boundary power pins on the specified layers. Existing pins that were created using the auto pin tool are deleted before generating new pins on the canvas.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1090079"></a>vfpAutoPin(cvId &quot;selected&quot; ?boundaryPowerPinLayers &quot;Metal1 Metal2&quot; ?deleteMode &quot;auto&quot;)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpCPHGenPhysicalHier
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1073360"></a><a name="vfpCPHGenPhysicalHier"></a><a name="27161"></a>vfpCPHGenPhysicalHier</h3>
+<a name="pgfId-1073355"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpCPHGenPhysicalHier(
+<code><em>t_topLogicalLibName
+t_topLogicalCellName
+t_topLogicalViewName
+t_topPhysicalLibName
+t_topPhysicalCellName
+t_topPhysicalViewName
+t_FloorplanPropertyFileName
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1044546"></a>Description</h4>
+
+<p>
+<a name="pgfId-1044584"></a>Generates a hierarchical floorplan. It takes the Floorplan property file and the names of the logical and physical top cell view names as inputs. The top logical lib cell view name should match the names provided in the Floorplan property file. </p>
+
+<h4>
+<a name="pgfId-1044604"></a>Arguments</h4>
+<table class="webflareTable" id="#id1044605">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044607"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topLogicalLibName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044609"></a>Name of the top logical library</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044611"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topLogicalCellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044613"></a>Name of the top logical cell</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044615"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topLogicalViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044617"></a>Name of the top logical view</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044619"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topPhysicalLibName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044621"></a>Name of the top physical library</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044623"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topPhysicalCellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044625"></a>Name of the top physical cell</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044627"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topPhysicalViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044629"></a>Name of the top physical view</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044631"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_FloorplanPropertyFileName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044704"></a>Name of the Floorplan property file</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1044711"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1044712">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044714"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044729"></a>Returns <code>t</code> if the hierarchical floorplan is generated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044718"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044720"></a>Returns <code>nil</code> otherwise.</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-1102880"></a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpCPHGenPhysicalHierNoPropFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1068658"></a><a name="18297"></a>vfpCPHGenPhysicalHierNoPropFile<a name="vfpCPHGenPhysicalHierNoPropFile"></a></h3>
+<a name="pgfId-1068659"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpCPHGenPhysicalHierNoPropFile(
+<code><em>t_topLogicalLibName
+t_topLogicalCellName
+t_topLogicalViewName
+t_topPhysicalLibName
+t_topPhysicalCellName
+t_topPhysicalViewName
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1068661"></a>Description</h4>
+
+<p>
+<a name="pgfId-1068663"></a>Generates a physical configuration without a Floorplanning property file.</p>
+
+<h4>
+<a name="pgfId-1068664"></a>Arguments</h4>
+<table class="webflareTable" id="#id1068665">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068667"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topLogicalLibName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068669"></a>Name of the top logical library</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068671"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topLogicalCellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068673"></a>Name of the top logical cell</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068675"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topLogicalViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068677"></a>Name of the top logical view</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068679"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topPhysicalLibName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068681"></a>Name of the top physical library</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068683"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topPhysicalCellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068685"></a>Name of the top physical cell</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068687"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topPhysicalViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068689"></a>Name of the top physical view</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1068691"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1068692">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068694"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068696"></a>Returns <code>t</code> if the hierarchical floorplan is generated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068698"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068700"></a>Returns <code>nil</code> otherwise.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1068702"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1068703"></a>vfpCPHGenPhysicalHierNoPropFile(&quot;design&quot; &quot;top_viewtest&quot; &quot;schematic&quot; &quot;design&quot; &quot;top_viewtest&quot; &quot;layout_sav&quot;)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpCPHLoadFloorplanFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1068633"></a><a name="vfpCPHLoadFloorplanFile"></a><a name="30217"></a>vfpCPHLoadFloorplanFile</h3>
+<a name="pgfId-1044771"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpCPHLoadFloorplanFile(
+<code><em>t_topLogicalLibName
+t_topLogicalCellName
+t_topLogicalViewName
+t_FloorplanPropertyFileName
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1044772"></a>Description</h4>
+
+<p>
+<a name="pgfId-1044814"></a>Populates the CPH form in Soft Block mode by using the Floorplan property file. </p>
+
+<h4>
+<a name="pgfId-1044856"></a>Arguments</h4>
+<table class="webflareTable" id="#id1044857">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044859"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topLogicalLibName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044861"></a>Name of the top logical library</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044863"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topLogicalCellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044865"></a>Name of the top logical cell</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044867"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topLogicalViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044869"></a>Name of the top logical view</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044871"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_FloorplanPropertyFileName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044873"></a>Name of the Floorplan property file</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1044887"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1044888">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044890"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044926"></a>Returns <code>t</code> if the CPH form is populated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044894"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1044896"></a>Returns <code>nil</code> otherwise.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpCreateBoundaryPinsForSelectedShapes
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1044898"></a><a name="vfpCreateBoundaryPinsForSelectedShapes"></a><a name="99361"></a>vfpCreateBoundaryPinsForSelectedShapes</h3>
+<a name="pgfId-1067725"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpCreateBoundaryPinsForSelectedShapes(
+<code><em>d_cellViewId 
+</em></code>[ <code><em>n_distanceFromBoundary </em></code>]
+)
+=&gt; <code><em>l_pinIds </em></code>/ nil</pre>
+<h4>
+<a name="pgfId-1067726"></a>Description</h4>
+
+<p>
+<a name="pgfId-1067728"></a>Creates boundary pins on selected shapes.</p>
+
+<h4>
+<a name="pgfId-1067729"></a>Arguments</h4>
+<table class="webflareTable" id="#id1067730">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067732"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellViewId</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067734"></a>The cellview identifier</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067736"></a><span class="webflare-courier-new" style="white-space:pre"><em>n_distanceFromBoundary</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067738"></a>Distance between the pin shapes and the PRBoundary. If you do not specify the distance, then the default value of 10 is assigned.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1067748"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1067749">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067751"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_pinIds</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067753"></a>List of pin Ids generated</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067755"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1067757"></a>The command was unsuccessful. No pins were created.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1068032"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1067717"></a>pinIds = vfpCreateBoundaryPinsForSelectedShapes(cvId 8.0)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpLoadPhysicalView
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1067694"></a><a name="vfpLoadPhysicalView"></a><a name="16265"></a>vfpLoadPhysicalView</h3>
+<a name="pgfId-1045124"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpLoadPhysicalView(
+<code><em>t_sourceLibName
+t_sourceCellName
+t_sourceViewName
+t_targetLibName
+t_targetCellName
+t_targetViewName
+</em></code>[ <code>?updateInstances</code> <code><em>g_updateInstances</em></code> ]
+[ <code>?updateInstanceOptions</code> <code><em>l_updateInstanceOptions</em></code> ]
+[ <code>?updateDesignOptions </code><code><em>l_updateDesignOptions</em></code> ]
+[ <code>?loadPins</code> <code><em>s_updatePins</em></code> ]
+[ <code>?addGeometries</code> <code><em>g_addGeometries</em></code> ]
+[ <code>?addGeometryOptions</code> <code><em>l_addGeometryOptions</em></code> ]
+[ <code>?updateBoundaries</code> <code><em>g_updateBoundaries</em></code> ]
+[ <code>?updateBoundaryOptions</code> <code><em>l_updateBoundaryOptions</em></code> ]
+[ <code>?replaceRows</code> <code><em>g_replaceRows</em></code> ]
+[ <code>?replaceRowOptions</code> <code><em>l_replaceRowOptions</em></code> ]
+[ <code>?replaceBlockages</code> <code><em>g_replaceBlockages</em></code> ] 
+[ <code>?replaceHalos </code><code><em>g_replaceHalos</em></code> ] 
+[ <code>?replaceObstructionOptions</code> <code><em>l_replaceObstructionOptions</em></code> ]
+[ <code>?transferConstraints</code> <code><em>g_transferConstraints</em></code> ] 
+)
+=&gt; <code>t</code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-1045125"></a>Description</h4>
+
+<p>
+<a name="pgfId-1045168"></a>Updates the instances, pins, geometries, and P&amp;R information from a source cell view to a target cell view. The source cell view acts as a template to perform the following in the target cell view:</p>
+<ul><li>
+<a name="pgfId-1045185"></a>Update instance location, orientation, and placement status.</li><li>
+<a name="pgfId-1045190"></a>Update pin location, layer, height, and width.</li><li>
+<a name="pgfId-1045195"></a>Add geometries such as shapes and wires.</li><li>
+<a name="pgfId-1045200"></a>Replace P&amp;R objects such as boundaries, rows, blockages, and halos.</li></ul>
+
+
+
+
+<h4>
+<a name="pgfId-1045128"></a>Arguments</h4>
+<table class="webflareTable" id="#id1045129">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045131"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_sourceLibName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045133"></a>Specify the name of the source library.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045135"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_sourceCellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045137"></a>Specify the name of the source cell.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045139"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_sourceViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045141"></a>Specify the name of the source view.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045143"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_targetLibName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045145"></a>Specify the name of the target library.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045254"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_targetCellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045256"></a>Specify the name of the target cell.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045250"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_targetViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045252"></a>Specify the name of the target view.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1045246"></a><code>?updateInstances</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_updateInstances</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078186"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078188"></a>Specify if the instances are to be updated. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1097600"></a><code>?updateInstanceOptions</code> <span class="webflare-courier-new" style="white-space:pre"><em>l_updateInstanceOptions</em></span> </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1097604"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1097816"></a>Specify the instances to update in the target cellview. Set one or more of the following options to <code>t</code> or <code>nil</code>.</p>
+
+<ul><li>
+<a name="pgfId-1097606"></a><code>stdCells</code></li><li>
+<a name="pgfId-1097880"></a><code>customCells</code></li><li>
+<a name="pgfId-1097706"></a><code>macros</code></li><li>
+<a name="pgfId-1097917"></a><code>ioPads</code></li><li>
+<a name="pgfId-1097712"></a><code>addPhysOnlyInst</code>(instances that exist only in the physical domain and lack a corresponding instance in the logical domain. For example, filler cells)</li></ul>
+
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1098240"></a><code>?updateDesignOptions</code> <span class="webflare-courier-new" style="white-space:pre"><em>l_updateDesignOptions</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1098236"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1098238"></a>Specify the parameters to be updated in the target cellview. Set one or more of the following options to <code>t</code> or <code>nil</code>.</p>
+
+<ul><li>
+<a name="pgfId-1098318"></a><code>cellType</code></li><li>
+<a name="pgfId-1098319"></a><code>blockType</code></li><li>
+<a name="pgfId-1098320"></a><code>symmetry</code> (orientation)</li><li>
+<a name="pgfId-1098321"></a><code>sitePattern</code></li><li>
+<a name="pgfId-1098292"></a><code>trackPattern</code></li></ul>
+
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045242"></a><code>?loadPins</code> <span class="webflare-courier-new" style="white-space:pre"><em>s_updatePins</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045517"></a>Specify if the pins are to be updated or replaced. Specify <span class="webflare-courier-new" style="white-space:pre"><em>replace</em></span> to load pins in the replace mode, <span class="webflare-courier-new" style="white-space:pre"><em>update</em></span> to load pins in the update mode, and <span class="webflare-courier-new" style="white-space:pre"><em>nil</em></span> to not load the pins. The default value is <span class="webflare-courier-new" style="white-space:pre"><em>nil</em></span>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1078771"></a><code>?addGeometries</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_addGeometries</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045238"></a><span class="webflare-courier-new" style="white-space:pre"><em></em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045240"></a>Specify if the geometries are to be added. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1099042"></a><code>?addGeometryOptions</code> <span class="webflare-courier-new" style="white-space:pre"><em>l_addGeometryOptions</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1099088"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1099416"></a>Specify the geometries to be added from the source cellview to the target cellview at exactly the same locations as in the source cellview. The options are:</p>
+
+<ul><li>
+<a name="pgfId-1099341"></a><code>deleteGeometries</code>: Deletes existing shapes and wires (except Modgens and pins) before importing them from the source cellview.</li><li>
+<a name="pgfId-1099342"></a><code>addShapes</code>: Imports all the shapes from the source cellview to the target cellview.</li><li>
+<a name="pgfId-1099335"></a><code>addWiresAndVias</code>: Imports all the wires (pathSegs and vias) and their topologies from the source cellview to the target cellview.</li></ul>
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1045234"></a><code>?updateBoundaries</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_updateBoundaries</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078287"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078289"></a>Specify if the boundaries are to be updated. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1099743"></a><code>?updateBoundaryOptions</code> <span class="webflare-courier-new" style="white-space:pre"><em>l_updateBoundaryOptions</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1099747"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1099749"></a>Specify the type of boundary for which information must be imported from the source cellview to the target cellview. The valid options are:</p>
+
+<ul><li>
+<a name="pgfId-1099750"></a><code>updatePRBoundary</code></li><li>
+<a name="pgfId-1099751"></a><code>updateSnapBoundary</code></li></ul>
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1078789"></a><code>?replaceRows</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_replaceRows</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045497"></a><span class="webflare-courier-new" style="white-space:pre"><em></em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045588"></a>Specify if the rows are to be replaced. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1099146"></a><code>?replaceRowOptions</code> <span class="webflare-courier-new" style="white-space:pre"><em>l_replaceRowOptions</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1099150"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1099152"></a>Specify if the following types of rows are to be replaced.</p>
+
+<ul><li>
+<a name="pgfId-1099502"></a><code>replaceStandardRows</code></li><li>
+<a name="pgfId-1099526"></a><code>replaceCustomRows</code></li></ul>
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1045493"></a><code>?replaceBlockages</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_replaceBlockages</em></span> </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078331"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078333"></a>Specify if the blockages are to be replaced. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1078811"></a><code>?replaceHalos </code><span class="webflare-courier-new" style="white-space:pre"><em>g_replaceHalos</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045489"></a><span class="webflare-courier-new" style="white-space:pre"><em></em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045598"></a>Specify if the halos are to be replaced. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1098023"></a><code>?replaceObstructionOptions</code> <span class="webflare-courier-new" style="white-space:pre"><em>l_replaceObstructionOptions</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1098027"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1098086"></a>Specify the types of obstructions to be replaced in the target cellview with appropriate obstructions from the source cellview. Set one or more of the following options to <code>t</code> or <code>nil</code>.</p>
+
+<ul><li>
+<a name="pgfId-1098098"></a><code>placement</code></li><li>
+<a name="pgfId-1098099"></a><code>routing</code></li><li>
+<a name="pgfId-1098100"></a><code>slot</code></li><li>
+<a name="pgfId-1098101"></a><code>pin</code></li><li>
+<a name="pgfId-1098102"></a><code>fill</code></li><li>
+<a name="pgfId-1098103"></a><code>feedThru</code></li><li>
+<a name="pgfId-1098122"></a><code>screen</code></li></ul>
+
+
+
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1045485"></a><code>?transferConstraints</code> <span class="webflare-courier-new" style="white-space:pre"><em>g_transferConstraints</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078373"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<ul><li>
+<a name="pgfId-1078379"></a>When set to <code>replace</code>, the constraints in the target cellview are replaced with the constraints transferred from the source cellview. </li><li>
+<a name="pgfId-1100123"></a>When set to <code>update</code>, the constraints in the target cellview are updated. </li><li>
+<a name="pgfId-1100126"></a>When set to <code>nil</code>, no constraints are transferred. The default value is <code>nil</code>.</li></ul>
+
+
+
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1045147"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1045148">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045150"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045152"></a>Returns <code>t</code> if the function successfully updates the target cell view.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045154"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045156"></a>Returns <code>nil</code> otherwise.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1044942"></a>Examples</h4>
+
+<p>
+<a name="pgfId-1098806"></a>Updates information from the specified source cellview to the specified target cellview. The instances in the target cellview are updated. The pins in the target cellview are replaced with the ones in the source cellview. Geometries (shapes, wires, and vias) are added from the source to the target cellview.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1045843"></a>vfpLoadPhysicalView(&quot;design&quot; &quot;top_level&quot; &quot;layout_xy&quot; &quot;design&quot; &quot;top_level&quot; &quot;layout&quot; ?updateInstances t ?loadPins replace ?addGeometries t)</pre>
+
+<p>
+<a name="pgfId-1098840"></a>Updates information from the specified source cellview to the specified target cellview. Only the standard cells in the target cellview are updated. The pins in the target cellview are replaced with the ones in the source cellview. Geometries (shapes, wires, and vias) and boundaries are added from the source to the target cellview. Blockages and halos of the type placement are replaced in the target cellview with the ones in the source cellview.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1098843"></a>vfpLoadPhysicalView(&quot;design&quot; &quot;top_level&quot; &quot;layout_xy&quot; &quot;design&quot; &quot;top_level&quot; &quot;layout&quot; ?updateInstances t ?updateInstanceOptions ((&quot;stdCells&quot; t)) ?loadPins replace ?addGeometries t ?updateBoundaries t ?replaceBlockages t ?replaceHalos t ?replaceObstructionOptions (&quot;placement&quot; t))</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpHiPushPreRoutesDown
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1045946"></a><a name="vfpHiPushPreRoutesDown"></a><a name="63878"></a>vfpHiPushPreRoutesDown</h3>
+<a name="pgfId-1045963"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpHiPushPreRoutesDown(
+<code><em>w_windowId
+</em></code>)</pre>
+<h4>
+<a name="pgfId-1045970"></a>Description</h4>
+
+<p>
+<a name="pgfId-1046007"></a>Invokes the GUI for pushing pre-routes down.</p>
+
+<h4>
+<a name="pgfId-1045973"></a>Arguments</h4>
+<table class="webflareTable" id="#id1045974">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045976"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_windowId</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1045978"></a>Specifies the window id.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1045992"></a>Value Returned</h4>
+
+<p>
+<a name="pgfId-1046024"></a>None</p>
+
+<h4>
+<a name="pgfId-1046002"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1046028"></a>vfpHiPushPreRoutesDown(window)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpPtAddPinResizeEstimator
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1085739"></a><a name="54803"></a>vfpPtAddPinR<a name="vfpPtAddPinResizeEstimator"></a>esizeEstimator</h3>
+<a name="pgfId-1085740"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpPtAddPinResizeEstimator(
+<code><em>t_functionName
+t_nickname
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1085741"></a>Description</h4>
+
+<p>
+<a name="pgfId-1085742"></a>Register a custom SKILL function for resizing pins. This registered function is passed as a parameter to <code>vfpPtRunPinResizeEstimator</code> to resize pins.</p>
+
+<h4>
+<a name="pgfId-1085755"></a>Arguments</h4>
+<table class="webflareTable" id="#id1085746">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085748"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_functionName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085750"></a>Specifies the name by which the new SKILL function must be registered.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085752"></a>t_nickname</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085754"></a>Specifies a nickname for the registered function. This is a simpler name that can be used to refer to the registered function.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1085765"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1085756">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085758"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085760"></a>The SKILL function has been registered.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085762"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085764"></a>The SKILL function could not be registered.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1085766"></a>Example</h4>
+
+<p>
+<a name="pgfId-1085767"></a>Registers a custom SKILL function:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1085768"></a>vfpPtAddPinResizeEstimator(&quot;resizeFunction1&quot; &quot;nickName1&quot;)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpPtGetPinResizeEstimators
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1085770"></a><a name="91472"></a>vfpPtGetPi<a name="vfpPtGetPinResizeEstimators"></a>nResizeEstimators</h3>
+<a name="pgfId-1085771"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpPtGetPinResizeEstimators(
+<code>[ </code><code><em>g_nicknameOnly</em></code><code> ]
+</code>)
+=&gt; ( <code><em>l_nickname</em></code> <code><em>l_functionName </em></code>) / nil</pre>
+<h4>
+<a name="pgfId-1085772"></a>Description</h4>
+
+<p>
+<a name="pgfId-1085773"></a>Retrieves a list of registered pin resize estimator SKILL functions. You can specify whether the list must include only the function nicknames or both the function names and their nicknames.</p>
+
+<h4>
+<a name="pgfId-1085779"></a>Arguments</h4>
+<table class="webflareTable" id="#id1085774">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085776"></a>g_nicknameOnly</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085778"></a>Specifies that only the nicknames of the registered pin resize estimator SKILL functions are to be listed. When set to <code>nil</code>, both the registered function names and their nicknames are displayed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1085789"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1085780">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085782"></a><code>( </code><span class="webflare-courier-new" style="white-space:pre"><em>l_nickname l_functionName </em></span><code>)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085784"></a>List of names of registered pin resize estimator SKILL functions and their corresponding nicknames.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085786"></a>nil</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085788"></a>There are no registered SKILL functions.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1085790"></a>Example</h4>
+
+<p>
+<a name="pgfId-1085791"></a>Retrieves the function names and nicknames of registered pin resize estimator SKILL functions:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1085792"></a>vfpPtGetPinResizeEstimators()</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1085793"></a>=&gt;( (&quot;nickname1&quot; &quot;functionName1&quot; )&#160;&#160;(&quot;nickname2&quot; &quot;functionName2&quot;)...)</pre>
+
+<p>
+<a name="pgfId-1103083"></a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpPtLoadPinResizeFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1085796"></a><a name="75156"></a>vfpPtLoadP<a name="vfpPtLoadPinResizeFile"></a>inResizeFile</h3>
+<a name="pgfId-1085797"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpPtLoadPinResizeFile(
+<code><em>t_pathID
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1085798"></a>Description</h4>
+
+<p>
+<a name="pgfId-1085799"></a>Loads the specified SKILL file containing pin-resize functions.</p>
+
+<h4>
+<a name="pgfId-1085805"></a>Arguments</h4>
+<table class="webflareTable" id="#id1085800">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085802"></a>t_pathID</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085804"></a>Path to the SKILL file to be loaded.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1085816"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1085807">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085809"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085811"></a>The file was successfully loaded.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085813"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085815"></a>The file could not be loaded. An appropriate warning message is displayed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1085817"></a>Example</h4>
+
+<p>
+<a name="pgfId-1085818"></a>Loads the SKILL file containing pin resize functions.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1085819"></a>vfpPtLoadPinResizeFile(&quot;/share/myFunc.il&quot;)</pre>
+
+<p>
+<a name="pgfId-1103116"></a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpPtRemovePinResizeEstimator
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1085822"></a><a name="66155"></a>vfpPtRemovePinRes<a name="vfpPtRemovePinResizeEstimator"></a>izeEstimator</h3>
+<a name="pgfId-1085823"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpPtRemovePinResizeEstimator(
+<code><em>t_nickname
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1085824"></a>Description</h4>
+
+<p>
+<a name="pgfId-1085825"></a>Deregisters the given pin resize estimator SKILL function.</p>
+
+<h4>
+<a name="pgfId-1085831"></a>Arguments</h4>
+<table class="webflareTable" id="#id1085826">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085828"></a>t_nickname</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085830"></a>Specifies the nickname of the pin resize estimator SKILL function that must be deregistered.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1085841"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1085832">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085834"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085836"></a>The pin resize estimator SKILL function was deregistered.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085838"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085840"></a>The pin resize estimator SKILL function could not be deregistered.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1085842"></a>Example</h4>
+
+<p>
+<a name="pgfId-1085843"></a>Deregisters the given pin resize estimator SKILL function:</p>
+<p>
+<a name="pgfId-1085844"></a>vfpPtRemovePinResizeEstimator(&quot;nickname2&quot;)</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpPtRunPinResizeEstimator
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1085846"></a><a name="78821"></a>vfpPtRunPin<a name="vfpPtRunPinResizeEstimator"></a>ResizeEstimator</h3>
+<a name="pgfId-1085847"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpPtRunPinResizeEstimator(
+<code><em>d_topCellViewID
+t_nickname
+</em></code><code>?mode { all | selected | specify }
+?pinList </code><code><em>l_pinList
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1085848"></a>Description</h4>
+
+<p>
+<a name="pgfId-1085849"></a>Runs the given registered pin resize estimator SKILL function on pins as specified in the mode argument.</p>
+
+<h4>
+<a name="pgfId-1085887"></a>Arguments</h4>
+<table class="webflareTable" id="#id1085850">
+<tbody><tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1085852"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_topCellViewID</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085856"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085858"></a>Identifies the top design cellview that contains the pins on which the function must be run.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1085860"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_nickname</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085864"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085866"></a>Specifies the nickname of the pin resize estimator SKILL function to be run.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1085868"></a><code>?mode { all | selected | specify }</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085872"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085874"></a>Specifies the mode for running the SKILL function. The valid values are:</p>
+
+<ul><li>
+<a name="pgfId-1085875"></a><code>all</code>: The function is run on all top-level and level-1 pins.</li><li>
+<a name="pgfId-1085876"></a><code>selected</code>: The function is run on the selected pins.</li><li>
+<a name="pgfId-1085877"></a><code>specify</code>: The function is run on the pins that are specified in <span class="webflare-courier-new" style="white-space:pre"><em>ls_pinList</em></span>.</li></ul>
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1085879"></a><code>?pinList</code><span class="webflare-courier-new" style="white-space:pre"><em> ls_pinList</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085883"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085885"></a>Specifies a list of strings and regular expressions (separated by space and enclosed in double quotes) of the pins on which the function must be run.</p>
+<p>
+<a name="pgfId-1085886"></a><strong>Example:</strong> <code>&quot;pin1 pin2 I1/p1 pa.* I1/p.*&quot;</code></p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-1085888"></a></p>
+
+<h4>
+<a name="pgfId-1085898"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1085889">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085891"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085893"></a>The pin resize estimator SKILL function was run.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085895"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085897"></a>The pin resize estimator SKILL function could not be run.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1085899"></a>Example</h4>
+
+<p>
+<a name="pgfId-1085900"></a>Runs the given pin resize estimator SKILL function:</p>
+<p>
+<a name="pgfId-1085901"></a>vfpPtRunPinREsizeEstimator(topCellView &quot;nickname1&quot; ?mode &quot;specify&quot; ?pinList &quot;pin1 pinA* I1/pa*&quot;)</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpPushPreRoutesDown
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1046040"></a><a name="vfpPushPreRoutesDown"></a><a name="27791"></a>vfpPushPreRoutesDown</h3>
+<a name="pgfId-1085570"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpPushPreRoutesDown(
+<code><em>t_topCVLibName</em></code> 
+<code><em>t_topCVCellName 
+t_topCVViewName
+t_softBlockInstName 
+t_targetLibName 
+t_targetCellName 
+t_targetViewName
+g_pushCloseWireBlkg
+g_rebindInst
+</em></code><code>[ </code><code><em>g_pushOverlappingBlockages</em></code><code> ]
+[ </code><code><em>g_pushPowerNetGeometry</em></code><code> ]
+[ </code><code><em>g_pushRegularNetGeometry</em></code><code> ]
+[ </code><code><em>g_pushRow</em></code><code> ]
+[ </code><code><em>g_pushWSP</em></code><code> ]
+</code><code><em>)
+</em></code>=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1085571"></a>Description</h4>
+
+<p>
+<a name="pgfId-1085573"></a>Pushes the top level power-structures of a cell view <code>topCVLibName:topCVCellName:
+topCVViewName</code> over soft block instance <code>softBlockInstName</code> into target cell view <code>targetLibName:targetCellName:targetViewName</code>.</p>
+
+<h4>
+<a name="pgfId-1085643"></a>Arguments</h4>
+<table class="webflareTable" id="#id1085574">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085576"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topCVLibName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085578"></a>Specifies the library name of the top cell view</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085580"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topCVCellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085582"></a>Specifies the cell name of the top cell view</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085584"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_topCVViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085586"></a>Specifies the view name of the top cell view</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085588"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_softBlockInstName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085590"></a>Specifies the soft block instance name of the top cell view</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085592"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_targetLibName </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085594"></a>Specifies the target library name</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085596"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_targetCellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085598"></a>Specifies the target cell name</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085600"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_targetViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085602"></a>Specifies the target view name</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085604"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_pushCloseWireBlkg </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085606"></a>Specifies if the wires that are outside the PR boundary but close to the PR boundary are to be pushed as blockage. Specify <code>t </code>to push as blockage, <code>nil</code> otherwise. This is an optional argument. Default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085608"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_rebindInst</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085610"></a>Specifies if the instance are to be remastered with the target view. Specify <code>t</code> to remaster, <code>nil</code> otherwise. This is an optional argument. Default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1085612"></a>g_pushOverlappingBlockages</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085616"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085618"></a>Species whether the blockages must be pushed inside the instances. Default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1085620"></a>g_pushPowerNetGeometry</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085624"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085626"></a>Specifies whether power nets must be selected. Default value is <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1085628"></a>g_pushRegularNetGeometry </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085632"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085634"></a>Specifies whether their nets apart from power/ground nets must be selected. Default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085636"></a>g_pushRow</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1085638"></a>Specifies whether standard and custom rows must be pushed inside blocks. Default value is <code>nil</code>.</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085640"></a>g_pushWSP</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1085642"></a>Specifies whether top-level WSP patterns must be pushed into sub-blocks such that the WSP pattern at the top-level and the WSP pattern inside the soft block are aligned. Default value is <code>nil</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1085644"></a>Value Returned</h4>
+
+<p>
+<a name="pgfId-1085645"></a>None</p>
+
+<h4>
+<a name="pgfId-1085670"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1085690"></a>vfpPushPreRoutesDown(&quot;design&quot; &quot;top_demo&quot; &quot;layout_cases&quot; &quot;I4&quot; &quot;design&quot; &quot;block2&quot; &quot;layout_pushed_skill&quot; t t)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpReportIOPadLocation
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1057641"></a><a name="vfpReportIOPadLocation"></a><a name="24050"></a>vfpReportIOPadLocation</h3>
+<a name="pgfId-1057643"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpReportIOPadLocation(
+<code><em>d_dbCellviewID</em></code> 
+<code><em>g_printFillerPads
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1057644"></a>Description</h4>
+
+<p>
+<a name="pgfId-1057645"></a>Prints the IO pad information in formatted manner for all the pads which are placed in the IO rows within the design.</p>
+
+<h4>
+<a name="pgfId-1057646"></a>Arguments</h4>
+<table class="webflareTable" id="#id1073973">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073975"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_dbCellviewID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073977"></a>Specifies the design cellview ID for which the IO report is required.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073979"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_printFillerPads </em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073981"></a>Prints information about the IO filler pads present in the IO rows along with other IO pad information. The information is printed only when this value is set to <code>t</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1057657"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1073994">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073996"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073998"></a>The function successfully generated the report in the CIW.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1074000"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1074002"></a>Returns <code>nil</code> with an appropriate warning message if the report was not generated.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1061866"></a><a name="28968"></a><a name="39592"></a>Example</h4>
+
+<p>
+<a name="pgfId-1074015"></a>To print only pad locations, specify the following:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1074016"></a>vfpReportIOPadLocation (cellviewID)</pre>
+
+<p>
+<a name="pgfId-1074017"></a>This does not print filler pad instances that are present in the design.</p>
+<p>
+<a name="pgfId-1074018"></a>To print filler pad instances as well, specify the following:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1074019"></a>vfpReportIOPadLocation (cellviewID t)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpPinConnectivitySetting
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1062696"></a><a name="vfpPinConnectivitySetting"></a><a name="76806"></a>vfpPinConnectivitySetting</h3>
+<a name="pgfId-1062698"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpPinConnectivitySetting(
+<code><em>)
+</em></code>=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1062699"></a>Description</h4>
+
+<p>
+<a name="pgfId-1062700"></a>This function takes no arguments. It invokes a GUI to enable the pin connectivity information setting.</p>
+
+<h4>
+<a name="pgfId-1062701"></a>Arguments</h4>
+
+<p>
+<a name="pgfId-1062702"></a>None</p>
+
+<h4>
+<a name="pgfId-1062703"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1062704">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1062706"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1062708"></a>Returns <code>t</code> if the function successfully invokes the GUI</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1062710"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1062712"></a>Returns <code>nil</code> otherwise with an appropriate warning message</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpSbDefineObstruction
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1068761"></a><a name="42274"></a>vfpSbDefineObstruct<a name="vfpSbDefineObstruction"></a>ion</h3>
+<a name="pgfId-1068762"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpSbDefineObstruction(
+<code><em>l_PhysLCV
+t_obstructionType
+</em></code>[ <code>?topOffset</code><code><em>  n_topOffset </em></code>]
+[<code><em> </em></code><code>?bottomOffset</code><code><em> n_BottomOffset</em></code> ]
+[ <code>?leftOffset</code><code><em> n_LeftOffset</em></code> ]
+[ <code>?rightOffset</code><code><em> n_RightOffset </em></code>]
+[ <code>?layerName</code><code><em> t_layerName</em></code> ]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1068764"></a>Description</h4>
+
+<p>
+<a name="pgfId-1068765"></a>Creates placement, routing, or other obstructions based on the <code>obstructionType</code> argument. All conditions that are enforced for these obstructions through GUI-based flow are applicable here. For example, only one placement blockage would be applied per soft block. If a second placement blockage is applied through this API, a warning is issued. The latest applied placement blockage will not replace the existing placement blockage.</p>
+
+<h4>
+<a name="pgfId-1068767"></a>Arguments</h4>
+<table class="webflareTable" id="#id1068768">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068770"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_PhysLCV</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068772"></a>List of (&quot;lib&quot;<code> </code>&quot;cell&quot; &quot;view&quot;) triplets</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068774"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_obstructionType</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068776"></a>Type of obstruction to be added. The valid values are: &quot;placement&quot;, &quot;routing&quot;, &quot;fill&quot;, &quot;slot&quot;, &quot;pin&quot;, &quot;feedthru&quot;, and &quot;screen&quot;.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1068778"></a><code>?topOffset </code><span class="webflare-courier-new" style="white-space:pre"><em> n_topOffset</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078424"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078426"></a>Top offset of the obstruction</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1068782"></a><code>?bottomOffset </code><span class="webflare-courier-new" style="white-space:pre"><em>n_BottomOffset</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078442"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078444"></a>Bottom offset of the obstruction</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1068786"></a><code>?leftOffset </code><span class="webflare-courier-new" style="white-space:pre"><em>n_LeftOffset</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078458"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078462"></a>Left offset of the obstruction</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1068790"></a><code>?rightOffset&#160;&#160;</code><span class="webflare-courier-new" style="white-space:pre"><em>n_RightOffset</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078466"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078468"></a>Right offset of the obstruction</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1068794"></a><code>?layerName </code><span class="webflare-courier-new" style="white-space:pre"><em>t_layerName</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078484"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078490"></a>Layer name. This argument is ignored when the <code>obstructionType</code> is &#8220;placement&#8221;.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1068799"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1068800">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068802"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068804"></a>The obstruction is created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068806"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068808"></a>The command was unsuccessful.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1068810"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1068884"></a>vfpSbDefineObstruction(list(&quot;design&quot; &quot;block1&quot; &quot;layout&quot;) &quot;fill&quot; ?leftOffset 20 ?rightOffset 30 ?bottomOffset 50 ?topOffset 2 ?layerName &quot;metal2&quot;)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpSbDeleteObstruction
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1068893"></a><a name="18943"></a>vfpSbDeleteObstruction<a name="vfpSbDeleteObstruction"></a></h3>
+<a name="pgfId-1068894"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpSbDeleteObstruction(
+<code><em>l_PhysLCV
+t_obstructionType
+</em></code>[ <code>?topOffset</code><code><em>  n_topOffset</em></code> ]
+[ <code>?bottomOffset</code><code><em> n_BottomOffset</em></code> ]
+[ <code>?leftOffset </code><code><em>n_LeftOffset</em></code> ]
+[ <code>?rightOffset </code><code><em> n_RightOffset</em></code> ]
+[ <code>?layerName</code><code><em> t_layerName</em></code> ]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1068897"></a>Description</h4>
+
+<p>
+<a name="pgfId-1068899"></a>Deletes the specified obstruction.</p>
+
+<h4>
+<a name="pgfId-1068900"></a>Arguments</h4>
+<table class="webflareTable" id="#id1068901">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068903"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_PhysLCV</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068905"></a>List of (&quot;lib&quot;<code> </code>&quot;cell&quot; &quot;view&quot;) triplets</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068907"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_obstructionType</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068909"></a>Type of obstruction to be deleted. The valid values are: &quot;placement&quot;, &quot;routing&quot;, &quot;fill&quot;, &quot;slot&quot;, &quot;pin&quot;, &quot;feedthru&quot;, and &quot;screen&quot;.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1068911"></a><code>?topOffset</code><span class="webflare-courier-new" style="white-space:pre"><em>  n_topOffset</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078534"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078538"></a>Top offset of the obstruction</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1068915"></a><code>?bottomOffset </code><span class="webflare-courier-new" style="white-space:pre"><em>n_BottomOffset</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078542"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078544"></a>Bottom offset of the obstruction</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1068919"></a><code>?leftOffset</code><span class="webflare-courier-new" style="white-space:pre"><em> n_LeftOffset</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078560"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078562"></a>Left offset of the obstruction</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1068923"></a><code>?rightOffset </code><span class="webflare-courier-new" style="white-space:pre"><em> n_RightOffset</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078593"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078595"></a>Right offset of the obstruction</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1068927"></a><code>?layerName </code><span class="webflare-courier-new" style="white-space:pre"><em>t_layerName</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078609"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078613"></a>Layer name. This argument is ignored when the <code>obstructionType</code> is &#8220;placement&#8221;.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1068932"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1068933">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068935"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068937"></a>The obstruction was successfully deleted.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068939"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068941"></a>The command was unsuccessful.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1068943"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1068944"></a>vfpSbDeleteObstruction(list(&quot;design&quot; &quot;block1&quot; &quot;layout&quot;) &quot;placement&quot; ?leftOffset 20 ?rightOffset 30 ?bottomOffset 50 ?topOffset 2 ?layerName &quot;metal1&quot;)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpSbEditIOPin
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1068972"></a><a name="96109"></a>vfpSbEditIOPin<a name="vfpSbEditIOPin"></a></h3>
+<a name="pgfId-1068973"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpSbEditIOPin(
+<code><em>l_PhysLCV
+t_termName
+</em></code>[ <code>?lpp </code><code><em>txl_lpp </em></code>]
+[ <code>?width</code><code><em> n_width</em></code> ]
+[ <code>?height</code><code><em> n_height</em></code> ]
+[<code><em> </em></code><code>?number</code><code><em> x_number</em></code> ]
+[ <code>?criticality</code><code><em> x_criticality </em></code>]
+[ <code>?sigType</code><code><em> t_sigType </em></code>]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1068975"></a>Description</h4>
+
+<p>
+<a name="pgfId-1068977"></a>Edits attributes of the pin that is associated with the specified <code>termName</code>.</p>
+
+<h4>
+<a name="pgfId-1068979"></a>Arguments</h4>
+<table class="webflareTable" id="#id1068980">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068982"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_PhysLCV</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068984"></a>List of (&quot;lib&quot;<code> </code>&quot;cell&quot; &quot;view&quot;) triplets</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068986"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_termName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068988"></a>Terminal name corresponding to the pin</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068990"></a><code>?lpp</code><span class="webflare-courier-new" style="white-space:pre"><em> txl_lpp</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1068992"></a>Layer Purpose Pair. The valid formats are text, number, and list. Use one of the following arguments to identify the layer purpose pair.</p>
+<p>
+<a name="pgfId-1068993"></a>Text:</p>
+<p>
+<a name="pgfId-1068994"></a>&quot;layerName&quot; &#8211; The default purpose is &quot;drawing&quot;</p>
+<p>
+<a name="pgfId-1068995"></a> &#8220;layerName purposeName&#8221; </p>
+<p>
+<a name="pgfId-1068996"></a>Number:</p>
+<p>
+<a name="pgfId-1068997"></a> layerNum &#8211; The default purpose is &quot;drawing&quot;</p>
+<p>
+<a name="pgfId-1068998"></a>List:</p>
+<p>
+<a name="pgfId-1068999"></a> list (&#8220;layerName&#8221; &#8220;purposeName&#8221;)</p>
+<p>
+<a name="pgfId-1069000"></a> list (layerNum, &#8221;purposeName&#8221;)</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069002"></a><code>?width </code><span class="webflare-courier-new" style="white-space:pre"><em>n_width</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069004"></a>Width of the Pin</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069006"></a><code>?height</code><span class="webflare-courier-new" style="white-space:pre"><em> n_height</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069008"></a>Height of the Pin</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1070973"></a><code>?number</code><span class="webflare-courier-new" style="white-space:pre"><em> x_number</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069012"></a>Number of <code>pinFigs</code> to be created on the pin. The maximum number of <code>pinFigs</code> that can be created is 20.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1069014"></a><code>?criticality </code><span class="webflare-courier-new" style="white-space:pre"><em>x_criticality</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078619"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078621"></a>Criticality of the terminal (-128 to 128)</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069018"></a><code>?sigType</code><span class="webflare-courier-new" style="white-space:pre"><em> t_sigType</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069020"></a>Signal type of the terminal</p>
+<p>
+<a name="pgfId-1069021"></a>The valid signal types are: &quot;<code>signal</code>&quot;, &quot;<code>ground</code>&quot;, &quot;<code>supply</code>&quot;, &quot;<code>clock</code>&quot;, &quot;<code>analog</code>&quot;, &quot;<code>tieOff</code>&quot;, &quot;<code>tieHi</code>&quot;, &quot;<code>tieLo</code>&quot;, &quot;<code>scan</code>&quot;, and &quot;<code>reset</code>&quot;.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1069023"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1069024">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069026"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069028"></a>The pin attributes were changed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069030"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069032"></a>The command was unsuccessful.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1069034"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1069035"></a>vfpSbEditIOPin(list(&quot;design&quot; &quot;block1&quot; &quot;layout&quot;) &quot;in1&quot; ?lpp &quot;metal2&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1076778"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1069036"></a>vfpSbEditIOPin(list(&quot;design&quot; &quot;block1&quot; &quot;layout&quot;) &quot;in1&quot; ?lpp 20 ?width 10.0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1076785"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1068885"></a>vfpSbEditIOPin(list(&quot;design&quot; &quot;block1&quot; &quot;layout&quot;) &quot;in1&quot; ?lpp list(&quot;metal3&quot; &quot;pin&quot;) ?criticality 20)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpSbEditSoftBlockType
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1069068"></a><a name="vfpSbEditSoftBlockType"></a><a name="13339"></a>vfpSbEditSoftBlockType</h3>
+<a name="pgfId-1069069"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpSbEditSoftBlockType(
+<code><em>l_PhysLCV
+t_blockType
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1069071"></a>Description</h4>
+
+<p>
+<a name="pgfId-1069073"></a>Edits the blockType of the specified soft block.</p>
+
+<h4>
+<a name="pgfId-1069074"></a>Arguments</h4>
+<table class="webflareTable" id="#id1069075">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069077"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_PhysLCV</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069079"></a>List of (&quot;lib&quot;<code> </code>&quot;cell&quot; &quot;view&quot;) triplets</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069081"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_blockType</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069083"></a>The block type. The valid values are &quot;CUSTOM&quot; and &quot;DIGITAL&quot;. This argument is case-insensitive.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1069085"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1069086">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069088"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069090"></a>The block type was changed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069092"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069094"></a>The command was unsuccessful.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1069096"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1068886"></a>vfpSbEditSoftBlockType(list(&quot;design&quot; &quot;block1&quot; &quot;layout&quot;) &quot;custom&quot;)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpSbSetPolygonalBoundary
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1069114"></a><a name="79455"></a>vfpSbSetPolygonalBoundary<a name="vfpSbSetPolygonalBoundary"></a></h3>
+<a name="pgfId-1069115"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpSbSetPolygonalBoundary(
+<code><em>l_PhysLCV
+l_ listOfPolygonPoints
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-1069117"></a>Description</h4>
+
+<p>
+<a name="pgfId-1069119"></a>Specifies the boundary attributes of soft blocks that are polygonal in shape.</p>
+
+<h4>
+<a name="pgfId-1069120"></a>Arguments</h4>
+<table class="webflareTable" id="#id1069121">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069123"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_PhysLCV</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069125"></a>List of (&quot;lib&quot;<code> </code>&quot;cell&quot; &quot;view&quot;) triplets</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1069127"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_listOfPolygonPoints</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078832"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078834"></a>The vertices of the rectilinear polygon in the form of a list of x, y coordinates</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1069131"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1069132">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069134"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069136"></a>The vertices of the polygonal soft block were set.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069138"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069140"></a>The vertices of the polygonal soft block were not set.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1069142"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1068846"></a>vfpSbSetPolygonalBoundary(list(&quot;design&quot; &quot;top_viewtest&quot; &quot;layout_sav&quot;) list(&#39;(0 0) &#39;(0 500000) &#39;(500000 500000) &#39;(500000 0)))</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vfpSbSetRectangularBoundary
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1069167"></a><a name="22689"></a>vfpSbSetRectangularBo<a name="vfpSbSetRectangularBoundary"></a>undary</h3>
+<a name="pgfId-1069168"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vfpSbSetRectangularBoundary(
+<code><em>l_PhysLCV
+n_width
+n_height
+</em></code>)
+=&gt; t  / nil</pre>
+<h4>
+<a name="pgfId-1069170"></a>Description</h4>
+
+<p>
+<a name="pgfId-1069172"></a>Specifies the boundary vertices of the rectangular soft block.</p>
+
+<h4>
+<a name="pgfId-1069173"></a>Arguments</h4>
+<table class="webflareTable" id="#id1069174">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069176"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_PhysLCV</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069178"></a>List of (&quot;lib&quot; &quot;cell&quot; &quot;view&quot;) triplets</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069180"></a><span class="webflare-courier-new" style="white-space:pre"><em>n_width</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069182"></a>Width of the rectangular boundary</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069184"></a><span class="webflare-courier-new" style="white-space:pre"><em>n_height</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069186"></a>Height of the rectangular boundary</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1069188"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1069189">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069191"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069193"></a>The boundary vertices were set.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069195"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1069197"></a>The command was unsuccessful.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1069199"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1068860"></a>vfpSbSetRectangularBoundary(list(&quot;design&quot; &quot;block1&quot; &quot;layout&quot;) 20 30)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=vpaOptimizePins
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-1069157"></a><a name="71907"></a>vpaOp<a name="vpaOptimizePins"></a>timizePins</h3>
+<a name="pgfId-1065292"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+vpaOptimizePins(
+<code>?cv</code> <code><em>d_cellViewId
+</em></code><code>?layoutLCV</code> <code><em>l_LCVName
+</em></code>[ <code>?cphId </code><code><em>g_cphId</em></code> ]
+[ <code>?selectedOnly</code> <code><em>g_selectedOnly</em></code> ]
+[ <code>?spacingType</code> <code><em>t_spacingType</em></code> ]
+[ <code>?spacingValue </code><code><em>n_spacingValue</em></code> ]
+[ <code>?targetPinSide</code> <code><em>l_targetPinSides</em></code> ]
+[ <code>?enableCongestion</code> <code><em>g_enableCongestion</em></code> ]
+[ <code>?congestionValue</code> <code><em>n_congestionValue</em></code> ]
+<code><em>)
+=&gt; t / nil / List of (</em></code>sbId lib:cell:view status)</pre>
+<h4>
+<a name="pgfId-1065293"></a>Description</h4>
+
+<p>
+<a name="pgfId-1065298"></a>Runs pin optimization on the specified cellview or design based on the options you specify. You can specify only those parameters that you want to control. The parameters that you do not specify get their values from the corresponding LayoutXL environment variable.</p>
+
+<h4>
+<a name="pgfId-1065101"></a>Arguments</h4>
+<table class="webflareTable" id="#id1065102">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1065104"></a><code>?cv</code> <span class="webflare-courier-new" style="white-space:pre"><em>d_cellViewId</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1065106"></a>The ID of the cellview for pin optimization. This cellview ID is mutually exclusive with <em>layoutLCV</em> and has a higher priority than <em>layoutLCV</em>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1065876"></a><code>?layoutLCV </code><span class="webflare-courier-new" style="white-space:pre"><em>l_LCVName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1065878"></a>The name of the library, cell, and view. It is the target cellview for Pin optimization and is mutually exclusive with <em>cv</em>.</p>
+<div class="webflare-information-macro webflare-macro-information">
+<a name="pgfId-1066658"></a>
+Either <em>cv</em> or <em>layoutLCV</em> must be specified.</div>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073054"></a><code>?cphId </code><span class="webflare-courier-new" style="white-space:pre"><em>g_cphId</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073056"></a>The physical configuration ID, which is the physical configuration cellview created by the <code>cphCreatePhysConfig</code> API. The <code>cphId</code> must only be specified when using the pin optimizer in conjunction with the command-line CPH-GPH-based flow. If this argument is not used, then the pin optimizer retains its original behavior without any impact of the command-line CPH-GPH flow.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1065108"></a><code>?selectedOnly </code><span class="webflare-courier-new" style="white-space:pre"><em>g_selectedOnly</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078673"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078675"></a>Whether to run pin optimization on the selected objects only or all the objects in cellview. The valid values are <code>t</code> and <code>nil</code>. The default value is read from the corresponding LayoutXL Floorplan environment variable.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1065112"></a><code>?spacingType </code><span class="webflare-courier-new" style="white-space:pre"><em>t_spacingType</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078691"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078693"></a>Specifies how to space out the pins using the relevant spacing values from the technology file. The valid values are <code>line-line</code>, <code>line-via</code>, <code>via-via</code>, or <code>specify</code>. The default value is set to <code>line-line </code>in the corresponding environment variable<code>.</code>If the value is set as <code>specify</code>, then the <em>spacingValue</em> has to be specified.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1065116"></a><code>?spacingValue </code><span class="webflare-courier-new" style="white-space:pre"><em>n_spacingValue</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078707"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078711"></a>This value needs to be specified if the <em>spacingType</em> is set to <code>specify</code>. This value is used to specify the minimum spacing between the pins. The value is either a fixed or a floating number.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1065124"></a><code>?targetPinSide </code><span class="webflare-courier-new" style="white-space:pre"><em>l_targetPinSides</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078721"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078723"></a>The side(s) of the blocks and the PR boundary on which the pins should be placed. The valid values are <code>left</code>, <code>right</code>, <code>top</code>, and <code>bottom</code>. By default all the four sides are considered. You can also specify a combination of one or more sides.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1065132"></a><code>?enableCongestion </code><span class="webflare-courier-new" style="white-space:pre"><em>g_enableCongestion</em></span><code> </code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078739"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078741"></a>Whether or not to consider the congestion value during pin optimization. This option is only applicable if congestion data is available. The valid values are <code>t</code> or <code>nil</code>. If the value is set to <code>t</code>, then the <em>congestionValue</em> has to be specified. The default value is read from the corresponding LayoutXL Floorplan environment variable.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-1065136"></a><code>?congestionValue </code><span class="webflare-courier-new" style="white-space:pre"><em>n_congestionValue</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078755"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1078759"></a>Specifies the congestion threshold. This needs to be specified if <em>enableCongestion</em> is <code>t</code>. It is a fixed number.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-1073540"></a>Value Returned</h4>
+
+<p>
+<a name="pgfId-1073563"></a>When a valid <span class="webflare-courier-new" style="white-space:pre"><em>cphId</em></span> is not specified, one of the following values is returned:</p>
+<table class="webflareTable" id="#id1073541">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073543"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073545"></a>The Pin Optimizer was executed successfully. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073547"></a>No value returned</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073549"></a>Pin optimization failed on some of the blocks or on all blocks. Related error messages are displayed in the CIW.</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a name="pgfId-1073558"></a>When a valid <span class="webflare-courier-new" style="white-space:pre"><em>cphId</em></span> is specified, one of the following values is returned:</p>
+<table class="webflareTable" id="#id1073626">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073628"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073630"></a>The Pin Optimizer was executed successfully. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073632"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073634"></a>The Pin Optimizer (completely) failed on all blocks.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073636"></a>List of (<span class="webflare-courier-new" style="white-space:pre"><em>sbId lib:cell:view status</em></span>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-1073638"></a>The Pin Optimizer (partially) failed on some blocks. A list of soft block IDs, their<span class="webflare-courier-new" style="white-space:pre"><em>lib:cell:views</em></span>, and their statuses is returned.</p>
+</td>
+</tr>
+</tbody></table>
+
+<h4>
+<a name="pgfId-1073590"></a>Examples</h4>
+
+<p>
+<a name="pgfId-1065757"></a>To optimize only the selected pins in the cellview <code>design:top:layout</code> by placing them on either of the four edges with <code>0.1</code> separation.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1065731"></a>vpaOptimizePins(?layoutLCV &#8216;(&quot;design&quot; &quot;top&quot; &quot;layout&quot;) ?selectedOnly t ?spacingType &quot;specify&quot; ?spacingValue 0.1)</pre>
+
+<p>
+<a name="pgfId-1065817"></a>To optimize all the pins in the cellview with ID <code>d_cvId</code> by placing them on the <code>left </code>and<code> right</code> edges with <code>line-line</code> separation.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1065818"></a>vpaOptimizePins(?cv d_cvId ?cphID mycphID ?spacingType &quot;line-line&quot; ?targetPinSide (&quot;left&quot; &quot;right&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-1089162"></a></pre>
+
+<p>
+<a name="pgfId-1093864"></a></p>
+<p>
+<a name="pgfId-1103439"></a></p>
+
+<!-- [TOPIC_END] -->
+
+<p>
+<a name="pgfId-1088301"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="vsr.html" id="prev" title="Space-based Router Functions">Space-based Router Functions</a></em></b><b><em><a href="anaplace.html" id="nex" title="Analog Placer Functions (IC6.1.8 Only)">Analog Placer Functions (IC6.1 ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

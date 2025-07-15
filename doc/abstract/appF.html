@@ -1,0 +1,1168 @@
+
+<html><head><title>Technology File Requirements for Abstract Generation</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-08-16" />
+<meta name="CreateTime" content="1597635224" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso Abstract Generator that you can use to create abstracts from layout data." />
+<meta name="DocTitle" content="Virtuoso Abstract Generator User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Technology File Requirements for Abstract Generation" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="abstract" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-16" />
+<meta name="ModifiedTime" content="1597635224" />
+<meta name="NextFile" content="abstractIX.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Layout" />
+<meta name="PrevFile" content="appE.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Abstract Generator User Guide -- Technology File Requirements for Abstract Generation" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="abstractICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="abstractTOC.html">Contents</a></li><li><a class="prev" href="appE.html" title="Tutorial: Generate Abstracts by Using the Standalone Abstract Generator">Tutorial: Generate Abstracts b ...</a></li><li style="float: right;"><a class="viewPrint" href="abstract.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="abstractIX.html" title="Index">Index</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Abstract Generator User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>G
+<a id="pgfId-1041119"></a></h1>
+<h1>
+<a id="pgfId-1041121"></a><hr />
+<a id="90191"></a>Technology File Requirements for Abstract Generation<hr />
+</h1>
+
+<p>
+<a id="pgfId-1039512"></a><a id="MigrationIssues"></a>This appendix describes how Abstract Generator handles technology information in the Virtuoso design environment, outlines the technology information required to run Abstract Generator on OpenAccess, identifies potential technology file problems, and suggests possible solutions to those problems. </p>
+<p>
+<a id="pgfId-1039508"></a>It covers the following topics:</p>
+<ul><li>
+<a id="pgfId-1039482"></a><a href="appF.html#44055">Handling Technology Information in the Virtuoso Design Environment</a>, which describes how to generate technology information for Abstract Generator, how to supplement that information by importing LEF, and how to modify technology information using the Technology File Manager.</li><li>
+<a id="pgfId-1050584"></a><a href="appF.html#93893">Technology File Requirements</a>, which lists the technology information required to run Abstract Generator on OpenAccess. This includes the definition of layers and layer rules, layer functions, physical rules, and vias along with specific requirements for antenna calculation, and viewing data in the Virtuoso Layout Editor.</li><li>
+<a id="pgfId-1039489"></a><a href="appF.html#16940">Potential Issues Related to the Technology File in the Virtuoso Design Environment</a>, which lists common problems found in technology files in the Virtuoso design environment and provides information about how to fix these to enable Abstract Generator to run.</li></ul>
+
+
+<p>
+<a id="pgfId-1039528"></a>This appendix also describes how to convert Abstract Generator replay files from common-lisp format into SKILL or Tcl format in the section <a href="appF.html#25171">Converting Common Lisp Files to SKILL or Tcl Format</a>.</p>
+
+<h4>
+<a id="pgfId-1030726"></a>Additional Information</h4>
+
+<ul><li>
+<a id="pgfId-1039559"></a>For information about the technology information messages issued by Abstract Generator, see <a href="appD.html#51321">ABS-10000 to ABS-10099: Technology Messages</a>.</li><li>
+<a id="pgfId-1045483"></a>For information about the Technology File Manager, technology files, and their construction, see <em><a actuate="user" class="URL" href="../ascitechfile/ascitechfileTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso Technology Data ASCII Files Reference</a></em>.</li></ul>
+
+<h2>
+<a id="pgfId-1037035"></a><a id="44055"></a>Ha<a id="handlingtechinfo"></a>ndling Technology Information in the Virtuoso Design Environment</h2>
+<p>
+<a id="pgfId-1040087"></a>Technology information provides details of the process technology used during IC fabrication, including the names of layers, colors and fill patterns, GDSII layer mapping data, and design rules for various layers and vias.</p>
+<p>
+<a id="pgfId-1037036"></a>This section describes how Abstract Generator handles OpenAccess technology information associated with your design library.</p>
+
+<h3>
+<a id="pgfId-1037038"></a>Technology Information in the Virtuoso Design Environment</h3>
+
+<p>
+<a id="pgfId-1037532"></a>The following are the three main sources of technology information for a design library in the Virtuoso design environment:</p>
+<ul><li>
+<a id="pgfId-1037039"></a>A binary technology file, called <code>tech.db</code>, stored in the library directory</li><li>
+<a id="pgfId-1037040"></a>A separate technology library, which is attached as a property to the design library</li><li>
+<a id="pgfId-1037041"></a>A display resource file, <code>display.drf</code>, stored in the library directory</li></ul>
+
+
+
+<h3>
+<a id="pgfId-1037044"></a>Creating a New Library</h3>
+
+<p>
+<a id="pgfId-1037045"></a>If you use <em>File &#8211; Library &#8211; New</em> to create a new library, Abstract Generator automatically attaches the Cadence default technology file shipped with the software, <code>cdsDefTechLib</code>, to the library. </p>
+<p>
+<a id="pgfId-1037046"></a>The default technology file is unlikely to contain enough information to satisfy the internal technology checker of Abstract Generator, so you must always replace or supplement the technology information before you begin abstract generation. </p>
+<p>
+<a id="pgfId-1040094"></a>There are two ways of doing this using the Abstract Generator GUI:</p>
+<ul><li>
+<a id="pgfId-1037047"></a>Select <em>File &#8211; Library &#8211; Attach Technology</em> to attach an existing technology file to be used with your new library.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1037048"></a>
+During abstract generation, the tool might need to update your technology information; for example, the tool might update the technology file with information about sites and layer-purpose pairs. You must ensure that an attached technology file has permissions that allow it to be updated by Abstract Generator, otherwise you will need to add the missing information manually.</div></li><li>
+<a id="pgfId-1037049"></a>Use <em>File &#8211; Import &#8211; LEF</em> to import a LEF technology file. Abstract Generator automatically converts the information in the LEF file into appropriate technology information for OpenAccess.</li></ul>
+
+
+
+
+
+<h3>
+<a id="pgfId-1037050"></a>Importing an Existing Library</h3>
+
+<p>
+<a id="pgfId-1042297"></a>If you are importing an existing library into Abstract Generator and the library has its own technology file (<code>tech.db</code>), Abstract Generator uses that file as the main source of technology information.</p>
+<p>
+<a id="pgfId-1037052"></a>If the existing library has a different technology library attached, Abstract Generator uses that instead. You can use <em>File &#8211; Library &#8211; Attach Technology</em> to attach a different technology file to your library.</p>
+
+<div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1037053"></a>
+If your library has an attached technology file, Cadence recommends that you move <code>tech.db</code> file out of the library directory before you start generating abstracts so that possible conflicts can be avoided.</div>
+<h3>
+<a id="pgfId-1037054"></a>Modifying Technology Information</h3>
+
+<p>
+<a id="pgfId-1037055"></a>It is likely that you will need to modify the technology information for your library to provide all the information Abstract Generator needs.</p>
+<p>
+<a id="pgfId-1037056"></a>You can modify the technology information in the following two ways:</p>
+<ul><li>
+<a id="pgfId-1037057"></a>Use <em>File &#8211; Import &#8211; LEF</em> to import additional information into your existing technology file. Any additional information present in the LEF file is added to the existing technology information for the library.<br /><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1037058"></a>
+If you want to replace the existing technology information with the information from a LEF file, select the <em>Overwrite</em> option on the <em>Import LEF</em> form.</div></li><li>
+<a id="pgfId-1037059"></a>If you need to make more extensive manual changes to your technology information, use<em> Technology File Manager</em> to generate an ASCII version of the technology file. You can edit this file as required and recompile it for use with the library.<br />
+<a id="pgfId-1037060"></a>To launch the<em> Technology File Tool Box</em>, select <em>Tools &#8211; Technology File Manager</em> in the CIW.<br />
+<a id="pgfId-1037061"></a>For more information about the Technology File Manager and technology files, see the <em><a actuate="user" class="URL" href="../techfileuser/techfileuserTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso Technology Data User Guide</a></em>.</li></ul>
+
+
+
+
+
+
+<p>
+<a id="pgfId-1045391"></a><strong>Example</strong></p>
+<p>
+<a id="pgfId-1045392"></a>An example of a situation in which the technology file might need to be updated is when purposes are missing for a routing layer. This is because the technology file must define the LPPs for all routing layers. In case purposes are not defined for a routing layer, Abstract Generator updates the technology file by automatically creating the LPPs. Alternatively, you can update the technology file manually by using the Technology File Manager. Abstract Generator will not proceed if an LPP is missing for a routing layer (<a href="appD.html#84068">ABS-10034</a>).</p>
+<p>
+<a id="pgfId-1045396"></a>In both cases where either you update the technology file or Abstract Generator does it automatically, the technology file should be writable (<a href="appD.html#41968">ABS-10050</a>). </p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1045400"></a>
+Abstract Generator allows you to open a library and proceed with the Abstract Generator flow if the pin and net are not defined for masterslice or cut layers. Abstract Generator issues warning messages for the missing purposes on the masterslice or cut layers. The drawing purpose does need to be defined for routing as well as masterslice and cut layers. However, if during the abstract generation flow, a pin or a blockage is created on a masterslice or cut layer that does not have a corresponding purpose defined in the technology file, Abstract Generator generates one of the following errors:</div>
+
+<p class="webflare-indent1">
+<a id="pgfId-1045401"></a><code><a href="appD.html#45294">ABS-12024</a><code></code>: Cell name: Trying to create a pin shape on layer layerName. This layer does not have pin purpose in the technology data.</code></p>
+<p class="webflare-indent1">
+<a id="pgfId-1045402"></a><code><a href="appD.html#92067">ABS-13022</a><code></code>: Cell name: Trying to create a pin shape on layer layerName. This layer does not have net purpose in the technology data.</code></p>
+<p class="webflare-indent1">
+<a id="pgfId-1045403"></a><code><a href="appD.html#21239">ABS-14029</a><code></code>: Cell name: Trying to create a blockage on layer layerName. This layer does not have boundary purpose in the technology data.</code></p>
+
+<h2>
+<a id="pgfId-1045385"></a><a id="93893"></a>Technology File Requirements</h2>
+
+<p>
+<a id="pgfId-1041792"></a>This section describes the technology information required for Abstract Generator to run in the Virtuoso design environment.</p>
+<ul><li>
+<a id="pgfId-1045281"></a><a href="appF.html#71578">Layer Definitions</a></li><li>
+<a id="pgfId-1045286"></a><a href="appF.html#58183">Via Definitions</a></li><li>
+<a id="pgfId-1045290"></a><a href="appF.html#27416">Physical Rules</a></li><li>
+<a id="pgfId-1045310"></a><a href="appF.html#40217">Devices</a></li><li>
+<a id="pgfId-1046819"></a><a href="appF.html#76714">Voltage Dependent and Layer-Purpose-Based Rules</a></li></ul>
+
+
+
+
+<p>
+<a id="pgfId-1045345"></a>This section also lists specific requirements related to the particular tasks that you might want to perform by using Abstract Generator.</p>
+<ul><li>
+<a id="pgfId-1045329"></a><a href="appF.html#82005">Specific Requirements for Antenna Calculation</a></li><li>
+<a id="pgfId-1045358"></a><a href="appF.html#56136">Specific Requirements for Metal Density Calculation</a></li><li>
+<a id="pgfId-1054178"></a><a href="appF.html#58874">Specific Technology Requirements for Viewing Data In Layout</a></li><li>
+<a id="pgfId-1054184"></a><a href="appF.html#76610">Specific Requirements for Specifying Place-and-Route Information</a></li></ul>
+
+
+
+
+<h3>
+<a id="pgfId-1045335"></a><a id="71578"></a>Layer Definitions</h3>
+
+<p>
+<a id="pgfId-1034156"></a>The table below lists the required subsections from the <code>layerDefinitions</code> section.</p>
+
+<p>
+<a id="pgfId-1045885"></a></p>
+<table class="webflareTable" id="#id1045863">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1045865">
+<a id="pgfId-1045865"></a>Subsection</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1045867">
+<a id="pgfId-1045867"></a>Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1045869">
+<a id="pgfId-1045869"></a>Example</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1045871"></a><code>techLayers</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1045873"></a>Defines the layers to be used in your design.</p>
+<p>
+<a id="pgfId-1045874"></a>This layer list must include two or more metal layers and one or more via layers. Each layer must have a name, a number, and an abbreviation for the layer name.</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1045876"></a>
+layerDefinitions(
+ techLayers(
+
+ ;( LayerName Layer# Abbreviation )
+ ;( --------- ------ ------------ )
+ ;&#160;&#160;User-Defined Layers:<br />    .    .<br />    ( ndiff    1       ND         )<br />    ( pdiff    2       PD         )<br />    ( pwell    13      PW         )<br />    .    .<br /> ) ;techLayers<br />) ;layerDefinitions</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1045878"></a><code>techLayerPurposePriorities</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1045880"></a>Defines the display priority order of layer purpose pairs (LPPs).</p>
+<p>
+<a id="pgfId-1045881"></a>Lists the layer-purpose pairs (LPPs) in the order in which they are to be displayed; applications display an LPP on top of the one that precedes it in the list and underneath the one that follows it.</p>
+<p>
+<a id="pgfId-1045882"></a>All routing layers must have the purposes net, pin, and drawing. Abstract Generator adds these automatically if required.</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1045884"></a><code><br /></code>layerDefinitions(<br /><code> techLayerPurposePriorities(<br />
+ ;layers are ordered from the lowest
+ ;to the highest priority
+
+ ;( LayerName&#160;&#160;     Purpose    )<br /> ;( ---------       --------   )<br />  ( nwell           drawing    )<br />  ( nwell           pin        )<br />  ( nwell           net        )<br />  ( nwell           boundary   )<br />
+ ) ;techLayerPurposePriorities
+</code>) ;layerDefinitions</pre>
+</td>
+</tr>
+</tbody></table>
+<h3>
+<a id="pgfId-1045889"></a><a id="58183"></a>Via Definitions</h3>
+<p>
+<a id="pgfId-1044316"></a>A via layer connects two conducting layers.</p>
+<p>
+<a id="pgfId-1045005"></a>On OpenAccess 2.2, information about the via layers is determined from the <code>viaDefs</code> section of the technology file. There are two types of <code>viaDefs</code> &#8212; <code>standardViaDefs</code> and <code>customViaDefs</code>.</p>
+<h4>
+<a id="pgfId-1045034"></a>Standard Vias</h4>
+<p>
+<a id="pgfId-1044984"></a>The <code>standardViaDefs</code> has a unique name and is associated with two layers and a list of via parameters with default values.</p>
+
+<p>
+<a id="pgfId-1045004"></a><strong>Example</strong></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1044998"></a>viaDefs(<br /> standardViaDefs(<br />
+ ;(viaDefName layer1 layer2 (cutLayer cutWidth cutHeight [resistancePerCut])
+ ;(cutRows cutCol (cutSpace))
+ ;(layer1Enc) (layer2Enc) (layer1Offset) (layer2Offset) (origOffset)
+ ;[implant1 (implant1Enc) [implant2 (implant2Enc)]])
+ ;(------------------------------------------------------------------------)
+
+&#160;&#160;( via1Array METAL1 METAL2 (&quot;VIA12&quot;   0.36     0.36)<br />  (1 1     (0.36    0.36))<br />  (0.0 0.0)   (0.0 0.0)    (0.0 0.0)     (0.0 0.0)       (0.0 0.0)<br />  )<br /> ) ;standardViaDefs<br />) ;viaDefs<br /></pre>
+<h4>
+<a id="pgfId-1044301"></a>Custom Vias</h4>
+
+<p>
+<a id="pgfId-1045035"></a>The <code>customViaDefs</code> has a unique name and is associated with a master cellview and two layers. A <code>customViaDef</code> is a special purpose via. To specify a custom via, the cellview on which it is based must exist in the specified library.</p>
+<p>
+<a id="pgfId-1045022"></a><strong>Example</strong></p>
+<p>
+<a id="pgfId-1045044"></a>viaDefs( <br /> customViaDefs(<br /> ;(viaDefName libName cellName viewName layer1     layer2  resistancePerCut)<br /> ;(---------- ------- -------- -------- ------     ------  ----------------)<br /> <br />  ( M2_M1_Via1 lib     M2_M1    via      METAL1     METAL2  4.0 )<br />  ( M1_Poly    lib     M1_Poly  via      POLY       METAL1  4.0 )<br /> ) ;customViaDefs<br />) ;viaDefs<br /></p>
+<p>
+<a id="pgfId-1045008"></a>For more information about <code>viaDefs</code>, see <em><a actuate="user" class="URL" href="../ascitechfile/ascitechfileTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso Technology Data ASCII Files Reference</a></em>.</p>
+
+<h3>
+<a id="pgfId-1034450"></a><a id="27416"></a>Physical Rules</h3>
+
+<p>
+<a id="pgfId-1034667"></a>The <code>spacingRules</code> subclass included in the <code>physicalRules</code> class in the OpenAccess 2.0 technology file is mapped to the <code>spacings</code> subsection in the <code>foundry</code> constraint group in the OpenAccess 2.2 technology file.</p>
+<p>
+<a id="pgfId-1043682"></a>In addition to the <code>spacings</code> section, Abstract Generator refers to the <code>spacingTables</code> section, also in the <code>foundry</code> constraint group.</p>
+
+<p>
+<a id="pgfId-1050820"></a></p>
+<table class="webflareTable" id="#id1050798">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1050800">
+<a id="pgfId-1050800"></a>Constraint Category</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1050802">
+<a id="pgfId-1050802"></a>Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1050804">
+<a id="pgfId-1050804"></a>Example</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1050806"></a><code>spacings</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1050808"></a>Specifies the spacing rules, defining the amount of enclosure required when two layers overlap.</p>
+<p>
+<a id="pgfId-1050809"></a>All routing layers must have <code>minWidth</code> and <code>minSpacing</code> values specified.</p>
+<p>
+<a id="pgfId-1050810"></a>The <code>minWidth</code> constraint specifies the minimum width for any shape on the layer. The <code>minSpacing</code> constraint specifies the minimum spacing between objects on a single layer.</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1050812"></a>
+constraintGroups(
+ ( &quot;foundry&quot;
+&#160;&#160; ;physical constraints<br />   spacings(<br />
+&#160;&#160; ;( constraint layer1 layer2 value )<br />   ;( ---------- ------ ------ ----- )<br />
+&#160;&#160;  ( minWidth   &#8220;Metal1&#8221;      0.3 )<br />    ( minSpacing &#8220;Metal1&#8221;      0.3 )<br />   ) ;spacings<br /> ) ;foundry<br />) ;constraintGroups</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1050814"></a><code>spacingTables</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1050816"></a>Defines the lookup table(s) for the voltage-based rules, layer-purpose rules, and layer-spacing rules. Abstract Generator looks up the spacingTables section for these rules to determine the maximum spacing value to be used for cover blockages and for pin cutouts. </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1050818"></a>
+constraintGroups(
+ ( &quot;foundry&quot;
+&#160;&#160; spacingTables(<br />
+&#160;&#160;;( constraint layer1 [layer2] <br />  ;((index1Definitions<br />  ;[index2Defintions])<br />  ;[defaultValue])<br />  ;(table) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1050819"></a>
+&#160;&#160;( minSpacing  METAL1<br />    (( &quot;width&quot; nil nil ))<br />    ( <br />       0.5 0.333<br />       0.78 0.99<br />    )<br />   ) ;spacingTables<br /> ) ;foundry<br />) ;constraintGroups<br />
+
+</pre>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a id="pgfId-1051088"></a>Abstract Generator does not recognize spacing rules that are defined using <code>LEF58</code> constructs. For example the following is an incorrect definition:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051096"></a>PROPERTY LEF58_SPACING &quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051097"></a>    SPACING 0.077 NOTCHLENGTH 0.140 </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051098"></a>CONCAVEENDS 0.037 ;&quot; ;</pre>
+
+<p>
+<a id="pgfId-1051128"></a>The following definition is correct and is recognized by Abstract Generator:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051130"></a>LAYER M1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051131"></a>    TYPE ROUTING ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051132"></a>    DIRECTION VERTICAL ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051133"></a>    PITCH 0.090000 0.064000 ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051134"></a>    OFFSET 0.045000 0.000000 ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051135"></a>    MINWIDTH 0.032 ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051136"></a>    MAXWIDTH 2 ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051137"></a>    WIDTH 0.032 ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051138"></a>SPACING 0.077 NOTCHLENGTH 0.140 ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051139"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1051140"></a>END M1</pre>
+
+<p>
+<a id="pgfId-1051582"></a>For more information, see <em><a actuate="user" class="URL" href="../ascitechfile/ascitechfileTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso Technology Data ASCII Files Reference</a></em>.</p>
+
+<h3>
+<a id="pgfId-1050602"></a>Application of the Minimum Area Rule for Pins</h3>
+
+<p>
+<a id="pgfId-1050603"></a>In addition to the shape, Abstract Generator respects the <code>minArea</code> and <code>minRectArea</code> technology file constraints while creating pins. The minArea constraint defines the minimum area for all pins; whereas the <code>minRectArea</code> constraint defines the minimum area for only rectangular-shaped pins. </p>
+<p>
+<a id="pgfId-1050604"></a>When both constraints are defined, then the <code>minRectArea</code> constraint applies to all rectangular pins, whereas the <code>minArea</code> constraint applies to all non-rectangular pins.</p>
+<p>
+<a id="pgfId-1050605"></a>If the <code>minRectArea</code> constraint is not defined, then the <code>minArea</code> constraint applies to both, rectangular as well as non-rectangular pins.</p>
+
+<h3>
+<a id="pgfId-1050590"></a><a id="40217"></a>Devices</h3>
+
+<p>
+<a id="pgfId-1044282"></a>The device definitions in OpenAccess 2.2 are translated to via definitions.</p>
+
+<h4>
+<a id="pgfId-1040540"></a>Via Cellviews in OpenAccess</h4>
+
+<p>
+<a id="pgfId-1040546"></a>In OpenAccess, the <code>lef2oa</code> translator generates a via as a layout cellview with the view name <code>via</code> and includes it in the library; For example,</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040565"></a><code><em>library</em></code><code>/</code><code><em>viaName</em></code><code>/via/layout.oa</code></pre>
+<p>
+<a id="pgfId-1040560"></a>It also adds a corresponding <code>customViaDef</code> to the technology file, which refers to the via cellview.</p>
+
+<h3>
+<a id="pgfId-1046764"></a><a id="76714"></a>Voltage Dependent and Layer-Purpose-Based Rules</h3>
+
+<p>
+<a id="pgfId-1046957"></a>In addition to the layer rules, such as minSpacing and minWidth, Abstract Generator now supports the voltage dependent and the layer-purpose-based spacing rules, such as minVoltageSpacing (voltage dependent rule) and minSpacing (layer-purpose-based). These spacing rules are defined in the spacings and spacingTables section of the technology file. While loading a library, Abstract Generator reads the rules defined in the technology file and use the read rules for generating abstracts.</p>
+<p>
+<a id="pgfId-1046767"></a>The option that enables Abstract Generator to read the voltage-based and layer-purpose- based rules is ReadVoltageAndPurposeRules. To enable reading of rules, this option should be set to TRUE. By default, this option is set to FALSE.</p>
+
+<a id="pgfId-1046768"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+absSetOption(&#8221;ReadVoltageAndPurposeRules&#8221; &#8220;TRUE/FALSE&#8221;)</pre>
+
+<p>
+<a id="pgfId-1047084"></a>Abstract generator conforms to the voltage and layer-purpose-based spacing rules while it calculates the spacing value for cover blockage and pin cutouts. The spacing value used for cover blockage is the maximum value that is available from the voltage dependent, layer-purpose-based, and layer-based spacing rules. The same maximum value is used to cut the spacing around pins.</p>
+<p>
+<a id="pgfId-1047085"></a>An example of a voltage dependent and layer-purpose-based spacing rule is given as follows.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1046785"></a>spacingTables(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047124"></a> ;(constraint layer1 layer2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047131"></a> ; ((index1Definitions [index2Definitions) [defaultValue])</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047138"></a> ; (table))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047145"></a> ;(---------------------------------------)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047159"></a>  (minVoltageSpacing&#160;&#160;       &quot;Metal1&quot;&#160;&#160;&#160;&#160;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047160"></a> &#160;&#160;((&quot;voltage&quot;&#160;&#160;&#160;&#160; nil &#160;&#160;&#160;&#160; nil))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047161"></a> &#160;&#160;(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1046788"></a> &#160;&#160; 2.0&#160;&#160;&#160;&#160;3.0</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1046789"></a> &#160;&#160; 5.0&#160;&#160;&#160;&#160;3.5</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1046790"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047166"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047181"></a>  (minVoltageSpacing&#160;&#160;       &quot;Metal2&quot;&#160;&#160;&#160;&#160;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047182"></a> &#160;&#160;((&quot;voltage&quot;&#160;&#160;&#160;&#160; nil &#160;&#160;&#160;&#160; nil))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047183"></a> &#160;&#160;(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047184"></a> &#160;&#160; 2.0&#160;&#160;&#160;&#160;4.0</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047185"></a> &#160;&#160; 5.0&#160;&#160;&#160;&#160;4.5</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047186"></a> &#160;&#160;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047187"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047173"></a> );spacingTables</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047104"></a>spacings(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047105"></a>         ;(minSpacing               (&quot;Metal1&quot; &quot;drawing&quot;)&#160;&#160;&#160;&#160;3.2)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047096"></a>          (minSpacing               (&quot;Metal1&quot; &quot;pin&quot;)&#160;&#160;&#160;&#160; &#160;&#160;  3.4)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047216"></a> &#160;&#160;    (minSpacing               (&quot;Metal2&quot; &quot;drawing&quot;)&#160;&#160;&#160;&#160;3.6)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047217"></a>          (minSpacing               (&quot;Metal2&quot; &quot;pin&quot;)&#160;&#160;&#160;&#160; &#160;&#160;  3.8)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047208"></a> &#160;&#160;  );spacings</pre>
+
+<p>
+<a id="pgfId-1047362"></a>In the above example, the maximum value of the minVoltageSpacing rule for Metal1 layer is 3.5. The minSpacing value of Metal1 layer for purpose drawing and pin is 3.2 and 3.4, respectively. Therefore, the values that are considered to calculate the minSpacing value are 3.2, 3.4, and 3.5. Because 3.5 is the maximum value that is available from the voltage dependent and layer-purpose-based spacing rules for the Metal1 layer, the minSpacing value used for cover blockage and pin cutout is 3.5.</p>
+
+<h3>
+<a id="pgfId-1037367"></a><a id="82005"></a>Specific Requirements for Antenna Calculation</h3>
+
+<p>
+<a id="pgfId-1037369"></a>This section describes the technology file requirements for using the antenna calculation capabilities of Abstract Generator.</p>
+<p>
+<a id="pgfId-1042900"></a>In the technology file on OpenAccess 2.2, the antenna rules have been moved to the <code>antennaModels</code> section of the <code>foundry</code> constraint group. You specify a separate <code>antennaModels</code> group for each oxide type and can specify <code>antennaModels</code> for up to four oxide types. </p>
+<p>
+<a id="pgfId-1054340"></a>If an <code>alternate foundry</code> constraint group (AFCG) is defined in the <code>.cdsenv</code> file, Abstract Generator replaces the <code>foundry</code> constraint group and uses the specified AFCG instead.</p>
+<p>
+<a id="pgfId-1054341"></a>You can specify an AFCG by setting the following environment variable in your <code>.cdsenv</code> file:</p>
+
+<a id="pgfId-1054342"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+cdba.layout AlternateFoundryCG string &quot;<code><em>AFCG_name</em></code>&quot;</pre>
+
+<p>
+<a id="pgfId-1042917"></a>The constraint specifies the antenna ratios for one oxide type corresponding to a specific thickness of the gate oxide. You can specify the thickness value in the <code>techLayerProperties</code> subsection in the <code>layerDefinitions</code> section if antenna side area calculation is to be performed.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1042908"></a>In OpenAccess, you must specify either side antenna values or non-side antenna values. OpenAccess supports only one of them at a time.</div>
+<p>
+<a id="pgfId-1047707"></a>Durin<a id="antennacalc"></a>g the Extract step, the following factors are supported while calculating the antenna value. These factors are defined in the <code>antennaModels</code> section of the foundry constraint group in the technology file.</p>
+<ul><li>
+<a id="pgfId-1047765"></a>(antennaCutFactor) cumulativeRoutingPlusCut<br />
+<a id="pgfId-1047775"></a>If this factor is found in the technology file, the values of the cumulative antenna ratio for <code>CUT</code> layers are dumped in the LEF file. In addition, the values of the cumulative antenna ratio for <code>CUT</code> layers are added to the cumulative antenna ratio values of the metal layers. This factor has a boolean value. By default, this factor is set to <code>nil</code>.</li><li>
+<a id="pgfId-1047788"></a>(antennaMetalFactor) diffArea<br />
+<a id="pgfId-1047852"></a>If this factor is found in the technology file, Abstract Generator uses the value of this factor to calculate the cumulative antenna ratio values for the metal layers. However, if this factor is not found in the technology file, Abstract Generator sets it to the default value 1.0 and calculates the cumulative antenna ratio values. This factor has float values.</li><li>
+<a id="pgfId-1047798"></a>(antennaDiffPlusFactor) diffPlus<br />
+<a id="pgfId-1048474"></a>If this factor is found in the technology file, Abstract Generator uses the value of this factor to calculate the cumulative antenna ratio values for the metal layers. However, if this factor is not found in the technology file, Abstract Generator sets it to the default value 0.0 and calculates the cumulative antenna ratio values. This factor has float values.</li><li>
+<a id="pgfId-1047808"></a>(antennaDiffMinusFactor)) diffMinus<br />
+<a id="pgfId-1049077"></a>If this factor is found in the technology file, Abstract Generator uses the value of this factor to calculate the cumulative antenna ratio values for the metal layers. However, if this factor is not found in the technology file, Abstract Generator sets it to the default value 0.0 and calculates the cumulative antenna ratio values. This factor has float values.</li><li>
+<a id="pgfId-1049078"></a>(antennaDiffAreaReduceFactor) diffAreaReduce<br />
+<a id="pgfId-1049079"></a>If this factor is found in the technology file, Abstract Generator uses the value of this factor to calculate the cumulative antenna ratio values for the metal layers. However, if this factor is not found in the technology file, Abstract Generator sets it to the default value 1.0 and calculates the cumulative antenna ratio values. The values for this factor are given in the form of 1-D table.</li></ul>
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1049080"></a>The formula used to calculate the cumulative antenna ratio values for the metal layers is as follows:</p>
+
+<a id="pgfId-1049081"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+areaCar[j] += (((antennaMetalFactor*cumMetalArea) + (antennaCutFactor*cumCutArea)) * antennaDiffAreaReduceFactor - diffArea * antennaDiffMinusFactor)/(cumGateAreaSharingCharge_[j] + antennaDiffPlusFactor * diffArea);</pre>
+
+<p>
+<a id="pgfId-1049082"></a>For more information, see the following:</p>
+<ul><li>
+<a id="pgfId-1045910"></a><em><a actuate="user" class="URL" href="../ascitechfile/ascitechfileTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso Technology Data ASCII Files Reference</a></em>.</li><li>
+<a id="pgfId-1042885"></a>Antenna calculation in Abstract Generator, see <a href="chap4.html#59090">Antenna Tab</a>.</li><li>
+<a id="pgfId-1042886"></a>Process antenna effects, see Appendix D, &#8220;Calculating and Fixing Process Antenna Violations&#8221; in the <em><a actuate="user" class="URL" href="../lefdefref/lefdefrefTOC.html#firstpage" show="replace" xml:link="simple">LEF/DEF 5.8 Language Reference</a></em>.</li></ul>
+
+
+<p>
+<a id="pgfId-1043050"></a><strong>Example</strong></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1047492"></a>constraintGroups(
+ ( &quot;foundry&quot;
+   antennaModels(
+   ;( model
+   ;( ----
+    ( &quot;default&quot;
+      antenna(
+      ;( ratioName &#160;&#160;&#160;&#160;      layer       value )<br />      ;( --------- &#160;&#160;&#160;&#160;     &#160;&#160;&#160;&#160;----- &#160;&#160;&#160;&#160;     ----- )<br />       ( areaRatio      METAL1 &#160;&#160;&#160;&#160;    0.345                  )<br />       ( diffAreaRatio  METAL1   ((0.45 0.4)(0.55 0.6))  &#160;&#160;&#160;&#160;)
+       ( areaRatio      VIA1      &#160;&#160;&#160;&#160; 0.344                     )<br />       ( diffAreaRatio  VIA1     ((0.44 0.5)(0.57 0.8))  &#160;&#160;&#160;&#160;)
+      ) ;antenna
+
+      cumulativeMetalAntenna(
+      ;( ratioName &#160;&#160;&#160;&#160;          value )<br />      ;( ---------         &#160;&#160;&#160;&#160;  ----- )<br />       ( areaRatio         0.544 &#39;side  &#160;&#160;&#160;&#160;)&#160;&#160;&#160;&#160;
+       ( diffAreaRatio     0.888  &#160;&#160;&#160;&#160;         ) <br />      ) ;cumulativeMetalAntenna
+
+      cumulativeViaAntenna(
+      ;( ratioName  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;value )
+      ;( ---------  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;----- )
+       ( areaRatio         0.654 &#39;side  &#160;&#160;&#160;&#160;  )<br />       ( diffAreaRatio     0.884&#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  )<br />      ) ;cumulativeViaAntenna
+    ) ;default
+
+    ( &quot;second&quot;
+      antenna(
+      ;( ratioName &#160;&#160;&#160;&#160;      layer       value )<br />      ;( --------- &#160;&#160;&#160;&#160;     &#160;&#160;&#160;&#160;----- &#160;&#160;&#160;&#160;     ----- )<br />       ( areaRatio      METAL1 &#160;&#160;&#160;&#160;    1.345 &#39;side                )<br />       ( diffAreaRatio  METAL1   ((0.455 0.4)(0.555 0.65))  &#160;&#160;&#160;&#160;)<br />      ) ;antenna</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1050484"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1050485"></a>antenna( 
+( areaRatio &quot;poly&quot; &lt;value&gt; ) 
+); antenna 
+
+      cumulativeMetalAntenna(
+      ;( ratioName &#160;&#160;&#160;&#160;          value )<br />      ;( ---------         &#160;&#160;&#160;&#160;  ----- )<br />       ( areaRatio         3.564  &#160;&#160;&#160;&#160;          ) <br />       ( diffAreaRatio     7.888  &#160;&#160;&#160;&#160;         ) <br />      ) ;cumulativeMetalAntenna
+
+      cumulativeViaAntenna(
+      ;( ratioName  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;value )
+      ;( ---------  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;----- )
+       ( areaRatio         7.654&#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  )<br />       ( diffAreaRatio     1.884&#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  )<br />      ) ;cumulativeViaAntenna
+    ) ;second
+
+    ( &quot;third&quot;
+      antenna(
+      ;( ratioName &#160;&#160;&#160;&#160;      layer       value )<br />      ;( --------- &#160;&#160;&#160;&#160;     &#160;&#160;&#160;&#160;----- &#160;&#160;&#160;&#160;     ----- )<br />       ( areaRatio      METAL1 &#160;&#160;&#160;&#160;    0.343                      )<br />       ( diffAreaRatio  METAL1   ((0.43 0.3)(0.53 0.6))     &#160;&#160;&#160;&#160;)
+      ) ;antenna
+
+      cumulativeMetalAntenna(
+      ;( ratioName &#160;&#160;&#160;&#160;          value )<br />      ;( ---------         &#160;&#160;&#160;&#160;  ----- )<br />       ( areaRatio         9.765 &#39;side  &#160;&#160;&#160;&#160;)&#160;&#160;&#160;&#160;
+       ( diffAreaRatio     0.188  &#160;&#160;&#160;&#160;         ) <br />      ) ;cumulativeMetalAntenna
+
+      cumulativeViaAntenna(
+      ;( ratioName  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;value )
+      ;( ---------  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;----- )
+       ( areaRatio         3.22  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;                               )<br />       ( diffAreaRatio    ((0.421 0.4)(0.7 0.64)(0.81 0.59))&#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;   )<br />      ) ;cumulativeViaAntenna
+    ) ;third
+
+    ( &quot;fourth&quot;
+      antenna(
+      ;( ratioName &#160;&#160;&#160;&#160;      layer       value )<br />      ;( --------- &#160;&#160;&#160;&#160;     &#160;&#160;&#160;&#160;----- &#160;&#160;&#160;&#160;     ----- )<br />       ( areaRatio      METAL2 &#160;&#160;&#160;&#160;    0.645 &#39;side                )<br />       ( diffAreaRatio  METAL2   ((0.47 0.4)(0.55 0.7))     &#160;&#160;&#160;&#160;)
+      ) ;antenna
+
+      cumulativeMetalAntenna(
+      ;( ratioName &#160;&#160;&#160;&#160;          value )<br />      ;( ---------         &#160;&#160;&#160;&#160;  ----- )<br />       ( areaRatio         0.6                          )&#160;&#160;&#160;&#160;
+       ( diffAreaRatio     ((0.127 0.23)(0.32 0.7))     )&#160;&#160;&#160;&#160;
+      ) ;cumulativeMetalAntenna
+
+      cumulativeViaAntenna(
+      ;( ratioName  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;value )
+      ;( ---------  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;----- )
+       ( areaRatio         9.67  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160; )
+       ( diffAreaRatio     0.684&#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;   )<br />      ) ;cumulativeViaAntenna<br />    ) ;fourth<br />
+&#160;&#160;    ( &quot;factors&quot;<br />      ( cumulativeRoutingPlusCut &quot;METAL1&quot; t )<br />      ( area &quot;METAL1&quot; 0.50 )<br />      ( diffPlus &quot;METAL1&quot; 0.60 )<br />      ( diffMinus &quot;METAL1&quot; 0.70 )<br />      ( diffAreaReduce &quot;METAL1&quot; (<br />      ( 0.0 20.0 )<br />      ( 0.5 30.0 )<br />      ( 1.0 40.0 )<br />    ))<br />    ) ;factors<br />  ) ;antennaModels <br />      <br />   ) ;antennaModels<br /> ) ;foundry<br />) ;constraintGroups</pre>
+<h3>
+<a id="pgfId-1045055"></a><a id="56136"></a>Specific Requirements for Metal Density Calculation</h3>
+
+<p>
+<a id="pgfId-1045360"></a>All layers being abstracted should have a minimum density value specified in the technology file. The maximum density value is al. If a step size exists for both <code>maxDensity</code> and <code>minDensity</code> constraints, the value should match.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1045361"></a>constraintGroups(<br /> (&quot;foundry&quot;<br />   spacings(<br />     (&quot;minDensity&quot; tx_layer g_density)<br />       ...<br />   ) ;spacings<br />  ) ;foundry<br />);constraintGroups<br />
+constraintGroups(
+ (&quot;foundry&quot;
+&#160;&#160; spacingTables(<br />      (&quot;minDensity&quot; tx_layer<br />      ( (&quot;step&quot; nil nil) [ g_defaultValue ] )<br />      (g_table) )<br />   ) ;spacingTables<br />  ) ;foundry<br />);constraintGroups</pre>
+<h3>
+<a id="pgfId-1045359"></a><a id="58874"></a>Specific Technology Requirements for Viewing Data In Layout</h3>
+
+<p>
+<a id="pgfId-1037385"></a>The section describes the technology file requirements for viewing your data using Virtuoso tools.</p>
+<p>
+<a id="pgfId-1037387"></a>Display packets are defined in the display resource file and control how layers appear on your monitor and plotting devices. You assign a display packet to a particular layer-purpose pair and specify other layer display attributes in the <code>techDisplays</code> subsection of the <code>layerDefinitions</code> section.</p>
+<p>
+<a id="pgfId-1038162"></a>For more information, see the following:</p>
+<ul><li>
+<a id="pgfId-1042949"></a> <em><a actuate="user" class="URL" href="../techfileuser/techfileuserTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso Technology Data User Guide</a></em>.</li><li>
+<a id="pgfId-1045966"></a><em><a actuate="user" class="URL" href="../ascitechfile/ascitechfileTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso Technology Data ASCII Files Reference</a></em>.</li></ul>
+
+
+<h3>
+<a id="pgfId-1054071"></a><a id="76610"></a>Specific Requirements for Specifying Place-and-Route Information</h3>
+
+<p>
+<a id="pgfId-1054072"></a>On CDB, the <code>prRules</code> class defined the rules for place-and-route applications.</p>
+<p>
+<a id="pgfId-1054073"></a>The <code>prRules</code> class does not exist in the technology file on OpenAccess. Information stored in the <code>prRules</code> class of the CDB technology file is stored in different locations in the OpenAccess 2.2 technology file. Many of these PR rules are mapped to the <code>LEFDefaultRouteSpec</code> constraint group (or the specified constraint group) in the OpenAccess 2.2 technology file.</p>
+<p>
+<a id="pgfId-1054074"></a>The table below summarizes the mapping between CDB and OpenAccess 2.2 for the sections required by the abstract generator:</p>
+
+<p>
+<a id="pgfId-1054102"></a></p>
+<table class="webflareTable" id="#id1054075">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1054077">
+<a id="pgfId-1054077"></a>CDB Technology File</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1054079">
+<a id="pgfId-1054079"></a>OpenAccess Technology File</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1054081"></a><code>prRoutingLayers</code></p>
+<p>
+<a id="pgfId-1054082"></a>(Specifies the routing direction of layers used for routing)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1054084"></a>A routing layer in the OpenAccess 2.2 technology file must be included in the <code>validLayers</code> constraint of the <code>LEFDefaultRouteSpec</code> constraint group (or the specified constraint group) <em>and</em> have an appropriate <code>functions</code> subsection (with function <code>metal</code> or <code>poly</code>) specified in the <code>layerRules</code> section.</p>
+<p>
+<a id="pgfId-1054088"></a>See <a href="appF.html#26742">LEFDefaultRouteSpec</a>.</p>
+<p>
+<a id="pgfId-1054092"></a>See <a href="appF.html#66835">Layer Functions</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1054094"></a><code>prMastersliceLayers</code></p>
+<p>
+<a id="pgfId-1054095"></a>(Specifies the masterslice layers in order)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1054097"></a>An OpenAccess masterslice layer must be included in the <code>functions</code> subsection of the <code>layerRules</code> section with the function <code>poly</code>.</p>
+<p>
+<a id="pgfId-1054101"></a>See <a href="appF.html#66835">Layer Functions</a>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1054104"></a><a id="26742"></a>LEFDefaultRouteSpec</h4>
+
+<p>
+<a id="pgfId-1054105"></a>In OpenAccess 2.2, <code>routeSpecs</code> are mapped to constraint groups. One of these constraint groups is <code>LEFDefaultRouteSpec </code>(or the specified constraint group), which is supported by the abstract generator.</p>
+<p>
+<a id="pgfId-1054106"></a><strong>Example</strong></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054107"></a>constraintGroups(
+ ( &quot;LEFDefaultRouteSpec&quot;
+    ;layer constraints
+    interconnect(
+    ( validLayers   ( METAL1 METAL2 METAL3 )     )
+    ( validVias     ( M1_M2 M2_M1 )              )
+    ( errorLayers   &#160;&#160;&#160;&#160;GATEOXIDE1&#160;&#160;&#160;&#160;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054108"></a>    ) ;interconnect</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054109"></a>    <br />    ; physical constraints</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054110"></a>    spacings(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054111"></a>      ( minWidth&#160;&#160;&#160;&#160; &#160;&#160;              &quot;METAL1&quot;&#160;&#160;&#160;&#160; 0.6 &#160;&#160;    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054112"></a>      ( minSpacing&#160;&#160;&#160;&#160; &#160;&#160;            &quot;METAL1&quot;&#160;&#160;&#160;&#160; 0.4 &#8217;soft )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054113"></a>      ( minDiagonalWidth        &quot;METAL1&quot;&#160;&#160;&#160;&#160; 0.3 &#160;&#160;    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054114"></a>      ( minDiagonalSpacing      &quot;METAL1&quot;&#160;&#160;&#160;&#160; 0.2 &#160;&#160;    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054115"></a>      ( minWireExtension        &quot;METAL1&quot; 0.1      )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054116"></a>    ) ;spacings</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054117"></a>    <br />    orderedSpacings(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054118"></a>      ( minOppExtension&#160;&#160;&#160;&#160;        &quot;METAL1&quot;  &quot;VIA1&quot;&#160;&#160;&#160;&#160;(0.1 0.2)&#160;&#160;&#160;&#160;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054119"></a>    ) ;orderedSpacings</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054120"></a>    <br />    routingGrids(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054121"></a>     ( horizontalPitch   M1    0.19  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054122"></a>     ( horizontalOffset  M1    0.095 )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054123"></a>     ( verticalPitch     M1    0.19  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054124"></a>     ( verticalOffset    M1    0.095 )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054125"></a>    ) ;routingGrids</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054126"></a>  ) ;LEFDefaultRouteSpec<br />) ;constraintGroups</pre>
+
+<p>
+<a id="pgfId-1054128"></a>For more information about constraint groups, see <em><a actuate="user" class="URL" href="../ascitechconstr/ascitechconstrTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso Technology Data Constraint Reference</a></em>.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1054191"></a>The <code>prMastersliceLayers</code>, <code>prRoutingLayers</code>, <code>prRules</code>, and <code>routeSpecs</code> constructs have been deprecated and will be removed in an upcoming release. Cadence recommends that you remove them from your technology files.</div>
+
+<h4>
+<a id="pgfId-1054130"></a><a id="66835"></a>Layer Functions</h4>
+
+<p>
+<a id="pgfId-1054131"></a>Layer functions are defined in the <code>functions</code> subsection of the <code>layerRules</code> section and are required in OpenAccess to identify the types of layers in the process. If this information is missing for a particular layer, that layer will be missing from any LEF exported by the abstract generator.</p>
+
+<p>
+<a id="pgfId-1054147"></a></p>
+<table class="webflareTable" id="#id1054132">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1054134">
+<a id="pgfId-1054134"></a>Subsection</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1054136">
+<a id="pgfId-1054136"></a>Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1054138">
+<a id="pgfId-1054138"></a>Example</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1054140"></a><code>functions</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1054142"></a>Specifies the layer functions (materials).</p>
+<p>
+<a id="pgfId-1054143"></a>Valid function values include <code>poly</code>, <code>diff</code>, <code>cut</code>, <code>metal</code>, <code>ndiff</code>, <code>pdiff</code>, <code>nplus</code>, <code>pplus</code>, <code>nwell</code>, <code>pwell</code>, <code>li</code>, <code>unknown</code>, <code>recognition</code>.</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1054144"></a><code>diff</code> is a new masterslice layer type in OpenAccess 2.2.</div>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1054146"></a>
+layerRules( 
+ functions(
+ 
+&#160;&#160;;( layer   function   [maskNumber])<br />  ;( -----   --------   ------------)<br /> <br />   ( POLY    &quot;poly&quot;      1          )<br />   ( DIFF    &quot;diff&quot;      2          )<br />   ( CONT    &quot;cut&quot;       3          )<br />   ( M1      &quot;metal&quot;     4          )<br />   ( VIA12   &quot;cut&quot;       5          )<br />   ( NDIFF   &quot;ndiff&quot;     6          )<br />   ( DIFF2   &quot;pdiff&quot;     7          )<br />   ( NPLUS   &quot;nplus&quot;     8          )<br />   ( PPLUS   &quot;pplus&quot;     9          )<br />   ( NWELL   &quot;nwell&quot;     10         )<br />   ( PWELL   &quot;pwell&quot;     11         )<br />   ( LI      &quot;li&quot;        12         )<br /> <br /> );functions <br />);layerRules<br /></pre>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a id="pgfId-1054149"></a>For more information, see <em><a actuate="user" class="URL" href="../ascitechfile/ascitechfileTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso Technology Data ASCII Files Reference</a></em>.</p>
+
+<h2>
+<a id="pgfId-1044475"></a><a id="65555"></a><a id="16940"></a>Potential Issues Related to the Technology File in the Virtuoso Design Environment</h2>
+
+<p>
+<a id="pgfId-1029726"></a>This section highlights some of the problems that you might encounter when using a Virtuoso design environment technology file in Abstract Generator.</p>
+<ul><li>
+<a id="pgfId-1040728"></a><a href="appF.html#74366">Setting DATABASE MICRONS in the Exported LEF</a></li><li>
+<a id="pgfId-1042165"></a><a href="appF.html#27908">Including USEMINSPACING Properties in the Exported LEF</a></li><li>
+<a id="pgfId-1040729"></a><a href="appF.html#50256">Fewer than Two Metal Layers Defined</a></li><li>
+<a id="pgfId-1046047"></a><a href="appF.html#29302">Layer Not Fully Defined</a></li><li>
+<a id="pgfId-1046048"></a><a href="appF.html#27406">Layer with Spacing Rules is a Derived Layer</a></li><li>
+<a id="pgfId-1046052"></a><a href="appF.html#99700">Via Layers Not Fully Defined</a></li><li>
+<a id="pgfId-1030821"></a><a href="appF.html#84986">Upper Layer is Not a Routing Layer</a></li><li>
+<a id="pgfId-1030826"></a><a href="appF.html#33297">Antenna Values Must Not Equal Zero</a></li><li>
+<a id="pgfId-1030841"></a><a href="appF.html#62760">Minimum Width Value is Zero</a></li><li>
+<a id="pgfId-1030846"></a><a href="appF.html#45445">Minimum Width is Not a Multiple of the Manufacturing Grid</a></li><li>
+<a id="pgfId-1030851"></a><a href="appF.html#10118">Minimum Spacing Value Equals Zero</a></li><li>
+<a id="pgfId-1030866"></a><a href="appF.html#25182">Cut Layer Must Have Upper and Lower Routing Layer</a></li><li>
+<a id="pgfId-1046148"></a><a href="appF.html#40503">Specifying Routing Grids</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1050218"></a>Working with Read-<a id="readonlytechfile"></a>Only Technology File</h3>
+
+<p>
+<a id="pgfId-1050227"></a>By default, Abstract Generator creates boundary, pin, and net layer purpose pairs for the layers for which it does not find boundary, pin, and net purposes in the technology file, and then tries to save these layer purpose pairs in the technology file. Because the technology file is read-only, the layer purpose pairs are not saved and a warning message is displayed. </p>
+<p>
+<a id="pgfId-1050229"></a>To enable Abstract Generator to work with the read-only technology file, the <code>ReadOnlyTechnology</code> option has been added to Abstract Generator. When this option is set to <code>TRUE</code>, Abstract Generator does not try to save to the technology file the layer purpose pairs that it creates. </p>
+<p>
+<a id="pgfId-1050231"></a>You can set the <code>ReadOnlyTechnology</code> option to TRUE as follows:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1050232"></a>absSetOption(&#8220;ReadOnlyTechnology&#8221; &#8220;true&#8221;)</pre>
+<h3>
+<a id="pgfId-1050221"></a><a id="74366"></a>Setting DATABASE MICRONS in the Exported LEF</h3>
+
+<p>
+<a id="pgfId-1041999"></a>You can use one of the following methods to set the correct <code>DATABASE</code> <code>MICRONS</code> values in the LEF file exported from Abstract Generator:</p>
+<ul><li>
+<a id="pgfId-1042000"></a>Import a technology LEF file to create a technology file<br />
+<a id="pgfId-1042001"></a>If the imported technology file contains the following statement:<pre class="webflare-pre-block webflare-courier-new" id="#id1042002">
+<a id="pgfId-1042002"></a>UNITS </pre><pre class="webflare-pre-block webflare-courier-new" id="#id1042003">
+<a id="pgfId-1042003"></a>    DATABASE MICRONS 1000  ; </pre><pre class="webflare-pre-block webflare-courier-new" id="#id1042004">
+<a id="pgfId-1042004"></a>END UNITS</pre>
+<a id="pgfId-1042005"></a>it will be used by Abstract Generator and will be output to LEF created by Abstract Generator. In OpenAccess, <code>DATABASE MICRONS</code> is output to the technology LEF only.</li><li>
+<a id="pgfId-1042015"></a>Manually edit the value in the technology file in Virtuoso design environment<br />
+<a id="pgfId-1042025"></a>In OpenAccess, the <code>DATABASE MICRONS</code> value is taken from the database units per user unit (<code>DBUPerUU)</code> value defined in the technology file. A sample of the OpenAccess technology file is shown below.<br />
+<a id="pgfId-1045215"></a>On CDB, the value for <code>DBUPerUU</code> for each cellview type can be stored in multiple locations in the technology file, such as the <code>prop.xx</code> file, attached technology file, and <code>.cdsenv</code> file.<br />
+<a id="pgfId-1045216"></a>On OpenAccess 2.2, the database units per user unit (DBUPerUU) is stored at a single location in the technology file &#8212; <code>viewTypeUnits</code> subsection of the <code>controls</code> section.<br />
+<a id="pgfId-1045217"></a><strong>Example</strong><pre class="webflare-pre-block webflare-courier-new" id="#id1045218">
+<a id="pgfId-1045218"></a>controls(
+<code> viewTypeUnits(
+ ;( viewType            userUnit       dbuperuu           )
+ ;( --------            --------       --------           )
+
+  ( maskLayout          &quot;micron&quot;        2000            )
+  ( schematic           &quot;inch&quot;          160             )
+  ( schematicSymbol     &quot;inch&quot;          160             )
+  ( netlist             &quot;inch&quot;          160             )
+ ) ;viewTypeUnits
+</code>) ;controls</pre>
+<a id="pgfId-1042033"></a>After changing the value of <code>dbuperuu</code>, recompile and save the technology file by using the Technology File Manager. If you want to use this updated technology file in an open Abstract Generator session, you will need to re-open the library to force the application to re-read the updated technology file (<em>File &#8211; Library &#8211; Open</em>).</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1042057"></a><a id="27908"></a>Including USEMINSPACING Properties in the Exported LEF</h3>
+
+<p>
+<a id="pgfId-1042058"></a>Consider a Virtuoso design environment technology file created from a technology LEF file that contains the following:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1042059"></a>USEMINSPACING OBS ON&#160;&#160;; </pre>
+
+<p>
+<a id="pgfId-1042061"></a>Abstract Generator will use this property as described below and will also export it in the abstract LEF.</p>
+<p>
+<a id="pgfId-1042070"></a>Setting <code>USEMINSPACINGOBS</code> on a library affects the distance at which blockages are cut away from pins in the abstract produced by Abstract Generator.</p>
+<ul><li>
+<a id="pgfId-1042072"></a>If <code>USEMINSPACINGOBS</code> is set to <code>TRUE</code> on the technology library, Abstract Generator will use the appropriate minimum spacing table in the technology file for obstruction geometries.</li><li>
+<a id="pgfId-1042073"></a>If <code>USEMINSPACINGOBS</code> = <code>FALSE</code>, which is the default state, Abstract Generator will use the largest <code>minSpacing</code> value in the table for that layer.</li></ul>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1042077"></a>Abstract Generator uses only the pin width value from the spacing table in the technology file. It does not use the length value.</div>
+<p>
+<a id="pgfId-1042156"></a>In OpenAccess, this property appears in the <code>controls</code> section of the technology file.</p>
+
+<h3>
+<a id="pgfId-1040592"></a><a id="50256"></a>Fewer than Two Metal Layers Defined</h3>
+
+<p>
+<a id="pgfId-1029682"></a>To use Abstract Generator, you must have two or more metal routing layers defined in the technology file. Define routing layers in the <code>validLayers</code> constraint in the <code>interconnect</code> constraint category of the <code>LEFDefaultRouteSpec</code> constraint group (or the specified constraint group). In addition, specify an appropriate <code>functions</code> type (for example, <code>metal</code>) in the <code>layerRules</code> section.</p>
+<p>
+<a id="pgfId-1044585"></a>Related error message: <a href="appD.html#46791">ABS-10015</a>.</p>
+
+<h3>
+<a id="pgfId-1029728"></a><a id="29302"></a>Layer Not Fully Defined</h3>
+
+<p>
+<a id="pgfId-1046010"></a>Abstract Generator requires that all the layers used in the process are fully defined in the appropriate technology file sections. Abstract Generator issues the message ABS-217 if a layer is defined in the <code>LEFDefaultRouteSpec</code> (or the specified constraint group) but is not included in the <code>functions</code> subsection in the <code>layerRules</code> section or if the layer function in the <code>functions</code> subsection is not specified as <code>metal</code>.</p>
+<p>
+<a id="pgfId-1046014"></a>Related error message: <a href="appD.html#74293">ABS-10016</a>.</p>
+
+<h3>
+<a id="pgfId-1046016"></a><a id="27406"></a>Layer with Spacing Rules is a Derived Layer</h3>
+
+<p>
+<a id="pgfId-1046028"></a>If a layer has spacing rules that are defined in the <code>spacingTables</code> section of a constraint group, Abstract Generator proceeds depending on the layer definition in other sections of the technology file.</p>
+<ul><li>
+<a id="pgfId-1046037"></a>If the layer is also defined in the <code>functions</code> subsection of the <code>layerRules</code> section, it represents an ideal situation and Abstract Generator proceeds without issuing any messages.</li><li>
+<a id="pgfId-1046058"></a>If the layer is not additionally defined in the <code>functions</code> subsection of the <code>layerRules</code> section, Abstract Generator stops further execution and issues the error message <a href="appD.html#41034">ABS-10021</a>.</li><li>
+<a id="pgfId-1046062"></a>If the layer is also defined in the <code>techDerivedLayers</code> section that is used for defining defined layers and is not defined in the <code>functions</code> subsection of the <code>layerRules</code> section, Abstract Generator issues the info message <a href="appD.html#78389">ABS-10059</a> and proceeds with further execution. You should evaluate this info message carefully because Abstract Generator does not support derived layers. If such a layer is encountered, Abstract Generator will completely ignore the layer; existing shapes on this layer will not be processed and no shapes will be added on this layer.</li></ul>
+
+
+
+<h3>
+<a id="pgfId-1046019"></a><a id="99700"></a>Via Layers Not Fully Defined</h3>
+
+<p>
+<a id="pgfId-1029823"></a>Abstract Generator issues an error if there are no via layers defined in the technology file.</p>
+<p>
+<a id="pgfId-1038982"></a>Via layer information must be defined in <code>standardViaDefs</code> in the <code>viaDefs</code> section of the technology file. Abstract Generator requires fully-specified interlayer connectivity for all masterslice, cut, and routing layers used in the design.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1029797"></a>When you are specifying up and down layers for a specific via (cut) layer, the lower layer must be specified first, then the via layer, and then the upper layer.</div>
+<p>
+<a id="pgfId-1029801"></a><strong>Example</strong></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1044630"></a>viaDefs(<br /> standardViaDefs(<br /> ;(viaDefName layer1 layer2 (cutLayer cutWidth  ;cutHeight [resistancePerCut])<br /> ;(cutRows cutCol (cutSpace))<br /> ;(layer1Enc) (layer2Enc) (layer1Offset)<br /> ;(layer2Offset) (origOffset)<br /> ;[implant1 (implant1Enc) [implant2<br /> ;(implant2Enc)]])<br /> ;(--------------------------------------------------------------------------)<br />
+&#160;&#160;( VIA12  METAL1  METAL2  (&quot;VIA1&quot; 0.2 0.2)<br />   (1 1 (0.0 0.0))<br />   (0.1 0.1) (0.2 0.2) (0.0 0.0) (0.0 0.0)<br />   (0.0 0.0)<br />  )<br />  ( VIA23  METAL2  METAL3  (&quot;VIA2&quot; 0.1 0.2)<br />   (1 1 (0.0 0.0))<br />   (0.1 0.1) (0.2 0.2) (0.0 0.0) (0.0 0.0)<br />   (0.0 0.0)<br />  )<br />  ( VIA23Array  METAL2  METAL3  (&quot;VIA2&quot; 0.2 0.2)<br />   (1 1 (0.3 0.3))<br />   (0.1 0.1) (0.1 0.1) (0.0 0.0) (0.0 0.0)<br />   (0.0 0.0)<br />  )<br /> ) ;standardViaDefs<br />) ;viaDefs</pre>
+
+<p>
+<a id="pgfId-1039017"></a>Related error message: <a href="appD.html#67401">ABS-20007</a>.</p>
+<p>
+<a id="pgfId-1032846"></a>Additionally, each via layer must also be defined in the <code>functions</code> subsection of the <code>layerRules</code> section and must have the function <code>cut</code>.</p>
+<p>
+<a id="pgfId-1036725"></a>Related error message: <a href="appD.html#99706">ABS-10018</a>.</p>
+
+<h3>
+<a id="pgfId-1029962"></a><a id="84986"></a>Upper Layer is Not a Routing Layer</h3>
+
+<p>
+<a id="pgfId-1029973"></a>Abstract Generator issues an error if the upper layer specified in the <code>standardViaDefs</code> section is not a routing layer. You must also specify the layers from lowest to highest, otherwise the technology check might indicate that you have the layers incorrectly ordered.</p>
+<p>
+<a id="pgfId-1044653"></a>Related error message: <a href="appD.html#25912">ABS-10047</a>.</p>
+
+<h3>
+<a id="pgfId-1030085"></a><a id="33297"></a>Antenna Values Must Not Equal Zero</h3>
+
+<p>
+<a id="pgfId-1030094"></a>Abstract Generator checks all antenna values to ensure that their value is not <code>0</code>.</p>
+
+<h3>
+<a id="pgfId-1030227"></a><a id="62760"></a>Minimum Width Value is Zero</h3>
+
+<p>
+<a id="pgfId-1030246"></a>Abstract Generator checks the <code>minWidth</code> values specified for all the metal layers in the design and issues an error message if the value is undefined or is <code>0</code>. The <code>minWidth</code> constraint is defined in the <code>spacings</code> constraint category of the technology file; For example,</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1044659"></a>constraintGroups(<br /> ( &quot;foundry&quot;<br />   ;physical constraints<br />   spacings(<br />
+&#160;&#160; ;( constraint layer1 layer2 value )<br />   ;( ---------- ------ ------ ----- )<br />
+&#160;&#160;  ( minWidth   &#8220;metal1&#8221;      0.5 )<br />    ( minWidth   &#8220;metal2&#8221;      0.5 )<br />   ) ;spacings<br /> ) ;foundry<br />) ;constraintGroups</pre>
+
+<p>
+<a id="pgfId-1032890"></a>Related error message: <a href="appD.html#97314">ABS-10023</a>.</p>
+
+<h3>
+<a id="pgfId-1030284"></a><a id="45445"></a>Minimum Width is Not a Multiple of the Manufacturing Grid</h3>
+
+<p>
+<a id="pgfId-1030298"></a>Abstract Generator issues an error message if the <code>minWidth</code> value is not a multiple of the manufacturing grid for a particular layer. This check is performed only if there is a manufacturing grid value defined in the technology file.</p>
+<p>
+<a id="pgfId-1045245"></a>Set the manufacturing grid value in the <code>controls</code> section and the minimum width value in the <code>spacings</code> constraint category of the technology file; For example,</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1045246"></a><code>controls(<br />  mfgGridResolution(<br />  ( 0.005000 )<br />  ) ;mfgGridResolution<br />) ;controls<br /> <br /></code>constraintGroups(<br /> ( &quot;foundry&quot;<br />   ;physical constraints<br />   spacings(<br />   ;( constraint layer1 layer2 value )<br />   ;( ---------- ------ ------ ----- )<br />    ( minWidth   &#8220;metal1&#8221;      0.5 )<br />    ( minSpacing &#8220;metal1&#8221;      0.5 )<br />    ( minWidth   &#8220;metal2&#8221;      0.5 )<br />    ( minSpacing &#8220;metal2&#8221;      0.5 )<br />   ) ;spacings<br /> ) ;foundry<br />) ;constraintGroups</pre>
+
+<p>
+<a id="pgfId-1032894"></a>Related error message: <a href="appD.html#77671">ABS-10022</a>.</p>
+
+<h3>
+<a id="pgfId-1030310"></a><a id="10118"></a>Minimum Spacing Value Equals Zero</h3>
+
+<p>
+<a id="pgfId-1030313"></a>The minimum spacing rule defines the minimum spacing required between objects on a single layer and is defined in either the <code>spacings</code> or <code>spacingTables</code> constraint category of the <code>foundry</code> constraint group in the technology file.</p>
+<p>
+<a id="pgfId-1036838"></a>Abstract Generator checks the <code>minSpacing</code> value for every metal layer and issues an error message if the value is undefined or is set to <code>0</code>. </p>
+<p>
+<a id="pgfId-1036821"></a>For more information about spacing rules, see <a href="appF.html#27416">Physical Rules</a>.</p>
+<p>
+<a id="pgfId-1032898"></a>Related error message: <a href="appD.html#83656">ABS-10024</a>.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1040911"></a>A manufacturing grid check is also performed here.</div>
+
+<h3>
+<a id="pgfId-1030499"></a><a id="21527"></a><a id="25182"></a>Cut Layer Must Have Upper and Lower Routing Layer</h3>
+
+<p>
+<a id="pgfId-1030528"></a>Abstract Generator checks to ensure that every cut layer used in a default via has both an upper and a lower routing layer. It stops if this check fails.</p>
+<p>
+<a id="pgfId-1044757"></a>Define vias in the <code>LEFDefaultRouteSpec</code> (<code>validVias</code>) and in a custom via definition (<code>customViaDefs</code>) in the <code>viaDefs</code> class. </p>
+<p>
+<a id="pgfId-1044760"></a>Related error message: <a href="appD.html#39571">ABS-10030</a>.</p>
+
+<h3>
+<a id="pgfId-1046149"></a><a id="40503"></a>Specifying Routing Grids</h3>
+
+<p>
+<a id="pgfId-1046196"></a>To enable Abstract to start, it is required to define routing grids in the technology file. If the routing grids are not defined in the technology file, the technology file will not load properly and an error message will be displayed.</p>
+
+<h2>
+<a id="pgfId-1049383"></a><a id="25171"></a>Convertin<a id="marker-1049382"></a>g Common Lisp Files to SKILL or Tcl Format</h2>
+
+<p>
+<a id="pgfId-1037099"></a>This section describes how to convert any Abstract Generator replay files you have from common-lisp format into SKILL or Tcl format.</p>
+<p>
+<a id="pgfId-1051278"></a>Because SKILL is used extensively in the Virtuoso design environment, Cadence recommends that you convert any replay files from common-lisp to SKILL format. To do this, use the Abstract Common Lisp Converter, <code>absclconv</code>.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1037101"></a>
+You should use <code>absclconv</code> to convert only Abstract Generator common-lisp files. It is not designed as a generic common-lisp conversion utility.</div>
+
+<p>
+<a id="pgfId-1037102"></a>The command accepts the following arguments.</p>
+
+<a id="pgfId-1037103"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>absclconv
+{ -tcl | -skill }
+</code><code><em>clFile
+newFile</em></code></pre>
+
+<p>
+<a id="pgfId-1037104"></a>These arguments are described in detail below.</p>
+
+<p>
+<a id="pgfId-1037118"></a></p>
+<table class="webflareTable" id="#id1037105">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037107"></a>-tcl | -skill</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037109"></a>Specifies the format of the file to be generated from the common-lisp file.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037111"></a><span class="webflare-courier-new" style="white-space:pre"><em>clFile</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037113"></a>Specifies the common-lisp file to be converted.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037115"></a><span class="webflare-courier-new" style="white-space:pre"><em>newFile</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037117"></a>Specifies the name of the file to be created in the new format.</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a id="pgfId-1037119"></a>For ease of use, the following shortcuts are provided.</p>
+<ul><li>
+<a id="pgfId-1037120"></a>To convert a common-lisp file directly to SKILL format, use the <code>abscl2il</code> link.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1037121">
+<a id="pgfId-1037121"></a><code>abscl2il </code><code><em>clFile</em></code><code> </code><code><em>ilFile</em></code></pre>
+<a id="pgfId-1037122"></a>This creates a new SKILL file, <span class="webflare-courier-new" style="white-space:pre"><em>ilFile</em></span>, based on the common-lisp file <span class="webflare-courier-new" style="white-space:pre"><em>clFile</em></span>.</li><li>
+<a id="pgfId-1037123"></a>To convert a common-lisp file directly to Tcl format, use the <code>abscl2tcl</code> link.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1037124">
+<a id="pgfId-1037124"></a><code>abscl2tcl </code><code><em>clFile</em></code><code> </code><code><em>tclFile</em></code></pre>
+<a id="pgfId-1037125"></a>This creates a new Tcl file, <span class="webflare-courier-new" style="white-space:pre"><em>tclFile</em></span>, based on the common-lisp file <span class="webflare-courier-new" style="white-space:pre"><em>clFile</em></span>.</li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-1037126"></a>In all cases, if a file with the same name already exists, it is overwritten.</p>
+<p>
+<a id="pgfId-1037127"></a><code>absclconv</code> preserves comments and blank lines, so a command that is commented out in the common-lisp version remains commented-out in the SKILL and Tcl versions. (Note, however, that comments are displayed differently in SKILL and Tcl.)</p>
+<p>
+<a id="pgfId-1037128"></a>The example below shows how a common-lisp command converts to Tcl and SKILL formats.</p>
+
+<p>
+<a id="pgfId-1037142"></a></p>
+<table class="webflareTable" id="#id1037129">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037131">
+<a id="pgfId-1037131"></a>Common-Lisp</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037133">
+<a id="pgfId-1037133"></a>Tcl</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037135">
+<a id="pgfId-1037135"></a>SKILL</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037137"></a><code>(abs:Select &#8220;param1&#8221; &#8220;param2&#8221;)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037139"></a><code>absSelect &#8220;param1&#8221; &#8220;param2&#8221;</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037141"></a><code>absSelect (&#8220;param1&#8221; &#8220;param2&#8221;)</code></p>
+</td>
+</tr>
+</tbody></table>
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="appE.html" id="prev" title="Tutorial: Generate Abstracts by Using the Standalone Abstract Generator">Tutorial: Generate Abstracts b ...</a></em></b><b><em><a href="abstractIX.html" id="nex" title="Index">Index</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

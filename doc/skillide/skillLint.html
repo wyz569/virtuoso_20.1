@@ -1,0 +1,2710 @@
+
+<html><head><title>SKILL Lint</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-08-16" />
+<meta name="CreateTime" content="1597633883" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes SKILL IDE debugger that is used to debug SKILL code" />
+<meta name="DocTitle" content="Cadence SKILL IDE User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="SKILL Lint" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="skillide" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-16" />
+<meta name="ModifiedTime" content="1597633883" />
+<meta name="NextFile" content="appendixB.html" />
+<meta name="Group" content="SKILL Language" />
+<meta name="Platform" content="Cadence Shared Tools" />
+<meta name="PrevFile" content="appendixA.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="SKILL" />
+<meta name="ProductFamily" content="SKILL" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Cadence SKILL IDE User Guide -- SKILL Lint" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="skillideICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="skillideTOC.html">Contents</a></li><li><a class="prev" href="appendixA.html" title="Command Line Interface">Command Line Interface </a></li><li style="float: right;"><a class="viewPrint" href="skillide.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="appendixB.html" title="Writing SKILL Lint Rules">Writing SKILL Lint Rules</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Cadence SKILL IDE User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>B
+<a id="pgfId-1020653"></a></h1>
+<h1>
+<a id="pgfId-1020655"></a><hr />
+<a id="30807"></a>SKILL Lint<hr />
+</h1>
+
+<p>
+<a id="pgfId-1022862"></a><a id="marker-1022859"></a>Cadence<sup>&#174;</sup> SKILL Lint examines SKILL code for possible errors (that went undetected during normal testing) and inefficiencies. SKILL Lint also reports global variables that are not declared locally. SKILL Lint checks a SKILL file or context and reports potential errors and ways to clean up your code. In particular, SKILL Lint is useful for helping programmers find unused local variables, global variables that should be locals, functions that have been passed the wrong number of arguments, and hints about how to improve the efficiency of the user&#8217;s SKILL code. <a id="SKILL_Lint"></a><a id="marker-1022861"></a></p>
+<p>
+<a id="pgfId-1022878"></a>SKILL Lint is usually run over a file. If a context is specified and the file is <code>startup.il</code><a id="marker-1022842"></a><em> </em>or is not specified, all the files ending with *<em>.</em><code>il</code><em> </em>or *.<code>ils</code> in the directory <code>your_install_dir/</code><span class="webflare-courier-new" style="white-space:pre"><em>pvt/etc/context/t_contextName</em></span> are checked. By default, the SKILL Lint output prints to the Command Interpreter Window but can be printed to an output log file as well or instead. SKILL Lint prints messages about the user&#8217;s code starting with the file and function name to which the message pertains. For a list of <h-hot><a actuate="user" class="URL" href="../skillide/skillLint.html#CheckMessages" show="replace" xml:link="simple">SKILL lint messages</a></h-hot>, refer to <em>Cadence SKILL Development Help</em>. Optionally, you can write your own rules (see <a href="appendixB.html#31836">Appendix C, &#8220;Writing SKILL Lint Rules&#8221;</a>).</p>
+<p>
+<a id="pgfId-1020198"></a>See the following sections for more information:</p>
+<ul><li>
+<a id="pgfId-1021802"></a><a href="skillLint.html#40139">SKILL Lint Features</a></li><li>
+<a id="pgfId-1027595"></a><a href="skillLint.html#37670">Message Groups</a></li><li>
+<a id="pgfId-1027621"></a><a href="skillLint.html#14722">Built-In Messages</a></li><li>
+<a id="pgfId-1020624"></a><a href="skillLint.html#34564">SKILL Lint PASS/FAIL and IQ Algorithms</a></li></ul>
+
+
+
+<p>
+<a id="pgfId-1021727"></a>See also <code>sklint</code> in the <em><a actuate="user" class="URL" href="../skdevref/skdevrefTOC.html#firstpage" show="replace" xml:link="simple">Cadence SKILL Development Reference</a></em>.</p>
+
+<h2>
+<a id="pgfId-1021750"></a><a id="40139"></a>SKILL L<a id="sklintfeatures"></a>int Features</h2>
+
+<ul><li>
+<a id="pgfId-1021754"></a><a href="skillLint.html#24255">Checking the Number of Function Arguments</a></li><li>
+<a id="pgfId-1021758"></a><a href="skillLint.html#30831">Checking Function and Global Variable Prefixes</a></li><li>
+<a id="pgfId-1030314"></a><a href="skillLint.html#79084">Checking Redefinition of Write-protected Functions and Macros</a></li><li>
+<a id="pgfId-1021870"></a><a href="skillLint.html#91608">Checking Files Based on the Extension of the Input File (*</a><code>.il</code><a href="skillLint.html#91608">/ *</a><code>.ils</code><a href="skillLint.html#91608">/ *</a><code>.scm</code><a href="skillLint.html#91608">)</a></li><li>
+<a id="pgfId-1021892"></a><a href="skillLint.html#56658">Executing Code Blocks Placed Inside </a><code>inSkill()</code><a href="skillLint.html#56658"> and </a><code>inScheme()</code></li><li>
+<a id="pgfId-1033550"></a><a href="skillLint.html#88565">Checking For Matching Global and Local Variable Names</a></li><li>
+<a id="pgfId-1023640"></a><a href="skillLint.html#16946">Supporting Local Functions in the Scheme Mode</a></li><li>
+<a id="pgfId-1030039"></a><a href="skillLint.html#98681">Supporting Local Arguments in the Scheme Mode</a></li><li>
+<a id="pgfId-1023641"></a><a href="skillLint.html#27517">Supporting Assignment of Functions as Variables in Scheme Mode</a></li><li>
+<a id="pgfId-1023651"></a><a href="skillLint.html#97161">Supporting New SKILL++ Features</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1023643"></a><a id="24255"></a>Checking the Number of Function Arguments</h3>
+
+<p>
+<a id="pgfId-1021761"></a>SKILL Lint checks that the number of arguments passed to a function is correct by verifying it against a previously-known definition of the function from a previous SKILL Lint session or a previous declaration. SKILL Lint delays checking the number of arguments until it finds the procedure definition.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1021762"></a>If a procedure is used in a file before it is defined in the same file and the number of arguments to the procedure changes, it may be necessary to run SKILL Lint twice to get accurate results because the first run will use the previous declaration of the procedure.</div>
+
+<h3>
+<a id="pgfId-1021764"></a><a id="30831"></a>Checking Function and Global Variable Prefixes</h3>
+
+<p>
+<a id="pgfId-1021765"></a>Functions and global variables used in SKILL code are expected to be prefixed with a suitable string. You type these strings in the <em>Package Prefixes</em> field on the <h-hot><a actuate="user" class="URL" href="../skillide/chap4.html#LintOptionsAssistant" show="replace" xml:link="simple">Lint Options form</a></h-hot>.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1021767"></a>By default, strict checking is applied only to the global variables, while functions and Cadence&#8217;s prefixes are checked by specification.</div>
+<p>
+<a id="pgfId-1021768"></a>The naming policy for functions and global variables is as follows:</p>
+<ul><li>
+<a id="pgfId-1021769"></a>Cadence-official SKILL functions and global variables must start with a lower-case character, while three characters and all lower-case are preferred. Cadence-official SKILL functions include those functions that are documented and supported.</li><li>
+<a id="pgfId-1021770"></a>Customer SKILL functions and global variables, and any functions that are not documented or supported, must start with an upper-case character.</li><li>
+<a id="pgfId-1032528"></a>Functions or global variables must start with the required prefix, or the prefix plus an optional lower-case character followed immediately by an upper-case character or an underscore, <code>_</code>. The optional lower-case character must be one of the following: <code>b</code>, <code>c</code>, <code>e</code>, <code>f</code>, <code>i</code>, <code>m</code>, or <code>v</code>. So, the two syntax forms for the functions or variables will be as follows:<ul><li>
+<a id="pgfId-1032536"></a>prefix + ([<code>A-Z</code>] | &#39;<code>_</code>&#39;) + rest</li><li>
+<a id="pgfId-1032529"></a>prefix + (&#39;<code>b</code>&#39; | &#39;<code>c</code>&#39; | &#39;<code>e</code>&#39; | &#39;<code>f</code>&#39; | &#39;<code>i</code>&#39; | &#39;<code>m</code>&#39; | &#39;<code>v</code>&#39;) + ([<code>A-Z</code>], &#39;_&#39;) + rest</li></ul><br />
+<a id="pgfId-1032629"></a><strong>Examples</strong>:<br />
+<a id="pgfId-1032630"></a><code>EV1var</code> is flagged because the character after<code> EV1v</code> &#39;<code>a</code>&#39; is not ([<code>A-Z</code>] | &#39;<code>_</code>&#39;).<br />
+<a id="pgfId-1032631"></a><code>EV1vAr</code> is not flagged because the letter after <code>EV1v</code> &#39;<code>A</code>&#39; is ([<code>A-Z</code>] | &#39;<code>_</code>&#39;).<br />
+<a id="pgfId-1032632"></a><code>EV1v_r</code> is not flagged because the letter after <code>EV1v</code> &#39;_&#39; is in ([<code>A-Z</code>] | &#39;<code>_</code>&#39;).<br />
+<a id="pgfId-1032633"></a><code>EV1d_r</code> is flagged because the letter after<code> EV1</code> &#39;<code>d</code>&#39; is not in the accepted set.<br />
+<a id="pgfId-1032621"></a><code>EV1_ar</code> is not flagged because the letter after <code>EV1</code> is &#39;<code>_</code>&#39;.</li></ul>
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1032437"></a>You can turn off strict checking by disabling the <code>STRICT</code> <h-hot><a actuate="user" class="URL" href="../skillide/skillLint.html#CheckMessages" show="replace" xml:link="simple">message</a></h-hot> such that SKILL Lint checks only global variables beginning with a specified prefix. </p>
+
+<h3>
+<a id="pgfId-1030403"></a>Checking SKILL Operators</h3>
+
+<p>
+<a id="pgfId-1030424"></a>SKILL Lint reports the SKILL operators used in the SKILL code. The following operators are supported in SKILL:</p>
+<ul><li>
+<a id="pgfId-1030462"></a>&amp;&amp;, ||, !, &lt;&lt;, and &gt;&gt; (logical operators)</li><li>
+<a id="pgfId-1030463"></a> ~, &amp;, ~&amp;, ^, ~^, |, and ~| (bitwise logical operators)</li><li>
+<a id="pgfId-1030464"></a> &lt;, &lt;=, &gt;, &gt;=, ==, != (relational operators)</li><li>
+<a id="pgfId-1030501"></a> **, *, /, +, -, ++s, s++, --s, s--, - (arithmetic operators)</li><li>
+<a id="pgfId-1030509"></a>= (assignment operator)</li><li>
+<a id="pgfId-1030510"></a>: (range operator)</li></ul>
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1030294"></a><a id="79084"></a>Checking Redefinition of Write-protected Functions and Macros</h3>
+
+<p>
+<a id="pgfId-1030069"></a>SKILL Lint reports an error if the input name of an expression, <code>defun</code>, <code>defmacro</code>, <code>mprocedure</code>, <code>nprocedure</code>, or <code>procedure</code> is the name of a write-protected function or macro. For example, SKILL Lint will report an error for the following code because <code>lindex</code> is a write-protected function:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1030372"></a>procedure( lindex(@optional (input1 &quot;hello&quot;) (input2 &quot;hi&quot;) )
+
+&#160;&#160;&#160;&#160; printf(&quot;\n%s %s&quot; input1 input2)<br />)</pre>
+
+<h3>
+<a id="pgfId-1030374"></a><a id="91608"></a>Checking Files Based on the Extension of the Input File (*<code>.il</code>/ *<code>.ils</code>/ *<code>.scm</code>)</h3>
+
+<p>
+<a id="pgfId-1032853"></a>SKILL Lint performs SKILL or SKILL++ language checks based on the extension, <code>.il</code>, <code>.ils</code>, or .<code>scm</code> of the input file for <code>sklint. </code>If the extension of the input file is <code>.il</code>, SKILL Lint applies SKILL language checks and if the extension of the input file is <code>.ils</code>, SKILL Lint applies SKILL++ language checks. It also applies SKILL++ language checks for the files with the extension .<code>scm</code>.</p>
+<p>
+<a id="pgfId-1032854"></a>For example, SKILL Lint will report errors if the Scheme code displayed below is included in a file with extension <code>.il</code>.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1021963"></a>defun( f1 (a b)
+&#160;&#160;&#160;&#160;let( (f (lambda((x) x*x)) )
+&#160;&#160;&#160;&#160; (f a+b)<br />)</pre>
+<h3>
+<a id="pgfId-1023187"></a><a id="56658"></a>Executing Code Blocks Placed Inside <code>inSkill()</code> and <code>inScheme()</code></h3>
+
+<p>
+<a id="pgfId-1023515"></a>Before describing the following feature, it is important to reiterate that in the SKILL programming environment, Scheme mode describes SKILL++ code that is saved in a file with the <code>.ils</code> extension or enclosed in the <code>inScheme()</code> function. Similarly, SKILL mode describes SKILL code saved in a file with <code>.il</code> extension or enclosed in the <code>inSkill() </code>function.</p>
+<p>
+<a id="pgfId-1023345"></a>Starting from IC6.1.6, SKILL Lint executes source code placed in the <code>inScheme()</code> function as SKILL++ language code even if the code is placed in a file with extension <code>*.il</code>. For example, SKILL Lint executes the following Scheme code correctly even though it is placed inside a file with extension <code>.il</code></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023190"></a>(let (v1 v2)
+&#160;&#160;&#160;&#160;v1 = v2 = 0
+&#160;&#160;&#160;&#160;<strong>(inScheme vf = (lambda () &#39;some_value)</strong>)<br />) ; &quot;vf&quot; global Scheme function is defined inside inScheme() block</pre>
+
+<p>
+<a id="pgfId-1033394"></a>SKILL Lint understands the code (in Bold) as SKILL++ or Scheme code. In this example, <code>vf</code> is considered a Scheme function and not as a symbol.</p>
+<p>
+<a id="pgfId-1033395"></a>Consider the following example where the code is placed inside a file with extension<code> .ils</code></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033396"></a>(let (v1 v2)
+&#160;&#160;&#160;&#160;v1 = v2 = 0
+&#160;&#160;&#160;&#160;(<strong>inSkill vf = (lambda () &#39;some_value))<br /></strong>) ; &quot;vf&quot; global Scheme function is defined inside inScheme() block</pre>
+
+<p>
+<a id="pgfId-1023194"></a>SKILL Lint understands the code (in <strong>Bold</strong>) as SKILL code. In this example, SKILL Lint will report errors because the expression related to <code>vf</code> function is in basic SKILL, which does not support local functions.</p>
+<p>
+<a id="pgfId-1033457"></a>For details about <code>inSkill</code> and <code>inScheme</code> functions, see <h-hot>SKILL Language Functions</h-hot> in <em>Cadence SKILL Language Reference</em>.</p>
+
+<h3>
+<a id="pgfId-1033458"></a><a id="88565"></a>Checking For Matching Global and Local Variable Names </h3>
+
+<p>
+<a id="pgfId-1033493"></a>SKILL Lint allows the name of a local variable to match that of a global variable and does not report the variable as being used before definition in a <code>let</code> assignment. In the example below, the name <code>VAR</code> has been used for both local and global variables.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033586"></a>(defvar VAR)<br />(defun ListGen (n)<br />(let ( (VAR (cons n VAR)) )<br />(info &quot;The value of local variable VAR: %L\n&quot; VAR)<br />(setq VAR (if (plusp n) (ListGen (sub1 n)) (cdr VAR)))<br />)<br />)<br />(info &quot;Global variable VAR before function call: %L\n&quot; VAR)<br />(info &quot;Function call result: %L\n&quot; (ListGen 3))<br />(info &quot;Global variable VAR after function call: %L\n&quot; VAR)</pre>
+
+<p>
+<a id="pgfId-1033813"></a>After the lint run, the following output is printed in the CIW:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1033823"></a>Global variable VAR before function call: nil<br />The value of local variable VAR: (3)<br />The value of local variable VAR: (2 3)<br />The value of local variable VAR: (1 2 3)<br />The value of local variable VAR: (0 1 2 3)<br />Function call result: (1 2 3)<br />Global variable VAR after function call: nil</pre>
+
+<p>
+<a id="pgfId-1033910"></a>SKILL Lint understands that the variable <code>VAR</code> has been used as both global and local variable and does not report a warning on line 3 for it being used before available in a <code>let</code> assignment.</p>
+
+<h3>
+<a id="pgfId-1033816"></a><a id="16946"></a>Supporting Local Functions in the Scheme Mode</h3>
+
+<p>
+<a id="pgfId-1033817"></a>In the Scheme mode (files with extension <code>.ils</code>), SKILL Lint recognizes local functions to be defined inside <code>let</code>, <code>letseq</code>, <code>letrec</code>, <code>setq</code>, <code>flet</code>, and <code>labels</code> blocks. This means that SKILL Lint allows local functions to be added as a list of valid variables and does not report them as unused variables even if they are not referenced or used. In the example shown below, <code>f1</code> is a local function that is considered as a variable in the <code>let</code> block.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024445"></a>let( ( </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024446"></a>        ((f1 lambda(() println(&quot;f1()&quot;))) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024757"></a>        f1()</pre>
+
+<p>
+<a id="pgfId-1024758"></a>    )</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1033470"></a>SKILL Lint applies special checks for Scheme code (files with extension <code>.ils</code>/.<code>scm</code>), if a function is defined as global function/procedure or if a local function is not defined inside the <code>let</code>, <code>letseq</code>, or <code>letrec</code> block.</div>
+
+<h3>
+<a id="pgfId-1033473"></a><a id="98681"></a>Supporting Local Arguments in the Scheme Mode</h3>
+
+<p>
+<a id="pgfId-1032162"></a>In the Scheme mode, SKILL Lint recognizes local arguments defined via <code>@key</code>, <code>@optional</code>, and <code>@aux</code> options. For example, the following constructs are valid in the Scheme mode:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032163"></a>procedure( test1( arg11 @key (arg12 arg11) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032164"></a>  (progn</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032165"></a>  (println &quot;In function test1&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032166"></a>   (assert arg11 == arg12)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032167"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032168"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032169"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032170"></a>procedure( test2( arg21 @optional (arg22 arg21) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032171"></a>    (progn</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032172"></a>        (println &quot;In function test2&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032173"></a>        (assert arg21 == arg22)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032174"></a>    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032175"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032176"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032177"></a>(defun test11 ( arg111 @key (arg112 arg111) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032178"></a>    (progn</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032179"></a>        (println &quot;In function test11&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032180"></a>        (assert arg111 == arg112)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032181"></a>    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032182"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032183"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032184"></a>(defun test21 ( arg211 @optional (arg212 arg211) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032185"></a>    (progn</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032186"></a>        (println &quot;In function test21&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032187"></a>        (assert arg211 == arg212)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032188"></a>    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032189"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032190"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032191"></a>(inScheme</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032192"></a>(defun smartlessp2 (arg1 arg2 @aux fn)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032193"></a>(cond</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032194"></a>((and (numberp arg1) (numberp arg2)) (setq fn lessp) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032195"></a>((and (symstrp arg1) (symstrp arg2)) (setq fn alphalessp) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032196"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032197"></a>(if fn (fn arg1 arg2) -1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032198"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032199"></a>(defvar A (list 3.0 1.0 &quot;as&quot; &quot;df&quot; 7))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032200"></a>(defvar B (list 1.0 5.0 &quot;asd&quot; &quot;ca&quot; &quot;gh&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032201"></a>(info &quot;Test AUX:\n&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032202"></a>(foreach (itA itB) A B (info &quot;%L &lt; %L: %L\n&quot; itA itB (smartlessp2 itA itB)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1032203"></a>)</pre>
+<h3>
+<a id="pgfId-1029857"></a><a id="27517"></a>Supporting Assignment of Functions as Variables in Scheme Mode</h3>
+
+<p>
+<a id="pgfId-1024376"></a>In the Scheme mode, SKILL Lint recognizes the use of local functions as variables that are defined inside the <code>setq</code>, <code>getq</code>, <code>getd</code>, <code>putd</code>, and <code>defun</code> and <code>procedure</code> blocks. See the following examples.</p>
+<p>
+<a id="pgfId-1023771"></a><strong>Example 1:</strong></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023830"></a>defun( smartless (arg1 arg2)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023832"></a> let( ( (fn nil) (ret nil) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023834"></a>  if( (and (numberp arg1) (numberp arg2))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023836"></a>   then</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023838"></a>    setq( fn lessp)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023840"></a>   else</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023842"></a>    (when (and (symstrp arg1) (symstrp arg2))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023844"></a>     setq( fn alphalessp))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024993"></a>   )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024994"></a>   (when fn (setq ret (fn arg1 arg2)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023856"></a>   ret</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023858"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023860"></a>)</pre>
+
+<p>
+<a id="pgfId-1024498"></a>This example shows the assignment of a variable to a function in a <code>setq</code> block. SKILL Lint considers the function <code>smartless()</code> as a local function in the Scheme mode.</p>
+<p>
+<a id="pgfId-1024146"></a><strong>Example 2:</strong></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024956"></a>inScheme(
+&#160;&#160;&#160;&#160;defun( funcInst (x) x*x)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024959"></a> defstruct( myStruct funcObj)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024961"></a> defclass( testClass () ((intVar @initarg intVar)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024963"></a> let( (obj classObj obj1 (val 3))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024964"></a>   &#160;&#160;&#160;&#160;  setq( obj (make_myStruct ?funcObj funcInst))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024965"></a>   &#160;&#160;&#160;&#160;  setq( classObj (makeInstance &#39;testClass ?intVar obj))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024966"></a>  &#160;&#160;&#160;&#160;  setq( obj1 (getq classObj intVar))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024967"></a> &#160;&#160;&#160;&#160;  info( &quot;%L\n&quot; ((getq obj1 funcObj) val))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024968"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024969"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024089"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024209"></a>In this example, SKILL Lint considers the code <code>((getq obj1 funcObj) val)</code> as a function call.</pre>
+
+<p>
+<a id="pgfId-1024261"></a><strong>Example 3:</strong></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024283"></a>let( ()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024284"></a>     putd( &#39;myFunc1 (getd &#39;exp))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024285"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024286"></a>info( &quot;Result: %L\n&quot; (myFunc1 1 2))</pre>
+
+<p>
+<a id="pgfId-1024272"></a>In this example, the function myFunc1() is defined as a local function that has one argument. SKILL Lint considers <code>myFunc1</code> as a function and checks for the number of input arguments.</p>
+<p>
+<a id="pgfId-1024211"></a><strong>Example 4:</strong></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024212"></a>putd( &#39;myFunc2 exp)</pre>
+
+<p>
+<a id="pgfId-1024223"></a>In this example, SKILL Lint considers <code>exp()</code> as a local function.</p>
+<p>
+<a id="pgfId-1024353"></a>Example 5:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024546"></a>defun( smartlessp (arg1 arg2)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024547"></a>    let( ( fn )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024548"></a>        cond(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024549"></a>            ((and (numberp arg1) (numberp arg2)) (setq fn lessp) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024550"></a>            ((and (symstrp arg1) (symstrp arg2)) (setq fn alphalessp) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024551"></a>        )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024552"></a>        (if fn (fn arg1 arg2) -1)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024553"></a>    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024554"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024555"></a>newFn = smartlessp</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024556"></a>func1 = newFn</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024557"></a>info( &quot;A: %L\n&quot; (newFn (list 1) (list 2)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024558"></a>info( &quot;B: %L\n&quot; (newFn 1 2))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1024694"></a>info( &quot;C: %L\n&quot; (newFn &quot;str2&quot; &quot;str3&quot;))</pre>
+
+<p>
+<a id="pgfId-1024696"></a>In this example, <code>smartlessp() </code>is defined by using the <code>defun() </code>function<code> </code>and then assigned to a variable <code>newFn</code>. In the Scheme mode, SKILL Lint considers the variable, <code>newFn</code>, as a SKILL++ function. This new SKILL++ function, <code>newFn</code>, is further assigned to another variable <code>func1</code>. Therefore, SKILL Lint considers both <code>newFn</code> and <code>func1</code> as SKILL++ functions.</p>
+
+<h3>
+<a id="pgfId-1024342"></a><a id="97161"></a>Supporting New SKILL++ Features</h3>
+
+<p>
+<a id="pgfId-1029667"></a>SKILL Lint supports the following SKILL++ features:</p>
+<ul><li>
+<a id="pgfId-1024823"></a>Recognizes multi-methods or methods specialized on more than one argument, such as the <code>@before</code>, <code>@after</code>, and <code>@around</code> methods.</li><li>
+<a id="pgfId-1024858"></a>Considers an argument of the <code>defmethod</code> beginning with an underscore `_? as a valid character and generates only an <code>info </code>message. In the earlier releases, SKILL Lint treated such arguments as invalid and generated warnings.</li><li>
+<a id="pgfId-1024865"></a>Displays warning messages if functions are incorrectly referenced as SKILL public functions and not as SKILL++ functions.</li><li>
+<a id="pgfId-1032230"></a>Recognizes multiple inheritance of classes created using <code>defclass</code>.</li></ul>
+
+
+
+
+<h2>
+<a id="pgfId-1018418"></a><a id="37670"></a>Message <a id="CheckMessageGroups"></a>Groups</h2>
+
+<p>
+<a id="pgfId-1019565"></a>The message group priority appears as the first token on an output report line. Message group priorities and their associated message group names (which are listed as a hierarchical tree in the <em>Rules</em> section when you select to <h-hot><a actuate="user" class="URL" href="../skillide/chap4.html#CustomizeMessagesForm" show="replace" xml:link="simple">customize message rules</a></h-hot>) are as follows:</p>
+
+<p>
+<a id="pgfId-1018490"></a></p>
+<table class="webflareTable" id="#id1018420">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1018422">
+<a id="pgfId-1018422"></a>Message Group Priority</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1018424">
+<a id="pgfId-1018424"></a>Message Group Name</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027561"></a>ALERT</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027564"></a><code>alert</code><a id="marker-1027563"></a> is the group of messages that are notifications.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018426"></a>ERROR</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018429"></a><code>error</code><a id="marker-1018428"></a> is the group of messages that are considered errors.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018431"></a>ERROR GLOBAL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018434"></a><code>error global</code><a id="marker-1018433"></a> is the list of variables used as both globals and locals.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018436"></a>EXTERNAL GLOBAL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018439"></a><code>external global</code><a id="marker-1018438"></a> is the list of variables defined externally as globals.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018441"></a>FATAL ERROR</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018444"></a><code>fatal error</code><a id="marker-1018443"></a> is the group of messages that prevent SKILL Lint from proceeding with analysis.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018446"></a>HINT</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018449"></a><code>hint</code><a id="marker-1018448"></a> is the group of messages that tell you how to make your code more efficient. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018451"></a>INFORMATION</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018454"></a><code>information</code><a id="marker-1018453"></a> is all general information messages. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018456"></a>INTERNAL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018459"></a><code>internal</code><a id="marker-1018458"></a> is the group of messages about failures of the reporting mechanism.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018461"></a>INTERNAL ALERT</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018464"></a><code>internal alert</code><a id="marker-1018463"></a> is a group of messages to flag SKILL code that will not work in the next release.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018466"></a>PACKAGE GLOBAL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018469"></a><code>package global</code><a id="marker-1018468"></a> is the list of global variables that begin with the package prefix.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018471"></a>SUGGESTION</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018474"></a><code>suggestion</code><a id="marker-1018473"></a> is the group of messages that indicate possible ways you can increase the performance of your code. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018476"></a>UNUSED VARS</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018479"></a><code>unused vars</code><a id="marker-1018478"></a> is the list of local variables that do not appear to be referenced. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018481"></a>WARNING</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018484"></a><code>warning</code><a id="marker-1018483"></a> is the group of messages that are potential errors.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018486"></a>WARNING GLOBAL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1018489"></a><code>warning global</code><a id="marker-1018488"></a> is the list of global variables that do not begin with a package prefix. </p>
+</td>
+</tr>
+</tbody></table>
+<h2>
+<a id="pgfId-1018640"></a><a id="14722"></a>Built-In <a id="CheckMessages"></a>Messages</h2>
+
+<p>
+<a id="pgfId-1027466"></a>The built-in message name appears in parentheses and capitalized on the output report line. You can <h-hot><a actuate="user" class="URL" href="../skillide/chap4.html#CustomizeMessagesForm" show="replace" xml:link="simple">customize which messages</a></h-hot> SKILL Lint reports using the hierarchical tree displayed in the <em>Rules</em> section when you select <em>Custom</em> in the Lint Options form. SKILL core messages and their associated message groups are as follows:</p>
+
+<p>
+<a id="pgfId-1027329"></a></p>
+<table class="webflareTable" id="#id1026425">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1026427">
+<a id="pgfId-1026427"></a>Built-in Message Name</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1026429">
+<a id="pgfId-1026429"></a>Message Group</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1026431">
+<a id="pgfId-1026431"></a>Message Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026434"></a><a id="marker-1026433"></a>ALIAS1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026436"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026438"></a>Both arguments to <code>alias</code> must be symbols.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026441"></a><a id="marker-1026440"></a>APPEND1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026443"></a><code>suggestion</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026445"></a>Consider using <code>cons</code> rather than <code>append</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026448"></a><a id="marker-1026447"></a>ARRAYREF1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026450"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026452"></a>First argument to <code>arrayref</code> must evaluate to an array.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026455"></a><a id="marker-1026454"></a>ASSOC1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026457"></a><code>suggestion</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026459"></a>Consider using <code>assq</code> rather than <code>assoc</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026462"></a><a id="marker-1026461"></a>BACKQUOTE1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026464"></a><code>suggestion</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026466"></a>Possibly replace this backquote with a quote.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026469"></a><a id="marker-1026468"></a>CASE1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026471"></a><code>warning</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026473"></a><code>case</code> can never be reached (after default <code>t</code>).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026476"></a><a id="marker-1026475"></a>CASE2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026478"></a><code>warning</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026480"></a>Symbol <code>t</code> used in <code>case</code> or <code>caseq</code> list.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026483"></a><a id="marker-1026482"></a>CASE3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026485"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026487"></a>Duplicate value in <code>case</code> or <code>caseq</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026490"></a><a id="marker-1026489"></a>CASE5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026492"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026494"></a><code>case</code> can be replaced with <code>caseq</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026497"></a><a id="marker-1026496"></a>CASE6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026499"></a><code>warning</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026501"></a>Quoted value in <code>case</code> or <code>caseq</code> (quote not required).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026504"></a><a id="marker-1026503"></a>CASEQ1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026506"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026508"></a>You must use <code>case</code> rather than <code>caseq</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026511"></a><a id="marker-1026510"></a>CHK1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026513"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026515"></a>Type template string must be last argument.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026518"></a><a id="marker-1026517"></a>CHK2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026520"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026522"></a>Redundant statement.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026525"></a><a id="marker-1026524"></a>CHK3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026527"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026529"></a>Bad argument (must be a symbol).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026532"></a><a id="marker-1026531"></a>CHK4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026534"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026536"></a>Redundant argument template.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026539"></a><a id="marker-1026538"></a>CHK6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026541"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026543"></a>Macros cannot have <code>@key</code>, <code>@rest</code>, or <code>@optional</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026546"></a><a id="marker-1026545"></a>CHK7</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026548"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026550"></a>Nlambda 1st argument must be a symbol.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026553"></a><a id="marker-1026552"></a>CHK8</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026555"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026557"></a>Entry after <code>@rest</code> not allowed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026560"></a><a id="marker-1026559"></a>CHK9</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026562"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026564"></a><code>@rest,</code> or <code>@key, </code>or <code>@optional </code>not followed by an argument.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026567"></a><a id="marker-1026566"></a>CHK10</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026569"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026571"></a>Argument duplicated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026574"></a><a id="marker-1026573"></a>CHK11</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026576"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026578"></a>Nlambda 2nd argument should be a list.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026581"></a><a id="marker-1026580"></a>CHK12</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026583"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026585"></a>Nlambda maximum of two arguments.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026588"></a><a id="marker-1026587"></a>CHK13</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026590"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026592"></a><code>@optional </code>and <code>@key</code> cannot appear in the same argument list.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026595"></a><a id="marker-1026594"></a>CHK14</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026597"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026599"></a>Bad argument, should be a list of length 2.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026602"></a><a id="marker-1026601"></a>CHK15</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026604"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026606"></a>Bad argument, should be a list.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026609"></a><a id="marker-1026608"></a>CHKARGS1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026611"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026613"></a>Function requires at least <span class="webflare-courier-new" style="white-space:pre"><em>n</em></span> arguments. See <a href="skillLint.html#24255">Checking the Number of Function Arguments</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026619"></a><a id="marker-1026618"></a>CHKARGS2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026621"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026623"></a>Function takes at most <span class="webflare-courier-new" style="white-space:pre"><em>n</em></span> arguments. See <a href="skillLint.html#24255">Checking the Number of Function Arguments</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026629"></a><a id="marker-1026628"></a>CHKARGS3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026631"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026633"></a>Key argument repeated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026636"></a><a id="marker-1026635"></a>CHKARGS4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026638"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026640"></a>Unknown key argument.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026643"></a><a id="marker-1026642"></a>CHKARGS5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026645"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026647"></a>No argument following key.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026650"></a><a id="marker-1026649"></a>CHKFORM1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026652"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026654"></a>Number of arguments mismatch.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026657"></a><a id="marker-1026656"></a>CHKFORM2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026659"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026661"></a>Bad statement.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026664"></a><a id="marker-1026663"></a>DBGET1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026666"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026668"></a>Second argument to ~&gt; must be symbol or string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026671"></a><a id="marker-1026670"></a>DEADCODE1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026673"></a><code>warning</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026675"></a>Unreachable code.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026678"></a><a id="marker-1026677"></a>DECLARE1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026680"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026682"></a>Arguments to <code>declare</code> must be calls to <code>arrayref</code>, (e.g. <code>a[10]</code>).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026685"></a><a id="marker-1026684"></a>DECODE1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026687"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026689"></a>You must use <code>case</code> or <code>caseq</code> rather than <code>decode</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026692"></a><a id="marker-1026691"></a>DEF1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026694"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026696"></a>Extra argument passed to <code>def</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026699"></a><a id="marker-1026698"></a>DEF2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026701"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026703"></a>Last argument to <code>def</code> is bad.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026706"></a><a id="marker-1026705"></a>DEF3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026708"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026710"></a><code>nlambda</code>, <code>macro</code>, or <code>alias</code> should not be referenced before it is defined.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026713"></a><a id="marker-1026712"></a>DEF4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026715"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026717"></a><code>nlambda</code>, <code>macro</code>, or <code>alias</code> might be referenced before it is defined.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026720"></a><a id="marker-1026719"></a>DEF5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026722"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026724"></a>Recursive call to an <code>nlambda</code> function or macro is inefficient, call <code>declareNLambda</code> first.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026727"></a><a id="marker-1026726"></a>DEF6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026729"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026731"></a>Definition for function <code>def</code> cannot have more than 255 required or optional arguments.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026734"></a><a id="marker-1026733"></a>DEFSTRUCT1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026736"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026738"></a>Arguments to <code>defstruct</code> must all be symbols.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026741"></a><a id="marker-1026740"></a>EQUAL1&#160;&#160;&#160;&#160;</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026743"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026745"></a>You can replace <code>== nil</code> with <code>!</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026748"></a><a id="marker-1026747"></a>EQUAL2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026750"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026752"></a>You can replace <code>== 1</code> with <code>onep</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026755"></a><a id="marker-1026754"></a>EQUAL3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026757"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026759"></a>You can replace == 0 with <code>zerop</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026762"></a><a id="marker-1026761"></a>EVALSTRING1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026764"></a><code>suggestion</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026766"></a>Consider using <code>stringToFunction</code> when <code>evalstring</code> is called multiple times with the same string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026769"></a><a id="marker-1026768"></a>ExtHead</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026771"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026773"></a>Known/Unknown External functions called.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026776"></a><a id="marker-1026775"></a>ExtKnown</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026778"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026780"></a>Functions called that are defined outside of analyzed code.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026783"></a><a id="marker-1026782"></a>External</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026785"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026787"></a>Functions called that are not defined.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1029786"></a><a id="marker-1029785"></a>External0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1029788"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1029790"></a>Line numbers in which undefined functions were called.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026790"></a><a id="marker-1026789"></a>FOR1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026792"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026794"></a>First argument to <code>for</code> must be a symbol.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1032101"></a><a id="marker-1032148"></a>FnsLocal</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1032103"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1032105"></a>Name of a SKILL++ local function</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1032108"></a><a id="marker-1032107"></a>FnsLocal0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1032110"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1032112"></a>Location of a SKILL++ local function</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026797"></a><a id="marker-1026796"></a>Flow</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026799"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026801"></a>Reports the call flow for the code analyzed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026804"></a><a id="marker-1026803"></a>GET1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026806"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026808"></a>Second argument to -&gt; must be either a symbol or a string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026811"></a><a id="marker-1026810"></a>GET2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026813"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026815"></a>Autoload symbol is no longer used, replace <code>get</code> with <code>isCallable</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026818"></a><a id="marker-1026817"></a>GETD1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026820"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026822"></a><code>getd</code> no longer returns a list, use the function <code>isCallable</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026825"></a><a id="marker-1026824"></a>GO1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026827"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026829"></a><code>go</code> must have only one argument, a symbol.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026832"></a><a id="marker-1026831"></a>GO2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026834"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026836"></a><code>go</code> must be called from within a <code>prog</code> containing a label.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026839"></a><a id="marker-1026838"></a>IF4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026841"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026843"></a><code>then</code> and <code>else</code> required in <code>if</code> construct.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026846"></a><a id="marker-1026845"></a>IF5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026848"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026850"></a><code>else</code> without corresponding <code>then</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026853"></a><a id="marker-1026852"></a>IF6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026855"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026857"></a>Remove the <code>then nil</code> part and convert to <code>unless</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026860"></a><a id="marker-1026859"></a>IF7</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026862"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026864"></a>Remove the <code>else nil</code> part, and part convert to a <code>when</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026867"></a><a id="marker-1026866"></a>IF10</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026869"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026871"></a>Invert the test and replace with <code>unless</code>, as no <code>else</code> part.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026874"></a><a id="marker-1026873"></a>IQ</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026876"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026878"></a>IQ score (best is 100).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026881"></a><a id="marker-1026880"></a>IQ1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026883"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026885"></a>IQ score is based on messages<br />* priority.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026888"></a><a id="marker-1026887"></a>LABEL1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026890"></a><code>warning</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026892"></a>Label not used within.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026895"></a><a id="marker-1026894"></a>LABEL2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026897"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026899"></a>More than one declaration of label within.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026902"></a><a id="marker-1026901"></a>LAMBDA1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026904"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026906"></a>Bad use of <code>lambda</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026909"></a><a id="marker-1026908"></a>LET1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026911"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026913"></a>Incorrect <code>let</code> variable definition.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026916"></a><a id="marker-1026915"></a>LET2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026918"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026920"></a><code>let</code> statement has no local variables, so can be removed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026923"></a><a id="marker-1026922"></a>LET3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026925"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026927"></a>Variable repeated in local variable list for <code>let</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026930"></a><a id="marker-1026929"></a>LET4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026932"></a><code>warning</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026934"></a>Variable used before available in <code>let</code> assignment.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026937"></a><a id="marker-1026936"></a>LET5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026939"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026941"></a><code>let</code> statements will not accept more that 255 local variables in the next release.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026944"></a><a id="marker-1026943"></a>LOAD1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026946"></a><code>warning</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026948"></a>Can&#8217;t evaluate to an <code>include/load</code> file.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026951"></a><a id="marker-1026950"></a>LOOP1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026953"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026955"></a>First argument must be a symbol or list of symbols.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026958"></a><a id="marker-1026957"></a>LoadFile</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026960"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026962"></a>Loading file.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026965"></a><a id="marker-1026964"></a>MEMBER1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026967"></a><code>suggestion</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026969"></a>Consider use of <code>memq</code> rather than <code>member</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026972"></a><a id="marker-1026971"></a>MultiRead</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026974"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026976"></a>Attempt to read file more than once.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026979"></a><a id="marker-1026978"></a>NEQUAL1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026981"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026983"></a>You may be able to replace with !=.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026986"></a><a id="marker-1026985"></a>NEQUAL2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026988"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026990"></a>You can replace with !=.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026993"></a><a id="marker-1026992"></a>NTH1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026995"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1026997"></a>Can replace call to <code>nth</code> with call to <code>car</code>, <code>cadr</code>, and so on.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027000"></a><a id="marker-1026999"></a>NoRead</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027002"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027004"></a>Cannot read file.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027007"></a><a id="marker-1027006"></a>PREFIXES</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027009"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027013"></a>Using package prefixes.See <a href="skillLint.html#30831">Checking Function and Global Variable Prefixes</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027017"></a><a id="marker-1027016"></a>PREFIX1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027019"></a><code>warning</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027021"></a>Prefixes must be all lower case or all upper case. See <a href="skillLint.html#30831">Checking Function and Global Variable Prefixes</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027027"></a><a id="marker-1027026"></a>PRINTF1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027029"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027031"></a>Incorrect number of format elements.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027034"></a><a id="marker-1027033"></a>PRINTF2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027036"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027038"></a>Format argument is not a string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027041"></a><a id="marker-1027040"></a>PROG1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027043"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027045"></a>Bad action statement.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027048"></a><a id="marker-1027047"></a>PROG2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027050"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027052"></a><code>prog</code> construct may be removed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027055"></a><a id="marker-1027054"></a>PROG4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027057"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027059"></a>Variable repeated in local variable list of <code>prog</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027062"></a><a id="marker-1027061"></a>PROG5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027064"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027066"></a><code>prog</code> may be replaced with <code>progn</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027069"></a><a id="marker-1027068"></a>PROG6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027071"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027073"></a>Will need a <code>nil</code> at end if <code>prog</code> removed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027076"></a><a id="marker-1027075"></a>PROGN1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027078"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027080"></a><code>progn</code> with only one statement can be removed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027083"></a><a id="marker-1027082"></a>PUTPROP1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027085"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027087"></a>The autoload symbol is no longer used for functions in contexts.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027090"></a><a id="marker-1027089"></a>REMOVE1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027092"></a><code>suggestion</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027094"></a>Consider using <code>remq</code> rather than <code>remove</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027097"></a><a id="marker-1027096"></a>REP</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027099"></a><code>SKILL lint run message</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027101"></a>Short for report. REP is not based on the content of the program.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027104"></a><a id="marker-1027103"></a>RETURN1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027106"></a><code>warning</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027108"></a>Not within a <code>prog: return</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027111"></a><a id="marker-1027110"></a>RETURN2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027113"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027115"></a>Replace <code>return(nil)</code> with <code>return()</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027118"></a><a id="marker-1027117"></a>SETQ1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027120"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027122"></a>First argument should be a symbol.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027125"></a><a id="marker-1027124"></a>SETQ2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027127"></a><code>suggestion</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027129"></a>Possible variable initialized to <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027132"></a><a id="marker-1027131"></a>SETQ3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027134"></a><code>suggestion</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027136"></a>Assignment to loop variable.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027139"></a><a id="marker-1027138"></a>SKFATAL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027141"></a><code>fatalerror</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027143"></a>Error found from which SKILL Lint cannot proceed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027146"></a><a id="marker-1027145"></a>STATUS1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027148"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027150"></a>Second argument must be <code>t</code> or <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027153"></a><a id="marker-1027152"></a>STATUS2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027155"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027157"></a>Unknown status flag.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027160"></a><a id="marker-1027159"></a>STATUS3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027162"></a><code>warning</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027164"></a>Internal (s) status flag, do not use.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027167"></a><a id="marker-1027166"></a>STRCMP1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027169"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027171"></a>Inefficient use of <code>strcmp</code>. Change to <code>equal</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027174"></a><a id="marker-1027173"></a>STRICT</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027176"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027178"></a>Applying strict checking of global variable prefixes. </p>
+<p>
+<a id="pgfId-1033183"></a>See <a href="skillLint.html#30831">Checking Function and Global Variable Prefixes</a>.</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1033055"></a><code>sklint</code> calls the <code>skIgnoreMessage</code> or <code>skUnignoreMessage</code> SKILL API when you disable or enable strict checking. For more information on these APIs, see <a actuate="user" class="URL" href="../skdevref/lint.html" show="replace" xml:link="simple">Lint Functions</a> in <em>Cadence SKILL Development Reference.</em></div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027184"></a><a id="marker-1027183"></a>STRLEN1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027186"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027188"></a>Inefficient use of <code>strlen</code>. Change to <code>equal &quot;&quot;</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027191"></a><a id="marker-1027190"></a>Checks</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027193"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027195"></a>Applying SKILL Lint checks.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027198"></a><a id="marker-1027197"></a>Form</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027200"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027202"></a>Form being read by SKILL Lint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027205"></a><a id="marker-1027204"></a>Read</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027207"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027209"></a>This message is given for each file that is analyzed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027212"></a><a id="marker-1027211"></a>Unused</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027214"></a><code>unused vars</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027216"></a>Variable does not appear to be referenced.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027219"></a><a id="marker-1027218"></a>VAR</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027221"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027223"></a>Variable used or set in function/file.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027226"></a><a id="marker-1027225"></a>VAR0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027228"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027230"></a>Variable used or set in function/file.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027233"></a><a id="marker-1027232"></a>VAR1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027235"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027237"></a>Attempt to assign a value to <code>t</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027240"></a><a id="marker-1027239"></a>VAR4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027242"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027244"></a>Variables used as both global and local.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027247"></a><a id="marker-1027246"></a>VAR5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027249"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027251"></a>Unrecognized global variables.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027254"></a><a id="marker-1027253"></a>VAR6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027256"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027258"></a>Acceptable global variables.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027261"></a><a id="marker-1027260"></a>VAR7</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027263"></a><code>error global</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027265"></a>Variable used as both a local and global.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027268"></a><a id="marker-1027267"></a>VAR8</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027270"></a><code>warning global</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027272"></a>Global variable does not begin with package prefix.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027275"></a><a id="marker-1027274"></a>VAR9</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027277"></a><code>package global</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027279"></a>Global variable begins with package prefix.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027282"></a><a id="marker-1027281"></a>VAR12</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027284"></a><code>warning</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027286"></a>Argument does not appear to be referenced.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027289"></a><a id="marker-1027288"></a>VAR13</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027291"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027293"></a>Internal global variable does not appear to be referenced.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027296"></a><a id="marker-1027295"></a>VAR14</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027298"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027300"></a>Package global variable does not appear to be referenced.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027303"></a><a id="marker-1027302"></a>VAR15</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027305"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027307"></a>Variable cannot begin with keyword symbol (?).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027310"></a><a id="marker-1027309"></a>VAR15</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027312"></a><code>error</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027314"></a>Variable cannot begin with keyword symbol (?) in the next release.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027317"></a><a id="marker-1027316"></a>VAR16</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027319"></a><code>information</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027321"></a>Variable declaration hides a previous declaration.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027324"></a><a id="marker-1027323"></a>WHEN1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027326"></a><code>hint</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1027328"></a>Invert test and convert to <code>when/unless</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h2>
+<a id="pgfId-1014024"></a><a id="34564"></a>SKILL Lint PASS/FAIL and IQ Algorithms<a id="marker-1014145"></a></h2>
+
+<p>
+<a id="pgfId-1014030"></a>SKILL Lint uses a standard reporting mechanism that supports the following:</p>
+<ul><li>
+<a id="pgfId-1014031"></a>Allows any program to report messages in a consistent manner to the screen and log files.</li><li>
+<a id="pgfId-1014032"></a>Allows messages to be switched off.</li><li>
+<a id="pgfId-1014033"></a>Prints a summary at the end.</li><li>
+<a id="pgfId-1014034"></a>Gives a simple way of changing messages to a different language.</li></ul>
+
+
+
+<p>
+<a id="pgfId-1014035"></a>You can register different message classes&#8212;such as <code>information</code>, <code>warning</code>, and <code>error</code>&#8212;and specify whether generating a message of that class should cause overall failure.</p>
+<p>
+<a id="pgfId-1014036"></a>In SKILL Lint, the following classes cause a failure (status <code>FAIL</code>):</p>
+<ul><li>
+<a id="pgfId-1014037"></a><code>error global</code></li><li>
+<a id="pgfId-1014038"></a><code>error</code></li><li>
+<a id="pgfId-1014039"></a><code>fatal error</code></li><li>
+<a id="pgfId-1014040"></a><code>warning</code><br />
+<a id="pgfId-1014041"></a>A case fails if it has a <code>warning</code>. Even if SKILL Lint does not issue the <code>warning</code> because the message has been switched off, it still appears in the summary scores and the status.</li></ul>
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1014042"></a>A case may have an IQ score of <code>0</code>, but if there is nothing to cause a real failure, the overall status can still be pass.</div>
+<p>
+<a id="pgfId-1014043"></a><a id="IQscore"></a>The IQ score is specific to SKILL Lint and is based on the number of each message class issued, multiplied by a factor for each different class.</p>
+<ul><li>
+<a id="pgfId-1014044"></a>Most classes score zero.</li><li>
+<a id="pgfId-1014045"></a>The following classes score 1:<ul><li>
+<a id="pgfId-1014046"></a><code>warning</code></li><li>
+<a id="pgfId-1014047"></a><code>error</code></li><li>
+<a id="pgfId-1014048"></a><code>error global</code></li><li>
+<a id="pgfId-1014049"></a><code>warning global</code></li><li>
+<a id="pgfId-1014050"></a><code>unused var</code></li><li>
+<a id="pgfId-1014051"></a><code>authorization</code></li></ul></li><li>
+<a id="pgfId-1014052"></a><code>Fatal error</code> scores 100.</li></ul>
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1014053"></a>The final score is the lower of the following two values:</p>
+<ul><li>
+<a id="pgfId-1014054"></a>Value One: The figures are totalled, divided by the number of top level forms (the number of <code>lineread</code> statements performed by SKILL Lint in parsing the files), and multiplied by 20. This figure is subtracted from 100 to give the score. The minimum score is zero.</li><li>
+<a id="pgfId-1014055"></a>Value Two: There is a class called <code>shortListErrors</code>, which consists only of the number of <code>error</code> class messages. This is multiplied by 25 if you run SKILL Lint on a single file or by 10 if you run <a href="../skdevref/skdevrefTOC.html#firstpage">sklint</a> across several files. The result is again subtracted from 100.</li></ul>
+
+<p>
+<a id="pgfId-1014222"></a>There is no cost to the IQ or pass/fail (with respect to the score) for undefined functions.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1034131"></a>If a particular message group is turned off using <code>skIgnoreMessage</code> or <code>?ignoresMessageList</code>, these messages are neither printed by SKILL Lint nor counted in the final score at the end of the run.</div>
+
+<h2>
+<a id="pgfId-1030524"></a>SKILL Lint Environment Variables</h2>
+
+<p>
+<a id="pgfId-1030684"></a>This section describes the environment variables that you can use to set the default values on the Lint Options assistant form. You can set the values of these environment variables in the <code>.cdsenv</code> file. </p>
+
+<h4>
+<a id="pgfId-1030686"></a>prefixes</h4>
+<a id="pgfId-1030681"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Input prefixes string </code>&quot;<code><em> </em></code>&quot;</pre>
+<h4><em>
+<a id="pgfId-1030845"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1030853"></a>Specifies the value for input argument <code>?prefixes</code>, which lists the acceptable package prefixes for functions and global variables.</p>
+<p>
+<a id="pgfId-1030847"></a>Default is empty string. </p>
+
+<h4>
+<a id="pgfId-1030741"></a>depends</h4>
+<a id="pgfId-1030742"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Input depends string </code>&quot;<code><em> </em></code>&quot;</pre>
+<h4><em>
+<a id="pgfId-1030743"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1030875"></a>Specifies the value for input argument <code>?depends</code>, which lists the files that contain macro definitions on which the code under analysis depends.</p>
+<p>
+<a id="pgfId-1030745"></a>Default is empty string. </p>
+
+<h4>
+<a id="pgfId-1030787"></a>codeVersion</h4>
+<a id="pgfId-1030788"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Input codeVersion string </code>&quot;non-applicable&quot;</pre>
+<h4><em>
+<a id="pgfId-1030789"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1030790"></a>Specifies the value for input argument <code>?codeVersion</code>, which signifies the release version of the code SKILL Lint should check.</p>
+<p>
+<a id="pgfId-1030791"></a>Default is <code>non-applicable</code>. </p>
+
+<h4>
+<a id="pgfId-1033992"></a>globals</h4>
+<a id="pgfId-1033993"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Input globals string </code>&quot;&quot; nil</pre>
+<h4><em>
+<a id="pgfId-1033994"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1033995"></a>Specifies the value for input argument <code>?globals</code>, which stores the list of global variables in the code that SKILL Lint should check.</p>
+
+<h4>
+<a id="pgfId-1030913"></a>printToLog</h4>
+<a id="pgfId-1030914"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Output printToLog boolean nil</code></pre>
+<h4><em>
+<a id="pgfId-1030915"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1030916"></a>If set to <code>t</code>, SKILL Lint output is printed to the CIW.</p>
+<p>
+<a id="pgfId-1030917"></a>Default is <code>nil</code>. </p>
+
+<h4>
+<a id="pgfId-1030976"></a>viewOutput</h4>
+<a id="pgfId-1030977"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Output reportFile boolean nil</code></pre>
+<h4><em>
+<a id="pgfId-1030978"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1031015"></a>This environment variable works together with the <code>reportFileName</code> variable. If set to <code>t</code> and the value of <code>reportFileName</code> is a valid path to a log file, SKILL Lint output is shown in a new window as a text file.</p>
+<p>
+<a id="pgfId-1030979"></a>Default is <code>nil</code>. </p>
+
+<h4>
+<a id="pgfId-1031089"></a>outputFile</h4>
+<a id="pgfId-1031115"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Output reportFileName string </code>&quot; &quot;</pre>
+<h4><em>
+<a id="pgfId-1031091"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1031092"></a>Represents the full path to a log file for SKILL Lint output.</p>
+<p>
+<a id="pgfId-1031093"></a>Default is an empty string. </p>
+
+<h4>
+<a id="pgfId-1031277"></a>alert</h4>
+<a id="pgfId-1031278"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Messages alert boolean nil nil</code></pre>
+<h4><em>
+<a id="pgfId-1031279"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1031280"></a>If set to <code>t</code>, SKILL Lint alert messages are shown in the SKILL Lint Output Assistant.</p>
+<p>
+<a id="pgfId-1031281"></a>Default is <code>nil</code>. </p>
+
+<h4>
+<a id="pgfId-1031345"></a>error</h4>
+<a id="pgfId-1031346"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Messages error boolean t</code></pre>
+<h4><em>
+<a id="pgfId-1031347"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1031348"></a>If set to <code>t</code>, SKILL Lint error messages are shown in the SKILL Lint Output Assistant.</p>
+<p>
+<a id="pgfId-1031349"></a>Default is <code>t</code>. </p>
+
+<h4>
+<a id="pgfId-1031365"></a>information</h4>
+<a id="pgfId-1031366"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Messages information boolean t</code></pre>
+<h4><em>
+<a id="pgfId-1031367"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1031368"></a>If set to <code>t</code>, SKILL Lint information messages are shown in the SKILL Lint Output Assistant.</p>
+<p>
+<a id="pgfId-1031369"></a>Default is <code>t</code>. </p>
+
+<h4>
+<a id="pgfId-1031396"></a>internal</h4>
+<a id="pgfId-1031397"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Messages internal boolean t</code></pre>
+<h4><em>
+<a id="pgfId-1031398"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1031399"></a>If set to <code>t</code>, SKILL Lint internal error messages are shown in the SKILL Lint Output Assistant.</p>
+<p>
+<a id="pgfId-1031400"></a>Default is <code>t</code>. </p>
+
+<h4>
+<a id="pgfId-1031421"></a>hint</h4>
+<a id="pgfId-1031422"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Messages hint boolean nil</code></pre>
+<h4><em>
+<a id="pgfId-1031658"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1031659"></a>If set to <code>t</code>, SKILL Lint hint messages are shown in the SKILL Lint Output Assistant.</p>
+<p>
+<a id="pgfId-1031660"></a>Default is <code>nil</code>. </p>
+
+<h4>
+<a id="pgfId-1031443"></a>suggestion</h4>
+<a id="pgfId-1031444"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Messages suggestion boolean t</code></pre>
+<h4><em>
+<a id="pgfId-1031445"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1031446"></a>If set to <code>t</code>, SKILL Lint suggestion messages are shown in the SKILL Lint Output Assistant.</p>
+<p>
+<a id="pgfId-1031447"></a>Default is <code>t</code>. </p>
+
+<h4>
+<a id="pgfId-1031471"></a>warning</h4>
+<a id="pgfId-1031472"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Messages warning boolean t</code></pre>
+<h4><em>
+<a id="pgfId-1031473"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1031474"></a>If set to <code>t</code>, SKILL Lint warning messages are shown in the SKILL Lint Output Assistant.</p>
+<p>
+<a id="pgfId-1031475"></a>Default is <code>t</code>. </p>
+
+<h4>
+<a id="pgfId-1031553"></a>viewMessageFilter</h4>
+<a id="pgfId-1031824"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>sklint.Messages viewMessageFilter string &quot;RedefMsgID Read Form Checks MultiRead LOAD1 ExtKnown FnsDefined FnsLocal FnsLocal0 Flow VAR6 VAR9 VAR10 VAR11 DEF7 SETQ4&quot;</code></pre>
+<h4><em>
+<a id="pgfId-1031555"></a>Description</em></h4>
+
+<p>
+<a id="pgfId-1031668"></a>The string specifies the SKILL Lint message IDs (separated by spaces) that should not be shown in the SKILL Lint Output Assistant.</p>
+<p>
+<a id="pgfId-1031506"></a>Default is <code>RedefMsgID Read Form Checks MultiRead LOAD1 ExtKnown FnsDefined FnsLocal FnsLocal0 Flow VAR6 VAR9 VAR10 VAR11 DEF7 SETQ4</code>. </p>
+<p>
+<a id="pgfId-1032366"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="appendixA.html" id="prev" title="Command Line Interface">Command Line Interface </a></em></b><b><em><a href="appendixB.html" id="nex" title="Writing SKILL Lint Rules">Writing SKILL Lint Rules</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

@@ -1,0 +1,146 @@
+
+<html><head><title>Debugging in Verifier</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="rgirdhar" />
+<meta name="CreateDate" content="2020-09-20" />
+<meta name="CreateTime" content="1600633082" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to use Virtuoso ADE Verifier." />
+<meta name="DocTitle" content="Virtuoso ADE Verifier User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Debugging in Verifier" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="adeVerifier" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-20" />
+<meta name="ModifiedTime" content="1600633082" />
+<meta name="NextFile" content="" />
+<meta name="Group" content="ADE Verifier" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="app_envar.html" />
+<meta name="c_product" content="Virtuoso Analog Design Environment" />
+<meta name="Product" content="Virtuoso Analog Design Environment" />
+<meta name="ProductFamily" content="Virtuoso Analog Design Environment" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso ADE Verifier User Guide -- Debugging in Verifier" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="adeVerifierICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="adeVerifierTOC.html">Contents</a></li><li><a class="prev" href="app_envar.html" title="Verifier Environment Variables">Verifier Environment Variables</a></li><li style="float: right;"><a class="viewPrint" href="adeVerifier.pdf">View/Print PDF</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso ADE Verifier User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>14
+<a id="pgfId-758261"></a></h1>
+<h1>
+<a id="pgfId-758263"></a><hr />
+<a id="43557"></a>Debugging in Verifier<hr />
+</h1>
+
+<p>
+<a id="pgfId-757368"></a>Virtuoso ADE Verifier (Verifier) provides a comprehensive application to perform requirements-driven verification of analog designs. This appendix helps you with information to debug Verifier when you observe incorrect tool behavior. </p>
+
+<h3>
+<a id="pgfId-754632"></a>Purpose</h3>
+
+<p>
+<a id="pgfId-754633"></a>The appendix focuses on the following areas for debugging the tool:</p>
+<ul><li>
+<a id="pgfId-755749"></a>Analyzing the log file.</li><li>
+<a id="pgfId-756910"></a>Using the debug mode.</li><li>
+<a id="pgfId-755750"></a>Analyzing the location of the implementation run summary data and check when they were created.</li><li>
+<a id="pgfId-756029"></a>Debugging performance issues due to frequent check for changes in the implementations.</li></ul>
+
+
+
+
+<h3>
+<a id="pgfId-751764"></a>Audience</h3>
+
+<p>
+<a id="pgfId-752657"></a>This appendix is applicable to all the existing Verifier users having problem with the Verifier functionality or performance.</p>
+
+<h3>
+<a id="pgfId-754602"></a>Overview</h3>
+
+<p>
+<a id="pgfId-754802"></a>As you Verifier user, you might experience some problem or unexpected behavior in the tool. This document helps you to investigate the root cause of such problem areas a bit more. It could lead you to resolve the problems yourself, or you might need to contact Cadence support for further analysis. </p>
+<p>
+<a id="pgfId-755549"></a>Verifier provides many options to debug for incorrect results. This appendix covers the guidelines to be used for debugging the tool. There is an extent to which you can debug the tool else you can contact the Cadence representative. </p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-754935"></a>
+Use the debugging features of Verifier only while investigating the problem and turn them off afterwards. The features might have a negative impact on the tool&#39;s performance and / or might influence the behavior. </div>
+
+<p>
+<a id="pgfId-754942"></a>Apply these generic guidelines to help Cadence representative find and resolve the problem when you contact Cadence support:</p>
+<ul><li>
+<a id="pgfId-754706"></a>Describe the problem as precisely as possible to the Cadence representative. </li><li>
+<a id="pgfId-754671"></a>List the steps to reproduce the issue in detail.</li><li>
+<a id="pgfId-754672"></a>Check if the issue is testcase specific.</li><li>
+<a id="pgfId-754673"></a>Note the ISR stream that has the problem areas. Verify other ISRs as well if the similar issue exists.</li><li>
+<a id="pgfId-754674"></a>Collect log files, snapshots, or videos of the issue.</li><li>
+<a id="pgfId-754675"></a>Provide a testcase possibly.</li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-756056"></a>This appendix includes following sections:</p>
+<ul><li>
+<a id="pgfId-756066"></a><a href="Troubleshooting_appnote.html#42167">Analyzing the Log File</a></li><li>
+<a id="pgfId-756896"></a><a href="Troubleshooting_appnote.html#83919">Using Debug Mode</a></li><li>
+<a id="pgfId-756080"></a><a href="Troubleshooting_appnote.html#71194">Analyzing Implementation Run Summary Data</a></li></ul>
+
+
+
+<h4>
+<a id="pgfId-756876"></a><a id="42167"></a>Analyzing the Log File </h4>
+
+<p>
+<a id="pgfId-756883"></a>The important messages that need immediate attention are displayed in CIW. </p>
+
+<h4>
+<a id="pgfId-756890"></a><a id="83919"></a>Using Debug Mode </h4>
+
+<p>
+<a id="pgfId-755142"></a>The issues related to ADE Assembler might not be visible because they are running in the background when working in ADE Verifier. For debugging such issues, you can run implementations in debug mode in a user interface, where the implementation interface, such as ADE Assembler, gets displayed to monitor the runs. Set the <em>Debug mode, open implementation interface</em> option.</p>
+
+<p>
+<a id="pgfId-755144"></a></p>
+<div class="webflare-div-image">
+<img width="667" height="143" src="images/Troubleshooting_appnote-3.gif" /></div>
+
+<p>
+<a id="pgfId-755145"></a>The ADE Assembler UI remains open for you to debug. You can close it manually.&#160;&#160;</p>
+
+<h4>
+<a id="pgfId-755788"></a><a id="71194"></a>Analyzing Implementation Run Summary Data</h4>
+
+<p>
+<a id="pgfId-755789"></a>To debug the issues related to an implementation run, check the location of the implementation run summary data using the <code>palswhere</code> env var or the related preference option. Ensure that you are able to access the data at the given location. The data exists in the form of XML files at this location.</p>
+
+<p>
+<a id="pgfId-755378"></a></p>
+<div class="webflare-div-image">
+<img width="468" height="106" src="images/Troubleshooting_appnote-4.gif" /></div>
+<h4>
+<a id="pgfId-756152"></a></h4>
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="app_envar.html" id="prev" title="Verifier Environment Variables">Verifier Environment Variables</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

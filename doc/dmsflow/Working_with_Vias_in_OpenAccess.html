@@ -1,0 +1,524 @@
+
+<html><head><title>Working with Vias in OpenAccess</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="leenap" />
+<meta name="CreateDate" content="2020-02-20" />
+<meta name="CreateTime" content="1582191956" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="" />
+<meta name="DocTitle" content="Mixed Signal (MS) Interoperability Guide" />
+<meta name="DocType" content="Methodology" />
+<meta name="FileTitle" content="Working with Vias in OpenAccess" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="dmsflow" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-02-20" />
+<meta name="ModifiedTime" content="1582191956" />
+<meta name="NextFile" content="Using_NanoRoute_To_Route_a_Design_from_Virtuoso.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="" />
+<meta name="PrevFile" content="High_Frequency_Router_In_Innovus.html" />
+<meta name="Product" content="Virtuoso Layout Suite,Innovus," />
+<meta name="ProductFamily" content="Custom IC Design,Digital IC Design," />
+<meta name="ProductVersion" content="20.10" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Mixed Signal (MS) Interoperability Guide -- Working with Vias in OpenAccess" />
+<meta name="Version" content="20.10" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="dmsflow201" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="dmsflowTOC.html">Contents</a></li><li><a class="prev" href="High_Frequency_Router_In_Innovus.html" title="High_Frequency_Router_In_Innovus">High_Frequency_Router_In_Innov ...</a></li><li style="float: right;"><a class="viewPrint" href="dmsflow.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Using_NanoRoute_To_Route_a_Design_from_Virtuoso.html" title="Using_NanoRoute_To_Route_a_Design_from_Virtuoso">Using_NanoRoute_To_Route_a_Des ...</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Mixed Signal (MS) Interoperability Guide<br />Product Version 20.10, March 2020</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <div style="width: 100%; font-size: 32px; text-align: left;               font-weight: bold;">11</div>
+<h1 style="margin: 4px 0 4px;"><span>Working with Vias in OpenAccess</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p></p>
+<div class="toc-macro rbtoc1582191931204">
+<ul class="toc-indentation">
+<li><a href="#WorkingwithViasinOpenAccess-Overview">Overview</a></li>
+<li><a href="#WorkingwithViasinOpenAccess-TypesofViaDefinitions">Types of Via Definitions</a>
+<ul class="toc-indentation">
+<li><a href="#WorkingwithViasinOpenAccess-CustomViasorcustomViaDefs">Custom Vias or customViaDefs</a></li>
+<li><a href="#WorkingwithViasinOpenAccess-VIARULEorstandardViaDefs">VIARULE or standardViaDefs</a></li>
+<li><a href="#WorkingwithViasinOpenAccess-standardViaVariants">standardViaVariants</a></li>
+</ul>
+</li>
+<li><a href="#WorkingwithViasinOpenAccess-HowToolsFindandUseVias">How Tools Find and Use Vias</a>
+<ul class="toc-indentation">
+<li><a href="#WorkingwithViasinOpenAccess-generateVias">generateVias</a></li>
+<li><a href="#WorkingwithViasinOpenAccess-SummaryTable">Summary Table</a></li>
+</ul>
+</li>
+<li><a href="#WorkingwithViasinOpenAccess-Examples">Examples</a>
+<ul class="toc-indentation">
+<li><a href="#WorkingwithViasinOpenAccess-SettingtheLDRSinVirtuosoLayoutSuite">Setting the LDRS in Virtuoso Layout Suite</a></li>
+<li><a href="#WorkingwithViasinOpenAccess-CheckingViasintheTechFile">Checking Vias in the Tech File</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="WorkingwithViasinOpenAccess-Overview">Overview</h2>
+
+<p>The technology libraries of an OpenAccess database can comprise one or multiple files. In other words, the technology information (layers, layerRules, vias, constraintGroups) about a specific process and metal stack can be spread across multiple tech files. This approach is called an Incremental Technology Database (ITDB). The incremental approach is preferred to a single tech file because of the following advantages:</p>
+<ul><li>The libraries can be made more specific. The baseTech file can contain the process information, design rules, and the data specific to Virtuoso users.&#160;Another tech file can contain the technology data specific to a standard cell library. This tech file is primarily used&#160;by Innovus™ Implementation System.&#160;</li><li>In an Incremental Technology Database, it is possible to make changes in one library without having to modify the baseTech library. For example,&#160;a new via or constraint group can be added to a library for Innovus.</li><li>Different tech files can be maintained by different teams. For example, one can be maintained by the digital team and another by the analog team.</li></ul>
+<p>This chapter focuses on different methods for defining vias in the OpenAccess libraries&#160;for use in interoperable flows by both Virtuoso and Innovus. These include&#160;customViaDefs, standardViaDefs, and&#160;standardViaVariants.</p>
+
+<p></p>
+<h2 id="WorkingwithViasinOpenAccess-TypesofViaDefinitions">Types of Via Definitions</h2>
+
+<p>The vias found in a traditional LEF file are fixed or custom vias and used by NanoRoute, the router in Innovus, to implement signal nets. A LEF file can also contain VIARULE vias, which are primarily used by Innovus&#8217;s sroute (special route) router to create the viaarrays used in power routing. When a LEF file is converted into an OpenAccess tech file, the fixed or custom vias are converted to customViaDefs and VIARULE vias are converted to standardViaDefs in the tech file.</p>
+
+<p>A standardViaVariant is an OpenAcess-specific method to create a fixed via from a standardViaDef based on user specifications.</p>
+<h3 id="WorkingwithViasinOpenAccess-CustomViasorcustomViaDefs">Custom Vias or customViaDefs</h3>
+
+<p>In LEF format, a fixed or custom via would read as follows:</p>
+
+<p><code>VIA M11_M10_1x2_VH_S DEFAULT</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Metal10 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RECT -0.105 -0.49 0.105 0.13 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Via10 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RECT -0.09 -0.45 0.09 -0.27 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RECT -0.09 -0.09 0.09 0.09 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Metal11 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RECT -0.14 -0.48 0.14 0.12 ;</code></p>
+
+<p><code>END M11_M10_1x2_VH_S</code></p>
+
+<p>In OpenAccess format, the via would have a cellview that is created during <code>lef2oa</code> translation of the LEF file containing the vias. Therefore, the OpenAccess tech file only points the software to the cellview. Notice there are no dimensions in the customViaDefs in the tech file.</p>
+
+<p><code>customViaDefs(</code></p>
+
+<p><code>&#160;;( viaDefName libName cellName viewName layer1 layer2 resistancePerCut)</code></p>
+
+<p><code>&#160;;( ---------- ------- -------- -------- ------ ------ ----------------)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_1x2_VH_S&#160; gsclib045 M11_M10_1x2_VH_S via Metal10 Metal11 0.0)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_1x2_VH_N&#160; gsclib045 M11_M10_1x2_VH_N via Metal10 Metal11 0.0)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_2x1_VH_W&#160; gsclib045 M11_M10_2x1_VH_W via Metal10 Metal11 0.0)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_2x1_VH_E&#160; gsclib045 M11_M10_2x1_VH_E via Metal10 Metal11 0.0)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_M_SH&#160; gsclib045 M11_M10_M_SH via Metal10 Metal11 0.0)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_M_NH&#160; gsclib045 M11_M10_M_NH via Metal10 Metal11 0.0)</code></p>
+
+<p><code>)</code></p>
+<h3 id="WorkingwithViasinOpenAccess-VIARULEorstandardViaDefs">VIARULE or standardViaDefs</h3>
+
+<p>The VIARULE vias from the LEF file are converted to standardViaDefs in the OpenAccess tech file. standardViaDefs are the foundation for parameterized vias used by routers such as Virtuoso Space-based Router (VSR). standardViaDefs are basically the rules or parameters that tell VSR how to construct a DRC-correct via. It could be a single-cut square via, rectangular via, or multiple flavors of double-cut vias.</p>
+
+<p>The LEF format:</p>
+
+<p><code>VIARULE M2_M1 GENERATE DEFAULT</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Metal1 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ENCLOSURE 0.005 0.03 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Metal2 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ENCLOSURE 0.005 0.03 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Via1 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RECT -0.035 -0.035 0.035 0.035 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;SPACING 0.14 BY 0.14 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RESISTANCE 5 ;</code></p>
+
+<p><code>END M2_M1</code></p>
+
+<p>The OpenAccess format:&#160;</p>
+
+<p><code>&#160;standardViaDefs(</code></p>
+
+<p><code>&#160;;( viaDefName&#160; layer1&#160;&#160;&#160;&#160; layer2&#160;&#160;&#160;&#160; (cutLayer cutWidth cutHeight [resistancePerCut])</code></p>
+
+<p><code>&#160;;&#160;&#160; (cutRows&#160;&#160; cutCol&#160;&#160;&#160;&#160; (cutSpace))</code></p>
+
+<p><code>&#160;;&#160;&#160; (layer1Enc) (layer2Enc)&#160;&#160;&#160; (layer1Offset)&#160; (layer2Offset)&#160; (origOffset)</code></p>
+
+<p><code>&#160;;&#160;&#160; [implant1&#160; (implant1Enc)&#160; [implant2&#160; (implant2Enc) [well/substrate]]])</code></p>
+
+<p><code>&#160;;( -------------------------------------------------------------------------- )</code></p>
+
+<p><code>&#160; ( M2_M1&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160; Metal1&#160;&#160;&#160;&#160;&#160; Metal2&#160;&#160;&#160;&#160;&#160; &#160;&#160; (&quot;Via1&quot; 0.07 0.07 5.0)</code></p>
+
+<p><code>&#160;&#160;&#160;&#160; (1 1 (0.07 0.07))</code></p>
+
+<p><code>&#160;&#160;&#160;&#160; (0.005 0.03)&#160;&#160;&#160; (0.005 0.03)&#160;&#160;&#160; (0.0 0.0)&#160; (0.0 0.0)&#160; (0.0 0.0)</code></p>
+
+<p><code>&#160; )</code></p>
+
+<p><code>)&#160;</code>&#160;&#160;&#160;</p>
+<h3 id="WorkingwithViasinOpenAccess-standardViaVariants">standardViaVariants</h3>
+
+<p>A standardViaVariant is a fixed via that is created from a standardViaDef&#160;based on user specifications. standardViaVariants are useful in situations where&#160;the software, whether in Virtuoso or Innovus, does not create by default the required type of via. A standardViaVariant is similar to a customViaDef in that both are based on user specifications. However, unlike a customViaDef, a standardViaVariant is not added to the technology library (no cellview) and therefore does not need to be maintained like a customViaDef. When a standardViaVariant is employed, its parameters are stored in the design library and not in the technology library.</p>
+
+<p><code>standardViaVariants(</code></p>
+
+<p><code>;( viaVariantName viaDefName (cutLayer cutWidth cutHeight)</code></p>
+
+<p><code>;&#160;&#160; (cutRows&#160;&#160; cutCol&#160; (cutSpace))</code></p>
+
+<p><code>;&#160;&#160; (layer1Enc) (layer2Enc)&#160;&#160;&#160; (layer1Offset)&#160; (layer2Offset)&#160; (origOffset)</code></p>
+
+<p><code>;&#160;&#160; (implant1Enc) (implant2Enc) (cut_pattern) )</code></p>
+
+<p><code>;( -------------------------------------------------------------------------- )</code></p>
+
+<p><code>;this is a shifted 2-cut via to increase 2-cut ratio for a few specific std-cells pins</code></p>
+
+<p><code>&#160; ( M2_M1_shifted_DH_x&#160;&#160;&#160;&#160;&#160;&#160;&#160; M2_M1&#160;&#160;&#160;&#160;&#160;&#160; (&quot;via&quot; 0.26 0.26)</code></p>
+
+<p><code>&#160;&#160;&#160; (2 1 (0.26 0.26))</code></p>
+
+<p><code>&#160;&#160;&#160; (0.04 0.06) (0.11 0.11)&#160;&#160;&#160;&#160; (0.0 0.0)&#160;&#160;&#160;&#160;&#160;&#160; (0.0 0.0)&#160;&#160;&#160;&#160;&#160;&#160; (0.17 0.0)</code></p>
+
+<p><code>&#160;&#160;&#160; (0.0 0.0)&#160;&#160; (0.0 0.0)&#160;&#160;&#160;&#160;&#160;&#160; ((1))</code></p>
+
+<p><code>&#160; )</code></p>
+
+<p><code>&#160; ( M2_M1_shifted_DH_x19&#160;&#160;&#160;&#160;&#160;&#160;&#160; M2_M1&#160;&#160; (&quot;via&quot; 0.26 0.26)</code></p>
+
+<p><code>&#160;&#160;&#160; (2 1 (0.26 0.26))</code></p>
+
+<p><code>&#160;&#160;&#160; (0.04 0.06) (0.11 0.11)&#160;&#160;&#160;&#160; (0.0 0.0)&#160;&#160;&#160; &#160;&#160;&#160;(0.0 0.0)&#160;&#160;&#160;&#160;&#160;&#160; (0.17 0.12)</code></p>
+
+<p><code>&#160;&#160;&#160; (0.0 0.0)&#160;&#160; (0.0 0.0)&#160;&#160;&#160;&#160;&#160;&#160; ((1))</code></p>
+
+<p><code>&#160; )</code></p>
+
+<p><code>&#160; ( M2_M1_shifted_DH_x19ny&#160;&#160;&#160;&#160;&#160;&#160;&#160; M2_M1&#160;&#160;&#160;&#160;&#160;&#160; (&quot;via&quot; 0.26 0.26)</code></p>
+
+<p><code>&#160;&#160;&#160; (2 1 (0.26 0.26))</code></p>
+
+<p><code>&#160;&#160;&#160; (0.04 0.06) (0.11 0.11)&#160;&#160;&#160;&#160; (0.0 0.0)&#160;&#160;&#160;&#160;&#160;&#160; (0.0 0.0)&#160;&#160;&#160;&#160;&#160;&#160; (0.17 -0.12)</code></p>
+
+<p><code>&#160;&#160;&#160; (0.0 0.0)&#160;&#160; (0.0 0.0)&#160;&#160;&#160;&#160;&#160;&#160; ((1))</code></p>
+
+<p><code>&#160; )</code></p>
+
+<p><code>);standardViaVariants</code></p>
+
+<p>Innovus provides the ability to create a set of vias based on standardViaDefs. This potentially eliminates the need for customViaDefs and the overhead they can incur. Some design teams do not like to maintain custom vias and would like the tools to employ only the vias that enhance routability. In Innovus, you can create a set of vias to be used in that session by using the following commands:</p>
+
+<p><code><span class="fontredcadence">setGenerateViaMode</span> <span class="fontredcadence">-auto</span> true</code></p>
+
+<p><code><span class="fontredcadence">generateVias</span></code></p>
+
+<p><code><span class="fontredcadence">setGenerateViaMode</span> <span class="fontredcadence">-auto</span> true</code>&#160;is recommended so that you do not have to issue the <code>genereteVias</code> command after the design is initialized for each session.&#160;If you are debugging or testing out standardViaDefs, you can turn off automatic via generation and execute the following command right after the design is initialized:</p>
+
+<p><code><span class="fontredcadence">generateVias</span></code></p>
+
+<p></p>
+<h2 id="WorkingwithViasinOpenAccess-HowToolsFindandUseVias">How Tools Find and Use Vias</h2>
+
+<p>It is important to know how the Cadence software finds and utilizes some or all of the above vias. ConstraintGroups in the tech file, such as the LEFDefaultRouteSpec (LDRS), guide the tools in determining which vias to use.&#160;</p>
+
+<p><strong>Note</strong>: You can use the following command to specify the specific constraint group you want to use in case of ITDB:</p>
+
+<p><code><span class="fontredcadence">set</span> init_oa_default_rule {LEFDefaultRouteSpec_gpdk045}</code></p>
+
+<p>The following OpenAccess tech file example contains a&#160;<code>validVia</code>&#160;list. In this example, the library specifies a combination of standardViaDefs and customViaDefs to be available to Innovus. The list of standardViaDefs is optional.&#160;</p>
+
+<p><code>constraintGroups(</code></p>
+
+<p><code>;( group&#160;&#160;&#160;&#160;&#160;&#160; [override] )</code></p>
+
+<p><code>;( -----&#160;&#160;&#160;&#160;&#160;&#160; ---------- )</code></p>
+
+<p><code>&#160;( &quot;LEFDefaultRouteSpec_gsclib045&quot;&#160;&#160;&#160;&#160; nil&#160;&#160;&#160; &quot;LEFDefaultRouteSpec&quot;</code></p>
+
+<p><code>interconnect(</code></p>
+
+<p><code>&#160;&#160;&#160;&#160; ( validLayers&#160;&#160; (Metal1&#160; Metal2&#160; Metal3&#160; Metal4&#160; Metal5&#160; Metal6&#160; Metal7&#160; Metal8&#160; Metal9&#160; Metal10&#160; Metal11&#160; ) )</code></p>
+
+<p><code>&#160;&#160;&#160;&#160; ( validVias&#160;&#160;&#160;&#160; (M2_M1&#160; M3_M2&#160; M4_M3&#160; M5_M4&#160; M6_M5&#160; M7_M6&#160; M8_M7&#160; M9_M8&#160; M10_M9&#160; M11_M10&#160; M2_M1_HV&#160; M2_M1_VV&#160; M2_M1_VH&#160; M2_M1_HH&#160; M2_M1_2x1_HV_E&#160; M2_M1_2x1_HV_W&#160; M2_M1_1x2_HV_N&#160; M2_M1_1x2_HV_S&#160; M3_M2_VH&#160; M3_M2_HH&#160; M3_M2_HV&#160; M3_M2_VV&#160; M3_M2_M_NH&#160; M3_M2_M_SH&#160; M3_M2_2x1_VH_E&#160; M3_M2_2x1_VH_W&#160; M3_M2_1x2_VH_N&#160; M3_M2_1x2_VH_S&#160; M4_M3_HV&#160; M4_M3_VV&#160; M4_M3_VH&#160; M4_M3_HH&#160; M4_M3_M_EV&#160; M4_M3_M_WV&#160; M4_M3_2x1_HV_E&#160; M4_M3_2x1_HV_W&#160; M4_M3_1x2_HV_N&#160; M4_M3_1x2_HV_S&#160; M5_M4_VH&#160; M5_M4_HH&#160; M5_M4_HV&#160; M5_M4_VV&#160; M5_M4_M_NH&#160; M5_M4_M_SH&#160; M5_M4_2x1_VH_E&#160; M5_M4_2x1_VH_W&#160; M5_M4_1x2_VH_N&#160; M5_M4_1x2_VH_S&#160; M6_M5_HV&#160; M6_M5_VV&#160; M6_M5_VH&#160; M6_M5_HH&#160; M6_M5_M_EV&#160; M6_M5_M_WV&#160; M6_M5_2x1_HV_E&#160; M6_M5_2x1_HV_W&#160; M6_M5_1x2_HV_N&#160; M6_M5_1x2_HV_S&#160; M7_M6_VH&#160; M7_M6_HH&#160; M7_M6_HV&#160; M7_M6_VV&#160; M7_M6_M_NH&#160; M7_M6_M_SH&#160; M7_M6_2x1_VH_E&#160; M7_M6_2x1_VH_W&#160; M7_M6_1x2_VH_N&#160; M7_M6_1x2_VH_S&#160; M8_M7_HV&#160; M8_M7_VV&#160; M8_M7_VH&#160; M8_M7_HH&#160; M8_M7_M_EV&#160; M8_M7_M_WV&#160; M8_M7_2x1_HV_E&#160; M8_M7_2x1_HV_W&#160; M8_M7_1x2_HV_N&#160; M8_M7_1x2_HV_S&#160; M9_M8_VH&#160; M9_M8_HH&#160; M9_M8_HV&#160; M9_M8_VV&#160; M9_M8_M_NH&#160; M9_M8_M_SH&#160; M9_M8_2x1_VH_E&#160; M9_M8_2x1_VH_W&#160; M9_M8_1x2_VH_N&#160; M9_M8_1x2_VH_S&#160; M10_M9_HV&#160; M10_M9_VV&#160; M10_M9_VH&#160; M10_M9_HH&#160; M10_M9_2x1_HV_E&#160; M10_M9_2x1_HV_W&#160; M10_M9_1x2_HV_N&#160; M10_M9_1x2_HV_S&#160; M11_M10_VH&#160; M11_M10_HH&#160; M11_M10_HV&#160; M11_M10_VV&#160; M11_M10_M_NH&#160; M11_M10_M_SH&#160; M11_M10_2x1_VH_E&#160; M11_M10_2x1_VH_W&#160; M11_M10_1x2_VH_N&#160; M11_M10_1x2_VH_S&#160; ) )</code></p>
+
+<p><code>&#160;&#160;&#160; ) ;interconnect</code></p>
+
+<p><code>&#160; ) ;LEFDefaultRouteSpec_gpdk045</code></p>
+<ul><li>If you want the software to use only standardViaDefs from the tech file, then the names of the standardViaDefs are optional. Do not add the customViaDefs to the LDRS. If no standardViaDefs are listed, the software will determine the correct design rules from the tech file and build vias accordingly.<ul><li>If a standardViaDef name is specified in the list, any standardViaVariant that is based on the specific standardViaDef that exists in the tech file will be generated and marked as a DEFAULT via in Innovus, which allows them to be used by NanoRoute.&#160;This could lead to confusion, so always leave the list empty unless you have one or both of the following two scenarios.<ol><li>If the library uses customViaDefs, the names of all the customViaDefs you want the software to consider, must be listed in the validVia list.</li><li>For standardViaVariants, you would also need to list the name of each variant you would like the software to consider during routing.</li></ol></li></ul></li><li>You can verify the vias that Innovus will use by writing out a technology lef from Innovus using the&#160;<code><span class="fontredcadence">dumpOutVias</span></code>&#160;command after the design is initialized and via generation is on. All usable vias in the LEF file that is written out will have the DEFAULT keyword.</li></ul>
+<p>Notice that the LDRS has a validVia list. Here are a few guidelines for creating the validVia list:</p>
+<ul><li>If the library only uses standardViaDefs, there is no need to add the names of the customViaDefs to the LDRS. The software will determine the correct standardViaDefs when the tech file is read.</li><li>If the library uses customViaDefs, the names of all the customViaDefs you want the software to consider must be listed in the validVia list</li><li>For standardViaVariants, you must list the standardViaDef name the variant is based on or the name of the variant itself for the via to be used by Innovus.</li></ul>
+<p>You can verify the vias that Innovus will use by writing out a technology lef from Innovus after the design is initialized and via generation is on. All usable vias will have the DEFAULT keyword.</p>
+
+<p><strong>Note</strong>: All vias in the tech file will be written out of Innovus into the LEF file. Only those with the DEFAULT keyword will be used by NanoRoute.</p>
+<h3 id="WorkingwithViasinOpenAccess-generateVias"><span class="fontredcadence">generateVias</span></h3>
+
+<p>The number of vias created by&#160;<code><span class="fontredcadence">generateVias</span></code>&#160;varies depending on the process technology used. The more metal layers in a process stack, the more vias you will get. The software will attempt to create as many vias as NanoRoute would use. These include single-cut, rotated single-cut, double-cut, and rotated double-cut vias and extensions in the horizontal and vertical directions. However, at this time the software does not look at the standard cell library for pin access. In some libraries, the pins on certain standard cells are off the routing grid and/or have metal shapes that are both on grid and off grid. This becomes important when trying to swap in double-cut vias because there might not be enough room to put dcut vias on adjacent pins or offgrid pins that come close to on grid routes. This is typically where a customViaDef comes in handy. A standardViaVariant can also be used for this purpose. Again, a standarViaVariant does not have the tech file overhead of a customVia.</p>
+
+<p>The software will generate a set of vias based on standardViaDefs and standardViaVariants, and sometimes even customViaDefs. If a customViaDef in the tech file has the same geometry as a via that&#160;<code><span class="fontredcadence">generateVias</span></code>&#160;would normally create, the software simply maps the customViaDef into the database as opposed to creating a new via. Even if the customViaDef is not in the LDRS, the software will still map the customViaDef under the above circumstances.</p>
+
+<p>If you define a standardViaVariant that has the same geometry as a via that&#160;<code><span class="fontredcadence">generateVias</span></code>&#160;would normally create, then the via added to the design library will have the name of the standardViaVariant and not the default name of TECH_RULE_via.</p>
+
+<p><span class="fontredcadence"><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For the latest syntax of <code>generateVias</code> command and <code>setGenerateViaMode</code> commands, use the <code>-help</code> parameter of these commands at the Innovus console as follows:</p>
+
+<p><code>innovus 28&gt; generateVias -help</code></p>
+
+<p><code>innovus 29&gt; setGenerateViaMode -help&#160;</code></p>
+
+<p>For more information on these commands, refer to the <em>Innovus Text Command Reference</em>&#160;or use the <code>man</code> command at the Innovus console:</p>
+
+<p><code>innovus 30&gt; man generateVias</code></p>
+
+<p><code>innovus 31&gt; man setGenerateViaMode</code></p>
+</div>
+</div>
+</span></p>
+<h3 id="WorkingwithViasinOpenAccess-SummaryTable">Summary Table</h3>
+
+<p>The following table summarizes what to include in the valid via list for different via definition combinations in LDRS:</p>
+<div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="confluenceTh">ViaType in LDRS</th><th class="confluenceTh">Valid Via List</th><th class="confluenceTh">generateVias in Innovus</th><th class="confluenceTh">VSR Behavior</th></tr>
+<tr><th class="confluenceTh">customViaDefs only</th><td class="confluenceTd">List all customViaDefs you want NanoRoute to consider</td>
+<td class="confluenceTd">Not used</td>
+<td class="confluenceTd">Only customVias will be available if you choose the same LDRS</td>
+</tr>
+<tr><th class="confluenceTh">standardViaDefs only</th><td class="confluenceTd">standardViaDef names are optional. Cadence recommends leaving the list empty</td>
+<td class="confluenceTd">Turn on Auto Via Generation</td>
+<td class="confluenceTd">When you choose the same LDRS as Innovus, similar parameterized via</td>
+</tr>
+<tr><th class="confluenceTh">standardViaDefs and standardViaVariants</th><td class="confluenceTd">List only the viaVariants you want NanoRoute to consider, <code>generateVias</code> will still create a full set of parameterized vias in addition to the variant</td>
+<td class="confluenceTd">Turn on Auto Via Generation</td>
+<td class="confluenceTd">VSR will work in same way. It will generate the ViaVariants and any additional standardOaVia it can based on the standardViaDefs it finds in the OpenAccess tech file</td>
+</tr>
+<tr><th class="confluenceTh">standardViaDefs and customViaDefs</th><td class="confluenceTd">standardViaDef names are optional. List all customViaDefs</td>
+<td class="confluenceTd">Turn on Auto Via Generation</td>
+<td class="confluenceTd">standardViaDef names are optional, list all customViaDefs</td>
+</tr>
+<tr><th class="confluenceTh">standardViaDefs, customViaDefs and sstandardViaVariants</th><td class="confluenceTd">List only customViaDefs and standardViaVariants</td>
+<td class="confluenceTd">Turn on Auto Via Generation</td>
+<td class="confluenceTd">VSR will work in a similar way. It will use the listed standardOaViaVariant, customViaDef and create standardOaVias based on the standardViaDefs found in the tech file</td>
+</tr>
+</tbody></table></div>
+
+<p>If you want VSR to use custom, user-specified vias, set the <code>validRoutingVias</code> constraint through a design-level Process Rule Overrides (PRO) constraint and then confirm the settings in the Via Configuration form within the Wire Assistant.</p>
+
+<p></p>
+<h2 id="WorkingwithViasinOpenAccess-Examples">Examples</h2>
+
+<p>When&#160;<code>lef2oa</code>&#160;is run, the software converts the input LEF file into an OpenAccess file. You can view the customViaDefs that were carried over from the LEF file in the gsclib045 library:</p>
+
+<p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/303238166/303238171.png" data-linked-resource-container-id="303238166" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="via1.png" data-linked-resource-id="303238171" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/303238166/303238171.png" /></span></p>
+
+<p>Sample customViaDefs in the OpenAccess tech file:</p>
+
+<p><code>;********************************</code></p>
+
+<p><code>; VIADEFS</code></p>
+
+<p><code>;********************************</code></p>
+
+<p><code>viaDefs(</code></p>
+
+<p><code>&#160;customViaDefs(</code></p>
+
+<p><code>&#160;;( viaDefName libName cellName viewName layer1 layer2 resistancePerCut)</code></p>
+
+<p><code>&#160;;( ---------- ------- -------- -------- ------ ------ ----------------)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_1x2_VH_S&#160; gsclib045 M11_M10_1x2_VH_S via Metal10 Metal11 0.0)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_1x2_VH_N&#160; gsclib045 M11_M10_1x2_VH_N via Metal10 Metal11 0.0)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_2x1_VH_W&#160; gsclib045 M11_M10_2x1_VH_W via Metal10 Metal11 0.0)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_2x1_VH_E&#160; gsclib045 M11_M10_2x1_VH_E via Metal10 Metal11 0.0)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_M_SH&#160; gsclib045 M11_M10_M_SH via Metal10 Metal11 0.0)</code></p>
+
+<p><code>&#160;&#160; ( M11_M10_M_NH&#160; gsclib045 M11_M10_M_NH via Metal10 Metal11 0.0)</code></p>
+
+<p><br /></p>
+
+<p>By scrolling further down in the tech file, you can view the LDRS. The LDRS constraint group contains the validVia list:&#160;</p>
+
+<p><code>interconnect(</code></p>
+
+<p><code>&#160;&#160;&#160;&#160; ( validLayers&#160;&#160; (Metal1&#160; Metal2&#160; Metal3&#160; Metal4&#160; Metal5&#160; Metal6&#160; Metal7&#160; Metal8&#160; Metal9&#160; Metal10&#160; Metal11&#160; ) )</code></p>
+
+<p><code>&#160;&#160;&#160;&#160; ( validVias&#160;&#160;&#160;&#160; (M2_M1&#160; M3_M2&#160; M4_M3&#160; M5_M4&#160; M6_M5&#160; M7_M6&#160; M8_M7&#160; M9_M8&#160; M10_M9&#160; M11_M10&#160; M2_M1_HV&#160; M2_M1_VV&#160; M2_M1_VH&#160; M2_M1_HH&#160; M2_M1_2x1_HV_E&#160; M2_M1_2x1_HV_W&#160; M2_M1_1x2_HV_N&#160; M2_M1_1x2_HV_S&#160; M3_M2_VH&#160; M3_M2_HH&#160; M3_M2_HV&#160; M3_M2_VV&#160; M3_M2_M_NH&#160; M3_M2_M_SH&#160; M3_M2_2x1_VH_E&#160; M3_M2_2x1_VH_W&#160; M3_M2_1x2_VH_N&#160; M3_M2_1x2_VH_S&#160; M4_M3_HV&#160; M4_M3_VV&#160; M4_M3_VH&#160; M4_M3_HH&#160; M4_M3_M_EV&#160; M4_M3_M_WV&#160; M4_M3_2x1_HV_E&#160; M4_M3_2x1_HV_W&#160; M4_M3_1x2_HV_N&#160; M4_M3_1x2_HV_S&#160; M5_M4_VH&#160; M5_M4_HH&#160; M5_M4_HV&#160; M5_M4_VV&#160; M5_M4_M_NH&#160; M5_M4_M_SH&#160; M5_M4_2x1_VH_E&#160; M5_M4_2x1_VH_W&#160; M5_M4_1x2_VH_N&#160; M5_M4_1x2_VH_S&#160; M6_M5_HV&#160; M6_M5_VV&#160; M6_M5_VH&#160; M6_M5_HH&#160; M6_M5_M_EV&#160; M6_M5_M_WV&#160; M6_M5_2x1_HV_E&#160; M6_M5_2x1_HV_W&#160; M6_M5_1x2_HV_N&#160; M6_M5_1x2_HV_S&#160; M7_M6_VH&#160; M7_M6_HH&#160; M7_M6_HV&#160; M7_M6_VV&#160; M7_M6_M_NH&#160; M7_M6_M_SH&#160; M7_M6_2x1_VH_E&#160; M7_M6_2x1_VH_W&#160; M7_M6_1x2_VH_N&#160; M7_M6_1x2_VH_S&#160; M8_M7_HV&#160; M8_M7_VV&#160; M8_M7_VH&#160; M8_M7_HH&#160; M8_M7_M_EV&#160; M8_M7_M_WV&#160; M8_M7_2x1_HV_E&#160; M8_M7_2x1_HV_W&#160; M8_M7_1x2_HV_N&#160; M8_M7_1x2_HV_S&#160; M9_M8_VH&#160; M9_M8_HH&#160; M9_M8_HV&#160; M9_M8_VV&#160; M9_M8_M_NH&#160; M9_M8_M_SH&#160; M9_M8_2x1_VH_E&#160; M9_M8_2x1_VH_W&#160; M9_M8_1x2_VH_N&#160; M9_M8_1x2_VH_S&#160; M10_M9_HV&#160; M10_M9_VV&#160; M10_M9_VH&#160; M10_M9_HH&#160; M10_M9_2x1_HV_E&#160; M10_M9_2x1_HV_W&#160; M10_M9_1x2_HV_N&#160; M10_M9_1x2_HV_S&#160; M11_M10_VH&#160; M11_M10_HH&#160; M11_M10_HV&#160; M11_M10_VV&#160; M11_M10_M_NH&#160; M11_M10_M_SH&#160; M11_M10_2x1_VH_E&#160; M11_M10_2x1_VH_W&#160; M11_M10_1x2_VH_N&#160; M11_M10_1x2_VH_S&#160; ) )</code></p>
+
+<p><code>&#160;&#160;&#160; ) ;interconnect</code></p>
+
+<p><code>&#160; ) ;LEFDefaultRouteSpec_gsclib045</code></p>
+
+<p></p>
+<h3 id="WorkingwithViasinOpenAccess-SettingtheLDRSinVirtuosoLayoutSuite">Setting the LDRS in Virtuoso Layout Suite</h3>
+
+<p>From Virtuoso Layout Suite XL:</p>
+<ol><li>Open the Layer Editor Options form by selecting&#160;<em>Options - Editor</em>.&#160;</li><li>On the Layout Editor Options form, specify the LDRS (constraint group) to be used.&#160;</li><li>Set&#160;<em>Create Via</em>&#160;to&#160;<em>Same as Wire</em>&#160;or to a specific LDRS. The is important because the Create Via form reflects the&#160;via spacing values in the&#160;constraint group selected here.<br /><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/303238166/303238170.png" data-linked-resource-container-id="303238166" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Via2.png" data-linked-resource-id="303238170" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/303238166/303238170.png" /></span></li><li>Click&#160;<em>OK</em>.</li><li>Open the Create Via form by selecting&#160;<em>Create - Via.</em><br />The Create Via form now displays&#160;all the vias in the ValidVia list of the LDRS from the gsclib045 tech file.<br /><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/303238166/303238167.png" data-linked-resource-container-id="303238166" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Via3.png" data-linked-resource-id="303238167" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/303238166/303238167.png" width="600" /></span></li></ol>
+<p></p>
+<h3 id="WorkingwithViasinOpenAccess-CheckingViasintheTechFile">Checking Vias in the Tech File</h3>
+
+<p>Innovus provides a couple of ways to review the vias that are part of the tech file and/or are generated in Innovus:</p>
+<h4 id="WorkingwithViasinOpenAccess-ViewingViasInteractively">Viewing Vias Interactively</h4>
+
+<p>In Innovus, you can view vias interactively. To do so, select a via and press the F4 function key. This displays all vias as seen below.&#160;</p>
+
+<p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/303238166/303238169.jpg" data-linked-resource-container-id="303238166" data-linked-resource-container-version="1" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="replace_via.jpg" data-linked-resource-id="303238169" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/303238166/303238169.jpg" width="600" /></span></p>
+
+<p>You can use appropriate filtering options as per your requirements to update the list of via cell&#160;thumbnails.</p>
+<h4 id="WorkingwithViasinOpenAccess-Usingwrite_lef_library-tech_only">Using write_lef_library -tech_only</h4>
+
+<p>Use the following command to write technology data from the LEF file in Innovus to the specified file:</p>
+
+<p><code>innovus 33&gt; write_lef_library -tech_only generateVias.lef</code></p>
+
+<p>The sample output file contains via information, such as follows:</p>
+
+<p><code>VIARULE M2_M1 GENERATE DEFAULT</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Metal1 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ENCLOSURE 0.005 0.03 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Metal2 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; ENCLOSURE 0.005 0.03 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Via1 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RECT -0.035 -0.035 0.035 0.035 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; SPACING 0.14 BY 0.14 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RESISTANCE 5 ;</code></p>
+
+<p><code>&#160;</code></p>
+
+<p><code>END M2_M1</code></p>
+
+<p><code>&#160;</code></p>
+
+<p><code>VIA M11_M10_1x2_VH_S DEFAULT</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Metal10 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RECT -0.105 -0.49 0.105 0.13 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Via10 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RECT -0.09 -0.45 0.09 -0.27 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RECT -0.09 -0.09 0.09 0.09 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160; LAYER Metal11 ;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; RECT -0.14 -0.48 0.14 0.12 ;</code></p>
+
+<p><code>&#160;</code></p>
+
+<p><code>END M11_M10_1x2_VH_S</code></p>
+
+<p></p>
+<h4 id="WorkingwithViasinOpenAccess-UsingdumpOutVias">Using <span class="fontredcadence">dumpOutVias</span></h4>
+
+<p>Use the following command to dump out vias to a specified file:</p>
+
+<p><code>innovus 34&gt; <span class="fontredcadence">dumpOutVias</span> <span class="fontredcadence">-file</span> generatedVias.out</code></p>
+
+<p>In the&#160;<code><span class="fontredcadence">dumpOutVias</span></code>&#160;output, each via is described using fixed via constructs. You can identify a custom or fixed via by the&#160;<code>LEF</code>&#160;keyword that appears after the via name. Similarly, the&#160;<code>AUTOGEN</code>&#160;keyword appears after the vias generated by the via generator software. The output file is still a valid LEF file. However, you should use it only for visualization purposes.</p>
+
+<p>Sample output:</p>
+
+<p><code>VIA M2_M1_VV DEFAULT&#160; # LEF</code></p>
+
+<p><code>&#160; LAYER Metal1 ; RECT -0.0400 -0.0650 0.0400 0.0650 ;</code></p>
+
+<p><code>&#160; LAYER Metal2 ; RECT -0.0400 -0.0650 0.0400 0.0650 ;</code></p>
+
+<p><code>&#160; LAYER Via1 ;</code></p>
+
+<p><code>&#160;&#160;&#160; RECT -0.0350 -0.0350 0.0350 0.0350 ;</code></p>
+
+<p><code>END M2_M1_VV</code></p>
+
+<p><code>VIA M2_M1_HV DEFAULT&#160; # LEF</code></p>
+
+<p><code>&#160; LAYER Metal1 ; RECT -0.0650 -0.0400 0.0650 0.0400 ;</code></p>
+
+<p><code>&#160; LAYER Metal2 ; RECT -0.0400 -0.0650 0.0400 0.0650 ;</code></p>
+
+<p><code>&#160; LAYER Via1 ;</code></p>
+
+<p><code>&#160;&#160;&#160; RECT -0.0350 -0.0350 0.0350 0.0350 ;</code></p>
+
+<p><code>END M2_M1_HV</code></p>
+
+<p><code>VIA M2_M1_2x1_VV_E DEFAULT&#160; # AUTOGEN</code></p>
+
+<p><code>&#160; LAYER Metal1 ; RECT -0.0400 -0.0650 0.1800 0.0650 ;</code></p>
+
+<p><code>&#160; LAYER Metal2 ; RECT -0.0400 -0.0650 0.1800 0.0650 ;</code></p>
+
+<p><code>&#160; LAYER Via1 ;</code></p>
+
+<p><code>&#160;&#160;&#160; RECT -0.0350 -0.0350 0.0350 0.0350 ;</code></p>
+
+<p><code>&#160;&#160;&#160; RECT 0.1050 -0.0350 0.1750 0.0350 ;</code></p>
+
+<p><code>END M2_M1_2x1_VV_E</code></p>
+
+<p><code>VIA M2_M1_2x1_HH_E DEFAULT&#160; # AUTOGEN</code></p>
+
+<p><code>&#160; LAYER Metal1 ; RECT -0.0650 -0.0400 0.2050 0.0400 ;</code></p>
+
+<p><code>&#160; LAYER Metal2 ; RECT -0.0650 -0.0400 0.2050 0.0400 ;</code></p>
+
+<p><code>&#160; LAYER Via1 ;</code></p>
+
+<p><code>&#160;&#160;&#160; RECT -0.0350 -0.0350 0.0350 0.0350 ;</code></p>
+
+<p><code>&#160;&#160;&#160; RECT 0.1050 -0.0350 0.1750 0.0350 ;</code></p>
+
+<p><code>END M2_M1_2x1_HH_E</code></p>
+<h4 id="WorkingwithViasinOpenAccess-Usingview_lef.tcl">Using view_lef.tcl</h4>
+
+<p>You can use the run the<code>&#160;view_lef.tcl&#160;</code>file from the Innovus console to view vias in the LEF file. This script is presently not included in the Innovus installation. Contact your Cadence representative for more information about this utility.&#160;</p>
+
+<p>When you run this utility, you can see what each via looks like:</p>
+
+<p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/303238166/303238168.png" data-linked-resource-container-id="303238166" data-linked-resource-container-version="1" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="Via4.png" data-linked-resource-id="303238168" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/303238166/303238168.png" /></span></p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="High_Frequency_Router_In_Innovus.html" id="prev" title="High_Frequency_Router_In_Innovus">High_Frequency_Router_In_Innov ...</a></em></b><b><em><a href="Using_NanoRoute_To_Route_a_Design_from_Virtuoso.html" id="nex" title="Using_NanoRoute_To_Route_a_Design_from_Virtuoso">Using_NanoRoute_To_Route_a_Des ...</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

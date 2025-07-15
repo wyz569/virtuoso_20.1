@@ -1,0 +1,2898 @@
+
+<html><head><title>Constraint Groups and Constraints</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-09-17" />
+<meta name="CreateTime" content="1600399108" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Defines the syntax of the statements required in a technology file and a display resource file to define the design constraints and rules and display attributes for design sessions." />
+<meta name="DocTitle" content="Virtuoso Technology Data Constraints Reference" />
+<meta name="DocType" content="Reference" />
+<meta name="FileTitle" content="Constraint Groups and Constraints" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="ascitechconstr" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-17" />
+<meta name="ModifiedTime" content="1600399108" />
+<meta name="NextFile" content="constr_antenna.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design,Cadence Shared Tools" />
+<meta name="PrevFile" content="preface.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="Virtuoso Layout Suite,Virtuoso Shared Tools" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite,Virtuoso Shared Tools" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Technology Data Constraints Reference -- Constraint Groups and Constraints" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="ascitechconstrICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="ascitechconstrTOC.html">Contents</a></li><li><a class="prev" href="preface.html" title="Preface">Preface</a></li><li style="float: right;"><a class="viewPrint" href="ascitechconstr.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="constr_antenna.html" title="Antenna Constraints">Antenna Constraints</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Technology Data Constraints Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+
+<h1>1
+<a id="pgfId-1476362"></a></h1>
+<h1>
+<a id="pgfId-1476363"></a><hr />
+Constraint Groups and Constraints<hr />
+</h1>
+
+<p>
+<a id="pgfId-963630"></a>This chapter includes the following topics:</p>
+<ul><li>
+<a id="pgfId-2106488"></a><a href="constraints.html#93489">Constraint Groups</a></li><li>
+<a id="pgfId-2106518"></a><a href="constraints.html#66704">Constraints</a></li><li>
+<a id="pgfId-2106538"></a><a href="constraints.html#56444">Constraint Parameters</a></li><li>
+<a id="pgfId-2113446"></a><a href="constraints.html#54540">Advanced Nodes Constraints</a></li></ul>
+
+
+
+
+
+<h2>
+<a id="pgfId-2109140"></a><a id="93489"></a>Constraint Groups</h2>
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-2109220"></a>
+Technology file syntax and the technology database together provide a standard mechanism for storing constraints or rules. However, all applications using a technology database may or may not support all the rules stored in the technology database.</div>
+
+<p class="webflare-indent1">
+<a id="pgfId-2005042"></a>Though there is a continuous effort to build rule support in applications as rules become available in the technology database, a time lag of an undetermined length typically occurs between the introduction of a new rule and the support for that new rule being added to an application.</p>
+<p class="webflare-indent1">
+<a id="pgfId-2047750"></a>To download a spreadsheet with constraint-to-application mapping information, click <a actuate="user" class="URL" href="../ascitechconstr/avSrc/IC617_ICADV123_ISR16_Constraints_Map.zip" show="replace" xml:link="simple">Constraints_Map</a> (310 KB, ZIP file containing a Microsoft<sup>&#174;</sup> Excel spreadsheet).</p>
+
+
+<h3>
+<a id="pgfId-2005079"></a><a id="49901"></a>constraintGroup<a id="constraintGroups"></a>s</h3>
+<a id="pgfId-2109404"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+constraintGroups(
+( <code><em>t_constraintGroupName</em></code> [[<code><em>b_override</em></code>] [<code><em>t_defName</em></code>] [<code><em>t_operator</em></code>]]
+  [memberConstraintGroups(<code><em>t_memberConstraintGroupName</em></code> &#8230;)]
+  [properties(<code><em>l_properties</em></code>)]
+  <code><em>t_constraintCategory</em></code>(<code><em>l_constraint</em></code>)
+)
+&#8230;</pre>
+<a id="pgfId-2112126"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+)</pre>
+
+<p>
+<a id="pgfId-2112251"></a>Enables you to define constraint groups. A constraint group is an ordered collection of constraints and constraint groups. Each constraint group can be assigned an operator that determines how constraints in that group are applied. A constraint group allows you to combine constraints to manage complex rules to be applied under different circumstances. This provides the flexibility to apply less or more stringent rules, as needed. </p>
+
+<p>
+<a id="pgfId-2112338"></a>A constraint group can contain multiple specifications of the same constraint to set different values for that constraint. In such a scenario, by default, the first hard constraint in the constraint group takes precedence over any others. For more information about how constraints in a constraint group are applied, see <a href="constraints.html#19482">Combining Constraints in a Constraint Group</a>.</p>
+
+<h4>
+<a id="pgfId-2112332"></a>Parameters</h4>
+<table class="webflareTable" id="#id2112253">
+<tbody><tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a id="pgfId-2112255"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraintGroupName</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112259"></a><span class="webflare-courier-new" style="white-space:pre"><em></em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112261"></a>The name of the constraint group.</p>
+<p>
+<a id="pgfId-2112262"></a>Valid values: <code>foundry</code>, any unique string</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112264"></a><span class="webflare-courier-new" style="white-space:pre"><em>b_override</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112266"></a>Specifies whether the constraint group overrides other constraint groups.</p>
+<p>
+<a id="pgfId-2112267"></a>Valid values: <code>t</code> (overrides), <code>nil</code> (does not override; default)</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-2112268"></a>This feature is not supported by Virtuoso. The parameter is a positional parameter that needs to be specified if you want to use any of the subsequent parameters.</div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112270"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_defName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112272"></a>The name of the constraint group definition or type. For more information, see <a href="constraints.html#20054">Constraint Group Definitions</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112278"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_operator</em></span><a id="cgOperators"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112280"></a>Specifies how constraints are evaluated when combined in a constraint group. All instances of a constraint defined on a specific layer (or layer pair) must be combined in one constraint group.</p>
+<p>
+<a id="pgfId-2112281"></a>Valid values: <code>&#39;precedence</code> (default), <code>&#39;and</code>, <code>&#39;or</code></p>
+<p>
+<a id="pgfId-2112591"></a>For more information about these operators, see <a href="constraints.html#19482">Combining Constraints in a Constraint Group</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a id="pgfId-2112283"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_memberConstraintGroupName</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112287"></a><span class="webflare-courier-new" style="white-space:pre"><em></em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112289"></a>A list of constraint groups that are considered part of the constraint group.</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-2112290"></a>List member constraint groups in the order of precedence, starting with the highest precedence.</div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112292"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_properties</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112294"></a>A list of properties associated with the constraint group. It has the following syntax:</p>
+<a id="pgfId-2112295"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+( <code><em>t_propName</em></code> <code><em>g_value</em></code> ) &#8230;</pre>
+<p>
+<a id="pgfId-2112296"></a>where,</p>
+<p>
+<a id="pgfId-2112297"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_propName</em></span> is the name of the property.</p>
+<p>
+<a id="pgfId-2112298"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is the value assigned to the property. </p>
+<p>
+<a id="pgfId-2112299"></a>Example:</p>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112300"></a>;( group [override] )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112301"></a>;( ----- ---------- )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112302"></a>( &quot;myConstraintGroup&quot; nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112303"></a>&#8230;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112304"></a>properties(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112305"></a>;( name value )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112306"></a>;( ---- ----- )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112307"></a>( ndrsp &quot;single&quot; )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112308"></a>( ndrrp 6.700000 )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112309"></a>( ndrip 1 )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112310"></a>) ;properties</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112311"></a>&#8230;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112312"></a>)</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a id="pgfId-2112314"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraintCategory</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112318"></a><span class="webflare-courier-new" style="white-space:pre"><em></em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112320"></a>The constraint category.</p>
+<p>
+<a id="pgfId-2112321"></a>Valid values: <code>spacings</code>, <code>orderedSpacings</code>, <code>spacingTables</code>, <code>routingGrids</code>, <code>placementGrids</code>, <code>antennaModels</code>, <code>viaStackingLimits</code>, <code>interconnect</code>, <code>allowedShapeAngles</code>, <code>routingDirections</code>, <code>colorControl</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112326"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2112331"></a>The constraint specification; as defined in <a href="constraints.html#66704">Constraints</a>. </p>
+</td>
+</tr>
+</tbody></table>
+
+
+
+<h3>
+<a id="pgfId-1028889"></a><a id="20054"></a>Con<a id="constraint_groups"></a>straint Group Definitions</h3>
+
+<p>
+<a id="pgfId-2111518"></a>The following values are supported for <span class="webflare-courier-new" style="white-space:pre"><em>t_defName</em></span>:</p>
+<ul><li>
+<a id="pgfId-2110635"></a><code>foundry</code><br />
+<a id="pgfId-2110636"></a>The <code>foundry</code> constraint group specifies process rules typically provided by the foundry or manufacturer. It is stored in the technology database. Define in this constraint group the absolute minimum set of process rules required to manufacture a design.<br />
+<a id="pgfId-2111293"></a>The <code>foundry</code> constraint group is checked last in the constraint precedence lookup hierarchy. If a constraint override is not defined elsewhere, various applications use the values defined in the <code>foundry</code> constraint group.<br />
+<a id="pgfId-2111294"></a>All applications recognize the <code>foundry</code> constraint group. Constraints specified in the <code>foundry</code> constraint group must always be satisfied.</li><li>
+<a id="pgfId-2131834"></a><code>alternateFoundry</code><a id="alternateFoundry"></a> <br />
+<a id="pgfId-2131835"></a>(ICADVM20.1 Only &#8211; 95511) The <code>alternateFoundry</code> constraint group contains one or more <code>foundry</code> constraint groups. <br />
+<a id="pgfId-2131830"></a>To enable the name of the constraint group that contains the foundry constraints, use the <a href="../techfileuser/techdata_envars.html#AlternateFoundryCG">AlternateFoundryCG</a> environment variable.</li><li>
+<a id="pgfId-2110793"></a><code>virtuosoDefaultExtractorSetup</code>: Is used by default by the extractor for connectivity extraction.</li><li>
+<a id="pgfId-2110807"></a><code>virtuosoDefaultSetup</code>: Is used by default for interactive and automatic routing.</li><li>
+<a id="pgfId-2132168"></a><code>virtuosoExtractorSetup</code></li><li>
+<a id="pgfId-2110821"></a><code>virtuosoMPTSetup</code></li><li>
+<a id="pgfId-2132186"></a><code>LEFDefaultRouteSpec</code>: Stores routing information, such as information about layers and vias.</li><li>
+<a id="pgfId-2110834"></a><code>LEFSpecialRouteSpec</code>: Stores information about power routing vias.</li><li>
+<a id="pgfId-2131983"></a><code>taper</code></li><li>
+<a id="pgfId-2131984"></a><code>inputTaper</code></li><li>
+<a id="pgfId-2131985"></a><code>outputTaper</code></li><li>
+<a id="pgfId-2132021"></a><code>shielding</code></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-2110641"></a>Application-specific constraint groups, including all of the above barring <code>foundry</code> and <code>alternateFoundry</code>, influence the behavior of a particular application. You can also create application-specific constraint groups with user-defined names. To designate such constraint groups as application-specific, assign to them an appropriate constraint group definition, which determines the type of objects to which the constraint group applies.</p>
+
+
+
+<h3>
+<a id="pgfId-2132035"></a>User-Defined Constraint Groups</h3>
+
+<p>
+<a id="pgfId-2110643"></a>User-defined constraint groups help combine constraints by using <code>&#39;and</code> or <code>&#39;or</code> operators. They are referenced from the <code>foundry</code> constraint group by using the <code>memberConstraintGroups</code> keyword. </p>
+<p>
+<a id="pgfId-2113089"></a>You can define only one <code>foundry</code> constraint group in a technology database, but there is no such restriction on the number of application-specific and user-defined constraint groups that you can create. However, all constraint groups defined in a given technology database must be uniquely named.</p>
+
+
+<h4><em>
+<a id="pgfId-2108407"></a>Example</em></h4>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2108430"></a>constraintGroups(<br /> ;( group    [override]    [definition]    [operator] )<br /> ;( ----------------------------------------------- )<br /> ( &quot;virtuosoDefaultExtractorSetup&quot;  nil  &quot;virtuosoExtractorSetup&quot;<br />    interconnect(<br />      ( (validVias (VIA12  VIA23  VIA34) )<br />    ) ;interconnect<br /> ) ;virtuosoDefaultExtractorSetup<br />) ;constraintGroups</pre>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-2108744"></a>For a constraint group with name <code>LEFDefaultRouteSpec</code>, the technology file loader automatically uses the constraint group definition <code>LEFDefaultRouteSpec</code>, and for a constraint group with name <code>LEFSpecialRouteSpec</code>, the technology file loader automatically uses the constraint group definition <code>LEFSpecialRouteSpec</code>.</div>
+
+
+
+
+<h3>
+<a id="pgfId-2111548"></a><a id="19482"></a>Combining Constraints in a Constraint Group</h3>
+
+<p>
+<a id="pgfId-2111549"></a>Constraint groups use an operator to determine how the constraints in the group are applied. There are three constraint group operators. By default, constraints in a constraint group are applied based on precedence.</p>
+<ul><li>
+<a id="pgfId-2112792"></a><code>&#39;precedence</code> (default): Specifies that constraints or member constraint groups are evaluated based on the order in which they are listed in a constraint group. For each constraint type, the first hard constraint found in a constraint group must be met. If the first hard constraint cannot be met, no other constraint of that type in the constraint group is considered. <br />
+<a id="pgfId-2112860"></a>If a soft constraint of a given type is found, it is enforced, if possible. Otherwise, the next soft constraint in the group is evaluated. <br />
+<a id="pgfId-2113119"></a>Only one constraint of a particular type in the group applies, and the first hard or soft constraint that is met satisfies the constraint group evaluation.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-2111754"></a>Constraint groups that use the <code>&#39;precedence</code> operator can have other constraint groups as members.</div></li><li>
+<a id="pgfId-2113134"></a><code>&#39;and</code>: Specifies that all constraints in the constraint group must be met. All applicable constraints are checked. If a violation is found, the remaining applicable constraints are not checked. <br />
+<a id="pgfId-2113571"></a>A constraint is applicable for a given set of geometry if the parameters associated with the constraint are met. For example, the constraint below is applicable only between two shapes if at least one of those shapes has an area of less than 0.03 microns.<pre class="webflare-pre-block webflare-courier-new" id="#id2113220">
+<a id="pgfId-2113220"></a>spacings(
+ ( minSpacing &quot;Metal2&quot; 
+  &#39;area 0.03 
+  0.2
+ )
+) ;spacings</pre><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-2113135"></a>Constraint groups that use the <code>&#39;and</code> operator cannot have any member constraint groups.</div></li><li>
+<a id="pgfId-2110087"></a><code>&#39;or</code>: Specifies that only one constraint in the constraint group must be satisfied, that is, of all applicable constraints, at least one should be met. A violation is reported if all applicable constraints are not met.<br />
+<a id="pgfId-2113140"></a>Limited support is available for the <code>&#39;or</code> operator in Design Rule Driven (DRD) editing, where it is used mainly to combine constraints of type extension.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-2113141"></a>Constraint groups that use the <code>&#39;or</code> operator cannot have any member constraint groups. </div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-2111575"></a>Determining Constraint Group Precedence</h4>
+
+<p>
+<a id="pgfId-2111570"></a>A technology database can contain multiple constraint groups that define the same constraints. An application searches the constraint groups it recognizes in the order of precedence it has set and applies the first hard constraint it finds. If the application searches all of the constraint groups without finding a hard constraint, it applies the first soft constraint that it finds. </p>
+<p>
+<a id="pgfId-2110419"></a>Constraint groups are applied in the following order of precedence:</p>
+<ol><li>
+<a id="pgfId-2112404"></a>The constraint group being referenced by a command that is currently active in the design window.</li><li>
+<a id="pgfId-2112436"></a>A constraint group recognized as the constraint group of first precedence by an application. Refer to your application documentation to determine which constraint groups the application recognizes and the precedence it applies to them.</li><li>
+<a id="pgfId-2112437"></a>The <code>foundry</code> constraint group. All applications recognize the <code>foundry</code> constraint group.</li></ol>
+
+
+
+
+
+<h4>
+<a id="pgfId-2110339"></a>Managing Member Constraint Groups</h4>
+
+<p>
+<a id="pgfId-2100747"></a>You can establish a constraint group, and then specify it as a member of another constraint group. When multiple member constraint groups are specified, their order of precedence is from left to right, that is, the first has the highest precedence and the last the lowest.</p>
+
+
+
+<h4><em>
+<a id="pgfId-2112933"></a>Example</em></h4>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112934"></a>constraintGroups
+&#160;&#160;&#160;&#160;( &quot;protrusionGroup&quot; nil nil &#39;and
+&#160;&#160;&#160;&#160; spacings(<br />   ( minProtrusionNumCut &quot;cut1&quot; <br />    &#39;distance 0.50 &#39;length 2.0 &#39;width 1.0<br />    &#39;distanceWithin 1.2 2<br />   )<br />   ( minProtrusionNumCut &quot;cut1&quot; <br />    &#39;distance 0.75 &#39;length 3.0 &#39;width 1.5<br />    &#39;distanceWithin 1.2 3<br />   )<br />  ) ;spacings<br /> ) ;protrusionGroup</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2112935"></a> ( &quot;foundry&quot; nil<br />  memberConstraintGroups(&quot;protrusionGroup&quot;)<br /> ) ;foundry<br />) ;constraintGroups</pre>
+
+
+
+
+<h2>
+<a id="pgfId-1028621"></a><a id="66704"></a>Constraints</h2>
+
+<p>
+<a id="pgfId-1028618"></a>A constraint can be specified in any constraint group and must be: </p>
+<ul><li>
+<a id="pgfId-957211"></a>Specified according to the syntax delineated in this reference manual</li><li>
+<a id="pgfId-957212"></a>Used in accordance with the constraint definition provided in this reference manual</li></ul>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-2047997"></a>User-defined constraints are maintained in the technology file, but are not used or recognized by Cadence applications. These constraints are maintained in the technology file to preserve existing Pcell code that might refer to them. Most importantly, a constraint must have the proper name and syntax for it to be recognized by applications and commands that are designed to use the constraint and to be interoperable with other tools that run on OpenAccess.</div>
+<p>
+<a id="pgfId-2109092"></a>All constraints have the same general syntax. Only the number of layers and parameters varies for each constraint.</p>
+
+<a id="pgfId-2109093"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+( <code><em>t_constraintName</em></code> [[&quot;<code><em>t_layerName</em></code>&quot; | <code><em>x_layerNumber</em></code> | (&quot;<code><em>t_layerName</em></code>&quot; &quot;<code><em>t_purposeName</em></code>&quot;)] &#8230;]
+[<code><em>parameter</em></code> &#8230;] 
+<code><em>g_value</em></code> 
+[&#39;soft | &#39;hard] 
+[&#39;ref <code><em>t_reference</em></code>] 
+[&#39;description <code><em>t_description</em></code>]</pre>
+<a id="pgfId-2075104"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+)</pre>
+
+<h4>
+<a id="pgfId-2075145"></a>Parameters</h4>
+<table class="webflareTable" id="#id2075105">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075107"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraintName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075109"></a>The name of the constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a id="pgfId-2075111"></a><code>&quot;</code><span class="webflare-courier-new" style="white-space:pre"><em>t_layerName</em></span><code>&quot; | </code><span class="webflare-courier-new" style="white-space:pre"><em>x_layerNumber</em></span><code> | (&quot;</code><span class="webflare-courier-new" style="white-space:pre"><em>t_layerName</em></span><code>&quot; &quot;</code><span class="webflare-courier-new" style="white-space:pre"><em>t_purposeName</em></span><code>&quot;)</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075115"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075117"></a>A list of <code>0</code> to <code>3</code> layers, depending on the constraint.</p>
+<p>
+<a id="pgfId-2075118"></a>You can specify either the layer name or number or the layer-purpose pair name. If specifying the layer-purpose pair name, both layer and purpose names must be enclosed individually in double quotes and separated by a space. Additionally, the layer-purpose pair must be enclosed in parentheses. </p>
+<p>
+<a id="pgfId-2075119"></a>Type: String (layer and purpose names) or Integer (layer number)</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075121"></a><span class="webflare-courier-new" style="white-space:pre"><em>parameter</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075123"></a>A list of <code>0</code> or more parameters, depending on the constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075125"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075127"></a>The constraint value. Either a scalar value, a list, or a table, depending on the constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075129"></a><code>&#39;soft | &#39;hard</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075131"></a>Specifies whether a constraint must be absolutely met, or whether it is only a recommended value.</p>
+<p>
+<a id="pgfId-2075135"></a>For more information, see <a href="constraints.html#56444">Constraint Parameters</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075137"></a><code>&#39;ref </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075139"></a>Lets you add a reference ID at the end of a constraint. The reference ID can be used to identify that constraint specification. This parameter can be specified for any constraint. It is used in violation markers and in the Annotation Browser.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2075141"></a><code>&#39;description </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113507"></a>Lets you add a description at the end of a constraint. This parameter can be specified for any constraint. The description is displayed in violation markers and in the Annotation Browser.</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a id="pgfId-2075222"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2111444"></a>orderedSpacings(
+&#160;&#160;&#160;&#160;( minOppExtension &quot;Metal1&quot; &quot;Via1&quot; 
+&#160;&#160;&#160;&#160; &#39;cutDistance 0.1     ;first parameter<br />  &#39;noSharedEdge        ;second parameter<br />  (2.1 0.7)            ;constraint value<br />  &#39;soft <br />  &#39;ref &quot;M1.EX.1&quot;<br />  &#39;description &quot;Metal1 extension past Via1&quot; <br /> )<br />) ;orderedSpacings</pre>
+
+
+<h3>
+<a id="pgfId-2111449"></a><a id="12337"></a>Spaci<a id="spacingtableconstraint"></a>ng Table Constraints</h3>
+
+<p>
+<a id="pgfId-2113529"></a>Spacing tables allow conditional evaluation and application of a constraint value by means of lookup tables. The spacing tables can apply to one or two layers or can be one- or two-dimensional, with the constraint value determined based on one or two other design values. The table specification in a constraint definition takes the following syntax:</p>
+<table class="webflareTable" id="#id2113530">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113532"></a>For a one-dimensional table:</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<a id="pgfId-2113534"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>( </code><code><em>g_index</em></code><code> </code><code><em>g_value</em></code><code> &#8230; )</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113536"></a>For a two-dimensional table:</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<a id="pgfId-2113538"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<code>( </code><code><em>g_index1</em></code><code> </code><code><em>g_index2</em></code><code> </code><code><em>g_value</em></code><code> &#8230; )</code></pre>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-2113539"></a>where, an index is a design parameter value used to determine the constraint value.</p>
+<p>
+<a id="pgfId-2113540"></a>Table entries must be specified in the ascending order of index value. If they are not specified in ascending order, the compiler sorts them in ascending order, as is reflected in a dump of the technology database. </p>
+<p>
+<a id="pgfId-2130746"></a>For a constraint value to apply, the design value must be &quot;greater than or equal to&quot; the index value. In the following example, if the width is greater than or equal to 0, the constraint value is 10, and if the width is greater than or equal to 3, the constraint value is 15.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2130747"></a>spacingTables(
+&#160;&#160;&#160;&#160;( minSpacing &quot;Metal1&quot;
+&#160;&#160;&#160;&#160; (( &quot;width&quot; nil nil ))<br />  (<br />    (0   10)<br />    (3   15)<br />  )<br /> )<br />) ;spacingTables</pre>
+
+<p>
+<a id="pgfId-2130748"></a>The first value in the table that matches a query during lookup is returned.</p>
+<p>
+<a id="pgfId-2130676"></a>For two-dimensional tables, all table entries must be explicitly specified; otherwise, the technology file compiler uses the default value for the unspecified entries. If no default value is specified, the compiler adds the <code>0</code> for the missing table entries. </p>
+<table class="webflareTable" id="#id2131354">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131602"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131604"></a><strong>b1</strong></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131606"></a><strong>b2</strong></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131608"></a><strong>b3</strong></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131610"></a><strong>a1</strong></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131612"></a><code>v11</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131614"></a><code>v12</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131616"></a><span class="webflare-courier-new" style="white-space:pre"><em>default</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131618"></a><strong>a2</strong></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131620"></a><code>v21</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131622"></a><span class="webflare-courier-new" style="white-space:pre"><em>default</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131624"></a><code>v23</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131626"></a><strong>a3</strong></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131628"></a><code>v31</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131630"></a><code>v32</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2131632"></a><span class="webflare-courier-new" style="white-space:pre"><em>default</em></span></p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-2131509"></a>Ensure that all tables (both one- and two-dimensional) only have entries of interest (that is, the index that affects the rule). Adding extra index values, particularly if they are large, can adversely affect the performance while checking. </p>
+<p>
+<a id="pgfId-2131634"></a>Constraint tables do not support expressions for indexes; you cannot parameterize an index by specifying it as a <a href="../ascitechfile/chap2.html#techParams">techParams</a> value (<code>techParam(</code><span class="webflare-courier-new" style="white-space:pre"><em>paramName</em></span><code>)</code>).</p>
+
+
+<h4>
+<a id="pgfId-2112515"></a><a id="manhattanAndEuclidean"></a><a id="33996"></a>Euclidean and Manhattan Spacing C<a id="manhattanAndEuclidian"></a>onstraints</h4>
+
+<p>
+<a id="pgfId-2112550"></a>By default, spacing constraints apply within the Euclidean distance around a shape, which means that the area in which the constraint applies, or the spacing halo, has rounded corners.</p>
+<p>
+<a id="pgfId-2112555"></a>For some spacing constraints, you can also specify that the distance applied be Manhattan instead. The Manhattan spacing halo, which has squared corners, allows a larger spacing area at the corners, as is required for some process rules or constraints. Throughout this reference manual, constraints for which you can specify Manhattan spacing have <code>&#39;manhattan</code> specified in their syntax.</p>
+
+
+<p>
+<a id="pgfId-1846751"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="214" src="images/constraints-3.gif" /></div>
+
+
+
+
+
+<h2>
+<a id="pgfId-2113361"></a><a id="56444"></a>Constraint Parameters</h2>
+
+<p>
+<a id="pgfId-2113362"></a>Constraint parameters can be placed on a constraint at the end of the constraint specification.</p>
+
+
+<h3>
+<a id="pgfId-2113365"></a><a id="28447"></a>&#39;ha<a id="hardConstraintParam"></a>rd</h3>
+<a id="pgfId-2113366"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+&#39;hard</pre>
+
+<p>
+<a id="pgfId-2113367"></a>Identifies the constraint as a hard constraint that must be satisfied. This parameter can be specified for any constraint.</p>
+
+
+<h4>
+<a id="pgfId-2113368"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2113369"></a>orderedSpacings(
+&#160;&#160;&#160;&#160;( minOppExtension &quot;poly1&quot; &quot;metal2&quot; (2.1 0.7) &#39;hard )<br />) ;orderedSpacings</pre>
+
+
+
+<h3>
+<a id="pgfId-2113372"></a><a id="56126"></a>&#39;s<a id="softConstraintParam"></a>oft</h3>
+<a id="pgfId-2113373"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+&#39;soft</pre>
+
+<p>
+<a id="pgfId-2113374"></a>Identifies the constraint as a soft or preferred constraint. A soft constraint establishes the preferred constraint definition, but is not absolutely enforced like a hard constraint. This parameter can be specified for any constraint.</p>
+
+
+<h4>
+<a id="pgfId-2113375"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2113376"></a>orderedSpacings(
+&#160;&#160;&#160;&#160;( minOppExtension &quot;poly1&quot; &quot;metal2&quot; (2.1 0.7) &#39;soft )<br />) ;orderedSpacings</pre>
+
+
+
+<h3>
+<a id="pgfId-2113379"></a><a id="coincidentallowed"></a><a id="51986"></a>&#39;coincidentAllowed</h3>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2113380"></a>&#39;coincidentAllowed</pre>
+
+<p>
+<a id="pgfId-2113381"></a>Allows abutted devices with coincident edges. The constraints to which this parameter applies specify it as an option in the syntax.</p>
+
+
+<p>
+<a id="pgfId-2113393"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="128" src="images/constraints-4.gif" /></div>
+
+
+<h4>
+<a id="pgfId-2113394"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2113395"></a>orderedSpacings(&#160;&#160;&#160;&#160;
+&#160;&#160;&#160;&#160;( minOppExtension &quot;poly1&quot; &quot;metal2&quot; (2.1 0.7) &#39;coincidentAllowed )<br />) ;orderedSpacings</pre>
+
+
+
+<h3>
+<a id="pgfId-2113398"></a><a id="72031"></a>&#39;des<a id="descriptionConstraintParam"></a>cription</h3>
+<a id="pgfId-2113399"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+&#39;description <code><em>t_desc</em></code></pre>
+
+<p>
+<a id="pgfId-2113400"></a>Adds a description for a constraint. This parameter can be specified for any constraint.</p>
+
+
+<h4>
+<a id="pgfId-2113406"></a>Arguments</h4>
+<table class="webflareTable" id="#id2113401">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113403"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_desc</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113405"></a>Description to be associated with the specified constraint for use by applications.<br />Valid values: Any string</p>
+</td>
+</tr>
+</tbody></table>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-2113407"></a>Some applications display this description with an error message.</div>
+
+
+
+<h4>
+<a id="pgfId-2113408"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2113409"></a>orderedSpacings(
+&#160;&#160;&#160;&#160;( minOppExtension &quot;poly1&quot; &quot;metal2&quot; (2.1 0.7) 
+       &#39;description &quot;This is a constraint description.&quot; 
+&#160;&#160;&#160;&#160;) <br />) ;orderedSpacings</pre>
+
+
+
+<h3>
+<a id="pgfId-2113412"></a><a id="71499"></a>&#39;re<a id="referenceConstraintParam"></a>f</h3>
+<a id="pgfId-2113413"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+&#39;ref <code><em>t_ref</em></code></pre>
+
+<p>
+<a id="pgfId-2113414"></a>Adds a reference ID to a constraint. The reference ID can be used to identify a constraint specification. This parameter can be specified for any constraint.</p>
+
+
+<h4>
+<a id="pgfId-2113420"></a>Arguments</h4>
+<table class="webflareTable" id="#id2113415">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113417"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_ref</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113419"></a>Reference ID to be associated with the constraint specification.<br />Valid values: Any string</p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h4>
+<a id="pgfId-2113421"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2113422"></a>orderedSpacings(
+&#160;&#160;&#160;&#160;( minOppExtension &quot;poly1&quot; &quot;metal2&quot; (2.1 0.7) 
+       &#39;ref &quot;const1S&quot;
+&#160;&#160;&#160;&#160;)<br />) ;orderedSpacings</pre>
+
+
+
+<h3>
+<a id="pgfId-2113425"></a><a id="83555"></a>&#39;ma<a id="manhattanConstraintParam"></a>nhattan</h3>
+<a id="pgfId-2113426"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+&#39;manhattan</pre>
+
+<p>
+<a id="pgfId-2113427"></a>Specifies that the constraint adheres to Manhattan spacing, instead of the default Euclidean spacing.</p>
+
+
+<h4>
+<a id="pgfId-2113428"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-2113429"></a>spacings(
+&#160;&#160;&#160;&#160;( minSpacing &quot;poly1&quot; 2.1 &#160;&#160;&#160;&#160; &#39;manhattan  )<br />) ;spacings</pre>
+
+
+
+
+<h2>
+<a id="pgfId-2101721"></a><a id="54540"></a>Advanc<a id="advNodeConstraints"></a>ed Nodes Constraints</h2>
+
+<p>
+<a id="pgfId-2105620"></a>There are two levels of advanced nodes constraints depending on the licenses they use:</p>
+<ul><li>
+<a id="pgfId-2125953"></a><a actuate="user" class="URL" href="../ascitechconstr/constraints.html#advConstraintsExl" show="replace" xml:link="simple">ICADVM20.1 Only &#8211; 95511 and 95800</a><br />
+<a id="pgfId-2125954"></a>To use these constraints, you need the <code>Virtuoso Advanced Node Option for Layout</code> (95511) and <code>Virtuoso Layout Suite EXL</code> (95800) licenses.</li><li>
+<a id="pgfId-2105696"></a><a actuate="user" class="URL" href="../ascitechconstr/constraints.html#advConstraints95512" show="replace" xml:link="simple">ICADVM20.1 Only &#8211; 95512</a><br />
+<a id="pgfId-2105697"></a>To use these constraints, you must have either the <code>Virtuoso_Adv_Node_Opt_Lay_Std</code> (95512) or <code>Virtuoso_Adv_Node_Opt_Layout</code> (95511) license.</li><li>
+<a id="pgfId-2104889"></a><a actuate="user" class="URL" href="../ascitechconstr/constraints.html#advConstraints95511" show="replace" xml:link="simple">ICADVM20.1 Only &#8211; 95511</a><br />
+<a id="pgfId-2106970"></a>To use these constraints, you must have the <code>Virtuoso_Adv_Node_Opt_Layout</code> (95511) license. The <code>Virtuoso_Adv_Node_Opt_Lay_Std</code> (95512) cannot be used.</li></ul>
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-2106974"></a>For constraints listed with parameter names, the specified licensing is required only if those parameters are set. If only the constraint name is listed, any setting of the constraint requires the specified license.</div>
+<p>
+<a id="pgfId-2106980"></a>For more information about advanced node licensing, see <em>License Requirements for Advanced Node Features</em> in <em>Virtuoso Software Licensing and Configuration User Guide</em>.</p>
+
+
+<h3>
+<a id="pgfId-2125988"></a>Supported Co<a id="advConstraintsExl"></a>nstraints and Parameters: ICADVM20.1 Only &#8211; 95511 and 95800</h3>
+<table class="webflareTable" id="#id2125989">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id2125991">
+<a id="pgfId-2125991"></a>Constraint Name</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id2125993">
+<a id="pgfId-2125993"></a>Parameters</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2128979"></a><a href="../ascitechconstr/constr_length_width.html#boundaryEOLBlockage">boundaryEOLBlockage</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2128981"></a><code>prl</code>, <code>within</code>, <code>distance</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133685"></a><a href="../ascitechconstr/constr_misc.html#coreEOLBlockage">coreEOLBlockage</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133687"></a> </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133997"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#directionalEolKeepout">directionalEolKeepout</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133999"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127064"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#endOfLineKeepout">endOfLineKeepout</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2134097"></a><code>exceptSameSideMetal</code>, <code>exceptNoOppSideMetal</code>, <code>exceptSpacing</code>, <code>withinCut</code>, <code>cutLayers</code>, <code>exceptEolSpacing</code>, <code>horizontal</code>, <code>vertical</code>, <code>exceptLineEndGap</code>, <code>eolSpacingRange</code>, <code>otherEolSpacingRange</code>, <code>jointAsEol</code>, <code>checkOtherWidth</code>, <code>equalRectWidth</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133200"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#eolViaKeepout">eolViaKeepout</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133202"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129923"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#forbiddenSpacingRanges">forbiddenSpacingRanges</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129925"></a><code>ignoreMiddle</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126372"></a><a href="../ascitechconstr/constr_misc.html#implantGroup">implantGroup</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126374"></a><code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133224"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#lineEndGap">lineEndGap</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133219"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127093"></a><a href="../ascitechconstr/constr_area.html#maxCumAntenna">maxCumAntenna</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127127"></a><code>lowerLayer</code>, <code>upperLayer</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132478"></a><a href="../ascitechconstr/constr_length_width.html#maxLength">maxLength</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132480"></a><code>width</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2130460"></a><a href="../ascitechconstr/constr_via.html#mergedViaCornerToCornerSpacing">mergedViaCornerToCornerSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2130462"></a><code>tripletCenterViaLarger</code>, <code>tripletCenterViaSpacingX</code>, <code>tripletCenterViaSpacingY</code>, <code>lengthRange</code>, <code>otherLengthRange</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126807"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minAdjacentFourViaSpacing">minAdjacentFourViaSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126809"></a><code>exceptDiffMetal</code>, <code>mergedCuts</code>, <code>minCorner</code>, <code>minInnerCorner</code>, <code>maxInnerCorner</code>, <code>exceptOverlap</code>, <code>exceptMinLength</code>, <code>cutWithin</code>, <code>exceptOtherWidthWithCut</code>, <code>otherLayer</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2130499"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minClusterSpacing_oneLayer">minClusterSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2130494"></a><code>enclosingLayer</code>, <code>viaEdgeType</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2134360"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minConvexCornerSpacing">minConvexCornerSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2134411"></a>lowCornerSpacing, middleWires</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132959"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minCornerToCornerDistance">minCornerToCornerDistance</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132954"></a><code>extensionLength</code>, <code>oppositeDirection</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2130525"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minCornerSpacing_oneLayer">minCornerSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2130527"></a>cornerToCorner</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125996"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minCornerVoltageSpacing">minCornerVoltageSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125998"></a><code>endOfLineWidth</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127181"></a><a href="../ascitechconstr/constr_via.html#minDirectionalSpacing">minDirectionalSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127183"></a><code>excludeCutEdge</code>, <code>minNumCuts</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129174"></a><a href="../ascitechconstr/constr_extension.html#minEndOfLineEdgeExtension">minEndOfLineEdgeExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129176"></a><code>exceptSpacing</code>, <code>minVoltage</code>, <code>maxVoltage</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2128109"></a><a href="../ascitechconstr/constr_extension.html#minOppExtension">minOppExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2128111"></a><code>otherExtension</code>, <code>widthHorizontal| widthVertical</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129902"></a><a href="../ascitechconstr/constr_via.html#minParallelWithinViaSpacing">minParallelWithinViaSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129904"></a><code>otherWidth</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133273"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minPRBoundaryInteriorHalo">minPRBoundaryInteriorHalo</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133275"></a><code>exceptLayer</code>, <code>exceptWidth</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127211"></a><a href="../ascitechconstr/constr_extension.html#minQuadrupleExtension">minQuadrupleExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127213"></a><code>otherMask1</code>, <code>otherMask2</code>, <code>otherMask3</code>, <code>exactZero</code>, <code>otherWithinWidthTable</code>, <code>otherWithinWidthHorizontal</code> | <code>otherWithinWidthVertical</code>, <code>otherSideTable</code>, <code>lineEndGapOnlyTable</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126001"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minSideSpacing_oneLayer">minSideSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126003"></a><code>mask1</code>, <code>mask2</code>, <code>mask3</code>, <code>otherLayer</code>, <code>cutClass</code>, <code>cutWithin</code> </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127493"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minSpacing_oneLayer">minSpacing&#160;(One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127495"></a><code>length</code>, <code>intersectLayers</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2128876"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minSpanLengthSpacing">minSpanLengthSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2128878"></a><code>diffMask</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127497"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minSpacing_twoLayers">minSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127499"></a><code>length</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2134277"></a><a href="../ascitechconstr/constr_length_width.html#minStepEdgeLength">minStepEdgeLength</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2134303"></a><code>jogEdge</code>,<code> adjJogEdge</code>,<code> adjNotchEdge</code>,<code> adjEolSpacingRange</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133465"></a><a href="../ascitechconstr/constr_via.html#minViaGroupSpacing">minViaGroupSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133436"></a><code>mergedCuts</code>, <code>otherLayer</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2130313"></a><a href="../ascitechconstr/constr_via.html#minViaSpacing_oneLayer">minViaSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2134569"></a><code>otherCutClass</code>, <code>otherViaEdgeType</code>, <code>deltaVoltage</code>, <code>exceptGap</code>, <code>exceptSameMetalOverlap</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2130579"></a><a href="../ascitechconstr/constr_via.html#minViaSpacing_twoLayers">minViaSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2130558"></a><code>deltaVoltage</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127501"></a><a href="../ascitechconstr/constr_length_width.html#minWidth">minWidth</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127503"></a><code>length</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129019"></a><a href="../ascitechconstr/constr_misc.html#overlapViaGroup">overlapViaGroup</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129021"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127046"></a><a href="../ascitechconstr/constr_misc.html#pinConnectBlockage">pinConnectBlockage</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127048"></a><code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133837"></a><a href="../ascitechconstr/constr_misc.html#rectShapeDir">rectShapeDir</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133839"></a><code>exceptWidth</code>, <code>widthHorizontal</code> | <code>widthVertical</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2134050"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#requiredEndOfLineShape">requiredEndOfLineShape</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2134052"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129641"></a><a href="../ascitechconstr/constr_numCut.html#sameMetalAlignedCuts">sameMetalAlignedCuts</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129643"></a><code>cutClassSetList</code>, <code>noViaMetalOverlap</code>, <code>otherLayer</code> </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133804"></a><a href="../ascitechconstr/constr_misc.html#trimMetalTrack">trimMetalTrack</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133806"></a><code>halfInFiller</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129509"></a>trimMinCut<a href="../ascitechconstr/constr_spacing_twoLayers.html#trimMinCutSpacing"></a>Spacing</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129511"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129671"></a><a href="../ascitechconstr/constr_via.html#viaEdgeType">viaEdgeType</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2134458"></a><code>metalWithin</code>, <code>noMetalWithin</code>, <code>horizontalEdge | verticalEdge</code>, <code>exceptSpacing</code>, <code>sameSide</code>, <code>noMetalLowWithin</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129666"></a><a href="../ascitechconstr/constr_via.html#viaGroup">viaGroup</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129668"></a><code>allowBend</code>, <code>disallowHorizontal | disallowVertical</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126006"></a><a href="../ascitechconstr/constr_via.html#viaKeepoutMetal">viaKeepoutMetal</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126008"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133578"></a><a href="../ascitechconstr/constr_via.html#viaSpacing">viaSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133580"></a><code>width</code>, <code>exceptLineEndGap</code></p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h3>
+<a id="pgfId-2105323"></a>Supported Co<a id="advConstraints95512"></a>nstraints and Parameters: ICADVM20.1 Only &#8211; 95512</h3>
+<table class="webflareTable" id="#id2105008">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id2114524">
+<a id="pgfId-2114524"></a>Constraint Name</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id2114526">
+<a id="pgfId-2114526"></a>Parameters</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114529"></a><a href="../ascitechconstr/constr_via.html#allowedCutClass">allowedCutClass</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114531"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114534"></a><a href="../ascitechconstr/constr_length_width.html#allowedLengthRanges">allowedLengthRanges</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114536"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114539"></a><a href="../ascitechconstr/constr_length_width.html#allowedNeighborWidthRanges_oneLayer">allowedNeighborWidthRanges<br />(One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114541"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114544"></a><a href="../ascitechconstr/constr_length_width.html#allowedNeighborWidthRanges_twoLayers">allowedNeighborWidthRanges<br />(Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114546"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114549"></a><a href="../ascitechconstr/constr_length_width.html#allowedNeighborWidthRangesOver">allowedNeighborWidthRangesOver</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114551"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114554"></a><a href="../ascitechconstr/constr_length_width.html#allowedPRBoundaryDimensions">allowedPRBoundaryDimensions</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114556"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114559"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#allowedSpacingRanges_oneLayer">allowedSpacingRanges (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114561"></a><code>widthRanges</code>, <code>exceptOverLayer</code>, <code>overLayerPrl</code>, <code>overLayerWidthRanges</code>, <code>exceptNumShapes</code>, <code>numShapeDistance</code>, <code>numShapeWidthRanges</code>, <code>numShapeMaxWidth</code>, <code>stepSize</code>, <code>stepRange</code>, <code>overLayer</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114564"></a><a href="../ascitechconstr/constr_length_width.html#allowedWidthRanges">allowedWidthRanges</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114566"></a><code>measureHorizontal</code>, <code>measureVertical</code>, <code>stepRange</code>, <code>stepSize</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114569"></a><a href="../ascitechconstr/constr_misc.html#edgeMustCoincide">edgeMustCoincide</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114571"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114574"></a><a href="../ascitechconstr/constr_misc.html#edgeMustOverlap">edgeMustOverlap</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114576"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114579"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#endOfLineKeepout">endOfLineKeepout</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114581"></a><code>orGroupID</code>, <code>exceptSideWithin</code>, <code>exceptFromFrontEdge</code>, <code>exceptFromBackEdge</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114584"></a><a href="../ascitechconstr/constr_via.html#forbiddenCutClassSpacingRange">forbiddenCutClassSpacingRange</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114586"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114589"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#forbiddenEdgePitchRange">forbiddenEdgePitchRange</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114591"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114594"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#forbiddenProximitySpacing">forbiddenProximitySpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114596"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119640"></a><a href="../ascitechconstr/constr_misc.html#layerDefaultColor">layerDefaultColor</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119642"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2120932"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#lithoMacroHalo">lithoMacroHalo</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2120923"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119607"></a><a href="../ascitechconstr/constr_area.html#maxCumAntenna">maxCumAntenna</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119609"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114599"></a><a href="../ascitechconstr/constr_misc.html#maxNumCorners">maxNumCorners</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114601"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2121448"></a><a href="../ascitechconstr/constr_via.html#maxViaStack">maxViaStack</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2121450"></a><code>minMultiCut</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114604"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minCenterLineSpacing_twoLayers">minCenterLineSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114606"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114609"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minClusterSpacing_oneLayer">minClusterSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114611"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114614"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minClusterSpacing_twoLayers">minClusterSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114616"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114619"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minCornerSpacing_oneLayer">minCornerSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114621"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114624"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minCornerSpacing_twoLayers">minCornerSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114626"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114629"></a><a href="../ascitechconstr/constr_via.html#minCutClassSpacing_oneLayer">minCutClassSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114631"></a><code>bothNegativePrls</code>, <code>nonCutClassEdgeSpacing</code>, <code>sameMask</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114634"></a><a href="../ascitechconstr/constr_via.html#minCutClassSpacing_twoLayers">minCutClassSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114636"></a><code>nonZeroEnclosure</code>, <code>nonCutClassEdgeSpacing</code>, <code>cutClassSizeBy</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114639"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minCutRoutingSpacing_twoLayers">minCutRoutingSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114641"></a><code>enclosingLayerWidth</code>, <code>enclosingLayer</code>, <code>maskOverlap</code>, <code>parallelExtension</code>, <code>prl</code>, <code>parallelEdgeWithin</code>, <code>otherExtension</code>, <code>anyOppositeExtension</code>, <code>viaEdgeType</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114644"></a><a href="../ascitechconstr/constr_overlap.html#minDirectionalOverlap">minDirectionalOverlap</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114646"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114649"></a><a href="../ascitechconstr/constr_length_width.html#minEdgeAdjacentLength">minEdgeAdjacentLength</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114651"></a><code>concaveCorner</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114654"></a><a href="../ascitechconstr/constr_length_width.html#minEndOfLineAdjacentToStep">minEndOfLineAdjacentToStep</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114656"></a><code>adjacentLength</code>, <code>concaveCorner</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114659"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minEndOfLineExtensionSpacing">minEndOfLineExtensionSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114661"></a><code>negativePRL</code>, <code>sameMask</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114664"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minEndOfLineSpacing">minEndOfLineSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114666"></a><code>exactEolWidth</code>, <code>horizontal</code>, <code>vertical</code>, <code>extendBy</code>, <code>sizeBy</code>, <code>widthRanges</code>, <code>sameMask</code>, <code>diffMask</code>, <code>sameNet</code>, <code>sameMetal</code>, <code>exceptExactAligned</code>, <code>bothWires</code>, <code>wrongDirSpace</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114669"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minEndOfLineToConcaveCornerSpacing">minEndOfLineToConcaveCornerSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114671"></a><code>dualAdjacentLength</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114674"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minEndOfLineToNotchSpacing">minEndOfLineToNotchSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114676"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114679"></a><a href="../ascitechconstr/constr_extension.html#minExtensionDistance">minExtensionDistance</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125662"></a><code>horizontal</code>, <code>vertical</code>, <code>cutClass</code>, <code>exceptEdgeLengthRange</code>, <code>insidePurposes</code>, <code>outsideLayers</code>, <code>outsidePurposes</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114684"></a><a href="../ascitechconstr/constr_extension.html#minExtensionEdge">minExtensionEdge</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125650"></a><code>exceptConcaveCorner</code>, <code>twoSides</code>, <code>horizontal</code>, <code>vertical</code>, <code>insidePurposes</code>, <code>outsideLayers</code>, <code>outsidePurposes</code></p>
+<p>
+<a id="pgfId-2114686"></a><code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114689"></a><a href="../ascitechconstr/constr_extension.html#minExtensionOnLongSide">minExtensionOnLongSide</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114691"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114694"></a><a href="../ascitechconstr/constr_extension.html#minExtensionToCenterLine">minExtensionToCenterLine</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114696"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114699"></a><a href="../ascitechconstr/constr_extension.html#minExtensionToCorner">minExtensionToCorner</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114701"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114704"></a><a href="../ascitechconstr/constr_extension.html#minInnerVertexProximityExtension">minInnerVertexProximityExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114706"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114709"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minJointCornerSpacing">minJointCornerSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114711"></a><code>sameMask</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2121657"></a><a href="../ascitechconstr/constr_via.html#viaMeshEscapeLayer">minMeshEscapeLayer</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2121659"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2121661"></a><a href="../ascitechconstr/constr_via.html#viaMeshMinCuts">minMeshMinCuts</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2121663"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114714"></a><a href="../ascitechconstr/constr_extension.html#minNeighborExtension">minNeighborExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114716"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114719"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minNeighboringShapesSpacing">minNeighboringShapesSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114721"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114724"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minNotchSpacing">minNotchSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114726"></a><code>notchWidth</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114729"></a><a href="../ascitechconstr/constr_numCut.html#minNumCut">minNumCut</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114731"></a><code>bothAboveBelow</code>, <code>sameMetalOverlap</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114734"></a><a href="../ascitechconstr/constr_extension.html#minOppExtension">minOppExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125691"></a><code>horizontal</code>, <code>vertical</code>, <code>includeAbutted</code>, <code>stepSizePair</code>, <code>exactPrl</code>, <code>hasExactPrl</code>, <code>insideLayers</code>, <code>insidePurposes</code>, <code>outsideLayers</code>, <code>outsidePurposes</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114739"></a><a href="../ascitechconstr/constr_via.html#minParallelWithinViaSpacing">minParallelWithinViaSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114741"></a><code>cutClass</code>, <code>longEdgeOnly</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114744"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minPRBoundaryInteriorHalo">minPRBoundaryInteriorHalo</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114746"></a><code>horizontal</code>, <code>stepSize</code>, <code>vertical</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114749"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minProtrusionSpacing">minProtrusionSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114751"></a><code>excludeSpacing</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114754"></a><a href="../ascitechconstr/constr_length_width.html#minProtrusionWidthLength">minProtrusionWidthLength</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114756"></a><code>enclosedWidth</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114759"></a><a href="../ascitechconstr/constr_extension.html#minProtrusionWidthWithVia">minProtrusionWidthWithVia</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114761"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114764"></a><a href="../ascitechconstr/constr_area.html#minRectArea">minRectArea</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114766"></a><code>maxWidth</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114769"></a><a href="../ascitechconstr/constr_extension.html#minSideExtension">minSideExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114771"></a><code>exceptEdgeLengthRanges</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114774"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minSideSpacing_oneLayer">minSideSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114776"></a><code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114779"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minSideSpacing_twoLayers">minSideSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114781"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114784"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minSpacing_oneLayer">minSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114786"></a><code>exceptEolWidth</code>, <code>ignoreShapesInRanges</code>, <code>sameMask</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114789"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minSpanLengthSpacing">minSpanLengthSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114791"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114794"></a><a href="../ascitechconstr/constr_length_width.html#minStepEdgeLength">minStepEdgeLength</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114796"></a><code>any</code>, <code>horizontalEdge</code>, <code>verticalEdge</code>, <code>allCorner</code>, <code>concaveCorner</code>, <code>convexCorner</code>, <code>mixedCorner</code>, <code>exceptExactLength</code>, <code>exceptExactBothLength</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114799"></a><a href="../ascitechconstr/constr_misc.html#minStitchOverlap">minStitchOverlap</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114801"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114804"></a><a href="../ascitechconstr/constr_via.html#minViaSpacing_oneLayer">minViaSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114806"></a><code>horizontal</code>, <code>vertical</code>, <code>bothCuts</code>, <code>exceptExactAligned</code>, <code>enclosingLayer</code>, <code>overLayer</code>, <code>overLayerWidth</code>, <code>viaEdgeType</code>, <code>sameMask</code>, <code>sizeBy</code>,<code> diffMask</code>, <code>orthogonalEdgePair</code>,<code> facingEdges</code>,<code> exceptSameNet</code>, <code>exceptSameMetal</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114809"></a><a href="../ascitechconstr/constr_overlap.html#minWireOverlap">minWireOverlap</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114811"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119669"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#onGridOnly">onGridOnly</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119671"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114814"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#pgViaTrack">pgViaTrack</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114816"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114819"></a><a href="../ascitechconstr/constr_misc.html#rectShapeDir">rectShapeDir</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122008"></a><code>extendBy</code>, <code>exceptViaLayer</code>, <code>exceptViaSize</code>, <code>exceptExactSize</code>, <code>exceptEdgeLength</code>, <code>twoSides</code>, <code>width</code>, <code>widthRanges</code>, <code>exceptNonCorePins</code>, <code>insideLayers</code>, <code>insidePurposes</code>, <code>outsideLayers</code>, <code>outsidePurposes</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114824"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#shapeRequiredBetweenSpacing">shapeRequiredBetweenSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114826"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114829"></a><a href="../ascitechconstr/constr_via.html#viaRequiredWithin">viaRequiredWithin</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114831"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114834"></a><a href="../ascitechconstr/constr_via.html#viaSpacing">viaSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2114836"></a><code>allCuts</code>, <code>cutSizeRanges</code>, <code>exceptOppositeCornerNeighbors</code>, <code>twoCuts</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126847"></a>voltage<a href="../ascitechconstr/constr_routing.html#voltageLayerMarkerMapping"></a>LayerMarkerMapping</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126849"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126851"></a>voltage<a href="../ascitechconstr/constr_routing.html#voltageLayerPairMarkerMapping"></a>LayerPairMarkerMapping</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126853"></a></p>
+</td>
+</tr>
+</tbody></table>
+
+
+<h3>
+<a id="pgfId-2105520"></a>Supported Con<a id="advConstraints95511"></a>straints and Parameters: ICADVM20.1 Only &#8211; 95511</h3>
+<table class="webflareTable" id="#id2105325">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id2105713">
+<a id="pgfId-2105713"></a>Constraint Name</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id2105715">
+<a id="pgfId-2105715"></a>Parameters</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105718"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#allowedBetweenNeighborWidthRanges">allowedBetweenNeighborWidthRanges</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105720"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133952"></a><a href="../ascitechconstr/constr_via.html#allowedCutClass">allowedCutClass</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2133954"></a><code>minVoltage</code>, <code>maxVoltage</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105723"></a><a href="../ascitechconstr/constr_misc.html#allowedSnapPatternDefs">allowedSnapPatternDefs</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105725"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2123232"></a><a href="../ascitechconstr/constr_length_width.html#allowedSpanLengthRanges">allowedSpanLengthRanges</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2123234"></a><code>otherSpanLength</code>, <code>otherSpanTable</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105728"></a><a href="../ascitechconstr/constr_misc.html#allowedWireTypes">allowedWireTypes</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105730"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126447"></a><a href="../ascitechconstr/constr_via.html#bothSidesViaForbiddenSpacingRange">bothSidesViaForbiddenSpacingRange</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126449"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129877"></a><a href="../ascitechconstr/constr_antenna.html#antennaModelCombo">antennaModelCombo</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2129879"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2121053"></a><a href="../ascitechconstr/constr_length_width.html#boundaryEOLBlockage">boundaryEOLBlockage</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2121055"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122252"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#cornerEndOfLineKeepout">cornerEndOfLineKeepout</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122254"></a><code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122151"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#cornerOnlyEndOfLineKeepout">cornerOnlyEndOfLineKeepout</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122148"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2130055"></a><a href="../ascitechconstr/constr_via.html#cutClassPreference">cutClassPreference</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2130050"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105733"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#endOfLineKeepout">endOfLineKeepout</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105735"></a><code>mask1</code>, <code>mask2</code>, <code>mask3</code>, <code>diffMask</code>, <code>forwardGap</code>, <code>otherEndEol</code>, <code>twoSides</code>, <code>minEolWidth</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105738"></a><a href="../ascitechconstr/constr_via.html#forbiddenCutClassSpacingRange">forbiddenCutClassSpacingRange</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105740"></a><code>longEdge</code>, <code>sameMask</code>, <code>allCuts</code>, <code>layer</code>, <code>layerWidth</code>, <code>mask1</code>, <code>mask2</code>, <code>mask3</code>, <code>paraLength</code>, <code>within</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2106405"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#forbiddenEdgePitchRange">forbiddenEdgePitchRange</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2106407"></a><code>minWidth</code>, <code>outerSameMask</code>, <code>outerWithin</code>, <code>outerWidth</code>, <code>mask1</code>, <code>mask2</code>, <code>mask3</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119937"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#forbiddenSpacingRanges">forbiddenSpacingRanges</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119939"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113931"></a><a href="../ascitechconstr/constr_routing.html#layerMaskShiftAllowed">layerMaskShiftAllowed</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113933"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132846"></a><a href="../ascitechconstr/constr_density.html#maxDensityCheck">maxDensityCheck</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132848"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122572"></a><a href="../ascitechconstr/constr_length_width.html#maxEdgeLength">maxEdgeLength</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122574"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132850"></a><a href="../ascitechconstr/constr_density.html#maxRelativeColorDensity">maxRelativeColorDensity</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132852"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125763"></a><a href="../ascitechconstr/constr_via.html#maxViaArrayClusterSize">maxViaArrayClusterSize</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125765"></a><code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119798"></a><a href="../ascitechconstr/constr_via.html#maxViaStack">maxViaStack</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119800"></a><code>exceptPGNet</code>, <code>noViaList</code>, <code>noCutClassList</code>, <code>withinLayerName</code>, <code>withinList</code>, <code>exceptCutClassList</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126714"></a><a href="../ascitechconstr/constr_via.html#mergedViaCornerToCornerSpacing">mergedViaCornerToCornerSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126716"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105743"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minAdjacentFourViaSpacing">minAdjacentFourViaSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105745"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105748"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minClusterSpacing_oneLayer">minClusterSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125721"></a><code>clusterToCluster</code>, <code>edgeToEdge</code>, <code>sameMask</code>, <code>widthHorizontal| widthVertical</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105753"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minConcaveCornerSpacing">minConcaveCornerSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105755"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105758"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minCornerSpacing_oneLayer">minCornerSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105760"></a><code>useEdgeLength</code>, <code>sameMask</code>, <code>exceptNotchLength</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125529"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minCornerVoltageSpacing">minCornerVoltageSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2123070"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2106094"></a><a href="../ascitechconstr/constr_via.html#minCutClassSpacing_oneLayer">minCutClassSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2106089"></a><code>horizontalOverlap</code>, <code>verticalOverlap</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2124773"></a><a href="../ascitechconstr/constr_via.html#minCutClassSpacing_twoLayers">minCutClassSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2124775"></a><code>minEnclosure</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125942"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minCutEdgeSpacing_twoLayers">minCutEdgeSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125944"></a><code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119750"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minCutRoutingSpacing_twoLayers">minCutRoutingSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119752"></a><code>shortEdgePrl</code>, <code>deltaVoltage</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132884"></a><a href="../ascitechconstr/constr_density.html#minDensityCheck">minDensityCheck</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132886"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2124179"></a><a href="../ascitechconstr/constr_via.html#minDirectionalSpacing">minDirectionalSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2124181"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105908"></a><a href="../ascitechconstr/constr_length_width.html#minEdgeAdjacentLength">minEdgeAdjacentLength</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105910"></a><code>threeConcaveCorners</code>, <code>width</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105763"></a><a href="../ascitechconstr/constr_extension.html#minEndOfLineEdgeExtension">minEndOfLineEdgeExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105765"></a><code>minWidth</code>, <code>shortEdgeOnly</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105768"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minEndOfLineExtensionSpacing">minEndOfLineExtensionSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105770"></a><code>nonEol</code>, <code>otherWidth</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132503"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minEndofLinePerpSpacing">minEndOfLinePerpSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132505"></a><code>negativePRL</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105773"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minEndOfLineSpacing">minEndOfLineSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105775"></a><code>exceptExactEolWidth</code>, <code>fillConcaveCorner</code>, <code>negativePRL</code>, <code>parallelSameMask</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105778"></a><a href="../ascitechconstr/constr_extension.html#minExtensionEdge">minExtensionEdge</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105780"></a><code>edgeExtension</code>, <code>layer</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2107132"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minFiveWiresEndOfLineSpacing">minFiveWiresEndOfLineSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2107134"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105783"></a><a href="../ascitechconstr/constr_extension.html#minNeighborExtension">minNeighborExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105785"></a><code>mask1</code>, <code>mask2</code>, <code>mask3</code>, <code>mask4</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125804"></a><a href="../ascitechconstr/constr_via.html#minNestedViaSpacing">minNestedViaSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125806"></a><code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105788"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minNotchSpacing">minNotchSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105790"></a><code>excludeSpacing</code>, <code>horizontal</code>, <code>vertical</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2107101"></a><a href="../ascitechconstr/constr_numCut.html#minNumCut">minNumCut</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2107103"></a><code>fullyEnclosed</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127029"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minOppositeClearance_twoLayers">minOppositeClearance (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127031"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127886"></a><a href="../ascitechconstr/constr_extension.html#minOppEndOfLineExtension">minOppEndOfLineExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127888"></a><code>horizontal</code>, <code>vertical</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127942"></a><a href="../ascitechconstr/constr_extension.html#minOppExtension">minOppExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127944"></a><code>extraOnly</code>, <code>jogLengthOnly</code>, <code>horizontalJog</code>, <code>verticalJog</code>, <code>jogWireWidth</code>, <code>treatLAsJog</code>, <code>hollowHorizontal</code>, <code>hollowVertical</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105798"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minOrthogonalSpacing">minOrthogonalSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105800"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105803"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minPrlTwoSidesSpacing">minPrlTwoSidesSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105805"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105808"></a><a href="../ascitechconstr/constr_extension.html#minQuadrupleExtension">minQuadrupleExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105810"></a><code>mask1</code>, <code>mask2</code>, <code>mask3</code>, <code>otherLayer</code>, <code>useMaxWidth</code>, <code>useMinWidth</code>, <code>withinFirstWidth</code>, <code>directionalExtension</code>, <code>maxLength</code>, <code>parallelWithinTable</code>, <code>trimLayer</code>, <code>trimLengthTable</code>, <code>includeAbuttedTable</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105813"></a><a href="../ascitechconstr/constr_area.html#minRectArea">minRectArea</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125750"></a><code>mask1</code>, <code>mask2</code>, <code>mask3</code>, <code>layer</code>, <code>overlapType</code>, <code>insideLayers</code>, <code>insidePurposes</code>, <code>outsideLayers</code>, <code>outsidePurposes</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132901"></a><a href="../ascitechconstr/constr_density.html#minRelativeColorDensity">minRelativeColorDensity</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132903"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105818"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minSideSpacing_oneLayer">minSideSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125736"></a><code>cornerEuclidian</code>, <code>lengthRanges</code>, <code>otherLengthRanges</code>, <code>prlRange</code>, <code>sameMask</code>, <code>mask1</code>, <code>mask2</code>, <code>mask3</code>, <code>widthHorizontal| widthVertical</code>, <code>otherFacingEdgeRange</code>, <code>facingEdgeHorizontal</code>, <code>facingEdgeVertical</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105823"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minSideSpacing_twoLayers">minSideSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105825"></a><code>cornerEuclidian</code>, <code>exceptOverlap</code>, <code>mask1</code>, <code>mask2</code>, <code>mask3</code>, <code>otherMask1</code>, <code>otherMask2</code>, <code>otherMask3</code>, <code>deltaVoltage</code>, <code>prlRange</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105828"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minSpacing_oneLayer">minSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105830"></a><code>fillConcaveCorner</code>, <code>mask1</code>, <code>mask2</code>, <code>mask3</code>, <code>ignoreIntermediateShapes</code>, <code>cornerAllowed</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122963"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minSpacing_twoLayers">minSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122965"></a><code>crossingAllowed</code>, <code>cornerAllowed</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125925"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minSpacingOver_twoLayers">minSpacingOver (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2125927"></a><code>mask1</code>, <code>mask2</code>, <code>mask3</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119974"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minSpanLengthExtensionSpacing">minSpanLengthExtensionSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2119976"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105833"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minSpanLengthSpacing">minSpanLengthSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105835"></a><code>exactSelfSpacingTable</code>, <code>eolExceptionNoPrl</code>, <code>minSpanForExceptEolWidth</code>, <code>minSpanSpacingRangesPrl</code>, <code>sameMask</code>, <code>spacingToMinSpanTable</code>, <code>useEdgeLength</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122188"></a><a href="../ascitechconstr/constr_length_width.html#minStepEdgeLength">minStepEdgeLength</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122190"></a><code>extendToAlign</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2123820"></a><a href="../ascitechconstr/constr_via.html#minViaGroupSpacing">minViaGroupSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2123822"></a><code>groupToGroup</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105838"></a><a href="../ascitechconstr/constr_via.html#minViaSpacing_oneLayer">minViaSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132712"></a><code>above</code>, <code>below</code>, <code>bothAboveBelow</code>, <code>diffMask</code>, <code>sizeByTouchedCorners</code>, <code>includedEdgeAligned</code>, <code>alignedHorizontal | alignedVertical</code>, <code>shortSideToShortSide | shortSideToLongSide | shortSideToAnySide | longSideToLongSide | longSideToAnySide</code>, <code>prlRange,viasOnSameNet | viasOnSameMetal </code>|<code> viasOnSameVia</code>,<code> exceptViasOnSameNet |</code> <code>exceptViasOnSameMetal | exceptViasOnSameVia</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105843"></a><a href="../ascitechconstr/constr_via.html#minViaSpacing_twoLayers">minViaSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105845"></a><code>exceptSameNet</code>, <code>exceptSameMetal</code>, <code>horizontal | vertical</code>, <code>oppositeSides</code>, <code>prl</code>, <code>prlRange</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105848"></a><a href="../ascitechconstr/constr_extension.html#minVoltageExtension">minVoltageExtension</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105850"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2128069"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#minVoltageSpacing_oneLayer">minVoltageSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105840"></a><code>horizontal</code>, <code>vertical</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105853"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#minVoltageSpacing_twoLayers">minVoltageSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105855"></a><code>horizontal</code>, <code>vertical</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105858"></a><a href="../ascitechconstr/constr_misc.html#multiMaskCheck">multiMaskCheck</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105860"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122221"></a><a href="../ascitechconstr/constr_via.html#multiLayer">multiLayer</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2122223"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105863"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#oneSideSpacing">oneSideSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105865"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127633"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#onGridOnly">onGridOnly</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2127635"></a><code>exceptWidth</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105868"></a><a href="../ascitechconstr/constr_routing.html#orthogonalSnappingLayer">orthogonalSnappingLayer</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105870"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113661"></a><a href="../ascitechconstr/constr_routing.html#orthogonalWSPGrid">orthogonalWSPGrid</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113663"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132414"></a><a href="../ascitechconstr/constr_misc.html#coreEOLBlockage">preColoredLayers</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2132416"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105873"></a><a href="../ascitechconstr/constr_routing.html#rectangularGapMinSpacing">rectangularGapMinSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105875"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105878"></a><a href="../ascitechconstr/constr_misc.html#sameMaskOnLayer">sameMaskOnLayer</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105880"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2121625"></a><a href="../ascitechconstr/constr_numCut.html#sameMetalAlignedCuts">sameMetalAlignedCuts</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2121627"></a><code>withCut</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105883"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#snapPatternDefOffset">snapPatternDefOffset</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105885"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113636"></a><a href="../ascitechconstr/constr_misc.html#trimMetalTrack">trimMetalTrack</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2113638"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2106195"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#trimMinAdjacentSpacing">trimMinAdjacentSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2106197"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105888"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#trimMinSpacing">trimMinSpacing (One layer)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105890"></a><code></code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2106368"></a><a href="../ascitechconstr/constr_spacing_twoLayers.html#trimMinSpacing_twoLayers">trimMinSpacing (Two layers)</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2106370"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105893"></a><a href="../ascitechconstr/constr_misc.html#trimShape">trimShape</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105895"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105898"></a><a href="../ascitechconstr/constr_misc.html#vertexInsideForbidden">vertexInsideForbidden</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105900"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2123796"></a><a href="../ascitechconstr/constr_via.html#viaGroup">viaGroup</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2123798"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2107029"></a><a href="../ascitechconstr/constr_spacing_oneLayer.html#viaKeepoutZone">viaKeepoutZone</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2107031"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105903"></a><a href="../ascitechconstr/constr_via.html#viaSpacing">viaSpacing</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2105905"></a><code>minDistance</code>, <code>sameMask</code>, <code>sameNeighborCuts</code>, <code>exceptWithin, edgeExtension, layer, horizontal, vertical, twoCutsSpacing</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126403"></a><a href="../ascitechconstr/constr_misc.html#widthLengthRatio">widthLengthRatio</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-2126405"></a></p>
+</td>
+</tr>
+</tbody></table>
+
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="preface.html" id="prev" title="Preface">Preface</a></em></b><b><em><a href="constr_antenna.html" id="nex" title="Antenna Constraints">Antenna Constraints</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

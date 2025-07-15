@@ -1,0 +1,575 @@
+
+<html><head><title>Power-Grid View Creation</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="pallabi" />
+<meta name="CreateDate" content="2020-09-11" />
+<meta name="CreateTime" content="1599809761" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to perform power-grid and electromigration analysis using the Virtuoso Power System Product, Power IR/EM." />
+<meta name="DocTitle" content="Power IR/EM User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Power-Grid View Creation" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2" />
+<meta name="Keyword" content="vpsl" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-11" />
+<meta name="ModifiedTime" content="1599809761" />
+<meta name="NextFile" content="emrulespec.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Digital IC Design" />
+<meta name="PrevFile" content="vsaPlot.html" />
+<meta name="c_product" content="Virtuoso Power System" />
+<meta name="Product" content="Virtuoso Power System" />
+<meta name="ProductFamily" content="Virtuoso Power System" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Power IR/EM User Guide -- Power-Grid View Creation" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vpslICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vpslTOC.html">Contents</a></li><li><a class="prev" href="vsaPlot.html" title="Viewing Results in vsaPlot">Viewing Results in vsaPlot</a></li><li style="float: right;"><a class="viewPrint" href="vpsl.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="emrulespec.html" title="EM Rules Specification">EM Rules Specification</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Power IR/EM User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+
+<h1>8
+<a id="pgfId-15301765"></a></h1>
+<h1>
+<a id="pgfId-15301766"></a><hr />
+Power-Grid View Creation<hr />
+</h1>
+
+<ul><li>
+<a id="pgfId-15301770"></a><a href="pgvcreation.html#95352">Overview</a></li><li>
+<a id="pgfId-15301774"></a><a href="pgvcreation.html#48561">Data Requirements and Flow for PGV Creation</a></li><li>
+<a id="pgfId-15301778"></a><a href="pgvcreation.html#18916">Creating Power-Grid Views</a></li><li>
+<a id="pgfId-15301782"></a><a href="pgvcreation.html#34864">Writing Out a PGV Command File</a><ul><li>
+<a id="pgfId-15302043"></a><a href="pgvcreation.html#97320">Sample Batch Command file</a></li></ul></li><li>
+<a id="pgfId-15302783"></a><a href="pgvcreation.html#81690">Outputs of PGV Generation</a></li><li>
+<a id="pgfId-15302032"></a><a href="pgvcreation.html#82805">File Formats</a><ul><li>
+<a id="pgfId-15302104"></a><a href="pgvcreation.html#65920">DSPF Layermap File</a></li><li>
+<a id="pgfId-15302117"></a><a href="pgvcreation.html#35995">LEF Layermap File</a></li><li>
+<a id="pgfId-15308939"></a><a href="pgvcreation.html#78480">PGDB Layermap File</a></li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-15302820"></a><a id="95352"></a>Overview</h2>
+
+<p>
+<a id="pgfId-15308625"></a>Increasing operating frequency and density of IC designs increases the need for IR drop and <a id="marker-15308626"></a>Electromigration (EM) power-grid analysis. Power-grid signoff analysis is provided by Voltus in the digital domain, and Power IR/EM in the analog domain. </p>
+<p>
+<a id="pgfId-15302823"></a>Power IR/EM provides the ability to create <a id="marker-15308627"></a>power-grid views (PGVs) of an analog design block that can be used in Voltus for mixed-signal analysis. PGVs contain the following:</p>
+<ul><li>
+<a id="pgfId-15302826"></a>A model view of the design</li><li>
+<a id="pgfId-15302827"></a>Information about the power ports of the cell or block</li><li>
+<a id="pgfId-15302828"></a>Information about the internal power grid, intrinsic capacitance, and the tap current distribution within the cell or block</li></ul>
+
+
+<p>
+<a id="pgfId-15302829"></a>PGVs provide an accurate characterization of capacitance and currents, and power-grid extraction. Voltus uses these views to model power rail and power distribution information for each instance of the cell in the design for dynamic or static full-chip power-grid analysis. </p>
+<p>
+<a id="pgfId-15302830"></a>For more information about PGVs, refer to the &#8220;Power-Grid Library Generation&#8221; chapter in the <em>Voltus IC Power Integrity Solution User Guide</em>.</p>
+
+<h2>
+<a id="pgfId-15302832"></a><a id="48561"></a>Data Requirements and Flow for PGV Creation</h2>
+
+<p>
+<a id="pgfId-15302833"></a>The following table shows the required inputs for generating power-grid views in Power IR/EM. The inputs are categorized into the following: 1) from the design; and 2) from the user.</p>
+<p>
+<a id="pgfId-15302897"></a></p>
+<table class="webflareTable" id="#id15302834">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302836"></a>Type of Inputs</p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302838"></a><strong>Required Inputs</strong></p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302840"></a><strong>Details</strong></p>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="4">
+<p>
+<a id="pgfId-15302842"></a>Design Inputs</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302844"></a><code>Detailed Standard Parasitic format (DSPF)</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-15302846"></a>Required for providing the following information:</p>
+<ul><li>
+<a id="pgfId-15302847"></a>All power ground nets extracted</li><li>
+<a id="pgfId-15302848"></a>Layer information with each resistor</li><li>
+<a id="pgfId-15302849"></a>x, y coordinates of the parasitic resistors </li><li>
+<a id="pgfId-15302850"></a>A valid layermap external file that lists all layers</li><li>
+<a id="pgfId-15302851"></a>Lumped C of the signal nets</li></ul>
+
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302855"></a><code>Spice models and corresponding spice corners</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302857"></a>Required for SPICE simulation</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302861"></a><code>QRC Techfile</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302863"></a>Required for power-grid extraction</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302867"></a><code>LEF file</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302869"></a>Required for port connectivities</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302871"></a>User Inputs</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302873"></a><code>Net names</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302875"></a>Required for extraction and pin information</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302877"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302879"></a><code>DSPF layermap file</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302881"></a>Required to provide information about the order and type of layers in the DSPF file.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302883"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302885"></a><code>LEF layermap file</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302887"></a>Required for providing mapping for the following:</pre>
+
+<ul><li>
+<a id="pgfId-15302888"></a>Layer names in the LEF file to layer names in the technology file</li><li>
+<a id="pgfId-15302889"></a>PGDB layer names to the layer names in the technology file</li></ul>
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302891"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302893"></a><code>Stimulus file</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-15302895"></a>Required for providing information about simulation vectors, start time/stop time, and interval</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15302896"></a>This is required only for dynamic PGV generation.</div>
+
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-15302898"></a>The following diagram illustrates the flow of PGV creation in Power IR/EM.</p>
+
+<p><strong>Figure 8-1
+<a id="pgfId-15302899"></a>Power-Grid View Generation Flow in Power IR/EM</strong></p>
+<p>
+<a id="pgfId-15302903"></a></p>
+<div class="webflare-div-image">
+<img width="452" height="376" src="images/pgvcreation-2.gif" /></div>
+<h2>
+<a id="pgfId-15302906"></a><a id="18916"></a>Creating Power-<a id="vsaNewPGVHelp"></a>Grid Views</h2>
+
+<p>
+<a id="pgfId-15302907"></a>To create PGVs in Power IR/EM, perform the following steps:</p>
+<ul><li>
+<a id="pgfId-15302909"></a>In the Virtuoso Layout Suite L, select <em>VPS-L- Analyze Extracted View Pin(s). </em><a id="marker-15302908"></a></li><li>
+<a id="pgfId-15302911"></a>From the drop-down list, select VPS-<em>LibGen Power Grid Views Creation.</em><a id="marker-15302910"></a> The PowerGridView Creation form opens. This form is shown below.<a id="marker-15302912"></a><br /><strong class="webflare-fig-line-height">Figure 8-2
+<a id="pgfId-15302915"></a><a id="76437"></a>Power<a id="PGVCreationHelp"></a>GridView Creation Form</strong>
+<a id="pgfId-15302919"></a><div class="webflare-div-image">
+<img width="589" height="587" src="images/pgvcreation-3.gif" /></div></li><li>
+<a id="pgfId-15302920"></a>The <em>CELL name f</em>ield is already populated with the name of the cell for which the power-grid view is being created. This is chosen from the open extracted view.</li><li>
+<a id="pgfId-15302921"></a>In <em>View Type</em>, choose either <em>static</em> or <em>dynamic</em>, to specify the type of analysis for which you want to generate the view.</li><li>
+<a id="pgfId-15302922"></a>Select the <em>QRC Tech File</em>, which is the name of the QRC technology file that will be used for PGV generation.</li><li>
+<a id="pgfId-15302923"></a>Select the <em>DSPF File</em>, which is the the third party or xDSPF netlist file that is to be imported.</li><li>
+<a id="pgfId-15302924"></a>Select the <em>DSPF Map File</em>, which is the layermap file that has layer type and layer stack information of the DPSF file, from the top-most layer to the bottom-most layer. The Layer type column specifies the type of layer: metal, via, or local; while the Process layername column specifies the name of the layer. An example of the DSPF map file is shown in the <a href="pgvcreation.html#82805">File Formats</a> section.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-15302925"></a>
+In the DSPF map file, ensure that the layer information is provided in the top-to-bottom order. If this order is not followed, the PGDB will not be created.</div></li><li>
+<a id="pgfId-15302926"></a>Specify the <em>LEF Layer Map File</em>, which contains the mapping information for the layer names in the LEF file to the layer names in the technology file. An example file is shown in the <a href="pgvcreation.html#82805">File Formats</a> section.</li><li>
+<a id="pgfId-15302927"></a>Select the technology LEF files and the Macro LEF files in the <em>Input LEF</em> field. The technology LEF files contain LEF information for the technology data, and the Macro LEF files contain the LEF data for the design. The selected filenames will appear in the <em>LEF FILE LIST</em>. Click <em>Remove LEF</em> to remove any file from the <em>LEF FILE LIST</em>.</li><li>
+<a id="pgfId-15302928"></a>In the <em>Enter Multiple Net names and their voltages in pair netname:voltage</em> field, type the names of the nets and their corresponding voltages in the specified format. For example, <code>VDD:1.8 VSS:0.0. </code>You can specify multiple net names separated by a space.</li><li>
+<a id="pgfId-15302931"></a>To specify the Spice Models information, perform the following steps:<ul><li>
+<a id="pgfId-15302932"></a>Select the <em>Spice Model File</em> used by the SPICE netlist.</li><li>
+<a id="pgfId-15302933"></a>Type the corresponding <em>Spice Corner</em> to be used from the model file.</li><li>
+<a id="pgfId-15302934"></a>Click <em>Add</em> to add the spice model &#8211; spice corner pair to the table.</li><li>
+<a id="pgfId-15302935"></a>Continue till all models and their corresponding corners are specified.</li><li>
+<a id="pgfId-15302936"></a>Click <em>Remove</em> to remove a pair from the table.</li></ul></li><li>
+<a id="pgfId-15302937"></a>The Dynamic group box is activated only when you choose the <em>View type</em> as <em>dynamic</em>. In this group box, provide the specifications for dynamic PGV generation.<ul><li>
+<a id="pgfId-15302938"></a>Select the <em>Stimulus File</em>, which is the input file for the simulator. Choose this option to specify the vector information to be used for simulation.</li><li>
+<a id="pgfId-15302939"></a>Specify the <em>Start,</em> <em>Stop</em> time in nanoseconds (ns), and <em>Step Size</em> in picoseconds (ps).This specifies the simulation start time, stop time, and step size. The default value of step size is 200 ps.</li><li>
+<a id="pgfId-15302940"></a>Choose either APS or Ultrasim in the <em>Simulator </em>cyclic field. By default, APS is selected.</li></ul></li><li>
+<a id="pgfId-15302941"></a>Select the <em>Output Directory </em>to write the output data. By default, the power-grid views are stored in the work directory.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15302942"></a>This option lets you save different outputs without overwriting the existing ones. However, if the output is stored in the default directory, then the new output file created while generating the power-grid views in the current run overwrites the existing one.</div></li><li>
+<a id="pgfId-15308811"></a>Select the <em>PGDB Map File</em>, which is the layermap file that contains the mapping information between the PGDB layer names and the layer names in the technology file. This file is required only when the layer names in the PGDB are different from the layer names in the technology file. An example of the PGDB layermap file is shown in the <a href="pgvcreation.html#82805">File Formats</a> section.</li><li>
+<a id="pgfId-15308839"></a>Click <em>OK</em>.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15302946"></a><a id="34864"></a>Writing Out a PG<a id="vsaPGVResultsSaveCommandsHelp"></a>V Command File</h3>
+
+<p>
+<a id="pgfId-15302947"></a>To generate a batch mode command file for PGV generation, follow these steps:</p>
+<ul><li>
+<a id="pgfId-15302948"></a>In the PowerGridView Creation form, click <em>Generate Command File</em>. The Save PGV Commands To A File form opens. This form is shown below.<br /><strong class="webflare-fig-line-height">Figure 8-3
+<a id="pgfId-15302950"></a><a id="94620"></a>PGV Command File Generation</strong>
+<a id="pgfId-15302954"></a><div class="webflare-div-image">
+<img width="623" height="210" src="images/pgvcreation-5.gif" /></div></li><li>
+<a id="pgfId-15302955"></a>In this form, specify the <em>Command File Name</em>. If the command filename is not specified, the software either uses <code>&lt;Batch job Name&gt;.cmd</code>  as the default command file name, or if the batch job name is not provided, then it uses <code>vsaPGVBatch.cmd </code>as the default command filename.</li><li>
+<a id="pgfId-15302956"></a>Specify the <em>Batch Job Name</em>, which is a unique job name to distinguish between different jobs. This allows you to run multiple command files &#8211; generated by different job names &#8211; in the same working directory.</li><li>
+<a id="pgfId-15302957"></a>Click <em>View file</em> to view the command file. This option is selected by default. If you do not want to view the command file, you can change the default selection of this option by setting the <a href="../vpsl/setenv.html#vsaUncheckViewFile">_vsaUncheckViewFile</a><code> </code>environment variable to <code>true.</code></li><li>
+<a id="pgfId-15302959"></a>In the <em>Run Options</em> group box, click <em>Run file</em> to run the generated command file in the background.</li><li>
+<a id="pgfId-15302960"></a>Specify the Local Server Farm or the <em>LSF Command String </em>, which is the name of the wrapper string command that will launch Power IR/EM in the batch mode. For example, you can specify <code>bsub -q lnx64 </code>as the LSF command string. You can also specify the LSF string by using the environment variable, <a href="../vpsl/setenv.html#vsaLSFMachineString">_vsaLSFMachineString</a>. When this environment variable is set, the <em>LSF Command String</em> field is pre-filled with the specified command. </li><li>
+<a id="pgfId-15302962"></a>Click <em>OK</em>.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-15302964"></a><a id="97320"></a>Sample Batch Command file</h4>
+
+<p>
+<a id="pgfId-15302965"></a>A sample PGV batch command file is shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302966"></a>;vsa batch mode command file</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302967"></a>;commands for PGV generation</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302968"></a>_vsa_testbench_lib_cell_view &quot;amsPLL&quot; &quot;TB1_vco_single&quot; &quot;schematic&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302969"></a>_vsa_extracted_lib_cell_view &quot;amsPLL&quot; &quot;vco&quot; &quot;av_R&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302970"></a>_vsa_pgv_output_directory &quot;dyn_pgv&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302971"></a>_vsa_pgv_tech_file &quot;qrcTechFile&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302972"></a>_vsa_pgv_lef_layer_map_file &quot;leflayermap&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308850"></a>_vsa_pgv_pgdb_map_file &#8220;pgdb.map&#8221;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302973"></a>_vsa_pgv_net &quot;vdd!&quot; &quot; 1.2&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302974"></a>_vsa_pgv_net &quot;gnd!&quot; &quot;0.0&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302975"></a>_vsa_pgv_lef_files &quot;amspll.lef tech.lef&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302976"></a>_vsa_pgv_dynamic_options &quot;amspll.vector&quot; &quot;0.0ns&quot; &quot;120.0ns&quot; &quot;250ps&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302977"></a>_vsa_pgv_spice_model &quot;cln90g_lk.l&quot; &quot;TT tt_hvt&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302978"></a>_vsa_pgv_spice_model &quot;cln90g_sr.l&quot; &quot;TT_sr&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302979"></a>_vsa_pgv_dspf_file &quot;vco.xdspf&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302980"></a>_vsa_pgv_dspf_layermap &quot;layermap_dspf&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302981"></a>_vsa_create_pgv</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15302982"></a>exit</pre>
+<h3>
+<a id="pgfId-15302984"></a><a id="81690"></a>Outputs of PGV Generation</h3>
+
+<p>
+<a id="pgfId-15302985"></a>Following are the outputs of PGV generation in Power IR/EM:</p>
+<ul><li>
+<a id="pgfId-15302986"></a>A binary database that contains the following:<ul><li>
+<a id="pgfId-15302987"></a>Geometric views of the cell</li><li>
+<a id="pgfId-15302988"></a>Port information</li><li>
+<a id="pgfId-15302989"></a>Power-grid views</li></ul></li><li>
+<a id="pgfId-15302990"></a>Text report and summary file with detailed information about the power-grid views. </li></ul>
+
+
+
+
+
+<h2>
+<a id="pgfId-15302992"></a><a id="82805"></a>File Formats</h2>
+
+<p>
+<a id="pgfId-15302993"></a>This section lists the file formats of the layermap files specified during PGV generation.</p>
+<ul><li>
+<a id="pgfId-15302997"></a><a href="pgvcreation.html#65920">DSPF Layermap File</a></li><li>
+<a id="pgfId-15303001"></a><a href="pgvcreation.html#35995">LEF Layermap File</a></li><li>
+<a id="pgfId-15308918"></a><a href="pgvcreation.html#78480">PGDB Layermap File</a></li></ul>
+
+
+
+<h4>
+<a id="pgfId-15303003"></a><a id="65920"></a>DSPF Layermap File</h4>
+
+<p>
+<a id="pgfId-15303004"></a>This layermap file contains the layer type and layer stack information for the DSPF from the top-most layer to the bottom-most layer. If this order is not followed, the PGDB will not be created.</p>
+<p>
+<a id="pgfId-15303005"></a>Sample file name: <code>layermap_dspf.txt</code></p>
+<p>
+<a id="pgfId-15303006"></a>Format:</p>
+<p>
+<a id="pgfId-15303007"></a><code>Layer type&#160;&#160;    Process layername</code></p>
+<p>
+<a id="pgfId-15303008"></a>Format Description:</p>
+<p>
+<a id="pgfId-15303009"></a><code>Layer type </code>specifies the type of layer: metal, via, or local</p>
+<p>
+<a id="pgfId-15303010"></a><code>Process layername</code> specifies the name of the layer</p>
+<p>
+<a id="pgfId-15303011"></a>Example:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303012"></a>#&#160;&#160; Layer&#160;&#160;     Process</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303013"></a>#&#160;&#160; type&#160;&#160;      layername</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303014"></a>#&#160;&#160;---------&#160;&#160; ------------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303015"></a>    metal       m4</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303016"></a>    via         via3</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303017"></a>    metal       m3</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303018"></a>    via         via2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303019"></a>    metal       m2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303020"></a>    via         via1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303021"></a>    metal       m1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303024"></a>    metal       po</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303027"></a>    metal       mdtap</pre>
+<h4>
+<a id="pgfId-15303031"></a><a id="35995"></a>LEF Layermap File</h4>
+
+<p>
+<a id="pgfId-15303032"></a>The LEF layermap file contains the mapping information to map the layer names in the LEF file to the layer names in the technology file. </p>
+<p>
+<a id="pgfId-15303033"></a>Sample file name: <code>lefdef.layermap</code></p>
+<p>
+<a id="pgfId-15303034"></a>Format:</p>
+<p>
+<a id="pgfId-15303035"></a><code>type&#160;&#160; technology_layer_name&#160;&#160; lefdef&#160;&#160;  lef_layer_name</code></p>
+<p>
+<a id="pgfId-15303036"></a>Format Description:</p>
+<p>
+<a id="pgfId-15303037"></a><code>type </code>specifies the type of library layer. It can be poly, via, metal, or diff.</p>
+<p>
+<a id="pgfId-15303038"></a><code>technology_layer_name</code> specifies the name of the library layer that is to be mapped to the LEF layer.</p>
+<p>
+<a id="pgfId-15303039"></a><code>lefdef </code>specifies the keyword for the LEF layer mapping.</p>
+<p>
+<a id="pgfId-15303040"></a><code>lef_layer_name </code>specifies the name of the LEF layer to map to the library layer.</p>
+<p>
+<a id="pgfId-15303041"></a>Example:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303174"></a>#type&#160;&#160; technology_layer_name&#160;&#160; lefdef&#160;&#160;  lef_layer_name</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303175"></a>#---&#160;&#160;  ---------------------   ------    --------------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303176"></a>metal&#160;&#160; M1&#160;&#160;                    lefdef    M1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303177"></a>via&#160;&#160;   VIA1                    lefdef    VIA1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303178"></a>metal&#160;&#160; M2&#160;&#160;                    lefdef    M2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303179"></a>via&#160;&#160;   VIA2                    lefdef    VIA2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303180"></a>metal&#160;&#160; M3&#160;&#160;                    lefdef    M3</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303181"></a>via&#160;&#160;   VIA3                    lefdef    VIA3</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303182"></a>metal&#160;&#160; M4&#160;&#160;                    lefdef    M4</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303183"></a>via&#160;&#160;   VIA4                    lefdef    VIA4</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303184"></a>metal&#160;&#160; M5&#160;&#160;                    lefdef    M5</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303185"></a>via&#160;&#160;   VIA5                    lefdef    VIA5</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303186"></a>metal&#160;&#160; M6&#160;&#160;                    lefdef    M6</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303187"></a>via&#160;&#160;   VIA6                    lefdef    VIA6</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303188"></a>metal&#160;&#160; M7&#160;&#160;                    lefdef    M7</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303189"></a>via&#160;&#160;   VIA7                    lefdef    VIA7</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303190"></a>metal&#160;&#160; M8&#160;&#160;                    lefdef    M8</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303191"></a>via&#160;&#160;   VIA8                    lefdef    VIA8</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303192"></a>metal&#160;&#160; M9&#160;&#160;                    lefdef    M9</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303193"></a>poly&#160;&#160;  PO                      lefdef    PO</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15303194"></a>via&#160;&#160;   polyCont                lefdef    CO</pre>
+<h4>
+<a id="pgfId-15308883"></a><a id="78480"></a>PGDB Layermap File</h4>
+
+<p>
+<a id="pgfId-15308884"></a>A layer mapping file is required for the Rail Analysis library generation flow. The PGDB layermap file contains the mapping information to map the PGDB layer names to the layer names in the technology file. </p>
+<p>
+<a id="pgfId-15308885"></a>In the GUI, you can specify this file in the<em> PowerGridView Creation </em>form.</p>
+<p>
+<a id="pgfId-15308886"></a>Sample file name: <code>pgdb.map</code></p>
+<p>
+<a id="pgfId-15308887"></a>Format:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308888"></a>type&#160;&#160;  technology_layer_name    pgdb    pgdb_layer_name     </pre>
+
+<p>
+<a id="pgfId-15308889"></a>Format Description:</p>
+<p>
+<a id="pgfId-15308890"></a><code>type </code>specifies the type of library layer. It can be poly/via/metal/diff.</p>
+<p>
+<a id="pgfId-15308891"></a><code>technology_layer_name</code> specifies the name of the library layer to map to the PGDB layer name.</p>
+<p>
+<a id="pgfId-15308892"></a><code>pgdb</code> specifies the keyword for the PGDB layer mapping.</p>
+<p>
+<a id="pgfId-15308893"></a><code>pgdb_layer_name</code> specifies the name of the PGDB layer.</p>
+<p>
+<a id="pgfId-15308894"></a>Example:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308895"></a>#type&#160;&#160; technology_layer_name&#160;&#160; pgdb&#160;&#160;  pgdb_layer_name</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308896"></a>#---&#160;&#160;  ---------------------   ----    ---------------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308897"></a>metal&#160;&#160; M4&#160;&#160;                    pgdb    M4</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308898"></a>via&#160;&#160;   VIA3                    pgdb    VIA3</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308899"></a>metal&#160;&#160; M3&#160;&#160;                    pgdb    M3</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308900"></a>via&#160;&#160;   VIA2                    pgdb    VIA2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308901"></a>metal&#160;&#160; M2&#160;&#160;                    pgdb    M2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308902"></a>via&#160;&#160;   VIA1                    pgdb    VIA1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308903"></a>metal&#160;&#160; M1&#160;&#160;                    pgdb    M1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308904"></a>poly&#160;&#160;  PO                      pgdb    PO</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-15308905"></a>via&#160;&#160;   polyCont                pgdb    CO</pre>
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="vsaPlot.html" id="prev" title="Viewing Results in vsaPlot">Viewing Results in vsaPlot</a></em></b><b><em><a href="emrulespec.html" id="nex" title="EM Rules Specification">EM Rules Specification</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

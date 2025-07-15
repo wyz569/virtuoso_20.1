@@ -1,0 +1,4159 @@
+
+<html><head><title>Surface Potential Based Compact MOSFET Model (spmos)</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jommy" />
+<meta name="CreateDate" content="2020-04-19" />
+<meta name="CreateTime" content="1587355855" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the model equations for Cadence circuit simulators" />
+<meta name="DocTitle" content="Spectre Circuit Simulator Components and Device Models Reference" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Surface Potential Based Compact MOSFET Model (spmos)" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.1" />
+<meta name="Keyword" content="spectremod" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-04-19" />
+<meta name="ModifiedTime" content="1587355855" />
+<meta name="NextFile" content="Chap37.html" />
+<meta name="Group" content="Spectre Simulator" />
+<meta name="Platform" content="Analog RF  Mixed-Signal Design" />
+<meta name="PrevFile" content="Chap35.html" />
+<meta name="Product" content="Spectre" />
+<meta name="ProductFamily" content="Spectre" />
+<meta name="ProductVersion" content="19.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre Circuit Simulator Components and Device Models Reference -- Surface Potential Based Compact MOSFET Model (spmos)" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="product_feature" content="" />
+<meta name="product_subfeature" content="" />
+<meta name="Version" content="19.1" />
+<meta name="SpaceKey" content="spectremod191" />
+<meta name="webflare-version" content="1.5" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="spectremodTOC.html">Contents</a></li><li><a class="prev" href="Chap35.html" title="HiSIM_Diode Model (hisim_diode)">HiSIM_Diode Model (hisim_diode ...</a></li><li style="float: right;"><a class="viewPrint" href="spectremod.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Chap37.html" title="MOS Level-0 Transistor (mos0)">MOS Level-0 Transistor (mos0)</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Spectre Circuit Simulator Components and Device Models Reference<br />Product Version 19.1, January 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>35
+<a id="pgfId-1032955"></a></h1>
+<h1>
+<a id="pgfId-1035250"></a><hr />
+<a id="44786"></a>Surface Potential Based Compact MOSFET Model (spmos)<hr />
+</h1>
+<p>
+<a id="pgfId-1035479"></a>This chapter contains the following information about the SPMOS model:</p>
+<ul><li>
+<a id="pgfId-1035483"></a><a href="Chap36.html#49009">Core Model</a><ul><li>
+<a id="pgfId-1035487"></a><a href="Chap36.html#55069">Equivalent Circuit</a></li><li>
+<a id="pgfId-1035491"></a><a href="Chap36.html#98162">Lateral Gradient Factor</a></li><li>
+<a id="pgfId-1035495"></a><a href="Chap36.html#37907">Effective Drain-Source Voltage</a></li><li>
+<a id="pgfId-1035499"></a><a href="Chap36.html#94414">Surface Potential</a></li><li>
+<a id="pgfId-1035503"></a><a href="Chap36.html#65313">Quantum Mechanical Corrections</a></li><li>
+<a id="pgfId-1035507"></a><a href="Chap36.html#55856">Polysilicon Depletion</a></li><li>
+<a id="pgfId-1035511"></a><a href="Chap36.html#14132">Drain Current</a></li><li>
+<a id="pgfId-1035515"></a><a href="Chap36.html#83340">Intrinsic Charges</a></li><li>
+<a id="pgfId-1035519"></a><a href="Chap36.html#88725">Bias-Dependent Body Factor</a></li></ul></li><li>
+<a id="pgfId-1035523"></a><a href="Chap36.html#13768">Extrinsic Model</a><ul><li>
+<a id="pgfId-1035527"></a><a href="Chap36.html#75217">Charge Model</a></li><li>
+<a id="pgfId-1035531"></a><a href="Chap36.html#58628">Gate Current Model</a></li><li>
+<a id="pgfId-1035535"></a><a href="Chap36.html#61866">Substrate Current Model</a></li><li>
+<a id="pgfId-1035539"></a><a href="Chap36.html#39747">Total Terminal Currents</a></li><li>
+<a id="pgfId-1035543"></a><a href="Chap36.html#55361">Noise Model</a></li><li>
+<a id="pgfId-1035547"></a><a href="Chap36.html#34842">Gate Induced Drain/Source Leakage Current Model</a></li></ul></li><li>
+<a id="pgfId-1035551"></a><a href="Chap36.html#29958">Parameter Descriptions</a><ul><li>
+<a id="pgfId-1035555"></a><a href="Chap36.html#49092">New Parameters for SPMOS Version 34</a></li><li>
+<a id="pgfId-1035559"></a><a href="Chap36.html#39193">Parameters with Different Default Values for SPMOS Version 34</a></li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1035561"></a><a id="55069"></a>Equivalent Circuit</h2>
+<p>
+<a id="pgfId-1035665"></a></p>
+<div class="webflare-div-image">
+<img width="669" height="295" src="images/Chap36-2.gif" /></div>
+<h2>
+<a id="pgfId-1035667"></a><a id="49009"></a>Core Model</h2>
+<h3>
+<a id="pgfId-1035670"></a><a id="98162"></a>Lateral Gradient Factor<a id="marker-1035669"></a></h3>
+<p>
+<a id="pgfId-1035671"></a>The lateral field gradient in SPMOS is reduced with surface potential through the following semi-empirical formula:</p>
+<p>
+<a id="pgfId-1035676"></a><img width="78" height="23" src="images/Chap36-3.gif" />
+<a id="marker-1035675"></a></p>
+<p>
+<a id="pgfId-1035677"></a>where</p>
+<p>
+<a id="pgfId-1035681"></a><img width="412" height="46" src="images/Chap36-4.gif" /></p>
+<p>
+<a id="pgfId-1035685"></a><img width="194" height="32" src="images/Chap36-5.gif" /></p>
+<p>
+<a id="pgfId-1035689"></a><img width="165" height="53" src="images/Chap36-6.gif" /></p>
+<p>
+<a id="pgfId-1035693"></a><img width="160" height="34" src="images/Chap36-7.gif" /></p>
+<p>
+<a id="pgfId-1035697"></a><img width="188" height="31" src="images/Chap36-8.gif" /></p>
+<p>
+<a id="pgfId-1035701"></a><img width="166" height="35" src="images/Chap36-9.gif" /></p>
+<p>
+<a id="pgfId-1035705"></a><img width="124" height="23" src="images/Chap36-10.gif" /></p>
+<p>
+<a id="pgfId-1035709"></a><img width="49" height="46" src="images/Chap36-11.gif" /></p>
+<h3>
+<a id="pgfId-1035712"></a><a id="37907"></a>Effective Drain-Source Voltage<a id="marker-1035711"></a></h3>
+<p>
+<a id="pgfId-1035713"></a>The saturation voltage is given by</p>
+<p>
+<a id="pgfId-1035718"></a><img width="328" height="51" src="images/Chap36-12.gif" />
+<a id="marker-1035717"></a></p>
+<p>
+<a id="pgfId-1035719"></a>where</p>
+<p>
+<a id="pgfId-1035723"></a><img width="119" height="35" src="images/Chap36-13.gif" /></p>
+<p>
+<a id="pgfId-1035727"></a><img width="263" height="53" src="images/Chap36-14.gif" /></p>
+<p>
+<a id="pgfId-1035731"></a><img width="244" height="93" src="images/Chap36-15.gif" /></p>
+<p>
+<a id="pgfId-1035735"></a><img width="193" height="56" src="images/Chap36-16.gif" /></p>
+<p>
+<a id="pgfId-1035739"></a><img width="109" height="46" src="images/Chap36-17.gif" /></p>
+<p>
+<a id="pgfId-1035743"></a><img width="228" height="77" src="images/Chap36-18.gif" /></p>
+<p>
+<a id="pgfId-1035747"></a><img width="87" height="46" src="images/Chap36-19.gif" /></p>
+<p>
+<a id="pgfId-1035751"></a><img width="74" height="46" src="images/Chap36-20.gif" /></p>
+<p>
+<a id="pgfId-1035755"></a><img width="132" height="40" src="images/Chap36-21.gif" /></p>
+<p>
+<a id="pgfId-1035759"></a><img width="210" height="46" src="images/Chap36-22.gif" /></p>
+<p>
+<a id="pgfId-1035763"></a><img width="135" height="46" src="images/Chap36-23.gif" /></p>
+<p>
+<a id="pgfId-1035764"></a>The effective drain-source voltage is given by</p>
+<p>
+<a id="pgfId-1035769"></a><img width="158" height="80" src="images/Chap36-24.gif" />
+<a id="marker-1035768"></a></p>
+<h3>
+<a id="pgfId-1035772"></a><a id="94414"></a>Surface Potential<a id="marker-1035771"></a></h3>
+<h4>
+<a id="pgfId-1035773"></a>Surface Potential at Source End of Channel</h4>
+<p>
+<a id="pgfId-1035774"></a>The approximate analytical solution for surface potential is</p>
+<p>
+<a id="pgfId-1035779"></a><img width="116" height="29" src="images/Chap36-25.gif" />
+<a id="marker-1035778"></a></p>
+<p>
+<a id="pgfId-1035780"></a>where the normalized imref splitting is</p>
+<p>
+<a id="pgfId-1035784"></a><img width="137" height="29" src="images/Chap36-26.gif" /></p>
+<p>
+<a id="pgfId-1035788"></a><img width="133" height="29" src="images/Chap36-27.gif" /></p>
+<p>
+<a id="pgfId-1035789"></a>In the process of computing surface potential, the following are computed as well</p>
+<p>
+<a id="pgfId-1035794"></a><img width="111" height="29" src="images/Chap36-28.gif" />
+<a id="marker-1035793"></a></p>
+<p>
+<a id="pgfId-1035799"></a><img width="102" height="29" src="images/Chap36-29.gif" />
+<a id="marker-1035798"></a></p>
+<p>
+<a id="pgfId-1035804"></a><img width="206" height="35" src="images/Chap36-30.gif" />
+<a id="marker-1035803"></a></p>
+<p>
+<a id="pgfId-1035805"></a>where</p>
+<p>
+<a id="pgfId-1035809"></a><img width="152" height="41" src="images/Chap36-31.gif" /></p>
+<p>
+<a id="pgfId-1035810"></a>and</p>
+<p>
+<a id="pgfId-1035814"></a><img width="167" height="29" src="images/Chap36-32.gif" /></p>
+<p>
+<a id="pgfId-1035824"></a>The evaluation of <img width="25" height="31" src="images/Chap36-33.gif" />
+,<img width="25" height="31" src="images/Chap36-34.gif" />
+,<img width="34" height="31" src="images/Chap36-35.gif" />
+is carefully ordered to avoid over/underflow problems.</p>
+<p>
+<a id="pgfId-1035828"></a>After evaluating surface potential<img width="22" height="31" src="images/Chap36-36.gif" />
+, you can compute the normalized inversion charge at the source</p>
+<p>
+<a id="pgfId-1035833"></a><img width="131" height="63" src="images/Chap36-37.gif" />
+<a id="marker-1035832"></a></p>
+<p>
+<a id="pgfId-1035834"></a>where</p>
+<p>
+<a id="pgfId-1035838"></a><img width="74" height="33" src="images/Chap36-38.gif" /></p>
+<p>
+<a id="pgfId-1035842"></a><img width="122" height="29" src="images/Chap36-39.gif" /></p>
+<p>
+<a id="pgfId-1035846"></a><img width="142" height="33" src="images/Chap36-40.gif" /></p>
+<p>
+<a id="pgfId-1035850"></a><img width="89" height="33" src="images/Chap36-41.gif" /></p>
+<p>
+<a id="pgfId-1035851"></a>Series resistance is given by:</p>
+<p>
+<a id="pgfId-1035856"></a><img width="181" height="57" src="images/Chap36-42.gif" />
+<a id="marker-1035855"></a></p>
+<p>
+<a id="pgfId-1035857"></a>Series resistance factor is given by:</p>
+<p>
+<a id="pgfId-1035862"></a><img width="177" height="29" src="images/Chap36-43.gif" />
+<a id="marker-1035861"></a></p>
+<p>
+<a id="pgfId-1035863"></a>Effective vertical field is given by:</p>
+<p>
+<a id="pgfId-1035868"></a><img width="193" height="29" src="images/Chap36-44.gif" />
+<a id="marker-1035867"></a></p>
+<p>
+<a id="pgfId-1035872"></a><img width="103" height="29" src="images/Chap36-45.gif" /></p>
+<p>
+<a id="pgfId-1035879"></a>where <img width="99" height="31" src="images/Chap36-46.gif" />
+ for n-channel and <img width="99" height="31" src="images/Chap36-47.gif" />
+ for p-channel MOSFETs.</p>
+<p>
+<a id="pgfId-1035880"></a>Effective mobility at the source end of the channel is given by:</p>
+<p>
+<a id="pgfId-1035885"></a><img width="335" height="98" src="images/Chap36-48.gif" />
+<a id="marker-1035884"></a></p>
+<p>
+<a id="pgfId-1035886"></a>The variable is given by</p>
+<p>
+<a id="pgfId-1035890"></a><img width="328" height="29" src="images/Chap36-49.gif" /></p>
+<p>
+<a id="pgfId-1035894"></a>where the term<img width="154" height="31" src="images/Chap36-50.gif" />
+ introduces non-universality. The denominator assures that <img width="26" height="31" src="images/Chap36-51.gif" />
+ does not exceed 5 for extreme (and unphysical)<img width="46" height="31" src="images/Chap36-52.gif" />
+.</p>
+<p>
+<a id="pgfId-1035907"></a><img width="29" height="31" src="images/Chap36-53.gif" />
+and <img width="24" height="31" src="images/Chap36-54.gif" />
+are temporary variables. Eventually these will be changed to assure the symmetry of the model. Also, <img width="62" height="26" src="images/Chap36-55.gif" />
+ if external model of series resistance is used.</p>
+<h4>
+<a id="pgfId-1035911"></a>Surface Potential at Drain End of Channel</h4>
+<p>
+<a id="pgfId-1035912"></a>Surface potential at the drain end of the channel is</p>
+<p>
+<a id="pgfId-1035917"></a><img width="87" height="29" src="images/Chap36-56.gif" />
+ <a id="marker-1035916"></a></p>
+<p>
+<a id="pgfId-1035918"></a>where</p>
+<p>
+<a id="pgfId-1035922"></a><img width="189" height="29" src="images/Chap36-57.gif" /></p>
+<p>
+<a id="pgfId-1035923"></a>The above equation is used when</p>
+<p>
+<a id="pgfId-1035927"></a><img width="258" height="33" src="images/Chap36-58.gif" /></p>
+<p>
+<a id="pgfId-1035928"></a>where</p>
+<p>
+<a id="pgfId-1035932"></a><img width="134" height="29" src="images/Chap36-59.gif" /></p>
+<p>
+<a id="pgfId-1035936"></a><img width="310" height="62" src="images/Chap36-60.gif" /></p>
+<p>
+<a id="pgfId-1035940"></a>For<img width="85" height="31" src="images/Chap36-61.gif" />
+, it is more efficient to:</p>
+
+<ol><li>
+<a id="pgfId-1035944"></a>Compute<img width="22" height="31" src="images/Chap36-62.gif" /></li><li>
+<a id="pgfId-1035948"></a>Determine normalized drain-source surface potential difference <img width="99" height="31" src="images/Chap36-63.gif" /></li><li>
+<a id="pgfId-1035952"></a>Compute<img width="113" height="31" src="images/Chap36-64.gif" /><span>.</span></li></ol>
+
+ 
+
+
+
+
+
+
+<p>
+<a id="pgfId-1035956"></a>While computing <img width="24" height="31" src="images/Chap36-65.gif" />
+, the following variables are computed as well:</p>
+<p>
+<a id="pgfId-1035961"></a><img width="116" height="29" src="images/Chap36-66.gif" />
+<a id="marker-1035960"></a></p>
+<p>
+<a id="pgfId-1035966"></a><img width="202" height="35" src="images/Chap36-67.gif" />
+<a id="marker-1035965"></a></p>
+<p>
+<a id="pgfId-1035967"></a>where</p>
+<p>
+<a id="pgfId-1035971"></a><img width="145" height="41" src="images/Chap36-68.gif" /></p>
+<p>
+<a id="pgfId-1035975"></a><img width="223" height="29" src="images/Chap36-69.gif" /></p>
+<h4>
+<a id="pgfId-1035976"></a>Mid-Point Surface Potential</h4>
+<p>
+<a id="pgfId-1035981"></a><img width="140" height="41" src="images/Chap36-70.gif" />
+<a id="marker-1035980"></a></p>
+<p>
+<a id="pgfId-1035982"></a>The following variables are used:</p>
+<p>
+<a id="pgfId-1035987"></a><img width="123" height="41" src="images/Chap36-71.gif" />
+<a id="marker-1035986"></a></p>
+<p>
+<a id="pgfId-1035992"></a><img width="103" height="33" src="images/Chap36-72.gif" />
+<a id="marker-1035991"></a></p>
+<p>
+<a id="pgfId-1035997"></a><img width="261" height="62" src="images/Chap36-73.gif" />
+<a id="marker-1035996"></a></p>
+<p>
+<a id="pgfId-1036002"></a><img width="138" height="29" src="images/Chap36-74.gif" />
+<a id="marker-1036001"></a></p>
+<p>
+<a id="pgfId-1036007"></a><img width="162" height="33" src="images/Chap36-75.gif" />
+<a id="marker-1036006"></a></p>
+<p>
+<a id="pgfId-1036012"></a><img width="85" height="33" src="images/Chap36-76.gif" />
+<a id="marker-1036011"></a></p>
+<p>
+<a id="pgfId-1036013"></a>Normalized inversion charge is calculated by:</p>
+<p>
+<a id="pgfId-1036018"></a><img width="145" height="63" src="images/Chap36-77.gif" />
+<a id="marker-1036017"></a></p>
+<p>
+<a id="pgfId-1036019"></a>Linearization coefficient is</p>
+<p>
+<a id="pgfId-1036024"></a><img width="151" height="57" src="images/Chap36-78.gif" />
+<a id="marker-1036023"></a></p>
+<p>
+<a id="pgfId-1036025"></a>Series resistance:</p>
+<p>
+<a id="pgfId-1036030"></a><img width="179" height="57" src="images/Chap36-79.gif" />
+<a id="marker-1036029"></a></p>
+<p>
+<a id="pgfId-1036031"></a>Series resistance factor:</p>
+<p>
+<a id="pgfId-1036036"></a><img width="177" height="29" src="images/Chap36-80.gif" />
+<a id="marker-1036035"></a></p>
+<p>
+<a id="pgfId-1036037"></a>Effective vertical field is</p>
+<p>
+<a id="pgfId-1036042"></a><img width="197" height="29" src="images/Chap36-81.gif" />
+<a id="marker-1036041"></a></p>
+<p>
+<a id="pgfId-1036046"></a><img width="109" height="29" src="images/Chap36-82.gif" /></p>
+<p>
+<a id="pgfId-1036053"></a>where <img width="77" height="29" src="images/Chap36-83.gif" />
+ for n-channel and<img width="77" height="29" src="images/Chap36-84.gif" />
+ for p-channel MOSFETs.</p>
+<p>
+<a id="pgfId-1036054"></a>Effective mobility</p>
+<p>
+<a id="pgfId-1036059"></a><img width="344" height="98" src="images/Chap36-85.gif" />
+<a id="marker-1036058"></a></p>
+<h3>
+<a id="pgfId-1036062"></a><a id="65313"></a>Quantum Mechanical Corrections<a id="SPMOS"></a></h3>
+<p>
+<a id="pgfId-1036063"></a>In SPMOS quantum-mechanical (QM) corrections are considered in the most common case <img width="63" height="29" src="images/Chap36-86.gif" />
+ which is of interest for the charge-sheet models. </p>
+<p>
+<a id="pgfId-1036073"></a>QM corrections are directly used for <img width="99" height="29" src="images/Chap36-87.gif" />
+ and <img width="146" height="29" src="images/Chap36-88.gif" />
+. </p>
+<p>
+<a id="pgfId-1036083"></a>This is preferable to correcting <img width="27" height="29" src="images/Chap36-89.gif" />
+ and <img width="30" height="29" src="images/Chap36-90.gif" />
+, especially in the case when <img width="17" height="26" src="images/Chap36-91.gif" />
+ is a small difference of two large variables. </p>
+<p>
+<a id="pgfId-1036084"></a>In the following equations, superscript 0 refers to variables uncorrected for QM effects.</p>
+<p>
+<a id="pgfId-1036091"></a>For <img width="46" height="29" src="images/Chap36-92.gif" />
+ (i.e. for <img width="79" height="29" src="images/Chap36-93.gif" />
+)</p>
+<p>
+<a id="pgfId-1036096"></a><img width="135" height="35" src="images/Chap36-94.gif" />
+<a id="marker-1036095"></a></p>
+<p>
+<a id="pgfId-1036101"></a><img width="184" height="66" src="images/Chap36-95.gif" />
+<a id="marker-1036100"></a> </p>
+<p>
+<a id="pgfId-1036102"></a>where</p>
+<p>
+<a id="pgfId-1036106"></a><img width="205" height="57" src="images/Chap36-96.gif" /></p>
+<p>
+<a id="pgfId-1036110"></a><img width="154" height="35" src="images/Chap36-97.gif" /></p>
+<p>
+<a id="pgfId-1036114"></a><img width="133" height="35" src="images/Chap36-98.gif" /></p>
+<p>
+<a id="pgfId-1036118"></a><img width="112" height="35" src="images/Chap36-99.gif" /></p>
+<p>
+<a id="pgfId-1036122"></a><img width="163" height="69" src="images/Chap36-100.gif" /></p>
+<p>
+<a id="pgfId-1036126"></a><img width="311" height="35" src="images/Chap36-101.gif" /></p>
+<p>
+<a id="pgfId-1036130"></a><img width="133" height="63" src="images/Chap36-102.gif" /></p>
+<p>
+<a id="pgfId-1036134"></a><img width="210" height="35" src="images/Chap36-103.gif" /></p>
+<p>
+<a id="pgfId-1036138"></a><img width="83" height="40" src="images/Chap36-104.gif" /></p>
+<p>
+<a id="pgfId-1036142"></a><img width="196" height="35" src="images/Chap36-105.gif" /></p>
+<p>
+<a id="pgfId-1036146"></a><img width="216" height="35" src="images/Chap36-106.gif" /></p>
+<p>
+<a id="pgfId-1036150"></a>For <img width="46" height="29" src="images/Chap36-107.gif" />
+,</p>
+<p>
+<a id="pgfId-1036155"></a><img width="203" height="84" src="images/Chap36-108.gif" />
+<a id="marker-1036154"></a></p>
+<p>
+<a id="pgfId-1036159"></a>There is no correction for <img width="17" height="26" src="images/Chap36-109.gif" />
+. This form is introduced to eliminate the singularity or unphysical behavior near <img width="104" height="31" src="images/Chap36-110.gif" />
+. Coefficients 0.04 and 3 are not affected by model parameters and are fixed.</p>
+<p>
+<a id="pgfId-1036169"></a>In addition to correcting <img width="29" height="31" src="images/Chap36-111.gif" />
+ and <img width="29" height="31" src="images/Chap36-112.gif" />
+, QM effects are introduced into</p>
+<p>
+<a id="pgfId-1036173"></a><img width="111" height="35" src="images/Chap36-113.gif" /></p>
+<p>
+<a id="pgfId-1036180"></a>and variables <img width="75" height="31" src="images/Chap36-114.gif" />
+, which are given by the above expressions but with <img width="29" height="31" src="images/Chap36-115.gif" />
+ corrected for QM effects.</p>
+<h3>
+<a id="pgfId-1036183"></a><a id="55856"></a>Polysilicon Depletion<a id="SPMOS"></a></h3>
+<p>
+<a id="pgfId-1036184"></a>In SPMOS polysilicon depletion equations are conditioned to provide smooth device characteristics for a wide voltage range but at present the poly effects are only included for<img width="90" height="31" src="images/Chap36-116.gif" />
+. </p>
+<p>
+<a id="pgfId-1036188"></a>The normalized poly surface potential at midpoint</p>
+<p>
+<a id="pgfId-1036193"></a><img width="160" height="75" src="images/Chap36-117.gif" />
+<a id="marker-1036192"></a></p>
+<p>
+<a id="pgfId-1036194"></a>where </p>
+<p>
+<a id="pgfId-1036198"></a><img width="172" height="36" src="images/Chap36-118.gif" /></p>
+<p>
+<a id="pgfId-1036199"></a>In this section the superscript 0 indicates that the variable is not corrected for poly depletion effect. </p>
+<p>
+<a id="pgfId-1036206"></a>Poly corrections are introduced into <img width="124" height="31" src="images/Chap36-119.gif" />
+ and <img width="182" height="31" src="images/Chap36-120.gif" />
+ rather than into <img width="30" height="31" src="images/Chap36-121.gif" />
+ and <img width="32" height="31" src="images/Chap36-122.gif" />
+ directly. </p>
+<p>
+<a id="pgfId-1036213"></a>The corrected midpoint surface potential is</p>
+<p>
+<a id="pgfId-1036217"></a><img width="117" height="35" src="images/Chap36-123.gif" /></p>
+<p>
+<a id="pgfId-1036218"></a>where</p>
+<p>
+<a id="pgfId-1036222"></a><img width="104" height="41" src="images/Chap36-124.gif" /></p>
+<p>
+<a id="pgfId-1036226"></a><img width="306" height="35" src="images/Chap36-125.gif" /></p>
+<p>
+<a id="pgfId-1036230"></a><img width="171" height="35" src="images/Chap36-126.gif" /></p>
+<p>
+<a id="pgfId-1036234"></a>The correction to normalized surface potential difference <img width="17" height="26" src="images/Chap36-127.gif" />
+ is as follows</p>
+<p>
+<a id="pgfId-1036238"></a><img width="167" height="66" src="images/Chap36-128.gif" /></p>
+<p>
+<a id="pgfId-1036245"></a>where <img width="24" height="31" src="images/Chap36-129.gif" />
+is given in section <a href="Chap36.html#65313">&#8220;Quantum Mechanical Corrections&#8221;</a> with superscript 0 indicating that the variable is not corrected for poly depletion effect</p>
+<p>
+<a id="pgfId-1036249"></a><img width="201" height="35" src="images/Chap36-130.gif" /></p>
+<p>
+<a id="pgfId-1036253"></a><img width="108" height="29" src="images/Chap36-131.gif" /></p>
+<p>
+<a id="pgfId-1036254"></a>In addition to changing the surface potentials, poly correction affects the linearization of inversion charge and intrinsic charges. The expressions in sections <a href="Chap36.html#14132">&#8220;Drain Current&#8221;</a> and <a href="Chap36.html#83340">&#8220;Intrinsic Charges&#8221;</a> include these corrections. </p>
+<p>
+<a id="pgfId-1036264"></a>The case of no poly effect can be recovered by setting <img width="72" height="31" src="images/Chap36-132.gif" />
+. While physically this corresponds to <img width="82" height="26" src="images/Chap36-133.gif" />
+, in SPMOS eliminating poly effects is formally prescribed by setting <img width="79" height="26" src="images/Chap36-134.gif" />
+ in the parameter file.</p>
+<h3>
+<a id="pgfId-1036273"></a><a id="14132"></a>Drain Current<a id="marker-1036272"></a></h3>
+<p>
+<a id="pgfId-1036278"></a><img width="83" height="46" src="images/Chap36-135.gif" />
+<a id="marker-1036277"></a></p>
+<p>
+<a id="pgfId-1036282"></a><img width="132" height="40" src="images/Chap36-136.gif" /></p>
+<p>
+<a id="pgfId-1036286"></a><img width="212" height="46" src="images/Chap36-137.gif" /></p>
+<p>
+<a id="pgfId-1036296"></a>This ensures that <img width="66" height="27" src="images/Chap36-138.gif" />
+ and <img width="95" height="23" src="images/Chap36-139.gif" />
+ during SPICE convergence when <img width="29" height="28" src="images/Chap36-140.gif" />
+ can be unphysically high.</p>
+<p>
+<a id="pgfId-1036301"></a><img width="103" height="40" src="images/Chap36-141.gif" />
+<a id="marker-1036300"></a></p>
+<p>
+<a id="pgfId-1036306"></a><img width="84" height="46" src="images/Chap36-142.gif" />
+<a id="marker-1036305"></a></p>
+<p>
+<a id="pgfId-1036307"></a>The channel length modulation factor is calculated by the following equation:</p>
+<p>
+<a id="pgfId-1036312"></a><img width="243" height="23" src="images/Chap36-143.gif" />
+<a id="marker-1036311"></a></p>
+<p>
+<a id="pgfId-1036313"></a>Drain current is calculated by </p>
+<p>
+<a id="pgfId-1036318"></a><img width="174" height="46" src="images/Chap36-144.gif" />
+<a id="marker-1036317"></a></p>
+<p>
+<a id="pgfId-1036319"></a>where the inversion charge linearization (including polysilicon depletion effect) is:</p>
+<p>
+<a id="pgfId-1036323"></a><img width="133" height="46" src="images/Chap36-145.gif" /></p>
+<p>
+<a id="pgfId-1036324"></a>The reduced channel length is</p>
+<p>
+<a id="pgfId-1036329"></a><img width="110" height="57" src="images/Chap36-146.gif" />
+<a id="marker-1036328"></a></p>
+<h3>
+<a id="pgfId-1036332"></a><a id="83340"></a>Intrinsic Charges<a id="marker-1036331"></a></h3>
+<p>
+<a id="pgfId-1036336"></a>All charges are normalized to <img width="38" height="29" src="images/Chap36-147.gif" />
+.</p>
+<p>
+<a id="pgfId-1036341"></a><img width="266" height="31" src="images/Chap36-148.gif" />
+<a id="marker-1036340"></a></p>
+<p>
+<a id="pgfId-1036342"></a>Gate charge</p>
+<p>
+<a id="pgfId-1036347"></a><img width="251" height="49" src="images/Chap36-149.gif" />
+<a id="marker-1036346"></a></p>
+<p>
+<a id="pgfId-1036348"></a>where</p>
+<p>
+<a id="pgfId-1036352"></a><img width="146" height="57" src="images/Chap36-150.gif" /></p>
+<p>
+<a id="pgfId-1036356"></a><img width="101" height="29" src="images/Chap36-151.gif" /></p>
+<p>
+<a id="pgfId-1036357"></a>Inversion layer charge</p>
+<p>
+<a id="pgfId-1036361"></a><img width="266" height="35" src="images/Chap36-152.gif" /></p>
+<p>
+<a id="pgfId-1036365"></a><img width="230" height="29" src="images/Chap36-153.gif" /></p>
+<p>
+<a id="pgfId-1036366"></a>Drain charge (computed using Ward-Dutton partition)</p>
+<p>
+<a id="pgfId-1036370"></a><img width="444" height="60" src="images/Chap36-154.gif" /></p>
+<p>
+<a id="pgfId-1036371"></a>Source charge</p>
+<p>
+<a id="pgfId-1036375"></a><img width="135" height="29" src="images/Chap36-155.gif" /></p>
+<p>
+<a id="pgfId-1036376"></a>Bulk charge</p>
+<p>
+<a id="pgfId-1036380"></a><img width="129" height="29" src="images/Chap36-156.gif" /></p>
+<h3>
+<a id="pgfId-1036382"></a><a id="88725"></a>Bias-Dependent Body Factor</h3>
+<p>
+<a id="pgfId-1036383"></a>If NSLP&gt;10<sup>-3</sup>,</p>
+<p>
+<a id="pgfId-1036387"></a><img width="114" height="27" src="images/Chap36-157.gif" /></p>
+<p>
+<a id="pgfId-1036391"></a><img width="343" height="23" src="images/Chap36-158.gif" /></p>
+<p>
+<a id="pgfId-1036392"></a>Otherwise</p>
+<p>
+<a id="pgfId-1036396"></a><img width="46" height="23" src="images/Chap36-159.gif" /></p>
+<p>
+<a id="pgfId-1036397"></a>Normalized body factor is</p>
+<p>
+<a id="pgfId-1036401"></a><img width="86" height="27" src="images/Chap36-160.gif" /></p>
+<h2>
+<a id="pgfId-1036403"></a><a id="13768"></a>Extrinsic Model</h2>
+<h4>
+<a id="pgfId-1036405"></a>Bias-Independent Variables<a id="marker-1036404"></a></h4>
+<p>
+<a id="pgfId-1036406"></a>Overlap capacitance</p>
+<p>
+<a id="pgfId-1036411"></a><img width="135" height="49" src="images/Chap36-161.gif" />
+<a id="marker-1036410"></a></p>
+<p>
+<a id="pgfId-1036412"></a>Overlap body factor</p>
+<p>
+<a id="pgfId-1036417"></a><img width="145" height="61" src="images/Chap36-162.gif" />
+<a id="marker-1036416"></a></p>
+<p>
+<a id="pgfId-1036418"></a>Normalized overlap body factor ° °°°°°°</p>
+<p>
+<a id="pgfId-1036423"></a><img width="88" height="61" src="images/Chap36-163.gif" />
+<a id="marker-1036422"></a></p>
+<p>
+<a id="pgfId-1036427"></a>Tunneling current density constant (in <img width="47" height="27" src="images/Chap36-164.gif" />
+)</p>
+<p>
+<a id="pgfId-1036432"></a><img width="275" height="55" src="images/Chap36-165.gif" />
+<a id="marker-1036431"></a></p>
+<p>
+<a id="pgfId-1036433"></a>Channel tunneling current density exponential constant (dimensionless)</p>
+<p>
+<a id="pgfId-1036438"></a><img width="396" height="35" src="images/Chap36-166.gif" />
+<a id="marker-1036437"></a></p>
+<p>
+<a id="pgfId-1036439"></a>Overlap tunneling current density exponential constant (dimensionless)</p>
+<p>
+<a id="pgfId-1036444"></a><img width="453" height="35" src="images/Chap36-167.gif" />
+<a id="marker-1036443"></a></p>
+<p>
+<a id="pgfId-1036445"></a>Auxiliary variable of gate current model</p>
+<p>
+<a id="pgfId-1036450"></a><img width="145" height="29" src="images/Chap36-168.gif" />
+<a id="marker-1036449"></a></p>
+<p>
+<a id="pgfId-1036457"></a>The <img width="24" height="26" src="images/Chap36-169.gif" />
+ / <img width="50" height="31" src="images/Chap36-170.gif" />
+ conduction band offset</p>
+<p>
+<a id="pgfId-1036462"></a><img width="91" height="29" src="images/Chap36-171.gif" />
+<a id="marker-1036461"></a></p>
+<h4>
+<a id="pgfId-1036464"></a>Streamlined Surface Potential Approximation<a id="marker-1036463"></a></h4>
+<p>
+<a id="pgfId-1036465"></a>The availability of the surface potential in the overlap regions is essential to the physical modeling of the charge and gate current components. The streamlined analytical approximation of the surface potential excludes the effects of minority carriers and consequently is even simpler and more efficient than the one employed in the channel region.</p>
+<p>
+<a id="pgfId-1036466"></a>Let</p>
+<p>
+<a id="pgfId-1036471"></a><img width="128" height="33" src="images/Chap36-172.gif" />
+<a id="marker-1036470"></a></p>
+<p>
+<a id="pgfId-1036472"></a>and</p>
+<p>
+<a id="pgfId-1036477"></a><img width="132" height="39" src="images/Chap36-173.gif" />
+<a id="marker-1036476"></a></p>
+<p>
+<a id="pgfId-1036481"></a>If <img width="112" height="31" src="images/Chap36-174.gif" /></p>
+<p>
+<a id="pgfId-1036486"></a><img width="82" height="29" src="images/Chap36-175.gif" />
+<a id="marker-1036485"></a> </p>
+<p>
+<a id="pgfId-1036490"></a>For <img width="122" height="31" src="images/Chap36-176.gif" />
+, proceed in the follow steps</p>
+<p>
+<a id="pgfId-1036495"></a><img width="72" height="29" src="images/Chap36-177.gif" />
+<a id="marker-1036494"></a></p>
+<p>
+<a id="pgfId-1036500"></a><img width="102" height="29" src="images/Chap36-178.gif" />
+<a id="marker-1036499"></a></p>
+<p>
+<a id="pgfId-1036505"></a><img width="254" height="41" src="images/Chap36-179.gif" />
+<a id="marker-1036504"></a></p>
+<p>
+<a id="pgfId-1036510"></a><img width="201" height="35" src="images/Chap36-180.gif" />
+<a id="marker-1036509"></a></p>
+<p>
+<a id="pgfId-1036515"></a><img width="149" height="35" src="images/Chap36-181.gif" />
+<a id="marker-1036514"></a></p>
+<p>
+<a id="pgfId-1036520"></a><img width="145" height="61" src="images/Chap36-182.gif" />
+<a id="marker-1036519"></a></p>
+<p>
+<a id="pgfId-1036525"></a><img width="137" height="29" src="images/Chap36-183.gif" />
+<a id="marker-1036524"></a></p>
+<p>
+<a id="pgfId-1036530"></a><img width="105" height="29" src="images/Chap36-184.gif" />
+<a id="marker-1036529"></a></p>
+<p>
+<a id="pgfId-1036535"></a><img width="217" height="35" src="images/Chap36-185.gif" />
+<a id="marker-1036534"></a></p>
+<p>
+<a id="pgfId-1036540"></a><img width="250" height="35" src="images/Chap36-186.gif" />
+<a id="marker-1036539"></a></p>
+<p>
+<a id="pgfId-1036545"></a><img width="264" height="59" src="images/Chap36-187.gif" />
+<a id="marker-1036544"></a></p>
+<p>
+<a id="pgfId-1036549"></a>For <img width="110" height="31" src="images/Chap36-188.gif" />
+, compute </p>
+<p>
+<a id="pgfId-1036554"></a><img width="75" height="29" src="images/Chap36-189.gif" />
+<a id="marker-1036553"></a></p>
+<p>
+<a id="pgfId-1036559"></a><img width="256" height="33" src="images/Chap36-190.gif" />
+<a id="marker-1036558"></a></p>
+<p>
+<a id="pgfId-1036563"></a><img width="215" height="63" src="images/Chap36-191.gif" /></p>
+<p>
+<a id="pgfId-1036567"></a><img width="97" height="25" src="images/Chap36-192.gif" /></p>
+<p>
+<a id="pgfId-1036572"></a><img width="76" height="25" src="images/Chap36-193.gif" />
+<a id="marker-1036571"></a></p>
+<p>
+<a id="pgfId-1036577"></a><img width="294" height="61" src="images/Chap36-194.gif" />
+<a id="marker-1036576"></a></p>
+<p>
+<a id="pgfId-1036582"></a><img width="114" height="29" src="images/Chap36-195.gif" />
+<a id="marker-1036581"></a></p>
+<p>
+<a id="pgfId-1036586"></a><img width="217" height="35" src="images/Chap36-196.gif" /></p>
+<p>
+<a id="pgfId-1036590"></a><img width="249" height="35" src="images/Chap36-197.gif" /></p>
+<p>
+<a id="pgfId-1036594"></a><img width="253" height="64" src="images/Chap36-198.gif" /></p>
+<p>
+<a id="pgfId-1036601"></a>The evaluation of<img width="27" height="31" src="images/Chap36-199.gif" />
+ and <img width="27" height="31" src="images/Chap36-200.gif" />
+ is carefully ordered to avoid over/underflow problems.</p>
+<h3>
+<a id="pgfId-1036604"></a><a id="75217"></a>Charge Model<a id="marker-1036603"></a></h3>
+<p>
+<a id="pgfId-1036605"></a>Source overlap region charge</p>
+<p>
+<a id="pgfId-1036610"></a><img width="234" height="23" src="images/Chap36-201.gif" />
+<a id="marker-1036609"></a></p>
+<p>
+<a id="pgfId-1036611"></a>Drain overlap region charge</p>
+<p>
+<a id="pgfId-1036616"></a><img width="238" height="23" src="images/Chap36-202.gif" />
+<a id="marker-1036615"></a></p>
+<p>
+<a id="pgfId-1036617"></a>Bulk overlap region charge</p>
+<p>
+<a id="pgfId-1036622"></a><img width="147" height="23" src="images/Chap36-203.gif" />
+<a id="marker-1036621"></a></p>
+<p>
+<a id="pgfId-1036623"></a>Inner fringe charge correction</p>
+<p>
+<a id="pgfId-1036628"></a><img width="133" height="23" src="images/Chap36-204.gif" />
+<a id="marker-1036627"></a></p>
+<p>
+<a id="pgfId-1036632"></a><img width="331" height="27" src="images/Chap36-205.gif" /></p>
+<p>
+<a id="pgfId-1036636"></a><img width="338" height="27" src="images/Chap36-206.gif" /></p>
+<p>
+<a id="pgfId-1036637"></a>Outer fringe charge</p>
+<p>
+<a id="pgfId-1036642"></a><img width="126" height="23" src="images/Chap36-207.gif" />
+<a id="marker-1036641"></a></p>
+<p>
+<a id="pgfId-1036647"></a><img width="129" height="23" src="images/Chap36-208.gif" />
+<a id="marker-1036646"></a></p>
+<p>
+<a id="pgfId-1036648"></a>Terminal charges</p>
+<p>
+<a id="pgfId-1036653"></a><img width="328" height="31" src="images/Chap36-209.gif" />
+<a id="marker-1036652"></a></p>
+<p>
+<a id="pgfId-1036658"></a><img width="190" height="27" src="images/Chap36-210.gif" />
+<a id="marker-1036657"></a></p>
+<p>
+<a id="pgfId-1036663"></a><img width="198" height="27" src="images/Chap36-211.gif" />
+<a id="marker-1036662"></a></p>
+<p>
+<a id="pgfId-1036668"></a><img width="139" height="35" src="images/Chap36-212.gif" />
+<a id="marker-1036667"></a></p>
+<p>
+<a id="pgfId-1036669"></a>where the superscript <em>(i)</em> indicates that the value for that parameter is taken from the SP intrinsic model.</p>
+<h3>
+<a id="pgfId-1036672"></a><a id="58628"></a>Gate Current Model<a id="marker-1036671"></a></h3>
+<p>
+<a id="pgfId-1036677"></a><img width="148" height="23" src="images/Chap36-213.gif" />
+<a id="marker-1036676"></a></p>
+<h4>
+<a id="pgfId-1036678"></a>Channel contribution</h4>
+<p>
+<a id="pgfId-1036683"></a><img width="96" height="23" src="images/Chap36-214.gif" />
+<a id="marker-1036682"></a></p>
+<p>
+<a id="pgfId-1036688"></a><img width="111" height="23" src="images/Chap36-215.gif" />
+<a id="marker-1036687"></a></p>
+<p>
+<a id="pgfId-1036692"></a><img width="394" height="51" src="images/Chap36-216.gif" /></p>
+<p>
+<a id="pgfId-1036696"></a><img width="142" height="34" src="images/Chap36-217.gif" /></p>
+<p>
+<a id="pgfId-1036697"></a>where <em>
+F</em>
+<sub><em>s</em></sub> is the supply function describing the difference of the population of carriers across the oxide at mid-point and is given by</p>
+<p>
+<a id="pgfId-1036701"></a><img width="195" height="51" src="images/Chap36-218.gif" /></p>
+<p>
+<a id="pgfId-1036705"></a><img width="225" height="61" src="images/Chap36-219.gif" /></p>
+<p>
+<a id="pgfId-1036709"></a><img width="217" height="29" src="images/Chap36-220.gif" /></p>
+<p>
+<a id="pgfId-1036713"></a><img width="105" height="29" src="images/Chap36-221.gif" /></p>
+<p>
+<a id="pgfId-1036717"></a><img width="243" height="41" src="images/Chap36-222.gif" /></p>
+<p>
+<a id="pgfId-1036721"></a><img width="65" height="49" src="images/Chap36-223.gif" /></p>
+<p>
+<a id="pgfId-1036725"></a><img width="56" height="49" src="images/Chap36-224.gif" /></p>
+<p>
+<a id="pgfId-1036729"></a><img width="254" height="57" src="images/Chap36-225.gif" /></p>
+<h4>
+<a id="pgfId-1036730"></a>Source-Drain Partition</h4>
+<p>
+<a id="pgfId-1036731"></a>The partition of the gate current in the channel area into the source and drain is essential for the MOSFET compact modeling, which is accomplished in SPMOS using the symmetrical linearization method. </p>
+<p>
+<a id="pgfId-1036732"></a>The drain portion is given by</p>
+<p>
+<a id="pgfId-1036737"></a><img width="101" height="23" src="images/Chap36-226.gif" />
+<a id="marker-1036736"></a></p>
+<p>
+<a id="pgfId-1036741"></a><img width="293" height="42" src="images/Chap36-227.gif" /></p>
+<p>
+<a id="pgfId-1036745"></a><img width="140" height="31" src="images/Chap36-228.gif" /></p>
+<p>
+<a id="pgfId-1036749"></a><img width="103" height="23" src="images/Chap36-229.gif" /></p>
+<p>
+<a id="pgfId-1036750"></a>and the source portion is given by</p>
+<p>
+<a id="pgfId-1036755"></a><img width="107" height="23" src="images/Chap36-230.gif" />
+<a id="marker-1036754"></a></p>
+<h4>
+<a id="pgfId-1036756"></a>Source Overlap Region Contribution</h4>
+<p>
+<a id="pgfId-1036761"></a><img width="186" height="29" src="images/Chap36-231.gif" />
+<a id="marker-1036760"></a></p>
+<p>
+<a id="pgfId-1036765"></a><img width="520" height="61" src="images/Chap36-232.gif" /></p>
+<p>
+<a id="pgfId-1036769"></a><img width="202" height="39" src="images/Chap36-233.gif" /></p>
+<p>
+<a id="pgfId-1036773"></a>The supply function,<img width="49" height="31" src="images/Chap36-234.gif" />
+, describing the difference of the population of carriers across the oxide in the source overlap region, given by</p>
+<p>
+<a id="pgfId-1036777"></a><img width="287" height="61" src="images/Chap36-235.gif" /></p>
+<p>
+<a id="pgfId-1036781"></a><img width="260" height="61" src="images/Chap36-236.gif" /></p>
+<p>
+<a id="pgfId-1036785"></a><img width="316" height="29" src="images/Chap36-237.gif" /></p>
+<h4>
+<a id="pgfId-1036786"></a>Drain overlap region contribution</h4>
+<p>
+<a id="pgfId-1036791"></a><img width="190" height="29" src="images/Chap36-238.gif" />
+<a id="marker-1036790"></a></p>
+<p>
+<a id="pgfId-1036795"></a><img width="529" height="61" src="images/Chap36-239.gif" /></p>
+<p>
+<a id="pgfId-1036799"></a><img width="207" height="39" src="images/Chap36-240.gif" /></p>
+<p>
+<a id="pgfId-1036803"></a>The supply function,<img width="51" height="31" src="images/Chap36-241.gif" />
+, describing the difference of the population of carriers across the oxide in the drain overlap region, given by</p>
+<p>
+<a id="pgfId-1036807"></a><img width="294" height="61" src="images/Chap36-242.gif" /></p>
+<p>
+<a id="pgfId-1036811"></a><img width="266" height="61" src="images/Chap36-243.gif" /></p>
+<p>
+<a id="pgfId-1036815"></a><img width="321" height="29" src="images/Chap36-244.gif" /></p>
+<p>
+<a id="pgfId-1036816"></a>By setting SW_IGATE to 0 (default value) gate current model is turned off.</p>
+<h3>
+<a id="pgfId-1036819"></a><a id="61866"></a>Substrate Current Model<a id="marker-1036818"></a></h3>
+<p>
+<a id="pgfId-1036820"></a>The substrate current of MOSFETs due to impact ionization is given by</p>
+<p>
+<a id="pgfId-1036825"></a><img width="330" height="61" src="images/Chap36-245.gif" />
+<a id="marker-1036824"></a></p>
+<p>
+<a id="pgfId-1036829"></a><img width="397" height="29" src="images/Chap36-246.gif" /></p>
+<p>
+<a id="pgfId-1036833"></a><img width="411" height="54" src="images/Chap36-247.gif" /></p>
+<p>
+<a id="pgfId-1036837"></a><img width="173" height="29" src="images/Chap36-248.gif" /></p>
+<p>
+<a id="pgfId-1036841"></a><img width="173" height="29" src="images/Chap36-249.gif" /></p>
+<h3>
+<a id="pgfId-1036844"></a><a id="39747"></a>Total Terminal Currents<a id="marker-1036843"></a></h3>
+<p>
+<a id="pgfId-1036851"></a>The effect of <img width="21" height="31" src="images/Chap36-250.gif" />
+ and <img width="21" height="31" src="images/Chap36-251.gif" />
+ on the gate, source, drain and body components are as follows</p>
+<p>
+<a id="pgfId-1036856"></a><img width="190" height="29" src="images/Chap36-252.gif" />
+<a id="marker-1036855"></a></p>
+<p>
+<a id="pgfId-1036861"></a><img width="400" height="35" src="images/Chap36-253.gif" />
+<a id="marker-1036860"></a></p>
+<p>
+<a id="pgfId-1036866"></a><img width="268" height="35" src="images/Chap36-254.gif" />
+<a id="marker-1036865"></a></p>
+<p>
+<a id="pgfId-1036871"></a><img width="349" height="35" src="images/Chap36-255.gif" />
+<a id="marker-1036870"></a></p>
+<p>
+<a id="pgfId-1036881"></a>where <img width="30" height="35" src="images/Chap36-256.gif" />
+, <img width="30" height="35" src="images/Chap36-257.gif" />
+ and <img width="30" height="35" src="images/Chap36-258.gif" />
+ are terminal currents produced by the intrinsic (core) SPMOS model and</p>
+<p>
+<a id="pgfId-1036885"></a><img width="187" height="75" src="images/Chap36-259.gif" /></p>
+<p>
+<a id="pgfId-1036886"></a>The computation of the impact ionization current be turned off by setting the parameter SW_IMPACT to 0 (default) and turned on by setting SW_IMPACT to 1.</p>
+<h3>
+<a id="pgfId-1036889"></a><a id="55361"></a>Noise Model<a id="marker-1036888"></a></h3>
+<h4>
+<a id="pgfId-1036890"></a>Channel Thermal Noise</h4>
+<p>
+<a id="pgfId-1036895"></a><img width="279" height="51" src="images/Chap36-260.gif" />
+<a id="marker-1036894"></a> </p>
+<p>
+<a id="pgfId-1036899"></a><img width="175" height="23" src="images/Chap36-261.gif" /></p>
+<p>
+<a id="pgfId-1036903"></a><img width="116" height="23" src="images/Chap36-262.gif" /></p>
+<h4>
+<a id="pgfId-1036904"></a>Flicker Noise</h4>
+<p>
+<a id="pgfId-1036905"></a>if SW_FLICKER = 0 (default)</p>
+<p>
+<a id="pgfId-1036909"></a><img width="228" height="32" src="images/Chap36-263.gif" /></p>
+<p>
+<a id="pgfId-1036913"></a><img width="568" height="127" src="images/Chap36-264.gif" /></p>
+<p>
+<a id="pgfId-1036917"></a><img width="600" height="74" src="images/Chap36-265.gif" /></p>
+<p>
+<a id="pgfId-1036921"></a><img width="139" height="47" src="images/Chap36-266.gif" /></p>
+<p>
+<a id="pgfId-1036925"></a><img width="158" height="63" src="images/Chap36-267.gif" /></p>
+<p>
+<a id="pgfId-1036929"></a><img width="160" height="39" src="images/Chap36-268.gif" /></p>
+<p>
+<a id="pgfId-1036933"></a><img width="150" height="31" src="images/Chap36-269.gif" /></p>
+<p>
+<a id="pgfId-1036937"></a><img width="299" height="35" src="images/Chap36-270.gif" /></p>
+<p>
+<a id="pgfId-1036941"></a><img width="160" height="29" src="images/Chap36-271.gif" /></p>
+<p>
+<a id="pgfId-1036945"></a><img width="155" height="29" src="images/Chap36-272.gif" /></p>
+<p>
+<a id="pgfId-1036946"></a>If SW_FLICKER is set to 1 then</p>
+<p>
+<a id="pgfId-1036950"></a><img width="152" height="69" src="images/Chap36-273.gif" /></p>
+<p>
+<a id="pgfId-1036951"></a>Series resistance thermal noise</p>
+<p>
+<a id="pgfId-1036955"></a><img width="106" height="49" src="images/Chap36-274.gif" /></p>
+<p>
+<a id="pgfId-1036959"></a><img width="112" height="49" src="images/Chap36-275.gif" /></p>
+<p>
+<a id="pgfId-1036963"></a><img width="97" height="49" src="images/Chap36-276.gif" /></p>
+<p>
+<a id="pgfId-1036964"></a>where</p>
+<p>
+<a id="pgfId-1036968"></a><img width="158" height="29" src="images/Chap36-277.gif" /></p>
+<p>
+<a id="pgfId-1036972"></a><img width="164" height="29" src="images/Chap36-278.gif" /></p>
+<p>
+<a id="pgfId-1036976"></a><img width="219" height="57" src="images/Chap36-279.gif" /></p>
+<p>
+<a id="pgfId-1036977"></a>Channel induced gate noise</p>
+<p>
+<a id="pgfId-1036981"></a><img width="574" height="69" src="images/Chap36-280.gif" /></p>
+<p>
+<a id="pgfId-1036982"></a>where</p>
+<p>
+<a id="pgfId-1036986"></a><img width="203" height="61" src="images/Chap36-281.gif" /></p>
+<p>
+<a id="pgfId-1036987"></a>Cross correlation coefficient</p>
+<p>
+<a id="pgfId-1036991"></a><img width="356" height="55" src="images/Chap36-282.gif" /></p>
+<p>
+<a id="pgfId-1036995"></a><img width="107" height="67" src="images/Chap36-283.gif" /></p>
+<h3>
+<a id="pgfId-1036997"></a><a id="34842"></a>Gate Induced Drain/Source Leakage Current Model</h3>
+<h4>
+<a id="pgfId-1036998"></a>GIDL Model Equations</h4>
+<p>
+<a id="pgfId-1037002"></a>For <img width="68" height="23" src="images/Chap36-284.gif" /></p>
+
+<p class="webflare-indent1">
+<a id="pgfId-1037006"></a></p>
+<img width="69" height="23" src="images/Chap36-285.gif" />
+
+<p>
+<a id="pgfId-1037010"></a>For <img width="68" height="23" src="images/Chap36-286.gif" /></p>
+
+<p class="webflare-indent1">
+<a id="pgfId-1037014"></a></p>
+<img width="303" height="51" src="images/Chap36-287.gif" />
+
+
+<p class="webflare-indent1">
+<a id="pgfId-1037018"></a></p>
+<img width="215" height="31" src="images/Chap36-288.gif" />
+
+
+<p class="webflare-indent1">
+<a id="pgfId-1037022"></a></p>
+<img width="250" height="23" src="images/Chap36-289.gif" />
+
+
+<p class="webflare-indent1">
+<a id="pgfId-1037026"></a></p>
+<img width="249" height="34" src="images/Chap36-290.gif" />
+
+<p>
+<a id="pgfId-1037027"></a>GISL Model Equations</p>
+<p>
+<a id="pgfId-1037031"></a><img width="258" height="51" src="images/Chap36-291.gif" /></p>
+<p>
+<a id="pgfId-1037035"></a><img width="245" height="34" src="images/Chap36-292.gif" /></p>
+<h2>
+<a id="pgfId-1037037"></a>Scaling Equations<a id="marker-1037036"></a></h2>
+<p>
+<a id="pgfId-1037038"></a>The drawn channel dimensions are denoted as <em>L</em><sub><em>DR</em></sub>, <em>W</em><sub><em>DR</em></sub> (in m) or as <em>L</em><sub><em>DR,</em></sub>μ<sub><em>m</em></sub>, <em>W</em><sub><em>DR,</em></sub>μ<sub><em>m</em></sub> (in μm). The minimum device dimensions for a given technology are <em>L</em><sub><em>REF</em></sub>, <em>W</em><sub><em>REF</em></sub> (in m) or as <em>L</em><sub><em>REF,</em></sub>μ<sub><em>m</em></sub>, <em>W</em><sub><em>REF,</em></sub>μ<sub><em>m</em></sub> (in μm). </p>
+<p>
+<a id="pgfId-1037039"></a>Effective channel length in μm</p>
+<p>
+<a id="pgfId-1037044"></a><img width="280" height="23" src="images/Chap36-293.gif" />
+<a id="marker-1037043"></a></p>
+<p>
+<a id="pgfId-1037045"></a>where</p>
+<p>
+<a id="pgfId-1037049"></a><img width="162" height="40" src="images/Chap36-294.gif" /></p>
+<p>
+<a id="pgfId-1037053"></a><img width="175" height="40" src="images/Chap36-295.gif" /></p>
+<p>
+<a id="pgfId-1037054"></a>Effective channel length in m</p>
+<p>
+<a id="pgfId-1037059"></a><img width="86" height="31" src="images/Chap36-296.gif" />
+<a id="marker-1037058"></a></p>
+<p>
+<a id="pgfId-1037060"></a>Effective channel width in μm,</p>
+<p>
+<a id="pgfId-1037065"></a><img width="404" height="23" src="images/Chap36-297.gif" />
+<a id="marker-1037064"></a></p>
+<p>
+<a id="pgfId-1037066"></a>Effective channel width in m</p>
+<p>
+<a id="pgfId-1037070"></a><img width="96" height="31" src="images/Chap36-298.gif" /></p>
+<p>
+<a id="pgfId-1037071"></a>Total oxide capacitance,</p>
+<p>
+<a id="pgfId-1037076"></a><img width="285" height="31" src="images/Chap36-299.gif" />
+<a id="marker-1037075"></a></p>
+<p>
+<a id="pgfId-1037077"></a>Flat-band voltage (which in SPMOS includes reverse short-channel effect if any)</p>
+<p>
+<a id="pgfId-1037082"></a><img width="223" height="47" src="images/Chap36-300.gif" />
+<a id="marker-1037081"></a></p>
+<p>
+<a id="pgfId-1037086"></a><img width="380" height="54" src="images/Chap36-301.gif" /></p>
+<p>
+<a id="pgfId-1037087"></a>Drift velocity local parameters</p>
+<p>
+<a id="pgfId-1037092"></a><img width="144" height="23" src="images/Chap36-302.gif" />
+<a id="marker-1037091"></a></p>
+<p>
+<a id="pgfId-1037097"></a><img width="327" height="54" src="images/Chap36-303.gif" />
+<a id="marker-1037096"></a></p>
+<p>
+<a id="pgfId-1037098"></a>Local parameters for the lateral field gradient</p>
+<p>
+<a id="pgfId-1037103"></a><img width="127" height="47" src="images/Chap36-304.gif" />
+<a id="marker-1037102"></a></p>
+<p>
+<a id="pgfId-1037108"></a><img width="165" height="54" src="images/Chap36-305.gif" />
+<a id="marker-1037107"></a></p>
+<p>
+<a id="pgfId-1037113"></a><img width="169" height="74" src="images/Chap36-306.gif" />
+<a id="marker-1037112"></a></p>
+<p>
+<a id="pgfId-1037118"></a><img width="245" height="54" src="images/Chap36-307.gif" />
+<a id="marker-1037117"></a></p>
+<p>
+<a id="pgfId-1037119"></a>and</p>
+<p>
+<a id="pgfId-1037124"></a><img width="138" height="40" src="images/Chap36-308.gif" />
+<a id="marker-1037123"></a></p>
+<p>
+<a id="pgfId-1037125"></a>Mobility model parameter</p>
+<p>
+<a id="pgfId-1037130"></a><img width="154" height="40" src="images/Chap36-309.gif" />
+<a id="marker-1037129"></a></p>
+<p>
+<a id="pgfId-1037135"></a><img width="151" height="40" src="images/Chap36-310.gif" />
+<a id="marker-1037134"></a></p>
+<p>
+<a id="pgfId-1037136"></a>Mobility model parameter (correction for &#8220;non-universality&#8221;)</p>
+<p>
+<a id="pgfId-1037141"></a><img width="233" height="40" src="images/Chap36-311.gif" />
+<a id="marker-1037140"></a></p>
+<p>
+<a id="pgfId-1037142"></a>Bias-independent part of the series resistance</p>
+<p>
+<a id="pgfId-1037147"></a><img width="269" height="23" src="images/Chap36-312.gif" />
+<a id="marker-1037146"></a></p>
+<p>
+<a id="pgfId-1037148"></a>Constant used to describe gate bias dependence of the series resistance</p>
+<p>
+<a id="pgfId-1037153"></a><img width="186" height="23" src="images/Chap36-313.gif" />
+<a id="marker-1037152"></a></p>
+<p>
+<a id="pgfId-1037154"></a>Triode-saturation transition variable</p>
+<p>
+<a id="pgfId-1037159"></a><img width="121" height="40" src="images/Chap36-314.gif" />
+<a id="marker-1037158"></a></p>
+<p>
+<a id="pgfId-1037160"></a>Characteristic length of the quai-2D theory</p>
+<p>
+<a id="pgfId-1037165"></a><img width="473" height="34" src="images/Chap36-315.gif" />
+<a id="marker-1037164"></a></p>
+<p>
+<a id="pgfId-1037166"></a>Subthreshold slope parameter</p>
+<p>
+<a id="pgfId-1037171"></a><img width="133" height="53" src="images/Chap36-316.gif" />
+<a id="marker-1037170"></a></p>
+<p>
+<a id="pgfId-1037172"></a>Substrate doping variable</p>
+<p>
+<a id="pgfId-1037176"></a><img width="180" height="31" src="images/Chap36-317.gif" /></p>
+<p>
+<a id="pgfId-1037177"></a>Halo-doping effect parameters</p>
+<p>
+<a id="pgfId-1037181"></a><img width="297" height="23" src="images/Chap36-318.gif" /></p>
+<p>
+<a id="pgfId-1037185"></a><img width="297" height="23" src="images/Chap36-319.gif" /></p>
+<p>
+<a id="pgfId-1037186"></a>Effective doping</p>
+<p>
+<a id="pgfId-1037190"></a><img width="280" height="51" src="images/Chap36-320.gif" /></p>
+<h2>
+<a id="pgfId-1037192"></a>Temperature Dependence (-55°°° to 150°°°)<a id="marker-1037191"></a></h2>
+<p>
+<a id="pgfId-1037193"></a>SPMOS uses up to 13 temperature coefficients.×</p>
+<p>
+<a id="pgfId-1037194"></a>Flat-band voltage: TK_VFB0, TK_VFBL, TK_VFBW, TK_VFBP. </p>
+<p>
+<a id="pgfId-1037195"></a>Mobility: TK_MU0, TK_MUW, TK_MUL, TK_MUP, TK_MU1, TK_THM, TK_CS. </p>
+<p>
+<a id="pgfId-1037196"></a>Saturation velocity: TK_VS, TK_AS. </p>
+<p>
+<a id="pgfId-1037197"></a>Coefficients TK_VFBL, TK_VFBW, TK_VFBP, TK_MUL, TK_MUP and TK_AS are expected to be zero for mature processes. </p>
+<p>
+<a id="pgfId-1037198"></a>The temperature dependence of bulk and surface potentials is not adjusted and is obtained essentially from the first principles. The temperature dependence of the flat-band voltage, mobility and saturation velocity is as follows. In these equations Tn is nominal temperature and</p>
+<p>
+<a id="pgfId-1037203"></a><img width="106" height="23" src="images/Chap36-321.gif" />
+<a id="marker-1037202"></a></p>
+<p>
+<a id="pgfId-1037204"></a>Flat-band voltage</p>
+<p>
+<a id="pgfId-1037209"></a><img width="448" height="46" src="images/Chap36-322.gif" />
+<a id="marker-1037208"></a></p>
+<p>
+<a id="pgfId-1037210"></a>Mobility</p>
+<p>
+<a id="pgfId-1037215"></a><img width="175" height="42" src="images/Chap36-323.gif" />
+<a id="marker-1037214"></a></p>
+<p>
+<a id="pgfId-1037219"></a><img width="353" height="40" src="images/Chap36-324.gif" /></p>
+<p>
+<a id="pgfId-1037223"></a><img width="199" height="40" src="images/Chap36-325.gif" /></p>
+<p>
+<a id="pgfId-1037227"></a><img width="238" height="35" src="images/Chap36-326.gif" /></p>
+<p>
+<a id="pgfId-1037231"></a><img width="178" height="42" src="images/Chap36-327.gif" /></p>
+<p>
+<a id="pgfId-1037235"></a><img width="175" height="40" src="images/Chap36-328.gif" /></p>
+<p>
+<a id="pgfId-1037236"></a>Saturation velocity</p>
+<p>
+<a id="pgfId-1037241"></a><img width="228" height="23" src="images/Chap36-329.gif" />
+<a id="marker-1037240"></a></p>
+<p>
+<a id="pgfId-1037246"></a><img width="290" height="46" src="images/Chap36-330.gif" />
+<a id="marker-1037245"></a></p>
+<p>
+<a id="pgfId-1037247"></a>The default values and ranges for temperature coefficients are given in the table below. </p>
+<h4>Table 35-1
+<a id="pgfId-1037248"></a>Temperature Coefficients</h4>
+<p>
+<a id="pgfId-1037427"></a></p>
+<table class="webflareTable" id="#id1037249">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037251">
+<a id="pgfId-1037251"></a>Parameter</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037253">
+<a id="pgfId-1037253"></a>Unit</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037255">
+<a id="pgfId-1037255"></a>Description</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037257">
+<a id="pgfId-1037257"></a>Default</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037259">
+<a id="pgfId-1037259"></a>MIN</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037261">
+<a id="pgfId-1037261"></a>MAX</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037263"></a>TK_VFB0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037265"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037267"></a>V<sub>fb</sub>(T) parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037269"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037271"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037273"></a>None</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037275"></a>TK_VFBL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037277"></a>μm</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037279"></a>V<sub>fb</sub>(T) scaling parameter (L)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037281"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037283"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037285"></a>None</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037287"></a>TK_VFBW</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037289"></a>μm</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037291"></a>V<sub>fb</sub>(T) scaling parameter (W)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037293"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037295"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037297"></a>None</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037299"></a>TK_VFBP</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037301"></a>μm<sup>2</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037303"></a>V<sub>fb</sub>(T) scaling parameter (LW)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037305"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037307"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037309"></a>None</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037311"></a>TK_MU0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037313"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037315"></a>MU0(T) parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037317"></a>1.5 </p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="4">
+<p>
+<a id="pgfId-1037319"></a></p>
+<p>
+<a id="pgfId-1037320"></a></p>
+<p>
+<a id="pgfId-1037328"></a>See Note <a href="#pgfId-1037323">1</a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037332"></a>TK_MUL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037334"></a>μm</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037336"></a>MU0(T) scaling parameter (L)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037338"></a>0 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037344"></a>TK_MUW</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037346"></a>μm</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037348"></a>MU0(T) scaling parameter (W)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037350"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037356"></a>TK_MUP</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037358"></a>μm<sup>2</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037360"></a>MU0(T) scaling parameter (LW)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037362"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037368"></a>TK_MU1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037370"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037372"></a>μ<sub>E</sub>(T) parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037374"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037376"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037378"></a>0.1 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037380"></a>TK_THM</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037382"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037384"></a>θ<sub>mu</sub>(T) parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037386"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037388"></a>-5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037390"></a>5</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037392"></a>TK _CS</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037394"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037396"></a>CS(T) parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037398"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037400"></a>-5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037402"></a>5 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037404"></a>TK_VS</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037406"></a>K<sup>-1</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037408"></a>VSAT(T) parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037410"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037412"></a>-0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037414"></a>005</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037416"></a>TK_AS</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037418"></a>μm</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037420"></a>A<sub>s</sub>(T) parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037422"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037424"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037426"></a>0.1</p>
+</td>
+</tr>
+</tbody></table>
+<h2>
+<a id="pgfId-1037430"></a><a id="29958"></a>Parameter Descriptions<a id="marker-1037429"></a></h2>
+<h4>Table 35-2
+<a id="pgfId-1037431"></a>Process Parameters Group </h4>
+<p>
+<a id="pgfId-1037551"></a></p>
+<table class="webflareTable" id="#id1037432">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037434">
+<a id="pgfId-1037434"></a>Parameter </span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037436">
+<a id="pgfId-1037436"></a>Unit </span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037438">
+<a id="pgfId-1037438"></a>Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037440">
+<a id="pgfId-1037440"></a> Default </span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037442">
+<a id="pgfId-1037442"></a>MIN </span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037444">
+<a id="pgfId-1037444"></a>MAX</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037446"></a>ITL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037448"></a>μm<sup>2</sup> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037450"></a>Interface states scaling factor </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037452"></a>0 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037454"></a>0 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037459"></a><img width="114" height="31" src="images/Chap36-332.gif" /></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037461"></a>LPKT </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037463"></a>μm</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037465"></a>Pocket length</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037467"></a> 0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037472"></a><img width="123" height="35" src="images/Chap36-333.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037477"></a><img width="89" height="23" src="images/Chap36-334.gif" /></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037479"></a>NP</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037481"></a>cm<sup>-3</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037483"></a>Polysilicon doping</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037485"></a> 10<sup>22</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037490"></a><img width="149" height="27" src="images/Chap36-335.gif" /></p>
+<p>
+<a id="pgfId-1037494"></a>(See Note<sup><a href="#pgfId-1037493">2</a></sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037496"></a>None</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037498"></a>NSUB</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037500"></a>cm<sup>-3</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037502"></a>Substrate doping</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037507"></a><img width="48" height="25" src="images/Chap36-336.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037509"></a> 10<sup>15</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037514"></a><img width="48" height="25" src="images/Chap36-337.gif" /></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037516"></a>QMC None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037518"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037520"></a>QM correction factor</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037522"></a> 0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037524"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037529"></a><img width="123" height="52" src="images/Chap36-338.gif" /></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037531"></a>TOX</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037533"></a>m</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037535"></a>Oxide thickness</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037540"></a><img width="48" height="25" src="images/Chap36-339.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037545"></a> <img width="31" height="25" src="images/Chap36-340.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037550"></a><img width="48" height="25" src="images/Chap36-341.gif" /></p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1037552"></a>At present, PL = 0.2.</p>
+<h4>Table 35-3
+<a id="pgfId-1037553"></a>Effective Geometry Group</h4>
+<p>
+<a id="pgfId-1037714"></a></p>
+<table class="webflareTable" id="#id1037554">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037556">
+<a id="pgfId-1037556"></a>Parameter</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037558">
+<a id="pgfId-1037558"></a> Unit</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037560">
+<a id="pgfId-1037560"></a> Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037562">
+<a id="pgfId-1037562"></a> Default</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037564">
+<a id="pgfId-1037564"></a> MIN </span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037566">
+<a id="pgfId-1037566"></a>MAX </span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037568"></a>DL0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037570"></a>μm</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037572"></a>Channel length offset</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037574"></a> 0 </p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="2">
+<p>
+<a id="pgfId-1037576"></a> </p>
+<p>
+<a id="pgfId-1037589"></a>See Note<a href="#pgfId-1037579">3</a> </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037593"></a>DLL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037595"></a>μm<sup>2</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037597"></a>Channel length adjustment (L)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037599"></a> 0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037605"></a>DLW</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037607"></a>μm<sup>2</sup> </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037609"></a>Channel length adjustment (W)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037611"></a> 0</p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="5">
+<p>
+<a id="pgfId-1037613"></a> </p>
+<p>
+<a id="pgfId-1037614"></a></p>
+<p>
+<a id="pgfId-1037615"></a></p>
+<p>
+<a id="pgfId-1037616"></a></p>
+<p>
+<a id="pgfId-1037630"></a>See Note<a href="#pgfId-1037619">4</a></p>
+<p>
+<a id="pgfId-1037631"></a></p>
+<p>
+<a id="pgfId-1037632"></a></p>
+<p>
+<a id="pgfId-1037633"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037637"></a>DW0 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037639"></a>μm </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037641"></a>Channel width offset</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037643"></a> 0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037649"></a>DWL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037651"></a>μm<sup>2</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037653"></a>Channel width adjustment (L)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037655"></a> 0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037661"></a>DWW </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037663"></a>μm<sup>2</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037665"></a>Channel width adjustment (W)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037667"></a> 0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037673"></a>DWP</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037675"></a>μm<sup>3</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037677"></a>Channel width perimeter factor </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037679"></a>0 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037685"></a>DLQ </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037687"></a>μm</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037689"></a>Decoupling parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037691"></a> 0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037696"></a><img width="53" height="23" src="images/Chap36-346.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037698"></a>none</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037700"></a>DWQ </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037702"></a>μm</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037704"></a> Decoupling parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037706"></a> 0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037711"></a><img width="57" height="23" src="images/Chap36-347.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037713"></a>none</p>
+</td>
+</tr>
+</tbody></table>
+<h4>Table 35-4
+<a id="pgfId-1037715"></a>Mobility Group</h4>
+<p>
+<a id="pgfId-1037881"></a></p>
+<table class="webflareTable" id="#id1037716">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037718">
+<a id="pgfId-1037718"></a>Parameter</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037720">
+<a id="pgfId-1037720"></a> Unit</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037722">
+<a id="pgfId-1037722"></a> Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037724">
+<a id="pgfId-1037724"></a> Default</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037726">
+<a id="pgfId-1037726"></a> MIN</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037728">
+<a id="pgfId-1037728"></a> MAX </span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037730"></a>MU0 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037735"></a><img width="51" height="25" src="images/Chap36-348.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037737"></a>Low-field mobility</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037739"></a>500</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037741"></a>0.01</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037743"></a> 10<sup>4</sup></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037745"></a>NU0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037750"></a><img width="27" height="25" src="images/Chap36-349.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037752"></a>Non-universality factor</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037754"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037756"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037758"></a> 1</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037760"></a>NUL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037765"></a><img width="23" height="18" src="images/Chap36-350.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037767"></a>Non-universality factor (L)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037769"></a>0</p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="2">
+<p>
+<a id="pgfId-1037771"></a></p>
+<p>
+<a id="pgfId-1037779"></a>See Note<a href="#pgfId-1037774">5</a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037783"></a>NUW </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037788"></a><img width="36" height="25" src="images/Chap36-352.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037790"></a>Non-universality factor (W)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037792"></a>0 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037798"></a>MU1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037803"></a><img width="33" height="18" src="images/Chap36-353.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037805"></a>Magnitude of the vertical field dependence</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037807"></a>0.5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037809"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037814"></a><img width="71" height="25" src="images/Chap36-354.gif" /></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037816"></a>MU1W </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037821"></a><img width="23" height="18" src="images/Chap36-355.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037823"></a>Scaling parameter (W)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037825"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037830"></a><img width="125" height="23" src="images/Chap36-356.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037835"></a><img width="117" height="23" src="images/Chap36-357.gif" /></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037837"></a>MU2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037839"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037841"></a>Sharpness of the vertical field dependence</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037843"></a>1.5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037845"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037847"></a>3</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037849"></a>MU3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037854"></a><img width="23" height="18" src="images/Chap36-358.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037856"></a>Scaling parameter (W)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037858"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037863"></a><img width="125" height="23" src="images/Chap36-359.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037868"></a><img width="117" height="23" src="images/Chap36-360.gif" /></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037870"></a>CS</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037872"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037874"></a>Coulomb scattering</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037876"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037878"></a> 0 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037880"></a>10 </p>
+</td>
+</tr>
+</tbody></table>
+<h4>Table 35-5
+<a id="pgfId-1037882"></a>Series Resistance Group</h4>
+<p>
+<a id="pgfId-1038041"></a></p>
+<table class="webflareTable" id="#id1037883">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037885">
+<a id="pgfId-1037885"></a>Parameter</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037887">
+<a id="pgfId-1037887"></a> Unit</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037889">
+<a id="pgfId-1037889"></a> Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037891">
+<a id="pgfId-1037891"></a>Default</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037893">
+<a id="pgfId-1037893"></a>MIN</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1037895">
+<a id="pgfId-1037895"></a>MAX</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037897"></a>R0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037902"></a><img width="35" height="18" src="images/Chap36-361.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037904"></a>Fixed component of series resistance</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037909"></a><img width="48" height="25" src="images/Chap36-362.gif" /></p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="4">
+<p>
+<a id="pgfId-1037911"></a></p>
+<p>
+<a id="pgfId-1037912"></a></p>
+<p>
+<a id="pgfId-1037920"></a>See Note<a href="#pgfId-1037915">6</a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037924"></a>R1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037929"></a><img width="64" height="18" src="images/Chap36-364.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037931"></a>Scaling factor (L)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037933"></a>0 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037939"></a>R2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037944"></a><img width="64" height="18" src="images/Chap36-365.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037946"></a>Scaling factor (W)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037948"></a>0 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037954"></a>R3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037959"></a><img width="70" height="25" src="images/Chap36-366.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037961"></a>Scaling factor (L,W)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037963"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037969"></a>R4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037974"></a><img width="27" height="25" src="images/Chap36-367.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037976"></a>Gate bias dependence</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037978"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037980"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037982"></a>None </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037984"></a>R5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037989"></a><img width="41" height="18" src="images/Chap36-368.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037991"></a>Scaling factor (L) gate bias dependence</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037993"></a> 0.02</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1037998"></a><img width="120" height="40" src="images/Chap36-369.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038003"></a><img width="37" height="46" src="images/Chap36-370.gif" /></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038005"></a>R6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038010"></a><img width="41" height="18" src="images/Chap36-371.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038012"></a>Scaling factor (W) for gate bias dependence</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038014"></a> 0</p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a id="pgfId-1038023"></a>See Note<a href="#pgfId-1038018">7</a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038027"></a>RB</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038032"></a><img width="27" height="25" src="images/Chap36-373.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038034"></a>Back bias factor</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038036"></a> 0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038038"></a> 0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038040"></a>1.0</p>
+</td>
+</tr>
+</tbody></table>
+<h4>Table 35-6
+<a id="pgfId-1038042"></a>Velocity Saturation Group</h4>
+<p>
+<a id="pgfId-1038252"></a></p>
+<table class="webflareTable" id="#id1038043">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038045">
+<a id="pgfId-1038045"></a>Parameter</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038047">
+<a id="pgfId-1038047"></a>Unit</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038049">
+<a id="pgfId-1038049"></a>Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038051">
+<a id="pgfId-1038051"></a>Default</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038053">
+<a id="pgfId-1038053"></a>MIN</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038055">
+<a id="pgfId-1038055"></a>MAX</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038057"></a>VSAT</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038059"></a>m/s</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038061"></a>Saturation velocity</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038063"></a>80,000</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038065"></a>50,000</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038067"></a>150,000 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038069"></a>ST0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038074"></a><img width="27" height="25" src="images/Chap36-374.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038076"></a>Gate bias dependence of saturation velocity</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038078"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038080"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038082"></a>0.3</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038084"></a>ST1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038089"></a><img width="41" height="18" src="images/Chap36-375.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038091"></a>Adjustment of saturation velocity (W)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038093"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038095"></a>ST1<sub>min</sub></p>
+<p>
+<a id="pgfId-1038096"></a>See Note<a href="#pgfId-1038102">8</a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038104"></a>ST1<sub>max</sub></p>
+<p>
+<a id="pgfId-1038111"></a>See Note<sup><a href="#pgfId-1038110">9</a></sup></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038113"></a>STX</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038118"></a><img width="27" height="25" src="images/Chap36-378.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038120"></a>Back bias dependence of saturation velocity</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038122"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038124"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038126"></a>1 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038128"></a>GH0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038130"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038132"></a>Grotjohn/Hofflinger (GH) factor</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038134"></a>0.5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038136"></a>0.05</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038138"></a>5 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038140"></a>GH1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038145"></a><img width="27" height="20" src="images/Chap36-379.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038147"></a>GH Scaling parameter (L<sup>-1</sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038149"></a>0</p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="4">
+<p>
+<a id="pgfId-1038151"></a></p>
+<p>
+<a id="pgfId-1038152"></a></p>
+<p>
+<a id="pgfId-1038153"></a></p>
+<p>
+<a id="pgfId-1038161"></a>See Note<a href="#pgfId-1038156">10</a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038165"></a>GH2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038170"></a><img width="30" height="25" src="images/Chap36-381.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038172"></a>GH Scaling parameter (L<sup>-2</sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038174"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038180"></a>GH3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038185"></a><img width="30" height="25" src="images/Chap36-382.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038187"></a>GH Scaling parameter<br />(L<sup>-2</sup>W<sup>-1</sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038189"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038195"></a>GH4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038200"></a><img width="30" height="25" src="images/Chap36-383.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038202"></a>GH Scaling parameter <br />(L<sup>-2</sup>W<sup>-2</sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038204"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038210"></a>AS0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038212"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038214"></a>Transition from triode to saturation</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038216"></a>12</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038218"></a>6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038220"></a>100 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038222"></a>ASL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038224"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038226"></a>Scaling factor (L) for triode-saturation </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038228"></a>0.6 </p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a id="pgfId-1038237"></a>See Note<a href="#pgfId-1038232">11</a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038241"></a>S0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038243"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038245"></a>V<sub>dsat</sub> adjustment</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038247"></a>0.98</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038249"></a>0.9</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038251"></a>0.99 </p>
+</td>
+</tr>
+</tbody></table>
+<h4>Table 35-7
+<a id="pgfId-1038253"></a>Flat-band Voltage Group </h4>
+<p>
+<a id="pgfId-1038351"></a></p>
+<table class="webflareTable" id="#id1038254">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038256">
+<a id="pgfId-1038256"></a>Parameter</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038258">
+<a id="pgfId-1038258"></a>Unit</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038260">
+<a id="pgfId-1038260"></a>Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038262">
+<a id="pgfId-1038262"></a>Default</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038264"></a>FB0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038266"></a>V</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038268"></a>V<sub>fb</sub> for long wide devices<br /><img width="62" height="18" src="images/Chap36-385.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038273"></a>-1</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038275"></a>FB1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038280"></a><img width="42" height="18" src="images/Chap36-386.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038282"></a>Scaling parameter (W<sup>-1</sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038284"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038286"></a>FB2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038291"></a><img width="49" height="25" src="images/Chap36-387.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038293"></a>Scaling parameter (W<sup>-2</sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038295"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038297"></a>FB3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038302"></a><img width="23" height="18" src="images/Chap36-388.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038304"></a>RSE parameter (W<sup>-1</sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038306"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038308"></a>FB4</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038313"></a><img width="30" height="25" src="images/Chap36-389.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038315"></a>RSE parameter (W<sup>-2</sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038317"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038319"></a>FB5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038324"></a><img width="42" height="18" src="images/Chap36-390.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038326"></a>RSE parameter (L<sup>-1</sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038328"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038330"></a>FB6</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038335"></a><img width="49" height="25" src="images/Chap36-391.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038337"></a>RSE parameter (L<sup>-2</sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038339"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038341"></a>FB7</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038346"></a><img width="49" height="25" src="images/Chap36-392.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038348"></a>RSE parameter (L<sup>-3</sup>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038350"></a>0</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1038352"></a>There are no limits on flat-band voltage parameters. </p>
+<h4>Table 35-8
+<a id="pgfId-1038353"></a>Lateral Gradient Factor Group</h4>
+<p>
+<a id="pgfId-1038553"></a></p>
+<table class="webflareTable" id="#id1038354">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038356">
+<a id="pgfId-1038356"></a>Parameter</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038358">
+<a id="pgfId-1038358"></a>Unit</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038360">
+<a id="pgfId-1038360"></a>Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038362">
+<a id="pgfId-1038362"></a>Default</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038364">
+<a id="pgfId-1038364"></a>MIN</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038366">
+<a id="pgfId-1038366"></a>MAX</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038368"></a>FL1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038373"></a><img width="23" height="18" src="images/Chap36-393.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038375"></a>Scaling parameter for F<sub>0</sub></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038377"></a>0.1</p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="2">
+<p>
+<a id="pgfId-1038379"></a>
+See Note<a href="#pgfId-1038382">12</a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038390"></a>FL2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038395"></a><img width="30" height="25" src="images/Chap36-395.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038397"></a>Scaling parameter for F<sub>0</sub></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038399"></a>0.01 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038405"></a>AF0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038410"></a><img width="27" height="25" src="images/Chap36-396.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038412"></a>Scaling parameter for A<sub>f</sub></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038414"></a>0.004</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038416"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038418"></a>10 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038420"></a>AFL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038425"></a><img width="48" height="25" src="images/Chap36-397.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038427"></a>Scaling parameter for A<sub>f</sub></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038429"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038434"></a><img width="140" height="31" src="images/Chap36-398.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038436"></a>10 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038438"></a>BFL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038443"></a><img width="48" height="25" src="images/Chap36-399.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038445"></a>Scaling parameter for B<sub>f</sub></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038447"></a>0.015</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038449"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038451"></a>10</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038453"></a>CF0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038458"></a><img width="27" height="25" src="images/Chap36-400.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038460"></a>Scaling parameter for C<sub>f</sub></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038462"></a>0.0005</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038464"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038466"></a>10</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038468"></a>CFL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038473"></a><img width="48" height="25" src="images/Chap36-401.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038475"></a>Scaling parameter for C<sub>f</sub></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038477"></a>0.01</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038482"></a><img width="140" height="31" src="images/Chap36-402.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038484"></a>10</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038486"></a>KL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038491"></a><img width="30" height="25" src="images/Chap36-403.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038493"></a>Scaling parameter for C<sub>LW</sub></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038495"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038508"></a> -KL0 (See Note<a href="#pgfId-1038499">13</a>)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038510"></a>KLO</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038512"></a>KW</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038517"></a><img width="23" height="18" src="images/Chap36-406.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038519"></a>Scaling parameter for C<sub>LW</sub></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038521"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038526"></a><img width="130" height="23" src="images/Chap36-407.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038528"></a>10</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038530"></a>DF</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038532"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038534"></a>Sharpness of f(V<sub>ds</sub>) dependence</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038536"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038538"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038540"></a>3</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038542"></a>EF</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038544"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038546"></a>Sharpness of f(V<sub>sb</sub>) dependence</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038548"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038550"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038552"></a>3</p>
+</td>
+</tr>
+</tbody></table>
+<h4>Table 35-9
+<a id="pgfId-1038554"></a>Channel Length Modulation Group</h4>
+<p>
+<a id="pgfId-1038653"></a><a id="71117"></a></p>
+<table class="webflareTable" id="#id1038555">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038557">
+<a id="pgfId-1038557"></a>Parameter</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038559">
+<a id="pgfId-1038559"></a>Unit</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038561">
+<a id="pgfId-1038561"></a>Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038563">
+<a id="pgfId-1038563"></a>Default</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038565">
+<a id="pgfId-1038565"></a>MIN</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038567">
+<a id="pgfId-1038567"></a>MAX</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038569"></a>CLM0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038571"></a>None</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038573"></a>L<sub>q2d</sub> parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038575"></a>0.1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038577"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038579"></a>none</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038581"></a>CLM1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038586"></a><img width="23" height="18" src="images/Chap36-408.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038588"></a>L<sub>q2d </sub>scaling parameter (L)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038590"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038595"></a><img width="143" height="35" src="images/Chap36-409.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038600"></a><img width="142" height="23" src="images/Chap36-410.gif" /></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038602"></a>CLM2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038607"></a><img width="23" height="18" src="images/Chap36-411.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038609"></a>L<sub>q2d</sub> scaling parameter (W)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038611"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038616"></a><img width="148" height="35" src="images/Chap36-412.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038621"></a><img width="142" height="23" src="images/Chap36-413.gif" /></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038623"></a>CLM3</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038628"></a><img width="27" height="25" src="images/Chap36-414.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038630"></a>Logarithm dependence factor</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038632"></a>10</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038634"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038636"></a>1000 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038638"></a>GDL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038643"></a><img width="36" height="25" src="images/Chap36-415.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038645"></a>Scaling parameter (L)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038647"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038649"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038651"></a>0.9 </p>
+</td>
+</tr>
+</tbody></table>
+<h3>
+<a id="pgfId-1038655"></a><a id="49092"></a>New Parameters for SPMOS Version 34</h3>
+<p>
+<a id="pgfId-1038656"></a>The following parameters have been added to version 34.</p>
+<p>
+<a id="pgfId-1038952"></a>I</p>
+<table class="webflareTable" id="#id1038657">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038659">
+<a id="pgfId-1038659"></a>Parameter</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038661">
+<a id="pgfId-1038661"></a>Unit</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038663">
+<a id="pgfId-1038663"></a>Description</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038665">
+<a id="pgfId-1038665"></a>Default</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038667">
+<a id="pgfId-1038667"></a>MIN</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038669">
+<a id="pgfId-1038669"></a>MAX</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038671"></a>NCG</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038673"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038675"></a>Instance parameter for factor of Rgate</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038677"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038679"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038681"></a>2</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038683"></a>SW_GIDL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038685"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038687"></a>Flag og gidl</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038689"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038691"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038693"></a>1</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038695"></a>IT0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038697"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038699"></a>Interface states scaling factor</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038701"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038703"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038705"></a>2</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038707"></a>NPKT</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038709"></a>um</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038711"></a>Effective doping parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038713"></a>1.0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038715"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038717"></a>2 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038719"></a>NSLP</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038721"></a>1/V</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038723"></a>Effective doping parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038725"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038727"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038729"></a>2 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038731"></a>YPKT</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038733"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038735"></a>Effective doping parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038737"></a>0.001</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038739"></a>0.001</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038741"></a>2</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038743"></a>VNSUB</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038745"></a>V</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038747"></a>Effective doping parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038749"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038751"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038753"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038755"></a>GDS1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038757"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038759"></a>V<sub>ds</sub> dependence of G<sub>ds </sub>slope</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038761"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038763"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038765"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038767"></a>GDS2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038769"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1038771"></a>V<sub>ds</sub> dependence of G<sub>ds </sub>slope</pre>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038773"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038775"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038777"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038779"></a>GDS1L</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038784"></a>1/<img width="23" height="18" src="images/Chap36-416.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038786"></a>Scaling parameter for Hlo1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038788"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038790"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038792"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038794"></a>GDS2L</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038799"></a>1/<img width="23" height="18" src="images/Chap36-417.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038801"></a>Scaling parameter for Hlo2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038803"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038805"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038807"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038809"></a>GDS1A</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038814"></a><img width="23" height="18" src="images/Chap36-418.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038816"></a>Scaling parameter for Hlo1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038818"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038820"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038822"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038824"></a>GDS2A</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038829"></a><img width="23" height="18" src="images/Chap36-419.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038831"></a>Scaling parameter for Hlo1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038833"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038835"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038837"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038839"></a>TK_BGIDL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038841"></a>1/K</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038843"></a>Temperature dependence</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038845"></a>0.0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038847"></a>0.0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038849"></a>1.0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038851"></a>TK_IIA2</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038853"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038855"></a>Substrate current scaling parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038857"></a>0.0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038859"></a>0.0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038861"></a>1.0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038863"></a>KGOV</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038865"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038867"></a>Decouples tunneling and CV overlap fitting</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038869"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038871"></a>0.1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038873"></a>10</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038875"></a>CHIB</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038877"></a>eV</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038879"></a>Band offset</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038881"></a>3.13</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038883"></a>2.5</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038885"></a>4</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038887"></a>AGIDL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038889"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038891"></a>I<sub>GIDL</sub> coefficient</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038893"></a>0.7</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038895"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038897"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038899"></a>BGIDL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038901"></a>V</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038903"></a>Tunneling barrier adjustment</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038905"></a>28</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038907"></a>1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038909"></a>100</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038911"></a>CGIDL</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038913"></a>1/V</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038915"></a>Lateral field dependence</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038917"></a>0.007</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038919"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038921"></a>1</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038923"></a>IIA1W</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038928"></a><img width="23" height="18" src="images/Chap36-420.gif" />
+/V<sup>1/2</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038930"></a>Substrate current scaling parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038932"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038934"></a>-1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038936"></a>1</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038938"></a>IIA1P</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038943"></a><img width="23" height="18" src="images/Chap36-421.gif" />
+/V<sup>1/2</sup></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038945"></a>Substrate current scaling parameter</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038947"></a>0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038949"></a>-1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038951"></a>1</p>
+</td>
+</tr>
+</tbody></table>
+<h3>
+<a id="pgfId-1038954"></a><a id="39193"></a>Parameters with Different Default Values for SPMOS Version 34</h3>
+<p>
+<a id="pgfId-1038980"></a></p>
+<table class="webflareTable" id="#id1038955">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038957">
+<a id="pgfId-1038957"></a>Model Parameter</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038959">
+<a id="pgfId-1038959"></a>Old Default Value</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1038961">
+<a id="pgfId-1038961"></a>New Default Value</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038963"></a>noia</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038965"></a>0.0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038967"></a>1.0e+20</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038969"></a>noib</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038971"></a>0.0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038973"></a>5.0e+04</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038975"></a>noic</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038977"></a>0.0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1038979"></a>1.4e-12</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1035457"></a></p>
+
+
+<p>
+<a id="pgfId-1037323"></a>Instead of limiting TK_MU0, TK_MUL, TK_MUW and TK_MUP, SPMOS sets</p>
+<eqi2-equa-in-2 id="#id1037327">
+<a id="pgfId-1037327"></a><img width="466" height="50" src="images/Chap36-331.gif" /></eqi2-equa-in-2>
+
+
+<p>
+<a id="pgfId-1037493"></a>Setting NP=0 or NP &gt; 10<sup>28</sup>m<sup>-3</sup> turns off polysilicon depletion effect. </p>
+
+
+<p>
+<a id="pgfId-1037579"></a>Instead of limiting the values of DL0, DLL and DLW, SPMOS sets the channel length offset as </p>
+<eqi2-equa-in-2 id="#id1037583">
+<a id="pgfId-1037583"></a><img width="236" height="23" src="images/Chap36-342.gif" /></eqi2-equa-in-2>
+<p>
+<a id="pgfId-1037584"></a> and the effective channel length (in μm) as</p>
+<eqi2-equa-in-2 id="#id1037588">
+<a id="pgfId-1037588"></a><img width="288" height="23" src="images/Chap36-343.gif" /></eqi2-equa-in-2>
+
+
+<p>
+<a id="pgfId-1037619"></a>Instead of limiting parameter values of DW0, DWL, DWW and DWP, SPMOS sets the channel width offset as </p>
+<eqi2-equa-in-2 id="#id1037623">
+<a id="pgfId-1037623"></a><img width="354" height="23" src="images/Chap36-344.gif" /></eqi2-equa-in-2>
+<p>
+<a id="pgfId-1037624"></a> and the effective channel length (in μm) as </p>
+<eqi2-equa-in-2 id="#id1037628">
+<a id="pgfId-1037628"></a><img width="306" height="23" src="images/Chap36-345.gif" /></eqi2-equa-in-2>
+<p>
+<a id="pgfId-1037629"></a> At present, <em>
+P</em>
+<sub><em>w</em></sub>=1/4.</p>
+
+
+<p>
+<a id="pgfId-1037774"></a>Instead of limiting NU0, NUL and NUW, SPMOS sets</p>
+<eqi2-equa-in-2 id="#id1037778">
+<a id="pgfId-1037778"></a><img width="136" height="23" src="images/Chap36-351.gif" /></eqi2-equa-in-2>
+
+
+<p>
+<a id="pgfId-1037915"></a>Instead of limiting the values of R0, R1, R2, and R3, SPMOS sets</p>
+<eqi2-equa-in-2 id="#id1037919">
+<a id="pgfId-1037919"></a><img width="320" height="23" src="images/Chap36-363.gif" /></eqi2-equa-in-2>
+
+
+<p>
+<a id="pgfId-1038018"></a>Instead of limiting the values of R6, SPMOS sets</p>
+<eqi2-equa-in-2 id="#id1038022">
+<a id="pgfId-1038022"></a><img width="237" height="23" src="images/Chap36-372.gif" /></eqi2-equa-in-2>
+
+
+
+<p class="webflare-indent1">
+<a id="pgfId-1038102"></a></p>
+<img width="336" height="23" src="images/Chap36-376.gif" />
+
+
+
+
+<p class="webflare-indent1">
+<a id="pgfId-1038110"></a></p>
+<img width="321" height="23" src="images/Chap36-377.gif" />
+
+
+
+<p>
+<a id="pgfId-1038156"></a>Instead of limiting the values of GH1, GH2, GH3, and GH4, SPMOS forces G<sub>hf</sub> to be in the range [0.05, 5]</p>
+<eqi2-equa-in-2 id="#id1038160">
+<a id="pgfId-1038160"></a><img width="451" height="74" src="images/Chap36-380.gif" /></eqi2-equa-in-2>
+
+
+<p>
+<a id="pgfId-1038232"></a>Instead of limiting the values of ASL, SPMOS forces a<sub>x</sub> to be in the range [2,20]</p>
+<eqi2-equa-in-2 id="#id1038236">
+<a id="pgfId-1038236"></a><img width="165" height="23" src="images/Chap36-384.gif" /></eqi2-equa-in-2>
+
+
+<p>
+<a id="pgfId-1038382"></a>Instead of limiting the values of FL1 and FL2, SPMOS forces F<sub>0</sub> to be in the range [0.001, 1]</p>
+<eqi2-equa-in-2 id="#id1038386">
+<a id="pgfId-1038386"></a><img width="187" height="23" src="images/Chap36-394.gif" /></eqi2-equa-in-2>
+
+
+<p>
+<a id="pgfId-1038499"></a>Instead of limiting the values of GDS1 and GDS2, SPMOS forces</p>
+<eqi2-equa-in-2 id="#id1038503">
+<a id="pgfId-1038503"></a><img width="180" height="51" src="images/Chap36-404.gif" /></eqi2-equa-in-2>
+<eqi2-equa-in-2 id="#id1038507">
+<a id="pgfId-1038507"></a><img width="316" height="50" src="images/Chap36-405.gif" /></eqi2-equa-in-2>
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="Chap35.html" id="prev" title="HiSIM_Diode Model (hisim_diode)">HiSIM_Diode Model (hisim_diode ...</a></em></b><b><em><a href="Chap37.html" id="nex" title="MOS Level-0 Transistor (mos0)">MOS Level-0 Transistor (mos0)</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

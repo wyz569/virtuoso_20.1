@@ -1,0 +1,173 @@
+
+<html><head><title>Customizing Hierarchy Editor Menus</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-08-26" />
+<meta name="CreateTime" content="1598429309" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes hows to use the Virtuoso Hierarchy Editor." />
+<meta name="DocTitle" content="Virtuoso Hierarchy Editor User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Customizing Hierarchy Editor Menus" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="cdshiereditor" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-26" />
+<meta name="ModifiedTime" content="1598429309" />
+<meta name="NextFile" content="" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Cadence Shared Tools" />
+<meta name="PrevFile" content="appA.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="Virtuoso Shared Tools" />
+<meta name="ProductFamily" content="Virtuoso Shared Tools" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Hierarchy Editor User Guide -- Customizing Hierarchy Editor Menus" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="cdshiereditorICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="cdshiereditorTOC.html">Contents</a></li><li><a class="prev" href="appA.html" title="The hed.env File">The hed.env File</a></li><li style="float: right;"><a class="viewPrint" href="cdshiereditor.pdf">View/Print PDF</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Hierarchy Editor User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>B
+<a id="pgfId-1031949"></a></h1>
+<h1>
+<a id="pgfId-1031951"></a><hr />
+Customizing Hierarchy Editor Menus<hr />
+</h1>
+<p>
+<a id="pgfId-1034323"></a>To add custom banner menus or context menu items to a Hierarchy Editor window:</p>
+
+<ol><li>
+<a id="pgfId-1034325"></a>Define a UI customization function that will be called whenever a new Hierarchy Editor window is opened and will be passed the <code>hiWindowId</code> of the new window. <br />
+<a id="pgfId-1035637"></a>The customization function can use hi- SKILL functions to add banner menus to the Hierarchy Editor window or add menu items to the Hierarchy Editor context menus. The customization function can be loaded on Virtuoso startup through the <code>.cdsinit</code> file.</li><li>
+<a id="pgfId-1034495"></a>Register the customization function by using the <a href="appB.html#98340">hedRegUICustomFunc</a> SKILL function. Alternatively, add this call to <code>.cdsinit</code> so that the customization function is registered during Virtuoso startup.<br />
+<a id="pgfId-1034373"></a>When customizing Hierarchy Editor context menus, the context menus can be accessed using the <code>cellTableMenu</code>, <code>instTableMenu</code>, and <code>treeMenu</code> properties for the Hierarchy Editor window. <br />
+<a id="pgfId-1035233"></a>The following properties are also available for the Hierarchy Editor window:<ul><li>
+<a id="pgfId-1036623"></a><code>currentItem</code>: Returns the currently selected item in a Hierarchy editor window.</li><li>
+<a id="pgfId-1036674"></a><code>libName</code>: Returns the library name of the current configuration.</li><li>
+<a id="pgfId-1036682"></a><code>cellName</code>: Returns the cell name of the current configuration.</li><li>
+<a id="pgfId-1036686"></a><code>viewName</code>: Returns the view name of the current configuration.</li><li>
+<a id="pgfId-1036690"></a><code>mode</code>: Returns the mode that the configuration was opened in. It can be either <code>r</code> (representing <em>read</em>) or <code>a</code> (representing <em>append</em>).</li></ul><br />
+<a id="pgfId-1036591"></a>The following sample script defines customization functions that add a custom Hierarchy Editor banner menu and tree context menu item and registers the functions with Hierarchy Editor.<pre class="webflare-pre-block webflare-courier-new" id="#id1034333">
+<a id="pgfId-1034333"></a>procedure(myBannerMenuUIFunc(hedWin)
+ myMenu = hiCreateMenuItem(
+  ?name &#39;myMenuItem
+  ?itemText &quot;My MenuItem&quot;
+  ?itemIcon nil
+  ?callback &quot;print(hiGetCurrentWindow()-&gt;currentItem)&quot;
+  ?disable nil
+ )
+
+  hiCreatePulldownMenu(
+   &#39;myMenu
+   &quot;My Custom menu&quot;
+   list(myMenu)
+  )
+
+  hiInsertBannerMenu(
+   hedWin
+   &#39;myMenu
+   hiGetNumMenus(hedWin) + 1
+  )
+ )
+)
+
+procedure(myContextMenuUIFunc(hedWin)
+ let((treeMI)
+  treeMI = hiCreateMenuItem(
+  ?name &#39;treeMI
+  ?itemText &quot;My Tree MenuItem&quot;
+  ?itemIcon nil
+  ?callback &quot;print(hiGetCurrentWindow()-&gt;currentItem)&quot;
+  ?disable nil
+ )
+ hiAddMenuItem(hedWin-&gt;treeMenu treeMI)
+ )
+)
+
+hedRegUICustomFunc(&#39;myBannerMenuUIFunc)
+hedRegUICustomFunc(&#39;myContextMenuUIFunc)</pre></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1035307"></a><a id="techGetOrderedSpacingRules"></a><a id="98340"></a>hedReg<a id="hedRegUICustomFunc"></a>UICustomFunc</h3>
+<a id="pgfId-1035308"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+hedRegUICustomFunc(
+<code><em>s_uifunc
+</em></code>) 
+<code>=&gt; </code>t / nil</pre>
+<h4>
+<a id="pgfId-1035310"></a>Description</h4>
+
+<p>
+<a id="pgfId-1035311"></a>Registers a UI customization function that will be called when a new Hierarchy Editor window is created.</p>
+
+<h4>
+<a id="pgfId-1035318"></a>Arguments</h4>
+<table class="webflareTable" id="#id1035585">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1035315"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_uifunc</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1035317"></a>A UI customization function that accepts the <code>hiWindowId</code> value of the window being customized.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a id="pgfId-1035334"></a>Value Returned</h4>
+<table class="webflareTable" id="#id1035319">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1035331"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1035333"></a>The customization function was registered.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1035529"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1035531"></a>Registration failed.</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1032581"></a></p>
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="appA.html" id="prev" title="The hed.env File">The hed.env File</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

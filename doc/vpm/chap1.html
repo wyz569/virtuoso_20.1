@@ -1,0 +1,2112 @@
+
+<html><head><title>Setup for Automatic Extraction of Power Intent</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="deeptig" />
+<meta name="CreateDate" content="2020-09-17" />
+<meta name="CreateTime" content="1600389170" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes Virtuoso Power Manager that describes the power intent information of the designs." />
+<meta name="DocTitle" content="Virtuoso Power Manager User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Setup for Automatic Extraction of Power Intent" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="vpm" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-17" />
+<meta name="ModifiedTime" content="1600389170" />
+<meta name="NextFile" content="chap2.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design,Custom IC Design,Custom IC Design" />
+<meta name="PrevFile" content="flow.html" />
+<meta name="c_product" content="Virtuoso Analog Design Environment,Virtuoso Layout Suite,Virtuoso Schematic Editor" />
+<meta name="Product" content="Virtuoso Analog Design Environment,Virtuoso Layout Suite,Virtuoso Schematic Editor" />
+<meta name="ProductFamily" content="Virtuoso Analog Design Environment,Virtuoso Layout Suite,Virtuoso Schematic Editor" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Power Manager User Guide -- Setup for Automatic Extraction of Power Intent" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vpmICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vpmTOC.html">Contents</a></li><li><a class="prev" href="flow.html" title="Virtuoso Power Manager Flows">Virtuoso Power Manager Flows</a></li><li style="float: right;"><a class="viewPrint" href="vpm.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="chap2.html" title="Importing the Power Intent of a Design">Importing the Power Intent of  ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Power Manager User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>3
+<a id="pgfId-857691"></a></h1>
+<h1>
+<a id="pgfId-878194"></a><hr />
+<a id="65633"></a>Setup for Automatic Extraction of Power Intent<hr />
+</h1>
+
+<p>
+<a id="pgfId-954687"></a><a id="vpmUISetupForm"></a>To run In-Design Checks or to extract the power intent from a design, you need to provide inputs that are required by the tool for correct identification of design topology and define key set of rules. For example, you can define a setup that identifies all the power nets in your design, creates power domains, creates supply states, or redefines the severity of certain checks. </p>
+<p>
+<a id="pgfId-911543"></a>The chapter includes the following sections:</p>
+<ul><li>
+<a id="pgfId-930439"></a><a href="chap1.html#48227">Introduction</a></li><li>
+<a id="pgfId-737043"></a><a href="chap1.html#43880">Specifying the Setup</a></li><li>
+<a id="pgfId-918486"></a><a href="chap1.html#81145">Setup File Template</a></li><li>
+<a id="pgfId-937989"></a><a href="chap1.html#42583">Loading Power Intent Extraction Options from a File</a></li><li>
+<a id="pgfId-949467"></a><a href="chap1.html#60149">Saving Power Intent Extraction Options to a File</a></li></ul>
+
+
+
+
+
+<h2>
+<a id="pgfId-930421"></a><a id="48227"></a>Introduction</h2>
+
+<p>
+<a id="pgfId-929644"></a>The Power Manager setup can be classified as:</p>
+<ul><li>
+<a id="pgfId-929645"></a>Common setup: This type of setup information is common to a set of designs. It includes technology, environment, data integrity checks, and so on. This setup information is stored in a CSF-searchable location and is applied when no design-specific information is found.</li><li>
+<a id="pgfId-929646"></a>Project-specific setup: This information consists of the project-specific setup and design- specific details. It includes all types of settings and it is automatically applied if available for a design. You can specify the settings in the Power Manager Setup form and save them in the setup file for a project to ensure that each command is implemented according to the project setup. </li></ul>
+
+<p>
+<a id="pgfId-930294"></a>A setup file can be placed at one of the following three locations:</p>
+<ul><li>
+<a id="pgfId-930295"></a>Device-level information inside PDK Library in <code>lpLibSetup.il</code></li><li>
+<a id="pgfId-930296"></a>Project-level common settings at the CAD level inside <code>.cadence/dfII/vpm</code> or some other CSF-compatible path in <code>lpSetup.il</code></li><li>
+<a id="pgfId-930297"></a>User-defined settings that are defined in Power Manger Setup form and saved in a setup template file</li></ul>
+
+
+<p>
+<a id="pgfId-938431"></a>There are two options in the setup template to control the enabling of the project-level (CAD) settings in the final merged setup loaded for Power Manager.</p>
+<ol><li>
+<a id="pgfId-938433"></a><code>loadEnvironmentOptions</code>:<br />
+<a id="pgfId-938435"></a>Controls whether the<code>.cadence/dfII/vpm/lpSetup.il</code> file is loaded automatically as a part of the final merged setup.<ul><li>
+<a id="pgfId-938437"></a>If set to <code>true</code>, the project-level settings are considered as a part of the final setup.</li><li>
+<a id="pgfId-938438"></a>If set to <code>nil</code>, the project level settings are ignored for the final setup.</li><li>
+<a id="pgfId-938439"></a>If this option is not specified in the Power Manager setup template, it is assumed to be true and is considered for the final setup.</li></ul></li><li>
+<a id="pgfId-938441"></a><code>pushUnmodifiedEnvOptions</code>:<br />
+<a id="pgfId-938443"></a>Controls the reading of the project-level (CAD) settings, at a later stage. For example, if there is any update in the project-level settings and the changes need to be applied in the final merged setup for the Power Manager.<ul><li>
+<a id="pgfId-938445"></a>If set to <code>true</code>, any changes done in the project-level settings are read and updated.</li><li>
+<a id="pgfId-938446"></a>If set to <code>nil</code>, any changes done in the project level settings are ignored in the final setup.</li></ul></li></ol>
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-938448"></a>You can define these options in the setup if you want to read the project-level setup initially or always want to ensure that the user-defined setup is synchronized with the project-level (CAD) setup.</p>
+<p>
+<a id="pgfId-930299"></a>The final setup is the result of merging all the three setups, which can be verified by exporting in the file:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-930300"></a>vpmExportPowerIntentSetup(&quot;random_computation_flat&quot; &quot;random_computation_top&quot; &quot;schematic&quot;&#160;&quot;lpSetup_export.il&quot; ?filter &quot;allSetupOptions&quot; ?overwriteExisting t)</pre>
+
+<p>
+<a id="pgfId-930287"></a>Currently, if there are common settings in the setup file, for example, supply nets are specified in CAD and user-defined setup, the user-defined setup has a higher precedence.</p>
+
+<h2>
+<a id="pgfId-927751"></a><a id="43880"></a>Specifying the Setup</h2>
+
+<p>
+<a id="pgfId-927791"></a>This section describes the various input attributes that are required in the setup file template, considering all the flows supported by Power Manager. You can register different attributes that are required for different flows in the Power Manager Setup form. This setup can be saved eventually in a setup file template.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-949884"></a>
+The Power Manager Setup form gives you the flexibility to dynamically switch and update more than one design for power information. However, it is recommended to update one design at a time, close the form, and reopen it for updating the power intent information for a different design. This ensures that the setup information is not inadvertently lost when switching from the setup for one design to the other. </div>
+<p class="webflare-indent1">
+<a id="pgfId-954109"></a></p>
+
+<p>
+<a id="pgfId-947953"></a>The section includes the following sub-sections:</p>
+<ul><li>
+<a id="pgfId-947981"></a><a href="chap1.html#91236">Supply Nets Registration</a></li><li>
+<a id="pgfId-952180"></a><a href="chap1.html#85043">Library Registration</a></li><li>
+<a id="pgfId-947990"></a><a href="chap1.html#91816">Device and Cell Registration</a></li><li>
+<a id="pgfId-954724"></a><a href="chap1.html#79892">In-Design Checks</a></li><li>
+<a id="pgfId-947996"></a><a href="chap1.html#73071">Supply Set and Power Domain Registration</a></li><li>
+<a id="pgfId-948009"></a><a href="chap1.html#11636">Miscellaneous Settings</a></li></ul>
+
+
+
+
+
+
+<h3>
+<a id="pgfId-928284"></a><a id="91236"></a>Supply Nets Registration</h3>
+
+<p>
+<a id="pgfId-954746"></a>The supply nets registration information across the design hierarchy can be registered in the following ways by using the Power Manager setup form:</p>
+<ul><li>
+<a id="pgfId-954749"></a><a href="chap1.html#75943">Name-Based Supply Nets Registration</a></li><li>
+<a id="pgfId-954750"></a><a href="chap1.html#33415">Regular Expressions-Based Supply Nets Registration</a></li><li>
+<a id="pgfId-954751"></a><a href="chap1.html#24744">Supply NetSet Properties Prefix Registration</a></li><li>
+<a id="pgfId-932490"></a><a href="chap1.html#90703">Power and Ground Nets Exclusion from Name-Based Registration</a></li></ul>
+
+
+
+
+<h4>
+<a id="pgfId-932492"></a><a id="75943"></a>Name-Based Supply Nets Registration</h4>
+
+<p>
+<a id="pgfId-932494"></a>You can set a rule to register certain names as names of power nets or ground nets. If a net in your design has one of the registered names, the net is identified accordingly. It is recommended to follow a similar naming convention for supply net naming across the design hierarchy. Here are the steps to register the supply nets.</p>
+<ol><li>
+<a id="pgfId-942423"></a>Double-click the fields in the <em>Registered Supply Nets </em>table to edit. To add the supply nets, click <img width="35" height="26" src="images/chap1-3.gif" />
+. It opens the <a actuate="user" class="URL" href="../vpm/form_desc.html#vpmUIAddSupplyNetForm" show="replace" xml:link="simple">Add Supply Nets form</a><span>. </span></li><li>
+<a id="pgfId-954820"></a>Specify the values in the form for <a href="chap1.html#91236">Supply Nets Registration</a>. </li><li>
+<a id="pgfId-946144"></a>Click <img width="38" height="26" src="images/chap1-4.gif" /><span>to remove added supply nets. Press </span><code>Shift </code><span>+ </span><code>Ctrl</code><span> to select nets and register them as power or ground. Simultaneous registration of existing and user-defined nets as power/ground is possible.</span><br />
+<a id="pgfId-945623"></a><div class="webflare-div-image">
+<img width="668" height="580" src="images/chap1-5.gif" /></div><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-943073"></a>
+The existing nets shown in the Add Supply Nets form are the nets corresponding to the top-level ports of the design in consideration.</div></li></ol>
+
+
+
+
+
+
+<p>
+<a id="pgfId-955044"></a>You need to specify the voltage values of the net for the top-level supply nets. You also need to register internal nets, such as low drop out (LDO) nets or output of a voltage divider, and provide the voltage values for such internal nets. For a hierarchical design, the voltage values specified from the top-level nets are propagated to the levels below in the following ways:</p>
+<ul><li>
+<a id="pgfId-954865"></a>If the cells used in the design do not have their associated Liberty file, the voltage propagation for them happens hierarchically as per the top-level voltage values.</li><li>
+<a id="pgfId-954866"></a>If the cells used in the design have their associated Liberty/1801 cell bindings, the voltage map (from Liberty) or power states (from 1801) are expected to match the voltage levels specified for top level supplies. </li></ul>
+
+<p>
+<a id="pgfId-955072"></a>You can also define multiple voltages for a top-level net. If you define multiple voltages for both power nets and ground nets, Power Manager considers all possible supply states based on all the supply net voltages provided in the setup. In-Design Checks consider all possible supply states based on all the supply net voltages provided in the setup information. The supply states are created depending upon the unique voltage values for a power net&#8211;ground net pair. </p>
+<p>
+<a id="pgfId-933873"></a>Consider a voltage specification with supplies <code>VDD</code>, <code>VSS</code>, and <code>VDD1V2</code> where <code>VDD</code> is 0.8V and 1.0V, <code>VSS</code> = 0.0V and 0.4V, and <code>VDD1V2</code>=1.2v.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-933875"></a>netVoltages ((&quot;VDD&quot; (0.8 1.0)) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-940947"></a>(&#8220;VDD1V2&quot; (1.2)) </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-940950"></a>(&quot;VSS&quot; (0.0 0.4)))</pre>
+
+<p>
+<a id="pgfId-933877"></a>The following power modes are created:</p>
+
+<p>
+<a id="pgfId-933878"></a></p>
+<table class="webflareTable" id="#id946044">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id954878">
+<a id="pgfId-954878"></a>Supplies </span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id954880">
+<a id="pgfId-954880"></a>VDD</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id954882">
+<a id="pgfId-954882"></a>VDD1V2</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id954884">
+<a id="pgfId-954884"></a>VSS</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-954886"></a>State </p>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954888"></a>OFF</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954890"></a>OFF</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954892"></a>OFF</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954894"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954896"></a>ON(0.8V)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954898"></a>ON(1.2V)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954900"></a>ON(0V)</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954902"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-954904"></a>ON(0.8V)</p>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954906"></a>ON(1.2V)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954908"></a>ON(0.4V)</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954910"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954912"></a>ON(1.0V)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954914"></a>ON(1.2V)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954916"></a>ON(0V)</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954918"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954920"></a>ON(1.0V)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954922"></a>ON(1.2V)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-954924"></a>ON(0.4V)</p>
+</td>
+</tr>
+</tbody></table>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-954928"></a>You must provide the supply net voltage values for creating the power states based on the switching behavior of the corresponding supply nets. </div>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-955169"></a>Specifying net voltages in the setup is not mandatory if the import flow is used.</div>
+
+<h4>
+<a id="pgfId-946027"></a><a id="33415"></a>Regular Expressions-Based Supply Nets Registration</h4>
+
+<p>
+<a id="pgfId-932496"></a>If you do not know the names of the nets that exist down the hierarchy, there are some naming conventions followed. You can specify regular expressions for nets in the Power Net Regular Expressions or Ground Net Regular Expressions fields. For example, if you add <code>vdd</code> as a regular expression, such as <code>iovdd</code>, <code>avddd1</code>, or any net name that contains this is considered as power net. Similarly, if <code>GND</code> is specified as a regular expression, names such as <code>GNDA</code>, <code>GNDD</code>, and so on, are considered as ground nets. Also, if <code>[v][V]</code>, <code>[d][D]</code>, and <code>[d][D]</code> are defined as regular expressions, all combinations are considered, such as <code>vdd</code>, <code>VdD</code>, <code>VDD</code>, <code>Vdd</code>, and so on. Specify the registration information in the <em>Regular Expression Based Registration</em> group box on the <em>Supply Nets</em> tab of the Power Manager Setup form.</p>
+
+<p class="webflare-indent1">
+<a id="pgfId-943143"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="579" src="images/chap1-7.gif" /></div>
+
+<p>
+<a id="pgfId-932498"></a>Power Manager checks for the presence of the registered nets and identifies them as power or ground nets. These registered nets are used to create power domains.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-932500"></a>You must register the top-level supply nets for cells that do not have an associated Liberty model.</div>
+
+<h4>
+<a id="pgfId-946201"></a><a id="24744"></a>Supply NetSet Properties Prefix Registration</h4>
+
+<p>
+<a id="pgfId-932502"></a>This includes identifying and registering of supply nets by using the property name prefix for inherited connections that have been specified in the <em>Supply NetSet Properties Prefix </em>section on the <em>Supply Nets</em> tab of the Power Manager Setup form.</p>
+
+<p>
+<a id="pgfId-948655"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="579" src="images/chap1-8.gif" /></div>
+
+<p>
+<a id="pgfId-932505"></a>For non-Liberty cells, the supply name can also be derived from the prefix of the property name used in the net expression for supply net connectivity. Power Manager creates property names for net expressions with a specific prefix as specified in the setup. Prefix matching helps to identify the power/ground type for lower level cells when the tool creates redirected netSets for resolving supply net connectivity to the top level supplies. For details, refer to <a href="chap2.html#12955">Redirected netSet Property Creation and Optimization</a>.</p>
+<p>
+<a id="pgfId-932507"></a>For power/ground type, precedence is given to supply net names that are already registered in the setup. Else, the property prefix name is used. The prefix name is registered in the setup for different supply types such as follows:</p>
+<p>
+<a id="pgfId-932509"></a><code>powerNetPropPrefix - vdd</code></p>
+<p>
+<a id="pgfId-932510"></a><code>groundNetPropPrefix - vss</code></p>
+<p>
+<a id="pgfId-932511"></a><code>pwellNetPropPrefix - hSup_sub</code></p>
+<p>
+<a id="pgfId-932512"></a><code>nwellNetPropPrefix - lSup_sub</code></p>
+<p>
+<a id="pgfId-932513"></a><code>deeppwellNetPropPrefix - hSup_sub2</code></p>
+<p>
+<a id="pgfId-932514"></a><code>deepnwellNetPropPrefix - lSup_sub2</code></p>
+
+<h4>
+<a id="pgfId-933801"></a><a id="90703"></a>Power and Ground Nets Exclusion from Name-Based Registration</h4>
+
+<p>
+<a id="pgfId-939058"></a>Net names with a certain pattern can be detected as a regular expression during the supply nets name-based registration. It can lead to an incorrect registration for the net as a power or ground net, for example, the Monitor and Sense pins used in the design to sense and test the supply signal level during functioning of the design.</p>
+<p>
+<a id="pgfId-933638"></a>Use the <em>Names</em> field in the <em>Excluded Nets</em> section on the <em>Supply Nets</em> tab of the Power Manager Setup form to exclude a subset of specific net names defined in the <em>Regular Expression Based Registration</em> section or defined using the signal type.</p>
+<p>
+<a id="pgfId-933640"></a>Similarly, you can use the <em>Regular Expressions </em>field in the <em>Excluded Nets</em> section to specify one or more power or ground regular expressions that have been registered using the <em>Regular Expression Based Registration</em> section or defined using the signal type. For example, if the regular expression of power net is <code>VDD</code>, the nets such as <code>VDD</code>, <code>VDDD</code>, <code>AVDD</code> <code>VDD_SUB</code>, <code>VDD_PH</code>, <code>VDD_PHY</code>, <code>VDD_PH1</code>, and so on, are specified as power nets. However, if you want to exclude all nets containing <code>OUTVDDE</code> from being power nets, you can specify <code>OUTVDD</code> to be excluded as a regular expression. </p>
+
+<p>
+<a id="pgfId-945871"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="105" src="images/chap1-9.gif" /></div>
+
+<p>
+<a id="pgfId-945996"></a>In a setup file, the excluded nets are represented as follows:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-931121"></a>;;; Exclude Nets</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-931131"></a>  excludePG (nil</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-931132"></a>   names (&quot;VDD_PROBE&quot; &quot;VSS_PROBE&quot;)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-931133"></a>   regExprs( &quot;vdd.*en vdd.*fb vss.*en vss.*fb&quot; )</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-931134"></a>  )</pre>
+
+<h4><em>
+<a id="pgfId-944002"></a>Monitor Nets Registration</em></h4>
+
+<p>
+<a id="pgfId-944031"></a>Use the <em>Monitor Nets</em> section on the <em>Supply Nets</em> tab of the Power Manager Setup form to:</p>
+<ul><li>
+<a id="pgfId-944003"></a>Register a net as Monitor/Sense, for specifying it as a net or port for probing or testing.</li><li>
+<a id="pgfId-928304"></a>Specify the regular expression for probing or testing.<br />
+<a id="pgfId-949059"></a><div class="webflare-div-image">
+<img width="668" height="111" src="images/chap1-10.gif" /></div></li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-949099"></a>Specify values in the <em>Names</em> field in the <em>Monitor Nets</em> section on the <em>Supply Nets</em> tab of the Power Manager Setup form to register a subset of specific net names that have been registered in the <em>Regular Expression Based Registration</em> section or defined using the signal type as Monitor Nets. </p>
+<p>
+<a id="pgfId-949073"></a>Similarly, specify values in the <em>Regular Expressions </em>field to register a subset of power or ground regular expressions that have been registered in the <em>Regular Expression Based Registration</em> section or defined using the signal type as Monitor Nets.</p>
+<p>
+<a id="pgfId-949280"></a>In a setup file, the monitor nets are represented as shown below:</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-931135"></a>  monitor (nil</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-931136"></a>   names (&quot;VDD_PROBE&quot; &quot;VSS_PROBE&quot;)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-931137"></a>   regExprs( &quot;vdd.*sense vss.*sense&quot; )</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-931138"></a>  )</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-931139"></a> )</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-950433"></a></pre>
+
+<h3>
+<a id="pgfId-928623"></a><a id="85043"></a>Library Registration </h3>
+
+<p>
+<a id="pgfId-936854"></a>Use the registration options on the <em>Libraries</em> tab to register the libraries-related information. This information is used by Power Manager to read the standard and special cells modeling information. It is required to extract the power-related attributes of standard and special cells and avoids the need to access these cells for tracing the related supplies corresponding to the boundary ports. </p>
+
+<p>
+<a id="pgfId-947224"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="530" src="images/chap1-11.gif" /></div>
+
+<p>
+<a id="pgfId-947228"></a>Use the <em>Liberty/Tech Files</em> and <em>1801 File binding</em> sections to specify the Liberty models or 1801 special cell definition files as follows: </p>
+<ol><li>
+<a id="pgfId-955211"></a>Click <img width="38" height="26" src="images/chap1-12.gif" /><span> to add and </span><img width="38" height="26" src="images/chap1-13.gif" /><span> to remove the Liberty/Tech Files. </span></li></ol>
+
+<p>
+<a id="pgfId-947231"></a>Optionally, you can register a cell and bind it to its existing 1801 power intent file. The power-related information is read from the existing 1801 bound to the cell. </p>
+<ol><li>
+<a id="pgfId-955214"></a>Click <img width="38" height="26" src="images/chap1-14.gif" /><span> to add, </span><img width="38" height="26" src="images/chap1-15.gif" /><span> to modify, and </span><img width="38" height="26" src="images/chap1-16.gif" /><span> to remove the binding information. It opens the </span></li></ol>
+<a actuate="user" class="URL" href="../vpm/form_desc.html#vpmUIBind1801Form" show="replace" xml:link="simple">Add 1801 File Binding</a><span> form.</span>
+<ol><li>
+<a id="pgfId-955221"></a>Specify the values in the <em>Cell</em> and <em>1801 File</em> fields. Click <em>OK</em>.</li></ol>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-955264"></a>This option is commonly used for black-boxing contents of a digital sub-block that has power intent.</div>
+
+<h4>
+<a id="pgfId-934816"></a>Special Cell and Standard Cell Modeling</h4>
+
+<p>
+<a id="pgfId-955334"></a>The IEEE 1801 standard is a must for the design and verification of low power integrated circuits, the correct identification and mapping of all power attributes, topology-related attributes, and the functions of low power special cells or standard cells. This is achieved by the proper registration of the special cells and the standard cell models. If cells are registered, they are identified in the schematic view accordingly.</p>
+<p>
+<a id="pgfId-934820"></a>Low power special cells and standard cells include:</p>
+<ul><li>
+<a id="pgfId-941119"></a>Isolation cell</li><li>
+<a id="pgfId-941140"></a>Level shifter cell</li><li>
+<a id="pgfId-934823"></a>Power switch cell</li><li>
+<a id="pgfId-934824"></a>Always on cell</li><li>
+<a id="pgfId-934826"></a>State retention cell</li><li>
+<a id="pgfId-934827"></a>Combinational/Sequential elements</li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-955318"></a>Power Manager extracts level shifter strategy, isolation strategy, and power switch strategy in the power intent based on the definition provided in a 1801 special cell definition file or Liberty models. The in-design checking uses the same information to verify the power domain crossings with or without these special cell instances, </p>
+<p>
+<a id="pgfId-934829"></a>You can register these cells in any of the following three ways:</p>
+<ul><li>
+<a id="pgfId-934831"></a>By using the Liberty models of the cells<br />
+<a id="pgfId-934833"></a>Special cells and standard cells, which have their Liberty model available, are recognized for their topology and various supply-related attributes by including the corresponding Liberty files. The Liberty files enable the following:<ul><li>
+<a id="pgfId-934834"></a>The pg_pin attributes specified in the Liberty files help in identifying the nets used inside the cells as power or ground.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id934836">
+<a id="pgfId-934836"></a>pg_pin(VDD)  {</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934837">
+<a id="pgfId-934837"></a>voltage_name         : VDD;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934838">
+<a id="pgfId-934838"></a>pg_type              : primary_power;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934839">
+<a id="pgfId-934839"></a>direction            : inout;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934840">
+<a id="pgfId-934840"></a>} </pre></li><li>
+<a id="pgfId-934842"></a>The voltage map specified in the Liberty files is used to extract the voltage levels of the corresponding supply and ground nets used.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id934844">
+<a id="pgfId-934844"></a>voltage_map( VDD , 1.100000);</pre></li><li>
+<a id="pgfId-934846"></a>The <code>cell</code> type specified in the Liberty files is used to identify the type of low power special cell or the standard cell, and extract it accordingly during 1801 power intent extraction or running In-Design Checks.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id934848">
+<a id="pgfId-934848"></a>cell(Isolation_Cell) {</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934849">
+<a id="pgfId-934849"></a>is_isolation_cell : true;</pre></li><li>
+<a id="pgfId-934851"></a>The function attributes specified in the Liberty files are used as follows: <ul><li>
+<a id="pgfId-934853"></a>The switch/enable function of the low power special cells is used for finding the switch functions, enable conditions, and for backtracing the control/enable signals of the special cells, such as power switch cell, isolation cell, and enable level shifter cells, for any of the boundary ports.</li></ul><br /><pre class="webflare-pre-block webflare-courier-new" id="#id934855">
+<a id="pgfId-934855"></a>pg_pin(VDDSW){</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934856">
+<a id="pgfId-934856"></a>switch_function : &quot;psw_en&quot;;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934857">
+<a id="pgfId-934857"></a></pre><pre class="webflare-pre-block webflare-courier-new" id="#id934858">
+<a id="pgfId-934858"></a>pin(out_iso) {</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934859">
+<a id="pgfId-934859"></a>isolation_enable_condition : &quot;en_iso&quot;;</pre><ul><li>
+<a id="pgfId-934861"></a>The output function of the standard cells is used during backtracing of the control/enable signals of the low power special cells that are generated by some combinational logic, for example, output of a NAND gate. Here for a NAND gate Liberty function attribute of its output can be used.</li></ul><br /><pre class="webflare-pre-block webflare-courier-new" id="#id934863">
+<a id="pgfId-934863"></a>pin (Y) {</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934864">
+<a id="pgfId-934864"></a>direction : &quot;output&quot;;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934865">
+<a id="pgfId-934865"></a>function : &quot;(!((!AN) B))&quot;;</pre></li></ul></li><li>
+<a id="pgfId-934867"></a>By using the 1801 special cell definition file<br />
+<a id="pgfId-934869"></a>When you provide a special cell definition file at the location specified in the setup file, before extracting the power intent, Power Manager reads the given file and recognizes the cells specified in that file as special cells. The 1801 special cell definition file aids in modeling of these cells by specifying the related attributes in their definition. <ul><li>
+<a id="pgfId-934871"></a>Cell type</li><li>
+<a id="pgfId-934872"></a>Supply ports/Switchable supply ports</li><li>
+<a id="pgfId-934873"></a>Data ports</li><li>
+<a id="pgfId-934874"></a>Enable/control ports</li><li>
+<a id="pgfId-934875"></a>Voltage range</li><li>
+<a id="pgfId-936312"></a>Cell-specific attributes</li></ul><br />
+<a id="pgfId-934878"></a>Example:<pre class="webflare-pre-block webflare-courier-new" id="#id934880">
+<a id="pgfId-934880"></a>define_isolation_cell -cells ISOHLDX1_OFF -power ExtVDD -ground VSS -clamp_cell low -enable !ISO</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934881">
+<a id="pgfId-934881"></a>define_level_shifter_cell -cells LSLHX1_TO -direction both -input_power_pin ExtVDD -output_power_pin VDD -ground VSS -input_voltage_range {{0.8 1.4}} -output_voltage_range {{0.8 1.4}}</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934882">
+<a id="pgfId-934882"></a>define_power_switch_cell -cells HSWX1 -type header -power ExtVDD -power_switchable VDD -ground VSS -stage_1_enable PSO -stage_1_output PSO_out -exclude { HeadSwitch_WrapperA HeadSwitch_WrapperB }</pre><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-934884"></a>Use this method to register special cells for the standard and verified standard cell libraries, which do not have the Liberty models available. This method can also be used to register custom standard cells.</div>
+<a id="pgfId-934887"></a>Setup registration for Liberty models and the special cell definition file is as follows :<pre class="webflare-pre-block webflare-courier-new" id="#id934888">
+<a id="pgfId-934888"></a></pre><pre class="webflare-pre-block webflare-courier-new" id="#id934889">
+<a id="pgfId-934889"></a>libFiles (</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934890">
+<a id="pgfId-934890"></a>&quot;libs/fast_vdd1v0_basicCells.lib&quot;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934891">
+<a id="pgfId-934891"></a>&quot;libs/fast_vdd1v2_extvdd1v0.lib&quot;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934892">
+<a id="pgfId-934892"></a>&quot;libs/macro_lib.lib&quot;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934893">
+<a id="pgfId-934893"></a>&quot;libs/Headswitch.upf&quot;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934894">
+<a id="pgfId-934894"></a>)</pre></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-955468"></a>Design Sub-Block Modeling During Top-Level 1801 Design Model Extraction</em></h4>
+
+<p>
+<a id="pgfId-955470"></a>The modeling information of hierarchical design blocks can be provided to digital verification tools, such as CLP as follows: </p>
+<ul><li>
+<a id="pgfId-955472"></a>Liberty macro models: The contents of analog sub-blocks need to be modeled in terms of Liberty power model export to be provided to CLP. For details, see <a href="chap3.html#26645">Exporting Power Intent of a Design</a>. CLP identifies the modeling information and reads the power-related attributes of the boundary ports of the block for crossing analysis.<br />
+<a id="pgfId-955474"></a>The Macro Liberty power model for a sub-block can be specified as a Liberty file on the <em>Library</em> tab of the Power Manager Setup form and therefore, binding it to that block.</li><li>
+<a id="pgfId-955476"></a>1801 file binding - If the power intent of a hierarchical sub-block is already available as a 1801 design model, the same can be bound to that block in the <em>1801 File binding</em> section on the <em>Library</em> tab of the Power Manager Setup form. These blocks are locked for extraction of 1801 power intent by Power Manager. The tool does not traverse down the hierarchy but just one level inside its schematic to make the interface connectivity to the top-level 1801 file. A 1801 file used for importing the power intent on a digital sub- block can also be used for cell binding of that block. <br />
+<a id="pgfId-955480"></a>During the top level 1801 design model extraction, Macro Liberty Power Model, the special cell definition file and the available power intent of the sub-blocks are consumed together. The top-level design model can further be verified using CLP.<br />
+<a id="pgfId-936818"></a>Cell bindings can be registered in the setup as:<pre class="webflare-pre-block webflare-courier-new" id="#id936820">
+<a id="pgfId-936820"></a>cell1801Bindings ( </pre><pre class="webflare-pre-block webflare-courier-new" id="#id936821">
+<a id="pgfId-936821"></a>(&quot;data_LevelShifter&quot; &quot;./data_LevelShifter.upf&quot;) </pre><pre class="webflare-pre-block webflare-courier-new" id="#id936822">
+<a id="pgfId-936822"></a>)</pre><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-956595"></a>If the top design is large, the power intent extraction step might lead to memory-related issues. Therefore, for large designs, follow the bottom-up approach. In this approach, you can first extract the power intent of sub blocks separately in 1801 files and then associate the 1801 files with their respective instances in the top design. After this, when you extract power intent for the top design, the tool consumes less memory. Also, you can apply the bottom-up approach when extraction options cannot be shared between the top design and the sub blocks. For example, when the power / ground nets definitions, power / ground net voltage definitions, or power net-ground net voltage pairs definitions in the top design are different from the sub block definitions.</div></li></ul>
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-936825"></a><a id="20837"></a>Reference Libraries or Cells</h4>
+
+<p>
+<a id="pgfId-936827"></a>If the design contains instances of any library or a particular cell, apart from the Liberty cell, it can be read-only, black box, or a reusable block. You can register those reference libraries. The cells in reference libraries are not edited during the 1801 import flow. If the input 1801 file has a connect supply net command for a instance inside the blackbox cell, the cell is not edited to create the netSet or any supply ports. During import, the hierarchy is traversed to map all the supply nets to the supply set at the instance boundary.</p>
+<p>
+<a id="pgfId-936829"></a>Reference library registration in the setup is as follows:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-936831"></a>refLibCells(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-936832"></a>(&#8220;analogLib&quot; &#8220;*buf*&quot;)</pre>
+<h4>
+<a id="pgfId-927232"></a>MLDB Libraries</h4>
+
+<p>
+<a id="pgfId-944186"></a>Power Manager processes the Liberty files to read the standard cell, special cell, and macro cell model definitions and stores them in an OA-based proprietary database. This avoids the need to reprocess the Liberty files every time a command is executed. Such a database is called Model Library database (MLDB). MLDB reads and stores the PG pins, pins, and the non-characterized attributes for the various cell models provided through Liberty files. These attributes are saved in a different library than the design or PDK library, which can be utilized in various projects to extract details instead of parsing the Liberty files every time. This can save a lot of run time that is required to parse large Liberty files if it has to be done repeatedly for extracting power-related attributes. If no user-specified library is provided, the database is in-memory and can be used only for a particular Virtuoso session.</p>
+<p>
+<a id="pgfId-940153"></a>MLDB creation requires a new library to be created. The library includes a <code>tech.db</code> file, which contains all the power-related attribute information that is extracted by a single traversal from the registered Liberty files. The setup registration for MLDB is:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-940155"></a>projectMldbLibName &quot;MLDB_TESTCELL&quot;</pre>
+
+<p>
+<a id="pgfId-952309"></a>A new <code>.lib</code> file is added to MLDB only in one of the following conditions:</p>
+<ul><li>
+<a id="pgfId-952310"></a>You have re-imported a modified setup specifying additional <code>.lib</code> files and removed <code>.lib</code> files that are not required anymore. </li><li>
+<a id="pgfId-952312"></a>You have run a VPM command, such as extract power intent or import power intent. </li></ul>
+
+<p>
+<a id="pgfId-943991"></a>The modified MLDB is saved when closing all the files or exiting Virtuoso.</p>
+
+<h3>
+<a id="pgfId-928492"></a><a id="91816"></a>Device and Cell Registration</h3>
+
+<p>
+<a id="pgfId-946431"></a>Register the device and terminal related information on the <em>Devices</em> tab of the Power Manager Setup form. This information is used by Power Manager to read the device type and its topology in the design. For devices with more than two terminals, you can associate terminals to have specific mapping. Correct recognition and identification of device type is important for the supply traversal to find the related supplies of the boundary ports associated with the design logic. </p>
+<p>
+<a id="pgfId-955796"></a>To register cells as devices:</p>
+<ol><li>
+<a id="pgfId-946483"></a>Use <em>Filter</em> in the <em>Cells</em> group box to search for a cell. The <em>Filter </em>option gives the flexibility to easily filter and sort the desired choice of devices to be registered.</li><li>
+<a id="pgfId-946485"></a>Select a device or a set of devices to register.</li><li>
+<a id="pgfId-946487"></a>Select the device type for assigning the devices.</li><li>
+<a id="pgfId-946489"></a>Use <img width="29" height="22" src="images/chap1-17.gif" /><span> to perform the assignment.</span></li><li>
+<a id="pgfId-946541"></a>Click <img width="29" height="22" src="images/chap1-18.gif" /><span> to remove the assignment.</span></li><li>
+<a id="pgfId-946616"></a>Specify conditions/criteria with the assigned device by clicking <img width="29" height="22" src="images/chap1-19.gif" /><span>. </span><br />
+<a id="pgfId-946479"></a><div class="webflare-div-image">
+<img width="668" height="573" src="images/chap1-20.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-946275"></a>The devices can also be registered using a wild character based registration by using the <h-hot><a actuate="user" class="URL" href="../vpm/form_desc.html#vpmUISetupAddDeviceForm" show="replace" xml:link="simple">Add Device</a></h-hot> form, which is opened by clicking <img width="30" height="22" src="images/chap1-21.gif" />
+. Specify a library and cell name based on a wild character notation and register the device in the corresponding Device Type. For example, specifying <code>gpdk*</code></p><span> and </span>
+<p>
+<a id="pgfId-946269"></a>If the Library Name or a cell name field is left blank, all available libraries (for a particular cell name pattern) or all available cells (for a particular library name pattern) will be accounted for and register based on the wild character specification. </p>
+<p>
+<a id="pgfId-934494"></a>Devices used in the design, such as MOS devices, resistors, capacitors, and diodes, need to be registered in the setup under the following categories.</p>
+<ul><li>
+<a id="pgfId-934496"></a>Transistors (nfet, pfet, npn, pnp)</li><li>
+<a id="pgfId-934497"></a>Short devices (including devices with n terminals)</li><li>
+<a id="pgfId-934498"></a>Pad cells</li><li>
+<a id="pgfId-934499"></a>Cells to be ignored</li></ul>
+
+
+
+<p>
+<a id="pgfId-928518"></a>In a setup file, the device registration is represented as shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931235"></a>;;; Devices</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931236"></a> devices (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931237"></a>  pfet (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931238"></a>   (nil &quot;pmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931239"></a>   (&quot;analogLib&quot; &quot;pmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931240"></a>   (&quot;gpdk*&quot; &quot;pmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931241"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931242"></a>  nfet (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931243"></a>   (nil &quot;nmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931244"></a>   (&quot;analogLib&quot; &quot;nmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931245"></a>   (&quot;gpdk*&quot; &quot;nmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931246"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931247"></a>  pnp (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931248"></a>   (nil &quot;pnp&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931249"></a>   (&quot;analogLib&quot; &quot;pnp*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931250"></a>   (&quot;gpdk*&quot; &quot;pnp*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931251"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931252"></a>  npn (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931253"></a>   (nil &quot;npn&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931254"></a>   (&quot;analogLib&quot; &quot;npn*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931255"></a>   (&quot;gpdk*&quot; &quot;npn*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931256"></a>  )</pre>
+<h4>
+<a id="pgfId-939282"></a>Passive Devices </h4>
+
+<p>
+<a id="pgfId-939300"></a>Passive devices, such as resistors, capacitors, and diodes need special handling and registration in the setup as per their usage in the design. </p>
+
+<h4><em>
+<a id="pgfId-935297"></a>Short Devices </em></h4>
+
+<p>
+<a id="pgfId-935332"></a>Resistors are registered in setup as short devices. You can short the terminals of devices that have more than two terminals.</p>
+<p>
+<a id="pgfId-946907"></a>In a setup file, the short device registration is represented as shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-935260"></a>short (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-935261"></a>(&quot;analogLib&quot; &quot;res&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-935262"></a>(&quot;myLib&quot; &quot;wireshortcell&quot; nil (nil shortedTerminalMap ((&quot;t1&quot; &quot;t2&quot;)(&quot;t3&quot; &quot;t4&quot; &quot;t5&quot;) )))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-935263"></a>)</pre>
+<div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-935267"></a>
+Ensure to register passive devices associated to a condition as mentioned in the setup file. For example, certain configurations in designs might require the resistors not to be registered as short devices.</div>
+<div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-935270"></a>
+The multi-term shorting of devices under the Short category is considered only during macro model extraction. However, it is not considered while netlisting, which is a part of CLP integration. Therefore, it leads to an error during CLP verification. </div>
+<h4><em>
+<a id="pgfId-935669"></a>Connectors </em></h4>
+
+<p>
+<a id="pgfId-934657"></a>You can register cells under the connectors in the following scenarios:</p>
+<ul><li>
+<a id="pgfId-934659"></a>While relating power nets with ground nets for establishing power ground net pairing. When the extractor traces the power to the ground paths in order to pair power and ground nets, if there is a connector instance in the path, the related terminals of the registered connector instance (a multi-terminal cell) help to continue tracing from one end to the other end. </li><li>
+<a id="pgfId-934661"></a>While backtracing the data path from the control pins of the special cells to the macro or design ports to generate the enable or shutoff condition for low power rules or power domains.</li></ul>
+
+<p>
+<a id="pgfId-946931"></a>In a setup file, the connector registration is represented as shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931269"></a>  connector (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931270"></a>   (nil &quot;stdBuf*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931271"></a>   (&quot;ALIB&quot; &quot;PMU&quot; nil (nil shortedTerminalMap ((&quot;p&quot; &quot;q&quot;) (&quot;o&quot; &quot;y&quot;))))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931272"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931273"></a>  </pre>
+
+<p>
+<a id="pgfId-939330"></a>Capacitors used in the data path mostly for the purpose of AC coupling are treated as connectors. The capacitors that are directly connected to power or ground for the purpose of blocking DC signal are treated as ignored or open. These are blocked for supply/ground tracing. The multi-terminal capacitors are also registered as devices.</p>
+<p>
+<a id="pgfId-946960"></a>In a setup file, the capacitor registration is represented as shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-955831"></a> cap (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-955832"></a>   (nil &quot;cap&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-955833"></a>   (nil &quot;mimcap&quot; nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-955834"></a>    (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-955835"></a>     shortedTerminalMap&#160;&#160;((&quot;PLUS&quot; &quot;MINUS&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-955836"></a>    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-955837"></a>   )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-955838"></a>  &#160;&#160;     )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-939333"></a></pre>
+
+<p>
+<a id="pgfId-939323"></a></p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-934680"></a>You can also use the wildcard character in the Ignore, Short, Buffer, and Inverter registration.</div>
+<p>
+<a id="pgfId-934554"></a>Diodes can be used in the design for the different purpose like in an antenna or ESD clamp structures. Their registration in a setup is specific to the polarity configuration in which they are connected.</p>
+<p>
+<a id="pgfId-946988"></a>In a setup file, the diode registration is represented as shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934560"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934561"></a>diode (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934562"></a>(&quot;analogLib&quot; &quot;diode&quot; nil (nil pTerm &quot;PLUS&quot; nTerm &quot;MINUS&quot;))&#160;&#160;                                    </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934563"></a>)</pre>
+
+<p>
+<a id="pgfId-941715"></a>A diode is referred to as an antenna diode if the <code>nTerm</code> of diode is connected to power and <code>pTerm</code> of diode is connected to a pin. Or, <code>pTerm</code> of diode is connected to ground and <code>nTerm</code> of diode is connected to a pin.</p>
+<p>
+<a id="pgfId-941708"></a>Antenna diode-specific attributes are printed for input &amp; inout terms connected to the antenna diode.</p>
+<p>
+<a id="pgfId-941919"></a>Power Type:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941920"></a>pin (MyInput) {</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941921"></a>antenna_diode_related_power_pins : &quot;VDD&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941922"></a>...</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941923"></a>}</pre>
+
+<p>
+<a id="pgfId-941925"></a>Ground Type:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941926"></a>pin (MyInput) {</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941927"></a>antenna_diode_related_ground_pins : &quot;VSS&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941928"></a>...</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941929"></a>}</pre>
+
+<p>
+<a id="pgfId-941931"></a>Power and Ground:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941932"></a>pin (MyInput) {</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941933"></a>antenna_diode_related_power_pins : &quot;VDD&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941934"></a>antenna_diode_related_ground_pins : &quot;VSS&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941935"></a>...</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-941936"></a>}</pre>
+
+<p>
+<a id="pgfId-955861"></a>A parasitic diode is formed between the source or drain terminal of a MOS device and the bulk terminal. Here is an example of a PMOS device and a parasitic diode.</p>
+
+<p>
+<a id="pgfId-955943"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="326" src="images/chap1-22.gif" /></div>
+
+<p>
+<a id="pgfId-955947"></a>For a PMOS device, a diode that has the anode connected to the signal net and the cathode connected to the power supply is extracted. In this case, it is a power type diode.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-955949"></a>antenna_diode_related_power_pins : &quot;VDD&quot;;</pre>
+<p>
+<a id="pgfId-955950"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="440" src="images/chap1-23.gif" /></div>
+
+<p>
+<a id="pgfId-956024"></a>For an NMOS device, a diode that has the cathode connected to signal net and the anode connected to ground supply is extracted. In this case, it is a ground type diode.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-956026"></a>antenna_diode_related_power_pins : &quot;VSS&quot;;</pre>
+<h4>
+<a id="pgfId-934588"></a>Backtracing Enable Signals of Special Cells</h4>
+
+<p>
+<a id="pgfId-939379"></a>This involves backtracing of the internal net to map the enable or control signals of special cells to the boundary ports. Backtracing is required to get the appropriate functional attribute related to the enable or control signals in the Liberty macro model after detecting the corresponding function of the logic generating the signals.</p>
+<p>
+<a id="pgfId-939381"></a>Liberty registration for standard and special cells in the setup is a mandatory requirement to extract a correct function for the enable or control signals of low power special cells as per the design implementation</p>
+<p>
+<a id="pgfId-934592"></a>The backtracing is supported for following registered configurations:</p>
+<ul><li>
+<a id="pgfId-934594"></a>For buffers, shorts, and inverters, the two-terminal devices with single input and output, such as inverters and buffers, can be backtraced. The polarity of the signal does not change while backtracing through instances, unless the instances are inverter cells. You can register these cells as Inverter. If an instance with more than two terminals is present in the path, backtracing stops and an error message is displayed. Inverter and buffer registration is done as shown below.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id934596">
+<a id="pgfId-934596"></a>inverter (</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934597">
+<a id="pgfId-934597"></a>(nil &quot;stdInv*&quot; nil)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934598">
+<a id="pgfId-934598"></a>(&quot;gpdk*&quot; &quot;inv*&quot; nil)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934599">
+<a id="pgfId-934599"></a>)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934600">
+<a id="pgfId-934600"></a></pre><pre class="webflare-pre-block webflare-courier-new" id="#id934601">
+<a id="pgfId-934601"></a>buffer (</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934602">
+<a id="pgfId-934602"></a>(nil &quot;stdBuf*&quot; nil)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934603">
+<a id="pgfId-934603"></a>(&quot;gpdk*&quot; &quot;buf*&quot; nil (nil shortedTerminalMap ((&quot;p&quot; &quot;q&quot;) (&quot;o&quot; &quot;y&quot;))))</pre><pre class="webflare-pre-block webflare-courier-new" id="#id934604">
+<a id="pgfId-934604"></a>)</pre><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-941327"></a>The terminal map is a mandatory requirement for backtracing when a cell contains multiple input and output and is registered as an inverter or a buffer.</div></li><li>
+<a id="pgfId-934606"></a>For standard isolation or level-shifter instances, signals are backtraced from output pin to input pins. For power switch instances, the signals are backtraced from the acknowledge pin (buffered enable) to enable the pin of the instance. This lets the backtracing to be performed for the control signals of all the power switch cells to the same macro port resulting in the correct enable and shutoff conditions.</li><li>
+<a id="pgfId-934608"></a>For simple logic gate, the backtracing is done through the special cell enable pin to the output pin of the logic gate that has multiple input pins is supported. All input pins of a logic gate can be backtraced separately to the maximum extent possible.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-934610"></a>However, a cell can be registered as LogicGate (simple logic gate) only if it matches any of the following criteria:</p>
+<ul><li>
+<a id="pgfId-934612"></a>There are no multiple output pins in the cell.</li><li>
+<a id="pgfId-934613"></a>The boolean function is present in the setup file.</li><li>
+<a id="pgfId-934614"></a>Only AND, NAND, OR, NOR, and XOR Boolean functions are considered.</li></ul>
+
+
+<p>
+<a id="pgfId-934616"></a>The cells are registered as LogicGate devices along with Boolean functions of the cells.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934618"></a>logicGate (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934619"></a>(&quot;sample&quot; &quot;or*&quot; nil (nil booleanFunction &quot;OR&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934620"></a>(&quot;sample&quot; &quot;xor*&quot; nil (nil booleanFunction &quot;XOR&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934621"></a>(&quot;sample&quot; &quot;and*&quot; nil (nil booleanFunction &quot;AND&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934622"></a>(&quot;sample&quot; &quot;nand*&quot; nil (nil booleanFunction &quot;NAND&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934623"></a>(&quot;sample&quot; &quot;inv&quot; nil (nil booleanFunction &quot;NOR&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934624"></a>)</pre>
+
+<p>
+<a id="pgfId-939549"></a>A custom logic can also be registered with the desired terminal mapping between its output and input ports to be suitably backtraced if it lies in between the enable/control signal and the boundary port generating it.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931284"></a>  customLogic (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931285"></a>   (&quot;ALIB&quot; &quot;WiFi&quot; nil (nil relatedTerminalMap &quot;y1=x1&amp;x2,y2=x3|x4,y3=x5^x6&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931286"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931287"></a> )</pre>
+<h4><em>
+<a id="pgfId-952869"></a>Single Rail Cell</em></h4>
+
+<p>
+<a id="pgfId-952907"></a>Single rail cells are custom cells. These can be custom standard cells, an unimplemented subblock, or a complex hierarchical custom logic having a single primary power and ground supplies. Usually, a Liberty model does not exists for such cells. Consequently, the single rail cell registration enables blackboxing of any hierarchical subblock so that the extractor recognizes it as a leaf cell. All ports connected to a single rail cell (directly or through some elements) are mapped according to the port definitions as defined in standard cell registration.</p>
+<p>
+<a id="pgfId-952910"></a>Single rail devices commonly used have the following features:</p>
+<ul><li>
+<a id="pgfId-953588"></a>Single rail device registration can be done with global attributes set at the cell level for multiple cells. In addition, the registration can also be done explicitly for a single cell.</li><li>
+<a id="pgfId-952912"></a>Defining the global supply values is optional.</li><li>
+<a id="pgfId-953666"></a>By default, all non-supply and non-bias pins are considered to be data pins. These data pins are related to the supply pins (RPP/RPG) and the bias pins (RBP).</li><li>
+<a id="pgfId-953083"></a>Single rail cells are also supported for bias supplies, which might be different from primary supplies.</li></ul>
+
+
+
+<p>
+<a id="pgfId-953208"></a>On the Device tab in the Power Manager Setup form, when you click <img width="31" height="20" src="images/chap1-24.gif" /><span> after selecting the </span><code>singleRailCell</code><span> device type, the singleRailCell Attributes form opens. Additionally, you can view the form by selecting any cell registered as a single rail cell device.</span></p>
+<p>
+<a id="pgfId-953212"></a></p>
+<div class="webflare-div-image">
+<img width="301" height="269" src="images/chap1-25.gif" /></div>
+
+<p>
+<a id="pgfId-953107"></a>In a setup file, the singleRailCell registration is represented as shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953149"></a>singleRailCell ( nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953150"></a>                cells (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953151"></a>                    (&quot;myLib&quot;    &quot;aBuf*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953152"></a>                    ( nil             &quot;bBuf*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953153"></a>                    (&quot;myLib&quot;    &quot;cBuf*&quot; nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953154"></a>                        (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953155"></a>                            power                     &quot;VDD&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953156"></a>                            ground                   &quot;VSS&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953157"></a>                            pwell                      &quot;VPP&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953158"></a>                            nwell                      &quot;VNN&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953159"></a>                            deeppwell             &quot;VPPP&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953160"></a>                            deepnwell             &quot;VNNN&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953161"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953166"></a>                    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953167"></a>                )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953168"></a>                power          &quot;VDD&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953169"></a>                ground         &quot;VSS&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953170"></a>                pwell             &quot;VPP&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953171"></a>                 nwell           &quot;VNN&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953172"></a>                deeppwell   &quot;VPPP&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953173"></a>                deepnwell   &quot;VNNN&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-953174"></a>)</pre>
+<h4><em>
+<a id="pgfId-952048"></a>Stack Transistor</em></h4>
+
+<p>
+<a id="pgfId-952049"></a>Stack Transistor devices are used in the advanced node designs for reduced power consumption at lower gate lengths. Stack Transistor devices commonly used have the following features: </p>
+<ul><li>
+<a id="pgfId-952050"></a>The same master is used for creating different device variants, such as PMOS or NMOS.</li><li>
+<a id="pgfId-952051"></a>The Stack Transistor device has a series of cascaded PMOS or NMOS devices inside.</li><li>
+<a id="pgfId-952052"></a>A parameter on the device Pcell master defines the device type used inside for stacking.<br />
+<a id="pgfId-952056"></a><div class="webflare-div-image">
+<img width="668" height="536" src="images/chap1-26.gif" /></div></li></ul>
+
+
+
+
+
+
+<p>
+<a id="pgfId-952060"></a>On the Device tab in the Power Manager Setup form, when you click <img width="31" height="20" src="images/chap1-27.gif" /><span> after selecting the </span><code>stackTransistor</code><span> device type, the Device Parameter Names form opens.</span></p>
+<p>
+<a id="pgfId-952063"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="570" src="images/chap1-28.gif" /></div>
+
+<p>
+<a id="pgfId-952064"></a>When you click the <code>stackMosfet</code> device type, the Device Parameter Name form opens.</p>
+<p>
+<a id="pgfId-952065"></a>It is used to specify the device parameter names for the stack MOS device to define the device as PMOS or NMOS. You can specify more than one parameter names. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-952066"></a>If the device terminal have names different from the conventional naming, you need to provide a terminal mapping for the same during device registration. </div>
+<p>
+<a id="pgfId-952067"></a>In a setup file, the stack MOS device registration is represented as shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-952068"></a>stackTransistor (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-952069"></a>(nil &#8220;STACKMOS*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-952070"></a>(&quot;analogLib&quot; &#8220;STACKMOS*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-952071"></a>(&quot;gpdk*&quot; &#8220;STACKMOS*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-952072"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-950929"></a>stackTransistorDeviceParamNames &quot;SourceCell&quot;</pre>
+<h4>
+<a id="pgfId-934761"></a>Terminal Name Registration for Devices</h4>
+
+<p>
+<a id="pgfId-934763"></a>While traversing through the connections of transistor instances, the Power Manager needs to identify the gate, source, and drain terminals of the registered transistor devices. Therefore, in addition to registering the devices, you need to register the names of the device terminals of these devices. You can register terminal names with an appropriate terminal type in the Power Manager Setup form and subsequently, in the setup file as shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934765"></a>txTermTypeNames (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934767"></a>source&#160;&#160;    &quot;s S source SOURCE Source&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934768"></a>drain&#160;&#160;     &quot;d D drain DRAIN Drain&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934769"></a>gate&#160;&#160;      &quot;g G gate GATE Gate&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934770"></a>bulk&#160;&#160;      &quot;b B BULK well SUB&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934771"></a>collector&#160;&#160; &quot;c C collector&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934772"></a>emitter&#160;&#160;   &quot;e E emitter&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934773"></a>base&#160;&#160;      &quot;b B base BASE Base&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934774"></a>substrate&#160;&#160; &quot;S BULK well SUB&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-934775"></a>    )</pre>
+<p>
+<a id="pgfId-943887"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="473" src="images/chap1-29.gif" /></div>
+<div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-934778"></a>
+If you are using a PDK that is not provided by Cadence, it is essential to register the transistors and terminal names to ensure correct extraction of boundary ports and automatic pairing of power nets and ground nets.</div>
+<h3>
+<a id="pgfId-954253"></a><a id="79892"></a>In-Design Checks</h3>
+
+<p>
+<a id="pgfId-954254"></a>Power Manager supports running a set of predefined and configurable circuit checks for mixed-signal designs that include devices and standard cells. You can define the severity of reporting of these checks on the <em>In-Design Checks </em>tab.</p>
+<p>
+<a id="pgfId-954255"></a>In the Checks Categories section, specify the severity level of the results reported for the <em>Level Shifter</em>, <em>Isolation</em>, and <em>Bulk</em> checks.</p>
+
+<p>
+<a id="pgfId-956133"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="418" src="images/chap1-30.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-954262"></a>For reporting violations generated from a specific check, the error severity for that check must be set to <code>Error</code> or <code>Warning</code>. If set to <code>Ignore</code>, the reporting of violations for the corresponding check is disabled.</div>
+<p>
+<a id="pgfId-954263"></a>The <em>Tolerance</em> section provides the flexibility to add tolerance for power and ground rail supply net voltage values for level shifter checks. All data path crossings within the tolerance limits are not flagged as violations. All the upper bound tolerances are positive numbers or zero and the lower bound tolerances are negative numbers or zero. The missing level shifters are reported for the signal crossings operating at different voltages when at least one of the following conditions, indicated by the GUI options, is true:</p>
+<ul><li>
+<a id="pgfId-954264"></a><em>Input Voltage Upper Bound</em>: The driver power voltage is more than the receiver power voltage by the upper bound input voltage tolerance. This value should be &gt;=<code>0</code>.</li><li>
+<a id="pgfId-954265"></a><em>Input Voltage Lower Bound</em>: The driver power voltage is less than the receiver power voltage by the lower bound input voltage tolerance. This value should be &lt;=<code>0</code>.</li><li>
+<a id="pgfId-954266"></a><em>Input Ground Voltage Upper Bound</em>: The driver ground voltage is more than the receiver ground voltage by the upper bound ground input voltage tolerance. This value should be &gt;=<code>0</code>.<br />
+<a id="pgfId-956335"></a>The following table shows an example of scenario&#39;s which would reflect a level shifter error and the ones which would not reflect the error.<br />
+<a id="pgfId-956321"></a><div class="webflare-div-image">
+<img width="668" height="162" src="images/chap1-31.gif" /></div></li><li>
+<a id="pgfId-954267"></a><em>Input Ground Voltage Lower Bound</em>: The driver ground voltage is less than the receiver ground voltage by the lower bound ground input voltage tolerance. This value should be &lt;=<code>0</code>.<br />
+<a id="pgfId-954271"></a><div class="webflare-div-image">
+<img width="668" height="476" src="images/chap1-32.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-954272"></a>You can add filter patterns in the <em>Filters</em> field to filter some of the error and warning messages. </p>
+
+<p>
+<a id="pgfId-954276"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="174" src="images/chap1-33.gif" /></div>
+
+<p>
+<a id="pgfId-954277"></a>These errors are reported and exist in the design, but these are not a problem for the design in the given scenario. </p>
+
+<p>
+<a id="pgfId-954281"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="503" src="images/chap1-34.gif" /></div>
+
+<p>
+<a id="pgfId-954282"></a>When a design uses multiple voltages for efficient power management, they can be switched on and off or scaled up or down to different voltage values as per design requirements. These are power states. A power state can be defined as a set of power and ground nets with their respective voltage values. IC designers choose the states as per the performance need of a design. Some common schemes that use the power states are dynamic voltage, frequency scaling, and run and standby performance modes.</p>
+<p>
+<a id="pgfId-954283"></a><a id="supply_state"></a>As the number of power and ground supplies increases, their combination increases multiple folds. To perform checks, it is critical to define the valid power states. Check the specified supply states in the design. A voltage net can be ON at different supply voltages and off at a particular voltage value.</p>
+<p>
+<a id="pgfId-954284"></a>For a power net, OFF is considered as 0 and ON can be 1.0V, 1.1V, 0.8V, and so on.</p>
+<p>
+<a id="pgfId-954288"></a>For a ground net, OFF is considered as the signal that is not available. </p>
+<p>
+<a id="pgfId-956362"></a>To populate the supply states:</p>
+<ol><li>
+<a id="pgfId-956359"></a>Click <img width="38" height="26" src="images/chap1-35.gif" /><span> to add the supply states in a design. It opens the </span></li></ol>
+<a actuate="user" class="URL" href="../vpm/form_desc.html#vpmUIAddEditSupplySetForm" show="replace" xml:link="simple">Add Supply State</a><span> form. </span>
+<ol><li>
+<a id="pgfId-956401"></a>Click the <em>Get Default Supply State</em> button to remove all the existing voltages/values pairs from the Add Supply State form if already existing.You have an option to apply this default state directly or after adding/deleting/modifying some supplies and their values. The default supply states have a unique non existent name.</li><li>
+<a id="pgfId-956398"></a>Optionally, click <img width="38" height="26" src="images/chap1-36.gif" /><span> to modify, and </span><img width="38" height="26" src="images/chap1-37.gif" /><span> to remove the supply states. </span><br />
+<a id="pgfId-954299"></a><div class="webflare-div-image">
+<img width="668" height="577" src="images/chap1-38.gif" /></div></li><li>
+<a id="pgfId-954303"></a>Additionally, use <img width="38" height="26" src="images/chap1-39.gif" /><span> to copy existing supply states from the table. The Copy Supply State form shows all the supplies with their respective voltage values of the currently selected </span><em>Supply State</em><span> in the table. By default, the name of the copied state is shown as &quot;State Name + _copy&quot;. You can add, delete, or edit voltages and their values. You can also modify the name of the state.</span><br />
+<a id="pgfId-954307"></a><div class="webflare-div-image">
+<img width="668" height="295" src="images/chap1-40.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-954308"></a>The <em>Registered Supply Nets</em> table in the supply nets tab is always in synchronized with the Supply States. If the supply nets are already available and registered in the <em>Registered Supply Nets</em> table, the same nets are available for selection in the Add Supply State form along with different voltage values in the lists. Conversely, while filling the Add Supply State form, if you introduce a new supply net with a set of voltage values, the values are automatically updated in the <em>Register Supply Nets</em> table.</p>
+
+<p>
+<a id="pgfId-954313"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="396" src="images/chap1-41.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-956457"></a>The supply information registered in the <em>Supply States</em> table is read by the Power Manager when the <em>Use Supply States</em> option is selected. If it is not selected, the supply information is read from the <em>Registered Supply Nets</em> table in the Supply Nets section of the Power Manager Setup form. </div>
+<p>
+<a id="pgfId-954314"></a>Select the check boxes in the <em>Report Options</em> section based on your preferences.</p>
+
+<p>
+<a id="pgfId-958659"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="198" src="images/chap1-42.gif" /></div>
+
+<ul><li>
+<a id="pgfId-954315"></a><em>Violations for ports without attributes</em>: Performs checks for the boundary ports that do not have any associated attributes, such as driver or receiver supply sets. By default, in-design checks do not report violations at the boundary ports unless information about the related power and ground nets of the boundary ports is specified using the registration information. For details, see <a href="chap1.html#56548">Port Attributes Registration</a>.</li><li>
+<a id="pgfId-954317"></a><em>Similar Violations Limit</em>: Defines the maximum number of violations that are similar and should be reported. The default value is <code>1</code>. If the value is <code>0</code>, all similar violations are reported.</li><li>
+<a id="pgfId-954318"></a><em>Violations for all net voltages</em>: Reports violations for all net voltages specified in various supply states or different voltage values registered in the <em>Registered Supply Nets</em> table provided in the setup.</li><li>
+<a id="pgfId-954319"></a><em>Isolation violations for always-on to switched supply crossings</em>: Reports violations for a missing isolation cell at the always-on to switched supply crossings.</li></ul>
+
+
+
+
+<h3>
+<a id="pgfId-928511"></a><a id="73071"></a><a id="61921"></a>Supply Set and Power Domain Registration</h3>
+
+<p>
+<a id="pgfId-931466"></a>A power domain is a part of the design that operates at a specific voltage. While capturing the power intent, you need to specify the power domains for the top level of the design. There can be a single or multiple power domains associated with the different sections of the design addressed by a specific supply set.</p>
+<p>
+<a id="pgfId-936371"></a>During automatic extraction, Power Manager identifies a power net and a ground net from the pair defined explicitly in the setup as a supply set in the <em>Export</em> tab of the Power Manager Setup form. It associates the supply set with the power domain as specified in the setup. You can specify a supply set as a primary supply set for the power domains mentioned in the setup. In addition, you can also define the supply set for the power and ground that cannot be paired by traversing the design hierarchy or parsing the Liberty file.</p>
+
+<p>
+<a id="pgfId-944884"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="515" src="images/chap1-43.gif" /></div>
+
+<p>
+<a id="pgfId-948088"></a>Click <img width="38" height="26" src="images/chap1-44.gif" /><span> to add, </span><img width="38" height="26" src="images/chap1-45.gif" /><span> to modify, and </span><img width="38" height="26" src="images/chap1-46.gif" /><span> to remove the supply set and power domain information. It opens the </span></p>
+<a actuate="user" class="URL" href="../vpm/form_desc.html#vpmUIAddEditSupplySetForm" show="replace" xml:link="simple">Add Supply Set</a><a actuate="user" class="URL" href="../vpm/form_desc.html#vpmUIAddEditPwrDomainForm" show="replace" xml:link="simple">Add Power Domain</a><span> forms, respectively.</span><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-952471"></a>
+The Supply Set field is automatically populated if the field is found blank or the user-defined names are in the <code>SS&lt;delimiter&gt;XYZ&lt;delimiter&gt;ABC</code> format. The automatically generated supply set names follow the <code>&lt;SS&gt;&lt;delimiter&gt;&lt;powerSupply&gt;&lt;delimiter&gt;&lt;groundSupply&gt;</code> format. </div>
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-952453"></a>
+The Power Domain field is automatically populated if the field is found blank or the user-defined names are in the <code>PD&lt;delimiter&gt;XYZ</code> format. The automatically generated power domain name follows the <code>&lt;domainPrefix&gt;&lt;delimiter&gt;&lt;supplySetName&gt; format</code>.</div>
+
+<p>
+<a id="pgfId-936373"></a>In the following example, the power net <code>VDD</code> and <code>VSS</code> are registered as a supply set, also a top-level power domain is registered as <code>PD_TOP</code>, which is associated with this supply set having power nets and ground nets as <code>VDD</code> and <code>VSS</code>, respectively.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931512"></a>;;; Supply Sets</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931513"></a>  supplySets (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931514"></a>        (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931515"></a>        supplySetName    &quot;SS_VDD_VSS&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931516"></a>        power    &quot;VDD&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931517"></a>        ground    &quot;VSS&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931518"></a>        )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931519"></a>        (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931520"></a>        supplySetName    &quot;SS_VDDA_VSSA&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931521"></a>        power    &quot;VDDA&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931522"></a>        ground    &quot;VSS&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931523"></a>        )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931524"></a>        )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931525"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931526"></a> ;;; Power Domains</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931527"></a> powerDomains (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931528"></a> ( nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931529"></a>          domainName        &quot;PD_TOP&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931530"></a>          elements          &quot;.&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931531"></a>         primarySupplySet    &quot;SS_VDD_VSS&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931532"></a>        includeScope t</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931533"></a>        )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931534"></a> ( nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931535"></a>          domainName        &quot;PD_LS&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931536"></a>          elements          &quot;I0&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931537"></a>         primarySupplySet    &quot;SS_VDDA_VSS&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931538"></a>        )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-931539"></a> )</pre>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-939583"></a>Specifying supply sets and power domains in the setup is not mandatory if the 1801 import flow is used.</div>
+<p>
+<a id="pgfId-936472"></a>If you do not register power net and ground net pairs, the ground net associated with a power net is automatically traced, consequently, creates a supply set and an associated power domain. Consequently, all the other supply sets are created. This is possible only when there exists a path from a power net to a ground net through a network of transistors and/or two terminal devices. In other cases, you need to register the supply set. </p>
+
+<h4>
+<a id="pgfId-939653"></a><a id="56548"></a>Port Attributes Registration</h4>
+
+<p>
+<a id="pgfId-947591"></a>There are specific design configurations where a boundary port is connected to different blocks that have different supply sets. This leads to ambiguities during the 1801 power intent extraction or the In-Design checks to associate the boundary ports to a power domain. </p>
+<p>
+<a id="pgfId-958699"></a>To register port attributes:</p>
+<ol><li>
+<a id="pgfId-958737"></a>Add ports by using the <a actuate="user" class="URL" href="../vpm/form_desc.html#vpmUIAddEditPortsForm" show="replace" xml:link="simple">Add Port Attributes</a> form in the <em>Port Attributes</em> section on the <em>Export</em> tab of the Power Manager Setup form to resolve such an ambiguity. For analog macros, Power Manager offers a mechanism of hierarchical supply traversal till device level to extract power attributes for the boundary ports. </li><li>
+<a id="pgfId-958746"></a>Specify the port names or regular expression in the <em>Ports</em> field.</li><li>
+<a id="pgfId-958754"></a>Define the direction attribute by using <em>Applies To</em>. </li><li>
+<a id="pgfId-958758"></a>Define the ports for exclusion in the <em>Exclude Ports</em> field</li><li>
+<a id="pgfId-958809"></a>Select the driver and receiver supply set.</li><li>
+<a id="pgfId-958853"></a>Specify if it is the an Analog, Unconnected, and Feedthrough port and click OK.<br />
+<a id="pgfId-953277"></a><div class="webflare-div-image">
+<img width="668" height="328" src="images/chap1-47.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-939657"></a>Alternatively, you can use <code>portAttributes</code> in the setup template as shown:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-939659"></a>portAttributes(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-939660"></a>(nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-939661"></a>ports &quot;enable_pin&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-939662"></a>driverSupplySet&quot;SS_VDD_GND&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-939663"></a>receiverSupplySet&quot;SS_VDD_GND&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-939664"></a>isAnalog&lt;t/nil&gt;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-939665"></a>isUnconnected&lt;t/nil&gt;))</pre>
+
+<p>
+<a id="pgfId-939667"></a>You can specify the following for a particular list of ports defined using <code>portAttributes</code>:</p>
+<ul><li>
+<a id="pgfId-939668"></a>Driver and receiver supply set associated with the digital ports.</li><li>
+<a id="pgfId-939669"></a>Analog and unconnected ports, where you can add a separate set of ports that do not have the driverSupplySet or receiverSupplySet.</li></ul>
+
+<p>
+<a id="pgfId-939671"></a>The port attributes specified using <code>portAttributes</code> should take the highest precedence and override other definitions. The 1801 power intent extraction or the in-design checks consider the attributes specified for ports by using <code>portAttributes</code>, if registered in the setup template. If you specify both the driver and the receiver supply set for a port, they are used during extraction. If you specify only a driver supply set for input port, the 1801 power intent extraction or the In-Design Checks use it and trace only the receiver supply set and conversely.</p>
+
+<p>
+<a id="pgfId-945003"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="295" src="images/chap1-48.gif" /></div>
+
+<p>
+<a id="pgfId-944777"></a>Select the following options in the <em>Export Options</em> section to control the extractor behavior for the specific design scenarios:</p>
+<ul><li>
+<a id="pgfId-956742"></a><em>Consider inputOutput terms for internal power criterion</em>: For details, see <a href="VPM_envVars.html#32577">allowInoutLDOPins</a>.</li><li>
+<a id="pgfId-956743"></a><em>Consider inputOutput terms for monitor power criterion</em>: For details, see <a href="VPM_envVars.html#94428">allowInoutMonitorPins</a>.</li><li>
+<a id="pgfId-956744"></a><em>Consider symmetrical source and drain for supply tracing</em>: Defines a port with a predefined supply set or power domain that can be checked for the correct or compatible connection at the receiver side. By default, this option is deselected. Supply tracing is done by Power Manager for MOS terminals (Source and Drain) by considering them asymmetric in nature. When this option is selected, Power Manager traces through all devices irrespective of the way they are connected in the design.</li><li>
+<a id="pgfId-956735"></a><em>Use anonymous supply for top level ports</em>: Enables the use of an anonymous supply for the top-level ports instead of the default supply set.</li></ul>
+
+
+
+
+<h3>
+<a id="pgfId-927787"></a><a id="51093"></a><a id="11636"></a>Miscellaneous Settings</h3>
+
+<p>
+<a id="pgfId-928094"></a>Specify the generic settings on the <em>Miscellaneous</em> tab.</p>
+
+<p>
+<a id="pgfId-944496"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="515" src="images/chap1-49.gif" /></div>
+
+<ul><li>
+<a id="pgfId-944364"></a><em>Delimiter</em><br />
+<a id="pgfId-932333"></a>Used for specific notations, for example, redirect netSets created during the 1801 import flow, automatically generated supply set and power domain names, and so on.</li><li>
+<a id="pgfId-949338"></a><em>Switch View List</em> to <code>schematic symbol</code>: It controls the order of the traversal of the design hierarchy during power intent extraction.</li><li>
+<a id="pgfId-928090"></a><em>Stop View List</em> to <code>symbol</code>: It defines the stop point where the design traversal must be stopped by the extractor during power intent extraction.<br />
+<a id="pgfId-938763"></a><code>switchViewList</code> and <code>stopViewList</code> can be specified in the Power Manager setup template or defined using the <a href="VPM_envVars.html#86475">switchViewList</a> and <a href="VPM_envVars.html#25561">stopViewList</a> environment variables.</li><li>
+<a id="pgfId-932333"></a><em>considerSignalType</em> to ignore or consider the <code>sigType</code> attribute of nets for detecting the supply nets during power intent extraction. By default, this option is set to <code>nil</code> and the attribute is not considered during name-based registration for detecting supply nets. However, if set to <code>t</code> and there is a conflict between the <code>sigType</code> attribute and name-based registration, name-based registration takes precedence. <ul><li>
+<a id="pgfId-932550"></a>Setting the signal type to identify the power nets and ground nets<br />
+<a id="pgfId-938894"></a>Each net has a <code>Signal Type</code> attribute that when set to <code>power</code> or <code>ground</code> can be used to identify the net as a power net or a ground net, respectively. The default signal type of a net is <code>signal</code>. During the automatic extraction, Power Manager looks for the <code>considerSignalType </code>attribute. When set to <code>true</code>, it creates power domains considering all the nets that have the signal type defined as power or ground. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-938896"></a>If there is a conflict between the sigType attribute and name-based registration, name-based registration takes precedence.</div>
+<a id="pgfId-932552"></a>You can set the signal type for pins or nets in your design in one of the following ways:<ul><li>
+<a id="pgfId-932554"></a>Select a pin or net on the schematic and in the <a actuate="user" class="URL" href="../comphelp/chap3.html#firstpage" show="replace" xml:link="simple">Property Editor</a> assistant, update the <em>Signal Type</em> property.<br /><ffi2-fig-frame-in-2 id="#id932559">
+<a id="pgfId-932559"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="632" height="245" src="images/chap1-50.gif" /></div></li><li>
+<a id="pgfId-932560"></a>Right-click a net and choose <em>Properties</em> to open the <strong>
+Edit Object Properties</strong>
+ form. Update the <em>Signal Type</em> property in this form.<br /><ffi2-fig-frame-in-2 id="#id932565">
+<a id="pgfId-932565"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="632" height="480" src="images/chap1-51.gif" /></div></li><li>
+<a id="pgfId-932566"></a>Specify the appropriate signal type while creating a new pin by using the <strong>
+Create Pin</strong>
+ form. The <em>Signal Type</em> field, which is by default set as <code>signal</code>, specifies the pin type. <br /><ffi2-fig-frame-in-2 id="#id932571">
+<a id="pgfId-932571"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="546" height="400" src="images/chap1-52.gif" /></div>
+<a id="pgfId-932572"></a>For the power pins, you can set the value in this field as <code>power</code>. <br />
+<a id="pgfId-932573"></a>If you use a specific set of names, such as, <code>vdd</code>, <code>vdd!</code>, or <code>VDD</code>, for the power pins in your designs and <code>vss</code>, <code>vss!</code>, or <code>VSS</code>, for the ground pins, it is recommended that you register those names by using the <a actuate="user" class="URL" href="../constraintsSKILL/constskillFunctions.html#ciRegisterNet" show="replace" xml:link="simple">ciRegisterNet</a> API in <code>.cdsinit</code> file. If you use a registered name for a pin on the <strong>
+Create Pin</strong>
+ form and the signal type is set as <code>signal</code>, the default value, the tool automatically sets the signal type of that pin as <code>power</code> or <code>ground</code> respectively. In that case, you need not specify the signal type explicitly for each new pin or net created in the design. Later, if you do not need to use the registered names, you can set the registration as <code>nil</code>.<br />
+<a id="pgfId-932582"></a>The name-based registration in the setup file template for the Power Manager is as follows:<pre class="webflare-pre-block webflare-courier-new" id="#id933582">
+<a id="pgfId-933582"></a>;;; Supply Nets</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933583">
+<a id="pgfId-933583"></a> supplyNets (nil</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933584">
+<a id="pgfId-933584"></a>  power (nil</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933585">
+<a id="pgfId-933585"></a>   names (&quot;vdd&quot; &quot;avdd&quot; &quot;dvdd&quot; &quot;VDD&quot; &quot;AVDD&quot; &quot;DVDD&quot;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933586">
+<a id="pgfId-933586"></a>   regExprs (&quot;[vV][dD][dD]&quot; &quot;[vV][cC][cC]&quot;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933587">
+<a id="pgfId-933587"></a>  )</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933588">
+<a id="pgfId-933588"></a>  ground (nil</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933589">
+<a id="pgfId-933589"></a>   names (&quot;vss&quot; &quot;avss&quot; &quot;dvss&quot; &quot;VSS&quot; &quot;AVSS&quot; &quot;DVSS&quot;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933590">
+<a id="pgfId-933590"></a>   regExprs (&quot;[vV][sS][sS]&quot; &quot;[gG][nN][dD]&quot; &quot;gnd*&quot;)</pre></li></ul>
+<a id="pgfId-932572"></a>For the power pins, you can set the value in this field as <code>power</code>. <br />
+<a id="pgfId-932573"></a>If you use a specific set of names, such as, <code>vdd</code>, <code>vdd!</code>, or <code>VDD</code>, for the power pins in your designs and <code>vss</code>, <code>vss!</code>, or <code>VSS</code>, for the ground pins, it is recommended that you register those names by using the <a actuate="user" class="URL" href="../constraintsSKILL/constskillFunctions.html#ciRegisterNet" show="replace" xml:link="simple">ciRegisterNet</a> API in <code>.cdsinit</code> file. If you use a registered name for a pin on the <strong>
+Create Pin</strong>
+ form and the signal type is set as <code>signal</code>, the default value, the tool automatically sets the signal type of that pin as <code>power</code> or <code>ground</code> respectively. In that case, you need not specify the signal type explicitly for each new pin or net created in the design. Later, if you do not need to use the registered names, you can set the registration as <code>nil</code>.<br />
+<a id="pgfId-932582"></a>The name-based registration in the setup file template for the Power Manager is as follows:<pre class="webflare-pre-block webflare-courier-new" id="#id933582">
+<a id="pgfId-933582"></a>;;; Supply Nets</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933583">
+<a id="pgfId-933583"></a> supplyNets (nil</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933584">
+<a id="pgfId-933584"></a>  power (nil</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933585">
+<a id="pgfId-933585"></a>   names (&quot;vdd&quot; &quot;avdd&quot; &quot;dvdd&quot; &quot;VDD&quot; &quot;AVDD&quot; &quot;DVDD&quot;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933586">
+<a id="pgfId-933586"></a>   regExprs (&quot;[vV][dD][dD]&quot; &quot;[vV][cC][cC]&quot;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933587">
+<a id="pgfId-933587"></a>  )</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933588">
+<a id="pgfId-933588"></a>  ground (nil</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933589">
+<a id="pgfId-933589"></a>   names (&quot;vss&quot; &quot;avss&quot; &quot;dvss&quot; &quot;VSS&quot; &quot;AVSS&quot; &quot;DVSS&quot;)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id933590">
+<a id="pgfId-933590"></a>   regExprs (&quot;[vV][sS][sS]&quot; &quot;[gG][nN][dD]&quot; &quot;gnd*&quot;)</pre></li></ul></li><li>
+<a id="pgfId-944600"></a>Select <em>Load Setup From Environment</em> and <em>Consider Setup Changes From Environment</em> to load setup or change the environment setup.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-937462"></a><a id="81145"></a>Setup File Template</h2>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957709"></a>lpSetupOptions = &#39;(nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957710"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957711"></a> ;;; Supply Nets</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957712"></a> supplyNets (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957713"></a>  monitor (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957714"></a>   names (&quot;VDD_PROBE&quot; &quot;VSS_PROBE&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957715"></a>   regExprs (&quot;VDD_PROBE*&quot; &quot;VSS_PROBE*&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957716"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957717"></a>  excludePG (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957718"></a>   names (&quot;OUTVDD&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957719"></a>   regExprs (&quot;OUTVDD*&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957720"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957721"></a>  ground (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957722"></a>   names (&quot;Vss&quot; &quot;Vssa&quot; &quot;Vss_Int&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957723"></a>   regExprs (&quot;[vV][sS][sS]&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957724"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957725"></a>  power (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957726"></a>   names (&quot;Vdd_1v8&quot; &quot;Vdd_3v3&quot; &quot;Vdd_Int&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957727"></a>   regExprs (&quot;[vV][dD][dD]&quot; &quot;[vV][cC][cC]&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957728"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957729"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957730"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957731"></a> ;;; Supply Net Voltages</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957732"></a> netVoltages (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957733"></a>  (&quot;Vss_Int&quot; (0.0))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957734"></a>  (&quot;Vdd_1v8&quot; (1.8 1.0))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957735"></a>  (&quot;Vssa&quot; (0.0))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957736"></a>  (&quot;Vdd_3v3&quot; (3.3))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957737"></a>  (&quot;Vss&quot; (0.0))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957738"></a>  (&quot;Vdd_Int&quot; (3.3 1.0))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957739"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957740"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957741"></a> ;;; External Switchable Nets</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957742"></a> externalSwitchableNets nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957743"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957744"></a> ;;; Devices</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957745"></a> devices (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957746"></a>  cap (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957747"></a>   (&quot;analogLib&quot; &quot;cap&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957748"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957749"></a>  pfet (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957750"></a>   (nil &quot;pmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957751"></a>   (&quot;analogLib&quot; &quot;pmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957752"></a>   (&quot;gpdk*&quot; &quot;pmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957753"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957754"></a>  nfet (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957755"></a>   (nil &quot;nmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957756"></a>   (&quot;analogLib&quot; &quot;nmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957757"></a>   (&quot;gpdk*&quot; &quot;nmos*&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957758"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957759"></a>  short (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957760"></a>   (&quot;analogLib&quot; &quot;res&quot; nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957761"></a>   (&quot;analogLib&quot; &quot;rcwireload&quot; nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957762"></a>    (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957763"></a>     shortedTerminalMap&#160;&#160;((&quot;t1&quot; &quot;t2&quot;) (&quot;t3&quot; &quot;t4&quot; &quot;t5&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957764"></a>    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957765"></a>   )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957766"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957767"></a>  diode (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957768"></a>   (&quot;analogLib&quot; &quot;diode&quot; nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957769"></a>    (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957770"></a>     pTerm&#160;&#160;             &quot;PLUS&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957771"></a>     nTerm&#160;&#160;             &quot;MINUS&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957772"></a>    )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957773"></a>   )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957774"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957775"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957776"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957777"></a> ;;; Transistor Terminal Names</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957778"></a> txTermTypeNames (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957779"></a>  substrate  &quot;S BULK well SUB&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957780"></a>  bulk&#160;&#160;    &#160;&#160;&#160;&#160;&quot;B BULK well SUB&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957781"></a>  emitter&#160;&#160; &#160;&#160;&#160;&#160;&quot;e E emitter&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957782"></a>  collector  &quot;c C collector&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957783"></a>  source&#160;&#160;  &#160;&#160;&#160;&#160;&quot;s S source SOURCE Source&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957784"></a>  drain&#160;&#160;   &#160;&#160;&#160;&#160;&quot;d D drain DRAIN Drain&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957785"></a>  gate&#160;&#160;    &#160;&#160;&#160;&#160;&quot;g G gate GATE Gate&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957786"></a>  base&#160;&#160;    &#160;&#160;&#160;&#160;&quot;b B base BASE Base&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957787"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957788"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957789"></a> ;;; Library Files</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957790"></a> libFiles (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957791"></a>  &quot;./DESIGN1/LIBRTY/fast_vdd1v0_basicCells.lib&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957792"></a>  &quot;./DESIGN1/LIBRTY/macro.lib&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957793"></a>  &quot;./DESIGN1/TECHUPF/diode.upf&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957794"></a>  &quot;./DESIGN1/TECHUPF/lshifter.upf&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957795"></a>  &quot;./DESIGN1/TECHUPF/isolation.upf&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957796"></a>  &quot;./DESIGN1/TECHUPF/pswitch.upf&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957797"></a>  &quot;./DESIGN1/LIBRTY/macro.lib&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957798"></a>  &quot;./DESIGN1/LIBRTY/VPMWS_ANA_OpAmp.lib&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957799"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957800"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957801"></a> ;;; Text Files Specifying Library Files</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957802"></a> libInputFiles nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957803"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957804"></a> ;;;&#160;&#160;Cell 1801 File Bindings</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957805"></a> cell1801Bindings nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957806"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957807"></a> ;;;&#160;&#160;User Macro Cells</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957808"></a> userMacroCells nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957809"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957810"></a> ;;;&#160;&#160;Reference Library-Cells</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957811"></a> refLibCells nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957812"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957813"></a> ;;; Supply Sets</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957814"></a> supplySets (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957815"></a>  (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957816"></a>   supplySetName&#160;&#160; &quot;SS_vdd3v3_vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957817"></a>   power&#160;&#160;        &#160;&#160;&#160;&#160;&quot;Vdd_3v3&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957818"></a>   ground&#160;&#160;       &#160;&#160;&#160;&#160;&quot;Vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957819"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957820"></a>  (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957821"></a>   supplySetName&#160;&#160; &quot;SS_vdd1v8_vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957822"></a>   power&#160;&#160;        &#160;&#160;&#160;&#160;&quot;Vdd_1v8&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957823"></a>   ground&#160;&#160;       &#160;&#160;&#160;&#160;&quot;Vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957824"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957825"></a>  (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957826"></a>   supplySetName&#160;&#160; &quot;SS_vddsw_vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957827"></a>   power&#160;&#160;        &#160;&#160;&#160;&#160;&quot;Vdd_Int&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957828"></a>   ground&#160;&#160;       &#160;&#160;&#160;&#160;&quot;Vss_Int&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957829"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957830"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957831"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957832"></a> ;;; Power Domains</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957833"></a> powerDomains (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957834"></a>  (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957835"></a>   domainName&#160;&#160;        &#160;&#160;&#160;&#160;&quot;PD_vddsw_vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957836"></a>   elements&#160;&#160;          &#160;&#160;&#160;&#160;&quot;I4&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957837"></a>   primarySupplySet&#160;&#160;  &#160;&#160;&#160;&#160;&quot;SS_vddsw_vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957838"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957839"></a>  (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957840"></a>   domainName&#160;&#160;        &#160;&#160;&#160;&#160;&quot;PD_vdd3v3_vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957841"></a>   elements&#160;&#160;          &#160;&#160;&#160;&#160;&quot;.&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957842"></a>   primarySupplySet&#160;&#160;  &#160;&#160;&#160;&#160;&quot;SS_vdd3v3_vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957843"></a>   includeScope&#160;&#160;      &#160;&#160;&#160;&#160;t</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957844"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957845"></a>  (nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957846"></a>   domainName&#160;&#160;        &#160;&#160;&#160;&#160;&quot;PD_vdd1v8_vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957847"></a>   elements&#160;&#160;          &#160;&#160;&#160;&#160;&quot;I0 I2&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957848"></a>   primarySupplySet&#160;&#160;  &#160;&#160;&#160;&#160;&quot;SS_vdd1v8_vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957849"></a>  )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957850"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957851"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957852"></a> ;;; Port Attributes</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957853"></a> portAttributes nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957854"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957855"></a> ;;; Maximum number of similar violations to be reported</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957856"></a> maxSimilarViolations 1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957857"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957858"></a> ;;; Use supplyStates</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957859"></a> useSupplyStates t</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957860"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957861"></a> ;;; Supply States</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957862"></a> supplyStates (</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957863"></a>  (&quot;SS1&quot; (&quot;Vss 0.000000&quot; &quot;Vdd_Int 3.300000&quot; &quot;Vdd_3v3 3.300000&quot; &quot;Vssa 0.000000&quot; &quot;Vdd_1v8 1.800000&quot; &quot;Vss_Int 0.000000&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957864"></a>  (&quot;SS2&quot; (&quot;Vss 0.000000&quot; &quot;Vdd_Int 3.300000&quot; &quot;Vdd_3v3 OFF&quot; &quot;Vssa 0.000000&quot; &quot;Vdd_1v8 1.800000&quot; &quot;Vss_Int 0.000000&quot;))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957865"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957866"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957867"></a> ;;; Input Voltage Tolerance Lower-Bound</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957868"></a> inputVoltageToleranceLowerBound -0.100000</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957869"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957870"></a> ;;; Input Voltage Tolerance Upper-Bound</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957871"></a> inputVoltageToleranceUpperBound 0.100000</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957872"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957873"></a> ;;; Input Ground Voltage Tolerance Lower-Bound</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957874"></a> inputGroundVoltageToleranceLowerBound -0.100000</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957875"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957876"></a> ;;; Input Ground Voltage Tolerance Upper-Bound</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957877"></a> inputGroundVoltageToleranceUpperBound 0.100000</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957878"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957879"></a> ;;; In-Design Checks Filter Patterns</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957880"></a> lprcFilters nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957881"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957882"></a> ;;; Missing Level-Shifter Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957883"></a> missingLSCheckSeverity &quot;error&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957884"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957885"></a> ;;; Incompatible Level-Shifter Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957886"></a> incompatibleLSCheckSeverity &quot;error&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957887"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957888"></a> ;;; Redundant Level-Shifter Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957889"></a> redundantLSCheckSeverity &quot;warning&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957890"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957891"></a> ;;; Protected Level-Shifter Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957892"></a> protectedLSCheckSeverity &quot;info&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957893"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957894"></a> ;;; Unprotected Level-Shifter Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957895"></a> unprotectedLSCheckSeverity &quot;error&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957896"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957897"></a> ;;; Unreliable Level-Shifter Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957898"></a> unreliableLSCheckSeverity &quot;ignore&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957899"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957900"></a> ;;; Floating Level-Shifter Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957901"></a> floatingLSCheckSeverity &quot;error&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957902"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957903"></a> ;;; Always Enabled Level-Shifter Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957904"></a> alwaysEnabledLSCheckSeverity &quot;error&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957905"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957906"></a> ;;; Unused Enable Level-Shifter Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957907"></a> unusedEnableLSCheckSeverity &quot;error&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957908"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957909"></a> ;;; Missing Isolation Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957910"></a> missingISOCheckSeverity &quot;warning&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957911"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957912"></a> ;;; Incompatible Isolation Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957913"></a> incompatibleISOCheckSeverity &quot;warning&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957914"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957915"></a> ;;; Redundant Isolation Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957916"></a> redundantISOCheckSeverity &quot;warning&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957917"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957918"></a> ;;; Incompatible Bulk Check Severity</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957919"></a> incompatibleBulkCheckSeverity &quot;error&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957920"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957921"></a> ;;; Report isolation violations for always-on-switched domain crossings</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957922"></a> reportOnOffISOViolations nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957923"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957924"></a> ;;; Check ports without any portAttributes definition in setup</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957925"></a> checkPortsWithoutAttributes nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957926"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957927"></a> ;;; Report violations for all net voltages</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957928"></a> reportLPRCViolationsForAllNetVoltages nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957929"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957930"></a> ;;; Prefixes for Supply Net netSet Props</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957931"></a> powerNetPropPrefix&#160;&#160; &quot;vdd&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957932"></a> groundNetPropPrefix  &quot;vss&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957933"></a> pwellNetPropPrefix&#160;&#160; &quot;vdd_sub&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957934"></a> nwellNetPropPrefix&#160;&#160; &quot;vss_sub&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957935"></a> deeppwellNetPropPrefix &quot;vdd_sub2&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957936"></a> deepnwellNetPropPrefix &quot;vss_sub2&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957937"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957938"></a> ;;; Project MLDB Library Name</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957939"></a> projectMldbLibName &quot;&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957940"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957941"></a> ;;; Reference MLDB Library Names</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957942"></a> referenceMldbLibNames nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957943"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957944"></a> ;;; replaceExistingLibs</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957945"></a> replaceExistingLibs t</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957946"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957947"></a> ;;; Replicates missing driver_supply_set or receiver_supply_set for input, output ports respectively.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957948"></a> replicateMissingDriverReceiverSupplySet nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957949"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957950"></a> ;;; Power Domain Name Prefix</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957951"></a> powerDomainNamePrefix &quot;PD&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957952"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957953"></a> ;;; Enable Automatic Creation of Power Domains</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957954"></a> autoCreatePowerDomains nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957955"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957956"></a> ;;; Consider signal type for detecting PG nets</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957957"></a> considerSignalType nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957958"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957959"></a> ;;; Set the mode (design/auto) for extraction </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957960"></a> extractionMode &quot;design&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957961"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957962"></a> ;;; Set how the PST/Power State are Created</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957963"></a> powerStateCriteria &quot;Conservative&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957964"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957965"></a> ;;; Set if All Off PST/Power Stated are Created</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957966"></a> includeAllOffStates nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957967"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957968"></a> ;;; Control printing of nets identified as supply nets</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957969"></a> printSupplyNetInfo nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957970"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957971"></a> ;;; Set if inout pins are allowed as LDO pins</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957972"></a> allowInoutLDOPins nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957973"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957974"></a> ;;; Set if inout pins are allowed as monitor pins</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957975"></a> allowInoutMonitorPins nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957976"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957977"></a> ;;; Delimiter for use in power intent objects like Supply Set Names</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957978"></a> delimiter &quot;__&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957979"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957980"></a> ;;; View Name list for hierarchy elaboration</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957981"></a> switchViewList &quot;schematic symbol&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957982"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957983"></a> ;;; Stack transistor device param names</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957984"></a> stackTransistorDeviceParamNames &quot;&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957985"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957986"></a> ;;; View Name list for pruning the hierarchy elaboration</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957987"></a> stopViewList &quot;symbol&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957988"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957989"></a> ;;; Set if the environment options are to be loaded</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957990"></a> loadEnvironmentOptions nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957991"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957992"></a> ;;; Set if the options not overridden by the user are to be updated</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957993"></a> pushUnmodifiedEnvOptions t</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957994"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957995"></a> ;;; Use anonymous supply set for non-annotated top level ports</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-957996"></a> topPortsHaveAnonSupply t</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-937670"></a>)</pre>
+<h2>
+<a id="pgfId-937822"></a><a id="42583"></a>L<a id="vpmUISetupLoadSaveForm"></a>oading Power Intent Extraction Options from a File</h2>
+
+<p>
+<a id="pgfId-937824"></a>If you have the power intent extraction setup options in a template file, you can load them and reuse them for the same or a different design.</p>
+<p>
+<a id="pgfId-937826"></a>To load the extraction options, </p>
+<ol><li>
+<a id="pgfId-937827"></a>In the Power Manager toolbar, click <em>Power Manager Setup</em>. </li><li>
+<a id="pgfId-937828"></a>In the Power Manager Setup form, click <em>Load</em> to select the template file.<br />
+<a id="pgfId-937918"></a><div class="webflare-div-image">
+<img width="668" height="525" src="images/chap1-53.gif" /></div></li><li>
+<a id="pgfId-937829"></a>Browse the file. The tool reads all the extraction options and loads the settings.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-950715"></a>The format of the loaded setup file should match the format of a standard setup file. </div></li><li>
+<a id="pgfId-937833"></a>To apply the changes, click OK.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-950594"></a>
+The Load option adds setup information from the file to the setup form. To put on the changes, click <em>Apply</em>.</div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-937835"></a>The setup can also be imported by using the <a href="VPM_SKILL.html#63074">vpmImportPowerIntentSetup</a> SKILL function. This can be used for batch mode processing. The common settings can also be saved in <code>.cadence/dfII/vpm/lpSetup.il</code> without the need to reload the setup. These settings can be referenced in any cellview.</p>
+
+<h2>
+<a id="pgfId-949345"></a><a id="60149"></a>Saving Power Intent Extraction Options to a File</h2>
+
+<p>
+<a id="pgfId-949346"></a>You can save the power intent extraction setup options in the setup form to a template file and reuse them for the same or a different design.</p>
+<p>
+<a id="pgfId-949347"></a>To save the extraction options, </p>
+<ol><li>
+<a id="pgfId-949348"></a>In the Power Manager toolbar, click <em>Power Manager Setup</em>. </li><li>
+<a id="pgfId-949349"></a>In the Power Manager Setup form, click <em>Save</em>.<br />
+<a id="pgfId-949357"></a><div class="webflare-div-image">
+<img width="668" height="516" src="images/chap1-54.gif" /></div></li><li>
+<a id="pgfId-949358"></a>Browse the file. The tool saves all the extraction options and settings to the file. </li><li>
+<a id="pgfId-949359"></a>To apply the changes, click OK.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-952780"></a>
+A confirmation dialog is displayed when you click the Cancel button of the Setup form. It ensures that the unsaved data can be saved in time. </div></li></ol>
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-937851"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="flow.html" id="prev" title="Virtuoso Power Manager Flows">Virtuoso Power Manager Flows</a></em></b><b><em><a href="chap2.html" id="nex" title="Importing the Power Intent of a Design">Importing the Power Intent of  ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

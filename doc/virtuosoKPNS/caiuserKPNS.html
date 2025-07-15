@@ -1,0 +1,141 @@
+
+<html><head><title></title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="rgirdhar" />
+<meta name="CreateDate" content="2020-09-22" />
+<meta name="CreateTime" content="1600778563" />
+<meta name="DataType" content="KP&amp;S" />
+<meta name="Description" content="Describes important Cadence Change Requests (CCRs) for the Cadence Virtuoso Platform and tells you how to solve or work around these problems." />
+<meta name="DocTitle" content="Virtuoso Known Problems and Solutions" />
+<meta name="DocType" content="Known Problems and Solutions" />
+<meta name="FileTitle" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="virtuosoKPNS" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-22" />
+<meta name="ModifiedTime" content="1600778563" />
+<meta name="NextFile" content="cdshiereditorKPNS.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Cadence Shared Tools" />
+<meta name="PrevFile" content="01_ApplicationInfrastructure.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="Virtuoso Shared Tools" />
+<meta name="ProductFamily" content="Virtuoso Shared Tools" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Known Problems and Solutions --" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="virtuosoKPNSICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="virtuosoKPNSTOC.html">Contents</a></li><li><a class="prev" href="01_ApplicationInfrastructure.html" title="Part 1: Application Infrastructure">Part 1: Application Infrastruc ...</a></li><li style="float: right;"><a class="viewPrint" href="virtuosoKPNS.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="cdshiereditorKPNS.html" title="Next">Next</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Known Problems and Solutions<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h2>
+<a id="pgfId-1009187"></a><a id="27928"></a>Cadence Application Infrastructure</h2>
+
+<p>
+<a id="pgfId-1011765"></a>This document describes the known issues with Cadence<sup>&#174;</sup> Application Infrastructure and suggests the workarounds for these issues. Each issue is identified by a Cadence Change Request (CCR) number.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1011893"></a>Unless otherwise stated, the issues described in this document were identified in ICADVM20.1or an earlier release. For a list of the issues that were fixed in this release, check the README file at <a actuate="user" class="URL" href="http://downloads.cadence.com" show="replace" xml:link="simple">downloads.cadence.com</a>.</div>
+
+<h4>
+<a id="pgfId-1011901"></a>Related Documentation</h4>
+<ul><li>
+<a id="pgfId-1011940"></a><em><a actuate="user" class="URL" href="../caiuser/caiuserTOC.html#firstpage" show="replace" xml:link="simple">Cadence Application Infrastructure User Guide</a></em></li></ul>
+<h3>
+<a id="pgfId-1012530"></a>General Issues</h3>
+<h4>
+<a id="pgfId-1012564"></a>Problem: LSF jobs fail to complete because clsbd or other daemons do not exit.</h4>
+
+<p>
+<a id="pgfId-1012531"></a><strong>Solution:</strong> If LSF jobs fail to complete because of clsbd or other daemons not exiting, the daemon starter script is required to start daemons in an LSF environment.</p>
+<p>
+<a id="pgfId-1011895"></a>For more information, see <h-hot><a actuate="user" class="URL" href="../caiuser/chap13.html#firstpage" show="replace" xml:link="simple">cdsDaemonStarter Configuration</a></h-hot> in the <em>Cadence Application Infrastructure User Guide</em>.</p>
+
+<h4>
+<a id="pgfId-1012518"></a>Problem: Application hangs on lock request to a remote system</h4>
+
+<p>
+<a id="pgfId-1010463"></a><strong>Solution:</strong> Check whether the network lock daemons <code>lockd</code> and <code>statd</code> are running on the remote system. <code>lockd</code> and <code>statd</code> must always be running on every UNIX system that runs Cadence applications or stores data. Some applications that use read and write locks use the operating system&#8217;s <code>fcntl</code> function, which relies on <code>lockd</code> and <code>statd</code> daemons. (CLS Edit locks no longer use <code>fcntl</code>.) If the daemons are running, but calls to them still hang, verify that you have the latest operating system patches.</p>
+<p>
+<a id="pgfId-1010464"></a>For DFII applications, you can also try the following workaround:</p>
+
+<ul><li>
+<a id="pgfId-1010465"></a>Set the following environment variable:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1010466">
+<a id="pgfId-1010466"></a>DD_DONT_DO_OS_LOCKS</pre></li></ul>
+
+<h4>
+<a id="pgfId-1010467"></a>Problem: Locking requests to a Linux machine fail </h4>
+
+<p>
+<a id="pgfId-1010494"></a><strong>Description:</strong> Locking requests to a Linux machine fail with the following error:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1010468"></a>&#8220;No locks available&#8221;</pre>
+
+<p>
+<a id="pgfId-1010469"></a>While CLS Edit locks no longer use <code>fcntl</code>, some applications that use read and write locks do use the operating system&#8217;s <code>fcntl</code> function. Locking requests to a Linux machine will fail if the Linux NFS server does not support locking. </p>
+<p>
+<a id="pgfId-1010470"></a><strong>Solution:</strong> Upgrade your NFS software to a version that supports locking. For DFII applications, you can also use the following workaround:</p>
+
+<ul><li>
+<a id="pgfId-1010471"></a>Set the following environment variable:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1010472">
+<a id="pgfId-1010472"></a>DD_DONT_DO_OS_LOCKS</pre></li></ul>
+
+<h4>
+<a id="pgfId-1010460"></a>Problem: Malformed Lock-Stake file</h4>
+
+<p>
+<a id="pgfId-1010163"></a><strong>Description:</strong> Your Cadence application does not run and you get the following error:</p>
+
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1010143"></a>*Warning* file /usr/xyz/CDS.log Malformed Lock-Stake file.</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1010144"></a>Failed to lock log file: /usr/xyz/CDS.log</pre>
+
+<p>
+<a id="pgfId-1010145"></a><strong>Solution:</strong> A &#8220;Malformed Lock-Stake File&#8221; error message indicates that the Lock-Stake file is either empty or corrupted. A Lock-Stake file can be empty if it was created when the disk was full. A Lock-Stake file can be corrupted if it was manually edited or if the application or system exited abnormally.</p>
+<p>
+<a id="pgfId-1010146"></a>Resolve the cause of the problem, for example, a full disk. If it is safe to remove the lock on the file, remove the Lock-Stake file (<span class="webflare-courier-new" style="white-space:pre"><em>filename</em></span><code>.cdslck</code>) manually or with <code>clsAdminTool</code>.</p>
+
+<h4>
+<a id="pgfId-1010260"></a>Problem: Linux automount paths incompatible with other systems</h4>
+
+<p>
+<a id="pgfId-1010364"></a><strong>Description: </strong>The default Linux automount system creates paths which are incompatible with other systems, that is, Sun Solaris, HP-UX, or IBM AIX. The default Linux automount path is:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1010365"></a>/.automount/<code><em>hostName</em></code>/root/<code><em>exportedPathName</em></code></pre>
+
+<p>
+<a id="pgfId-1010383"></a>while the automount path on other systems is:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1010384"></a>/net/<code><em>hostName</em></code>/<code><em>exportedPathName</em></code></pre>
+
+<p>
+<a id="pgfId-1010402"></a>The mount directory <code>/.automount</code> is set by the default <code>amd.conf</code> configuration; the <code>root</code> part of the path is set by the default <code>amd.net</code> configuration.</p>
+<p>
+<a id="pgfId-1010449"></a>If an application on a Linux system adds a default Linux automount path to a common file such as the <code>cds.lib</code> file, applications on other operating systems that access the <code>cds.lib</code> file will not be able to resolve the path.</p>
+<p>
+<a id="pgfId-1010403"></a><strong>Solution:</strong> VirtuOS (the virtual operating system layer used by most Cadence applications) handles the Linux automount path by changing it to the <code>/net/HOSTNAME</code> format. VirtuOS does a <code>strcmp</code> to look for the default amd automounter string and changes it.</p>
+<p>
+<a id="pgfId-1010404"></a>This solution works only if the automounter on the Linux system is amd and the standard <code>amd.conf</code> file is used as the configuration file. However, if you change the default mount point <code>/.automount</code> to something else, then VirtuOS does not change the path.</p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="01_ApplicationInfrastructure.html" id="prev" title="Part 1: Application Infrastructure">Part 1: Application Infrastruc ...</a></em></b><b><em><a href="cdshiereditorKPNS.html" id="nex" title="Next">Next</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

@@ -1,0 +1,700 @@
+
+<html><head><title>Debugging</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jommy" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864919" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Debugging" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864919" />
+<meta name="NextFile" content="PART_2__Xcelium_Simulator_Mixed-Signal_Capabilities.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Using_SimVision_with_the_AMS_Simulator.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Debugging" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Using_SimVision_with_the_AMS_Simulator.html" title="Using_SimVision_with_the_AMS_Simulator">Using_SimVision_with_the_AMS_S ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="PART_2__Xcelium_Simulator_Mixed-Signal_Capabilities.html" title="PART_2__Xcelium_Simulator_Mixed-Signal_Capabilities">PART_2__Xcelium_Simulator_Mixe ...</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <div style="width: 100%; font-size: 32px; text-align: left;               font-weight: bold;">17</div>
+<h1 style="margin: 4px 0 4px;"><span>Debugging</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p>This chapter contains the following topics:</p>
+
+<p></p>
+<div class="toc-macro rbtoc1572864886834">
+<ul class="toc-indentation">
+<li><a href="#Debugging-Terminology">Terminology</a></li>
+<li><a href="#Debugging-ManagingDatabasesdatabase1035330">Managing Databases</a></li>
+<li><a href="#Debugging-SettingandDeletingProbes1034120">Setting and Deleting Probes</a></li>
+<li><a href="#Debugging-TraversingtheModelHierarchydebugscope1031630">Traversing the Model Hierarchy</a></li>
+<li><a href="#Debugging-SettingBreakpoints1031720">Setting Breakpoints</a></li>
+<li><a href="#Debugging-Disabling,Enabling,Deleting,andDisplayingBreakpoints1031895">Disabling, Enabling, Deleting, and Displaying Breakpoints</a></li>
+<li><a href="#Debugging-SteppingthroughLinesofCodestep_trace1031917">Stepping through Lines of Code</a></li>
+<li><a href="#Debugging-ForcingandReleasingSignalValuesforce_release1031940">Forcing and Releasing Signal Values</a></li>
+<li><a href="#Debugging-DepositingValuestoSignalsdepositValue1031962">Depositing Values to Signals</a></li>
+<li><a href="#Debugging-DisplayingInformationaboutSimulationObjectsdescribe1041554">Displaying Information about Simulation Objects</a></li>
+<li><a href="#Debugging-DisplayingtheDriversofSignalsdrivers1031999">Displaying the Drivers of Signals</a></li>
+<li><a href="#Debugging-DebuggingDesignswithAutomatically-InsertedConnectModules1032023">Debugging Designs with Automatically-Inserted Connect Modules</a></li>
+<li><a href="#Debugging-DisplayingWaveformsintheWaveformWindowsimwave1033909">Displaying Waveforms in the Waveform Window</a></li>
+<li><a href="#Debugging-DisplayingDebugSettingsdisplay_settings1032202">Displaying Debug Settings</a></li>
+<li><a href="#Debugging-SettingVariablesvariables1032237">Setting Variables</a></li>
+<li><a href="#Debugging-EditingaSourceFileUsingYourOwnEditoredit_source1032339">Editing a Source File Using Your Own Editor</a></li>
+<li><a href="#Debugging-SearchingforaLineNumberintheSourceCodefind_line1032357">Searching for a Line Number in the Source Code</a></li>
+<li><a href="#Debugging-SearchingforaTextStringintheSourceCodefind_text1032367">Searching for a Text String in the Source Code</a></li>
+<li><a href="#Debugging-save_restore_env1032390SavingandRestoringYourSimulationEnvironment">Saving and Restoring Your Simulation Environment</a></li>
+<li><a href="#Debugging-CreatingorDeletinganAliasalias1032411">Creating or Deleting an Alias</a></li>
+<li><a href="#Debugging-GettingaHistoryofCommandshistory1036382">Getting a History of Commands</a></li>
+<li><a href="#Debugging-ManagingCustomButtonsdebug_buttons1032443">Managing Custom Buttons</a></li>
+</ul>
+</div>
+<h2 id="Debugging-Terminology">Terminology</h2>
+
+<p>The descriptions in this chapter use terminology that might be new to you. The terms have to do with the way that the compiler simulates mixed analog and digital designs.</p>
+<div class="table-wrap"><table border="0" cellpadding="4" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /></colgroup><tbody><tr><th class="confluenceTh" valign="middle" width="201">
+<p><span>Term</span></p>
+</th><th class="confluenceTh" valign="middle" width="446">
+<p><span>Definition</span></p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p>analog solver</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>The part of the AMS Designer simulator that simulates the analog portions of a design. Some SimVision capabilities appear only when the analog solver is active. See also<a href="Using_SimVision_with_the_AMS_Simulator.html#UsingSimVisionwiththeAMSSimulator-1033512"> Chapter 15, &quot;Using SimVision with the AMS Simulator.&quot;</a></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>digital solver</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>The part of the AMS Designer simulator that simulates the digital portions of a design. Some capabilities are enabled only when the digital solver is active.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>analog context</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>The context of statements that appear in the body of an<code> analog </code>block.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p>digital context</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>The context of statements that appear in a location other than an<code> analog </code>block.</p>
+</td>
+</tr>
+</tbody></table></div>
+<h2 id="Debugging-ManagingDatabasesdatabase1035330">Managing Databases<span class="confluence-anchor-link" id="Debugging-database"></span><span class="confluence-anchor-link" id="Debugging-1035330"></span></h2>
+
+<p>You can open, close, disable, enable, and display information about databases. See the following topics for more information:</p>
+<ul><li><a href="#Debugging-1035335"> Opening a Database </a></li></ul><ul><li><a href="#Debugging-1037550"> Displaying Information about Databases </a></li></ul><ul><li><a href="#Debugging-1031551"> Disabling a Database </a></li></ul><ul><li><a href="#Debugging-1031559"> Enabling a Database </a></li></ul><ul><li><a href="#Debugging-1036061"> Closing a Database </a></li></ul><h3 id="Debugging-OpeningaDatabaseopen_database1035335">Opening a Database<span class="confluence-anchor-link" id="Debugging-open_database"></span><span class="confluence-anchor-link" id="Debugging-1035335"></span></h3>
+
+<p>You can open two types of databases:&#160;<a href="Glossary.html#Glossary-1034342">SHM</a>&#160;or&#160;<a href="Glossary.html#Glossary-1032273">VCD</a>. SHM databases support probing both analog and digital signals. VCD databases support probing only digital signals.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>When you open a VCD database, the software converts it to SHM format. You can export a database to VCD format.</p>
+</div>
+</div>
+<ul><li>If you are using the Tcl command-line interface, type<code> database </code><code> -open </code>to open either type of database.<br />Partial syntax:<br /><code><span>database [-open] dbase_name [-shm | -vcd] [-into file_name ][-default]</span><span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;font-size: small;"><br /></span></code>See &quot;Database&quot; in the &quot;Using the Tcl Command-Line Interface&quot; chapter, of<em><span style="color: rgb(0,0,0);"> Cadence Verilog Simulation User Guide </span></em>for complete syntax and details on the<code> database </code>command.</li></ul><ul><li>If you are using the Cadence<span style="color: rgb(0,0,0);"><sup>&#174;</sup></span>SimVision environment, choose<em><span style="color: rgb(0,0,0);"> File&#160;- Open Database </span></em>and fill in the Open Database form.<br />See &quot;Managing Simulation Databases&quot; in the<em><span style="color: rgb(0,0,0);"> SimVision User Guide </span></em>for information about managing your databases.</li></ul><div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You can also open a database from a digital context with the<code>&#160;$shm_open&#160;</code>system task in your Verilog<span style="color: rgb(0,0,0);"><sup>&#174;</sup></span>-AMS code. A database opened in this way does not support probing analog signals.</p>
+</div>
+</div>
+<h3 id="Debugging-DisplayingInformationaboutDatabasesdisplay_database1037550">Displaying Information about Databases<span class="confluence-anchor-link" id="Debugging-display_database"></span><span class="confluence-anchor-link" id="Debugging-1037550"></span></h3>
+<ul><li>If you are using the Tcl command-line interface, type<code> database </code><code> -show </code>to display information about databases.<br />Syntax:<br /><span><code>database -show [{ dbase_name | pattern } ...</code>]</span></li></ul><ul><li>If you are using the Cadence SimVision environment, choose<span style="color: rgb(0,0,0);"><em> Simulation - Show&#160;- Databases</em>.</span></li></ul><h3 id="Debugging-DisablingaDatabasedisable_database1031551">Disabling a Database<span class="confluence-anchor-link" id="Debugging-disable_database"></span><span class="confluence-anchor-link" id="Debugging-1031551"></span></h3>
+<ul><li>If you are using the command-line interface, type<code> database -disable </code>to disable either type of database temporarily.<br />Syntax:<br /><code><span>database -disable { dbase_name | pattern } ...</span></code></li></ul><ul><li>If you are using SimVision, do the following:</li></ul><ol><li style="list-style-type: none;background-image: none;"><ol><li>Choose<span style="color: rgb(0,0,0);"><em> Simulation - Show&#160;- Databases</em>.<br /><br /></span>The<span style="color: rgb(0,0,0);"> simulator:Databases </span><span style="color: rgb(0,0,0);">view appears in the Properties window.<br /></span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236088/305236091.png" data-linked-resource-container-id="305236088" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="chap11.20.1.1.png" data-linked-resource-id="305236091" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236088/305236091.png" /></span></li><li>Remove the mark from the<em><span style="color: rgb(0,0,0);"> Enabled </span></em>check box for the database you want to disable.</li></ol></li></ol><h3 id="Debugging-EnablingaDatabaseenable_database1031559">Enabling a Database<span class="confluence-anchor-link" id="Debugging-enable_database"></span><span class="confluence-anchor-link" id="Debugging-1031559"></span></h3>
+<ul><li>If you are using the command-line interface, type<code> database -enable </code>to enable a previously disabled database.<br />Syntax:<br /><code><span>database -enable { dbase_name | pattern } ...</span></code></li></ul><ul><li>If you are using SimVision, do the following:</li></ul><ol><ol><li>Choose<span style="color: rgb(0,0,0);"><em> Simulation - Show&#160;- Databases</em>.<br /><br /></span>The<span style="color: rgb(0,0,0);"> simulator:Databases </span><span style="color: rgb(0,0,0);">view appears in the Properties window.<br /></span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236088/305236095.png" data-linked-resource-container-id="305236088" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="chap11.20.1.2.png" data-linked-resource-id="305236095" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236088/305236095.png" /></span></li><li>Mark the<em><span style="color: rgb(0,0,0);"> Enabled </span></em>check box for the database you want to enable.</li></ol></ol><h3 id="Debugging-ClosingaDatabaseclose_database1036061">Closing a Database<span class="confluence-anchor-link" id="Debugging-close_database"></span><span class="confluence-anchor-link" id="Debugging-1036061"></span></h3>
+<ul><li>If you are using the Tcl command-line interface, type<code> database -close </code>to close either type of database.<br />Syntax:<br /><code><span>database -close { dbase_name | pattern } ...</span></code></li></ul><ul><li>If you are using SimVision, do the following:</li></ul><ol><li style="list-style-type: none;background-image: none;"><ol><li>Choose<em><span style="color: rgb(0,0,0);"> File&#160;- Close Database/Simulation </span></em>to close a simulation database.</li><li>On the Close Database/Simulator form, select the database you want to close.</li><li>Click<span style="color: rgb(0,0,0);"><em> OK</em>.</span></li></ol></li></ol><h2 id="Debugging-SettingandDeletingProbes1034120">Setting and Deleting Probes<span class="confluence-anchor-link" id="Debugging-1034120"></span></h2>
+
+<p>You save the values of objects to a database by probing them. You can view these database values using SimVision.</p>
+<ul><li>If you are using the Tcl command-line interface, use the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1033526">probe</a>&#160;</span>command to set, disable, enable, delete, and display information about probes for analog and digital objects.</li></ul><ul><li>If you are using SimVision, choose<span style="color: rgb(0,0,0);"> Simulation - Create Probe </span>to set a probe. To disable, enable, or delete a probe, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/probes.html#probeprop">Simulation - Show&#160;- Probes</a> </span>and use the<em><span style="color: rgb(0,0,0);"> simulator:Probes </span></em>settings in the Properties window.<br />See&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../SimulatingSimVis/probes.html">&quot;Creating and Managing Probes&quot;</a>&#160;</span>in the<em><span style="color: rgb(0,0,0);"> Running SimVision in Simulation Mode </span></em>book for examples.</li></ul><div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For Verilog-AMS, digital objects can be probed only if they have read access. See &quot;<a href="Elaborating.html#Elaborating-1033476">Enabling Read, Write, or Connectivity Access to Digital Simulation Objects</a>&quot; for details on specifying access to digital simulation objects.</p>
+</div>
+</div>
+
+<p>See the following topics for Tcl command syntax:</p>
+<ul><li><a href="#Debugging-1035816"> Setting a Probe Using the Tcl probe Command </a></li></ul><ul><li><a href="#Debugging-1041756"> Displaying Information about Probes Using the Tcl probe Command </a></li></ul><ul><li><a href="#Debugging-1031608"> Disabling a Probe Using the Tcl probe Command </a></li></ul><ul><li><a href="#Debugging-1031615"> Enabling a Probe Using the Tcl probe Command </a></li></ul><ul><li><a href="#Debugging-1031622"> Deleting a Probe Using the Tcl probe Command </a></li></ul><h3 id="Debugging-SettingaProbeUsingtheTclprobeCommandset_probe1035816">Setting a Probe Using the Tcl probe Command<span class="confluence-anchor-link" id="Debugging-set_probe"></span><span class="confluence-anchor-link" id="Debugging-1035816"></span></h3>
+
+<p>If you are using the Tcl command-line interface, type<code> probe -create.</code></p>
+
+<p>Partial syntax:</p>
+
+<p><span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;font-size: small;">probe [-create] [{<code> object </code>|<code> scope_name </code>}...]<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{-shm | -vcd | -database<code> dbase_name </code>}<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;[-all]<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;[-depth {<code> n </code>| all | to_cells}]<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;[-inputs]<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;[-name<code> probe_name </code>]<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;[-outputs]<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;[-ports]<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;[-screen [-format<code> format_string </code>] [-redirect<code> filename </code>]<br /><code> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;objects </code>]<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;[-variables]</span></p>
+
+<p>If you do not specify an<code> object </code>or<code> scope_name </code>argument, you must use one of the following options:<code> -inputs</code>,<code> -outputs</code>,<code> -ports</code>, or<code> -all </code>to specify which objects to probe.</p>
+
+<p>The<code> -all </code>option probes all declared objects within a scopes, except for VHDL variables. To include VHDL variables in the probe, include the<code> -variables </code>option (<code>-all -variables).</code></p>
+<h3 id="Debugging-DisplayingInformationaboutProbesUsingtheTclprobeCommand1041756">Displaying Information about Probes Using the Tcl probe Command<span class="confluence-anchor-link" id="Debugging-1041756"></span></h3>
+
+<p>If you are using the Tcl command-line interface, type<code> probe -show </code>to display information about the probes you have set.</p>
+
+<p>Syntax:</p>
+
+<p><code><span>probe -show [{ probe_name | pattern } ...]</span></code></p>
+<h3 id="Debugging-DisablingaProbeUsingtheTclprobeCommanddisable_probe1031608">Disabling a Probe Using the Tcl probe Command<span class="confluence-anchor-link" id="Debugging-disable_probe"></span><span class="confluence-anchor-link" id="Debugging-1031608"></span></h3>
+
+<p>If you are using the Tcl command-line interface, type<code> probe -disable </code>to stop a probe temporarily.</p>
+
+<p>Syntax:</p>
+
+<p><code><span>probe -disable { probe_name | pattern } ...</span></code></p>
+<h3 id="Debugging-EnablingaProbeUsingtheTclprobeCommand1031615">Enabling a Probe Using the Tcl probe Command<span class="confluence-anchor-link" id="Debugging-1031615"></span></h3>
+
+<p>If you are using the Tcl command-line interface, type<code> probe -enable </code>to enable a probe that you disabled previously.</p>
+
+<p>Syntax:</p>
+
+<p><code><span>probe -enable { probe_name | pattern } ...</span></code></p>
+<h3 id="Debugging-DeletingaProbeUsingtheTclprobeCommanddelete_probe1031622">Deleting a Probe Using the Tcl probe Command<span class="confluence-anchor-link" id="Debugging-delete_probe"></span><span class="confluence-anchor-link" id="Debugging-1031622"></span></h3>
+
+<p>If you are using the Tcl command-line interface, type<code> probe -delete </code>to delete a probe.</p>
+
+<p>Syntax:</p>
+
+<p><code><span>probe -delete { probe_name | pattern } ...</span></code></p>
+<h2 id="Debugging-TraversingtheModelHierarchydebugscope1031630">Traversing the Model Hierarchy<span class="confluence-anchor-link" id="Debugging-debugscope"></span><span class="confluence-anchor-link" id="Debugging-1031630"></span></h2>
+
+<p>The Spectre AMS Designer Simulator supports hierarchical designs by allowing you to embed models in other models. Levels of hierarchy in a design are called<span style="color: rgb(0,0,0);"> scopes.</span> To create a scope, you nest objects within design units by instantiating them. Instantiation allows one design unit to incorporate a copy of another into itself.</p>
+
+<p>Each scope in a design hierarchy has a unique hierarchical path. For Verilog-AMS, elements in the path are separated by a period (<code> . </code>). You can specify paths</p>
+<ul><li>Fully from the top level of the hierarchy<br /><br />Full paths begin with the name of a Verilog-AMS top-level module. For example:<code> <br />top.board.counter<br /> </code><code> top.vending.drinks.count_cans.in1 </code></li></ul><ul><li>Relative to the current debug scope<br /><br />For example, if the current debug scope is<code> top.board</code>, the path<code> counter </code>refers to a scope within the scope<code> board</code>, which is within the top-level module<code> top.</code></li></ul>
+<p>You traverse the model hierarchy by setting the scope to an instantiated object. If you are using the Tcl command-line interface, use the<code> scope -set </code>command. For example, if the current debug scope is the top level, and you want to move down one level to a scope called<code> board</code>, use the following command:</p>
+
+<p><code> scope -set board </code></p>
+
+<p>If you are at the top level and want to move down to a scope within<code> board </code>called<code> counter</code>, use the following command:</p>
+
+<p><code> scope -set board.counter </code></p>
+
+<p>You can specify a full path from any debug scope. For example, if the current scope is<code> board:counter</code>, you can move up to the top level (module<code> top</code>) with the following command:</p>
+
+<p><code> scope -set top </code></p>
+
+<p>The&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1042823">scope</a>&#160;</span>command has several options besides<code> -set.</code> These options let you</p>
+<ul><li>Describe the items declared within a scope (<code>-describe</code>)</li></ul><ul><li>Display the drivers of the objects declared within a scope (<code>-drivers</code>)</li></ul><ul><li>Print the source code, or part of the source code, for a scope (<code>-list</code>)</li></ul><ul><li>Display scope information (<code>-show</code>)</li></ul><h3 id="Debugging-PathsandMixed-LanguageDesigns">Paths and Mixed-Language Designs</h3>
+
+<p>In VHDL, you use a colon to separate path elements. A full path begins with a colon, which represents the top-level design unit. The first path element is an item in the top-level scope. The following are examples of fully specified paths:</p>
+
+<p><code> :vending </code></p>
+
+<p><code> :vending:drinks </code></p>
+
+<p><code> :vending:drinks:sig2 </code></p>
+
+<p>Relative paths do not begin with a colon. For example, if the current debug scope is<code> :vending</code>, the path<code> drinks </code>refers to a scope within the scope<code> vending </code>, which is within the top-level design unit.</p>
+
+<p>In a mixed-language simulation, you can use a period or a colon as the path element separator. The Spectre AMS Designer Simulator uses the following rules:</p>
+<ul><li>If the path begins with a colon, the path is a full path starting at the VHDL top-level scope. A colon by itself refers to this scope. You cannot use any other special character at the start of a path.</li></ul><ul><li>If the path does not start with a colon, and the first path element is in the current debug scope, the path is relative to the debug scope. If the first path element is not in the current debug scope, the simulator assumes that the path is a full path whose first path element is the name of one of the top-level Verilog-AMS modules.</li></ul>
+<p>For example, suppose that you have a mixed Verilog-AMS and VHDL design, where the top-level design unit is VHDL. With Tcl commands, you can use both path element separators interchangeably (except at the beginning of a path, as specified above), as shown in the following examples:</p>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236088/305236092.png" data-linked-resource-container-id="305236088" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="chap11.20.1.3.png" data-linked-resource-id="305236092" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236088/305236092.png" width="640px" /></span></p>
+
+<p>Because VHDL is case insensitive (except for escaped names) and Verilog-AMS is case sensitive, each element of a mixed language path is either case sensitive or case insensitive, depending on its language context. When the parser looks for a name in a Verilog-AMS scope, it is case sensitive; when it looks for a name in a VHDL scope, it is case insensitive.</p>
+
+<p>The syntax that you use for name expressions is also interchangeable. Name expressions are bit-selects, part-selects, and array element specifiers in Verilog-AMS, and array element and record field specifiers in VHDL. Index specifiers are also used in VHDL scope names when the scope is created by a for-generate statement.</p>
+
+<p>Verilog-AMS index specifiers use square brackets, and a colon separates the left and right bounds of the range (for example<code> [7:0]</code>). VHDL index specifiers use parentheses, and the keyword<code> TO </code>or<code> DOWNTO </code>separates the left and right bounds of the range (for example,<code> (7 downto 0)</code>).</p>
+
+<p>You can use either style with VHDL index ranges. Using a colon in a VHDL index range is the same as using the direction with which that index range was declared.</p>
+
+<p>Record field specifiers apply only to VHDL objects. Use a period to separate the object name from the record field.</p>
+
+<p>The following pairs of Tcl commands are identical.</p>
+
+<p><code> xcelium&gt; scope foo_array(2)xcelium&gt; scope foo_array[2] </code></p>
+
+<p><code> xcelium&gt; value sig[7:0]xcelium&gt; value sig(7:0) </code></p>
+
+<p><code> xcelium&gt; value sig[7]xcelium&gt; value sig(7) </code></p>
+
+<p><code> xcelium&gt; describe sig[7 downto 0]xcelium&gt; describe &quot;sig(7 downto 0)&quot; </code></p>
+
+<p>You can use either Verilog-AMS or VHDL escaped name syntax in paths. For Verilog-AMS, escaped names begin with a backslash and are terminated with a space. For example:</p>
+<p align="left"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236088/305236098.png" data-linked-resource-container-id="305236088" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="chap11.20.1.4.png" data-linked-resource-id="305236098" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236088/305236098.png" /></span></p>
+
+<p>For VHDL, escaped names begin and end with a backslash (for example,<code> \w3.OUT\ </code>).</p>
+
+<p>The following two<code> value </code>commands are identical:</p>
+
+<p><code> xcelium&gt; value top.vending.@{\w3.OUT } </code></p>
+
+<p><code> xcelium&gt; value top.vending.@{\w3.OUT\} </code></p>
+<h2 id="Debugging-SettingBreakpoints1031720">Setting Breakpoints<span class="confluence-anchor-link" id="Debugging-1031720"></span></h2>
+
+<p>You can interrupt the simulation by setting breakpoints. The type of breakpoints you can set depend on the language you are using as follows:</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 576.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="192">
+<p><span>Breakpoint Type</span></p>
+</th><th class="confluenceTh" valign="middle" width="192">
+<p><span>Verilog-AMS</span></p>
+</th><th class="confluenceTh" valign="middle" width="192">
+<p><span>VHDL</span></p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><a href="#Debugging-1031753">Condition breakpoints</a></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Yes</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Yes</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><a href="#Debugging-1031783">Line breakpoints</a></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Yes</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Yes</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><a href="#Debugging-1031808">Signal breakpoints</a></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Yes</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Yes</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><a href="#Debugging-1031831">Time breakpoints</a></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Yes</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Yes</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><a href="#Debugging-1038446">Subprogram breakpoints</a></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Yes</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Yes</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><a href="#Debugging-1031872">Process breakpoints</a></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>No</p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Yes</p>
+</td>
+</tr>
+</tbody></table></div>
+<h3 id="Debugging-SettingaConditionBreakpointcondition_breakpoints1031753">Setting a Condition Breakpoint<span class="confluence-anchor-link" id="Debugging-condition_breakpoints"></span><span class="confluence-anchor-link" id="Debugging-1031753"></span></h3>
+
+<p>A condition breakpoint stops the simulation when a specified condition is true. This type of breakpoint is particularly useful when you want to stop the simulation at the instant a signal has an incorrect value.</p>
+
+<p>A condition breakpoint triggers when any digital object referenced in the conditional expression changes value (wires, signals, registers, and variables) or is written to (memories)<span style="color: rgb(0,0,0);"> and </span>the expression evaluates to true (nonzero). Condition breakpoints are<span style="color: rgb(0,0,0);"> not </span>triggered by changes in analog objects, but you can include analog objects in the conditional expression and their values are used when the condition is evaluated (due to a digital object changing value).</p>
+
+<p>To set a condition breakpoint,</p>
+<ul><li>If you are using the Tcl command-line interface, type&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1034611">stop</a>&#160;</span><code>-condition.</code></li></ul><ul><li>If you are using SimVision, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/breakpoints.html#condition_breakpoints">Simulation - Set Breakpoint - Condition</a>.</span></li></ul>
+<p>A condition breakpoint takes a Tcl expression as an argument. See &quot;<a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1035041">Tcl Expressions as Arguments</a>&quot; for details on the syntax of these expressions.</p>
+
+<p>The simulator does not support breakpoints on individual bits of registers. If a bit-select of a register appears in the expression, the simulator stops and evaluates the expression when any bit of that register changes value. The same holds true for compressed wires.</p>
+
+<p>For Verilog-AMS, objects included in a conditional expression must have read access. An error is printed if the object does not have read access. See &quot;<a href="Elaborating.html#Elaborating-1033476">Enabling Read, Write, or Connectivity Access to Digital Simulation Objects&quot;&#160;</a>for details on specifying access to simulation objects.</p>
+
+<p>See &quot;<a href="#Debugging-1031895">Disabling, Enabling, Deleting, and Displaying Breakpoints</a>&quot; for more information on breakpoints.</p>
+<h3 id="Debugging-SettingaLineBreakpointline_breakpoints1031783">Setting a Line Breakpoint<span class="confluence-anchor-link" id="Debugging-line_breakpoints"></span><span class="confluence-anchor-link" id="Debugging-1031783"></span></h3>
+
+<p>A line breakpoint stops the simulation at a specified line in the source code. You set this type of breakpoint when you want to simulate to a certain point and then single-step through lines of code.</p>
+
+<p>You cannot set a line breakpoint unless you have compiled with the<code> -linedebug </code>option. (See &quot;-LINedebug&quot; in the&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../vlogcompile/XMVLOG_hdl.var_Variables.html">&quot;Xcelium Direct Invocation: Verilog Compilation&quot;</a>&#160;</span>chapter of the<em><span style="color: rgb(0,0,0);"> Compiling Verilog Source Files </span></em>book for details on using this option.)</p>
+
+<p>You can set a line breakpoint only in pure digital code when you are using AMS Designer simulator with the Spectre solver and the simulation front end (SFE) parser.</p>
+
+<p>To set a line breakpoint,</p>
+<ul><li>If you are using the Tcl command-line interface, type&#160;<code><span><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1034611">stop</a></span></code><span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;">&#160;</span><code>-line </code>option.</li></ul><ul><li>If you are using SimVision, choose<span> <a class="message-url" href="../SimulatingSimVis/breakpoints.html#line_breakpoints">Simulation - Set Breakpoint&#160;- Line</a>.&#160;</span></li></ul>
+<p>See &quot;<a href="#Debugging-1031895">Disabling, Enabling, Deleting, and Displaying Breakpoints</a>&quot; for more information on breakpoints.</p>
+<h3 id="Debugging-SettingaSignalBreakpointsignal_breakpointsobject_breakpoints1031808">Setting a Signal Breakpoint<span class="confluence-anchor-link" id="Debugging-signal_breakpoints"></span><span class="confluence-anchor-link" id="Debugging-object_breakpoints"></span><span class="confluence-anchor-link" id="Debugging-1031808"></span></h3>
+
+<p>A signal breakpoint stops the simulation when a specified wire or signal changes value or when the simulation writes a value to a register, memory, or variable. Use a signal breakpoint when you want the simulation to stop every time a signal changes value or when you want to see the value of signals when some condition is true (for example, on every positive edge of the clock).</p>
+
+<p>To set a signal breakpoint,</p>
+<ul><li>If you are using the Tcl command-line interface, type&#160;<code><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1034611">stop</a></code><span style="font-family: &quot;Courier New&quot;;font-size: small;">&#160;</span><code>-object.</code></li></ul><ul><li>If you are using SimVision, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/breakpoints.html#object_breakpoints">Simulation - Set Breakpoint&#160;- Signal</a>.</span></li></ul>
+<p>For Verilog-AMS, the object specified as the argument must have read access for the breakpoint to be created. See<a href="Elaborating.html#Elaborating-1033476"> &quot;Enabling Read, Write, or Connectivity Access to Digital Simulation Objects&quot; </a>for details on specifying access to simulation objects.</p>
+
+<p>The simulator does not support breakpoints on analog objects (nets, branches, or variables). Nor does the simulator support breakpoints on individual bits of registers or variables. For example, the following command generates an error message:</p>
+
+<p><code> xcelium&gt; stop -create -object data[1] </code></p>
+<h3 id="Debugging-SettingaTimeBreakpointtime_breakpointstime_break1031831">Setting a Time Breakpoint<span class="confluence-anchor-link" id="Debugging-time_breakpoints"></span><span class="confluence-anchor-link" id="Debugging-time_break"></span><span class="confluence-anchor-link" id="Debugging-1031831"></span></h3>
+
+<p>A time breakpoint stops the simulation at a specified time. The time can be absolute or relative (the default). Absolute time breakpoints are automatically deleted after they trigger. Relative time breakpoints are periodic, stopping, for example, every 10 ns.</p>
+
+<p>This type of breakpoint is usually set when you want to advance the simulation to a certain time point before beginning to debug or when you want to stop the simulation at regular intervals to examine signal values.</p>
+
+<p>To set a time breakpoint,</p>
+<ul><li>If you are using the Tcl command-line interface, type<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;">&#160;<a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1034611">stop</a>&#160;</span><code>-time.</code></li></ul><ul><li>If you are using SimVision, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/breakpoints.html#time_breakpoints">Simulation - Set Breakpoint&#160;- Time</a>.</span></li></ul>
+<p>See<a href="#Debugging-1031895"> &quot;Disabling, Enabling, Deleting, and Displaying Breakpoints&quot; </a>for more information on breakpoints.</p>
+<h3 id="Debugging-SettingaProcessBreakpointprocess_breakpoints1031872">Setting a Process Breakpoint<span class="confluence-anchor-link" id="Debugging-process_breakpoints"></span><span class="confluence-anchor-link" id="Debugging-1031872"></span></h3>
+
+<p>For VHDL, a process breakpoint stops the simulation when a named process starts executing or resumes executing after a wait statement.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You must compile with the<code>&#160;-linedebug&#160;</code>option to enable the setting of source line and process breakpoints.</p>
+</div>
+</div>
+
+<p>To set a process breakpoint,</p>
+<ul><li>If you are using the Tcl command-line interface, type<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;">&#160;<a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1034611">stop</a><span style="color: rgb(0,0,255);">&#160;</span></span><code>-process.</code></li></ul><ul><li>If you are using SimVision, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/breakpoints.html#process_breakpoints">Simulation - Set Breakpoint&#160;- Process</a>.</span></li></ul>
+<p>See<a href="#Debugging-1031895"> &quot;Disabling, Enabling, Deleting, and Displaying Breakpoints&quot; </a>for more information on breakpoints.</p>
+<h3 id="Debugging-SettingaSubprogramBreakpointsubprogram_breakpoints1038446">Setting a Subprogram Breakpoint&#160;<span class="confluence-anchor-link" id="Debugging-subprogram_breakpoints"></span><span class="confluence-anchor-link" id="Debugging-1038446"></span></h3>
+
+<p>For VHDL or Verilog, a subprogram breakpoint stops the simulation when the simulation reaches a VHDL or Verilog function or procedure. You can then use the<code> step </code>command to step into the function or procedure to view values of objects.</p>
+
+<p>To set a subprogram breakpoint,</p>
+<ul><li>If you are using the Tcl command-line interface, type<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1034611">stop</a><span style="color: rgb(0,0,255);">&#160;</span></span>command with the<code> -delta </code>option.</li></ul><ul><li>If you are using SimVision, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/breakpoints.html#subprogram_breakpoints">Simulation - Set Breakpoint&#160;- Subprogram</a>.</span></li></ul>
+<p>See&#160;<a href="#Debugging-1031895">&quot;Disabling, Enabling, Deleting, and Displaying Breakpoints&quot;</a>&#160;for more information on breakpoints.</p>
+<h2 id="Debugging-Disabling,Enabling,Deleting,andDisplayingBreakpoints1031895">Disabling, Enabling, Deleting, and Displaying Breakpoints<span class="confluence-anchor-link" id="Debugging-1031895"></span></h2>
+
+<p>After setting breakpoints, you can display information on breakpoints, disable breakpoints, enable previously disabled breakpoints, and delete breakpoints.</p>
+<ul><li>If you are using the command-line interface,<br /><br />Use the<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1034611">stop</a><span style="color: rgb(0,0,255);">&#160;</span></span>command with the<code> -show </code>,<code> -disable </code>,<code> -enable </code>, or<code> -delete </code>modifier. The argument to these modifiers can be</li></ul><ul><ul><li>A break name or a list of break names</li></ul></ul><ul><ul><li>A pattern</li></ul></ul><ul><ul><li>The asterisk (*), which matches any number of characters</li></ul></ul><ul><ul><li>The question mark (?), which matches any one character</li></ul></ul><ul><ul><li>[<em><code>characters</code></em>], which matches any one of the characters</li></ul></ul><ul><ul><li>Any combination of literal break names and patterns</li></ul></ul><ul><li>If you are using SimVision, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/breakpoints.html#brkpthelp">Simulation - Show&#160;- Breakpoints</a> </span>and use the<em><span style="color: rgb(0,0,0);"> simulator:Breakpoints </span></em>settings in the Properties window.</li></ul><h2 id="Debugging-SteppingthroughLinesofCodestep_trace1031917">Stepping through Lines of Code<span class="confluence-anchor-link" id="Debugging-step_trace"></span><span class="confluence-anchor-link" id="Debugging-1031917"></span></h2>
+
+<p>You can examine the order in which the simulator executes the statements in your model by stepping through the simulation line by line.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>This capability is not supported for structural Verilog-AMS code.</p>
+</div>
+</div>
+
+<p>While you can always single-step through the statements in the<code> analog </code>block of a module, outside the<code> analog </code>block, you cannot single-step or set line breakpoints in a particular design unit unless you compiled the unit with the<code> -linedebug </code>option. If you compiled the unit without this option, you can use the<code> run -step </code>or<code> run -next </code>command to run the simulation until the next point where it can stop. If execution passes to a unit that you compiled with<code> -linedebug </code>, full single-stepping resumes.</p>
+<ul><li>If you are using the Tcl command-line interface:</li></ul><ul><ul><li>
+<p>Use&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1033517">run</a>&#160;</span><code>-step </code>to simulate to the next executable line of code in any scope. This command runs one statement, stepping into subprogram calls.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><span style="color: rgb(0,0,0);">The</span><code>&#160;-step&#160;</code><span style="color: rgb(0,0,0);">option does not step into function calls made by an analog statement. In this situation, the behavior of the</span><code>&#160;-step&#160;</code><span style="color: rgb(0,0,0);">option is identical to the behavior of the</span><code>&#160;-next&#160;</code><span style="color: rgb(0,0,0);">option.</span></p>
+</div>
+</div>
+</li></ul></ul><ul><ul><li>Use<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;">&#160;<code><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1033517">run</a></code><span style="color: rgb(0,0,255);">&#160;</span></span><code>-next </code>to run one statement, stepping over any subprogram calls.</li></ul></ul><ul><li>If you are using SimVision, choose<em><span style="color: rgb(0,0,0);"> Simulation&#160;- Step </span></em>or<span style="color: rgb(0,0,0);"><em> Simulation&#160;- Next</em>.<br /></span>See&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../SimVisionIntro/SimVisionIntroTOC.html">Introduction to SimVision</a>&#160;</span>for other Simulation menu choices and information about simulation toolbar buttons.</li></ul><h2 id="Debugging-ForcingandReleasingSignalValuesforce_release1031940">Forcing and Releasing Signal Values<span class="confluence-anchor-link" id="Debugging-force_release"></span><span class="confluence-anchor-link" id="Debugging-1031940"></span></h2>
+
+<p>You can ask &quot;what if&quot; questions about your model by interactively forcing objects to desired values and seeing if the patch fixes the problem. If it does, you can then edit your source file to incorporate the change.</p>
+
+<p>The object that is being forced must have write access. To specify write access, use the<code> -access </code>or<code> -afile </code>option when you elaborate the design with<code> xmelab.</code> See<a href="Elaborating.html#Elaborating-1033476"> &quot;Enabling Read, Write, or Connectivity Access to Digital Simulation Objects&quot; </a>for details on specifying access to simulation objects.</p>
+
+<p>To force an object to a given value,</p>
+<ul><li>
+<p>If you are using the Tcl command-line interface, use the&#160;<code><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1033448">force</a></code>&#160;command to set a specified object to a given value and force it to retain that value until you release it with a&#160;<a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1033952">release</a>&#160;command or place another force on it.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You cannot use the<code>&#160;force&#160;</code>command on an analog object. In addition, you cannot use the<code>&#160;force&#160;</code>command on digital objects while the analog solver is active.</p>
+</div>
+</div>
+</li></ul><ul><li>
+<p>If you are using SimVision, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/force-deposit.html#force-form">Simulation&#160;- Create Force</a> </span>to force a signal to a given value.To release a signal, position the pointer over the signal, click the right mouse button, and select<em><span style="color: rgb(0,0,0);"> Release Force </span></em>to release the signal. This choice is not active while the analog solver is active because you cannot use the<code> force </code>command in that circumstance.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You cannot use the<code>&#160;force&#160;</code>command on an analog object. In addition, you cannot use the<code>&#160;force&#160;</code>command on digital objects while the analog solver is active.</p>
+</div>
+</div>
+</li></ul><h2 id="Debugging-DepositingValuestoSignalsdepositValue1031962">Depositing Values to Signals<span class="confluence-anchor-link" id="Debugging-depositValue"></span><span class="confluence-anchor-link" id="Debugging-1031962"></span></h2>
+
+<p>You can ask &quot;what if&quot; questions about your model as you debug by interactively depositing a value to a specified object.</p>
+
+<p>When you deposit a value to an object, behaviors that are sensitive to value changes on the object run when the simulation resumes, just as if the value change was caused by the Verilog-AMS or VHDL code.</p>
+
+<p>You can deposit a value to an object immediately, at a specified time in the future, or after a specified delay. You can also specify that you want to deposit the value after an inertial delay or after a transport delay. A deposit without a delay is similar to a force in that the specified value takes effect and propagates immediately. However, it differs from a force in that future transactions on the signal are not blocked.</p>
+
+<p>For VHDL, you can deposit to ports, signals, and variables if no delay is specified. If a delay is specified, you cannot deposit to variables or to signals with multiple sources.</p>
+
+<p>For Verilog-AMS, you can deposit to ports, signals (wires and registers), and variables.</p>
+
+<p>For Verilog-AMS, the object that you want to deposit a value to must have write access. An error is printed if it does not. To specify write access, use the<code> -access </code>or<code> -afile </code>option when you elaborate the design with<code> xmelab.</code> See &quot;<a href="Elaborating.html#Elaborating-1033476">Enabling Read, Write, or Connectivity Access to Digital Simulation Objects</a>&quot; for details on specifying access to simulation objects.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You cannot use the<code>&#160;deposit&#160;</code>command on an analog object. In addition, you cannot use the<code>&#160;deposit&#160;</code>command on digital objects while the analog solver is active.</p>
+</div>
+</div>
+
+<p>To deposit a value to an object,</p>
+<ul><li>If you are using the Tcl command-line interface, type&#160;<code><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1032965"><span>deposit</span></a></code>.</li></ul><ul><li>If you are using SimVision, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/force-deposit.html#deposit-form">Simulation&#160;- Deposit Value</a>.</span></li></ul><h2 id="Debugging-DisplayingInformationaboutSimulationObjectsdescribe1041554">Displaying Information about Simulation Objects<span class="confluence-anchor-link" id="Debugging-describe"></span><span class="confluence-anchor-link" id="Debugging-1041554"></span></h2>
+
+<p>To display information about a simulation object, including its declaration,</p>
+<ul><li>If you are using the Tcl command-line interface, type&#160;<code><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1033071"><span>describe</span></a></code>.</li></ul><ul><li>If you are using SimVision, right-click the object and select<span style="color: rgb(0,0,0);"><em> Describe</em>.</span></li></ul><h2 id="Debugging-DisplayingtheDriversofSignalsdrivers1031999">Displaying the Drivers of Signals<span class="confluence-anchor-link" id="Debugging-drivers"></span><span class="confluence-anchor-link" id="Debugging-1031999"></span></h2>
+
+<p>You can display a list of all of the contributors to the value of a specified digital object.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You cannot list drivers for analog variables, analog nets, or branches.</p>
+</div>
+</div>
+
+<p>To display the driver of signals,</p>
+<ul><li>If you are using the Tcl command-line interface, type&#160;<code><span style="color: rgb(0,51,102);"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1033155"><span style="color: rgb(0,51,102);">drivers</span></a></span></code>. For example:<br /><code> xcelium&gt; drivers board.count <br /><br /></code>You can use the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1042823">scope</a>&#160;</span><code>-drivers </code><code> [</code><code>scope_name</code><code>] </code>command to display the drivers of each object declared in a specified scope. You can use the<code> scope -describe [</code><code>scope_name</code><code>] </code>command to give the description of each object that is declared within the specified scope.</li></ul><ul><li>If you are using SimVision, see&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../SignalTracer/fulltrace.html">&quot;Tracing Paths with the Trace Signals Sidebar&quot;</a>&#160;</span>in the<em> Tracing Signal Values </em>book.</li></ul>
+<p>For Verilog-AMS, the<code> drivers </code>command cannot find the drivers of a wire or register unless the object has connectivity access. However, even if you have specified access to the object, its drivers might have been collapsed, combined, or optimized away. In this case, the output of the<code> drivers </code>(or<span style="color: rgb(0,0,0);"> Show&#160;- Drivers </span>) command might indicate that the object has no drivers. See &quot;<a href="Elaborating.html#Elaborating-1033476">Enabling Read, Write, or Connectivity Access to Digital Simulation Objects</a>&quot; for details on specifying access to simulation objects.</p>
+<h2 id="Debugging-DebuggingDesignswithAutomatically-InsertedConnectModules1032023">Debugging Designs with Automatically-Inserted Connect Modules<span class="confluence-anchor-link" id="Debugging-1032023"></span></h2>
+
+<p>In this release, automatically-inserted connect modules are not visible in SimVision. As a consequence, the values returned by probing might not be what you expect. Connect modules are used when connected ports have disciplines of different domains (such as logic and electrical) so you need to be aware of the effects of connect modules that are automatically inserted, but not visible, between such ports. Note that manually inserted connect modules are visible in SimVision.</p>
+
+<p>To better understand, consider the following example where the top module contains two inverters. The ports of the<code> Dinv </code>inverter are of the logic discipline and the ports of the<code> Ainv </code>inverter are electrical.</p>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236088/305236093.png" data-linked-resource-container-id="305236088" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="chap11.20.1.5.png" data-linked-resource-id="305236093" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236088/305236093.png" width="640px" /></span></p>
+
+<p>At time<code> t</code>, the value of<code> IN </code>is 0. Because there are two inverters, the value of<code> INT_NET </code>is 1 and the value of<code> OUT </code>is 0.</p>
+
+<p>If you change scope into the<code> Dinv </code>module and probe the value of the digital port, you see that the value is 1. However, if you trace the signal to<code> INT_NET </code>in the top module, you find that the value depends on the discipline of that net. If<code> INT_NET </code>is of the logic discipline, the value is 1 as expected. But if<code> INT_NET </code>is of the electrical discipline, the value is a real number calculated by the analog solver. In a typical case, the value might be between 2.5 V and 5 V.</p>
+
+<p>Similarly, if you trace the signal into the analog port of<code> Ainv</code>, where, again, the disciplines of the driver and receiver do not match, a similar issue arises.</p>
+<h2 id="Debugging-DisplayingWaveformsintheWaveformWindowsimwave1033909">Displaying Waveforms in the Waveform Window<span class="confluence-anchor-link" id="Debugging-simwave"></span><span class="confluence-anchor-link" id="Debugging-1033909"></span></h2>
+
+<p>You can use the SimVision Waveform window to display and analyze waveforms.</p>
+
+<p>This section explains how to open a database, how to probe signals, and how to open the&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../Waveform/waveform_data.html">SimVision Waveform window</a>.</span></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The&#160;objects that you want to probe to a database must have read access. Analog objects have read access, but, by default, Verilog-AMS digital objects in the design do not have read access. Use the<code>&#160;-access +r&#160;</code>option or the<code>&#160;-afile&#160;</code><code>access_file&#160;</code>option when you elaborate the design to provide read access.</p>
+</div>
+</div>
+<h3 id="Debugging-CreatingaDatabaseandProbingSignals">Creating a Database and Probing Signals</h3>
+
+<p>You can open a database, probe signals, and save the results in the database by typing Tcl commands at the prompt or by using the graphical user interface. See</p>
+<ul><li><a href="#Debugging-1035330"> &quot;Managing Databases&quot;</a>&#160;for details on opening a database. This topic also contains information on displaying information about databases and on disabling, enabling, and closing a database.</li></ul><ul><li><a href="#Debugging-1034120"> &quot;Setting and Deleting Probes&quot;</a>&#160;for details on probing signals.</li></ul>
+<p>You also can use a set of system tasks from the digital context to open an&#160;<a href="Glossary.html#Glossary-1034342">SHM</a>&#160;database, probe signals, and save the results. You must type these system tasks in the Verilog-AMS code prior to simulation.The system tasks are</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 643.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="246">
+<p><span>System task</span></p>
+</th><th class="confluenceTh" valign="middle" width="396">
+<p><span>Description</span></p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code><span><a href="#Debugging-1032068">$shm_open()</a>;</span></code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Opens a simulation database.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code><span><a href="#Debugging-1032088">$shm_probe()</a>;</span></code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Selects signals whose simulation value changes will enter the simulation database.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>$shm_close;</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Closes a simulation database.</p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>Example:</p>
+
+<p><code> initial<br />&#160;&#160;&#160;&#160;begin<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$shm_open(&quot;waves.shm&quot;);<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;$shm_probe();<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#1 $stop; // stop simulation at time 1<br />&#160;&#160;&#160;&#160;end</code></p>
+<div>
+<p><br /></p>
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>When you send signals to the Waveform window and click <em>Run</em>, SimVision creates a probe for every signal in the Waveform window. In this way, you can quickly and easily probe objects.</p>
+</div>
+</div>
+
+<p><br /></p>
+</div>
+<h3 id="Debugging-OpeningaDatabasewith$shm_openshm_open1032068">Opening a Database with $shm_open<span class="confluence-anchor-link" id="Debugging-shm_open"></span><span class="confluence-anchor-link" id="Debugging-1032068"></span></h3>
+
+<p>Use the<code> $shm_open </code>system task from a digital context to open an&#160;<a href="Glossary.html#Glossary-1034342">SHM</a>&#160;database. You cannot use a database created in this way to save data for analog objects.</p>
+
+<p>Syntax:</p>
+
+<p><code><span>$shm_open ( [<span>&quot;</span> db_name <span>&quot;</span>]<span>,</span>[ is_sequence_time ]<span>,</span>[ db_size ]<span>,</span>[ is_compression ] );</span></code></p>
+<div>Where,</div>
+<div>&quot;<code>db_name</code>&quot; specifies the filename of the simulation database. If you do not specify the database name, a database called<code> waves.shm </code>is opened in the current directory.</div>
+<div><em><code> is_sequence_time </code></em>dumps all value changes to the database.</div>
+
+<p>By default, when probing to an SHM database, the simulator discards multiple value changes for an object during one simulation time and dumps only the final value at the end of that simulation time. Specify 1 for the<code> is_sequence_time </code>argument if you want to dump all value changes to the SHM database. For example,</p>
+
+<p><code> $shm_open(&quot;mywaves.shm&quot;, 1, , ) ;</code></p>
+<div><code> db_size </code>Specifies the maximum size (in bytes) of the transition file (<code>.trn </code>file).</div>
+
+<p>The simulator maintains the size limit by discarding the earliest recorded values as new values are dumped, such that the database always contains the most recent values for each probed object.</p>
+
+<p>When the size limit is exceeded, the waveform window displays an unknown value for each object from the beginning of the simulation to the time of the first non-discarded value.</p>
+
+<p>The SHM database uses about 2.5Mb of disk space, even if you specify a lower limit. However, the database size will not exceed the limit if the limit is greater than 2.5Mb. For example,</p>
+
+<p><code> $shm_open(&quot;mywaves.shm&quot;, 1, 250000,); </code></p>
+<div><code> is_compression </code>Compresses the SHM database to reduce its size. The default setting is 0. Specify 1 to compress the database file. For example,</div>
+
+<p><code> $shm_open(&quot;mywaves.shm&quot;, 1, , 1); </code></p>
+<h3 id="Debugging-ProbingSignalswith$shm_probeshm_probe1032088">Probing Signals with $shm_probe<span class="confluence-anchor-link" id="Debugging-shm_probe"></span><span class="confluence-anchor-link" id="Debugging-1032088"></span></h3>
+
+<p>The syntax for the<code> $shm_probe </code>system task, which can be used only on digital objects and must be used from a digital context, is</p>
+
+<p><code><span>$shm_probe( scope0 , node0 , scope1 , node1 , ...);</span></code></p>
+
+<p><em><code> scope </code></em>refers to a scope in the hierarchy, and<code> node </code>refers to a node specifier.If<em><code> scope </code></em>is omitted, the default is the current scope. If <em><code>node&#160;</code></em> is omitted, the default is all inputs, outputs, and inouts of the specified scope.</p>
+
+<p>The word<em><code><span style="color: rgb(0,0,0);"> node</span></code></em>, as used here, refers to nodes in a hierarchical structure; it has nothing to do with the word as it is used in analog simulation. A<em><code> node </code></em>can be one of the following:</p>
+<div class="table-wrap"><table border="1" cellpadding="5" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><tbody><tr><th class="confluenceTh" valign="middle" width="175">
+<p><span>Node</span></p>
+</th><th class="confluenceTh" valign="middle" width="473">
+<p><span>Signals That Enter the Database</span></p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> &quot;A&quot; </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>All nodes (including inputs, outputs, and inouts) of the specified scope</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> &quot;S&quot; </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Inputs, outputs, and inouts of the specified scope, and in all instantiations below it, except inside library cells.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> &quot;C&quot; </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Inputs, outputs, and inouts of the specified scope, and in all instantiations below it, including inside library cells</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> &quot;AS&quot; </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>All nodes (including inputs, outputs, and inouts) of the specified scope, and in all instantiations below it, except inside library cells)</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> &quot;AC&quot; </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>All nodes (including inputs, outputs, and inouts) in the specified scope and in all instantiations below it, even inside library cells)</p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>For example, the following system task specifies all nodes in the current scope:</p>
+
+<p><code> $shm_probe(&quot;A&quot;); </code></p>
+
+<p>The following system task specifies all inputs, outputs, and inouts in the<code> alu </code>and<code> adder </code>modules:</p>
+
+<p><code> $shm_probe(alu, adder); </code></p>
+
+<p>The following system task specifies all inputs, outputs, and inouts in the current scope and below, excluding those in library cells; as well as all the nodes in the<code> top.alu </code>module and below, including those in library cells.</p>
+
+<p><code> $shm_probe(&quot;S&quot;, top.alu, &quot;AC&quot;); </code></p>
+<h3 id="Debugging-OpeningtheSimVisionWaveformWindow">Opening the SimVision Waveform Window</h3>
+
+<p>When working with waveforms, there are two use models:</p>
+<ul><li>Using a Waveform window to&#160;<a href="#Debugging-1032131">view a post-simulation database</a>&#160;after the simulation ends.</li></ul><ul><li>Using a Waveform window for&#160;<a href="#Debugging-1041648">interactive waveform display</a>&#160;so that you can view the waveforms as the simulation progresses.</li></ul><h4 id="Debugging-UsingtheWaveformWindowtoViewaPost-SimulationDatabaseppe1032131">Using the Waveform Window to View a Post-Simulation Database<span class="confluence-anchor-link" id="Debugging-ppe"></span><span class="confluence-anchor-link" id="Debugging-1032131"></span></h4>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>When you use SimVision to view a post-simulation database, you are using it in &quot;<a href="Glossary.html#Glossary-1034191">PPE&#160;</a>mode&quot;. For more information, see the<em>&#160;SimVision User Guide</em>.</p>
+</div>
+</div>
+
+<p>To view the waveforms using SimVision after the simulator creates the database, do the following:</p>
+<ol><li>Open the viewer by typing<br /><code>simvision -waves</code></li><li>Choose<span style="color: rgb(0,0,0);"><em> File&#160;- Open Database</em>.</span></li><li>In the Open Database browser, navigate to the<code> .trn </code>file for your data.</li><li>Click<span style="color: rgb(0,0,0);"><em> Open</em>.</span></li><li>In the Waveform window, choose<span style="color: rgb(0,0,0);"><em> Windows&#160;- New Design Browser</em>.</span></li><li>In the Design Browser, select the signals you want to display.</li><li>Click<em><span style="color: rgb(0,0,0);"> Send selected object(s) to target waveform window </span></em>to add the signals to the Waveform window.</li></ol><h4 id="Debugging-UsingtheWaveformWindowforInteractiveWaveformDisplayduringSimulationinteractive1041648">Using the Waveform Window for Interactive Waveform Display during Simulation<span class="confluence-anchor-link" id="Debugging-interactive"></span><span class="confluence-anchor-link" id="Debugging-1041648"></span></h4>
+
+<p>To view the waveforms as the simulation progresses, do the following:</p>
+<ol><li><span style="color: rgb(0,0,255);"><a class="message-url" href="../DesignBrowser/monitoring_objects.html">Preselect the signals you want to view</a>.</span></li><li><span style="color: rgb(0,0,255);"><a class="message-url" href="../SimulatingSimVis/running.html">Run the simulation</a>.</span></li></ol>
+<p>See the following books for details:</p>
+<ul><li><span style="color: rgb(0,0,255);"><a class="message-url" href="../DesignBrowser/DesignBrowserTOC.html">Using the Design Browser</a></span></li></ul><ul><li><span style="color: rgb(0,0,255);"><a class="message-url" href="../SimulatingSimVis/SimulatingSimVisTOC.html">Running SimVision in Simulation Mode</a></span></li></ul>
+<p>If you do not preselect objects, you can use the Design Browser to probe signals and add them to the Waveform window.</p>
+<h2 id="Debugging-DisplayingDebugSettingsdisplay_settings1032202">Displaying Debug Settings<span class="confluence-anchor-link" id="Debugging-display_settings"></span><span class="confluence-anchor-link" id="Debugging-1032202"></span></h2>
+
+<p>While debugging, you can open databases, set probes, set breakpoints, set aliases, and so on. To display your current debug settings, do the following:</p>
+<ul><li>If you are using the Tcl command-line interface,Use the appropriate modifier to display information. For most commands, this is the<code> -show </code>modifier. For example:<code> <br />xcelium&gt; database -show<br /> </code><code> xcelium&gt; probe -show<br /> </code><br />Use the<code> alias </code>command without a modifier to display information about aliases you have set, as shown in the following example:<br /><code> xcelium&gt; alias <br />e&#160;&#160;&#160;&#160;&#160;&#160;exit<br />f2&#160;&#160;&#160;&#160;&#160;finish 2<br />h&#160;&#160;&#160;&#160;&#160;&#160;history<br />xcelium&gt; </code></li></ul><ul><li>If you are using SimVision, use the commands on the<span style="color: rgb(0,0,0);"> Show </span>menu.For example, to view information on breakpoints you have set, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/breakpoints.html#brkpthelp">Simulation - Show&#160;- Breakpoints</a>.</span></li></ul><h2 id="Debugging-SettingVariablesvariables1032237">Setting Variables<span class="confluence-anchor-link" id="Debugging-variables"></span><span class="confluence-anchor-link" id="Debugging-1032237"></span></h2>
+
+<p>You can set Tcl variables to help debug your design. In addition to user-defined variables, the simulator includes several predefined Tcl variables that you can use to control various simulator features. You can do any of the following:</p>
+<ul><li>Set a variable or change the value of a variable using the built-in Tcl<code> set </code>command:<code> xcelium&gt; set abc 10 </code><code> xcelium&gt; set vlog_format %b </code></li></ul><ul><li>Delete a variable using the<code> unset </code>command:<code> xcelium&gt; unset abc </code></li></ul><ul><li>Display a list of predefined simulation variables and their current values using the<code> help </code>&#160;<code> -variables </code>command:<code> xcelium&gt; help -variables </code></li></ul><ul><li>
+<p>Display a list of all currently set variables using the<code> info vars </code>command:<code> xcelium&gt; info vars </code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>This command does not display variable values.</p>
+</div>
+</div>
+</li></ul>
+<p>See also&#160;<span><a class="message-url" href="../SimulatingSimVis/running.html#variables">&quot;Controlling the Simulation&quot;</a>&#160;</span>in the<em> Running SimVision in Simulation Mode </em>book.</p>
+
+<p>You can put variable definitions in an input file and then execute the commands in this file using the<code> -input </code>option when you start the simulator. You can also execute these commands using the Tcl&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1032765">source</a>&#160;</span>command or choosing<em><span style="color: rgb(0,0,0);"> File&#160;- Source Command Script </span></em>after invoking the simulator.</p>
+<h2 id="Debugging-EditingaSourceFileUsingYourOwnEditoredit_source1032339">Editing a Source File Using Your Own Editor<span class="confluence-anchor-link" id="Debugging-edit_source"></span><span class="confluence-anchor-link" id="Debugging-1032339"></span></h2>
+
+<p>To specify the command to start the source file editor, do the following:</p>
+<ol><li>In any SimVision window, choose<em><span style="color: rgb(0,0,0);"> Edit&#160;- Preferences.</span></em></li><li>On the Preferences form, select<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimVisionIntro/customizing.html#srcbrowser_prefs">Source Browser</a> </span>in the list on the left side of the window.<br /><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236088/305236090.gif" data-linked-resource-container-id="305236088" data-linked-resource-container-version="2" data-linked-resource-content-type="image/gif" data-linked-resource-default-alias="PreferencesSourceBrowser.gif" data-linked-resource-id="305236090" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236088/305236090.gif" width="640px" /></span></li><li>In the<span style="color: rgb(0,0,0);"> Editor Command </span>field, type the command to start the text editor.</li><li>Click<span style="color: rgb(0,0,0);"><em> OK</em>.</span></li></ol>
+<p>To start the editor to edit the current file in the Source Browser, do the following:</p>
+<p style="margin-left: 30.0px;">In the Source Browser window, click the<span style="color: rgb(0,0,0);"> Edit Source </span>button on the toolbar:</p>
+<p align="left" style="margin-left: 30.0px;"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236088/305236094.gif" data-linked-resource-container-id="305236088" data-linked-resource-container-version="2" data-linked-resource-content-type="image/gif" data-linked-resource-default-alias="SimVisionEditSourceButton.gif" data-linked-resource-id="305236094" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236088/305236094.gif" /></span></p>
+<p style="margin-left: 30.0px;">The source file appears in your editor.</p>
+
+<p>See also&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../SourceBrowser/source.html">&quot;Accessing Design Source Code&quot;</a>&#160;</span>in the<em><span style="color: rgb(0,0,0);"> Using the Source Browser </span></em>book.</p>
+<h2 id="Debugging-SearchingforaLineNumberintheSourceCodefind_line1032357">Searching for a Line Number in the Source Code<span class="confluence-anchor-link" id="Debugging-find_line"></span><span class="confluence-anchor-link" id="Debugging-1032357"></span></h2>
+
+<p>To find a particular line number in the source code, do the following:</p>
+<ol><li>In the SimVision Source Browser window, choose<span style="color: rgb(0,0,0);"><em> Edit - Go to Line</em>.</span></li><li>In the<span style="color: rgb(0,0,0);"> Line </span>field on the form that appears, type the line number you want.</li><li>Click<span style="color: rgb(0,0,0);"><em> OK</em>.</span></li></ol>
+<p>An arrow appears and points to the specified line in the code.</p>
+
+<p>For more information, see&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../SourceBrowser/source.html">&quot;Accessing Design Source Code&quot;</a>&#160;</span>in the<span style="color: rgb(0,0,0);"> Using the Source Browser </span>book.</p>
+<h2 id="Debugging-SearchingforaTextStringintheSourceCodefind_text1032367">Searching for a Text String in the Source Code<span class="confluence-anchor-link" id="Debugging-find_text"></span><span class="confluence-anchor-link" id="Debugging-1032367"></span></h2>
+
+<p>To search for a text string in the source code, do the following:</p>
+<ol><li>In the SimVision Source Browser window, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SourceBrowser/source.html#search_file">Edit - Text Search</a>.</span></li><li>Use the Text Search form to specify the search string and parameters.</li><li>Click<span style="color: rgb(0,0,0);"><em> Find Next</em>.</span></li></ol><h2 id="Debugging-save_restore_env1032390SavingandRestoringYourSimulationEnvironment"><span class="confluence-anchor-link" id="Debugging-save_restore_env"></span><span class="confluence-anchor-link" id="Debugging-1032390"></span>Saving and Restoring Your Simulation Environment</h2>
+
+<p>You can save and restore the current state of the debug environment.</p>
+<ul><li>If you are using the Tcl command-line interface:</li></ul><ul><ul><li>Use the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1034316">save</a>&#160;</span><code>-environment </code>command to save the current state of the environment to a file:&#160;<br /><code>xcelium&gt; save -environment [ filename ]</code><br />This command generates a script containing Tcl commands to recreate breakpoints, databases, probes, and the values of Tcl variables. If<code style="color: rgb(0,0,0);"> filename </code><span style="color: rgb(0,0,0);">is not specified, the script is written to standard output.</span></li></ul></ul><ul><ul><li>To restore the environment, execute the script with the Tcl&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1032765">source</a>&#160;</span>command or use the<code> -input </code>option when you start the simulator.</li></ul></ul><ul><li>If you are using SimVision:</li></ul><ul><ul><li>Choose<em><span style="color: rgb(0,0,0);"> File - Save Command Script </span></em>to save the command script.</li></ul></ul><ul><ul><li>Choose<em><span style="color: rgb(0,0,0);"> File - Source Command Script </span></em>to restore your debug settings.<br />For more information, see&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../RunningSimVision/saverestore.html">&quot;Saving and Restoring Your Debugging Environment&quot;</a>&#160;</span>in the<em><span style="color: rgb(0,0,0);"> Running the SimVision Analysis Environment </span></em>book.</li></ul></ul>
+<p>When you source a script containing Tcl commands to restore a saved debug environment or choose<em><span style="color: rgb(0,0,0);"> File - Source Command Script</span></em>, the software merges the debug settings in the script with your current debug settings.</p>
+<h2 id="Debugging-CreatingorDeletinganAliasalias1032411">Creating or Deleting an Alias<span class="confluence-anchor-link" id="Debugging-alias"></span><span class="confluence-anchor-link" id="Debugging-1032411"></span></h2>
+<div>
+<p><br /></p>
+<div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>You cannot create an alias with the same name as a predefined Tcl command</p>
+</div>
+</div>
+
+<p>To create and alias that you can use as shorthand for a command or series of commands,</p>
+</div>
+<ul><li>If you are using the Tcl command-line interface, use the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1032611">alias</a>&#160;</span>command.</li></ul><ul><li>If you are using SimVision, choose<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/running.html#alias">Simulation - Create Command Alias</a>.&#160;</span>To display current aliases, choose<span style="color: rgb(0,0,0);"><em> Simulation - Show - Aliases</em>.</span></li></ul><h2 id="Debugging-GettingaHistoryofCommandshistory1036382">Getting a History of Commands<span class="confluence-anchor-link" id="Debugging-history"></span><span class="confluence-anchor-link" id="Debugging-1036382"></span></h2>
+
+<p>The&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1032688">history</a>&#160;</span>command lets you re-execute commands without retyping them. You also can use the<code> history </code>command to modify old commands--for example, to fix typographical errors.</p>
+<p style="margin-left: 30.0px;">To get a history of all the commands you typed, type&#160;<code><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1032688"><span>history</span></a></code>.</p>
+<h2 id="Debugging-ManagingCustomButtonsdebug_buttons1032443">Managing Custom Buttons<span class="confluence-anchor-link" id="Debugging-debug_buttons"></span><span class="confluence-anchor-link" id="Debugging-1032443"></span></h2>
+
+<p>If you are using SimVision, you can create custom buttons for commands and add them to the toolbar. You can assign one or multiple Tcl commands to a custom button. Customized buttons can automate your debugging tasks by letting you execute a series of Tcl commands with one click.</p>
+
+<p>You can</p>
+<ul><li>Create buttons that perform a specified function</li></ul><ul><li>Edit the buttons to change the functions they perform</li></ul><ul><li>Reorder the buttons on the toolbar</li></ul><ul><li>Export the buttons to save them in a file</li></ul><ul><li>Import a file of user-defined buttons</li></ul>
+<p>See&#160;<span style="color: rgb(0,0,255);"><a class="message-url" href="../SimVisionIntro/toolbars.html">&quot;Customizing Toolbars&quot;</a>&#160;</span>in the<em><span style="color: rgb(0,0,0);"> Introduction to SimVision </span></em>book for details and examples.</p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Using_SimVision_with_the_AMS_Simulator.html" id="prev" title="Using_SimVision_with_the_AMS_Simulator">Using_SimVision_with_the_AMS_S ...</a></em></b><b><em><a href="PART_2__Xcelium_Simulator_Mixed-Signal_Capabilities.html" id="nex" title="PART_2__Xcelium_Simulator_Mixed-Signal_Capabilities">PART_2__Xcelium_Simulator_Mixe ...</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

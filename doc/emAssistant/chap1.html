@@ -1,0 +1,1679 @@
+
+<html><head><title>Introduction to the Electromagnetic Solver Assistant</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="namratam" />
+<meta name="CreateDate" content="2020-09-15" />
+<meta name="CreateTime" content="1600237746" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso Electromagnetic Solver Assistant for Virtuoso RF" />
+<meta name="DocTitle" content="Virtuoso Electromagnetic Solver Assistant User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Introduction to the Electromagnetic Solver Assistant" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="emAssistant" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-15" />
+<meta name="ModifiedTime" content="1600237746" />
+<meta name="NextFile" content="chap2.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design,Custom IC Design" />
+<meta name="PrevFile" content="preface.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Cross-Platform Solutions" />
+<meta name="Product" content="Virtuoso Layout Suite,Virtuoso System Design Environment" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite,Cross-Platform Solutions" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Electromagnetic Solver Assistant User Guide -- Introduction to the Electromagnetic Solver Assistant" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="emAssistantICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="emAssistantTOC.html">Contents</a></li><li><a class="prev" href="preface.html" title="Preface">Preface</a></li><li style="float: right;"><a class="viewPrint" href="emAssistant.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="chap2.html" title="Running EM Extraction">Running EM Extraction </a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Electromagnetic Solver Assistant User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>1
+<a id="pgfId-1034311"></a></h1>
+<h1>
+<a id="pgfId-1057633"></a><hr />
+<a id="53702"></a>Introduction to the Electromagnetic Solver Assistant<hr />
+</h1>
+
+<p>
+<a id="pgfId-1074494"></a>After a fully functional layout view of a chip, package or PCB design is ready, it is important to resimulate the design to see the effect of the devices added while preparing the layout. For a Virtuoso RF design, it means running a simulation to study the RF behavior of the passive devices, such as Pcells, inductors, baluns, transformers, MiM/MoM capacitors and interconnects, that are added to the layout view. Simulators, such as Spectre, require physical model or 3D models to run simulation for such devices. The Electromagnetic Solver assistant in Virtuoso Layout EXL provides an interface to create 3D models for such devices by running the S-Parameter (Scattering Parameters) extraction. These S-Parameters describe the electrical behavior of the linear electrical networks in the design. </p>
+<p>
+<a id="pgfId-1110499"></a>For the purpose of running extraction, the Electromagnetic Solver assistant is integrated with three extraction engines, Clarity, Sigrity 3D-EM and AXIEM. Depending on the your design and the accuracy requirements, you can choose an engine to run extraction and generate 3D models that are saved in touchstone files. Next, you can backannotate these S-parameter 3D models to the schematic view and run Spectre simulations.</p>
+<p>
+<a id="pgfId-1169796"></a>For an IC layout, if you have access to the connectivity details, you can choose specific objects in the layout and create an extracted view for those. If you do not have access to nets and connections of devices in the layout, you can run full cellview extraction to create sparam views for the entire layout.</p>
+<p>
+<a id="pgfId-1061373"></a>This chapter covers the following sections:</p>
+<ul><li>
+<a id="pgfId-1061454"></a><a href="chap1.html#31490">Overview of Electromagnetic Solver Assistant</a></li><li>
+<a id="pgfId-1076943"></a><a href="chap1.html#52748">Getting Started</a></li><li>
+<a id="pgfId-1162819"></a><a href="chap1.html#52717">Preparing for Model Creation</a></li><li>
+<a id="pgfId-1086207"></a><a href="chap1.html#94329">Defining Models</a></li><li>
+<a id="pgfId-1061672"></a><a href="chap1.html#16455">Running Electromagnetic Simulations</a></li><li>
+<a id="pgfId-1062053"></a><a href="chap1.html#26093">Creating Models as Extracted Views</a></li><li>
+<a id="pgfId-1164602"></a><a href="chap1.html#94235">Extracting S-Parameter Models from Complete Layout Cellviews (IC Layout Only)</a></li><li>
+<a id="pgfId-1149277"></a><a href="chap1.html#89843">Extracting Models for a Cross-Fabric Design</a></li></ul>
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1075921"></a><a id="31490"></a>Overview of Electroma<a id="solvers"></a>gnetic Solver Assistant</h2>
+
+<p>
+<a id="pgfId-1076032"></a>The Electromagnetic Solver assistant in Virtuoso Layout EXL provides an interface to create 3D models for passive devices in the layout view. You can choose one of the following three solvers to run extraction and create S-parameters:</p>
+<ul><li>
+<a id="pgfId-1152543"></a>Clarity: Uses a three-dimensional (3D), full-wave, finite element method (FEM) Clarity 3D Solver that uses the industry-leading parallelization technology to ensure that both meshing and frequency sweeping can be partitioned and parallelized across as many computers, computer configurations, and cores as are available.</li><li>
+<a id="pgfId-1110713"></a>Sigrity 3D-EM Solver: Uses a three-dimensional (3D), full-wave, finite element method (FEM) field solver, and returns accurate simulation results</li><li>
+<a id="pgfId-1110714"></a>AXIEM Solver: Uses the method-of-moments (MOM) solver, which is faster, but less accurate than Sigrity 3D-EM. Currently, you can use AXIEM only for an IC layout. This simulator is not supported for package layouts.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1194847"></a>
+It is required to set the paths to the solvers you want to use for electromagnetic simulations in the PATH environment variable or the solver-specific environment variables, <a href="appEnvVars.html#88233">AXIEM_PATH</a> and <a href="appEnvVars.html#78531">CLARITY_PATH</a>.</div></li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-1077084"></a>The following diagram describes how you can use the Electromagnetic Solver assistant in the Virtuoso RF design flow. </p>
+<p>
+<a id="pgfId-1077228"></a></p>
+
+<div class="webflare-div-image">
+<img width="668" height="404" src="images/chap1-3.gif" /></div>
+
+<p>
+<a id="pgfId-1077200"></a>After the layout is ready, open it in Virtuoso Layout EXL and launch the Electromagnetic Solver assistant. Next, create a model by selecting the shapes and devices that you need to analyze. The model definition contains all of the information needed to create the physical structure as well as the required settings for simulation by the EM solver. This model is exported to an encrypted data model file (<code>.clf</code>) that is automatically imported by PowerSI 3D-EM for S-Parameter extraction.</p>
+<p>
+<a id="pgfId-1087779"></a>The model definition in the .clf data file includes the following information:</p>
+<ul><li>
+<a id="pgfId-1087780"></a>(Only for an IC layout) The process information that defines layer thicknesses and material properties. This might include one or both of the following:<ul><li>
+<a id="pgfId-1087781"></a>Corner definition from ictTechFile, qrcTechFile, or eadTechFile</li><li>
+<a id="pgfId-1087782"></a>Custom stackup definition</li></ul></li><li>
+<a id="pgfId-1100452"></a>(Only for a package layout) The stackup from the technology database</li><li>
+<a id="pgfId-1087783"></a>Interconnects from the layout. These can be a set of nets and instances with an optional rectangle or polygon cutting boundary.</li><li>
+<a id="pgfId-1087787"></a>(Optional) Cutting boundary or die ground size that determines the x-y extents of the model</li><li>
+<a id="pgfId-1087788"></a>Ports</li><li>
+<a id="pgfId-1087775"></a>Simulation settings</li></ul>
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1087693"></a>The solver computes the RF behavior for the shapes identified in the model and saves the output in a touchstone file. Next, you can create an extracted view for use in the ADE Explorer or ADE Assembler setup to run simulations. The extracted view contains an n-port that replaces the original net connections for the identified shape or device. This n-port points to the touchstone file in which the RF behavior of the devices is saved. The Spectre simulations read the data from the touchstone file and use that for running simulations. </p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1078901"></a>
+The integration of the EM engines into the Electromagnetic Solver assistant makes the EM extraction and analysis fully automatic and time saving. You can use a single interface to create models, generate RF data, and save it in a format to be used for running simulations.</div>
+<div class="webflare-information-macro webflare-macro-video">
+<a id="pgfId-1152309"></a>
+For an overview of running an electromagnetic simulation using AXIEM, watch this <a actuate="user" class="URL" href="https://support.cadence.com/apex/ArticleAttachmentPortal?id=a1O0V000009Mpt1UAC&amp;pageName=ArticleContent" show="replace" xml:link="simple">video</a> on Cadence Support Portal.</div>
+<h2>
+<a id="pgfId-1059237"></a><a id="52748"></a>Getting Started </h2>
+<h3>
+<a id="pgfId-1059227"></a>Setup Requirements</h3>
+<h4>
+<a id="pgfId-1076324"></a>Products</h4>
+
+<p>
+<a id="pgfId-1153272"></a>Ensure that the products specified in the <h-hot><a actuate="user" class="URL" href="../vrf/preface.html#com_matrix" show="replace" xml:link="simple">VRF Release Compatibility Matrix</a></h-hot> are installed in your setup.</p>
+
+<h4>
+<a id="pgfId-1066146"></a>Licenses</h4>
+
+<p>
+<a id="pgfId-1076297"></a>Ensure that the licenses mentioned in the <h-hot><a actuate="user" class="URL" href="../emAssistant/preface.html#EMlicense" show="replace" xml:link="simple">Licensing Requirements</a></h-hot> section are available. </p>
+
+<h4>
+<a id="pgfId-1076300"></a>Environment Variables</h4>
+
+<p>
+<a id="pgfId-1066176"></a>Set the <code>Virtuoso_RF_Option</code> environment variable.</p>
+
+<h2>
+<a id="pgfId-1061685"></a>Launchi<a id="launchEM"></a>ng the Electromagnetic Solver Assistant</h2>
+
+<p>
+<a id="pgfId-1061853"></a>To launch the Electromagnetic Solver assistant, do this in Virtuoso Library Manager:</p>
+<ol><li>
+<a id="pgfId-1066791"></a>Select the required library and cell in the <em>Library</em> and <em>Cell</em> columns.</li><li>
+<a id="pgfId-1111668"></a>Double-click the name of the layout view.<br />
+<a id="pgfId-1111745"></a>A package layout is opened in Layout EXL. An IC layout is opened in the application that was used to save it last. If opened in Layout XL, you can choose <em>Launch &#8211; Layout EXL</em> to open the layout in Virtuoso Layout EXL.</li><li>
+<a id="pgfId-1111055"></a>Select the <code>Electromagnetic</code> workspace from the <em>Workspace Configuration</em> drop-down list. <br />
+<a id="pgfId-1088029"></a>The <code>Electromagnetic</code> workspace makes the following changes in the Layout EXL environment:<ul><li>
+<a id="pgfId-1111468"></a>Displays the Electromagnetic Solver assistant to the right of the layout canvas. At this time, the tool searches for the supported solvers in the paths set by the PATH environment variables. If the solvers are found, details are shown in the Electromagnetic Solver assistant. Otherwise, the tool displays an error in the assistant. In the latter case, you need to close the Virtuoso session and set the PATH environment variable or the solver-specific variables, <a href="appEnvVars.html#88233">AXIEM_PATH</a> and <a href="appEnvVars.html#78531">CLARITY_PATH</a>, to add the paths to the solvers.</li><li>
+<a id="pgfId-1111479"></a>Opens the Navigator assistant and Property Editor assistant</li><li>
+<a id="pgfId-1111478"></a>Opens the Palette assistant showing the list of layers available in the design</li><li>
+<a id="pgfId-1111480"></a>Expands the Options toolbar to make the <em>Dim</em> icon visible</li><li>
+<a id="pgfId-1111481"></a>Hides the Floorplanning toolbar</li></ul><br />
+<a id="pgfId-1112078"></a>The Layout Suite EXL environment window appears as shown below.<br />
+<a id="pgfId-1107453"></a><div class="webflare-div-image">
+<img width="668" height="605" src="images/chap1-5.gif" /></div><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1079248"></a>
+The above figure shows the Electromagnetic Solver assistant opened for a package layout. This assistant contains some additional fields and tabs when opened for an IC layout. </div><br />
+<a id="pgfId-1087543"></a>The following figure describes the commands provided in this assistant:<br />
+<a id="pgfId-1087547"></a><div class="webflare-div-image">
+<img width="668" height="705" src="images/chap1-6.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1078642"></a>The electromagnetic extraction and analysis using the Electromagnetic Solver assistant involves the following tasks:</p>
+<ul><li>
+<a id="pgfId-1100832"></a><a href="chap1.html#52717">Preparing for Model Creation</a></li><li>
+<a id="pgfId-1079611"></a><a href="chap1.html#94329">Defining Models</a></li><li>
+<a id="pgfId-1079613"></a><a href="chap1.html#16455">Running Electromagnetic Simulations</a></li><li>
+<a id="pgfId-1079615"></a><a href="chap1.html#26093">Creating Models as Extracted Views</a></li></ul>
+
+
+
+
+<h2>
+<a id="pgfId-1100841"></a><a id="52717"></a>Preparing f<a id="AddLayerEditorForm"></a>or Model Creation </h2>
+
+<p>
+<a id="pgfId-1154288"></a>Before you begin with model creation, you must validate and configure certain settings for your layout. The following sections describe the different types of settings required for the IC and package layouts:</p>
+<ul><li>
+<a id="pgfId-1154852"></a><a href="chap1.html#83256">Preparing Setup for Package Layouts</a></li><li>
+<a id="pgfId-1154846"></a><a href="chap1.html#63811">Configuring Process Settings for IC Layouts</a></li></ul>
+
+
+<h3>
+<a id="pgfId-1154593"></a><a id="83256"></a>Preparing Set<a id="marker-1189852"></a>up for Package Layouts</h3>
+
+<p>
+<a id="pgfId-1100981"></a>To ensure correct 3D-EM extraction for package layouts, it is important that the requirements for layers and solder bump or ball are met in a package design layout.</p>
+<p>
+<a id="pgfId-1154936"></a>The following sections describe how to validate these settings for a package layout:</p>
+<ul><li>
+<a id="pgfId-1155028"></a><a href="chap1.html#34967">Validating Layer Settings</a></li><li>
+<a id="pgfId-1155053"></a><a href="chap1.html#18797">Validating BGA Ball and Flipchip Bump Setup</a></li></ul>
+
+
+<h4>
+<a id="pgfId-1154730"></a><a id="34967"></a>Validating La<a id="layerPKG"></a>yer Settings</h4>
+
+<p>
+<a id="pgfId-1101168"></a>The layer thicknesses, metal conductivity, dielectric permittivity (Dk) and dielectric loss tangent (Df) match the fab parameters. This ensures that the captured electrical response is correct. </p>
+<p>
+<a id="pgfId-1101442"></a>These details are provided in the technology file. You can also view these in the Layer Stack Editor, and make changes if required.</p>
+<p>
+<a id="pgfId-1101732"></a>To open the Layer Stack Editor, choose <em>RF-Module &#8211; Setup &#8211; Layer Stack Editor</em>. </p>
+
+<p>
+<a id="pgfId-1101687"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="522" src="images/chap1-7.gif" /></div>
+
+<p>
+<a id="pgfId-1101444"></a>Validate the details in the form. If the dielectric properties for the metal layers is missing, fill in the data. In addition, you can add a dielectric layer on top or bottom of your design layer. If you need to remove a layer that exists on top of your design layer, click <em>Delete Top</em> and then click <em>Add Layer</em> to add a new dielectric layer.</p>
+<p>
+<a id="pgfId-1122040"></a>The Add Layer form is displayed.</p>
+
+<p>
+<a id="pgfId-1122090"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="157" src="images/chap1-8.gif" /></div>
+
+<p>
+<a id="pgfId-1122076"></a>You can use this form to add a metal or dielectric layer.</p>
+<p>
+<a id="pgfId-1121748"></a>To add a layer:</p>
+<ol><li>
+<a id="pgfId-1122170"></a>Specify a layer name in the <em>Layer Name</em> field.</li><li>
+<a id="pgfId-1122223"></a>In the <em>Type</em> field, specify the type for the layer as <code>metal</code> or <code>dielectric</code>.</li><li>
+<a id="pgfId-1122317"></a>In the <em>Where</em> field, specify the placement as <code>top</code> or <code>bottom</code>.</li><li>
+<a id="pgfId-1122394"></a>Click <em>OK</em>.</li></ol>
+
+
+
+
+<h4>
+<a id="pgfId-1154797"></a><a id="18797"></a>Validating BGA Ball and Flipchip Bu<a id="ballPKG"></a>mp Setup</h4>
+
+<p>
+<a id="pgfId-1101162"></a>To ensure that the bump and ball dimensions are set correctly:</p>
+<ol><li>
+<a id="pgfId-1100925"></a>Select a flip-chip die or a BGA instance on the package layout. </li><li>
+<a id="pgfId-1189923"></a>Choose <em>RF-Module &#8211; Setup &#8211; Bump and Ball Editor</em> to display the Bump and Ball Editor form.<br />
+<a id="pgfId-1102043"></a>The Bump and Ball Editor form is displayed. </li><li>
+<a id="pgfId-1189933"></a>Enter the physical dimensions of the solder ball.<br />
+<a id="pgfId-1189970"></a><div class="webflare-div-image">
+<img width="668" height="284" src="images/chap1-9.gif" /></div></li><li>
+<a id="pgfId-1110049"></a>Click <em>OK</em>.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1102047"></a>
+Ensure that the height of a bump is greater than the thickness of the solder mask specified on the Layer Stack Editor.</div></li></ol>
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1154878"></a><a id="63811"></a>Configuring Proc<a id="processSettingIC"></a>ess Settings for IC Layouts</h3>
+
+<p>
+<a id="pgfId-1154874"></a>For an IC layout, you also need to define the process settings that provide the physical layer stack information required by EM solvers to create and solve a model. </p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1161460"></a>
+For a package layout, the process information is read from the technology database. This data is provided in the Layer Stack Editor you can access from the <em>VRF &#8211; Layer Stack Editor</em> menu.</div>
+
+<p>
+<a id="pgfId-1174956"></a>The layer stack information is available in one of the following files provided by the foundry:</p>
+<ul><li>
+<a id="pgfId-1175038"></a>ICT technology file</li><li>
+<a id="pgfId-1175040"></a>QRC technology file</li></ul>
+
+<p>
+<a id="pgfId-1175467"></a>If you do not have these files, you can provide your own custom stackup information.</p>
+
+<h4>
+<a id="pgfId-1190314"></a>Where to save the process settings for IC layouts?</h4>
+
+<p>
+<a id="pgfId-1156382"></a>The Electromagnetic Solver assistant always refers to the process corner directory, which is specified by the <a href="appEnvVars.html#92349"><h-hot>processCornerDirectory</h-hot><code></code></a> environment variable, to look for layer stackup information. You need to add references to the technology files or directly add the custom stackup details in <code>.emproc</code> files and save those in the process corner directory.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1175971"></a>By default the <a href="appEnvVars.html#92349">processCornerDirectory<code></code></a> variable is set to <code>&quot;&quot;</code> and the tool looks for the files in the <code>.cadence/dfII/Sigrity/corners</code> directory in the current working directory.</div>
+<p>
+<a id="pgfId-1175930"></a>Any addition or change in <code>.emproc</code> files is dynamically reflected in the list of available corners in the <em>Corner</em> column of the <em>Models</em> panel.</p>
+
+<p>
+<a id="pgfId-1156805"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="133" src="images/chap1-10.gif" /></div>
+
+<p>
+<a id="pgfId-1156791"></a>If you have <code>.emproc</code> files for more than one process corner, you can specify the default corner to be used for any new model by using the <a href="appEnvVars.html#79856"><h-hot>processDefaultCorner</h-hot><code></code></a> environment variable. If the corner specified by this variable is not found, the EM Solver assistant searches for other .emproc files in the process corner directory and uses the first found process corner in the alphabetical order.</p>
+
+<h4>
+<a id="pgfId-1157423"></a><a id="16495"></a>Format of the Proc<a id="externalProc"></a>ess Corner Setting File Referring to an ICT or QRC Technology File</h4>
+
+<p>
+<a id="pgfId-1157822"></a>The standard syntax of the <code>.emproc</code> file that refers to an external ICT or QRC technology file for process corner information is shown below.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1185781"></a>(externalStackup<br />   (filePath <code><em>t_path</em></code>)              ; path to ICT/qrcTechFile<br />   (layerMap<br />      <code><em>l_mappingICTtoVirtuoso</em></code>     ; list of (t_ictName t_virtuosoName)<br />      )<br />   (metalLayers<br />     ; List of metal layers embedded inside substrate<br />      (<code><em>t_name</em></code> elevation <code><em>f_elevation</em></code> thickness <code><em>f_thickness <br /></em></code>      {conductivity  <code><em>f_conductivity</em></code> | sheetResistance <code><em>f_sheetResistance </em></code>})<br />   )<br />   (excludeLayers <code><em>l_ictlayerNames</em></code> )   ; list of ICT layers not to be exported<br />)<br />(layerElevationAdjustment<br />   (<code><em>t_layerName</em></code> <code><em>f_heightAdjustment</em></code>)   ; adjusts height of the given layer in nm<br />)<br />(dielectricSimplification<br />   {&quot;none&quot; | &quot;weightedAverage&quot; | &quot;singleDielectric&quot; permittivity <code><em>f_permittivity</em></code> lossTangent <code><em>f_lossTangent</em></code>}<br />)<br />(substrate<br />     ; List of dielectrics top-down<br />   (<code><em>t_name</em></code> thickness <code><em>f_thickness</em></code> permittivity <code><em>f_permittivity</em></code> <br />   {conductivity   <code><em>f_conductivity</em></code> | resistivity&#160;&#160; <code><em>f_resistivity</em></code> })<br />      ...<br />)<br />
+(includeLPPs
+&#160;&#160; <code><em>l_includeLPPs</em></code>          <br />   ; list of (<code><em>t_layer</em></code> <code><em>t_purpose</em></code>) LPPs, by default only drawing purpose is included<br />)  <br />
+(outercoating
+&#160;&#160; (<code><em>tsv_via_name</em></code> thickness <code><em>f_thickness</em></code> permittivity <code><em>f_permittivity</em></code> ) <br />   ; <code><em>tsv_via_name </em></code>is one of the vias in the external stackup<br />)<br /><code><br /></code><a id="cmx"></a>(materialFile<br />   (filePath <code><em>t_filePath</em></code> )<br />   ; Corner frequencies for D-Sarkar model<br />   (enforceCausality lowFreqCorner <code><em>f_lowFreqVal</em></code> highFreqCorner <code><em>f_highFreqVal<br /></em></code>    baseFreq <code><em>f_baseFreqVal</em></code> )<br />
+&#160;&#160; (materials<br />   ; Materials for layers and dielectric<br />   (<code><em>t_ICTLayer</em></code> <code><em>t_conductorMaterial</em></code> <code><em>t_dielectricMaterial</em></code> )<br />   )<br />   (topMaterial <code><em>t_topMaterialName</em></code> )  ; material for dielectric above top metal<br />   (bottomMaterial <code><em>t_bottomMaterialName</em></code> )  ; material for dielectric below the bottom metal<br />)</pre>
+
+<p>
+<a id="pgfId-1157750"></a>This file contains the following tags:</p>
+<ul><li>
+<a id="pgfId-1158183"></a><code>externalStackup</code>: Indicates that the information about the process corner needs to be taken from an external ICT or QRC file provided at the given file path. <br />
+<a id="pgfId-1190540"></a>The <code>externalStackup</code> tag contains the following tags:<ul><li>
+<a id="pgfId-1190566"></a><code>layerMap</code>: Specifies the mapping of ICT layers with that of the layers in your layout.<br />
+<a id="pgfId-1185047"></a>If the name of a layer is same in Virtuoso and ICT file, it is automatically mapped. An explicit layer mapping is not required. To override auto-mapping for any layer you do not want to map, map it to <code>nil</code>. For example, <code>(&quot;Metal1&quot; nil)</code>. In this case, <code>Metal1</code> is not exported to the solver.<a id="excludeLayers"></a></li><li>
+<a id="pgfId-1200224"></a><code>metalLayers</code>: Specifies a list of metal layers embedded in the substrate. Use this tag to provide details of the metal layers that are inside the substrate and the external ICT or QRC file does not mention about those. The elevation of these layers is measured from the top of the substrate layer to the top of the metal layer below it. Therefore, it must be a negative value less than the substrate thickness.</li><li>
+<a id="pgfId-1190537"></a><code>excludeLayers</code>: Specifies a list of layers to be excluded. Any layer to be excluded does not get exported to the CLF file that is sent as an input to the solver. The names specified in this list must be the layer names from the ICT file, not the layers in the layout.<br />
+<a id="pgfId-1190953"></a>Though you can exclude any layer using this tag, it is particularly useful when you want to exclude a specific layer from a MIMCAP. For example, you want to send only the metal layers of a MIMCAP to the solver and exclude the capacitor and the vias connecting the capacitor to the metal layers.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1191466"></a>If you are excluding layers from a model even though the selected objects are embedded on those layers, you would also need to later exclude those objects from extracted views so that the objects present in the schematic view are used. For details on how to exclude specific instances from the extracted view, refer to <a href="chap1.html#81943">Excluding Instances From Extracted Views</a>. </div></li></ul></li><li>
+<a id="pgfId-1159824"></a><code>layerElevationAdjustment</code><a id="layerElevationAdjustment"></a>: Contains a list of layer name&#8211;height adjustment value pairs that you can use to shift the MIMCAP metal layers so that the desired capacitance value for the cell is maintained. Each pair specifies the name the MIMCAP metal layer you need to shift and the value (in nanometers) by which you need to adjust the height of the MIMCAP metal layer. A positive value shifts the layer up, and a negative value shifts it down. The shift helps in emulating the effect of the high-K dielectric used between the MIMCAP plates.</li><li>
+<a id="pgfId-1158187"></a><code>substrate</code><a id="substrate"></a>: Contains a list of substrate layers. The topmost layer is listed first, followed by other layers in the same sequence in which they exist in the design. <br />
+<a id="pgfId-1193873"></a>For each substrate, you can specify the following:<ul><li>
+<a id="pgfId-1159855"></a><code>name</code>: Name of the substrate layer</li><li>
+<a id="pgfId-1159889"></a>Thickness (in <img width="12" height="15" src="images/chap1-11.gif" /><span>m) of an additional dielectric to be inserted above the bulk substrate and below the first layer specified in the ICT file</span></li><li>
+<a id="pgfId-1159907"></a>Permittivity value (in F/m) of the dielectric to be inserted above the bulk substrate and below the first layer specified in the ICT file</li><li>
+<a id="pgfId-1159922"></a>Conductivity (in S/m) of the dielectric to be inserted above the bulk substrate and below the first layer specified in the ICT file</li><li>
+<a id="pgfId-1181446"></a>Resistivity (in <img width="16" height="17" src="images/chap1-12.gif" /><span>*cm) of the dielectric to be inserted</span></li></ul><br />
+<a id="pgfId-1181506"></a>Conductivity and resistivity are mutually exclusive settings. You can specify either one of these.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1176131"></a>There is no limit for the number of substrate layers in a stackup, but it is mandatory to specify at least one. </div></li><li>
+<a id="pgfId-1158165"></a><code>includeLPPs</code>: Contains a list of layer-purpose pairs (LPPs) from which the shapes are to be exported to the <code>.clf </code>extracted model file. If not specified, only the shapes from the default drawing purpose (* drawing) are extracted.</li><li>
+<a id="pgfId-1181958"></a><code>dielectricSimplification</code><a id="dielectricSimplification"></a>: Specifies how to set the permittivity and loss tangent values for the simplified dielectric layers that are created by combining all dielectric layers between two metal layers into one. This tag supports these values:<ul><li>
+<a id="pgfId-1188069"></a><code>&quot;none&quot;</code>: (AXIEM only) Disables any simplification of the dielectrics. All dielectric layers in the stackup are sent directly to AXIEM without any merging or averaging.</li><li>
+<a id="pgfId-1181959"></a><code>&quot;weightedAverage&quot;</code>: Calculates the average of permittivity and loss tangent for all dielectric layers combined into one. </li><li>
+<a id="pgfId-1181960"></a><code>&quot;singleDielectric&quot;</code>: Uses the values specified by the <code>permittivity</code> and <code>lossTangent</code> properties of this tag.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1188165"></a>If the stackup information used by Clarity has <code>dielectricSimplification</code> set to <code>&quot;none&quot;</code>, it is considered as <code>&quot;weightedAverage&quot;</code>.</div></li></ul></li><li>
+<a id="pgfId-1196758"></a><code>outerCoating</code><a id="outerCoating"></a>: Specifies the thickness and permittivity of the outer coating to be used to insulate a through silicon via.<a id="cmx1"></a></li><li>
+<a id="pgfId-1202120"></a><code>materialFile</code>: Specifies the path to a <code>.cmx</code> material file to be used by the simulator to load the material information. In addition, it provides the names of materials to be used for different ICT layers and dielectric layers.<br />
+<a id="pgfId-1202337"></a>The <code>materialFile</code> tag contains the following tags:<ul><li>
+<a id="pgfId-1202715"></a><code>filePath</code>: Specifies the path to the <code>.cmx</code> file from where the simulation environment can load information about the different materials used in your design. For example, Clarity 3D Workbench loads the material information in the Material Manager form. </li><li>
+<a id="pgfId-1202355"></a><code>enforceCausality</code>: Enforces causality in material properties. When this feature is enabled, all dielectric materials are fitted with D-Sarkar Model. In this tag, you can also specify the low frequency, high frequency and base frequency values to be used by the D-Sarkar model in Clarity 3D Workbench. These values are also visible in the Material Manager form. </li><li>
+<a id="pgfId-1202333"></a><code>materials</code>: Specifies the metal names for the ICT layer, conductor material, and dielectric material. A conductor can either have only a conductor material, or a fill-in material, or both.</li><li>
+<a id="pgfId-1202435"></a><code>topMaterial</code>: Specifies the name of the material to be used for the dielectric above the top metal.</li><li>
+<a id="pgfId-1202450"></a><code>bottomMaterial</code>: Specifies the name of the material to be used for the dielectric below the bottom metal.<br />
+<a id="pgfId-1204006"></a>For details on how to view and edit material information in the Material Manager form and the D-Sarkar model, refer to <em>Managing Material Information</em> in Clarity 3D Workbench User Guide.</li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1163903"></a>An example of a <code>.emproc</code> file that includes the external stackup from an ICT file follows.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1186977"></a>externalStackup<br />   (filePath &quot;./gpdk180_typ.ict&quot;) <br />   (layerMap<br />      (&quot;Metal6&quot; nil)          ; ; Example of how to override automapping in case<br />        ; the layer is called Metal6 in Virtuoso and ICT, but should not be exported<br />        ;to the solver</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1185521"></a>
+&#160;&#160;    (&quot;Via2MIM&quot; &quot;Via2&quot;)      ; Via2MIM to be mapped<br />   )<br />   (metalLayers <br />      (&quot;metalX&quot; elevation -20 thickness 1 sheetResistance 0.05)<br />   )<br />   (excludeLayers &quot;MetalA&quot; &quot;MetalC&quot; )<br />)<br />(substrate<br />   (&quot;Si&quot; thickness 300 permittivity 11.9 resistivity 2)<br />   (&quot;Si2&quot; thickness 200 permittivity 11.8 conductivity 11)<br />)<br />
+(outercoating
+&#160;&#160; (&quot;TSV&quot; thickness .4 permittivity 4.9 ) ; &quot;TSV&quot; is one of the vias in the external <br />   ; stackup<br />)  <br />(materialFile<br />   ( filePath &quot;./myLib/test.cmx&quot; ) <br />
+&#160;&#160; (enforceCausality lowFreqCorner 0.02 highFreqCorner 2e6 baseFreq 2000)<br />
+&#160;&#160; (materials<br />      ( &quot;Metal3&quot; &quot;Copper&quot; &quot;dielec&quot; )<br />      ( &quot;Metal4&quot; &quot;Copper&quot; )<br />   )<br />
+&#160;&#160; (topMaterial &quot;MyDiel2&quot; )<br />   (bottomMaterial &quot;MyDiel3&quot; )<br />
+)
+</pre>
+<h4>
+<a id="pgfId-1157748"></a>Format of the C<a id="customProc"></a>ustom Pr<a id="TSV"></a>ocess Corner Setting File</h4>
+
+<p>
+<a id="pgfId-1181599"></a>The standard syntax used to define a custom stackup in a <code>.emproc</code> file is shown below.</p>
+
+<p>
+<a id="pgfId-1181600"></a></p>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1181601"></a>(customStackup<br />   (metalLayers<br />     ; Listof metal layers in top-down order<br />      (<code><em>t_name</em></code> elevation <code><em>f_elevation</em></code> thickness <code><em>f_thickness <br /></em></code>      {conductivity  <code><em>f_conductivity</em></code> | sheetResistance <code><em>f_sheetResistance </em></code>})<br />   )<br />   (dielectricLayers<br />      ; List of dielectric layers above the substrate in top-down order<br />      (<code><em>t_name</em></code> thickness <code><em>f_thickness</em></code> permittivity <code><em>f_permittivity</em></code> lossTangent<br />       <code><em>f_lossTangent</em></code>)<br />    )              <br />   (dielectricLayersBackside<br />      ; List of dielectric layers below the substrate in top-down order<br />      (<code><em>t_name</em></code> thickness <code><em>f_thickness</em></code> permittivity <code><em>f_permittivity</em></code> lossTangent<br />      <code><em>f_lossTangent</em></code>)<br />    )              <br />
+&#160;&#160; (viaLayers<br />     ; List of vias in top-down order<br />      (<code><em>t_name</em></code> topMetal <code><em>t_topMetal</em></code> bottomMetal <code><em>t_bottomMetal </em></code>conductivity&#160;&#160;     <code><em>f_conductivity</em></code>)<br />   )<br />   (designScale <code><em>t_designScale )   ; default is 1.0, less than 1.0 is shrink<br /></em></code>)<br />   (layerElevationAdjustment<br />   (<code><em>t_layerName</em></code> <code><em>f_heightAdjustment</em></code>)   ; adjusts height of the given layer in nm<br />   )<br />   (dielectricSimplification<br />   {&quot;none&quot; | &quot;weightedAverage&quot; | &quot;singleDielectric&quot; permittivity <code><em>f_permittivity<br /></em></code>   lossTangent <code><em>f_lossTangent</em></code>}<br />   )<br />   (substrate<br />     ; List of dielectrics top-down<br />   (<code><em>t_name</em></code> thickness <code><em>f_thickness</em></code> permittivity <code><em>f_permittivity</em></code>       { conductivity <code><em>f_conductivity</em></code> | resistivity <code><em>f_resistivity</em></code> } )<br />      ...<br />   )<br />   (outercoating<br />   (<code><em>tsv_via_name</em></code> thickness <code><em>f_thickness</em></code> permittivity <code><em>f_permittivity</em></code> ) <br />   ; <code><em>tsv_via_name </em></code>is one of the vias in the external stackup<br />   )  <br />
+&#160;&#160; (includeLPPs<br />   <code><em>l_includeLPPs</em></code>          <br />   ; list of (t_layer t_purpose) LPPs, by default only drawing purpose is included<br />   )<br />
+(materialFile
+&#160;&#160; (filePath <code><em>t_filePath</em></code> )<br />   ; Corner frequencies for D-Sarkar model<br />   (enforceCausality lowFreqCorner <code><em>f_lowFreqVal</em></code> highFreqCorner <code><em>f_highFreqVal<br /></em></code>    baseFreq <code><em>f_baseFreqVal</em></code> )<br />
+&#160;&#160; (materials<br />   ; Materials for layers and dielectric<br />   (<code><em>t_ICTLayer</em></code> <code><em>t_conductorMaterial</em></code> <code><em>t_dielectricMaterial</em></code> )<br />   )<br />   (topMaterial <code><em>t_topMaterialName</em></code> )  ; material for dielectric above top metal<br />   (bottomMaterial <code><em>t_bottomMaterialName</em></code> )  ; material for dielectric below the <br />    bottom metal<br />)<br /></pre>
+
+<p>
+<a id="pgfId-1159040"></a>This file can contain the following tags:</p>
+<ul><li>
+<a id="pgfId-1159159"></a><code>customStackup</code>: Contains the following subtags:<ul><li>
+<a id="pgfId-1197520"></a><code>metalLayers</code>: Specifies a list of metal layers in the design. For each metal layer, you can specify the name, elevation, thickness, permittivity, and loss tangent.<br />
+<a id="pgfId-1197794"></a>For metal layers below the substrate, specify a negative value for the elevation argument. In this case, the elevation is measured from the top of the substrate to the top of the metal layer below the substrate.</li><li>
+<a id="pgfId-1197531"></a><code>dielectricLayers</code>: Specifies a list of dielectric layers above the substrate. For each dielectric layer, you can specify the name, thickness, permittivity, and loss tangent.</li><li>
+<a id="pgfId-1197975"></a><code>dielectricLayersBackside</code>: Specifies a list of dielectric layers below the substrate. For each dielectric layer, you can specify the name, thickness, permittivity, and loss tangent.</li><li>
+<a id="pgfId-1197535"></a><code>viaLayers</code>: Specifies the details of vias or through silicon vias. When you have a through silicon via or an interposer IC, you also need to specify the <a href="chap1.html#outerCoating">outerCoating</a> tag.</li><li>
+<a id="pgfId-1197601"></a><code>designScale</code>: Specifies a scaling factor for the layout. The scaling factor is used when the size of the drawn layout is not the same as the size of the manufactured layout.</li></ul></li><li>
+<a id="pgfId-1159167"></a><a href="chap1.html#layerElevationAdjustment">layerElevationAdjustment</a></li><li>
+<a id="pgfId-1188027"></a><a href="chap1.html#dielectricSimplification">dielectricSimplification</a></li><li>
+<a id="pgfId-1160242"></a><a href="chap1.html#substrate">substrate</a></li><li>
+<a id="pgfId-1160244"></a><a href="chap1.html#includeLPPs">includeLPPs</a></li><li>
+<a id="pgfId-1198475"></a><a href="chap1.html#outerCoating">outerCoating</a></li><li>
+<a id="pgfId-1202649"></a>ma<a href="chap1.html#cmx1"></a>terialFile</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1163933"></a>An example of a <code>.emproc</code> file that defines a custom stackup is given below.</p>
+
+<p>
+<a id="pgfId-1163937"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="573" src="images/chap1-13.gif" /></div>
+
+<p>
+<a id="pgfId-1160249"></a>For information about the <code>layerElevationAdjustment</code>, <code>substrate</code>, and <code>includeLPPs</code> tags, refer to <a href="chap1.html#16495">Format of the Process Corner Setting File Referring to an ICT or QRC Technology File</a>.</p>
+<p>
+<a id="pgfId-1161529"></a></p>
+
+<h2>
+<a id="pgfId-1079425"></a><a id="94329"></a>Defining Models</h2>
+
+<p>
+<a id="pgfId-1080096"></a>The first step towards EM extraction is to define models that contain the geometries or devices for which you need the RF data. You can create models by selecting nets and instances on the layout canvas.</p>
+<p>
+<a id="pgfId-1081291"></a>To define a model, you need to perform the following tasks:</p>
+<ol><li>
+<a id="pgfId-1089196"></a><a href="chap1.html#newModel">Create a new model</a></li><li>
+<a id="pgfId-1089258"></a><a href="chap1.html#geometry">Select geometries to be included in the model</a></li><li>
+<a id="pgfId-1089345"></a><a href="chap1.html#additionalSetup">Specify die ground settings (For IC layouts only)</a></li><li>
+<a id="pgfId-1089305"></a><a href="chap1.html#ports">Specify ports for the model</a></li><li>
+<a id="pgfId-1123773"></a><a href="chap1.html#viaCluster">Specify the pre-process settings</a></li><li>
+<a id="pgfId-1198729"></a>Review the geometries in the EM layout</li></ol>
+
+
+
+
+
+<p>
+<a id="pgfId-1089202"></a>The sections given below describe these tasks in detail.</p>
+
+<h3>
+<a id="pgfId-1089193"></a>Creating a New<a id="newModel"></a> Model</h3>
+
+<ol><li>
+<a id="pgfId-1083266"></a>Open the IC or package layout in Virtuoso Layout EXL.</li><li>
+<a id="pgfId-1100236"></a>Press the <code>Shift+F</code> bindkey to make all the layers in the layout hierarchy visible.</li><li>
+<a id="pgfId-1100320"></a>Press the F key to fit the complete layout in the canvas.</li><li>
+<a id="pgfId-1082138"></a>In the Electromagnetic Solver assistant, click <img width="29" height="27" src="images/chap1-14.gif" /><span> on the toolbar of the Electromagnetic Solver assistant.</span><br />
+<a id="pgfId-1082268"></a><div class="webflare-div-image">
+<img width="668" height="163" src="images/chap1-15.gif" /></div>
+<a id="pgfId-1082140"></a>A new model is added in the <em>Models</em> table. <br />
+<a id="pgfId-1089933"></a><strong>Note the following:</strong><ul><li>
+<a id="pgfId-1089774"></a>By default, the models are named as <code>model</code><span class="webflare-courier-new" style="white-space:pre"><em>x</em></span>, where <span class="webflare-courier-new" style="white-space:pre"><em>x</em></span> is an incremental number. However, you can double-click in the model name field and specify another name.</li><li>
+<a id="pgfId-1110742"></a>The default simulator assigned to the models is <code>Clarity</code>. If Clarity is not available, you can choose Sigrity <code>3D-EM</code>.<br />
+<a id="pgfId-1152679"></a>For IC layouts, you can also choose to use <code>AXIEM</code>.<br />
+<a id="pgfId-1152763"></a>You can specify the default simulators to be used for package and IC designs by using the <a href="../emAssistant/appEnvVars.html#defaultSimulatorIC">vem.ic defaultSimulator</a> and <a href="../emAssistant/appEnvVars.html#defaultSimulatorPkg">vem.package defaultSimulator</a> environment variables, respectively.</li><li>
+<a id="pgfId-1090231"></a>The Status column of a model shows its simulation run status. By default, it is set as <em>Pending</em>.</li><li>
+<a id="pgfId-1090432"></a>For IC layouts, the <em>Models</em> table shows an additional column named <em>Corner</em>. In this column, you can choose the name of the process corner to be used for your model. You can use the drop-down list to choose a corner name from the list of available corners. EM Assistant populates the list of corner names by reading the process corner definition files (<code>.emproc</code> files) provided in the directory specified by the <a href="appEnvVars.html#92349">processCornerDirectory<code></code></a> environment variable. For more details about these settings, refer to <a href="chap1.html#63811">Configuring Process Settings for IC Layouts</a>.<br />
+<a id="pgfId-1162055"></a>If you want to use a default process corner to be used for a new model, specify its name in the <a href="appEnvVars.html#79856">processDefaultCorner</a> environment variable.</li><li>
+<a id="pgfId-1089971"></a>You can create a copy of a model and reuse it to create another model. For this, right-click a model name and choose <em>Copy Model</em>.</li><li>
+<a id="pgfId-1090159"></a>To delete a model, right-click a model name and choose <em>Delete</em>.</li></ul></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1161545"></a>Viewing Laye<a id="viewStackup"></a>r Stackup</h4>
+
+<p>
+<a id="pgfId-1160978"></a>Each model uses the layer stackup information provided for the process corner that it is using. To review the layer stackup, select the model and choose the <em>View Stackup</em> command from the toolbar of the Electromagnetic Solver assistant. </p>
+
+<p>
+<a id="pgfId-1177231"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="152" src="images/chap1-16.gif" /></div>
+
+<p>
+<a id="pgfId-1161626"></a>The Virtuoso Layout Viewer window is displayed. It shows the layer stackup as defined in the <code>.emproc</code> files. </p>
+<p>
+<a id="pgfId-1176603"></a>Depending on the geometry of the design, the layer stackup might get processed or simplified before running simulations. To view the effective stackup that will be used for simulation run in Clarity or Sigrity 3D-EM, open the respective simulator interface and use their stackup viewer.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1177424"></a>Sigrity 3D-EM automatically adjusts the thickness of the top dielectric to match it to the bump height. Therefore, you might see a difference in the layer stackup displayed in the Sigrity environment.</div>
+<p>
+<a id="pgfId-1176567"></a>As described in <a href="chap1.html#39590">Specifying Pre-Processing Options (For IC Layouts)</a>, the Electromagnetic Solver assistant provides commands to pre-process the layer stackup for AXIEM. To view the effective layer stackup for AXIEM models, you can use the <em>View AXIEM Stackup</em> command from the toolbar of the assistant.</p>
+<p>
+<a id="pgfId-1176452"></a>The following figure shows an example of the layer stackup:</p>
+
+<p>
+<a id="pgfId-1182983"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="510" src="images/chap1-17.gif" /></div>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1161601"></a>The <em>View AXIEM Stackup</em> command is not available when the model is not for full cellview and no instances are selected.</div>
+<p>
+<a id="pgfId-1161602"></a>The substrate layer is shown at the bottom, and the dielectric and metal layers are stacked above that. If the thickness of the substrate specified in the <code>.emproc</code> file is greater than 10<img width="12" height="15" src="images/chap1-18.gif" />
+m, it is scaled down. </p>
+
+
+<p>
+<a id="pgfId-1188568"></a>The labels to the left of the stack show the details of dielectric layers, whereas the labels to the right of the stack show the details of metal layers and vias. Each layer has a supporting label that provides information about it, including the layer name, height, thickness, and permittivity. The font color of the label matches the color of the layer, and the font size is proportional to the thickness of layer. If a label is not visible for any layer, you would need to zoom in to read it.</p>
+
+<p>
+<a id="pgfId-1161673"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="468" src="images/chap1-19.gif" /></div>
+<h3>
+<a id="pgfId-1089644"></a>Selecting Geometr<a id="geometry"></a>ies for a Model</h3>
+
+<p>
+<a id="pgfId-1091424"></a>To select the geometries to be included in the model, perform the following steps:</p>
+<ol><li>
+<a id="pgfId-1082142"></a>Select the newly added model in the <em>Models</em> section.</li><li>
+<a id="pgfId-1082131"></a>On the layout canvas, select an instance, net, or wire (for a package layout) that you want to add to the model.<br />
+<a id="pgfId-1082693"></a>Alternatively, select these in the Navigator assistant.</li><li>
+<a id="pgfId-1082460"></a>Click <em>Add selected instances/nets</em> (<img width="24" height="24" src="images/chap1-20.gif" />
+) on the <em>Selection</em><span> tab.</span><br />
+<a id="pgfId-1082655"></a>The selected net or instance is added to the <em>Object Selection</em> list. In the example of a package design shown below, net <code>rfin</code> is selected and added to the assistant.<br />
+<a id="pgfId-1092096"></a><div class="webflare-div-image">
+<img width="668" height="550" src="images/chap1-21.gif" /></div><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1087248"></a>
+To remove any instance or net from the selection, click that in the <em>Object Selection</em> section and <em>Delete instances/nets</em> (<img width="28" height="24" src="images/chap1-23.gif" />
+) on the <em>Selection</em> tab. To locate the selected objects on the layout canvas, click <em>Select instances/nets in the layout</em>(<img width="26" height="25" src="images/chap1-24.gif" />
+).</div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1088470"></a>For an IC layout view, the Electromagnetic Solver assistant shows a few additional fields on the <em>Selection</em> tab and an extra tab, <em>Setup</em>, as shown in the example below.</div>
+<a id="pgfId-1152270"></a><div class="webflare-div-image">
+<img width="668" height="623" src="images/chap1-25.gif" /></div>
+<a id="pgfId-1102812"></a><strong><em>Important Points to Note</em></strong><ul><li>
+<a id="pgfId-1102854"></a>If you have a flip-chip die in the package design, ensure that it is identified correctly. For this, review the properties of the instance on the Edit Instance Parameters form and ensure that the <em>Flipped</em> parameter is selected.<br />
+<a id="pgfId-1108296"></a>The following figure shows how you can review and update the <em>Flipped</em> parameter in Layout EXL.<br /><ffi2-fig-frame-in-2 id="#id1108404">
+<a id="pgfId-1108404"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="639" src="images/chap1-26.gif" /></div></li><li>
+<a id="pgfId-1102843"></a>If you selected a BGA, bond wire, or die for inclusion in the model, it is not directly added to the model. Instead, the nets connected to it are added. During port generation, coaxial ports are created at the points the net connects to the BGA, bond wire, or die. Similarly, for SMD instances, vertical ports are created where the nets are connected to that instance.</li></ul></li><li>
+<a id="pgfId-1086406"></a>Select a reference net and add it to the <em>Object Selection</em> list. This reference net is added to the <em>Reference Net</em> drop-down list on the <em>Port</em> tab.<br />
+<a id="pgfId-1086589"></a>If you select both power and ground nets, both are added to that list.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1102470"></a>A reference net is needed for a package layout. For an IC layout, it is required only when the <em>Current Reference Path</em> is set to <em>Local Reference</em>.</div></li><li>
+<a id="pgfId-1082872"></a>(Optional) Select more nets or instances to be placed in the same model.</li><li>
+<a id="pgfId-1082659"></a>(Optional) Create a cutting boundary (rectangular or polygon) on top of the selected objects. This defines the boundary for an interconnect to be included in the model. The interconnects from the selected nets and instances from all layers are included in the model. The shape of this boundary is created on the <code>annotate</code> boundary layer, which is a new layer added to cdsTechLib for this purpose.<br />
+<a id="pgfId-1083567"></a>To define a cutting boundary, perform the following steps:<ol><li>
+<a id="pgfId-1084312"></a>As per your requirements, select <em>Draw Rectangle</em> or <em>Draw Polygon</em> from the <em>Select cut type</em> drop-down command list on the <em>Selection</em> tab.<br /><ffi2-fig-frame-in-2 id="#id1084315">
+<a id="pgfId-1084315"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="603" height="121" src="images/chap1-27.gif" /></div></li><li>
+<a id="pgfId-1083822"></a>Click the layout to draw the rectangle or polygon around the selected geometries. In case of a polygon, continue to click and define the boundaries. Double-click to complete the creation of polygon.<br />
+<a id="pgfId-1084070"></a>The rectangle or polygon is highlighted on the layout. The details of the points defining this boundary are also added to the <em>Cutting Boundary</em> field, as shown below.<br /><ffi2-fig-frame-in-2 id="#id1084293">
+<a id="pgfId-1084293"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="669" height="625" src="images/chap1-28.gif" /></div><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1082997"></a>
+Cutting boundaries are useful when defining models for package layouts where you can choose to focus on a specific part of the selected geometry. The boundary can then virtually cut the element for the purpose of defining the model. In the example shown above, the model includes only those shapes connected to gnd that are within the defined cutting boundary. Any shape connected to the gnd net outside of this boundary is not included in the model.</div></li></ol></li><li>
+<a id="pgfId-1086303"></a>(For IC layouts only) Specify the <em>Current Return Path</em>. By default, this is set to <em>PEC Ground Ring</em> (Perfect Conductor Ground Ring). </li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1090913"></a>Specifying Die Ground S<a id="additionalSetup"></a>ettings (For IC layouts only)</h3>
+
+<p>
+<a id="pgfId-1091037"></a>The die ground setting defines the size of the metal shape that is created at the bottom of the substrate. This also establishes the X and Y extents of the 3D box that will be used for the simulation region by the Clarity or 3D-EM simulation.</p>
+<p>
+<a id="pgfId-1091065"></a>To define a die ground, perform the following steps:</p>
+<ol><li>
+<a id="pgfId-1091039"></a>On the <em>Setup</em> tab, specify the scale type and scale percentage in the <em>Die Ground </em>field.<br />
+<a id="pgfId-1103066"></a>This scale factor is applied around the bounding box of the model. It can either be a percentage of the width or height of the model, or it can be an absolute dimension in micron.</li><li>
+<a id="pgfId-1091070"></a>Select the <em>Display Highlight</em> check box. This displays a flashing purple square in the layout view to represent the X and Y extents of the box to be used as the simulation region, as shown in the figure of an IC layout shown below.<br />
+<a id="pgfId-1091607"></a><div class="webflare-div-image">
+<img width="668" height="510" src="images/chap1-29.gif" /></div></li></ol>
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1091218"></a>The <em>Side Wall</em> setting on the <em>Setup</em> tab is dependent on the <em>Current Return Path</em> setting on the <em>Selection</em> tab.</div>
+<p>
+<a id="pgfId-1104984"></a>When this model is used for EM extraction in Clarity or Sigrity 3D-EM, a PEC ground ring is formed around the selected inductor, as shown below.</p>
+
+<p>
+<a id="pgfId-1129570"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="568" src="images/chap1-30.gif" /></div>
+<h3>
+<a id="pgfId-1079427"></a>Specifying <a id="ports"></a>Ports</h3>
+
+<p>
+<a id="pgfId-1117901"></a>You need to set different options for port generation required for the models to be simulated by Clarity, 3D-EM or AXIEM. Therefore, the options displayed on the <em>Ports</em> tab are different for the two simulators.</p>
+<ul><li>
+<a id="pgfId-1118373"></a><a href="chap1.html#98524">Specifying Ports for Clarity or 3D-EM</a></li><li>
+<a id="pgfId-1118238"></a><a href="chap1.html#53750">Specifying Ports for AXIEM</a></li></ul>
+
+
+<h4>
+<a id="pgfId-1118194"></a><a id="98524"></a>Specifying Ports for Cla<a id="ClarityPorts"></a>rity or 3D-EM</h4>
+
+<p>
+<a id="pgfId-1118267"></a>The following sections describe how to specify ports for an IC layout or a package layout.</p>
+<p>
+<a id="pgfId-1103221"></a><strong>Port Generation for an IC layout</strong><a id="pecGround"></a></p>
+<p>
+<a id="pgfId-1126876"></a>The primary consideration for port creation is the current return path. If you know where to place the negative edges of the ports and you want full control on the ports, choose <em>Local Reference</em> on the <em>Selection</em> tab, and proceed with port creation on the <em>Ports</em> tab. For more details, see <h-hot><a href="chap1.html#manualPorts">Creating Ports Manually</a></h-hot>.</p>
+<p>
+<a id="pgfId-1126878"></a>However, if you are not sure about the negative edges of ports, and you want Layout EXL to automatically identify the current return, ensure that the model can be enclosed in a perfectly conducting box on all sides, and perform the following steps:</p>
+<ol><li>
+<a id="pgfId-1127017"></a>Select the <em>PEC Ground Ring</em> current return path on the <em>Selection</em> tab.<br />
+<a id="pgfId-1127088"></a><div class="webflare-div-image">
+<img width="668" height="396" src="images/chap1-31.gif" /></div></li><li>
+<a id="pgfId-1126919"></a>Specify the following die ground settings on the <em>Setup</em> tab:<ol><li>
+<a id="pgfId-1127164"></a>Select an appropriate option from the <em>Die Ground</em> drop-down list and specify a size or scaling option for the die ground.</li><li>
+<a id="pgfId-1126920"></a>Select the <em>Display Highlight</em> check box. This helps in viewing an accurate representation of the port placement.<br /><ffi2-fig-frame-in-2 id="#id1141146">
+<a id="pgfId-1141146"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="188" src="images/chap1-32.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1141161"></a>A die ground is a metal shape that will be inserted into the model on an automatically generated layer located below the substrate. The conductivity of the die ground is very high. This non-physical conductivity might result in warning messages from the solver, but you can safely ignore those warnings.</div></li></ol></li><li>
+<a id="pgfId-1126921"></a>On the <em>Ports</em> tab, click <em>Automatically Generate Ports</em>. <br />
+<a id="pgfId-1126922"></a>Layout EXL identifies ports of the selected instances. For each port, it adds an extension towards the boundary and a port at the end of each extension. The + edge is on the extension and the - edge is on the PEC boundary. <br />
+<a id="pgfId-1126982"></a>The details of ports are displayed in the table on the <em>Ports</em> tab.<br />
+<a id="pgfId-1129843"></a><div class="webflare-div-image">
+<img width="668" height="469" src="images/chap1-33.gif" /></div>
+<a id="pgfId-1127221"></a>The blue dots indicate the negative connection of the ports on the PEC boundary. The green dot indicates the other end, which is the positive connection of the port extension.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1127236"></a>Guidelines for Port Generation</em></h4>
+
+<ul><li>
+<a id="pgfId-1127237"></a>The <em>PEC Ground Ring</em> option works best for simple passives, such as inductors, when the instances can be placed within a boundary. Placing port extensions might not be feasible in complex scenarios because extensions that cross over each other or other metals can result in shorts.</li><li>
+<a id="pgfId-1127279"></a>3D-EM supports only rectangular deembedding zones. When choosing <em>PEC Ground Ring</em>, ensure that all the ports are aligned to the boundary with the same length and the same starting point. Otherwise, deembedding is not perfect. If the above mentioned requirements are not met, it is recommended to choose <em>Local Reference</em> as the current return path. <br />
+<a id="pgfId-1128756"></a>Consider the following example where the left port for the upper instance needs to be placed on the left boundary edge even if it is far away from the instance.<br />
+<a id="pgfId-1127306"></a><div class="webflare-div-image">
+<img width="668" height="675" src="images/chap1-34.gif" /></div>
+<a id="pgfId-1129442"></a>When deembedding is done for the above example, the cutting zones are properly placed in such a way that only port extensions are eliminated from the model, as shown below.<br />
+<a id="pgfId-1129446"></a><div class="webflare-div-image">
+<img width="668" height="452" src="images/chap1-35.gif" /></div>
+<a id="pgfId-1128057"></a>If the port extensions are of different sizes, the deembedding zone needs to be wide enough to cover the longest port extension of one device. In that case, there are chances that the cutting zones cover a part of real geometry of other devices, as shown in the example given below.<br />
+<a id="pgfId-1109745"></a><div class="webflare-div-image">
+<img width="668" height="712" src="images/chap1-36.gif" /></div>
+<a id="pgfId-1128910"></a>This is not a desired case. The deembedding zone is a zone where the effect of port extensions is calculated and removed from the model. If a real geometry is falling in the deembedding zone or cutting zone, as shown above, it results into the loss of the device details from the model. Only the effect of a part of device that is falling in the non-cutting zone is considered for model creation.<br />
+<a id="pgfId-1109236"></a>Therefore, it is necessary to create the model in such a way that the cutting zones correctly overlap the port extensions on all sides, as shown in the figure given below. <br />
+<a id="pgfId-1109976"></a><div class="webflare-div-image">
+<img width="668" height="777" src="images/chap1-37.gif" /></div></li><li>
+<a id="pgfId-1127340"></a>The <code>Local Reference</code> current return path can be used in all possible cases and there is no limitation for the length and alignment of port extensions, but you need to find the correct ground for each port by connecting it to the real ground metal or plane below it or next to it.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1183280"></a><strong>Creating Ports Manually</strong><a id="manualPorts"></a></p>
+<p>
+<a id="pgfId-1183308"></a>To create ports manually, select objects for a model and proceed with the following steps:</p>
+<ol><li>
+<a id="pgfId-1183408"></a>On the <em>Selection</em> pane, set the <em>Current Return Path</em> field to <code>Local Reference</code>.</li><li>
+<a id="pgfId-1183410"></a>On the <em>Ports</em> pane, click <em>Add Port</em> to create a new port. <br />
+<a id="pgfId-1183575"></a>A new row is added to the ports table.</li><li>
+<a id="pgfId-1183402"></a>In the row for the newly created port, select an appropriate port type from th<a id="diagonalPorts"></a>e <em>Type</em> column.<br />
+<a id="pgfId-1183840"></a>The possible port types are:<ul><li>
+<a id="pgfId-1183876"></a><code>Same Layer</code>: The positive and negative edges for these ports are placed horizontally on the same layer.<br /><ffi2-fig-frame-in-2 id="#id1184309">
+<a id="pgfId-1184309"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="257" src="images/chap1-38.gif" /></div></li><li>
+<a id="pgfId-1184331"></a><code>Cross Layer</code>: The positive and negative edges for these ports are placed on different layers. These ports connect the layers vertically.<br /><ffi2-fig-frame-in-2 id="#id1184335">
+<a id="pgfId-1184335"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="252" src="images/chap1-39.gif" /></div></li><li>
+<a id="pgfId-1184350"></a><code>Diagonal</code>: The positive and negative edges for these ports are placed diagonally on different layers. This type of port can be created for Clarity solvers only.<br /><ffi2-fig-frame-in-2 id="#id1184971">
+<a id="pgfId-1184971"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="321" src="images/chap1-40.gif" /></div><ffi2-fig-frame-in-2 id="#id1184979">
+<a id="pgfId-1184979"></a></ffi2-fig-frame-in-2><br />
+<a id="pgfId-1184396"></a>The diagonal connections can be seem in the Clarity environment, these ports can be seen connecting two layers diagonally.<br /><ffi2-fig-frame-in-2 id="#id1184376">
+<a id="pgfId-1184376"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="436" src="images/chap1-41.gif" /></div></li></ul>
+<a id="pgfId-1184722"></a>For a new port, two rows are added in the table below the ports table. These rows show the details of connections of the port. If required, change the layer name in the <em>Layer</em> column to place the ports on other layers. <br />
+<a id="pgfId-1186619"></a>By default, the X and Y coordinates of these connections are set to <code>0</code>. To move the coordinates for a port connection, select its row and click <em>Move Connection</em> at the bottom.<br />
+<a id="pgfId-1185004"></a>This command displays the controls for port snapping and alignment, as shown below.<br /><ffi2-fig-frame-in-2 id="#id1186014">
+<a id="pgfId-1186014"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="262" src="images/chap1-42.gif" /></div>
+<a id="pgfId-1187443"></a>The three snapping controls are snap to the center of the shape, snap to the edge of the shape, and no snapping, respectively, from the left. <br />
+<a id="pgfId-1187618"></a>The three controls for alignment adjustment are no alignment, align horizontally (move at the same Y coordinate), and align vertically (move at the same X coordinate), respectively.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1183400"></a>After the ports are created, proceed with port validation.</p>
+<p>
+<a id="pgfId-1129633"></a><strong>Validation of Ports</strong></p>
+<p>
+<a id="pgfId-1095704"></a>After the ports are created, click each port and check that the X and Y locations for the positive and negative ends are different; and they if the location is same, they are on different layers. </p>
+<p>
+<a id="pgfId-1095377"></a>You can also choose to validate all ports by clicking <em>Validate</em> in the <em>Auto Generation</em> section. Virtuoso validates all ports displayed on this tab and displays warning messages for any issues.</p>
+<p>
+<a id="pgfId-1187373"></a>If you do not validate the ports in Virtuoso, the 3D EM simulator identifies these issues, and fails to run the simulation successfully.</p>
+<p>
+<a id="pgfId-1091781"></a><strong>Port Generation for a Package Layout</strong></p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1125179"></a>The <em>Setup</em> tab that appears to the right of <em>Selection</em> tab for IC layouts is not available for package layouts.</div>
+<p>
+<a id="pgfId-1125387"></a>To create ports for a package design:</p>
+<ol><li>
+<a id="pgfId-1125453"></a>Select instances and nets to be included in the model.</li><li>
+<a id="pgfId-1125512"></a>On the <em>Setup</em> tab that appears on the <em>Ports</em> tab, specify a supply or ground net in the <em>Reference Net</em> drop-down list.</li><li>
+<a id="pgfId-1125610"></a>To automatically generate ports for the selected instances, click <img width="29" height="24" src="images/chap1-43.gif" /><em> (Automatically Generate Ports</em><span>) to the left of </span><em>Reference net</em><span>.</span><br />
+<a id="pgfId-1125867"></a>Layout EXL identifies ports for the selected instances and loads their details in the table. For each port, the positive and negative edge details are shown in the edges table at the bottom of the <em>Ports</em> tab.<br />
+<a id="pgfId-1096402"></a><div class="webflare-div-image">
+<img width="669" height="622" src="images/chap1-44.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1126201"></a>While reviewing the ports, you can use the following controls on the <em>Ports</em> tab:</p>
+<ul><li>
+<a id="pgfId-1126306"></a>Click <img width="29" height="24" src="images/chap1-45.gif" /><span> (</span><em>Highlight All Ports in the Layout Canvas</em><span>) to view the ports highlighted on the layout canvas.</span></li><li>
+<a id="pgfId-1126330"></a>Use the <img width="62" height="24" src="images/chap1-46.gif" /><span> (up and down) arrows to move the rows in the ports table.</span></li><li>
+<a id="pgfId-1126527"></a>Use the <img width="31" height="21" src="images/chap1-47.gif" /><span> (</span><em>Add Port</em><span>) and </span><img width="29" height="22" src="images/chap1-48.gif" /><span> (</span><em>Remove Port</em><span>) commands to create new port or remove a port from the table, respectively. For a new port, two rows are added in the table below the Ports table. These rows show the details of connections of the new port. By default, the X and Y coordinates of these connections are set to 0. Select a row in this table and click </span><em>Move Connection</em><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1178014"></a>When using the <em>Add Port</em> command to manually create a new port, it is mandatory to provide the pin name if you plan to create an extracted view after running an EM simulation.</div></li><li>
+<a id="pgfId-1126703"></a>Click <img width="29" height="24" src="images/chap1-49.gif" /><span> (</span><em>Validate Ports)</em><span> to check the ports.</span></li></ul>
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1096394"></a>In addition, for a flip chip die or a BGA, the tool also identifies coaxial ports, which are the connections of nets to the bumps on a flip chip die, and displays those on the <em>Coax</em> sub-tab of the <em>Port</em> tab. </p>
+<p>
+<a id="pgfId-1100092"></a>For each coaxial port, the footprint name, pin name, and net name are displayed in this table, as shown below.</p>
+
+<p>
+<a id="pgfId-1096364"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="463" src="images/chap1-50.gif" /></div>
+
+<p>
+<a id="pgfId-1095873"></a>The Electromagnetic Solver assistant saves these details about the die, packages, and coaxial ports into the <code>.clf</code> file that is used by the simulators. </p>
+
+<h4>
+<a id="pgfId-1195782"></a>Checking the Validity<a id="validatePorts"></a> of Ports</h4>
+
+<p>
+<a id="pgfId-1195807"></a>After setting up ports for a model, click <em>Validate Ports</em> on the <em>Ports</em> tab. The assistant checks each port and displays errors for invalid ports. </p>
+<p>
+<a id="pgfId-1196479"></a>A port is considered as valid when the following criteria are true:</p>
+<ul><li>
+<a id="pgfId-1196235"></a>The end edges of a port are fully enclosed in metal</li><li>
+<a id="pgfId-1196237"></a>Between the end edges, the port is not touching any other port or metal </li><li>
+<a id="pgfId-1196410"></a>The port does not touch or overlap any other port</li></ul>
+
+
+<p>
+<a id="pgfId-1196137"></a>Running port validation in the Electromagnetic Solver assistant ensures that these errors are not reported by Clarity or Sigrity during simulation.</p>
+
+<h4>
+<a id="pgfId-1118245"></a><a id="53750"></a>Specifying<a id="axiemPorts"></a> Ports for AXIEM</h4>
+
+<p>
+<a id="pgfId-1118416"></a>To specify ports for an AXIEM model, select a model and open the <em>Ports</em> tab. </p>
+
+<p>
+<a id="pgfId-1118646"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="567" src="images/chap1-51.gif" /></div>
+
+<p>
+<a id="pgfId-1118624"></a>The <em>Ports</em> tab contains two sections. The top section is used to manage ports, and the bottom section is for managing edges for each port. </p>
+<p>
+<a id="pgfId-1119156"></a>To begin with you can generate ports by using the <img width="30" height="25" src="images/chap1-52.gif" /><span> (</span><em>Automatically Generate Ports</em><span>) command to generate ports for the instances selected on the </span><em>Selection</em><span> tab. Virtuoso Layout EXL locates the ports and the connected nets for each selected object, and displays their details as shown below. </span></p>
+<p>
+<a id="pgfId-1119160"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="475" src="images/chap1-53.gif" /></div>
+
+<p>
+<a id="pgfId-1124502"></a>The pin name and its type appear in the <em>Pin</em> and <em>Type</em> columns, respectively. In the column named <em>D</em>, you can select or deselect the check box to specify whether to deembed the port or not. The name of the net to which the port is connected appears in the <em>Net</em> column.</p>
+<p>
+<a id="pgfId-1118766"></a>By default, the type for each port is set as <code>Unreference</code>d, which indicates that the port has only a positive connection and the solver needs to identify the negative connection. Depending on the design requirements, you can change the port type to the following values:</p>
+<ul><li>
+<a id="pgfId-1120439"></a><code>Differential</code>: For these ports, you need to manually specify the reference using a negative edge.</li><li>
+<a id="pgfId-1120441"></a><code>Connect to Lower</code>: For these ports, the metal below the port serves as the negative.</li><li>
+<a id="pgfId-1120443"></a><code>Connect to Upper</code>: For these ports, the metal above the port serves as the negative.</li><li>
+<a id="pgfId-1120433"></a><code>Connect to both</code>: Both upper and lower metal layers act as a reference for the port.</li><li>
+<a id="pgfId-1120513"></a><code>Unreferenced</code> (default): The port has only a positive connection and the solver needs to identify the negative connection.</li></ul>
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1141676"></a>Important Points to Note</em></h4>
+
+<ul><li>
+<a id="pgfId-1124923"></a>AXIEM does not support deembedding of differential ports. If you disable deembedding on the <em>AXIEM</em> tab of the Simulation Settings form, this port-specific deembedding setting is ignored. </li><li>
+<a id="pgfId-1141741"></a>While generating a port for SMD pads in a package layout, Layout EXL first searches above and below the SMD pad for a ground reference. If found, a cross-layer port is created. If not, Layout EXL next searches for a ground reference on the same layer. If a reference is found, it creates a same-layer port.</li><li>
+<a id="pgfId-1151454"></a>For pins with multiple pinfigs, AXIEM creates a port using the largest pinfig amongst the available pinfigs.</li></ul>
+
+
+<p>
+<a id="pgfId-1120604"></a>You can also create the ports manually by clicking <img width="28" height="26" src="images/chap1-54.gif" /><span> (</span><em>Add Port</em><span>). This command adds a new row in the </span><em>Ports</em><span> table where you can add details.</span></p>
+
+<p>
+<a id="pgfId-1120219"></a>After creating ports, you can click the row for each port to check its position in the layout as it is highlighted in yellow. To see all ports together, click <img width="26" height="23" src="images/chap1-55.gif" /><span> (</span><em>Highlight all ports on layout</em><span>). The port that is selected on the </span><em>Ports</em><span> tab is highlighted in a bright color. Other ports are highlighted in a dim color. </span></p>
+<p>
+<a id="pgfId-1120193"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="442" src="images/chap1-56.gif" /></div>
+
+<p>
+<a id="pgfId-1119967"></a>While you are working with the ports, you can use the arrows to move the rows up or down, and to keep the ports of interest in focus.</p>
+
+<h4>
+<a id="pgfId-1121083"></a>Managing Edges for Ports</h4>
+
+<p>
+<a id="pgfId-1121147"></a>The table at the bottom of the <em>Ports</em> tab shows the default edges created for each port. For differential ports, you can complete the edge details by using the <img width="26" height="25" src="images/chap1-57.gif" />
+ (<em>Add Edge Connection</em></p><span>) command at the bottom of the </span><p>
+<a id="pgfId-1122891"></a></p>
+<div class="webflare-div-image">
+<img width="666" height="528" src="images/chap1-58.gif" /></div>
+
+<p>
+<a id="pgfId-1122883"></a>If required, you can change the location of an edge by using the <img width="26" height="25" src="images/chap1-59.gif" /><em>Move Connection</em><span> command.</span></p>
+
+ 
+<p>
+<a id="pgfId-1121599"></a>After the port details are complete, you can verify the connections by using the <em>Validate Ports</em> command.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1142392"></a>By default, AXIEM created ports on nearby shape edges. To customize port creation, you can set the <a href="appEnvVars.html#65425">enableAxiemDotPinPorts</a> and <a href="appEnvVars.html#21384">limitAxiemPortsToPins</a> environment variables. </div>
+<p>
+<a id="pgfId-1123455"></a>When done, you can proceed with the generation of mesh and port connection review. For AXIEM, you can use the <em>Generate Mesh</em> command on the toolbar to create a mesh and open it in Virtuoso 3D Viewer. For more details, refer to <a href="chap2.html#83208">Running an AXIEM Simulation (For IC Layouts Only)</a>.</p>
+
+<h3>
+<a id="pgfId-1123781"></a><a id="39590"></a>Specifying <a id="viaCluster"></a>Pre-Proces<a id="preProcess"></a>sing Options (For IC Layouts)</h3>
+
+<p>
+<a id="pgfId-1130584"></a>On the <em>Pre-Process</em> page of the Electromagnetic Solver assistant, you can specify options to prepare or process the layout before running electromagnetic simulation. You can also review the geometries in the model to be sent to the EM solver.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1141238"></a>When pre-processing is in progress, Layout EXL flattens the layouts and re-extracts the floating shapes. As a result, you might observe a delay depending on the size of your layout.</div>
+<p>
+<a id="pgfId-1124276"></a></p>
+
+<div class="webflare-div-image">
+<img width="668" height="396" src="images/chap1-60.gif" /></div>
+
+<p>
+<a id="pgfId-1130784"></a>This page contains the following groups of options.</p>
+<ul><li>
+<a id="pgfId-1130862"></a><em>Via Cluster</em><a id="viaClusterGroup"></a> <br />
+<a id="pgfId-1171417"></a>Options to enable or disable via clustering and to configure options for via clustering. For more details, see <a href="chap1.html#12113">Specifying Options to Cluster Vias</a>.</li><li>
+<a id="pgfId-1131215"></a><em>Setup</em> (Applicable only for Clarity and AXIEM models)<br />
+<a id="pgfId-1131348"></a>Provides options to specify settings for the simplification of certain shapes on the layout that are not expected to affect the results of electromagnetic extraction. This improves the performance of the extraction run because the number of unknown shapes to be solved is reduced. For more details, see <a href="chap1.html#32480">Simplifying Shapes</a>.</li><li>
+<a id="pgfId-1131355"></a><em>Protect</em> (Applicable only for Clarity and AXIEM models)<br />
+<a id="pgfId-1131356"></a>Provides options to protect certain shapes from getting modified by the pre-processing tasks specified on this tab. You can choose shapes that are relevant RF signals, vias, and instances and must be considered for electromagnetic simulation. For more details, see <a href="chap1.html#42910">Protecting Layout Objects</a>.</li><li>
+<a id="pgfId-1131375"></a><em>Preview</em> (Applicable only for Clarity and AXIEM models)<br />
+<a id="pgfId-1131110"></a>Allows you to preview the EM layout that will be sent to the solver for simulation. For more details, see <a href="chap1.html#67746">Previewing EM Layout</a>.</li></ul>
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1179054"></a><a id="12113"></a>Specifying Options to Cluster Vias</h4>
+
+<p>
+<a id="pgfId-1179173"></a>Via clustering requires the maximum spacing and maximum number of cuts for each via layer. Therefore, specifying options for via clustering involves configuring these settings and enabling via clustering. </p>
+<p>
+<a id="pgfId-1179557"></a>To specify options for via clustering:</p>
+<ol><li>
+<a id="pgfId-1179152"></a>In the <em>Via Cluster</em> group, click <em>Configure</em> to open the Via Clustering Settings - <span class="webflare-courier-new" style="white-space:pre"><em>&lt;model-name&gt;</em></span> form. <br />
+<a id="pgfId-1179586"></a>The Via Clustering Settings form is displayed. <br />
+<a id="pgfId-1173875"></a><div class="webflare-div-image">
+<img width="668" height="333" src="images/chap1-61.gif" /></div></li><li>
+<a id="pgfId-1173993"></a>Review the settings displayed in the table. It contains three columns:<ul><li>
+<a id="pgfId-1179664"></a><em>Cut Layer</em>: Shows the names of via layers found in the layout.</li><li>
+<a id="pgfId-1174022"></a><em>Max Spacing</em>: Specifies the spacing (in microns) between cuts. Any cuts that are within the given spacing are considered for clustering. Set this value to greater than or equal to cut spacing to cluster the vias on a layer.</li><li>
+<a id="pgfId-1174178"></a><em>Max Cuts</em>: Specifies the maximum array size for a cluster. For example, a value of 50 would create a single shape up to a 50 x 50 array. This is typically set to a large number so that all cuts in a via are clustered.</li></ul><br />
+<a id="pgfId-1173855"></a>The Via Clustering Settings form shows the default values for maximum spacing and maximum cuts that the tool read from the <code>default.viacl</code> file while creating a new model. For the cut layer names not found in the <code>default.viacl</code> file, it leaves the cells blank. For details on setting default configuration information, refer to <a href="chap1.html#32361">Saving Default Parameters for Via Clustering</a>.</li><li>
+<a id="pgfId-1179855"></a>If you need to use a different configuration for a specific model, change the imported values. </li><li>
+<a id="pgfId-1179714"></a>Add details for the blank cells, if any. </li><li>
+<a id="pgfId-1179883"></a>Click <em>OK</em> to close the Via Clustering Settings form.</li><li>
+<a id="pgfId-1179940"></a>Select the <em>Cluster Vias</em> check box to enable via clustering for your model.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1173504"></a><a id="32361"></a>Saving Default Parameters for Via Clu<a id="defaultClustering"></a>stering</h4>
+
+<p>
+<a id="pgfId-1174395"></a>You can specify the default settings for via clustering in the <code>default.viacl</code> file saved at the directory location specified by the <a href="appEnvVars.html#92349"><h-hot>processCornerDirectory</h-hot><code></code></a> environment variable. </p>
+<p>
+<a id="pgfId-1172454"></a>The following example shows the format in which values are specified in the <code>default.viacl</code> file:</p>
+
+<p>
+<a id="pgfId-1171666"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="100" src="images/chap1-62.gif" /></div>
+
+<p>
+<a id="pgfId-1174395"></a>Any new model created in the Electromagnetic Solver assistant reads the default settings from this file and populates the values in the Via Clustering Settings - <span class="webflare-courier-new" style="white-space:pre"><em>&lt;model-name&gt;</em></span> form. </p>
+<p>
+<a id="pgfId-1173553"></a>For more information about via clustering settings, refer to <h-hot><a href="chap1.html#viaClusterGroup">Via Cluster</a></h-hot>.</p>
+
+<h4>
+<a id="pgfId-1132417"></a><a id="32480"></a>Simplifying <a id="_vemSimplifyOptionsForm"></a>Shapes</h4>
+
+<p>
+<a id="pgfId-1132442"></a>The main objective of shape simplification is to reduce fine details in those areas of the layout that might not impact the result of electromagnetic simulation. For example, you can remove small dangling shapes or merge closely placed shapes. Such changes reduce the number of shapes to be considered during the simulation run, thereby, making the process faster. However, if there are certain important shapes in your design that should be used in simulation, you can protect those from processing. For more details, refer to <a href="chap1.html#42910">Protecting Layout Objects</a>.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1134709"></a>
+Shape simplification works only on connected shapes. Therefore, it is essential to have a connectivity-driven layout to run shape simplification. </div>
+
+<p>
+<a id="pgfId-1133010"></a>Using the setup on the <em>Pre-Process</em> tab, you can configure a shape simplification setup with details of the shapes and the simplification activities to be taken up for them. These settings can be saved in a file, called as a recipe file, which is by default saved in the current working directory. A recipe file can be later loaded to reuse the settings.</p>
+<p>
+<a id="pgfId-1133457"></a>To specify the settings for shape simplification, click <em>Setup</em> on the <em>Pre-Process</em> tab. The <strong>Simplify layout for EM simulations</strong> form is displayed.</p>
+
+<p>
+<a id="pgfId-1133709"></a></p>
+<div class="webflare-div-image">
+<img width="670" height="695" src="images/chap1-63.gif" /></div>
+
+<p>
+<a id="pgfId-1133673"></a>This form contains four sections:</p>
+<ul><li>
+<a id="pgfId-1133817"></a><em>Remove dangling shapes</em>: In this section, you can specify a set of rules to remove dangling shapes from one or more layer-purpose pairs in the layout. Select a layer-purpose pair from the <em>Lpp</em> drop-down list. Next, in the <em>Min Layer Size</em> field, specify the lowest size of shapes you want to retain in the layout. Any shape smaller than the specified size will be removed. For example, if there are floating metal1 shapes smaller than 10x10 microns, you can create a rule for metal1 drawing layer-purpose pair to remove all shapes less than 10 microns, as pointed by the red arrows in the following example of a pre-processed layout.<br />
+<a id="pgfId-1135758"></a><div class="webflare-div-image">
+<img width="668" height="482" src="images/chap1-64.gif" /></div>
+<a id="pgfId-1135371"></a>You can use the <em>Add</em>, <em>Delete Selected</em>, or <em>Clear </em>commands to add a rule to the list, delete a particular rule, or delete all rules from this list in this section.</li><li>
+<a id="pgfId-1133819"></a><em>Merge shapes</em>: In this section, you can specify a set of rules to merge shapes that are placed on the same layer or on the layers above or below it if they are within the given distance. <br />
+<a id="pgfId-1136475"></a>To create a rule, in the <em>Lpp</em> drop-down list of this section, select a layer-purpose pair on which you want to merge shapes. Then, specify the minimum allowed distance between the devices in the <em>Spacing</em> field, and click <em>Add</em>. You can create multiple rules like these for different layer-purpose pairs.<br />
+<a id="pgfId-1136800"></a>For example, the following rule set will merge metal1 and metal2 if they are within 20 microns. <br />
+<a id="pgfId-1136720"></a><div class="webflare-div-image">
+<img width="668" height="168" src="images/chap1-65.gif" /></div>
+<a id="pgfId-1136712"></a>This will convert the ground mesh into a solid plane, as shown in the preview of this change given below.<br />
+<a id="pgfId-1136778"></a><div class="webflare-div-image">
+<img width="668" height="462" src="images/chap1-66.gif" /></div></li><li>
+<a id="pgfId-1133821"></a><em>Stripe shapes</em>: In this section, you can create rules to convert layers into stripes of the given width. This helps in converting fine mesh into a coarse mesh that would contain less number of unknowns to be passed to AXIEM for simulation.<br />
+<a id="pgfId-1137168"></a>To define a rule for this modification: <ol><li>
+<a id="pgfId-1140853"></a>In the <em>Lpp</em> drop-down list of this section, select a layer-purpose pair that you want to convert into stripes. </li><li>
+<a id="pgfId-1140863"></a>Specify the width for stripes in the <em>Width</em> field. </li><li>
+<a id="pgfId-1140869"></a>Specify the spacing to kept between each stripe in the <em>Spacing</em> field. </li><li>
+<a id="pgfId-1140885"></a>Click <em>Add</em>. </li><li>
+<a id="pgfId-1140890"></a>(Optional) You can also define a via enclosure value in the <em>Via enclosure</em> field. This value specifies the distance by which the vias must be pulled in from the metal edge.</li></ol><br />
+<a id="pgfId-1137143"></a>The following example shows a set of rules to create stripes, which are of width 60 microns and placed 60microns apart, for metal1 and metal2.<br />
+<a id="pgfId-1137728"></a><div class="webflare-div-image">
+<img width="668" height="178" src="images/chap1-67.gif" /></div>
+<a id="pgfId-1137729"></a>The preview of the pre-processed layout given below shows the stripes created according to the rules mentioned in the example given above. Note the measurements.<br />
+<a id="pgfId-1137733"></a><div class="webflare-div-image">
+<img width="668" height="490" src="images/chap1-68.gif" /></div></li><li>
+<a id="pgfId-1133811"></a><em>Smoothing shape steps</em>: In this section, you can smoothen out small steps or edges after the layers are striped. This also helps in reducing the number of unknowns in the layout.<br />
+<a id="pgfId-1137985"></a>To smoothen out steps from shapes, from the <em>Lpp</em> drop-down list, select the layer-purpose pair for the shapes to be considered and then specify the minimum allowed step size in the <em>Step Size</em> field. Click <em>Add</em> to create a rule. All the steps with size less than the given limit are smoothened.<br />
+<a id="pgfId-1138621"></a>Consider the following example of a layout. After the shapes on a metal layer are merged, there are steps remaining in all four corners.<br />
+<a id="pgfId-1138625"></a><div class="webflare-div-image">
+<img width="667" height="460" src="images/chap1-69.gif" /></div>
+<a id="pgfId-1138639"></a>You can measure the size of steps and add a rule to smoothen them out. After smoothing, the example layout appears as shown below.<br />
+<a id="pgfId-1138643"></a><div class="webflare-div-image">
+<img width="668" height="517" src="images/chap1-70.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1132440"></a><a id="42910"></a>Protecting Layout Objects</h4>
+
+<p>
+<a id="pgfId-1138768"></a>All the modifications done to simplify shapes are done based on the rules specified in the <strong>Simplify Layout for EM Simulation</strong> form. </p>
+<p>
+<a id="pgfId-1139544"></a>If you want to protect certain shapes from such modifications even if they meet the rules, select those shapes and click <em>Protect Selected</em> on the <em>Pre-Process</em> tab of the Electromagnetic Solver assistant. For easy identification of the protected shapes, select the <em>Highlight Protected</em> check box. The protected shapes are highlighted on the layout canvas in green, as shown below.</p>
+<p>
+<a id="pgfId-1139769"></a></p>
+
+<div class="webflare-div-image">
+<img width="668" height="198" src="images/chap1-71.gif" /></div>
+<h4><em>
+<a id="pgfId-1141319"></a>Important Points to Note</em></h4>
+
+<ul><li>
+<a id="pgfId-1139083"></a>The shapes at any level of design hierarchy can be protected.</li><li>
+<a id="pgfId-1141352"></a>The shape protection information is saved in the layout cellview. Therefore, after you protect one or more shapes, the layout cellview is marked as modified.</li><li>
+<a id="pgfId-1141446"></a>The same set of protected shapes is applicable for all the models defined for a layout view.</li></ul>
+
+
+
+<h4>
+<a id="pgfId-1132471"></a><a id="67746"></a>Previewing <a id="previewModel"></a>EM Layout</h4>
+
+<p>
+<a id="pgfId-1132521"></a>Before submitting a model to the EM simulator, you can check its preview to verify the shapes and geometries included in it.</p>
+<p>
+<a id="pgfId-1140180"></a>To check the preview, select a model in the <em>Models</em> table and click <em>Preview EM Layout</em> on the <em>Pre-Process</em> tab.</p>
+<p>
+<a id="pgfId-1199368"></a>The preview of the selected model is displayed in the EM Preview of Model &lt;model-name&gt; window. It shows all the geometries that are saved in the <code>.clf</code> file, including the clustered vias and simplified shapes. In addition, it shows the impact of cutting boundaries and scaling factors on the geometries.</p>
+<p>
+<a id="pgfId-1140178"></a>If you have specified pre-processing settings, the preview also shows how the layout will be modified according to those rules and settings. You can make any necessary changes before submitting the model for simulation.</p>
+
+<h2>
+<a id="pgfId-1091003"></a><a id="16455"></a>Running Electromagnetic Simulations</h2>
+
+<p>
+<a id="pgfId-1094318"></a>After the model setup for EM simulation is ready, review and if required, change the simulator settings, and run simulation. The Electromagnetic Solver assistant saves the model information in a <code>.clf</code> file and sends it to the simulator. During this process, the tool might also run layout customization described in <a href="chap1.html#31685">Layout Customization Before EM Simulations</a>.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1178320"></a>At a particular time, only one simulation can be run for a model. The tool shows an error if a simulation is already running for a model and you start another simulation for the same model.</div>
+<p>
+<a id="pgfId-1130098"></a>For details on how to prepare setup and run EM simulations, refer to <a href="chap2.html#53702">Chapter 2, &#8220;Running EM Extraction.&#8221;</a></p>
+
+<h3>
+<a id="pgfId-1164398"></a><a id="31685"></a>Layout Customization Before EM Simulations</h3>
+
+<p>
+<a id="pgfId-1130103"></a>While creating a <code>.clf</code> file, Virtuoso converts all circle and ellipse shapes found in the IC layout to polygons to avoid any potential loss of information that leads to missing shapes. The default shape of such polygons is hexagon. However, you can use the <a href="appEnvVars.html#53061">runDirectory</a> variable to specify the number of points to be used for the polygons.</p>
+<p>
+<a id="pgfId-1164094"></a>For package layouts, Virtuoso converts curved shapes to polygons before sending the layout details to the EM solver. While doing this conversion, that is discretization, Virtuoso considers the maximum acceptable error limit to identify the number of polygons to be created. A high acceptable error limit, which also means a high error tolerance, results into fewer polygons as compared to a low error tolerance. By default, the tool takes the maximum acceptable error limit from the constraints set for the layout. It then prints the constraint name and the derived error limit in the CIW. You can use the <a href="appEnvVars.html#78245">discretizationMaxError</a> variable to override the error limit automatically derived by the tool.</p>
+
+<h2>
+<a id="pgfId-1079419"></a><a id="26093"></a>Creating Models as Extract<a id="extractedView"></a>ed Views</h2>
+
+<p>
+<a id="pgfId-1099541"></a>After the simulation is complete, click <img width="26" height="22" src="images/chap1-72.gif" /><span> on the toolbar of the Electromagnetic Solver assistant. For a successfully run simulation, the status is changed to </span><code>Done</code><span> and the path to the s-parameters file saved with </span><code>.s2p</code><span> extension is shown in the </span><em>S-Params File</em><span> field on the </span><em>Results</em><span> tab.</span></p>
+<p>
+<a id="pgfId-1115314"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="359" src="images/chap1-73.gif" /></div>
+
+<p>
+<a id="pgfId-1081603"></a>Before extracting the S-parameters into an extracted view, you can view and analyze the simulation results. If the models are ready to be used in the schematic view for further analysis, save them in an extracted view, which contains n-ports with S-parameters. </p>
+<p>
+<a id="pgfId-1099545"></a>When you place these models in the schematic view, it deletes the existing instances and models and creates instances or nets using the components from the extracted view. It further re-establishes the connections of the extracted nets and instances using n-ports.</p>
+<p>
+<a id="pgfId-1191979"></a>The following topics provide more details:</p>
+<ul><li>
+<a id="pgfId-1192179"></a><a href="chap1.html#22303">Validating S-Parameter Files</a></li><li>
+<a id="pgfId-1192018"></a><a href="chap1.html#24512">Creating an Extracted View</a></li><li>
+<a id="pgfId-1192817"></a><a href="chap1.html#76450">Placing Components of an Extracted View Interactively</a></li><li>
+<a id="pgfId-1192839"></a><a href="chap1.html#81943">Excluding Instances From Extracted Views</a></li></ul>
+
+
+
+
+<h3>
+<a id="pgfId-1192016"></a><a id="22303"></a>Validating S-Parameter Files</h3>
+
+<p>
+<a id="pgfId-1192051"></a>You can validate the results of an EM simulation in the following ways:</p>
+<ul><li>
+<a id="pgfId-1115686"></a>Click <img width="31" height="21" src="images/chap1-74.gif" /><span> to open the S-parameter file in Results Browser from where you can plot selected signals in Virtuoso Visualization and Analysis XL.</span><br />
+<a id="pgfId-1115692"></a><div class="webflare-div-image">
+<img width="668" height="647" src="images/chap1-75.gif" /></div></li><li>
+<a id="pgfId-1115506"></a>Click <img width="30" height="27" src="images/chap1-76.gif" /><span> to open the S-parameter file in a text editor. </span></li><li>
+<a id="pgfId-1115492"></a>Click <img width="30" height="27" src="images/chap1-77.gif" /><span> to copy the path to the .s2p file into clipboard. You can further use this path in any other application where you want to view or plot the results.</span></li></ul>
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1116072"></a><a id="24512"></a>Creating an Ext<a id="extractedView"></a>racted View</h3>
+
+<p>
+<a id="pgfId-1081607"></a>To create an extracted view:</p>
+<ol><li>
+<a id="pgfId-1192300"></a>Click <img width="26" height="24" src="images/chap1-78.gif" /><span> (</span><em>Create Extracted View</em><span>) on the toolbar of the Electromagnetic Solver assistant. </span><br />
+<a id="pgfId-1099173"></a>The Create Extracted View form is displayed. <br />
+<a id="pgfId-1099177"></a><div class="webflare-div-image">
+<img width="668" height="447" src="images/chap1-79.gif" /></div>
+<a id="pgfId-1097602"></a>This form shows the library, cell, and view name for the extracted view. The default name used for the extracted view is <code>emsolver_extracted</code>. </li><li>
+<a id="pgfId-1192482"></a>If you want to interactively place the models on the schematic view, select the <em>Interactive Mode</em> check box. <br />
+<a id="pgfId-1192932"></a>In the non-interactive mode, the device models are automatically placed in the extracted view. <br />
+<a id="pgfId-1192582"></a>To know more about how interactive placement is done, see <a href="chap1.html#76450">Placing Components of an Extracted View Interactively</a>.</li><li>
+<a id="pgfId-1192324"></a>If required, specify another name for the extracted view to be created.<br />
+<a id="pgfId-1115029"></a>All available model files are listed in the <em>Model Files</em> list. </li><li>
+<a id="pgfId-1192389"></a>If required, add or remove a model file in the <em>Model Files</em> list. You need to ensure that all the listed files are to be included in the extracted view.</li><li>
+<a id="pgfId-1192894"></a>Click <em>OK</em>.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1117712"></a>While saving an extracted view, the Electromagnetic Solver assistant performs a few checks and reports the following scenarios as errors:</p>
+<ul><li>
+<a id="pgfId-1081289"></a>Duplicate nets found in a model</li><li>
+<a id="pgfId-1081323"></a>A net is given in the model but not found on the design</li><li>
+<a id="pgfId-1081333"></a>A case of model overlap where a single net is extracted into two different models, and users passes both the models to the extracted view engine. </li></ul>
+
+
+<p>
+<a id="pgfId-1097962"></a>When an extracted view is saved, Virtuoso creates a copy of the schematic and replaces the modeled devices with an n-port which points to the S-parameters saved in the EM simulation results.</p>
+<p>
+<a id="pgfId-1097742"></a>You can refer to this extracted view in ADE Explorer or ADE Assembler, and send it to Spectre for the re-simulation flow, and then compare the results of a simulation run using the schematic with the results saved for the extracted view.</p>
+<p>
+<a id="pgfId-1099583"></a>For more details on the resimulation flow, refer to <em><a actuate="user" class="URL" href="../parasim/chap2.html#firstpage" show="replace" xml:link="simple">Parasitic Aware Design Flow Guide</a></em>.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1086840"></a>To understand how to simulate S-parameters in the time domain simulation, read the <a actuate="user" class="URL" href="https://support.cadence.com/apex/ArticleAttachmentPortal?id=a1O0V000007MghFUAS&amp;pageName=ArticleContent&amp;sq=005d0000001T3adAAC_201881305649216" show="replace" xml:link="simple">7 Habits of Highly Successful S-Parameters</a> application note on Cadence Online Support.</div>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1098338"></a>
+Alternatively, you can backannotate the new models into the schematic by clicking click <img width="26" height="22" src="images/chap1-80.gif" />
+ (<em>Highlight S-Params in Schematic</em>) on the toolbar of the Electromagnetic Solver assistant. This command updates the schematic view to add the model information. You can now use the revised schematic view to run simulations in ADE Explorer or ADE Assembler.</div>
+<h3>
+<a id="pgfId-1192674"></a><a id="76450"></a>Placing Components of an Extracted View Interactively</h3>
+
+<p>
+<a id="pgfId-1116168"></a>The <em>Interactive mode</em> check box on the <h-hot><a href="chap1.html#extractedView">Create Extracted View</a></h-hot> form allows you to interactively place the models on the schematic view. When you select this check box and create the extracted view, the Place Components form is displayed, as shown below.</p>
+
+<p>
+<a id="pgfId-1116610"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="509" src="images/chap1-81.gif" /></div>
+
+<p>
+<a id="pgfId-1116633"></a>On the Place Components form, all the components for which models are available are displayed in the <em>All Components</em> list. </p>
+<p>
+<a id="pgfId-1117220"></a>Select a mapped device in the <em>All Components</em> list and click <em>Place Selected Instances</em>. The <strong>extracted</strong> view is displayed and the original instance of the selected device removed from it. Instead, an instance of model is highlighted and attached to the mouse pointer, as visible in purple in the example shown below. </p>
+
+<p>
+<a id="pgfId-1117224"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="509" src="images/chap1-82.gif" /></div>
+
+<p>
+<a id="pgfId-1117486"></a>Move the pointer and place the instance at the required location. You can also reconfigure the connections of the placed device model.</p>
+<p>
+<a id="pgfId-1117606"></a>When the model is placed on the extracted view, the device name is moved to the <em>Connected Components</em> list on the Place Components form, as shown below.</p>
+
+<p>
+<a id="pgfId-1117490"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="509" src="images/chap1-83.gif" /></div>
+
+<p>
+<a id="pgfId-1117402"></a>After all the devices are placed on the schematic view, close the Place Components form.</p>
+
+<h3>
+<a id="pgfId-1192940"></a><a id="81943"></a>Excluding Instances From<a id="excludeInstances"></a> Extracted Views</h3>
+
+<p>
+<a id="pgfId-1193000"></a>By default, all instances and nets selected on the <em>Selection</em> tab of the Electromagnetic Solver assistant are included in the extracted view. However, if you excluded certain layers from the model, you would need to exclude the instances embedded on those layers while creating extracted views. This is similar to considering those instances as non-embedded components. </p>
+<p>
+<a id="pgfId-1193415"></a>To exclude an instance from an extracted view or to consider that the instance is not an embedded component, specify its library, cell, and view details in the value of the <a href="appEnvVars.html#94892">setNotEmbedded</a> environment variable.</p>
+
+<h2>
+<a id="pgfId-1164534"></a><a id="94235"></a>Extracting <a id="fullExtraction"></a>S-Parameter Models from Complete Layout Cellviews (IC Layout Only)</h2>
+
+<p>
+<a id="pgfId-1164535"></a>If the IC layout is a passive device, we can characterize that layout cellview as an S-parameter cellview. In scenarios where an IC layout contains devices, such as inductors or MIMCAP devices, but you cannot access the nets and connectivity details, you can export the model for the complete layout as an S-parameter cellview, which is an S-parameter results file. In addition, you can create a symbol view, which you can use to instantiate the model in a schematic. This topic describes how to extract a complete S-parameter (sparam) cellview for an IC layout.</p>
+<p>
+<a id="pgfId-1165273"></a>To extract the model for a layout as a complete S-parameter cellview:</p>
+<ol><li>
+<a id="pgfId-1165155"></a>Open the layout in Layout EXL and set the workspace to <code>Electromagnetic</code>.<br />
+<a id="pgfId-1165400"></a>The following sample layout contains an inductor for which connectivity details are not available: <br />
+<a id="pgfId-1165520"></a><div class="webflare-div-image">
+<img width="668" height="448" src="images/chap1-84.gif" /></div></li><li>
+<a id="pgfId-1165968"></a>Specify the <a actuate="user" class="URL" href="../emAssistant/chap1.html#processSettingIC" show="replace" xml:link="simple">process setup</a> in the process corner directory.</li><li>
+<a id="pgfId-1166068"></a><a actuate="user" class="URL" href="../emAssistant/chap1.html#newModel" show="replace" xml:link="simple">Create a new model</a> in the Electromagnetic Solver assistant.</li><li>
+<a id="pgfId-1170489"></a>Select a process corner and specify a simulator that you want to use to run electromagnetic simulation.</li><li>
+<a id="pgfId-1165395"></a>Select the <em>Extract Full Cellview</em> check box at the bottom of the Electromagnetic Solver assistant.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1165647"></a>The objective is to extract the full cellview. Therefore, it is not required to select any specific instance, net, or referenced model. Notice that the object selection controls on the <em>Selection</em> pane are disabled after you select the <em>Extract Full Cellview</em> check box.</div></li><li>
+<a id="pgfId-1165957"></a>On the <em>Ports</em> pane, click <em>Automatically Generate Ports</em> to create ports for the top-level pins of the instances available in the layout.<br />
+<a id="pgfId-1166604"></a>For the example layout shown above, the tool automatically identifies the two top-level pins, PLUS and MINUS, and adds those to the ports table, as shown below.<br />
+<a id="pgfId-1166608"></a><div class="webflare-div-image">
+<img width="668" height="411" src="images/chap1-85.gif" /></div>
+<a id="pgfId-1166509"></a>Similarly, if the layout contains two inductors, the tool identifies ports of both inductors and adds four ports to the port table. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1167012"></a>For Clarity or 3D-EM simulators, the <em>Automatically Generate Ports</em> command is disabled because the reference net is not selected. In that case, you might need to manually add ports by using the <em>Add Port</em> command and then adjust the placement of the pins.</div></li><li>
+<a id="pgfId-1166927"></a>Run the simulation by using an appropriate command for your selected simulator.<br />
+<a id="pgfId-1167947"></a>After the simulation run is complete, the path to the S-parameter file is available on the <em>Results</em> pane of the Electromagnetic Solver assistant.<br />
+<a id="pgfId-1167951"></a><div class="webflare-div-image">
+<img width="668" height="289" src="images/chap1-86.gif" /></div></li><li>
+<a id="pgfId-1167923"></a>Click Create <em>S-Parameter View</em> on the toolbar of the Electromagnetic Solver assistant.<br />
+<a id="pgfId-1167927"></a><div class="webflare-div-image">
+<img width="668" height="169" src="images/chap1-87.gif" /></div>
+<a id="pgfId-1168015"></a>The Create S-Parameter View form appears.<br />
+<a id="pgfId-1168019"></a><div class="webflare-div-image">
+<img width="668" height="204" src="images/chap1-88.gif" /></div></li><li>
+<a id="pgfId-1167786"></a>Specify a name for the cell and S-parameter view in the <em>Cell</em> and <em>View</em> fields, respectively. The default view name is <code>sparam</code>.<br />
+<a id="pgfId-1167830"></a>By default, the <em>Create Symbol</em> check box is selected to create a symbol view too. Deselect it if you do not want to create a symbol.</li><li>
+<a id="pgfId-1168062"></a>Click <em>OK</em> to create the cellviews.<br />
+<a id="pgfId-1168042"></a>The CIW shows messages indicating that the new cellview has been created.<br />
+<a id="pgfId-1168046"></a><div class="webflare-div-image">
+<img width="668" height="99" src="images/chap1-89.gif" /></div>
+<a id="pgfId-1167648"></a>The model has now been successfully extracted as a complete cellview. The new sparam view and the symbol view are visible in the Library Manager. These are also added to the library database.<br />
+<a id="pgfId-1168107"></a><div class="webflare-div-image">
+<img width="668" height="245" src="images/chap1-90.gif" /></div>
+<a id="pgfId-1168657"></a>You can double-click the sparam cellview to open and review its contents. The sparam views are text-based and are opened in the default text editor.<br />
+<a id="pgfId-1168661"></a><div class="webflare-div-image">
+<img width="668" height="317" src="images/chap1-91.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1168678"></a>You can use the extracted S-Parameter cellviews by creating their instances in a schematic view, as shown in the following figure: </p>
+
+<p>
+<a id="pgfId-1170762"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="369" src="images/chap1-92.gif" /></div>
+
+<p>
+<a id="pgfId-1168961"></a>The pins of the instances can be used to establish connections with other devices in the schematic to build the design.</p>
+<p>
+<a id="pgfId-1169269"></a>You can right-click the instance in the schematic and choose <em>Properties</em> to explore the properties of this instance. The properties listed in the Edit Object Properties form are similar to any other n-port object. </p>
+
+<p>
+<a id="pgfId-1169356"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="748" src="images/chap1-93.gif" /></div>
+
+<p>
+<a id="pgfId-1169699"></a>Before netlisting a design that contains an instance of your sparam view, provide a mapping in the config view because the schematic view of this object is not available. </p>
+<p>
+<a id="pgfId-1170809"></a>The following example shows how to bind an sparam view in the Virtuoso Hierarchy Editor.</p>
+
+<p>
+<a id="pgfId-1170906"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="483" src="images/chap1-94.gif" /></div>
+
+<p>
+<a id="pgfId-1169703"></a>For more details about cellview binding, refer to <h-hot><a actuate="user" class="URL" href="../cdshiereditor/chap3.html#hebCellAddBindToOpenHelp" show="replace" xml:link="simple">Defining Bind-to-Open on a Per Cell Basis</a></h-hot> in <em>Virtuoso Hierarchy Editor User Guide</em>.</p>
+<p>
+<a id="pgfId-1170953"></a>For details about creating a netlist and running simulations, refer to <em><a actuate="user" class="URL" href="../Explorer/ExplorerTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso ADE Explorer User Guide</a></em>.</p>
+
+<h2>
+<a id="pgfId-1079748"></a><a id="89843"></a>Extracting Models for a Cross-<a id="multiFabric"></a>Fabric Design</h2>
+
+<p>
+<a id="pgfId-1149369"></a>Cross-fabric extraction allows you to create a model across IC, package and board. This lets you capture the full coupling between fabrics in a single 3D simulation. Virtuoso Layout EXL takes care of all the work normally involved in combining IC and package geometry into a merged model.</p>
+<p>
+<a id="pgfId-1199865"></a>You can read a blog on this feature <h-hot><a actuate="user" class="URL" href="https://community.cadence.com/cadence_blogs_8/b/cic/posts/virtuoso-meets-maxwell-cross-fabric-em-extraction" show="replace" xml:link="simple">here</a></h-hot>.</p>
+<p>
+<a id="pgfId-1142895"></a>The Electromagnetic Solver assistant allows you to extract models for a cross-fabric design using the Clarity or Sigrity 3D-EM simulators. The objective is to pick objects from different fabrics and generate a common model for them.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1177350"></a>The extraction for cross-fabric designs is not supported for AXIEM models.</div>
+<p>
+<a id="pgfId-1143295"></a>A cross-fabric extraction typically runs on a layout cellview that contains at least two different fabrics. Multiple fabrics of either of the IC, package, module, or a board type can be stacked up. Each fabric can have its own technology database and can be connected with other fabrics using balls, bumps, or wirebonds.</p>
+<p>
+<a id="pgfId-1143757"></a>The following diagram shows an example of a layer stack containing two fabrics where the IC on top is flipped and connected using bumps:</p>
+
+<p>
+<a id="pgfId-1201088"></a></p>
+<div class="webflare-div-image">
+<img width="666" height="632" src="images/chap1-95.gif" /></div>
+
+<p>
+<a id="pgfId-1201169"></a>In your designs, you can have ICs that are not flipped and are attached using bond wires, as shown in the following example.</p>
+
+<p>
+<a id="pgfId-1201173"></a></p>
+<div class="webflare-div-image">
+<img width="666" height="660" src="images/chap1-96.gif" /></div>
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1149564"></a>
+Currently, Virtuoso Layout EXL does not support multiple instances of a fabric placed side-by-side on the outer fabric. This feature works only on a vertical stack of fabrics.</div>
+
+<p>
+<a id="pgfId-1143598"></a>For a cross-fabric model extraction in Virtuoso, you begin with the board layout cellview, which is the top fabric or cellview. The board contains an abstract instance of a package TILP Pcell. The package would further contain an abstract instance of an IC layout or another module. There can be various such layers depending on your design.</p>
+<p>
+<a id="pgfId-1144601"></a>Each of the package, module, or IC layouts have their own models. For a cross-fabric design, the objective is to extract a model for the outer-most fabric. Each fabric in the stack would reference the models of other fabrics placed within it. For example, the package would reference the model for the IC instantiated in it.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1144668"></a>
+For cross-fabric extraction, it is required that the top-level fabrics in the design refer the models of the lower-level fabrics instantiated in them. Therefore, it is essential to follow the <strong>bottom-up approach for model creation</strong>. For example, create a model for an IC, which is referenced in the model for a package, which is further referenced in the model for a board.</div>
+
+<p>
+<a id="pgfId-1144430"></a>If you have a layer stack ready for extraction, ensure that the following prerequisites are met:</p>
+<ul><li>
+<a id="pgfId-1150409"></a>Each package and board fabric has a dielectric layer on top and bottom. If not already created, you can use the Layer Stack Editor command in the <em>RF-Module</em> menu to add dielectric layers.</li><li>
+<a id="pgfId-1150591"></a>The height of the balls and bumps for each abstract instance equal to or higher than the height of the solder mask. You can use the Ball and Bump Editor command in the <em>RF-Module</em> menu to modify the dimensions.</li></ul>
+
+<p>
+<a id="pgfId-1150609"></a>Next, you can proceed with the steps given below to run model extraction for a cross-fabric design.</p>
+<ol><li>
+<a id="pgfId-1145387"></a>Open the outer-most fabric in Virtuoso Layout EXL.</li><li>
+<a id="pgfId-1145389"></a>Choose <em>RF-Module &#8211; Co-Design</em> to enable the <a actuate="user" class="URL" href="../vrf/co_design.html#firstpage" show="replace" xml:link="simple">Co-Design mode</a> where you can view and edit die packages and their corresponding die layouts synchronously.<br />
+<a id="pgfId-1145626"></a>The following example of a sample design shows the board layout along with the package, and die layouts associated with it opened in the Co-Design mode.<br />
+<a id="pgfId-1145735"></a><div class="webflare-div-image">
+<img width="668" height="669" src="images/chap1-97.gif" /></div></li><li>
+<a id="pgfId-1146172"></a>Identify the objects you want to include in the cross-fabric model. These objects could include one or more nets, or instances from this layout.</li><li>
+<a id="pgfId-1150844"></a>If required, create a cutting boundary to define the area to be considered for this fabric.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1147892"></a>You can create cutting boundaries at any level in a cross-fabric model. The cutting boundary for any level defines the region to be used for the fabric at that level. However, the cutting boundary defined for the top-most fabric again cuts through all the fabrics in the design.</div></li><li>
+<a id="pgfId-1145391"></a>Following the bottom-up approach, open the layout of the lowest fabric and define a model using the required objects from this layout.<br />
+<a id="pgfId-1151952"></a>You can use the highlight instances command on the <em>Selection</em> tab to see a complete view of the objects selected on multiple fabrics.<br />
+<a id="pgfId-1146592"></a>For the example design shown above, if you select an inductor, two bumps, one MIMCAP, and three nets to be included in a model, the setup appears as shown below.<br />
+<a id="pgfId-1146596"></a><div class="webflare-div-image">
+<img width="668" height="575" src="images/chap1-98.gif" /></div></li><li>
+<a id="pgfId-1146764"></a>Ensure that you choose the Sigrity 3D-EM simulator for model generation. <br />
+<a id="pgfId-1146907"></a>Only 3D-EM models with the <em>Current Return Path</em> set as <code>Local Reference</code> can be referenced from other models.</li><li>
+<a id="pgfId-1145393"></a>Create and validate ports.</li><li>
+<a id="pgfId-1145381"></a>Focus on the layout view for the fabric above the previous one and do the following:<ol><li>
+<a id="pgfId-1147036"></a>Create a new model and choose one of the <code>Clarity</code> and <code>3D-EM</code> simulators.</li><li>
+<a id="pgfId-1147070"></a>Select objects to be included from this layout.</li><li>
+<a id="pgfId-1147128"></a>Click the die abstract and click <img width="31" height="24" src="images/chap1-99.gif" /><span> on the </span><em>Selection</em><span> tab of Electromagnetic Solver assistant.</span><br />
+<a id="pgfId-1147321"></a>The Select EM Models form is displayed. All the models that can be referenced for the selected die abstract are listed in this form.<br /><ffi2-fig-frame-in-2 id="#id1147468">
+<a id="pgfId-1147468"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="523" src="images/chap1-100.gif" /></div>
+<a id="pgfId-1149917"></a>If the list of EM models is empty, ensure that the models you want to reference are using the 3D-EM simulator and have the <em>Current Return Path</em> set as <code>Local Reference</code>.</li><li>
+<a id="pgfId-1147251"></a>Select a model to be included for the die abstract.</li><li>
+<a id="pgfId-1147453"></a>Click <em>OK</em>.<br />
+<a id="pgfId-1149336"></a>The selected model is shown in the <em>Referenced Models</em> tree on the <em>Selection</em> tab of the Electromagnetic Solver assistant, as shown below.<br /><ffi2-fig-frame-in-2 id="#id1149340">
+<a id="pgfId-1149340"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="532" src="images/chap1-101.gif" /></div></li></ol></li><li>
+<a id="pgfId-1146996"></a>Similarly, create models for all fabrics in the design and add reference for the die abstracts to be included in the model.</li><li>
+<a id="pgfId-1148108"></a>After defining the model at the top level, choose<em> Simulation &#8211; Create and Edit</em> to extract a <code>.clf</code> file and send it to Sigrity 3D-EM.<br />
+<a id="pgfId-1201196"></a>During this step, Virtuoso processes the selected shapes according to the settings given in the models. For example, it merges the IC stack, which appears as one in the Layer Manager in Sigrity 3D-EM.</li><li>
+<a id="pgfId-1148460"></a>Enable the 3D view in Sigrity 3D-EM, and validate the fabric layers and selected objects. <br />
+<a id="pgfId-1148593"></a>For the above example, the 3D view of the model appears as shown below.<br />
+<a id="pgfId-1148758"></a><div class="webflare-div-image">
+<img width="668" height="510" src="images/chap1-102.gif" /></div></li><li>
+<a id="pgfId-1148591"></a>Run simulation in Sigrity 3D-EM to create n-ports that are saved in an S-param touchstone file.<br />
+<a id="pgfId-1151983"></a>The touchstone file produced by cross-fabric EM simulation contains a header with all nets and instances from all fabrics. </li><li>
+<a id="pgfId-1148815"></a>Review the resulting ports on the <em>Results</em> tab of the Electromagnetic Solver assistant and proceed with the creation of an extracted view as explained in <a href="chap1.html#26093">Creating Models as Extracted Views</a> that you can use to run simulations in Virtuoso ADE Assembler.<br />
+<a id="pgfId-1151814"></a></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="preface.html" id="prev" title="Preface">Preface</a></em></b><b><em><a href="chap2.html" id="nex" title="Running EM Extraction">Running EM Extraction </a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

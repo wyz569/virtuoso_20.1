@@ -1,0 +1,3687 @@
+
+<html><head><title>Graph Browser</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="sumehta" />
+<meta name="CreateDate" content="2020-09-17" />
+<meta name="CreateTime" content="1600404209" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes SKILL functions that you can use to create or modify user interfaces programmatically." />
+<meta name="DocTitle" content="Cadence User Interface SKILL Reference" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Graph Browser" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="skuiref" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-17" />
+<meta name="ModifiedTime" content="1600404209" />
+<meta name="NextFile" content="appC.html" />
+<meta name="Group" content="SKILL Language" />
+<meta name="Platform" content="Cadence Shared Tools" />
+<meta name="PrevFile" content="appA.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="SKILL" />
+<meta name="ProductFamily" content="SKILL" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Cadence User Interface SKILL Reference -- Graph Browser" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="skuirefICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="skuirefTOC.html">Contents</a></li><li><a class="prev" href="appA.html" title="Display Lists">Display Lists</a></li><li style="float: right;"><a class="viewPrint" href="skuiref.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="appC.html" title="Interprocess Communication">Interprocess Communication</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Cadence User Interface SKILL Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>18
+<a name="pgfId-53632"></a></h1>
+<h1>
+<a name="pgfId-53631"></a><hr />
+Graph Browser<hr />
+</h1>
+
+<p>
+<a name="pgfId-532081"></a>This chapter describes the following topics: </p>
+<ul><li>
+<a name="pgfId-532082"></a><a href="appB.html#19341">Graph Browser Overview</a></li><li>
+<a name="pgfId-532377"></a><a href="appB.html#33103">Key Terms</a></li><li>
+<a name="pgfId-532382"></a><a href="appB.html#26429">Properties of the dagArc</a></li><li>
+<a name="pgfId-532387"></a><a href="appB.html#20674">Properties of the dagClass</a></li><li>
+<a name="pgfId-532446"></a><a href="appB.html#40996">Properties of the dagNode</a></li><li>
+<a name="pgfId-532452"></a><a href="appB.html#15493">Properties of the dagTool</a></li><li>
+<a name="pgfId-532466"></a><a href="appB.html#14301">Actions and Action Lists</a></li><li>
+<a name="pgfId-533274"></a><a href="appB.html#35375">dag Functions</a></li></ul>
+
+
+
+
+
+
+
+
+<h2>
+<a name="pgfId-53619"></a><a name="19341"></a>Graph Browser Overview</h2>
+
+<p>
+<a name="pgfId-53620"></a><a name="marker-53395"></a><a name="marker-53396"></a>T<a name="marker-53398"></a><a name="marker-53411"></a>hi<a name="marker-53412"></a>s section discusses the Directed Acyclic Graph (dag) interface, which you can use to create a browser tool. A browser tool enables a user to interactively display and construct or modify directed graphs.</p>
+<p>
+<a name="pgfId-53621"></a>The section contains </p>
+<ul><li>
+<a name="pgfId-53622"></a>An introduction of key terms</li><li>
+<a name="pgfId-53623"></a>Tables describing the properties of dag object types</li><li>
+<a name="pgfId-53624"></a>A description of action lists</li><li>
+<a name="pgfId-53633"></a>Dag browser SKILL functions in alphabetical order</li></ul>
+
+
+
+<p>
+<a name="pgfId-532973"></a>A <em>dag</em> is a generic data structure that is commonly used in computer programs to represent objects and show how those objects relate to each other. The objects are represented in a directed graph by nodes. How the nodes relate to each other is represented by arcs that connect the nodes together. The graph is classified as directed because the arc connecting any two nodes together has a direction. The direction of the arc is from the parent node (at the tail of the arc) to the child node (at the head of the arc).</p>
+
+<p>
+<a name="pgfId-532999"></a></p>
+<div class="webflare-div-image">
+<img width="557" height="126" src="images/appB-2.gif" /></div>
+
+<p>
+<a name="pgfId-532996"></a><a name="marker-532994"></a>Altho<a name="marker-532995"></a>ugh the name dag implies that the graph cannot have cycles, you can makes cycles in the graphs you construct with the dag interface. When the dag functions traverse the graph you make, they take the necessary precautions to avoid infinitely looping because of cycles in the graph. However, the automatic placement or routing of graphs with cycles might not be visually pleasing.</p>
+<p>
+<a name="pgfId-53638"></a>The Virtuoso dag interface provides many sophisticated capabilities for constructing browser tools. These include</p>
+<ul><li>
+<a name="pgfId-53639"></a>The concept of classes of nodes, with inheritance of information from class to node.</li><li>
+<a name="pgfId-53640"></a>Context-sensitive pop-up menus and bindkeys, based on the class of the node over which the menu is invoked.</li><li>
+<a name="pgfId-53641"></a>Many capabilities for controlling the layout and appearance of the graph presentation.</li><li>
+<a name="pgfId-53642"></a>Automatic placement and routing algorithms for the nodes and arcs in the graph.</li><li>
+<a name="pgfId-53643"></a>Ability to display a text string and an icon for each node. The icon can be customized using the display list interface. The icon and text strings displayed can be node-specific or class-specific.</li><li>
+<a name="pgfId-53644"></a>Ability to use any number of browser tools simultaneously.</li><li>
+<a name="pgfId-53645"></a>Ability to share nodes, arcs, and classes among many tools. The same node can have different appearances in different tools.</li><li>
+<a name="pgfId-53646"></a>Ability to use many of the normal hi interface functions for a window, including pulldown menus for a dag browser window.</li></ul>
+
+
+
+
+
+
+
+
+<h2>
+<a name="pgfId-53648"></a><a name="33103"></a>Key Terms </h2>
+<h4>
+<a name="pgfId-54691"></a><a name="marker-54690"></a>Coordinate Systems</h4>
+
+<p>
+<a name="pgfId-53650"></a>There are two coordinate systems used in specifying dag object properties and dag function parameters:</p>
+<ul><li>
+<a name="pgfId-53651"></a><em>screen coordinates</em><a name="marker-53421"></a>. These have their origin at the upper left and are specified in terms of pixels.</li><li>
+<a name="pgfId-53652"></a><em>dag coordinates</em><a name="marker-53422"></a>. These have their origin at the lower left. You determine the magnitude of these coordinates by the height and width you assign to classes.</li></ul>
+
+
+<h4>
+<a name="pgfId-54709"></a>Context-Sensitive Pop-Up Menus and Actions</h4>
+
+<p>
+<a name="pgfId-53654"></a>You can define context-sensitive pop-up menus and accelerators (bindkeys) for nodes or classes. The specifications for these are called action lists. See the action list section. </p>
+
+<h4>
+<a name="pgfId-54733"></a>Display Lists, Icons, and SKILL Objects</h4>
+
+<p>
+<a name="pgfId-53656"></a>You can use the display list interface to create icons for display in the browser. To make those icons reflect information available only at run time, you can use the SKILL object feature of display lists. See the display list chapter. You can also interactively create display lists without SKILL objects using the Graphics Editor <em>Save Icon</em> command.</p>
+
+<h4>
+<a name="pgfId-54764"></a><a name="marker-54763"></a>Intrinsic Property Inheritance</h4>
+
+<p>
+<a name="pgfId-53658"></a>Browser nodes inherit a subset of the intrinsic properties of their class. There is a distinction between properties that you add to a browser object (user-defined) and those that are there when an object is created (intrinsic). Only intrinsic properties are inherited.</p>
+<p>
+<a name="pgfId-53659"></a>Inheritance means that, if a node does not have the desired property, the dag functions look for a property by the same name in the node&#8217;s class. If it does not find the named property in either the node or class, it returns <code>nil</code>.</p>
+
+<h4>
+<a name="pgfId-54803"></a>Kinds of Browser (dag) Objects</h4>
+
+<p>
+<a name="pgfId-53661"></a>The tables in the next few pages describe the intrinsic properties of the objects that you can create and manipulate through the dag interface. The object types are: class, node, arc, and tool. Each of these can have user-defined properties in addition to the intrinsic properties listed.</p>
+
+<h4>
+<a name="pgfId-54863"></a><a name="marker-54862"></a>Window Types and Their Properties</h4>
+
+<p>
+<a name="pgfId-53663"></a>A window type is a basic SKILL data type. Dag arc, class, node, and tool objects all are of this data type. In the type specifications for dag properties and dag function parameters and return values, a <em>w</em> prefix indicates that the object must be this data type.</p>
+<p>
+<a name="pgfId-53664"></a>The straight arrow notation (−&gt;) is used to access and modify both the intrinsic and user-defined properties of browser objects. For example, to find out the name of a class object, you would enter</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-53665"></a>name = class-&gt;name</pre>
+
+<p>
+<a name="pgfId-53666"></a>and, to change the name of a class, you would enter</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-53667"></a>class-&gt;name = &quot;newName&quot;</pre>
+
+<p>
+<a name="pgfId-533191"></a>Unless otherwise specified all attributes of browser objects can be modified as shown above.</p>
+
+<h2>
+<a name="pgfId-533195"></a><a name="26429"></a>Properties of the <a name="marker-533193"></a>dagArc </h2>
+
+<p>
+<a name="pgfId-533196"></a>The table shows the properties of the dagArc. The text that follows explains each property in more detail.</p>
+
+<p>
+<a name="pgfId-532736"></a></p>
+<table class="webflareTable" id="#id55171">
+<caption style="text-align:left;"><p>
+<ft-figtabl-title id="#id55228">
+<a name="pgfId-55228"></a>Properties of the dagArc </ft-figtabl-title>
+</p></caption>
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id532308">
+<a name="pgfId-532308"></a>Name </span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id55246">
+<a name="pgfId-55246"></a>SKILL Type</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id55255">
+<a name="pgfId-55255"></a>Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55191"></a><code>type</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55193"></a>symbol</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55195"></a>Type of object (dagArc).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55197"></a><code>head</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55199"></a>wType (node)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55201"></a>Node attached to head of arc.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55203"></a><code>tail</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55205"></a>wType (node)</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55207"></a>Node attached to tail of arc.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55209"></a><code>arcPen</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55211"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55213"></a>DisplayList Pen number for arc.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55215"></a><code>arcWidth</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55217"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55219"></a>Width of this arc in a dagTool.</p>
+</td>
+</tr>
+</tbody></table>
+<table class="webflareTable" id="#id544445">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544447"></a><code>type</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544449"></a>Type of the object. The symbol for this object is <italic>
+dagArc</italic>
+. This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544451"></a><code>head</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544453"></a>dagNode that this arc is attached to at its head. This property is read-only. It can be <code>nil</code>, meaning there is no child node attached to the arc.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544455"></a><code>tail</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544457"></a>dagNode that this arc is attached to at its tail. This property is read-only. It can be <code>nil</code>, meaning there is no parent node attached to the arc.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544459"></a><code>arcPen</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544461"></a>Display list pen number that is used to render this arc when it is drawn within a browser tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544463"></a><code>arcWidth</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544465"></a>Width of the arc when it is drawn in a browser tool. If the <em>arcWidth</em> is zero, a thin line is drawn; if it is greater than zero, the arc is rendered as a path. The <em>arcWidth</em> dimension is unit-less and is scaled proportionally within the browser tool.</p>
+</td>
+</tr>
+</tbody></table>
+<h2>
+<a name="pgfId-53680"></a><a name="20674"></a>Properties of the <a name="marker-53439"></a>dagClass</h2>
+
+<p>
+<a name="pgfId-53681"></a>The table shows the properties of the dagClass. The text that follows explains each property in more detail.</p>
+<p>
+<a name="pgfId-53682"></a>A dagClass is a mechanism for grouping properties that are common to multiple nodes. You specify what the class is for a node when you create the node; each node is in only one class. Classes are never directly displayed. A class can only affect what is displayed by the properties inherited by nodes of the class.</p>
+
+<p>
+<a name="pgfId-532737"></a></p>
+<table class="webflareTable" id="#id55260">
+<caption style="text-align:left;"><p>
+<ft-figtabl-title id="#id55343">
+<a name="pgfId-55343"></a>Properties of the dagClass</ft-figtabl-title>
+</p></caption>
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id55268">
+<a name="pgfId-55268"></a>Name</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55353"></a>SKILL Type</p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id55272">
+<a name="pgfId-55272"></a>Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55280"></a><code>name</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55282"></a>string</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55284"></a>Name of the class.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55286"></a><code>type</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55288"></a>symbol</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55290"></a>Type of the object (dagClass).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55292"></a><code>actionList</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55294"></a>list</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55296"></a>List of actions for this class.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55298"></a><code>displayList</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55300"></a>wType</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55302"></a>Display list used to render nodes of this class.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55310"></a><code>width</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55312"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55314"></a>Width of the nodes of this class.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55316"></a><code>height</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55318"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-55320"></a>Height of the nodes of this class. </p>
+</td>
+</tr>
+</tbody></table>
+<table class="webflareTable" id="#id544476">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544478"></a><code>name</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544480"></a>Name of the class.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544482"></a><code>type</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544484"></a>Type of the object. The symbol for this object is dagClass. This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544486"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544488"></a>The action list, display list, width, and height properties described below are inheritable.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544490"></a><code>actionList</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544492"></a>List of actions this class can do. actionLists are described in more detail later in this chapter. This property is read-only. The default value is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544494"></a><code>displayList</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544496"></a>Display list nodes of this class used when drawn in a browser tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544498"></a><code>width</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544500"></a>Width of all the nodes of this class when displayed in a browser tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544502"></a><code>height</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544504"></a>Height of all the nodes of this class when displayed in a browser tool.</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-53693"></a>The width and height properties are expressed using cardinal numbers. The dimensions are unit-less and can be any range that you wish. The browser tool scales these dimensions, much like the Graphics Editor does when displaying a database.</p>
+
+<h2>
+<a name="pgfId-53695"></a><a name="40996"></a>Properties of the <a name="marker-53452"></a>dagNode</h2>
+
+<p>
+<a name="pgfId-53696"></a>The table shows the properties of the dagNode. The text that follows explains each property in more detail.</p>
+
+<p>
+<a name="pgfId-532738"></a></p>
+<table class="webflareTable" id="#id55374">
+<caption style="text-align:left;"><p>
+<ft-figtabl-title id="#id527599">
+<a name="pgfId-527599"></a>Properties of the dagNode </ft-figtabl-title>
+</p></caption>
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id527605">
+<a name="pgfId-527605"></a>Name</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id527607">
+<a name="pgfId-527607"></a>SKILL Type</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id527609">
+<a name="pgfId-527609"></a>Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527611"></a><code>name</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527613"></a>string</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527615"></a>Name of the node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527617"></a><code>textColor</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527619"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527621"></a>Color of the name text when textOnly is <code>t</code> for the tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527623"></a><code>buttonColor</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527625"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527627"></a>Color of this node when displayed when textOnly is <code>t</code> for the tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527629"></a><code>label</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527631"></a>string</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527633"></a>Text label drawn in the graph<br />(if the dagTool has the showLabels property set to <code>t</code>).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527635"></a><code>type</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527637"></a>symbol</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527639"></a>Type of object (dagNode).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527641"></a><code>actionList</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527643"></a>list</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527645"></a>List of actions unique to this node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527647"></a><code>expandedActions</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527649"></a>list</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527651"></a>Full list of actions that this node can do, including actions inherited from class.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527653"></a><code>displayList</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527655"></a>wType</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527657"></a>Display list used to render the node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527659"></a><code>class</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527661"></a>wType</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527663"></a>Class of this node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527665"></a><code>parentObjects</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527667"></a>list</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527669"></a>Parent nodes of this node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527671"></a><code>parents</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527673"></a>list</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527675"></a>Parent arcs of this node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527677"></a><code>childObjects</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527679"></a>list</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527681"></a>Child nodes of this node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527683"></a><code>children</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527685"></a>list</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527687"></a>Child arcs of this node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527689"></a><code>x</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527691"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527693"></a>X position of node when displayed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527695"></a><code>y</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527697"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527699"></a>Y position of node when displayed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527701"></a><code>invisible</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527703"></a>[<code>t</code> or <code>nil</code>]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527705"></a>Node does not display.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527707"></a><code>pruned</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527709"></a><code>t</code>, <code>nil</code>, or pruneChildren</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-527711"></a>Node and its children should not be processed or drawn by the dag functions.</p>
+</td>
+</tr>
+</tbody></table>
+<table class="webflareTable" id="#id544510">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544512"></a><code>name</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544514"></a>Name of the node. This name is automatically displayed to represent the node in the graph when textOnly is <code>t</code> for the tool. This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544516"></a><code>textColor</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544518"></a>Color that the name of this node is drawn in when displayed in a dagTool. This property only takes effect when textOnly is <code>t</code> for the tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544520"></a><code>buttonColor</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544522"></a>Background color that this node will have when displayed in a dagTool when textOnly is <code>t</code> for the tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544524"></a><code>label</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544526"></a>The value of this property for the node is shown when showLabels is <code>t</code> for the tool. The label is shown in addition to what would otherwise have been displayed for the node based on the value of textOnly for the tool. The default is the empty string (&#8220;&#8221;).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544528"></a><code>type</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544530"></a>Type of this object. The symbol for this object is dagNode. This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544532"></a><code>actionList</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544534"></a>List of actions that this node can do. These are only the actions that are specific to this node; see expandedActions below. Action lists are described in more detail in the action list section. This property is read-only. The default is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544536"></a><code>expandedActions</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544538"></a>List of all the actions that a node can do. This list is the concatenation of the actions specified on the class and those specified on the node. This property is read-only. The default is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544540"></a><code>displayList</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544542"></a>Display list that this node uses when drawn in a browser tool. It must either be defined for the node or inherited from its class. When textOnly is <code>t</code> for the tool, the contents of the display list property will be ignored.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544544"></a><code>class</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544546"></a>Class of this node (as returned by dagCreateClass). This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544548"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544550"></a>The dagNode properties parents, parentObjects, children, and childObjects are created whenever a linking function is called to link two nodes together. They are modified whenever an unlinking function is called to break two nodes apart. These properties can be modified only by calling the linking and unlinking functions; they are read-only properties of the node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544552"></a><code>parentObjects</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544554"></a>List of nodes that this node attaches as parents.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544556"></a><code>parents</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544558"></a>List of dagArcs that this node attaches as parents.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544560"></a><code>childObjects</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544562"></a>List of nodes that this node attaches as children.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544564"></a><code>children</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544566"></a>List of dagArcs that this node attaches as children.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544568"></a><code>x</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544570"></a>X position in a dagTool at which this node resides. Node positions are specified relative to the lower left corner of the window and of the node bounding box.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544572"></a><code>y</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544574"></a>Y position in a dagTool at which this node resides. Node positions are specified relative to the lower left corner of the window and of the node bounding box.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544576"></a><code>invisible</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544578"></a>Property that (if true) causes the dag functions not to display the node and automatic routing not to route to it. However, automatic placement will reserve room for it in the placed graph.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544580"></a><code>pruned</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544582"></a>Property that (if true) causes the dag functions to not display, reserve space in automatic placement for or route in automatic routing to this node and any of its children. If property is pruneChildren, then this node will display, but its children will not.</p>
+</td>
+</tr>
+</tbody></table>
+<h2>
+<a name="pgfId-53719"></a><a name="15493"></a>Properties of the <a name="marker-53459"></a>dagTool</h2>
+
+<p>
+<a name="pgfId-53720"></a>The table shows the properties of the dagTool. The text that follows explains each property in more detail. </p>
+<p>
+<a name="pgfId-53721"></a>A dagTool associates a window with a graph to display in that window. The dagTool is an object (just like nodes and arcs) and has properties that you can reference and assign. These properties govern the display of the graph in this window.</p>
+
+<p>
+<a name="pgfId-532940"></a></p>
+<table class="webflareTable" id="#id532747">
+<caption style="text-align:left;"><p>
+<ft-figtabl-title id="#id532749">
+<a name="pgfId-532749"></a>Properties of the dagTool</ft-figtabl-title>
+</p></caption>
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id532755">
+<a name="pgfId-532755"></a>Name</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id532757">
+<a name="pgfId-532757"></a>SKILL Type</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id532759">
+<a name="pgfId-532759"></a>Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532761"></a><code>name</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532763"></a>string</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532765"></a>Name of the tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532767"></a><code>type</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532769"></a>symbol</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532771"></a>Type of object (dagTool).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532773"></a><code>window</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532775"></a>wType</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532777"></a>Window of this tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532779"></a><code>toolNumber</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532781"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532783"></a>Number of this tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532785"></a><code>horizontal</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532787"></a>[<code>t</code> or <code>nil</code>]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532789"></a>Show left-&gt;right.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532791"></a><code>scaleToFit</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532793"></a>[<code>t</code> or <code>nil</code>]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532795"></a>Always fit the graph.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532797"></a><code>noPlace</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532799"></a>[<code>t</code> or <code>nil</code>]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532801"></a>Don&#8217;t use the placer.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532803"></a><code>noRoute</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532805"></a>[<code>t</code> or <code>nil</code>]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532807"></a>Don&#8217;t use the router.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532809"></a><code>preDisplayProc</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532811"></a>string</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532813"></a>Procedure to call before displaying.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532815"></a><code>postDisplayProc</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532817"></a>string</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532819"></a>Procedure to call after displaying.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532821"></a><code>closeProc</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532823"></a>string</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532825"></a>Procedure to call when tool is closed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532827"></a><code>startingObject </code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532829"></a>wType</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532831"></a>Top node of the tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532833"></a><code>anchorObject</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532835"></a>wType</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532837"></a>Node to justify to.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532839"></a><code>anchorTo</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532841"></a>symbol</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532843"></a>Justification style.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532845"></a><code>x</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532847"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532849"></a>X position on screen.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532851"></a><code>y</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532853"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532855"></a>Y position on screen.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532857"></a><code>width</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532859"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532861"></a>Width of tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532863"></a><code>height</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532865"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532867"></a>Height of tool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532869"></a><code>dagLx</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532871"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532873"></a>Lower left x of dag extents. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532875"></a><code>dagLy</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532877"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532879"></a>Lower left y of dag extents.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532881"></a><code>dagUx</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532883"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532885"></a>Upper right x of dag extents.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532887"></a><code>dagUy</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532889"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532891"></a>Upper right y of dag extents.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532893"></a><code>viewLx</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532895"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532897"></a>Lower left x of the visible dag.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532899"></a><code>viewLy</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532901"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532903"></a>Lower left y of the visible dag.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532905"></a><code>viewUx</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532907"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532909"></a>Upper right x of the visible dag.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532911"></a><code>viewUy</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532913"></a>fixNum</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532915"></a>Upper right y of the visible dag.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532917"></a><code>textOnly</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532919"></a>[t or nil]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532921"></a>Show nodes as text (not icons).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532923"></a><code>showLabels</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532925"></a>[<code>t</code> or <code>nil</code>]</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532927"></a><code>t</code> turns on label display mode.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532929"></a><code>labelJustification</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532931"></a>symbol</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532933"></a>Where to place label relative to each dag node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532935"></a><code>fontName</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532937"></a>string</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-532939"></a>Name of the font to use for labels.</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a name="pgfId-53747"></a> </p>
+<table class="webflareTable" id="#id544269">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544271"></a><code>name</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544273"></a>Name of the tool. This is displayed in the window banner of the tool window.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544275"></a><code>type</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544277"></a>Type of the object. The symbol for this object is dagClass. This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544279"></a><code>window</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544281"></a>Window of the dagTool. It&#8217;s initialized when the dagOpenTool function is called. This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544283"></a><code>toolNumber</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544285"></a>Number of this tool. Each tool is assigned a unique number upon creation. This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544287"></a><code>horizontal</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544289"></a>Tells the dagTool to draw the nodes from left to right, rather than from top to bottom. The default is <code>nil</code>, meaning draw the graph from the top to the bottom.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544291"></a><code>scaleToFit</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544293"></a>Tells the dagTool to draw the graph so that bounding boxes of all of its nodes fit within the given window. Icons and scalable font text strings are scaled proportionally; raster text strings are not. If <code>nil</code>, the dagTool uses the view box (specified by viewLx, viewLy, viewUx, and viewUy) and draws only the visible, unpruned nodes that exist within this box. The default is <code>t</code>. Using this property causes the anchorTo and anchorObject properties to be ignored.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544295"></a><code>noPlace</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544297"></a>Tells the dagTool not to invoke the placer. If you set this to <code>t</code>, then you are responsible for positioning the nodes yourself. The default is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544299"></a><code>noRoute</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544301"></a>If <code>t</code> tells the dagTool not to invoke the router. The default is <code>nil</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544303"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544305"></a>The pre and post display procedures can be used to do work just before or just after the graph is displayed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544307"></a><code>preDisplayProc</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544309"></a>The preDisplayProc is called with the following form:</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544311"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544313"></a><code>preDisplayProc( tool dirtyOrNot )</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544315"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544317"></a>The dirtyOrNot parameter is true if any nodes in the graph have been modified (either by having new children created, or by having a property modified).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544319"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544321"></a>If you have disabled automatic placement, you can do the placement you want in this function.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544323"></a><code>postDisplayProc</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544325"></a>The postDisplayProc is called with the following form:</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544327"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544329"></a><code>postDisplayProc( tool )</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544331"></a><code>closeProc</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544333"></a>SKILL procedure that is called when the dagTool is closed. The closeProc takes the following arguments.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544335"></a><code></code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544337"></a><code>closeProc( w_dagTool )</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544339"></a><code>startingObject</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544341"></a>dagNode that the tool starts with. This node is the root of the graph you want displayed in the tool. This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544343"></a><code>anchorObject</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544345"></a>Node the tool justifies to. The dagTool positions its viewing box about this node. See the anchorTo property.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544347"></a><code>anchorTo</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544349"></a>Justification style for positioning the graph around the anchorObject. The graph is justified around the corresponding part of the anchorObject node. It is ignored when the scaleToFit property is <code>t</code>. It can be one of the symbols name on the left in the following table or &#8217;none.</p>
+</td>
+</tr>
+</tbody></table>
+<ffi2-fig-frame-in-2 id="#id532957">
+<a name="pgfId-532957"></a></ffi2-fig-frame-in-2>
+<div class="webflare-div-image">
+<img width="512" height="407" src="images/appB-3.gif" /></div>
+<table class="webflareTable" id="#id544366">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544368"></a><code>x</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544370"></a>X position of the tool (in screen coordinates). This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544372"></a><code>y</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544374"></a>Y position of the tool (in screen coordinates). This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544376"></a><code>width</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544378"></a>Width of the tool (in screen dimensions). This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544380"></a><code>height</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544382"></a>Height of this tool (in screen dimensions). This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544384"></a><code>dagLx</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544386"></a>Least x coordinate specified in the graph. This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544388"></a><code>dagLy</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544390"></a>Least y coordinate specified in the graph. This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544392"></a><code>dagUx</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544394"></a>Greatest x coordinate specified in the graph. This property is read-only.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544396"></a><code>dagUy</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544398"></a>Greatest y coordinate specified in the graph. This property is read-only.</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-532640"></a>The view properties specify the box that the dagTool displays.</p>
+
+<p>
+<a name="pgfId-53757"></a></p>
+<div class="webflare-div-image">
+<img width="564" height="263" src="images/appB-4.gif" /></div>
+<table class="webflareTable" id="#id544403">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544405"></a><code>viewLx</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544407"></a>Lower left x coordinate that is displayed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544409"></a><code>viewLy</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544411"></a>Lower left y coordinate that is displayed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544413"></a><code>viewUx</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544415"></a>Upper right x coordinate. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544417"></a><code>viewUy</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544419"></a>Upper right y coordinate.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544421"></a><code>textOnly</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544423"></a>Tells the dagTool to draw the nodes as text boxes, rather than using displayLists. The default is <code>nil</code>. The text is displayed in a raster font.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544425"></a><code>showLabels</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544427"></a>Turns on label display mode in the tool. The dagTool displays the label property of the dagNode.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544429"></a><code>labelJustification</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544431"></a>Specifies where the label is displayed relative to the dagNode when the showLabels property is <code>t</code>. It follows the same syntax and behavior as the anchorTo property.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544433"></a><code>fontName</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544435"></a>Specifies which raster font is used to display the labels when the showLabels property is <code>t</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h2>
+<a name="pgfId-68093"></a><a name="marker-68090"></a><a name="14301"></a>Actions and Action Lists</h2>
+
+<p>
+<a name="pgfId-534508"></a>The ability to construct and display a directed graph is sufficient for many applications. In addition, however, the dag interface allows you to put actions on a class or node. Actions are SKILL procedures this node or nodes of this class can invoke using pop-up menus. When a node is displayed in the browser tool and has actions associated with it, you can press the right mouse button over the node and a menu of actions is displayed.</p>
+<p>
+<a name="pgfId-534509"></a>Actions are assigned to a node or class using a list. This list is of the form:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-53769"></a>( <code><em>t_actionName</em></code> <code><em>t_actionProcedure</em></code> <code><em>t_actionArgs</em></code> [<code><em>t_actionAccelerator</em></code>] [<code><em>g_enabled</em></code>] )&#160;&#160;&#160;&#160;</pre>
+<table class="webflareTable" id="#id544214">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544084"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_actionName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544086"></a>The name of the action as it should appear in the popup menu.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544088"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_actionProcedure</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544090"></a>The name of the SKILL procedure called when the named action is selected.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544092"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_actionArgs</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544094"></a>String specifying all the arguments passed to the actionProcedure or the empty string (&quot;&quot;) if there are none. This string and the action procedure name are combined with sprintf to construct the expression evaluated when the action is invoked. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-544096"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_actionAccelerator</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544100"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544102"></a>Accelerator string specifying which key or mouse button will trigger this action. Valid values are as follows:</p>
+
+<ul><li>
+<a name="pgfId-533403"></a>any single alphanumeric (a-z, A-Z, 0-9) character (invoked by using the equivalent key from the keyboard)</li><li>
+<a name="pgfId-533423"></a>&quot;mouseLeft&quot; (invoked by a single click of the left mouse button)</li><li>
+<a name="pgfId-533424"></a>&quot;mouseMiddle&quot; (invoked by a single click of the middle mouse button)</li><li>
+<a name="pgfId-534525"></a>&quot;mouseRight&quot; (invoked by a single click of the middle mouse button)</li><li>
+<a name="pgfId-534543"></a>Use &quot;mouseMiddle&quot; instead; &quot;mouseRight&quot; is still available, and changed to map to the middle mouse button, for compatibility purposes. (The right mouse button is used for pop-up menus.)</li><li>
+<a name="pgfId-533425"></a>&quot;mouseLeft2&quot; (invoked by a double click of the left mouse button)</li><li>
+<a name="pgfId-533426"></a>&quot;mouseMiddle2&quot; (invoked by a double click of the middle mouse button)</li><li>
+<a name="pgfId-534530"></a>&quot;mouseRight2&quot; (invoked by a double click of the middle mouse button)</li><li>
+<a name="pgfId-534544"></a>Use &quot;mouseMiddle2&quot; instead; &quot;mouseRight2&quot; is still available, and changed to map to the middle mouse button, for compatibility purposes. (The right mouse button is used for pop-up menus.)</li></ul>
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-544134"></a>If both &quot;mouseMiddle&quot; and &quot;mouseRight&quot; are defined, then the &quot;mouseRight&quot; binding is ignored. Similarly, if both &quot;mouseMiddle2&quot; and &quot;mouseRight2&quot; are defined, then the &quot;mouseRight2&quot; binding is ignored.</div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544164"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_enabled</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-544166"></a><code>t</code> or <code>nil</code>. Specifies whether the action is enabled (<code>t</code>) or disabled (<code>nil</code>). Disabled actions are displayed in gray in a popup menu and their action accelerators are not enabled.</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-53780"></a>For example the action specified by</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-53781"></a>(&quot;Hello&quot; &quot;println&quot; &quot;\&quot;hello\&quot;&quot; &quot;&quot; t)</pre>
+
+<p>
+<a name="pgfId-53782"></a>is invoked by the browser as</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-53783"></a>println(&quot;hello&quot;)</pre>
+
+<p>
+<a name="pgfId-53784"></a>The action specified by</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-53785"></a>(&quot;Add&quot; &quot;addTwoNumbers&quot; &quot;1 3&quot; &quot;a&quot; t)</pre>
+
+<p>
+<a name="pgfId-53786"></a>is invoked by the browser as</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-53787"></a>addTwoNumbers( 1 3 )</pre>
+
+<p>
+<a name="pgfId-53788"></a>Pressing the a key (while the cursor is positioned over a dagNode with this accelerator) also triggers this action. </p>
+<p>
+<a name="pgfId-53789"></a>One cautionary note about the action menus is that the popup menu is created the first time the user presses the right mouse button over the node. No changes to the actionList will be reflected after the popup is created.</p>
+<p>
+<a name="pgfId-53790"></a>The context-sensitive bindkeys (action accelerators) supersede the ordinary hi interface bindkey functionality.</p>
+
+<h2>
+<a name="pgfId-533263"></a><a name="35375"></a>dag Functions</h2>
+
+<p>
+<a name="pgfId-533636"></a>The following functions comprise the <code>dag</code> interface:</p>
+<ul><li>
+<a name="pgfId-533637"></a><a href="appB.html#11243">dagAddActionToObject</a></li><li>
+<a name="pgfId-533641"></a><a href="appB.html#24941">dagCreateClass</a></li><li>
+<a name="pgfId-533645"></a><a href="appB.html#73014">dagCreateNode</a></li><li>
+<a name="pgfId-533650"></a><a href="appB.html#82774">dagDeleteActionFromObject</a></li><li>
+<a name="pgfId-533655"></a><a href="appB.html#93452">dagDestroyNode</a></li><li>
+<a name="pgfId-533660"></a><a href="appB.html#40497">dagDisplayTool</a></li><li>
+<a name="pgfId-533665"></a><a href="appB.html#43258">dagGetCurrentObject</a></li><li>
+<a name="pgfId-533670"></a><a href="appB.html#55572">dagGetCurrentTool</a></li><li>
+<a name="pgfId-533675"></a><a href="appB.html#70004">dagLinkParentToChild</a></li><li>
+<a name="pgfId-533680"></a><a href="appB.html#56613">dagNumToTool</a></li><li>
+<a name="pgfId-533685"></a><a href="appB.html#50788">dagOpenTool</a></li><li>
+<a name="pgfId-533690"></a><a href="appB.html#21582">dagPopTool</a></li><li>
+<a name="pgfId-533695"></a><a href="appB.html#24930">dagPushTool</a></li><li>
+<a name="pgfId-533700"></a><a href="appB.html#32025">dagRefreshObject</a></li><li>
+<a name="pgfId-533705"></a><a href="appB.html#72473">dagSetActionStatus</a></li><li>
+<a name="pgfId-533710"></a><a href="appB.html#31649">dagSetCurrentTool</a></li><li>
+<a name="pgfId-533715"></a><a href="appB.html#26903">dagSetExpandedActionStatus</a></li><li>
+<a name="pgfId-533720"></a><a href="appB.html#91126">dagSetFont</a></li><li>
+<a name="pgfId-533725"></a><a href="appB.html#51868">dagUnlinkParentFromChild</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagAddActionToObject
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-533271"></a><a name="11243"></a>dagAddActi<a name="dagAddActionToObject"></a>onToObject</h3>
+<a name="pgfId-53792"></a><a name="marker-53477"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagAddActionToObject(
+<code><em>l_action
+w_object
+</em></code>) 
+=&gt; <code><em>t_actionName</em></code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-56301"></a>Description</h4>
+
+<p>
+<a name="pgfId-53795"></a>Adds the action to the specified dag node or class. However, if the action is already in the list, it is not replaced. For an existing action, use <code>dagDeleteActionFromObject</code> to delete the action and then call <code>dagAddActionToObject</code>.</p>
+<p>
+<a name="pgfId-533458"></a>Nodes inherit the actions of their class.</p>
+
+<h4>
+<a name="pgfId-56316"></a>Arguments</h4>
+<table class="webflareTable" id="#id541935">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541937"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_action</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541939"></a>List specifying the action. See <a href="appB.html#14301">Actions and Action Lists</a> for more information.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541941"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_object</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541943"></a>Node or class the action is applied to.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-56337"></a>Value Returned</h4>
+<table class="webflareTable" id="#id541955">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541957"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_actionName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541959"></a>The name of the action (<code>car</code> of the action list).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541961"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541963"></a>The function was not successful.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-533435"></a>Example</h4>
+
+<p>
+<a name="pgfId-533440"></a>To add an action to the <code>myClass</code> dagClass, enter</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-533441"></a>action = &#8217;(&quot;Hello&quot; &quot;println&quot; &quot;\&quot;hello\&quot;&quot;)<br />dagAddActionToObject(action myClass)</pre>
+<h4>
+<a name="pgfId-537052"></a>Example 2</h4>
+
+<p>
+<a name="pgfId-537053"></a>Refer to the end of this section to see an example for visualizing a graph by using the <code>dag</code> functions.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537044"></a></pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagCreateClass
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53805"></a><a name="dagCreateClass"></a><a name="24941"></a>dagCreateClass</h3>
+<a name="pgfId-53806"></a><a name="marker-53485"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagCreateClass(
+<code><em>t_className
+</em></code>)
+=&gt; <code><em>w_class</em></code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-56364"></a>Description</h4>
+
+<p>
+<a name="pgfId-53808"></a>Creates a dagClass and returns it. If a class by this name already exists, it is overwritten. </p>
+
+<h4>
+<a name="pgfId-56397"></a>Argument</h4>
+<table class="webflareTable" id="#id541968">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541970"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_className</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541972"></a>Name of this class. Make the name of each class unique among the names of classes used in any dag browser tool. This is probably best done by adding a unique prefix to the class name.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-56436"></a>Value Returned</h4>
+<table class="webflareTable" id="#id541979">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541981"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_class</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541983"></a>The new class.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541985"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541987"></a>There was an error.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-537072"></a>Example</h4>
+
+<p>
+<a name="pgfId-537073"></a>Refer to the end of this section to see an example for visualizing a graph by using the <code>dag</code> functions.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagCreateNode
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53814"></a><a name="73014"></a>dagCrea<a name="dagCreateNode"></a>teNode</h3>
+<a name="pgfId-53815"></a><a name="marker-53493"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagCreateNode(
+<code><em>t_nodeName
+w_class
+</em></code>)
+=&gt; <code><em>w_node</em></code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-56478"></a>Description</h4>
+
+<p>
+<a name="pgfId-53818"></a>Creates a dagNode and returns it.</p>
+
+<h4>
+<a name="pgfId-56511"></a>Arguments</h4>
+<table class="webflareTable" id="#id541993">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541995"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_nodeName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541997"></a>Name of the node. The name of each node must be unique among all its siblings.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-541999"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_class</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542001"></a>Class of this node as returned by <a href="appB.html#dagCreateClass">dagCreateClass</a>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-56550"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542007">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542009"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_node</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542011"></a>The new node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542013"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542015"></a>There was an error.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-537092"></a>Example</h4>
+
+<p>
+<a name="pgfId-537093"></a>Refer to the end of this section to see an example for visualizing a graph by using the <code>dag</code> functions.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagDeleteActionFromObject
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53825"></a><a name="82774"></a>dagDeleteA<a name="dagDeleteActionFromObject"></a>ctionFromObject</h3>
+<a name="pgfId-53826"></a><a name="marker-53502"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagDeleteActionFromObject(
+<code><em>t_actionName
+w_object 
+</em></code>) 
+=&gt; <code>t / nil</code> </pre>
+<h4>
+<a name="pgfId-56589"></a>Description</h4>
+
+<p>
+<a name="pgfId-53829"></a>Deletes the action named <span class="webflare-courier-new" style="white-space:pre"><em>t_actionName</em></span> from the specified class or node. If a node&#8217;s action was inherited from its class, the action must be deleted from the class, not the node. </p>
+
+<h4>
+<a name="pgfId-56622"></a>Arguments</h4>
+<table class="webflareTable" id="#id542020">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542022"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_actionName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542024"></a>Name of the action.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542026"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_object</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542028"></a>Class or node the action is applied to.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-56661"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542033">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542035"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542037"></a>The action was deleted.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542039"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542041"></a>The action was not deleted.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagDestroyNode
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-533310"></a><a name="93452"></a>dagDestr<a name="dagDestroyNode"></a>oyNode</h3>
+<a name="pgfId-533313"></a><a name="marker-533311"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagDestroyNode(
+<code><em>w_node
+</em></code>)
+=&gt; <code>t / nil</code></pre>
+<h4>
+<a name="pgfId-56700"></a>Description</h4>
+
+<p>
+<a name="pgfId-53840"></a>Destroys a dagNode. All descendant nodes and arcs of this node are also destroyed, as well as the arcs linking this node to its parents.</p>
+
+<h4>
+<a name="pgfId-56733"></a>Argument</h4>
+<table class="webflareTable" id="#id542046">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542048"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_node</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542050"></a>Node to be destroyed.</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-53844"></a>If you do not want the descendants of this node to be destroyed, unlink the node&#8217;s immediate children with <a href="appB.html#dagUnlinkParentFromChild">dagUnlinkParentFromChild</a> before calling this function. </p>
+
+<h4>
+<a name="pgfId-56772"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542055">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542057"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542059"></a>The node was destroyed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542061"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542063"></a>There was an error.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagDisplayTool
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53847"></a><a name="40497"></a>dagDis<a name="dagDisplayTool"></a>playTool</h3>
+<a name="pgfId-53848"></a><a name="marker-53518"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagDisplayTool(
+[ <code><em>w_dagTool </em></code>]
+[ <code><em>g_runPlacer </em></code>]
+) 
+=&gt;<code> t / nil</code></pre>
+<h4>
+<a name="pgfId-56811"></a>Description</h4>
+
+<p>
+<a name="pgfId-53851"></a>Redisplays a dagTool. You can use this function if you want to re-display all of the objects in the graph rather than calling <code>dagRefreshObject</code> for each one.</p>
+<p>
+<a name="pgfId-53852"></a>In general, this routine need not be called. The dag will automatically refresh all tools in which it detects changes. If you wish to force the redisplay at a specific point in a procedure, you can call this routine. </p>
+<p>
+<a name="pgfId-533247"></a>See <a href="appB.html#dagRefreshObject">dagRefreshObject</a> for the circumstances in which the dag does not automatically redisplay. </p>
+
+<h4>
+<a name="pgfId-56844"></a>Arguments</h4>
+<table class="webflareTable" id="#id542068">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542070"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_dagTool</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542072"></a>dagTool to be displayed. If no tool is specified, the current tool is displayed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542074"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_runPlacer</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542076"></a>[<code>t</code> or <code>nil</code>] Tells the dagTool whether it should re-run the placement algorithm for the graph (if <code>t</code>) or just redisplay the nodes where they are. The default is <code>t</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-533490"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542085">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542087"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542089"></a>The dagTool was redisplayed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542091"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542093"></a>There was an error.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagGetCurrentObject
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53857"></a><a name="43258"></a>dagGetCur<a name="dagGetCurrentObject"></a>rentObject</h3>
+<a name="pgfId-53858"></a><a name="marker-53525"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagGetCurrentObject() 
+=&gt; <code><em>w_object </em></code>/ <code>nil</code></pre>
+<h4>
+<a name="pgfId-56877"></a>Description</h4>
+
+<p>
+<a name="pgfId-53861"></a>Often, when writing action procedures or SKILL objects, you need to know the node for which the action was selected. <code>dagGetCurrentObject</code> does this. It takes no arguments and returns the current node, or <code>nil</code>.</p>
+<p>
+<a name="pgfId-53862"></a>This function is intended for use in the action functions and in display list SKILL objects. The current object is set by the dag routines under the following conditions:</p>
+<ul><li>
+<a name="pgfId-53863"></a>When each dagnode is drawn, that node is made current.</li><li>
+<a name="pgfId-53864"></a>When the user invokes an action routine of a node, that node is made current.</li><li>
+<a name="pgfId-53865"></a>When the currently active node is deleted, in which case <code>dagGetCurrentObject</code> will return <code>nil</code>.</li></ul>
+
+
+<p>
+<a name="pgfId-53866"></a><code>dagGetCurrentObject</code> returns the object where the pointer is located at the time the function executes. If you start a long procedure and then move the pointer to another object before <code>dagGetCurrentObject</code> executes, <code>dagGetCurrentObject</code> returns the new object, not the original one.</p>
+<p>
+<a name="pgfId-53867"></a>If you call other procedures from your action callback, you should call <code>dagGetCurrentObject</code> in the first procedure only, and then pass a variable to the subprocedures. Do not call <code>dagGetCurrentObject</code> multiple times in a callback &#8220;tree.&#8221;</p>
+
+<h4>
+<a name="pgfId-533503"></a>Arguments</h4>
+
+<p>
+<a name="pgfId-533504"></a>None.</p>
+
+<h4>
+<a name="pgfId-533505"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542098">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542100"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_object</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542102"></a>The current node.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542104"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542106"></a>There is no current node.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-56904"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-53869"></a>procedure( myDagCallback( )<br />   prog( (curObject)<br />      curObject = dagGetCurrentObject( )<br />      subProc( curObject )<br />   )<br />)<br />procedure( subProc( curObject )<br />   ; whatever<br />)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagGetCurrentTool
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53878"></a><a name="55572"></a>dagGetCu<a name="dagGetCurrentTool"></a>rrentTool</h3>
+<a name="pgfId-53879"></a><a name="marker-53533"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagGetCurrentTool() 
+=&gt; <code><em>w_dagTool</em></code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-56925"></a>Description</h4>
+
+<p>
+<a name="pgfId-53882"></a>Returns the current dagTool, and <code>nil</code> if there is not a current dagTool. The current dagTool is different from the current window. The current tool might not be the current window. </p>
+<p>
+<a name="pgfId-53883"></a>This function is intended for use in the action functions and in display list SKILL objects. Immediately before any action callback procedure is called, the current tool value is updated. </p>
+<p>
+<a name="pgfId-53884"></a>Also, before a tool is redrawn, the current tool is updated. If the current tool is closed (deleted), <code>dagGetCurrentTool</code> will return <code>nil</code>.</p>
+
+<h4>
+<a name="pgfId-533516"></a>Argument</h4>
+
+<p>
+<a name="pgfId-533517"></a>None.</p>
+
+<h4>
+<a name="pgfId-533518"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542112">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542114"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_dagTool</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542116"></a>The current dagTool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542118"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542120"></a>There is no current dagTool.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagLinkParentToChild
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53885"></a><a name="70004"></a>dagLinkPar<a name="dagLinkParentToChild"></a>entToChild</h3>
+<a name="pgfId-53886"></a><a name="marker-53539"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagLinkParentToChild(
+<code><em>w_parent
+w_child 
+</em></code>)
+=&gt; <code><em>w_arc</em></code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-56948"></a>Description</h4>
+
+<p>
+<a name="pgfId-53889"></a>Creates a dagArc that links the parent node to the child node. It returns the arc it creates. If an error occurs, it returns <code>nil</code>. </p>
+<p>
+<a name="pgfId-53890"></a>The automatic placement algorithm places the children of a parent node in the order in which they were added with this function.</p>
+
+<h4>
+<a name="pgfId-56969"></a>Arguments</h4>
+<table class="webflareTable" id="#id542125">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542127"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_parent</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542129"></a>Parent node to link from; head of the arc to be created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542131"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_child</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542133"></a>Child node to link to; tail of the arc to be created.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-533521"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542138">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542140"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_arc</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542142"></a>The new arc.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542144"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542146"></a>There was an error.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagNumToTool
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53895"></a><a name="56613"></a>dagNumToTool</h3>
+<a name="pgfId-53896"></a><a name="marker-53546"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagNumToTool(
+<code><em>x_toolNumber
+</em></code>) 
+=&gt; <code><em>w_dagTool</em></code> / <code>nil</code></pre>
+<h4>
+<a name="pgfId-56994"></a>Description</h4>
+
+<p>
+<a name="pgfId-53899"></a>Returns the dagtool that matches the window number specified by <span class="webflare-courier-new" style="white-space:pre"><em>x_toolNumber</em></span>. </p>
+
+<h4>
+<a name="pgfId-57021"></a>Argument</h4>
+<table class="webflareTable" id="#id542151">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542153"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_toolNumber</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542155"></a>The dagTool number for which you are trying to get the associated dagtool.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-57054"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542160">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542162"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_dagTool</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542164"></a>The dagTool.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542166"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542168"></a>The dagTool was not found. </p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagOpenTool
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53905"></a><a name="50788"></a>dagOp<a name="dagOpenTool"></a>enTool</h3>
+<a name="pgfId-53906"></a><a name="marker-53554"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+<courier-ten>
+dagOpenTool(
+</courier-ten>
+<code><em>x_backGroundColor
+l_bBox
+w_startingObject
+t_name
+t_help
+</em></code><courier-ten>
+) 
+</courier-ten>
+=&gt; <code><em>w_dagTool</em></code><courier-ten>
+ / </courier-ten>
+<code>nil</code></pre>
+<h4>
+<a name="pgfId-57089"></a>Description</h4>
+
+<p>
+<a name="pgfId-53909"></a>Creates a dagTool object and opens a window in which to display the graph starting from the specified starting node.</p>
+
+<h4>
+<a name="pgfId-57126"></a>Arguments</h4>
+<table class="webflareTable" id="#id542173">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542175"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_backGroundColor</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542177"></a>The background color of the tool. Specifying <code>-1</code> for this argument is the same as passing <code>hivEditorBackgroundColor</code>, which means the window will use the editor background color.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542179"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_bBox</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542181"></a>List specifying the lower-left and upper-right coordinates of the tool (in screen coordinates). If this list is <code>nil</code>, you are prompted to position the window on the screen.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542183"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_startingObject</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542185"></a>The node that the tool uses to start processing from. This property can be changed after the tool is opened.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542187"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_name</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542189"></a>Name displayed in the dag browser tool&#8217;s window banner.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542191"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_help</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542193"></a>A string giving the name of a symbol for the help message for this tool. It determines what is shown when you press the Help button in the dag browser tool&#8217;s banner line.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-57165"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542202">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542204"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_dagTool</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542206"></a>The dagTool that was opened.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542208"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542210"></a>The dagTool could not be opened.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-57210"></a>Example 1</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-53920"></a>tool = dagOpenTool( hiMatchColorByName(&quot;white&quot;<br />list(100:100 400:400)<br />myNode &quot;myTool&quot; &quot;xxxHelpSymbol&quot; )</pre>
+<h4>
+<a name="pgfId-537119"></a>Example 2</h4>
+
+<p>
+<a name="pgfId-537120"></a>Refer to the end of this section to see an example for visualizing a graph by using the <code>dag</code> functions.</p>
+
+<h4>
+<a name="pgfId-57249"></a><a name="marker-57247"></a>C<a name="marker-57248"></a>losing a dagTool</h4>
+
+<p>
+<a name="pgfId-68025"></a>To close a dagTool, call <code>hiCloseWindow</code>. For example</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-68026"></a>hiCloseWindow( tool-&gt;window )</pre>
+
+<p>
+<a name="pgfId-68027"></a>If you have specified a closeProc property on the tool, that procedure is called just before the tool or the window for it is destroyed. The user may close a dag tool by using a window manager <em>Quit</em> or <em>Close</em> button, which will also cause the closeProc to be called.</p>
+<p>
+<a name="pgfId-53925"></a>In closeProc you should be sure to destroy all the nodes and arcs you created for this graph that you no longer need. For example, if the nodes in this browser tool are used only in this browser and you have no nodes pushed on the starting object stack, you could call</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-53926"></a>dagDestroyNode( tool-&gt;startingObject ) </pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagPopTool
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53927"></a><a name="21582"></a>dagPo<a name="dagPopTool"></a>pTool</h3>
+<a name="pgfId-53928"></a><a name="marker-53566"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagPopTool(
+<code><em>w_dagTool
+</em></code>) 
+=&gt; <code>t / nil</code></pre>
+<h4>
+<a name="pgfId-57297"></a>Description</h4>
+
+<p>
+<a name="pgfId-53931"></a>Pops the tool stack (specified by the <span class="webflare-courier-new" style="white-space:pre"><em>w_dagTool</em></span> argument).</p>
+<p>
+<a name="pgfId-53932"></a>The dagTool can have a stack of starting nodes. You can push new starting nodes onto the stack and pop them off. This is similar to the Layout Editor&#8217;s Push and Return commands. There is no limit to the number of nodes you can have on the stack. Each time that you push or pop the stack, the tool is redisplayed, so there is no need to call <code>dagDisplayTool</code>.</p>
+
+<h4>
+<a name="pgfId-533533"></a>Argument</h4>
+<table class="webflareTable" id="#id542215">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542217"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_dagTool</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542219"></a>The tool for which the starting node stack is being manipulated.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-533539"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542224">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542226"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542228"></a>The function was successful.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542230"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542232"></a>There was an error.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagPushTool
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-533536"></a><a name="24930"></a>dagPus<a name="dagPushTool"></a>hTool</h3>
+<a name="pgfId-53937"></a><a name="marker-53573"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagPushTool(
+<code><em>w_dagTool
+w_newStartingNode
+</em></code>) 
+=&gt; <code>t / nil</code> </pre>
+<h4>
+<a name="pgfId-57333"></a>Description</h4>
+
+<p>
+<a name="pgfId-53940"></a>Pushes a new starting object (specified by the <span class="webflare-courier-new" style="white-space:pre"><em>w_newStartingNode</em></span> argument) onto the stack of the tool (specified by <span class="webflare-courier-new" style="white-space:pre"><em>w_dagTool</em></span>).</p>
+<p>
+<a name="pgfId-53941"></a>The dagTool can have a stack of starting nodes. You can push new starting nodes onto the stack and pop them off. This is similar to the Layout Editor&#8217;s Push and Return commands. There is no limit to the number of nodes you can have on the stack.</p>
+
+<h4>
+<a name="pgfId-57360"></a>Arguments</h4>
+<table class="webflareTable" id="#id542244">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542246"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_dagTool</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542248"></a>The tool for which the starting object stack is being manipulated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542250"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_newStartingNode</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542252"></a>The new starting node to put on the dagTool&#8217;s stack.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-57393"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542257">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542259"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542261"></a>The function was successful.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542263"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542265"></a>There was an error. </p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagRefreshObject
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53949"></a><a name="dagRefreshObject"></a><a name="32025"></a>dagRefreshObject</h3>
+<a name="pgfId-53950"></a><a name="marker-53581"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagRefreshObject(
+<code><em>w_dagNode
+</em></code>)
+=&gt; <code>t / nil</code> </pre>
+<h4>
+<a name="pgfId-57468"></a>Description</h4>
+
+<p>
+<a name="pgfId-57451"></a>Redraws the node (specified by <span class="webflare-courier-new" style="white-space:pre"><em>w_dagNode</em></span>) in all the tools it is currentlydisplayed in.</p>
+<p>
+<a name="pgfId-57452"></a><code>dagRefreshObject</code> should be called to ensure that the display is up to date if </p>
+<ul><li>
+<a name="pgfId-53955"></a>The node&#8217;s display list has been changed (either by changing the node&#8217;s display list directly or by changing the display list inherited from the class)</li><li>
+<a name="pgfId-53956"></a>The display list for the node contains a SKILL object which needs to be reevaluated</li><li>
+<a name="pgfId-53957"></a>The width, height, or display list properties inherited from the class have changed </li></ul>
+
+
+
+<h4>
+<a name="pgfId-57501"></a>Argument</h4>
+<table class="webflareTable" id="#id542270">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542272"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_dagNode</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542274"></a>The node to be refreshed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-533549"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542279">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542281"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542283"></a>The function was successful.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542285"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542287"></a>There was an error. </p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagSetActionStatus
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53961"></a><a name="72473"></a>dagSetActio<a name="dagSetActionStatus"></a>nStatus</h3>
+<a name="pgfId-53962"></a><a name="marker-53588"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagSetActionStatus(
+<code><em>t_actionName
+w_dagObject
+g_status 
+</em></code>)
+=&gt; <code>t / nil</code></pre>
+<h4>
+<a name="pgfId-57534"></a>Description</h4>
+
+<p>
+<a name="pgfId-53965"></a>Sets the status of the specified action in the action list of the class or node. An action that has been turned off is grayed-out in the pop-up menu and not available through its action accelerator, if any.</p>
+
+<h4>
+<a name="pgfId-57561"></a>Arguments</h4>
+<table class="webflareTable" id="#id542292">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542294"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_actionName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542296"></a>Name of the action.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542298"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_dagObject</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542300"></a>Node or class the action is associated with.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542302"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_status</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542304"></a>[<code>t</code> or <code>nil</code>] <code>t</code> turns on the action; <code>nil</code> turns it off.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-533562"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542309">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542311"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542313"></a>The function was successful.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542315"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542317"></a>There was an error. </p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagSetCurrentTool
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53972"></a><a name="31649"></a>dagSetCurre<a name="dagSetCurrentTool"></a>ntTool</h3>
+<a name="pgfId-53973"></a><a name="marker-53595"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagSetCurrentTool(
+<code><em>w_dagTool
+</em></code>)
+=&gt; <code>t / nil</code></pre>
+<h4>
+<a name="pgfId-57590"></a>Description</h4>
+
+<p>
+<a name="pgfId-53976"></a>Sets the current dagTool to the one specified by the <span class="webflare-courier-new" style="white-space:pre"><em>w_dagTool</em></span> argument.</p>
+
+<h4>
+<a name="pgfId-57617"></a>Argument</h4>
+<table class="webflareTable" id="#id542322">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542324"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_dagTool</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542326"></a>The tool to make current.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-533574"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542331">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542333"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542335"></a>The function was successful.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542337"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542339"></a>There was an error. </p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagSetExpandedActionStatus
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53984"></a><a name="26903"></a>dagSetExpa<a name="dagSetExpandedActionStatus"></a>ndedActionStatus</h3>
+<a name="pgfId-53985"></a><a name="marker-53603"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagSetExpandedActionStatus(
+<code><em>t_actionName
+w_dagObject
+g_status
+</em></code>)
+=&gt; <code>t / nil</code> </pre>
+<h4>
+<a name="pgfId-57686"></a>Description</h4>
+
+<p>
+<a name="pgfId-53988"></a>Sets the status of the specified action in the expanded-action list of a node. Setting the status to <code>nil</code> makes the action name appear gray in the pop-up menu and makes the action accelerator unavailable. Once a dagNode has been placed into a tool, the actions from the dagClass are concatenated to make a full list of actions for this node. This is known as the expanded-action list.</p>
+
+<h4>
+<a name="pgfId-57719"></a>Arguments</h4>
+<table class="webflareTable" id="#id542344">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542346"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_actionName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542348"></a>Name of the action.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542350"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_dagObject</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542352"></a>Node the action is associated with.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542354"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_status</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542356"></a>[<code>t</code> or <code>nil</code>] <code>t</code> enables the action; <code>nil</code> disables it.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-533587"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542361">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542363"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542365"></a>The function was successful.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542367"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542369"></a>There was an error. </p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagSetFont
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-54024"></a><a name="91126"></a>dagSetF<a name="dagSetFont"></a>ont</h3>
+<a name="pgfId-54025"></a><a name="marker-53609"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagSetFont(
+<code><em>t_XFontName
+</em></code>)
+=&gt; <code>t / nil</code> </pre>
+<h4>
+<a name="pgfId-57752"></a>Description</h4>
+
+<p>
+<a name="pgfId-54028"></a>Modifies the font used in text mode in any dag tool.</p>
+
+<h4>
+<a name="pgfId-57779"></a>Argument</h4>
+<table class="webflareTable" id="#id542374">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542376"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_XFontName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542378"></a>Name of the X font to be used in text mode.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-57812"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542383">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542385"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542387"></a>Returns <code>t</code> if the specified font is found.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542389"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542391"></a>Returns <code>nil</code> if the specified font cannot be found.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=dagUnlinkParentFromChild
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-53993"></a><a name="dagUnlinkParentFromChild"></a><a name="51868"></a>dagUnlinkParentFromChild</h3>
+<a name="pgfId-53995"></a><a name="marker-53610"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+dagUnlinkParentFromChild(
+<code><em>w_arc
+</em></code>)
+=&gt; <code>t / nil</code></pre>
+<h4>
+<a name="pgfId-54585"></a>Description</h4>
+
+<p>
+<a name="pgfId-53998"></a>Unlinks a parent node from a child node. It takes, as its only argument, the dagArc that connects the parent to the child. The arc is destroyed; however, neither the parent node nor the child node is destroyed. This can be useful if you want to change the parent of a node. </p>
+
+<h4>
+<a name="pgfId-54600"></a>Argument</h4>
+<table class="webflareTable" id="#id542396">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542398"></a><span class="webflare-courier-new" style="white-space:pre"><em>w_arc</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542400"></a>The arc connecting the parent and child.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-54621"></a>Value Returned</h4>
+<table class="webflareTable" id="#id542405">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542407"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542409"></a>The nodes were unlinked.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542411"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-542413"></a>There was an error.</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-533899"></a></p>
+
+<h4>
+<a name="pgfId-537157"></a>Example to visualize a graph by using DAG functions</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537158"></a>myClass= dagCreateClass(&quot;myClass&quot;)&#160;&#160;                      ; create class</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537159"></a>myClass-&gt;displayList = dlMakeDisplayList(2)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537160"></a>dlAddBox(myClass-&gt;displayList 12 10:10 100:100)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537161"></a>dlAddBox(myClass-&gt;displayList 14 30:30 80:80)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537162"></a>myClass-&gt;pen = 1</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537163"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537164"></a>person1= dagCreateNode(&quot;Person1&quot; myClass)&#160;&#160;         ; create nodes</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537165"></a>person2= dagCreateNode(&quot;Person2&quot; myClass)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537166"></a>person3= dagCreateNode(&quot;Person3&quot; myClass)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537167"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537168"></a>person1-&gt;textColor = hivForegroundColor&#160;&#160;                ; avoid erase in rubberbanding</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537169"></a>person2-&gt;textColor = hivForegroundColor</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537170"></a>person3-&gt;textColor = hivForegroundColor</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537171"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537172"></a>person1-&gt;label = &quot;p1label&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537173"></a>person2-&gt;label = list( &quot;p1l1&quot; &quot;p1l2&quot; )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537174"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537175"></a>dagLinkParentToChild(person1 person2)&#160;&#160;                 ; link nodes together</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537176"></a>dagLinkParentToChild(person1 person3)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537177"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537178"></a>procedure(main()</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537179"></a>tool = dagOpenTool(hivEditorBackgroundColor</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a name="pgfId-537180"></a>list(180:150 450:550) ; x1,y1&#160;&#160;x2,y2</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a name="pgfId-537181"></a>person1&#160;&#160;                                 ; starting node</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a name="pgfId-537182"></a>&quot;DAG example&quot;&#160;&#160;          ; win title </pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a name="pgfId-537183"></a>&quot;dagHelpSymbol&quot;)&#160;&#160;      ; help symbol</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537184"></a></pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537185"></a>tool-&gt;textOnly = nil&#160;&#160;                ; use text mode only; display list core dumps</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537186"></a>tool-&gt;showLabels = t</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537187"></a>tool-&gt;labelJustification = &#39;lowerLeft</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537188"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537189"></a> dagAddActionToObject(&#160;&#160;                   ; add accelerator a on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537190"></a>&#39;(&quot;Print_Hello&quot; &quot;println&quot; &quot;\&quot;Hi, I am in func hello\&quot;&quot; &quot;a&quot; t)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537191"></a>myClass</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537192"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537193"></a> dagAddActionToObject(&#160;&#160;                   ; add accelerator b on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537194"></a>&#39;(&quot;Print_object_name&quot; &quot;printObj&quot; &quot;dagGetCurrentObject()&quot; &quot;b&quot; t)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537195"></a>myClass</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537196"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537197"></a> dagAddActionToObject(&#160;&#160;                   ; add accelerator c on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537198"></a>&#39;(&quot;Print_M1&quot; &quot;println&quot; &quot;\&quot;message 1\&quot;&quot; &quot;c&quot; t)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537199"></a>myClass</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537200"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537201"></a> dagAddActionToObject(&#160;&#160;                   ; add accelerator d on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537202"></a>&#39;(&quot;Print_M2&quot; &quot;println&quot; &quot;\&quot;message 2\&quot;&quot; &quot;d&quot; t)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537203"></a>myClass</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537204"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537205"></a> dagAddActionToObject(&#160;&#160;                   ; add accelerator e on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537206"></a>&#39;(&quot;Print_M3&quot; &quot;println&quot; &quot;\&quot;message 3\&quot;&quot; &quot;e&quot; t)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537207"></a>myClass</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537208"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537209"></a> dagAddActionToObject(&#160;&#160;                   ; add accelerator f on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537210"></a>&#39;(&quot;Print_M4&quot; &quot;println&quot; &quot;\&quot;message 4\&quot;&quot; &quot;f&quot; t)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537211"></a>myClass</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537212"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537213"></a> dagAddActionToObject(&#160;&#160;                   ; add accelerator g on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537214"></a>&#39;(&quot;Print_M5&quot; &quot;println&quot; &quot;\&quot;message 5\&quot;&quot; &quot;g&quot; t)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537215"></a>myClass</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537216"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537217"></a> dagAddActionToObject(&#160;&#160;                   ; add accelerator MMB on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537218"></a>&#39;(&quot;Print_MMB&quot; &quot;println&quot; &quot;\&quot;click MMB\&quot;&quot; &quot;mouseMiddle&quot; t)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537219"></a>myClass</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537220"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537221"></a> dagAddActionToObject(&#160;&#160;                   ; add accelerator MMB2 on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537222"></a>&#39;(&quot;Print_MMB2&quot; &quot;println&quot; &quot;\&quot;double click MMB\&quot;&quot; &quot;mouseMiddle2&quot; t)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537223"></a>myClass</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537224"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537225"></a> dagAddActionToObject(&#160;&#160;                   ; add accelerator RMB on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537226"></a>&#39;(&quot;Print_RMB&quot; &quot;println&quot; &quot;\&quot;click RMB\&quot;&quot; &quot;mouseRight&quot; t)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537227"></a>myClass</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537228"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537229"></a> dagAddActionToObject(&#160;&#160;                   ; add accelerator RMB2 on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537230"></a>&#39;(&quot;Print_RMB2&quot; &quot;println&quot; &quot;\&quot;double click RMB\&quot;&quot; &quot;mouseRight2&quot; t)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537231"></a>myClass</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537232"></a> )</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537233"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537234"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537235"></a>procedure(printHello(buf)&#160;&#160;                  ; called from accelerator a on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537236"></a>printf(&quot;got message -%s-\n&quot;, buf)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537237"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537238"></a>procedure(printObj(node)&#160;&#160;                  ; called from accelerator b on nodes</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537239"></a>printf(&quot;got node -%s-\n&quot;, node-&gt;name)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537240"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537241"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537242"></a> prefix= &quot;DAG example&quot;&#160;&#160;                                  </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537243"></a> hiRegisterBindKeyPrefix(prefix &quot;browser&quot;)&#160;&#160;    ; register bind key table</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537244"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537245"></a> hiSetBindKey(prefix &quot;None&lt;Btn1Down&gt;&quot; &quot;startBox()&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537246"></a> hiSetBindKey(prefix &quot;None&lt;Btn1Down&gt; EF&quot; &quot;getBoxPoint()&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537247"></a> hiSetBindKey(prefix &quot;None&lt;Btn2Down&gt;&quot; &quot;keyFunc2()&quot;)&#160;&#160;        ; do bind keys</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537248"></a> hiSetBindKey(prefix &quot;None&lt;Btn3Down&gt;&quot; &quot;keyFunc3()&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537249"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537250"></a>; called when left mouse button is pressed inside the enter function</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537251"></a>procedure(getBoxPoint()&#160;&#160;       </pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537252"></a>addPoint(hiGetCommandPoint())</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537253"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537254"></a>procedure(boxDone(w done pts)&#160;&#160;       ; called when enter function for box is done</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537255"></a>if( done then</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a name="pgfId-537256"></a>printf(&quot;box entered was %L \n&quot; pts)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537257"></a>else</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a name="pgfId-537258"></a>println(&quot;Box entry aborted\n&quot;)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537259"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537260"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537261"></a>; called when left mouse button is pressed and not in enter function</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537262"></a>procedure(startBox()</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537263"></a>enterBox(?doneProc &quot;boxDone&quot;</pre>
+<pre class="webflare-courier-new webflare-indent2 codeContent">
+<a name="pgfId-537264"></a>?prompts &#39;(&quot;enter 1st point for box&quot; &quot;enter 2nd point for box&quot;)</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537265"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537266"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537267"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537268"></a>procedure(keyFunc2()&#160;&#160;           ; called when middle mouse button is pressed</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537269"></a>println(&quot;got middle mouse button&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537270"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537271"></a>procedure(keyFunc3()&#160;&#160;           ; called when right mouse button is pressed</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a name="pgfId-537272"></a>println(&quot;got right mouse button&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-537273"></a>)</pre>
+
+<p>
+<a name="pgfId-537138"></a>main()</p>
+<p>
+<a name="pgfId-537149"></a></p>
+<p>
+<a name="pgfId-541332"></a></p>
+
+<!-- [TOPIC_END] -->
+
+<p>
+<a name="pgfId-543138"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="appA.html" id="prev" title="Display Lists">Display Lists</a></em></b><b><em><a href="appC.html" id="nex" title="Interprocess Communication">Interprocess Communication</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

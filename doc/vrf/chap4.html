@@ -1,0 +1,1078 @@
+
+<html><head><title>Creating Package Layout</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="deeptig" />
+<meta name="CreateDate" content="2020-09-20" />
+<meta name="CreateTime" content="1600667228" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes Virtuoso RF solution that enables to create package layouts in Virtuoso." />
+<meta name="DocTitle" content="Virtuoso RF Solution Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Creating Package Layout" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="vrf" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-20" />
+<meta name="ModifiedTime" content="1600667228" />
+<meta name="NextFile" content="co_design.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="chap3.html" />
+<meta name="c_product" content="Cross-Platform Solutions" />
+<meta name="Product" content="Virtuoso System Design Environment" />
+<meta name="ProductFamily" content="Cross-Platform Solutions" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso RF Solution Guide -- Creating Package Layout" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vrfICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vrfTOC.html">Contents</a></li><li><a class="prev" href="chap3.html" title="Creating a Package Schematic">Creating a Package Schematic</a></li><li style="float: right;"><a class="viewPrint" href="vrf.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="co_design.html" title="Edit-in-Concert">Edit-in-Concert</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso RF Solution Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>5
+<a id="pgfId-857691"></a></h1>
+<h1>
+<a id="pgfId-878194"></a><hr />
+<a id="29588"></a>Creating Package Layout<hr />
+</h1>
+
+<p>
+<a id="pgfId-902182"></a>This chapter covers generating the package layout from the package schematic and performing edits on the package layout. To complete the physical layout, use GFS to generate the layout. If there are flip chip attachments, use the appropriate instance properties to place the components on the top or bottom of the substrate with the correct orientation. Connect balls to IO pads through curved paths by using flight lines and connectivity/DRC markers in the Annotation Browser. You need to fix shorts on signals with power and ground planes by creating dynamic shapes and performing voiding. The synchronized edits in the die abstract and layout are covered in the Edit-in-Concert chapter.</p>
+<p>
+<a id="pgfId-911543"></a>The chapter includes the following sections:</p>
+<ul><li>
+<a id="pgfId-737043"></a><a href="chap4.html#44800">Generating from Source</a></li><li>
+<a id="pgfId-918486"></a><a href="chap4.html#77504">Attaching Dies</a></li><li>
+<a id="pgfId-961134"></a><a href="chap4.html#68133">Creating Shapes for Routing</a></li><li>
+<a id="pgfId-929073"></a><a href="chap4.html#82318">Performing Interactive Routing</a></li><li>
+<a id="pgfId-969078"></a><a href="chap4.html#97203">Introduction to the Push-and-Shove Feature</a></li><li>
+<a id="pgfId-954392"></a><a href="chap4.html#98919">Creating Void Shapes to Insulate Signal Shapes from Power or Ground Planes</a></li></ul>
+
+
+
+
+
+
+<h2>
+<a id="pgfId-737151"></a><a id="44800"></a>Generating from Source</h2>
+
+<p>
+<a id="pgfId-954710"></a>The package layout is generated from the package schematic using the existing Generate from Source (GFS) functionality to place the components appropriately.</p>
+<p>
+<a id="pgfId-954712"></a>During GFS, each layout instance, net, and terminal is created. Individual components in the schematic are represented as the TILP instances that contain type specific information of their function and parameters, such as rotation, mirrored, flipped, and so on, which control the re-layering and geometry of the shapes contained within the components. </p>
+<p>
+<a id="pgfId-954713"></a>The GFS process creates a single level of layout hierarchy. This layout hierarchy may bind to a different schematic hierarchy - the binder component in the Virtuoso RF Solution maintains the correspondence between objects in the schematic and layout hierarchies.</p>
+<p>
+<a id="pgfId-940482"></a>For details about GFS, refer to <h-hot><a actuate="user" class="URL" href="../vxlhelp/chap6.html#firstpage" show="replace" xml:link="simple">Generating a Layout</a></h-hot>.</p>
+
+<h2>
+<a id="pgfId-940122"></a><a id="77504"></a>Attaching Dies<a id="attach_param"></a></h2>
+
+<p>
+<a id="pgfId-962081"></a>Depending on the mode of attachment, the dies in the Virtuoso RF solution can be classified as wirebonded and flip chip dies, as described below.</p>
+<ul><li>
+<a id="pgfId-962082"></a><strong>Wirebonded die:</strong> Uses bond wires to establish connections. Bond wires are connected to the die IO pads on one side and the bond wire endpoints or bond fingers on the other.</li><li>
+<a id="pgfId-962083"></a><strong>Flip chip die:</strong> Uses solder balls to establish connections. To connect the dies, solder balls are placed on the top metal layer or on the metal layer at the back. These solder balls and the metal pads beneath them are called bumps. Bumps that lie between a die and the package substrate are called flip chip bumps.<br />
+<a id="pgfId-962100"></a><div class="webflare-div-image">
+<img width="668" height="174" src="images/chap4-2.gif" /></div></li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-962101"></a>This section covers the following topics:</p>
+<ul><li>
+<a id="pgfId-962105"></a><a href="chap4.html#91410">Wirebonded Dies</a></li><li>
+<a id="pgfId-962109"></a><a href="chap4.html#78495">Flip Chip Dies</a><a id="23839"></a></li></ul>
+
+
+<h3>
+<a id="pgfId-966911"></a><a id="91410"></a>Wirebonded Dies<a id="wireBoundDies"></a></h3>
+
+<p>
+<a id="pgfId-962112"></a>The key components of wirebonded dies are the following: </p>
+<ul><li>
+<a id="pgfId-962113"></a><strong>Guides:</strong> Paths drawn around dies to define valid placement locations for bond wire endpoints and bond fingers.</li><li>
+<a id="pgfId-962114"></a><strong>Bond wires:</strong> Wires, usually made of gold, that connect the die pads either to bond fingers on the component substrate or to die pads on another die.</li><li>
+<a id="pgfId-962115"></a><strong>Bond fingers:</strong> A metal pad on the outer layer of the component substrate to which a wire bond is attached. Bond fingers help establish electrical connections between the component substrate and the die.<br /><div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-962116"></a>
+Virtuoso supports the free placement of bond wire endpoints and bond fingers. Therefore, you can place bond wires and bond fingers without creating guides. </div></li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-962117"></a>This section covers the following topics:</p>
+<ul><li>
+<a id="pgfId-962121"></a><a href="chap4.html#18329">Working with Guides</a></li><li>
+<a id="pgfId-962125"></a><a href="chap4.html#62472">Working with Bond Wires and Bond Fingers</a></li></ul>
+
+
+<h4>
+<a id="pgfId-962127"></a><a id="18329"></a>Working with Guides</h4>
+
+<p>
+<a id="pgfId-962128"></a>You can create one or more line-shaped or arc-shaped guides around dies. </p>
+
+<p>
+<a id="pgfId-962138"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="353" src="images/chap4-4.gif" /></div>
+
+<p>
+<a id="pgfId-962139"></a>The following diagram shows the connections in a wirebonded die, where the bond fingers are placed on a guide.</p>
+
+<p>
+<a id="pgfId-962159"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="198" src="images/chap4-5.gif" /></div>
+
+<p>
+<a id="pgfId-969885"></a><a id="wirebondPalette"></a>You can view wirebonds in the <em>Objects</em> panel of the <em>Palette</em> assistant. You can change the Visibility (<em>V</em>) settings of wirebonds through the <em>Palette</em>. You can also use the environment variable, <a href="../vlehelp/appB.html#pteInfraWirebondProfileColors">pteInfraWirebondProfileColors</a>, to assign colors to wirebond profiles.</p>
+
+<p>
+<a id="pgfId-969896"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="283" src="images/chap4-6.gif" /></div>
+
+<p>
+<a id="pgfId-969881"></a>You can use the SKILL functions, <a href="../sklayoutref/layout.html#leGetWirebondProfileVisible">leGetWirebondProfileVisible</a> and <a href="../sklayoutref/layout.html#leSetWirebondProfileVisible">leSetWirebondProfileVisible</a> to view or set the visibility of wirebond profiles, respectively.</p>
+<p>
+<a id="pgfId-962160"></a>This topic describes the following procedures:</p>
+<ul><li>
+<a id="pgfId-962164"></a><a href="chap4.html#35023">Creating a Guide</a></li><li>
+<a id="pgfId-962168"></a><a href="chap4.html#68897">Editing a Guide</a></li></ul>
+
+
+<h4><em>
+<a id="pgfId-962171"></a><a id="35023"></a>Creati<a id="createGuide"></a>ng a Guide</em></h4>
+
+<p>
+<a id="pgfId-962172"></a>To create a guide:</p>
+<ol><li>
+<a id="pgfId-962173"></a>Select the die for which you would want to create a guide.</li><li>
+<a id="pgfId-962174"></a>Choose <em>Module &#8212; Guide &#8212; Create to open </em>the <a href="form_desc.html#95000">Create Guides</a> form. <br />
+<a id="pgfId-962178"></a><div class="webflare-div-image">
+<img src="images/CreateGuide.gif" /></div>
+<a id="pgfId-962179"></a>The Create Guides form is not displayed when:<ul><li>
+<a id="pgfId-962180"></a>No die is selected. You are prompted to select a die. The Create Guides form is displayed only after you select a die.</li><li>
+<a id="pgfId-962181"></a>The selected die is a flip chip. Flip chip dies use solder bumps (not bond wires) to establish connections. Therefore, they do not require guides or bond wires.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-962182"></a>If multiple dies are selected before invoking the command, only the first die is considered for creating guides.</div></li></ul></li><li>
+<a id="pgfId-962183"></a>Select a <em>Die Side</em> value to specify the side along which one or more guides are to be created: <em>All</em>, <em>North</em>, <em>East</em>, <em>West</em>, or <em>South</em>. <br />
+<a id="pgfId-967148"></a>The default value is <em>All</em>. Line-shaped guides are created on all four sides of the die. The following images depict die sides.<br />
+<a id="pgfId-962193"></a><div class="webflare-div-image">
+<img width="668" height="147" src="images/chap4-8.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-962194"></a>Line-shaped guides are created by default. To create arc-shaped guides, specify a <em>Radius</em> value. Arc-shaped guides support the equidistant placement of bond fingers from the IO pads in the die.</div></li><li>
+<a id="pgfId-962196"></a>Specify the distance of the guide in the <em>Distance</em> field and the reference from which the distance is to be calculated. </li><li>
+<a id="pgfId-962197"></a>Select <em>From edge of the die</em> to specify that the distance is to be calculated from the corresponding die edge. For example if the <em>Die Side</em> is set to <em>North</em>, the distance is calculated from the top edge of the die. This option is selected by default.<br />
+<a id="pgfId-962206"></a><div class="webflare-div-image">
+<img width="668" height="221" src="images/chap4-9.gif" /></div></li><li>
+<a id="pgfId-962208"></a>(Optional) Select and specify a <em>Radius</em> value to create arc-shaped guides. The curvature of the guide is calculated based on the specified radius.<br />
+<a id="pgfId-962216"></a><div class="webflare-div-image">
+<img width="668" height="254" src="images/chap4-10.gif" /></div></li><li>
+<a id="pgfId-962217"></a>(Optional) Select <em>Guide Vertices offset</em> and specify the distance of the diagonal line drawn from the two vertexes of the guide to the center of the die.<br />
+<a id="pgfId-962222"></a><div class="webflare-div-image">
+<img width="668" height="254" src="images/chap4-11.gif" /></div></li><li>
+<a id="pgfId-962223"></a>Click <em>Apply</em> or <em>OK</em> to create the guide.<br />
+<a id="pgfId-962224"></a>You can now create bond wires with their endpoints on the guides.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-962226"></a><a id="68897"></a>Editing a Guide</em></h4>
+
+<p>
+<a id="pgfId-962227"></a>The <em>Module &#8211; Guide</em> menu includes the <em>Stretch</em> and <em>Move</em> commands that let you edit guides. </p>
+<p>
+<a id="pgfId-962228"></a>To stretch a guide:</p>
+<ol><li>
+<a id="pgfId-962229"></a>Choose <em>Module</em> &#8212;<em> Stretch</em>. </li><li>
+<a id="pgfId-962230"></a>Select the guide to be stretched. Drag lines are displayed on the guide.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-962231"></a>If the guide is not selectable, enable the selection setting of the corresponding layer-purpose pair in the Palette assistant.</div>
+<a id="pgfId-962232"></a>Three boxes are displayed at either ends and in the middle of the selected guide. Hover the cursor over a box to stretch the guide from that position.</li><li>
+<a id="pgfId-962233"></a>Click and drag the guide to stretch it in the required direction. Release the pointer. <br />
+<a id="pgfId-967316"></a>The guide is stretched. Any existing bond fingers or wires are re-positioned accordingly.<br />
+<a id="pgfId-962243"></a><div class="webflare-div-image">
+<img width="668" height="473" src="images/chap4-12.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-962244"></a>To move a guide:</p>
+<ol><li>
+<a id="pgfId-962245"></a>Choose <em>Module</em> &#8211; <em>Move</em>. Alternatively, you can use the shortcut key <code>M</code>.</li><li>
+<a id="pgfId-962246"></a>Select the guide to be moved.</li><li>
+<a id="pgfId-962247"></a>Move the pointer to a new location.</li><li>
+<a id="pgfId-962248"></a>Click where you want to place the guide. The guide is moved to the new location. Any existing bond fingers or wires are moved accordingly.</li></ol>
+
+
+
+<p>
+<a id="pgfId-962249"></a>The following images depict the movement of guides with bond fingers.</p>
+
+<p>
+<a id="pgfId-962266"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="695" src="images/chap4-13.gif" /></div>
+<h4>
+<a id="pgfId-962268"></a><a id="62472"></a>Working with Bond Wires and Bond Fingers</h4>
+
+<p>
+<a id="pgfId-962269"></a>Bond wires are wires of very fine diameter, typically made of aluminum, copper, silver, or gold, that connect the die IO pads to the package substrate. Virtuoso provides options to create and edit bond wires.</p>
+<p>
+<a id="pgfId-962270"></a>This section covers the following topics:</p>
+<ul><li>
+<a id="pgfId-962274"></a><a href="chap4.html#78549">Creating Bond Wires and Bond Fingers</a></li><li>
+<a id="pgfId-962278"></a><a href="chap4.html#64781">Editing Bond Wires and Bond Fingers</a></li></ul>
+
+
+<h4><em>
+<a id="pgfId-962281"></a><a id="78549"></a>Creating Bond Wire<a id="createBondWire"></a>s and Bond Fingers</em></h4>
+
+<p>
+<a id="pgfId-962282"></a>Virtuoso supports both freestyle and guide-based placement of bond wires. Before creating bond wires and bond fingers, ensure the following:</p>
+<ul><li>
+<a id="pgfId-962283"></a>The wire profiles are defined in the technology file using the <a actuate="user" class="URL" href="../sktechfile/chap17.html#techCreateWireProfile" show="replace" xml:link="simple">techCreateWireProfile</a> SKILL function:<br />
+<a id="pgfId-962287"></a><div class="webflare-div-image">
+<img src="images/wireProfileDefinition.gif" /></div></li><li>
+<a id="pgfId-962288"></a>For guide-based placement, the guides are in place.<br />
+<a id="pgfId-962300"></a><div class="webflare-div-image">
+<img width="668" height="366" src="images/chap4-15.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-962301"></a>To create bond wires:</p>
+<ol><li>
+<a id="pgfId-962302"></a>Select the level-1 pins or IO pads for which bond wires are to be be created. It is recommended that you create bond wires for only one guide at a time. For example, choose all the IO pads for which bond wires are to be be created in the guide in the top direction. </li><li>
+<a id="pgfId-962303"></a>Choose <em>Module</em> &#8211; <em>Bond Wire </em>&#8211; <em>Create.</em></li><li>
+<a id="pgfId-962304"></a>Move the pointer over the required guide to see the valid placement locations for bond wire endpoints or fingers.</li><li>
+<a id="pgfId-962305"></a>Press <code>F3</code> to display the <a href="form_desc.html#79089">Create Bond Wire</a> form.<br />
+<a id="pgfId-962309"></a><div class="webflare-div-image">
+<img src="images/CreateBondWire.gif" /></div></li><li>
+<a id="pgfId-962310"></a>Select one of the following options to specify what you want to create:<ul><li>
+<a id="pgfId-962311"></a><em>Both</em>: Use this option to create both a bond wire and a bond finger.</li><li>
+<a id="pgfId-962312"></a><em>Bond Wire</em>: Use this option to create only a bond wire without adding a bond finger, for example to re-bond dies after replacing or swapping them.</li><li>
+<a id="pgfId-962313"></a><em>Bond Finger</em>: Use this option to create a bond finger.</li></ul></li><li>
+<a id="pgfId-962314"></a>Select a <em>Wire Profile</em> value. This option lists all the wire profiles that are defined in the technology file. A wire profile defines bond wire properties such as the width of the wire. These properties are not listed in Property Editor and therefore cannot be edited after the bond wires are created.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-962315"></a><em>Wire Profile</em> is available only when <em>Create</em> is set to <em>Both</em> or <em>Bond Wire</em>.</div></li><li>
+<a id="pgfId-962316"></a>Set <em>Snap To</em> to specify whether the created components are to automatically snap to <em>Bond Finger</em>, <em>Guide</em>, or <em>Die IO</em>. <ul><li>
+<a id="pgfId-962317"></a>In the <em>Bond Wire</em> mode, all <em>Snap To</em> options are available. </li><li>
+<a id="pgfId-962318"></a>In the <em>Both</em> and <em>Bond Finger</em> modes, only <em>Guide</em> is available.</li></ul></li><li>
+<a id="pgfId-965177"></a>Select <em>Uniformly Distribute Objects on Guide</em> to distribute bond fingers evenly along the guide. When the option is not selected, the <a actuate="user" class="URL" href="../ascitechconstr/constr_packaging.html#pkgMinBondwireSpacing" show="replace" xml:link="simple">pkgMinBondwireSpacing</a> constraint value is used to determine the minimum spacing between adjacent bond fingers.</li><li>
+<a id="pgfId-962319"></a>Specify the <em>Bond Finger</em> parameters. The <em>Bond Finger</em> section is available for edit only mode when creating bond fingers.</li><li>
+<a id="pgfId-962320"></a>Select a bond finger definition from the <em>Definition </em>list. <ul><li>
+<a id="pgfId-962321"></a>Click <em>Display</em> to view the settings in the Add Bond Finger Definition form. You can edit the settings as per your requirements.</li></ul></li><li>
+<a id="pgfId-962322"></a>Click <em>Add</em> to create a new bond finger definition. The Add Bond Finger Definition form is displayed. </li><li>
+<a id="pgfId-967500"></a>Click <em>OK</em>. The new bond finger definition is automatically selected in the <em>Definition</em> list. For more information, see <a href="chap4.html#78549">Creating Bond Wires and Bond Fingers</a>. Select one of the following <em>Alignment</em> types for bond fingers:<ul><li>
+<a id="pgfId-962327"></a><em>along wire</em>: Aligns bond fingers in the same direction as the bond wires.</li><li>
+<a id="pgfId-962328"></a><em>orthogonal to die</em>: Determines the die edge that is closest to IO pads and aligns the bond fingers orthogonal (perpendicular) to this edge. The direction of the bond finger does not change even when it is moved to another die edge.Click <em>Hide</em>.</li></ul></li><li>
+<a id="pgfId-962330"></a>Click to place the bond wires and bond fingers at the required locations.</li><li>
+<a id="pgfId-962331"></a>Follow steps 1 through 6 to create bond wires (and bond fingers) in all directions, as shown in the following image.<br />
+<a id="pgfId-962335"></a><div class="webflare-div-image">
+<img src="images/CreateWireBond3.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-969591"></a>Bond wires and bond fingers are created as per your specifications. The bond wire end points are centered to the bond finger and die pins. A single net connects each IO pad to its corresponding bond wire and bond finger.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-962337"></a>he <a actuate="user" class="URL" href="../ascitechconstr/constr_packaging.html#pkgMinBondwireWidth" show="replace" xml:link="simple">pkgMinBondwireWidth</a> constraint is honored during bond wire creation. </div>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-964890"></a>
+The bond wire settings are valid for both mirrored and non-mirrored dies.</div>
+
+<p>
+<a id="pgfId-969466"></a>The Check Against Source (CAS) command does not report mismatches between wire bond and finger instances.</p>
+
+<h4><em>
+<a id="pgfId-966965"></a><a id="bond_finger_defs"></a>Creating Bond Finger Definitions</em></h4>
+
+<p>
+<a id="pgfId-962340"></a>The Virtuoso RF solution supports the creation and reuse of bond fingers. When creating bond wires, instead of specifying bond finger parameters each time, you can choose from a list of predefined bond fingers. To define bond fingers: </p>
+<ol><li>
+<a id="pgfId-962341"></a>Open the Create Bond Wire form.</li><li>
+<a id="pgfId-962342"></a>Click <em>Add</em> next to the <em>Definition</em> option in the <em>Bond Finger</em> section. The Add Bond Finger Definition form is displayed.<br />
+<a id="pgfId-962346"></a><div class="webflare-div-image">
+<img src="images/AddBondFingerProfile.gif" /></div></li><li>
+<a id="pgfId-962347"></a>Specify a unique value for <em>Definition Name</em>.</li><li>
+<a id="pgfId-962348"></a>Select a shape for the bond wire: <em>rectangle</em>, <em>oblong</em>, <em>circle</em>, or <a href="chap1.html#94858">Padstacks</a>. Depending on the selected shape, the remaining options vary.<ul><li>
+<a id="pgfId-962350"></a>For <em>rectangle</em> and <em>oblong</em>, specify the <em>Layer</em>, <em>width</em>, and <em>length</em> of the bond fingers.</li><li>
+<a id="pgfId-962351"></a>For <em>circle</em>, specify values in the <em>Layer</em> and <em>diameter</em> fields.</li><li>
+<a id="pgfId-962352"></a>For <em>padStack</em>, specify values in the <em>Library Name</em>, <em>Cell Name</em>, and <em>View Name</em> fields. You can click <em>Browse</em> to choose values from the Library Browser.</li></ul></li><li>
+<a id="pgfId-966981"></a>Click <em>OK</em>.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-962354"></a><a id="moveBondWire"></a><a id="64781"></a>Editing Bond Wires and Bond Fingers</em></h4>
+
+<p>
+<a id="pgfId-962355"></a>The <em>Module &#8211; Bond Wire</em> menu includes the following commands that let you edit bond wires and bond fingers:</p>
+<ul><li>
+<a id="pgfId-962356"></a><em>Move wire or finger:</em> Lets you move bond wires and fingers individually to a new position on the guide. To move a bond wire:<ol><li>
+<a id="pgfId-962357"></a>Choose <em>Module</em> &#8211; <em>Bond Wire &#8211; Move wire or finger</em>. Alternatively, you can use the shortcut key <code>M</code>.</li><li>
+<a id="pgfId-962358"></a>Select the bond wire to be repositioned by selecting either the complete instance or the level-1 path of the bond wire instance.</li><li>
+<a id="pgfId-962359"></a>Press <code>F3</code> to display the Move form. In addition to the standard Move options, the form includes a <em>Wire Bond </em>section. Select <em>Snap end points</em> to specify the snapping behavior of bond wires. The snapping behavior differs based on the selection. <ul><li>
+<a id="pgfId-962360"></a>If the IO side of a bond wire is selected, the endpoint is snapped to the same net IOs.</li><li>
+<a id="pgfId-962361"></a>If the finger side is selected, the snapping behavior depends on the <em>Unlock finger</em> setting. <br />
+<a id="pgfId-962362"></a>- <strong>OFF (default):</strong> Endpoints of locked fingers are snapped to the nearest guide. <br />
+<a id="pgfId-962363"></a>- <strong>ON</strong>: Endpoints are snapped to the nearest guide, finger of same net, or IO of same net.<br /><ffi2-fig-frame-in-2 id="#id962367">
+<a id="pgfId-962367"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="514" src="images/chap4-20.gif" /></div></li></ul></li><li>
+<a id="pgfId-962368"></a>Select the required options in the Move form.</li><li>
+<a id="pgfId-962369"></a>Click <em>Hide</em>.</li><li>
+<a id="pgfId-962370"></a>Move the pointer to the required location. Click to place the bond wire. </li></ol><br />
+<a id="pgfId-962372"></a>The bond finger and bond wire are repositioned as follows:<br />
+<a id="pgfId-962390"></a><div class="webflare-div-image">
+<img width="668" height="519" src="images/chap4-21.gif" /></div></li><li>
+<a id="pgfId-962391"></a><em>Update finger attach point:</em> Lets you alter the point where a bond wire is attached to its bond finger.<ol><li>
+<a id="pgfId-962392"></a>Choose <em>Module</em> &#8211; <em>Bond Wire &#8211; Update finger attach point.</em></li><li>
+<a id="pgfId-962393"></a>Click the bond finger for which the point of attachment is to be changed.</li><li>
+<a id="pgfId-962394"></a>Move the pointer to the required location.</li><li>
+<a id="pgfId-962395"></a>Click to indicate the new attachment point.</li></ol><br />
+<a id="pgfId-962396"></a>The bond finger attachment point is updated as shown in the following images.<br />
+<a id="pgfId-962413"></a><div class="webflare-div-image">
+<img width="668" height="276" src="images/chap4-22.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-962077"></a><a id="78495"></a>Flip Chip Dies</h3>
+
+<p>
+<a id="pgfId-952734"></a>For flip chip attachments, die instances on the package are flipped if the IO pads on the die are on the front-side of the IC and connected to the top of the package substrate. In addition, if they are being mirrored, they are connected to the bottom of the package substrate. If the die instance attaches to an internal layer in the package substrate (attachment in a cavity for instance), the layer offset must be specified. </p>
+<p>
+<a id="pgfId-952762"></a>Here are some of the parameters to be set for attaching the die or package TILP to the appropriate side of the substrate. Select the die instance in the package layout and right-click to view the <em>Parameter</em> tab of the Edit Instance Properties form.</p>
+
+<p>
+<a id="pgfId-953028"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="702" src="images/chap4-23.gif" /></div>
+
+<ul><li>
+<a id="pgfId-952873"></a><em>Angle</em>- placement angle of the die<br />
+<a id="pgfId-963280"></a>The following Translation table defines what angle is to be set based on instance orientation:<br />
+<a id="pgfId-964049"></a><table class="webflareTable" id="#id963984">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id963344">
+<a id="pgfId-963344"></a>Schematic Orientation</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id963346">
+<a id="pgfId-963346"></a>TILP Angle</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963421"></a>oacR0 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963350"></a>0 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963352"></a>oacR90 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963537"></a>90</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963356"></a>oacR180 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963358"></a>180 </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963360"></a>oacR270 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963671"></a>270</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963364"></a>oacMY </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963742"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963368"></a>oacMYR90 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963370"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963372"></a>oacMX</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963374"></a>0</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963896"></a>oacMXR90 </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-963948"></a>0</p>
+</td>
+</tr>
+</tbody></table><br />
+<a id="pgfId-964063"></a>Orientation of the layout instance during GFS is set based on the <a actuate="user" class="URL" href="../vxlhelp/appA.html#lxGenerationOrientation" show="replace" xml:link="simple">lxGenerationOrientation</a> environment variable, which is, by default, set to <code>R0</code>, so TILP angle is always set to 90.<br />
+<a id="pgfId-963281"></a>When the environment variable is set to <code>preserve</code>, the layout instance orientation takes the value from schematic instance and sets accordingly as mentioned in the table.</li><li>
+<a id="pgfId-953740"></a><em>Flipped</em>- flipped before placing</li><li>
+<a id="pgfId-953139"></a><em>Die Stack Order</em>/<em>Package Stack Order</em>- die/package TILP stack order </li><li>
+<a id="pgfId-953068"></a><em>Mirrored</em>- mirrored to its original position with respect to the package. A mirrored die is placed under the package. <em>Stackup Offset</em>/<em>Package Stackup Offset</em>- distance from the die/package TILP stack</li><li>
+<a id="pgfId-953860"></a><em>Shrink Factor</em>- ratio of shrinking the die optically while placing on the package, ranges from 0&#8211;1</li><li>
+<a id="pgfId-959524"></a><em>X Thermal Shrink Factor (%)</em>- percentage of shrinking the die thermally on the x-axis. For details, refer to <a href="chap4.html#66869">Applying the Thermal Shrink Factor</a>.</li><li>
+<a id="pgfId-959677"></a><em>Y Thermal Shrink Factor (%)</em>- percentage of shrinking the die thermally on the y-axis.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-954822"></a>Refer to the following illustration when choosing the parameters. A sample package stackup is shown with four layers (intervening dielectrics are not shown).</p>
+
+<p>
+<a id="pgfId-954884"></a></p>
+<div class="webflare-div-image">
+<img width="131" height="89" src="images/chap4-24.gif" /></div>
+
+<p>
+<a id="pgfId-954925"></a>Here are the various options of bump attachments.</p>
+
+<p>
+<a id="pgfId-970470"></a></p>
+<table class="webflareTable" id="#id959443">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955049"></a><strong>Type of Bump Attachment</strong></p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955051"></a><strong>Illustrations</strong></p>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955053"></a>No mirror, No Flip, Stack Offset = 0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955055"></a></p>
+<div class="webflare-div-image">
+<img width="403" height="278" src="images/chap4-25.gif" /></div>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955057"></a>No mirror, Flip, Stack Offset = 0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955059"></a></p>
+<div class="webflare-div-image">
+<img width="403" height="281" src="images/chap4-26.gif" /></div>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955061"></a>Mirror, No Flip, Stack Offset = 0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955063"></a></p>
+<div class="webflare-div-image">
+<img width="406" height="284" src="images/chap4-27.gif" /></div>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955065"></a>Mirror, Flip, Stack Offset = 0</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955067"></a></p>
+<div class="webflare-div-image">
+<img width="406" height="284" src="images/chap4-28.gif" /></div>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955069"></a>No mirror, No Flip, Stack Offset = 1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955071"></a></p>
+<div class="webflare-div-image">
+<img width="407" height="264" src="images/chap4-29.gif" /></div>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955073"></a>No mirror, Flip, Stack Offset = 1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955075"></a></p>
+<div class="webflare-div-image">
+<img width="403" height="251" src="images/chap4-30.gif" /></div>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955077"></a>Mirror, No Flip, Stack Offset = 1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955079"></a></p>
+<div class="webflare-div-image">
+<img width="403" height="253" src="images/chap4-31.gif" /></div>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955081"></a>Mirror, Flip, Stack Offset = 1</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-955083"></a></p>
+<div class="webflare-div-image">
+<img width="412" height="263" src="images/chap4-32.gif" /></div>
+</td>
+</tr>
+</tbody></table>
+<h3>
+<a id="pgfId-958217"></a><a id="vrfConfigureModuleStack3"></a>Configuring a Module Stack</h3>
+
+<p>
+<a id="pgfId-970501"></a>In a multi-chip module or stacked IC, use <em>Module</em> &#8211; <em>Configure Module Stack</em> to define the arrangement of dies. The arrangement definition includes the following:</p>
+<ul><li>
+<a id="pgfId-970659"></a>Wirebonded or flipchip type of dies</li><li>
+<a id="pgfId-970664"></a>Position of dies in the stack</li><li>
+<a id="pgfId-970670"></a>Mirrored or not, that is, if they are placed at the front or at the rear side of an interposer</li></ul>
+
+
+<p>
+<a id="pgfId-970733"></a>To define parameters while configuring a module stack:</p>
+<ol><li>
+<a id="pgfId-970832"></a>Define whether a die is a flipchip.</li><li>
+<a id="pgfId-970833"></a>Specify the order of a die or object in a stack.</li><li>
+<a id="pgfId-970817"></a>Define whether a die is mirrored.<br />
+<a id="pgfId-970898"></a><div class="webflare-div-image">
+<img width="668" height="417" src="images/chap4-33.gif" /></div></li></ol>
+
+
+
+
+
+<h3>
+<a id="pgfId-959512"></a><a id="66869"></a>Applying the Therm<a id="thermal_shrink"></a>al Shrink Factor</h3>
+
+<p>
+<a id="pgfId-958276"></a>The Virtuoso RF Solution lets you encapsulate dies of different semiconductor materials into a single package. Within a package, flip chip die-to-package assembly is done by soldering the IO pads in the die to the package substrate by heating both the die and the package. The bump flux in the flip chip die melts and fuses with the package substrate. Such connections might be impacted by the differences in the coefficients of thermal expansion (CTEs) of the semiconductor materials that are used in the package. Consider the following example:</p>
+
+<p>
+<a id="pgfId-958569"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="692" src="images/chap4-34.gif" /></div>
+
+<p>
+<a id="pgfId-958246"></a>To overcome such connectivity issues due to differences in CTEs, Virtuoso lets you set the thermal shrink factor for such dies. This option adjusts the initial positions of IO pads such that connectivity is not broken when the dies are heated. It is recommended that you apply the thermal shrink factor before defining connectivity, as shown in the following example:</p>
+
+<p>
+<a id="pgfId-959819"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="715" src="images/chap4-35.gif" /></div>
+
+<p>
+<a id="pgfId-959823"></a>Thermal shrink factor is defined as a parameter of the TILP instance. <em>X Thermal Shrink Factor</em> and <em>Y Thermal Shrink Factor</em> are percentage values for expansion or contraction along the x-axis and y-axis, respectively.</p>
+
+<p>
+<a id="pgfId-959847"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="405" src="images/chap4-36.gif" /></div>
+
+<ul><li>
+<a id="pgfId-960317"></a><strong>Negative Thermal Shrink Factor</strong> (thermal shrink) is applicable when the package expands more than the die abstract.</li><li>
+<a id="pgfId-960318"></a><strong>Positive Thermal Shrink Factor </strong>(thermal expansion) is applicable when the abstract die expands more than the package.</li></ul>
+
+<p>
+<a id="pgfId-959864"></a>Thermal shrink is applied on IO pads as a factor of the distance of IO pads from center of the die.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-959865"></a>dx = X * x_thermalShrink</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-959866"></a>dy = Y * y_thermalShrink</pre>
+<p>
+<a id="pgfId-960350"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="504" src="images/chap4-37.gif" /></div>
+
+<p>
+<a id="pgfId-960354"></a>Closer the IO pad is to center of the die, less is the effect of thermal shrink factor. Farther the IO pad is from the center of the die, greater is the effect of thermal shrink factor.</p>
+
+<p>
+<a id="pgfId-961223"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="508" src="images/chap4-38.gif" /></div>
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-960363"></a>
+If the IO pad is present at the exact center of the die, there is no effect of thermal shrink factor on that specific IO pad.</div>
+<h4>
+<a id="pgfId-959896"></a>Impact of Applying Thermal Shrink</h4>
+
+<ul><li>
+<a id="pgfId-959897"></a><strong>Edit-in-Concert:</strong> When thermal shrink is applied to a TILP die, the IO pads in the die are adjusted, but the IO pads in the corresponding die layout view remain at their actual positions. This may lead to visual misalignments in the Edit-in-Concert mode. When you launch the Edit-in-Concert mode, a warning message indicating the cause of these misalignments is displayed.<br />
+<a id="pgfId-959923"></a><div class="webflare-div-image">
+<img width="668" height="546" src="images/chap4-39.gif" /></div>
+<a id="pgfId-959927"></a>For more information about the Edit-in-Concert mode, see <a href="co_design.html#71870">Editing-in-Concert</a>.</li><li>
+<a id="pgfId-959928"></a><strong>LVA Checker and Fixer:</strong> When thermal shrink is applied, despite visual misalignments in the Edit-in-Concert mode, the LVA checker does not report any misalignment violations and the Annotation Browser does not display any violation markers. For more information about the LVA checker and fixer, see <a href="co_design.html#39665">Checking and Fixing IO Pad Locations</a>.</li><li>
+<a id="pgfId-959929"></a><strong>Optical Shrink:</strong> Optical shrink factor reduces the size of the entire die, whereas thermal shrink factor only shrinks (or expands) the IO pads. When both optical and thermal shrink factors are specified, the optical shrink factor is applied first. Thermal shrink factor is then applied to the optically shrunk die. <br />
+<a id="pgfId-960694"></a><div class="webflare-div-image">
+<img src="images/OpticalShrink.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-951412"></a></p>
+
+<h2>
+<a id="pgfId-961013"></a><a id="68133"></a>Creating Shapes for Routing</h2>
+
+<p>
+<a id="pgfId-951429"></a>The Virtuoso Layout recognizes the curved shapes, polygons, rectangle, and paths. You can edit the curved shapes in various ways, such as updating the shape, rotating, or stretching. Additionally, you can modify a regular shape to curved shape and edit the curved shape to add new arcs.</p>
+
+<h3>
+<a id="pgfId-951413"></a>Creating Curved Polygon</h3>
+
+<p>
+<a id="pgfId-951454"></a>Follow these steps to create curved polygons in the package layout:</p>
+<ol><li>
+<a id="pgfId-951527"></a>Run the <em>Create Polygon</em> command.</li><li>
+<a id="pgfId-951562"></a>Add arc segment by selecting <em>Add an arc segment</em>. The curved polygon and the arc segment are created using the LPP selected in the palette.</li><li>
+<a id="pgfId-951632"></a>Create the polygon on the canvas. You can right-click and click Toggle Arc Creation as needed to complete the arc.<br />
+<a id="pgfId-951818"></a><div class="webflare-div-image">
+<img width="668" height="417" src="images/chap4-41.gif" /></div></li></ol>
+
+
+
+
+
+
+<p>
+<a id="pgfId-951523"></a>Creating Curved Rectangle</p>
+<ol><li>
+<a id="pgfId-951873"></a>Run the <em>Create Rectangle</em> command.</li><li>
+<a id="pgfId-952015"></a>Select the <em>Round Corner</em> check box and specify the value for the <em>Radius</em> field. The smallest possible shape is a circle of the given radius.<br />
+<a id="pgfId-952074"></a><div class="webflare-div-image">
+<img width="668" height="288" src="images/chap4-42.gif" /></div></li></ol>
+
+
+
+
+
+<p>
+<a id="pgfId-951835"></a>Creating Curved Path</p>
+<ol><li>
+<a id="pgfId-952097"></a>Run the <em>Create Path</em> command</li><li>
+<a id="pgfId-952098"></a>Select Curve from the <em>End Type </em>drop-down list box. </li><li>
+<a id="pgfId-952304"></a>Specify the <em>Width</em> to ensure that path ends are rounded semi-circles of the given width. Intermediate bends are rounded quarter-circles of the given width.<br />
+<a id="pgfId-952213"></a><div class="webflare-div-image">
+<img width="668" height="533" src="images/chap4-43.gif" /></div></li></ol>
+
+
+
+
+
+<h2>
+<a id="pgfId-936584"></a><a id="82318"></a>Performing Interactive Routing</h2>
+
+<p>
+<a id="pgfId-943270"></a>The interactive and assisted routing capability of the Virtuoso RF Solution enables you to route connections interactively within the Virtuoso environment. It provides efficient ways to interactively and automatically route connections in order to meet critical design constraints and rules. Interactive routing lets you do the following:</p>
+<ul><li>
+<a id="pgfId-943272"></a>Complete critical nets before automatic routing.</li><li>
+<a id="pgfId-943200"></a>Finish incomplete nets left after automatic routing.</li></ul>
+
+<p>
+<a id="pgfId-961034"></a>Apart from the usual capability of routing, interactive routing has been enhanced to support curved paths that are available in cellviews along with package constraints. The bindkey <code>P</code> that is used for the Create Wire command is defined to create a curved path when you have a package design.</p>
+
+<h3>
+<a id="pgfId-961056"></a>Managing Curved Shapes in Wire Editor</h3>
+
+<p>
+<a id="pgfId-943681"></a>The Wire editor in the Virtuoso RF Solution has been enhanced to create curved paths instead of providing the choice between normal OA paths and pathsegs. Curved paths are OA paths with <strong>curved</strong> extensions. The Virtuoso RF Solution enhancements include additional snap modes (L45LongFirst and L45AngleFirst), padstack exit from intermediate layers, support for instances used as pins, padstack and via center snapping. </p>
+<p>
+<a id="pgfId-943726"></a>For details, refer to <h-hot><a actuate="user" class="URL" href="../weuser/vrf.html#firstpage" show="replace" xml:link="simple">Supporting Curved Paths</a></h-hot>.</p>
+
+<h2>
+<a id="pgfId-969034"></a><a id="97203"></a>Introduction to the P<a id="pushandshove_VRF"></a>ush-and-Shove Feature</h2>
+
+<p>
+<a id="pgfId-969035"></a>The push-and-shove feature applies to routing objects, such as wires and vias. Static objects, such as pins, bumps, and bond fingers, are not considered routing objects. This capability lets you push wires out of the way by either automatically adjusting the new wire or by pushing an existing wire. </p>
+<p>
+<a id="pgfId-969036"></a>Enabling this feature enhances correct-by-construction design and makes the design DRC-and shorts-aware. For more information, see <h-hot><a actuate="user" class="URL" href="../weuser/vrf.html#pushandshove" show="replace" xml:link="simple">Pushing and Shoving in Interactive Routing</a></h-hot>.</p>
+<p>
+<a id="pgfId-968928"></a></p>
+
+<h2>
+<a id="pgfId-943116"></a><a id="82778"></a><a id="98919"></a>Creating Void Shapes to Insulate Signal Shapes from Power or Ground Planes</h2>
+
+<p>
+<a id="pgfId-955634"></a>Voiding is an important step in creating the package layout that lets you route on ground/ power planes by automatically insulating signal nets.</p>
+<p>
+<a id="pgfId-955636"></a>Ground/power planes are typically used in packages to reduce the impedance of the power/ground supply network by lowering ohmic resistance and shielding nearby components from EM noise. If routing for other signals cannot be completed on the layers other than the ones devoted to power and ground, they must be completed on power and ground planes. </p>
+<p>
+<a id="pgfId-955640"></a>The Virtuoso RF solution includes a void generator that lets you generate void shapes in package layout designs. Void shapes are automatic shapes that insulate signal shapes (routing) from dynamic shapes such as power or ground planes. The power and ground planes are created on a dynamic purpose and the void shapes cut holes on the dynamic shape around the signal shapes. The effective conducting shape on power or ground is the Boolean subtraction of the void shapes from the dynamic shape.</p>
+<p>
+<a id="pgfId-955642"></a>Voiding helps designers route on the ground/power planes by automatically insulating signal nets. Void the shapes by using <em>Module</em> &#8211; <em>Void Dynamic Shapes</em>. It deletes the existing void shapes and creates voids to insulate signal shapes. By insulating the signal shapes from the ground/power planes, it eliminates shorts between shapes on signal and power/ground nets. You can also <em>Module</em> &#8211; <em>Void Selected Dynamic Shapes</em> to void a few selected shapes. </p>
+
+<p>
+<a id="pgfId-944252"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="464" src="images/chap4-44.gif" /></div>
+
+<p>
+<a id="pgfId-948394"></a>Before generating void shapes, you must create the required dynamic shapes. The technology file must define the dynamic purposes before dynamic shapes can be created. Refer to the <a href="chap2.html#73144">Importing Libraries and ICs</a> chapter for more details on how to set up dynamic purposes, functions, and relationships with voiding layers. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-963135"></a>Voiding of shapes is done only when the fabric type is specified as package, board, or multi-chip module (MCM) in the technology file.</div>
+<p>
+<a id="pgfId-948395"></a>After creating the dynamic shapes and signal shapes, you can generate void shapes. Void shapes are generated to insulate signal paths or vias that have a different connectivity from the plane they are going through, as shown in the following figure:</p>
+
+<p>
+<a id="pgfId-945918"></a></p>
+<div class="webflare-div-image">
+<img src="images/Voiding_Overview.gif" /></div>
+
+<p>
+<a id="pgfId-950383"></a>In this example, a via connects layers M1 and GROUND; a second via connects layers GROUND, POWER, and M2. Voids are generated around the vias and paths in layer GROUND and around the via on layer POWER to insulate the NET1 signal from the respective planes.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-948422"></a>Power and ground planes are used as reference planes to reduce the impedance of the power and ground supply and EM noise (shielding). You can use dynamic shapes for shielding components or to fill entire layers with conductor as voltage distribution (embedded) planes.</div>
+
+<h4>
+<a id="pgfId-945921"></a>Generating Void Shapes</h4>
+
+<p>
+<a id="pgfId-945922"></a>The following diagrams demonstrate the flow for generating voids:</p>
+
+<p>
+<a id="pgfId-945966"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="570" src="images/chap4-46.gif" /></div>
+<h4><em>
+<a id="pgfId-950476"></a><a id="13392"></a>1. Create Dynamic Shapes</em></h4>
+
+<p>
+<a id="pgfId-950477"></a>Dynamic shapes are the shapes on purpose <code>dynamic</code>, for example <code>(L01 dynamic)</code>. Unlike signal shapes, dynamic shapes retain their connectivity, irrespective of the <code>lxStickyNet</code> property.</p>
+
+<h4><em>
+<a id="pgfId-950479"></a><a id="13820"></a>2. Create Signal Shapes</em></h4>
+
+<p>
+<a id="pgfId-950480"></a>Signal shapes are the shapes on purpose <code>drawing</code>, for example <code>(L01 drawing)</code>. Signal shapes are routing shapes such as pins, paths, and vias. </p>
+<p>
+<a id="pgfId-950481"></a>Example: Dynamic shape on <code>(L01</code> <code>dynamic)</code> on net A and signal shapes on <code>(L01</code> <code>drawing)</code> on net B.</p>
+
+<h4><em>
+<a id="pgfId-950483"></a><a id="34538"></a>3. Generate Void Shapes</em></h4>
+
+<p>
+<a id="pgfId-948464"></a>Choose <em>Module </em>&#8211; <em>Void Dynamic Shapes</em> to generate void shapes. Void shapes are shapes created by the void generator on a specific layer, for example <code>(L01_VOID drawing)</code> for a dynamic shape on <code>(L01 dynamic)</code>. Void shapes are stored in the database.</p>
+
+<p>
+<a id="pgfId-945982"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="213" src="images/chap4-47.gif" /></div>
+
+<p>
+<a id="pgfId-950607"></a>For each dynamic shape on <code>(layer dynamic)</code>, the void generator searches for overlapping signal shapes in <code>(layer drawing)</code>. The generator creates void shapes on <code>(&lt;layer&gt;_VOID drawing)</code> for shapes on different nets. In other words, if the nets of the dynamic and signal shapes are different, the void generator effectively removes parts of metal around the signal shape. The conducting shapes, which are the metal shapes left after removing the void shapes from the dynamic shapes, are the effective metal shapes that will be manufactured.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-957810"></a>
+The <em>Module </em>&#8211; <em>Void Dynamic Shapes</em> command is a batch command. Therefore, void shapes will be out-of-date after making any change to the shapes, such as moving or resizing them, and must be regenerated manually.</div>
+<h4><em>
+<a id="pgfId-970243"></a>3. Convert Selected Dynamic Shapes</em></h4>
+
+<p>
+<a id="pgfId-970315"></a>Choose <em>Module </em>&#8211; <em>Void Selected Dynamic Shapes</em> to convert dynamic shapes to static shapes. For details, refer to <h-hot><a actuate="user" class="URL" href="../sklayoutref/layout.html#leConvertSelectedDynamicShapes" show="replace" xml:link="simple">leConvertSelectedDynamicShapes</a></h-hot>.</p>
+
+<h4>
+<a id="pgfId-950777"></a><a id="76257"></a>Smooth and Trim Void Shapes</h4>
+
+<p>
+<a id="pgfId-950778"></a>The void generator smooths the conducting shapes that result from voiding. This smoothing is required for manufacturability of the design. Sharp corners (of angles lower than 90 degrees) are rounded and the <code>pkgMinAperture</code> constraint is enforced. Void generation might split a dynamic shape into multiple conducting shapes or &#8220;islands,&#8221; as shown in the following image:</p>
+
+<p>
+<a id="pgfId-950785"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="181" src="images/chap4-48.gif" /></div>
+
+<p>
+<a id="pgfId-950786"></a>When a <code>pkgMinArea</code> constraint is present, the void generator trims the conducting shapes that are smaller than <code>pkgMinArea</code> value. </p>
+<p>
+<a id="pgfId-950790"></a>For information about constraints, see <a href="chap4.html#35602">Support for Package Constraints</a>.</p>
+<p>
+<a id="pgfId-950794"></a>Use the <a href="VRF_envVars.html#68875">voidGeneratorTrimUnconnectedShapes</a> environment variable to control trimming of unconnected conducting shapes. The default value is<code> t</code>. In this state, the unconnected conducting shapes are trimmed, as shown below. The small conducting shape is trimmed out because it is not connected to any pin. The large conducting shape is retained because either it is connected to a pin or it is the largest conducting shape.</p>
+
+<p>
+<a id="pgfId-950802"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="152" src="images/chap4-49.gif" /></div>
+<div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-945986"></a>
+The following image shows the various layers in the Palette assistant.</div>
+<p class="webflare-indent1">
+<a id="pgfId-946000"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="386" src="images/chap4-50.gif" /></div>
+<h3>
+<a id="pgfId-946001"></a><a id="35602"></a>Support for Package Constraints</h3>
+
+<p>
+<a id="pgfId-950855"></a>The void generator honors the following constraints:</p>
+<ul><li>
+<a id="pgfId-946003"></a><strong>pkgMinSpacing:</strong> Specifies the minimum spacing between a signal shape and a dynamic shape. Therefore, this value indicates the width of voids. The <code>pkgMinSpacing</code> values are defined in the technology file. The values differ for different types of signal object and nets:<br />
+<a id="pgfId-946007"></a><div class="webflare-div-image">
+<img src="images/voids_minSpacing.gif" /></div>
+<a id="pgfId-946015"></a><br /><div class="webflare-div-image">
+<img width="668" height="130" src="images/chap4-52.gif" /></div>
+<a id="pgfId-950887"></a>For more information, see <a actuate="user" class="URL" href="../ascitechconstr/constr_packaging.html#pkgMinSpacing" show="replace" xml:link="simple">pkgMinSpacing</a> in <em>Virtuoso Technology Data Constraint Reference.</em></li><li>
+<a id="pgfId-946017"></a><strong>pkgMinAperture:</strong> Specifies the minimum width of a piece of metal. Such pieces can be created by voiding a dynamic shape.<br />
+<a id="pgfId-946025"></a><div class="webflare-div-image">
+<img width="668" height="333" src="images/chap4-53.gif" /></div>
+<a id="pgfId-946026"></a>If a part of conducting shape is too narrow, the void generator removes it so that there is no violation of the <code>minAperture</code> constraint, as shown in the following image:<br />
+<a id="pgfId-946030"></a><div class="webflare-div-image">
+<img src="images/minAperture_Fixed.gif" /></div>
+<a id="pgfId-950950"></a>For more information, see <a actuate="user" class="URL" href="../ascitechconstr/constr_packaging.html#pkgMinAperture" show="replace" xml:link="simple">pkgMinAperture</a> in <em>Virtuoso Technology Data Constraint Reference</em>.</li><li>
+<a id="pgfId-946032"></a><strong>pkgMinArea:</strong> Specifies the square root of the minimum area of a metal shape. This constraint applies to the conducting shapes resulting from voiding dynamic shapes. The void generator generates void shapes so that there is no violation of the <code>pkgMinArea</code> constraint.<br />
+<a id="pgfId-946054"></a><div class="webflare-div-image">
+<img width="668" height="335" src="images/chap4-55.gif" /></div>
+<a id="pgfId-946055"></a>For more information, see <a actuate="user" class="URL" href="../ascitechconstr/constr_packaging.html#pkgMinArea" show="replace" xml:link="simple">pkgMinArea</a> in <em>Virtuoso Technology Data Constraint Reference.</em></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-961532"></a><a id="91972"></a>Dynam<a id="vrfDynShapePrio"></a>ic Shape Priority</h3>
+
+<p>
+<a id="pgfId-961533"></a>Dynamic shapes have a priority attribute that determines the order in which the overlapping dynamic shapes are voided.</p>
+<p>
+<a id="pgfId-961534"></a>The dynamic shape priority is associated with each dynamic shape for a given metal layer in a given layout. A dynamic shape with a higher priority is cut out from the dynamic shape with a lower priority.​</p>
+<p>
+<a id="pgfId-961535"></a>The following figure represents a simple overlap scenario where a dynamic shape is being overlapped by a signal shape and the shape, in turn, overlaps another dynamic shape of lower shape priority.</p>
+
+<p>
+<a id="pgfId-961539"></a></p>
+<div class="webflare-div-image">
+<img width="599" height="198" src="images/chap4-56.gif" /></div>
+
+<p>
+<a id="pgfId-961540"></a>To insulate the overlapping dynamic shapes, void shapes are created. These void shapes:</p>
+<ul><li>
+<a id="pgfId-961541"></a>Insulate the dynamic shapes from all the overlapping signal shapes.​</li><li>
+<a id="pgfId-961562"></a>Insulate a dynamic shape from all the overlapping dynamic shapes that have higher priorities.</li></ul>
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="chap3.html" id="prev" title="Creating a Package Schematic">Creating a Package Schematic</a></em></b><b><em><a href="co_design.html" id="nex" title="Edit-in-Concert">Edit-in-Concert</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

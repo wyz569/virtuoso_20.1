@@ -1,0 +1,596 @@
+
+<html><head><title>Simulating</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jommy" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864916" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Simulating" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864916" />
+<meta name="NextFile" content="Using_SimVision_with_the_AMS_Simulator.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Elaborating.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Simulating" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Elaborating.html" title="Elaborating">Elaborating</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Using_SimVision_with_the_AMS_Simulator.html" title="Using_SimVision_with_the_AMS_Simulator">Using_SimVision_with_the_AMS_S ...</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <div style="width: 100%; font-size: 32px; text-align: left;               font-weight: bold;">15</div>
+<h1 style="margin: 4px 0 4px;"><span>Simulating</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p><span class="confluence-anchor-link" id="Simulating-1031356"></span></p>
+
+<p>After you have compiled and elaborated your design, you can run the simulator using<code> xmsim.</code> This program uses the compiled-code streams to simulate the dynamic behavior of the design.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><span style="color: rgb(0,0,255);"><a href="Using_xrun_for_AMS_Simulation.html">xrun</a> </span>runs <code>xmsim&#160;</code>automatically during the simulation phase.</p>
+</div>
+</div>
+
+<p><code>xmsim </code>loads the snapshot as its primary input. It then loads other intermediate objects referenced by that input. In the case of interactive debugging, HDL source files and script files also might be loaded. Other data files might be loaded (via<code> $read* </code>tasks or<code> textio</code>) if the model being simulated requires them.</p>
+
+<p>You control the outputs of simulation using the model, the analog simulation control file, or the debugger. Result files can come from the model, Simulation History Manager (<a href="Glossary.html#Glossary-1034342">SHM</a>) databases, or Value Change Dump (<a href="Glossary.html#Glossary-1032273">VCD</a>) files.</p>
+
+<p>See the following topics for more information:</p>
+
+<p></p>
+<div class="toc-macro rbtoc1572864886510">
+<ul class="toc-indentation">
+<li><a href="#Simulating-1042463DiagramIllustratingSimulatorInputsandOutputs">Diagram Illustrating Simulator Inputs and Outputs</a></li>
+<li><a href="#Simulating-xmsimCommandSyntaxandOptionsncsimcommandsyntax1042414">xmsim Command Syntax and Options</a></li>
+<li><a href="#Simulating-AMSDesignerVerificationOption1060007">AMS Designer Verification Option</a></li>
+<li><a href="#Simulating-ExamplexmsimCommandLines1047708">Example xmsim Command Lines</a></li>
+<li><a href="#Simulating-hdl.varVariables1046398">hdl.var Variables</a></li>
+<li><a href="#Simulating-RunningtheSimulator1031419">Running the Simulator</a></li>
+<li><a href="#Simulating-StartingorResumingaSimulation1041755">Starting or Resuming a Simulation</a></li>
+<li><a href="#Simulating-RestartingtheSimulatorfromaPreviously-SavedSnapshot1055990">Restarting the Simulator from a Previously-Saved Snapshot</a></li>
+<li><a href="#Simulating-UpdatingDesignChangesWhenYouRuntheSimulator1054593">Updating Design Changes When You Run the Simulator</a></li>
+<li><a href="#Simulating-ProvidingInteractiveCommandsfromaFile1031429">Providing Interactive Commands from a File</a></li>
+<li><a href="#Simulating-UsingtheSave-and-RestartFeaturesaveRestart1031430">Using the Save-and-Restart Feature</a></li>
+<li><a href="#Simulating-ExitingtheSimulationexit1050807">Exiting the Simulation</a></li>
+</ul>
+</div>
+<h2 id="Simulating-1042463DiagramIllustratingSimulatorInputsandOutputs"><span class="confluence-anchor-link" id="Simulating-1042463"></span>Diagram Illustrating Simulator Inputs and Outputs</h2>
+
+<p>The following figure illustrates some of the inputs and outputs that the simulator can use and generate.</p>
+<p align="left"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236063/305236065.png" data-linked-resource-container-id="305236063" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="chap9.18.1.1.png" data-linked-resource-id="305236065" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236063/305236065.png" width="640px" /></span></p>
+<h2 id="Simulating-xmsimCommandSyntaxandOptionsncsimcommandsyntax1042414">xmsim Command Syntax and Options<span class="confluence-anchor-link" id="Simulating-ncsimcommandsyntax"></span> <span class="confluence-anchor-link" id="Simulating-1042414"></span></h2>
+
+<p>The<code> xmsim </code>command has the following syntax:</p>
+
+<p><span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;font-size: small;"> <span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;"> <strong>xmsim</strong> </span>[<code> options </code>] [<code> Lib </code> <span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;"> <strong>.</strong> </span>]<code> Cell </code>[<span style="color: rgb(0,0,0);font-family: &quot;Courier New&quot;;"> <strong>:</strong> </span> <code> View </code>]</span></p>
+
+<p>For the complete set of<code> xmsim </code>command options, see &quot;xmsim Command Options&quot; in the&#160;<span style="color: rgb(0,0,255);"> <a class="message-url" href="../Simulating/simulating.html">&quot;Simulating Your Design with xmsim&quot;</a>&#160;</span>chapter in the<span style="color: rgb(0,0,0);"><em> Simulating Your Design</em> </span>book.</p>
+
+<p>The AMS-specific options are as follows:</p>
+<div class="table-wrap"><table bgcolor="#FFFFFF" cellpadding="4" cellspacing="0" class="wrapped confluenceTable"><colgroup><col style="width: 273.0px;" /><col style="width: 418.0px;" /></colgroup><tbody><tr><th class="confluenceTh" valign="middle" width="252">
+<p><span>Option</span></p>
+</th><th class="confluenceTh" valign="middle" width="397">
+<p><span>Description</span></p>
+</th></tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-ANalogcontrol control_file</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specifies the analog simulation control file to use. For additional information, see &quot;<a href="#Simulating-1047151"> <code>-ANalogcontrol</code> Option</a>.&quot;</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="1"><code><span>-ams_flex</span></code></td>
+<td class="confluenceTd" colspan="1">
+<p>Enables flex mode that lets you use an external Spectre installation. When enabled, AMS Designer will look for the Spectre executable in the system PATH and use it to simulate the analog kernel.</p>
+
+<p><strong>Notes</strong>:</p>
+<ul><li>AMS Designer flex mode is supported with SPECTRE 17.1 ISR14 and SPECTRE 18.1 ISR6 versions.</li><li>The Linux user path must point to Spectre from the actual installation; wrapper script should not be used.</li><li>
+<p>In flex mode, <code>-amsformat</code> is ignored. The default waveform format is a unified database with analog data in PSFXL 1.1 format and digital data in SST2 format. To change the waveform format for analog users, use the <code>rawfmt </code>Spectre option or the <code>-format </code>Spectre command-line argument. In such cases, unified database is disabled and the results will be stored in two different files, one for analog results using the specified Spectre format and one for digital data in SST2 format.</p>
+</li><li>
+<p>It is recommended to use IC6.1.8 ISR3 or later for AMSD flex mode. To enable flex mode in ADE Explorer, navigate to <em>Simulation</em>&gt;<em>Netlist and Run Options</em>&gt;<em>Netlist and Run Options</em> form and select <em>Enable AMSD flexible release matrix</em>.</p>
+</li></ul></td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><span><code>-amsformat &lt;sst2|sst2_all|psfxl|psfxl_all&gt;</code> </span></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Controls the storage format for AMS probes.</p>
+
+<p><code>sst2 </code>: Sets the Tcl-based probes to use sst2 storage. In this mode, the<code> rawfmt </code>option specified in the analog control file is honored. This is the default.</p>
+
+<p><code>sst2_all </code>: Sets the Tcl probes to use sst2 storage. However, this option also overrides the<code> rawfmt </code>option specified in the analog control file so that all analog probes are stored in the sst2 format in the SHM database. In other words, this option overrides the<code> rawfmt </code>setting in the analog control file to<code> rawfmt=sst2.</code></p>
+
+<p><code>psfxl </code>: Enables the unified PSFXL/SST2 waveform database storage. This mode sets the TCL analog probes to use psfxl storage in the SHM waveform database. The<code> rawfmt </code>option in the analog control file is honored. Note that when<code> rawfmt=psfxl </code>or<code> rawfmt=sst2 </code>is specified, the SPICE probes are stored in the default PSFXL/SST2 database in the<code> psfxl </code>format. For all other cases, the<code> rawfmt </code>data is stored in the specified format in the<code> .raw </code>directory.</p>
+
+<p><code>psfxl_all </code>: Enables the unified PSFXL/SST2 waveform database storage. This mode sets the Tcl probes to use psfxl storage and also overrides the<code> rawfmt </code>option specified in the analog control file so that all analog probes are stored in the psfxl format in the SHM database. In other words, this option overrides the<code> rawfmt </code>setting in the analog control file to<code> rawfmt=psfxl.</code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-CDS_IMPLICIT_TMPDir implicitTmpDir</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Directs the simulator to use the snapshot in the<code> implicitTmpDir </code>directory.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-licinfo</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Provide information on the simulation-time licenses required for the specified design. It also provides additional information about the features that are being used for AMSD licensing. The<code> -licinfo </code>option generates a report on the licensing requirements using the following parameters:</p>
+<ul><li>The contents of the design (AMS, SystemC, SystemVerilog, Verilog, VHDL, and so on).</li></ul><ul><li>Other options specified on the command line.</li></ul><ul><li>Any arguments specified using the <a href="#Simulating-1053825"> <code>-uselicense</code> Option</a>.</li></ul>
+<p><span style="color: rgb(0,0,0);"> <strong>Note:</strong>&#160;</span>The<code> -licinfo </code>option does not check out any licenses and also does not run the simulation.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-MOdelpath &quot;[cell-[ lib_name .] cell_name [: view_name ]-] pathname [( section )] {: pathname [( section )]}&quot;</code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Same as <span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a href="Elaborating.html#Elaborating-1037512">xmelab -modelpath</a> </span>except that models you specify using<code> -modelpath </code>on the<code> xmsim </code>command line override any models you specified during<code> xmelab </code>using the<code> -modelpath </code>option on the<code> xmelab </code>command line, or the<code> MODELPATH </code>variable in your <code>hdl.var </code>file, or in your <code>amsd.scs</code> file.</p>
+
+<p>For more information, see &quot;<a href="#Simulating-1050923">-MOdelpath Option</a>.&quot;</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="1"><code>-shm_filter_group <span>&lt;precision&gt;</span></code></td>
+<td class="confluenceTd" colspan="1">
+<p><span>Enables real value filtering for all real value probes. You can </span>specify a precision (delta value) for real number probes to remove recorded values whose delta is less that the precision specified.</p>
+
+<p>For more information, see <a href="Using_SimVision_with_the_AMS_Simulator.html#UsingSimVisionwiththeAMSSimulator-RealValueProbeFiltering">Enabling Real Value Probe Filtering</a>.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-SImcompatible_ams compat_val </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>For the AMS Designer simulator with the UltraSim solver: Specifies whether to set simulation values for compatibility with the Spectre language or with the HSPICE language. The default is<code> hspice.</code> For more information, see &quot;<a href="#Simulating-1050902">-SImcompatible_ams Option</a>.&quot;</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code>-solver spectre | aps </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Specify whether the Spectre solver or the APS solver is to be used with the AMS Designer simulator.</p>
+
+<p><span style="color: rgb(0,0,0);"> <strong>Note:</strong>&#160;</span> <code>-solver ultrasim </code>is not a valid argument with the<code> xmsim </code>command. When you are using the three-step approach to run a design, the only way to select the UltraSim solver is to use the<code> xmelab -amsfastspice </code>command while elaborating the design.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><code>-spectre_args <span class="confluence-anchor-link" id="Simulating-spectre_args"></span>
+         <span class="confluence-anchor-link" id="Simulating-1061528"></span>
+          </code></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p>Specify one or more Spectre command-line arguments. You can also include multiple entries of the<code> -spectre_args </code>parameter on the command line, which are concatenated during command processing.</p>
+
+<p><span style="color: rgb(0,0,0);"> <strong>Note:</strong>&#160;</span>The<code> -spectre_args </code>parameter is ignored if the APS or UltraSim solver is selected.</p>
+
+<p>Valid Spectre arguments in AMS include:</p>
+
+<p><code>+lorder
++mt[=N]
++multithread[=N]</code><br /><code>-mt</code><br /><code>-multithread</code><br /><code>+parasitics</code><br /><code>+aps</code></p>
+
+<p><code>+rtsf
++lgtimeout</code><br /><code>+lgsleep</code><br /><code>+mts</code><br /><code>+lsuspend
+-cmiconfig
+-cmiversion
+-plugin plugin_path
+-r
+-raw
+-V
+-W</code></p>
+
+<p>See the <em>Spectre Circuit Simulator User Guide</em> and the <em>Spectre Circuit Simulator Reference</em> for information about these arguments.<br />You can achieve parasitics reduction for RF circuits by using the <code>+parasitics [= N | rf ]</code> argument with the <code>-spectre_args</code> parameter.</p>
+<pre>-spectre_args +parasitics=[ N | rf ]...</pre></div>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><br /></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>Where the value specified for the<code> +parasitics </code>argument represents the maximum frequency (in GHz) of interest for RF reduction. If the chosen value is less than the maximum operating frequency of interest, you may experience accuracy loss for frequencies higher than the specified value.</p>
+<ul><li><em> <code>N </code> </em>represents the user-defined maximum frequency</li></ul><ul><li><code>rf </code>represents the maximum frequency of<code> 30 GHz </code></li></ul><ul><li>If no value is specified for the<code> +parasitics </code>argument, the maximum frequency of<code> 1 GHz </code>is applied by default.</li></ul></td>
+</tr>
+<tr><td class="confluenceTd" valign="top"><div class="content-wrapper">
+<p><br /></p>
+</div>
+</td>
+<td class="confluenceTd" valign="top">
+<p><span style="color: rgb(0,0,0);"> <strong>Note:</strong>&#160;</span>If you specify more than one argument, you must separate them with a space and enclose them within quotation marks like this:</p>
+
+<p><code>xmsim -spectre_args &quot;-raw ../psf </code></p>
+
+<p>To turn on the queuing-for-license capability, you can use the<code> +lqtimeout &lt;value&gt; </code>argument. Specify the value in seconds to set how long to wait for a license. Value<code> 0 </code>means wait until the license is available. You might use<code> +lqt </code>as an abbreviation of`<code> +lqtimeout.</code></p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><br /></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>For example, the following command instructs the tool to wait for analog solver licenses until they are available.</p>
+
+<p><code>xmsim -spectre_args &quot;+lqt 0&quot; </code></p>
+
+<p>The<code> +lqsleep &lt;value&gt; </code>argument enables you to set the sleep time between two attempts to check out a license when queuing. Setting the value to a positive number overrides the default sleep time of 30 seconds. You might use<code> +lqs </code>as an abbreviation of<code> +lqsleep.</code></p>
+
+<p>For example, the following command instructs the tool to check for the availability of analog solver licenses every 5 minutes.</p>
+
+<p><code>xmsim -spectre_args &quot;+lqs 300&quot; </code></p>
+
+<p>The<code> +lsuspend </code>argument (applied by default) allows you to suspend or resume the license for Spectre during the simulation run. However, you can use the<code> -lsuspend </code>argument to disable this feature. In other words,<code> -lsuspend </code>is equivalent to<code> -nolicsuspend </code>on the digital side.</p>
+
+<p><span style="color: rgb(0,0,0);"><strong>Note:</strong>&#160;</span>Stand-alone Spectre does not have<code> +lsuspend </code>by default; this is an AMS-only behavior. This command will have an effect only on the analog licenses.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="1"><div class="content-wrapper">
+<p><code><span>-ultrasim_args </span><span class="confluence-anchor-link" id="Simulating-ultrasim_args"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="1">
+<p>Specify one or more UltraSim command-line arguments. You can also include multiple entries of the<code> -ultrasim_args </code>parameter on the command line, which are concatenated during command processing.</p>
+
+<p><span style="color: rgb(0,0,0);"> <strong>Note:</strong>&#160;</span>The<code> -ultrasim_args </code>parameter is ignored if the APS or Spectre solver is selected.</p>
+
+<p>Valid UltraSim arguments in AMS include:</p>
+
+<p><code> +lorder+rtsf-turbo-plugin plugin_path 
+         </code></p>
+
+<p>The<code> -turbo </code>argument is used to turn off the UltraSim-Turbo feature, which is available only in<code> sim_mode=a </code>and is turned on by default in this mode.</p>
+
+<p>The<code> +rtsf </code>argument enables <a href="Glossary.html#Glossary-1036133">RTSF</a>, which is a <a href="Glossary.html#Glossary-1034400">PSF</a> extension that can plot extremely large datasets (where signals have a large number of data points, for example 10 million) within seconds.</p>
+
+<p><span style="color: rgb(0,0,0);"><strong>Note:</strong>&#160;</span>If you specify more than one argument, you must separate them with a space and enclose them within quotation marks.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="1"><code><span>-UPdate </span></code></td>
+<td class="confluenceTd" colspan="1"><span>Recompiles out-of-date design units as necessary. Notice that the behavior of the</span><code> -UPDate </code><span>option is affected when the</span><code> -CDS_IMPLICIT_TMPOnly </code><span>option is stored in the snapshot header.</span></td>
+</tr>
+<tr><td class="confluenceTd" colspan="1"><div class="content-wrapper">
+<p><code><span>-uselicense mnemonic_list </span><span class="confluence-anchor-link" id="Simulating-uselicense"></span></code></p>
+</div>
+</td>
+<td class="confluenceTd" colspan="1">
+<p>Specifies a prioritized list of colon-delimited mnemonics to select the license for simulation. See &quot;<a href="#Simulating-1053825">-uselicense Option&quot; </a>for more information.</p>
+
+<p><span style="color: rgb(0,0,0);"><strong>Note:</strong>&#160;</span>The -<code>uselicense </code>option has been deprecated in the XCELIUM 16.11 release.</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" colspan="1"><code><span> +wf_alias </span></code></td>
+<td class="confluenceTd" colspan="1">
+<p>Using this option with the<code> -amsformat sst2 | psfxl_all </code>option enables the waveform aliasing feature, which improves the waveform database size by leveraging the alias semantics for waveform storage.</p>
+
+<p><span style="color: rgb(0,0,0);"><strong>Note:</strong>&#160;</span>The<code> +wf_alia </code>s option would be removed in a future release.</p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>eThe<code> Lib </code>,<code> Cell </code>, and<code> View </code>together identify the snapshot. You can simulate using a snapshot that has a time stamp that is earlier than the latest snapshot for a cell (see &quot;<a href="#Simulating-1055990">Restarting the Simulator from a Previously-Saved Snapshot</a>.&quot; (Specifying the snapshot also automatically specifies the SSI, which has the same name.) You can specify the options and the snapshot argument in any order, provided that the parameters to an option immediately follow the option.</p>
+<ul><li>If a snapshot with the same name exists in more than one library, Cadence recommends you specify both the cell and the library.</li></ul><ul><li>If there are multiple views that contain snapshots, Cadence recommends you specify both the cell and the view.</li></ul>
+<p>If you do not specify a library or a view, the simulator uses a set of rules to resolve the snapshot reference on the command line. For more information, see &quot;Rules for Resolving the Snapshot Reference&quot; in the&#160;<span style="color: rgb(0,0,255);"> <a class="message-url" href="../Simulating/simulating.html">&quot;Simulating Your Design with xmsim&quot;</a>&#160;</span>chapter of the<em> <span style="color: rgb(0,0,0);"> Simulating Your Design </span> </em>book.</p>
+
+<p>You can specify<code> xmsim </code>command options in upper or lower case and abbreviate them to the shortest unique string. For example, you can specify just<code> -an </code>for<code> -analogcontrol.</code> In the following sections, the shortest unique string is indicated with capital letters.</p>
+<h3 id="Simulating--ANalogcontrolOptionncsim_analogcontrol1047151">-ANalogcontrol Option<span class="confluence-anchor-link" id="Simulating-ncsim_analogcontrol"></span> <span class="confluence-anchor-link" id="Simulating-1047151"></span></h3>
+
+<p>Specifies the analog simulation control file to use. The analog simulation control file is an ASCII text file written in the Spectre, or Spectre and UltraSim, control languages. The contents of the file control the behavior of the analog solvers. For example,</p>
+
+<p><code> xmsim top:amsSS -cdslib /SAR_A2D/cds.lib -hdlvar /SAR_A2D/hdl.var -analogcontrol /SAR_A2D/tutorial_run/amsSC.scs </code></p>
+
+<p>For detailed information about the analog simulation control file, see &quot;<a href="Specifying_Controls_for_the_Analog_Solvers.html#SpecifyingControlsfortheAnalogSolvers-1033389">Specifying Controls for the Analog Solvers</a>.&quot;</p>
+<h3 id="Simulating--MOdelpathOptionncsim_modelpath1050923">-MOdelpath Option<span class="confluence-anchor-link" id="Simulating-ncsim_modelpath"></span> <span class="confluence-anchor-link" id="Simulating-1050923"></span></h3>
+
+<p>You can use the<code> -modelpath </code>option on the<code> xmsim </code>command line to override any models you specified using<code> -modelpath </code>on the<code> xmelab </code>command line, or the<code> MODELPATH </code>variable in your <code>hdl.var</code>&#160;file, or in your<code> amsd.scs</code>&#160;file. You can use <code>xmsim -modelpath</code>&#160;to change model files using the<a href="#Simulating-1031430"> save-and-restart feature</a>. You must observe the following rules:</p>
+<ul><li>You cannot introduce new scope during simulation: All scopes must be same as those defined during <code>xmelab</code>.</li></ul><ul><li>You can specify new model files for any scopes you defined during <code>xmelab</code>.</li></ul><ul><li>You can introduce new non-scoped model files during simulation.</li></ul><div>
+<p><br /></p>
+<div class="confluence-information-macro confluence-information-macro-warning"><span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you introduce any topology changes, you might observe strange behavior or core dumps.</p>
+</div>
+</div>
+
+<p><br /></p>
+</div>
+<h3 id="Simulating--SImcompatible_amsOptionsimcompat1050902">-SImcompatible_ams Option<span class="confluence-anchor-link" id="Simulating-simcompat"></span> <span class="confluence-anchor-link" id="Simulating-1050902"></span></h3>
+
+<p>For the AMS Designer simulator with the UltraSim solver: Specifies the compatibility setting for simulation values. Valid settings are as follows:</p>
+<div class="table-wrap"><table bgcolor="#FFFFFF" cellpadding="4" cellspacing="0" class="wrapped confluenceTable" style="width: 648.0px;"><colgroup><col /><col /></colgroup><tbody><tr><td class="confluenceTd" valign="top" width="192">
+<p><code> spectre </code></p>
+</td>
+<td class="confluenceTd" valign="top" width="456">
+<p>Spectre-compatible simulation values</p>
+</td>
+</tr>
+<tr><td class="confluenceTd" valign="top">
+<p><code> hspice </code></p>
+</td>
+<td class="confluenceTd" valign="top">
+<p>HSPICE-compatible simulation values</p>
+</td>
+</tr>
+</tbody></table></div>
+
+<p>The default is<code> hspice.</code> The simulation values are as follows:</p>
+
+<p><code>
+    <span>-simcompatible_ams hspice </span>
+  </code></p>
+<ul><li><code> tnom </code>and<code> temp </code>are set to 25C</li></ul><ul><li>Parameter inheritance is set to global, so that global parameter definitions override local ones.</li></ul><ul><li>Forces IC statements and initial conditions on elements for DC and OP analyses.</li></ul>
+<p><code>
+    <span>-simcompatible_ams spectre</span>
+  </code></p>
+<ul><li><span> <code>tnom </code> <span>and</span> <code> temp </code> <span>are set to 27C</span> </span></li><li>Parameter inheritance is set to local only</li></ul><ul><li>Forces initial conditions only when you set the DC analysis<code> force </code>option</li></ul>
+<p>In addition, for<code> -simcompatible_ams hspice </code>, flags on all device models are set to be SPICE compatible.</p>
+
+<p>For example:</p>
+
+<p><code> xmsim -simcompatible_ams hspice top:amsSS </code></p>
+
+<p>The simulator uses these values regardless of which language you use.</p>
+
+<p>The<code> -simcompatible_ams </code>option does not affect parsing. If you want to add SPICE commands in model files or in the analog simulation control file, you must use the statement,</p>
+
+<p><code> simulator lang=spice </code></p>
+
+<p>to specify the language for the statements that follow.</p>
+
+<p>See also &quot;<a href="Using_the_Analog_Simulation_Control_File.html#UsingtheAnalogSimulationControlFile-1052243">witching Languages in the Analog Simulation Control File</a>.&quot;</p>
+<h3 id="Simulating--uselicenseOptionuselicenseOption1053825">-uselicense Option<span class="confluence-anchor-link" id="Simulating-uselicenseOption"></span> <span class="confluence-anchor-link" id="Simulating-1053825"></span></h3>
+
+<p>The -<code>uselicense </code>option lets you specify a custom prioritized license checkout order for simulation. For example:</p>
+
+<p><code>
+    <span>-uselicense mnemonicList [:DEFAULT]</span>
+  </code></p>
+
+<p>where<code> mnemonicList </code>is a colon-separated list of one or more<span> valid mnemonic keywords.</span> The optional DEFAULT mnemonic indicates the default license selection, which includes digital-specific license mnemonics such as XMVLOG and XMSIM.<br />For more information about these and other digital-specific mnemonics, see the&#160;<a href="Product_and_Licensing_Information.html#ProductandLicensingInformation-1031356">Product and Licensing Information</a>&#160;chapter. Also see&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a class="message-url" href="../SimOpts/sim_opts.html#ncsim_uselicense">-uselicense</a>&#160;</span>in the&#160;<span style="color: rgb(0,0,255);"> <a class="message-url" href="../Simulating/simulating.html">&quot;Simulating Your Design with xmsim&quot;</a>&#160;</span>chapter of the<em> <span style="color: rgb(0,0,0);"> Simulating Your Design </span> </em>book.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The&#160;-<code>uselicense&#160;</code>option has been deprecated in the 16.11 release.</p>
+</div>
+</div>
+<h2 id="Simulating-AMSDesignerVerificationOption1060007">AMS Designer Verification Option<span class="confluence-anchor-link" id="Simulating-1060007"></span></h2>
+
+<p>More than 80% of today&#39;s integrated circuit have analog content, the majority of which is tightly coupled with digital. The established digital flows cannot handle the fast growing mixed-signal SoC design starts, while existing mixed-signal technology is limited to small isolated blocks.</p>
+
+<p>The new AMS Designer Verification option provides a smooth mixed-signal verification flow that extend today&#39;s mature digital SoC verification methodologies to analog content/mixed-signal content. It provides a complete solution for mixed-signal SoC verification by enhancing the performance and capacity of existing AMS block-level technology, supporting cross domain connectivity between test benches and IP from multiple vendors.</p>
+
+<p>The advanced features required for SoC Verification that the AMS Designer Verification option provides are as mentioned below. These features require an AMS Designer Verification option license.</p>
+<ul><li><a href="Glossary.html#Glossary-1034860"> SV</a>&#160;Real-to-Electrical connection - more detailed information about this feature will be provided in the future revision of the documentation.</li></ul><ul><li>Electrical-to-SV Real Connection - more detailed information about this feature will be provided in the future revision of the documentation.</li></ul><ul><li>VHDL-SPICE - refer to&#160;<a href="Preparing_the_Design__Using_Mixed_Languages.html#PreparingtheDesign:UsingMixedLanguages-1042418">Connecting VHDL Blocks to SPICE Blocks</a>.</li></ul><ul><li>AMS-CPF (CPF enabled AMS with power-smart connection modules) - refer to <a href="Low_Power_and_Mixed-Signal_Verification.html#LowPowerandMixed-SignalVerification-CPF">Using Common Power Format with AMS Designer</a>.</li></ul><h2 id="Simulating-ExamplexmsimCommandLines1047708">Example xmsim Command Lines<span class="confluence-anchor-link" id="Simulating-1047708"></span></h2>
+
+<p>The following command runs the simulator in noninteractive mode. This command automatically starts the simulation or the processing of commands from<code> -input </code>options without prompting you for command input. The<code> xmsim </code>program reads controls for the analog solver from<code> mycontrolfile.</code></p>
+
+<p><code> xmsim -input setup.inp -analogcontrol mycontrolfile top </code></p>
+
+<p>The following command runs the simulator in noninteractive mode with the SimVision environment. This command automatically starts the simulation or the processing of commands from<code> -input </code>options without prompting you for command input.</p>
+
+<p><code> xmsim -input setup.inp -gui -run top </code></p>
+
+<p>The following command runs the simulator in interactive mode. The simulation waits at time 0 for interactive input.</p>
+
+<p><code> xmsim -tcl top </code></p>
+
+<p>The following command runs the simulator in interactive mode with the SimVision environment. The simulation waits at time 0 for interactive input.</p>
+
+<p><code> xmsim -gui top </code></p>
+
+<p>The following command uses the<code> -logfile </code>option to rename the log file from the default (<code>xmsim.log</code>) to<code> top.log.</code></p>
+
+<p><code> xmsim -messages -run -logfile top.log top </code></p>
+
+<p>The following command uses<code> -errormax 10 </code>to tell the simulator to stop after 10 errors.</p>
+
+<p><code> xmsim -errormax 10 top </code></p>
+
+<p>The following command uses the<code> -file </code>option to include a file called<code> top.vc </code>, which includes a set of command line options, such as<code> -messages</code>,<code> -nocopyright</code>,<code> -logfile</code>, and<code> -errormax.</code></p>
+
+<p><code> xmsim -file top.vc top </code></p>
+
+<p>The following command uses the<code> -input </code>option to source the file<code> top.inp </code>at initialization. This file contains a sequence of simulator (Tcl) commands.</p>
+
+<p><code> xmsim -input top.inp top </code></p>
+
+<p>The following command uses the<code> -keyfile </code>option to specify that the name of the key file is<code> top.key </code>instead of the default<code> xmsim.key.</code> You could use this key file to reproduce an interactive session by using the file name<code> top.key </code>as the argument to the<code> -input </code>option.</p>
+
+<p><code> xmsim -tcl -keyfile top.key top </code></p>
+
+<p>The following command runs a simulation on the AMS Designer simulator using the APS solver.</p>
+
+<p><code>
+    <span style="color: rgb(0,0,0);"> xmsim -solver aps top </span>
+  </code></p>
+
+<p>The following set of commands performs all the steps necessary to prepare and run a simulation that uses the UltraSim simulator.</p>
+
+<p><code> xmvlog -ams test.v<br />xmelab -amsfastspice amsd.scs&#160;test<br />xmsim -analogcontrol test.scs test </code></p>
+
+<p>The<code> xmvlog </code>step is the same as that used for the Spectre solver. The<code> xmelab </code>step uses<code> -amsfastspice </code>to configure the elaboration for the UltraSim solver. The<code> -propspath </code>option points to a file that specifies where the source files are for Spectre and SPICE design blocks. The elaborator includes<code> -amsfastspice </code>and<code> -propspath </code>information in the snapshot that it produces so you do not need to specify them on the<code> xmsim </code>command.</p>
+<h2 id="Simulating-hdl.varVariables1046398">hdl.var Variables<span class="confluence-anchor-link" id="Simulating-1046398"></span></h2>
+
+<p>If you are running the AMS Designer simulator using&#160;<span style="color: rgb(0,0,255);"><a href="Getting_Started_with_the_AMS_Designer_Simulator.html">the three-step approach</a></span>, the simulator recognizes and uses the following<code>
+    <span> hdl.var </span>
+  </code>variables:</p>
+<ul><li><code> XMSIMOPTS<br /> </code>Sets simulator command-line options. You can include a snapshot name. For example:<code> <br />DEFINE XMSIMOPTS -messages </code></li></ul><ul><li><code> WORK <br />
+    </code>Specifies the default library for the snapshot. If the snapshot is not found in this library, the rest of the libraries in the <code>cds.lib</code>&#160;file are searched.</li></ul><h2 id="Simulating-RunningtheSimulator1031419">Running the Simulator<span class="confluence-anchor-link" id="Simulating-1031419"></span></h2>
+
+<p>You can run the <code>xmsim</code>&#160;simulator in&#160;<span style="color: rgb(0,0,255);"> <a class="message-url" href="../Simulating/simulating.html#guimode">two modes</a></span>:</p>
+<ul><li><span style="color: rgb(0,0,255);"> <a class="message-url" href="../Simulating/simulating.html#invokenoninteractive">Noninteractive mode</a> <br /> </span>Automatically starts the simulation or the processing of commands from <code>-input</code>&#160;options without prompting you for command input.</li></ul><ul><li><span style="color: rgb(0,0,255);"> <a class="message-url" href="../Simulating/simulating.html#Tcl">Interactive mode</a> <br /> </span>Stops the simulation at time 0 and returns the<code> xcelium&gt; </code>prompt.</li></ul>
+<p>In either mode, you can run the simulator with or without the SimVision environment.</p>
+<h2 id="Simulating-StartingorResumingaSimulation1041755">Starting or Resuming a Simulation<span class="confluence-anchor-link" id="Simulating-1041755"></span></h2>
+
+<p>To start or resume a simulation,</p>
+<ul><li>If you are using the Tcl command-line interface, use the <code><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1033517">run</a></code> command with the appropriate option to control when you want the simulation to stop.</li></ul><ul><li>If you are using the SimVision environment, use the commands on the<span style="color: rgb(0,0,0);"> Simulation </span>menu or the buttons on the simulation control toolbar.See&#160;<span style="color: rgb(0,0,255);"> <a class="message-url" href="../SimulatingSimVis/running.html">&quot;Controlling the Simulation&quot;</a>&#160;</span>in the<em> <span style="color: rgb(0,0,0);"> Running SimVision in Simulation Mode </span> </em>for more information.</li></ul><h2 id="Simulating-RestartingtheSimulatorfromaPreviously-SavedSnapshot1055990">Restarting the Simulator from a Previously-Saved Snapshot<span class="confluence-anchor-link" id="Simulating-1055990"></span></h2>
+
+<p>Using&#160;<a href="Getting_Started_with_the_AMS_Designer_Simulator.html"><span>the three-step method</span></a>, you compile your modules using<code> xmvlog </code>, then you elaborate using<code> xmelab </code>which elaborates only newly-compiled modules: If you have not recompiled a module,<code> xmelab </code>does not re-elaborate it. The third step is to simulate using<code> xmsim.</code></p>
+
+<p>When you simulate using a previously-saved snapshot, the simulator (<code>xmsim</code>) verifies that the snapshot depends on modules that have a time stamp that is earlier than the snapshot itself. You can run the simulator from a previously-saved snapshot as indicated by the following use models:</p>
+<h4 id="Simulating-UseModel1">Use Model 1</h4>
+<ol><li>Compile and elaborate to generate snapshot<code> A.</code></li><li>In SimVision, simulate using snapshot<code> A </code>for some time (such as 1000 ns).</li><li>Save snapshot<code> B </code>(<code>save :B</code>).</li><li>Exit simulation.</li><li>Re-elaborate the design to generate snapshot<code> A.</code></li></ol>
+<p>You can run<code> xmsim </code>using snapshot<code> B.</code>If you run<code> xmsim </code>using snapshot<code> A </code>at this point, you cannot use Tcl <code>restart</code> l&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a href="Appendix_B__Tcl-Based_Debugging.html">restart</a>&#160;</span>to simulate using snapshot<code> B </code>because snapshot<code> A </code>now has a newer time stamp than snapshot<code> B.</code> You can simulate snapshot<code> B </code>only from the<code> xmsim </code>command line.</p>
+<h4 id="Simulating-UseModel2">Use Model 2</h4>
+<ol><li>Compile and elaborate to generate snapshot<code> A.</code></li><li>In SimVision, simulate using snapshot<code> A </code>for some time (such as 1000 ns).</li><li>Save snapshot<code> B </code>(<code>save :B</code>).</li><li>Exit simulation.</li><li>Re-elaborate the design to generate snapshot<code> C.</code></li></ol>
+<p>You can run<code> xmsim </code>using snapshot<code> B.</code> You can run<code> xmsim </code>using snapshot<code> A.</code>You can also use Tcl<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;">&#160;<a href="Appendix_B__Tcl-Based_Debugging.html">restart</a>&#160;</span>to simulate using snapshot<code> B.</code>However, if you run<code> xmsim </code>using snapshot<code> C </code>at this point, you cannot use Tcl<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;">&#160;<a href="Appendix_B__Tcl-Based_Debugging.html">restart</a>&#160;</span>to simulate using snapshot<code> B </code>because snapshot<code> C </code>now has a newer time stamp than snapshot<code> B.</code> You can simulate snapshot<code> B </code>only from the<code> xmsim </code>command line.</p>
+<h2 id="Simulating-UpdatingDesignChangesWhenYouRuntheSimulator1054593">Updating Design Changes When You Run the Simulator<span class="confluence-anchor-link" id="Simulating-1054593"></span></h2>
+
+<p>After editing a design unit, you can use<code> xmsim -update </code>to recompile and re-elaborate all out-of-date design units before re-simulating. For more information, see&#160;<span style="color: rgb(0,0,255);"> <a class="message-url" href="../Simulating/simulating.html#updatingdesignchanges">&quot;Updating Design Changes When You Invoke the Simulator&quot;</a>&#160;</span>in the<em> <span style="color: rgb(0,0,0);"> Simulating Your Design </span> </em>book.</p>
+<h2 id="Simulating-ProvidingInteractiveCommandsfromaFile1031429">Providing Interactive Commands from a File<span class="confluence-anchor-link" id="Simulating-1031429"></span></h2>
+
+<p>If you want to load a file containing simulator commands (perhaps Tcl commands or aliases, or a key file containing commands saved from a previous simulation run), see&#160;<span style="color: rgb(0,0,255);"> <a class="message-url" href="../Simulating/simulating.html#sim_input">&quot;Providing Interactive Commands from a File&quot;</a>&#160;</span>in the<em> <span style="color: rgb(0,0,0);"> Simulating Your Design </span> </em>book.</p>
+<h2 id="Simulating-UsingtheSave-and-RestartFeaturesaveRestart1031430">Using the Save-and-Restart Feature<span class="confluence-anchor-link" id="Simulating-saveRestart"></span> <span class="confluence-anchor-link" id="Simulating-1031430"></span></h2>
+
+<p>In mixed-signal designs, you can save a snapshot of a simulation and restart after making changes to simulation parameters and models. When you save a simulation with process-based save/restart, you create a snapshot of the entire simulation process state (memory, file pointers, and so on), including all integrated C/C++ code, third-party applications, system function $save in SV/Verilog/VHDL module, external codes such as System C in the design, all allocated stacks, heaps to disk.</p>
+
+<p>After you save the simulation, you can either&#160;do a cold restart, or a warm restart.</p>
+
+<p>A cold restart refers to a situation in which the simulator is (re-)invoked with the saved snapshot. This approach provides an opportunity to change certain simulator invocation option settings.</p>
+
+<p>A warm restart refers to a situation where the simulation runs in the same directory as the saved simulation. Essentially, the restarted simulation is presented as a continuation of the existing session. Since the simulator is not explicitly re-invoked, there is no opportunity to change any simulator invocation option settings. They remain the same as they were at the time of the save operation. Warm restart is most commonly used for debugging purpose.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For AMS designs using the analog solvers such as Spectre solver, APS solver, or XPS-MS solver, you can use save-and-restart either in non-interactive mode (command-line) or in Tcl mode.</p>
+</div>
+</div>
+
+<p>You can also use the save-and-restart feature in mixed-signal designs containing SystemC models. The use model is the same in terms of the usage of the Tcl commands save and restart. However, in the Tcl restart flow for SystemC, one difference from the traditional save-and-restart feature is that the analog netlist/model files are re-parsed and the analog circuit is re-elaborated so that you can update these files prior to specifying the restart Tcl command, and expect these changes to take effect in the restart simulation.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The save-and-restart feature for mixed-signal designs with SystemC does not work on SLES11.</p>
+</div>
+</div>
+<h3 id="Simulating-Process-BasedSave-and-RestartforMixed-SignalDesigns">Process-Based Save-and-Restart for Mixed-Signal Designs</h3>
+
+<p>You can use the process-based save-and-restart approach for AMS and DMS simulations. The approach is the same in terms of the usage of the Tcl commands save and restart. However, the Tcl restart flow for process-based save-and-restart differs from the traditional mixed-signal save-and-restart feature. In the process-based save-and-restart approach, during simulation restart, a new xmsim process is invoked, and the simulation state is restored to exactly the state when the save occurred.</p>
+
+<p>You can enable process-based save-and-restart in the checkpoint enable mode and process save mode.</p>
+
+<p>In the checkpoint enable mode, during the restart process, the original analog solver thread is terminated. The tool then relaunches a new analog solver, and the following processing are performed:</p>
+<ul><li>The analog solver is re-initialized</li><li>The sync between digital and analog solvers is re-established</li><li>The analog circuits are re-elaborated</li><li>The saved analog data is reloaded from the save directory</li><li>The probes on analog signals are re-installed.</li></ul>
+<p>To enable checkpoint enable mode, you must use the the <code>-checkpoint_enable</code> command-line option with <code>xmsim</code>/<code>xrun</code>.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For AMS design simulations, it is recommended that you use the process save mode.</p>
+</div>
+</div>
+
+<p>In the process save mode, the threads are handled by checkpoint package and multiple threads are supported. And, the analog engine running in child threads can be recovered. However, in the checkpoint enable mode, the analog engine needs to be restarted and re-initialized.</p>
+
+<p>To enable the process save mode, you must use the <code>-process_save</code> command-line option with <code>xmsim</code>/<code>xrun</code>.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>For mixed-signal designs, it is recommended to run the simulations in 64-bit mode. If you want to run the simulation in 32-bit mode, you must disable virtual system calls in the Linux configuration.</p>
+</div>
+</div>
+
+<p>By default, it is recommended to run the simulations in the 64-bit mode.</p>
+<h4 id="Simulating-Examples">Examples</h4>
+
+<p>The following examples show how you can enable process save mode save-and-restart flow in both a warm restart and cold restart:</p>
+
+<p><strong>Warm restart:</strong><br /><code>xrun top.vams receiver.vams amscf.scs -input probe.tcl -amsconnrule CR_full -clean -process_save </code></p>
+
+<p>The following example details the <code>probe.tcl</code> file used:</p>
+
+<p><code>-----------probe.tcl -----------------------------------</code><br /><code>database -open waves -into waves.shm -default</code><br /><code>probe -create -all -depth all -waveform -database waves run 2ns</code><br /><code>scope -describe top</code><br /><code>scope -describe top.RE1</code><br /><code>force top.RE1.scalar_out = 1&#8217;b0</code><br /><code>value top.scalar_out top.RE1.scalar_out</code><br /><code>save -overwrite save1</code><br /><code>run 2ns</code><br /><code>release top.RE1.scalar_out</code><br /><code>value top.scalar_out top.RE1.scalar_out</code><br /><code>run 2ns</code><br /><code>restart save1</code><br /><code>value top.scalar_out top.RE1.scalar_out</code><br /><code>run 2ns</code><br /><code>exit</code></p>
+
+<p><strong>Cold restart:</strong></p>
+
+<p><code>xrun top.vams receiver.vams amscf.scs -input save.tcl -amsconnrule CR_full -clean -process_save</code></p>
+
+<p>The following example details the <code>save.tcl</code> file used:</p>
+
+<p><code>-------------------save.tcl--------------------</code><br /><code>database -open waves -into waves.shm -default probe -create -all -depth all -waveform -database waves run 2ns</code><br /><code>scope -describe top</code><br /><code>scope -describe top.RE1</code><br /><code>force top.RE1.scalar_out = 1&#8217;b0</code><br /><code>value top.scalar_out top.RE1.scalar_out</code><br /><code>save -overwrite save1</code><br /><code>run 2ns</code><br /><code>release top.RE1.scalar_out</code><br /><code>value top.scalar_out top.RE1.scalar_out</code><br /><code>run 2ns</code><br /><code>exit</code></p>
+
+<p>The following is an example of the <code>.vams</code> and <code>amsd</code> control files that are:</p>
+
+<p><code>---------------------------top.vams-----------------------</code><br /><code>`timescale 1ns/1ps</code><br /><code>`include &quot;disciplines.vams&quot;</code><br /><code>module top();</code><br /><code>electrical scalar_in;</code><br /><code>electrical scalar_out;</code><br /><code>electrical [1:0] array_in;</code><br /><code>electrical [1:0] array_out;</code><br /><code>///instantiation/////</code><br /><code>receiver RE1 (scalar_in,scalar_out,array_in,array_out);</code><br /><code>analog begin</code><br /><code>V(scalar_in) &lt;+ 1.4;</code><br /><code>V(array_in[1]) &lt;+ 1.8;</code><br /><code>V(array_in[0]) &lt;+ 0.2;</code><br /><code>end</code><br /><code>endmodule</code><br /><code>------------------receiver.vams-----------------------------</code><br /><code>module receiver (scalar_in,scalar_out, array_in,array_out);</code><br /><code>input scalar_in;</code><br /><code>output scalar_out;</code><br /><code>input [1:0] array_in;</code><br /><code>output [1:0] array_out;</code><br /><code>logic scalar_in,scalar_out;</code><br /><code>logic [1:0] array_in,array_out;</code><br /><code>assign scalar_out = 1&#8217;b1;</code><br /><code>assign array_out= 2&#8217;b10;</code><br /><code>endmodule</code><br /><code>---------------amscf.scs---------------</code><br /><code>Simulator lang=spectre</code><br /><code>Tran tran stop=20ns</code></p>
+
+<p><code>And, the following command invokes the restart command for a cold restart:</code><br /><code>xrun -r save1 -input restart.tcl -process_save</code><br /><code>Where, the restart.tcl file contains:</code><br /><code>------restart.tcl------------------------</code><br /><code>value top.scalar_out top.RE1.scalar_out</code><br /><code>run 2ns</code><br /><code>exit</code></p>
+
+<p>For more information see the following topics:</p>
+<ul><li><a href="#Simulating-simStop">Stopping the Simulation and Saving the Current Simulation State</a></li><li><a href="#Simulating-simChange">Making Changes and Restarting the Simulator</a></li></ul>
+<p>See also:</p>
+<ul><li><span style="color: rgb(0,0,255);"> <a class="message-url" href="../Simulating/SimulatingTOC.html">Simulating Your Design</a></span></li><li><span style="color: rgb(0,0,255);"><a class="message-url" href="../Debugging/DebuggingTOC.html">Debugging Your Design</a></span></li><li><a class="external-link" href="https://support.cadence.com/apex/ArticleAttachmentPortal?id=a1O0V000009MoGhUAK&amp;pageName=ArticleContent" rel="nofollow">Process Based Save/Restart on Mixed-Signal Design (Video Channel)</a></li></ul>
+<p>If you are using<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a class="message-url" href="../amssimug/chap_irun.html">xrun</a></span>, see&#160;<span style="color: rgb(0,0,255);"> <a class="message-url" href="../amsTutorials/saveRestart.html">&quot;Using the Save-and-Restart Feature of the AMS Designer Simulator&quot;</a>&#160;</span>in the<span style="color: rgb(0,0,255);"> <a class="message-url" href="../amsTutorials/amsTutorialsTOC.html">Spectre&#174; AMS Designer Simulator Tutorials</a> </span> <span style="color: rgb(0,0,255);">&#160;</span>book.</p>
+<h3 id="Simulating-StoppingtheSimulationandSavingtheCurrentSimulationStatesimStop1051338">Stopping the Simulation and Saving the Current Simulation State<span class="confluence-anchor-link" id="Simulating-simStop"></span> <span class="confluence-anchor-link" id="Simulating-1051338"></span></h3>
+
+<p>Here are some examples of how you can stop the simulation:</p>
+<ul><li>Use the Tcl&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1033517">run</a></span>&#160;command and specify a&#160;<a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1040702">stop time</a>.</li></ul><ul><li>Type<code><span style="color: rgb(0,0,0);"> Ctrl+C </span></code>to interrupt the simulation.</li></ul><ul><li>In SimVision, click the pause button to interrupt the simulation.<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236063/305236067.gif" data-linked-resource-container-id="305236063" data-linked-resource-container-version="2" data-linked-resource-content-type="image/gif" data-linked-resource-default-alias="SimVisionPause.gif" data-linked-resource-id="305236067" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236063/305236067.gif" /></span></li></ul>
+<p>Use the Tcl&#160;<code><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1034316">save</a></code>&#160;command to create a snapshot of the current simulation state. For example:</p>
+
+<p><code> xcelium&gt; save top:savedSnapshot </code></p>
+<h3 id="Simulating-MakingChangesandRestartingtheSimulatorsimChange1051367">Making Changes and Restarting the Simulator<span class="confluence-anchor-link" id="Simulating-simChange"></span> <span class="confluence-anchor-link" id="Simulating-1051367"></span></h3>
+
+<p>Before you restart the simulator (by specifying a saved snapshot on the<code> xmsim </code>command line) you can make the following design changes:</p>
+<ul><li>You can change simulation parameters that do not affect the&#160;<span style="color: rgb(0,0,255);"> <a href="Glossary.html#Glossary-1032303">circuit topology</a>&#160;</span>such as<code> reltol</code>,<code> abstol</code>,<code> errpreset</code>,<code> method</code>, and<code> stop.</code> Use&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a href="#Simulating-1047151">xmsim -analogcontrol</a>&#160;</span>to specify the analog control file containing the changed parameters. If you are using the Spectre solver, you can also change the<code> reltol</code>,<code> abstol</code>, and<code> stop </code>parameters using the Tcl&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1040981">analog</a></span>&#160;command. If you change any of these options using both methods, the Tcl<code> analog </code>command takes precedence; however, Tcl changes are not part of the saved snapshot information.</li></ul><ul><li>You can change analog SPICE or Spectre models for the simulation by editing or replacing the model files whose paths you specified using the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a href="Elaborating.html#Elaborating-1037512">xmelab -modelpath</a>&#160;</span>option; or you can change the path to or name of the model file you want the simulator to use using the&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a href="#Simulating-1050923">xmsim -modelpath</a>&#160;</span>option (unless you are using the AMS Designer simulator with the UltraSim solver and the UltraSim front end parser, which does not support using the<code> xmsim -modelpath </code>option).If you are using the Spectre solver, you can change model parameters in Spectre and SPICE and analog control files, but you cannot change the circuit topology: You must not replace subcircuit definitions or Verilog-A modules such that you remove or introduce nodes or use different devices in your design with respect to the original Spectre/SPICE files you submitted to<code> xmsim </code>for simulation.</li></ul><div>
+<p><br /></p>
+<div class="confluence-information-macro confluence-information-macro-warning"><span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>The AMS Designer simulator with the Spectre solver does not detect <a href="Glossary.html#Glossary-1032303">circuit topology</a> changes automatically; such changes can result in unexpected behavior, including crashes.</p>
+</div>
+</div>
+
+<p>If you are using the UltraSim solver, you can change the<span style="color: rgb(0,0,255);">&#160;<a href="Glossary.html#Glossary-1032303">circuit topology</a> <span>&#160;</span>&#160;</span>(<span style="color: rgb(0,0,0);">but Cadence strongly discourages it</span>). When you restart, the software initializes any added nodes as if the operating point was not saved and ignores references to any deleted nodes. The software initializes the rest of the nodes to their previously saved simulation values.</p>
+</div>
+
+<p>So, if you are changing simulation parameters and using a different model file when you restart the simulation, your<code> xmsim </code>command line might look something like this:</p>
+
+<p><code>xmsim top:savedSnapshot &#8230; -analogcontrol /myProject/myRun/changedParams.scs &#8230; -modelpath &quot;differentModels.m&quot; </code></p>
+
+<p>Regarding scoping and model file changes:</p>
+<ul><li>You must not introduce any new scopes during simulation: All scopes must be the same as those defined during elaboration.<br />See &quot;<a href="Elaborating.html#Elaborating-1037512"> <code>-modelpath</code> Option&quot;&#160;</a>for information about model files and scoping defined during elaboration.</li></ul><ul><li>You can specify new model files for scopes defined during elaboration.<br />See &quot;<a href="Elaborating.html#Elaborating-1037512"> <code>-modelpath</code> Option&quot;&#160;</a>for information about model files and scoping defined during elaboration.</li></ul><ul><li>You can introduce new non-scoped model files during simulation.</li></ul><h3 id="Simulating-SwitchingSPICEBlocksfromanExistingSnapshot">Switching SPICE Blocks from an Existing Snapshot</h3>
+
+<p>To reduce simulation time to a large extent, you can switch the SPICE blocks in your design with other equivalent SPICE blocks from an existing snapshot. This is especially useful for large designs that take a long time to simulate.</p>
+
+<p>The AMS Designer simulator allows you to run the simulation using one representation of a SPICE block in your design, save the results, and then restart the simulation using another representation of the same SPICE block.</p>
+<h4 id="Simulating-Example">Example</h4>
+
+<p>The simulation can be restarted using a specific snapshot name, say<code> s1</code>, using the following command:</p>
+<p style="margin-left: 30.0px;"><code> xrun -r :s1 &lt;NEW_SPICE_DECK.scs&gt;</code></p>
+<p style="margin-left: 30.0px;"><code> </code>where<code> NEW_SPICE_DECK.scs </code>refers to the new SPICE content that will replace its existing counterparts in snapshot<code> s1.</code></p>
+
+<p>Alternatively, you can restart the simulation using the last generated snapshot by using the following command:</p>
+<p style="margin-left: 30.0px;"><code> xrun -R &lt;NEW_SPICE_DECK.scs&gt;</code></p>
+<p style="margin-left: 30.0px;"><code> </code>where<code> NEW_SPICE_DECK.scs </code>refers to the new SPICE content that will replace its existing counterparts in the last snapshot (<code>s1 </code>, in this example).</p>
+
+<p>The following considerations must be kept in mind while using this save/restart solution:</p>
+<ul><li>The Verilog-SPICE boundary must be preserved during the save/restart. No changes in port order and port name are allowed.</li></ul><ul><li>You must provide only one top level SPICE file (deck) during restart on the xrun command-line.<code> xrun -R </code>automatically uses the existing SPICE deck during restart when<code> none </code>is specified.</li></ul><ul><li>The new SPICE deck can only bring in changes related to the SPICE-to-SPICE domain.</li></ul><ul><li>The SPICE deck should be self-sufficient in itself and should support simulation.</li></ul><ul><li>This solution is supported only in the command-line flow. It is not supported in the&#160;<a href="Glossary.html#Glossary-1033531">ADE</a>&#160;flow.</li></ul><h2 id="Simulating-ExitingtheSimulationexit1050807">Exiting the Simulation<span class="confluence-anchor-link" id="Simulating-exit"></span> <span class="confluence-anchor-link" id="Simulating-1050807"></span></h2>
+<div>Do one of the following to exit the simulator,</div>
+<ul><li>If you are using the Tcl command-line interface, type&#160;<span style="color: rgb(0,0,255);font-family: &quot;Courier New&quot;;font-size: small;"> <a class="message-url" href="../tclcmdref/tcl_cmds.html#exit_cmd">exit</a>&#160;</span>or&#160;<code><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1033404">finish</a></code>. The exit command is a built-in Tcl command. It halts the execution and returns the control to the operating system. For details, see&#160;<a class="message-url" href="../tclcmdref/tcl_cmds.html#exit_cmd">&quot;exit&quot;</a>&#160;in <em>Xcelium Simulator Tcl Command Reference</em>.<br /> <br />The&#160;<code><a href="Appendix_B__Tcl-Based_Debugging.html#AppendixB:Tcl-BasedDebugging-1033404">finish</a></code> command also halts execution and returns control to the operating system. However, this command takes an optional argument that determines what type of information is displayed after exiting. <br /> <code>0&#160;</code> Prints nothing (same as executing finish without an argument). <br /> <code>1&#160;</code> Prints the simulation time. <br /> <code>2&#160;</code> Prints simulation time and statistics on memory and CPU usage.</li></ul><ul><li>
+<p>If you are using the SimVision environment, choose<em> <span style="color: rgb(0,0,0);"> File - Exit </span> </em>or type <code>finish</code>.</p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p><span style="color: rgb(0,0,0);">If&#160;you type <code>finish</code>, the window disappears before you can read the information. However, the information also appears in the log file.</span></p>
+</div>
+</div>
+</li></ul>
+<p>When the simulation encounters an<code> exit </code>command during transient analysis, the other analyses that are specified after the transient analysis (through analog control file)&#160; continues to run without any problem.</p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Elaborating.html" id="prev" title="Elaborating">Elaborating</a></em></b><b><em><a href="Using_SimVision_with_the_AMS_Simulator.html" id="nex" title="Using_SimVision_with_the_AMS_Simulator">Using_SimVision_with_the_AMS_S ...</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

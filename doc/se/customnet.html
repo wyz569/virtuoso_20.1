@@ -1,0 +1,181 @@
+
+<html><head><title>Customizing Netlisting</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="rgirdhar" />
+<meta name="CreateDate" content="2020-08-20" />
+<meta name="CreateTime" content="1597946045" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Simulation Environment that allows users to run simulations from the graphical interface or from a command line." />
+<meta name="DocTitle" content="Simulation Environment Help" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Customizing Netlisting" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="se" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-20" />
+<meta name="ModifiedTime" content="1597946045" />
+<meta name="NextFile" content="runsim.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="createstim.html" />
+<meta name="c_product" content="Virtuoso Schematic Editor" />
+<meta name="Product" content="Virtuoso Schematic Editor" />
+<meta name="ProductFamily" content="Virtuoso Schematic Editor" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Simulation Environment Help -- Customizing Netlisting" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="seICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="seTOC.html">Contents</a></li><li><a class="prev" href="createstim.html" title="Creating the Input Stimulus">Creating the Input Stimulus</a></li><li style="float: right;"><a class="viewPrint" href="se.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="runsim.html" title="Running a Simulation">Running a Simulation</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Simulation Environment Help<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>3
+<a id="pgfId-790207"></a></h1>
+<h1>
+<a id="pgfId-790218"></a><hr />
+Customizing Netlisting<hr />
+</h1>
+
+<p>
+<a id="pgfId-790208"></a>In this chapter, you can find information about</p>
+<ul><li>
+<a id="pgfId-790231"></a><a href="customnet.html#30075">SE Netlisting</a></li><li>
+<a id="pgfId-790445"></a><a href="customnet.html#20619">Specifying a Hierarchy of Netlisting Views</a></li><li>
+<a id="pgfId-790446"></a><a href="customnet.html#24651">Selecting a Netlisting View from a Hierarchy</a></li><li>
+<a id="pgfId-790447"></a><a href="customnet.html#39963">Overriding Default View and Stop Lists</a></li><li>
+<a id="pgfId-790209"></a><a href="customnet.html#30027">Controlling Renetlisting</a></li></ul>
+
+
+
+
+<p>
+<a id="pgfId-793096"></a>For information on SE SKILL APIs, see the <em><a actuate="user" class="URL" href="../netlistsimulateref/netlistsimulaterefTOC.html#firstpage" show="replace" xml:link="simple">Digital Design Netlisting and Simulation SKILL Reference</a></em>. </p>
+
+<h2>
+<a id="pgfId-789954"></a>SE Netlisting<a id="30075"></a></h2>
+
+<p>
+<a id="pgfId-789299"></a><a id="25636"></a>When<a id="overview"></a> SE netlists your des<a id="marker-789864"></a>ign, it takes your design hierarchy (extracted schematic or layout) and the simulator primitive component library and generates a network description containing all instances, nets, and models in an appropriate format for your <a id="marker-789300"></a>simulator. </p>
+<p>
+<a id="pgfId-789304"></a>Whe<a id="flat"></a>n <a id="hierarchical"></a>you extract and save your schematic, the system takes the connectivity information from the drawing and saves it to the disk. The netlister uses this data, the simulation data in the Cadence <code>basic</code> and <code>sample</code> libraries, and the modeling data to create the netlist for <a id="marker-789305"></a>simulation.</p>
+<p>
+<a id="pgfId-789311"></a>S<a id="flat"></a>om<a id="hierarchical"></a>e Cadence <a id="marker-789309"></a>netlist<a id="marker-789310"></a>ers &#8220;flatten&#8221; hierarchy and produce an expanded description of the design. For HSPICE, the netlister can produce either a flattened or a hierarchical netlist. The Verilog-XL netlister produces only a hierarchical netlist.</p>
+<p>
+<a id="pgfId-789720"></a>The follow<a id="customizenet"></a>ing sections describe SE variables you can set in your <code><a href="initialize.html#simrc">.simrc</a></code> file to customize netlisting.<a id="marker-789548"></a></p>
+
+<h2>
+<a id="pgfId-789949"></a>Specifying a Hierarchy of Netlisting Views<a id="20619"></a></h2>
+<h3>
+<a id="pgfId-789732"></a>Switching Views</h3>
+
+<p>
+<a id="pgfId-789392"></a><h-hot><a href="../ossref/chap3.html#simviewlist"></a><a href="../ossref/chap3.html#simviewlist">simViewList </a>&#8211; This is the &#8220;view switch list.&#8221; Each of the views in this list is searched for, in order, under the cell. The first view found is &#8220;switched&#8221; with the symbol.</h-hot><a id="marker-789389"></a><a id="marker-790355"></a></p>
+<p>
+<a id="pgfId-789393"></a><a id="Switching Views"></a><a id="Switching Views"></a>When a device referenced in the schematic is located, the instance of the symbol must be associated with its corresponding schematic or simulator primitive. This process is called switching views. The list of valid views to be used for switching is defined by the variable <code>simViewList</code> for the target simulator. If no valid view is found, an error message is generated because no netlist can be produced.</p>
+
+<h2>
+<a id="pgfId-790286"></a>Selecting a Netlisting View from a Hierarchy<a id="24651"></a></h2>
+
+<p>
+<a id="pgfId-790274"></a><h-hot><a href="../ossref/chap3.html#simstoplist"></a><a href="../ossref/chap3.html#simstoplist">simStopList </a>&#8211; This is the &#8220;stopping point view list&#8221; for the target simulator. Any view found in the <h-hot><a href="../ossref/chap3.html#simviewlist">simViewList</a></h-hot> is checked to see if it is in this list. If the view is found in <code>simStopList</code>, expansion stops. If it is not found, the next view found in <code>simViewList</code> is expanded.</h-hot><a id="marker-790271"></a></p>
+<p>
+<a id="pgfId-790303"></a><a id="Stopping Views"></a><a id="Stopping Views"></a>A <nothot>
+stopping view
+ is the most detailed description of devices for a simulation. If a view located in the &#8220;view switch list&#8221; is specified in <code>simStopList</code><nothot>
+,
+ expansion stops and the connectivity information for the instance is written to the netlist file by the SE <h-hot><a href="runsim.html#netlist">netlist function</a></h-hot><a id="marker-790305"></a>. If a view is not specified in <code>simStopList</code>, expansion continues to locate the instance.</nothot></nothot></p>
+
+<h2>
+<a id="pgfId-790306"></a>Overriding Default View and Stop Lists<a id="39963"></a></h2>
+
+<p>
+<a id="pgfId-789432"></a><a id="simviewlist"></a>To override the default view list or stop list, type the new list for the current simulator in the <h-hot><a href="initialize.html#simrc">.simrc file</a></h-hot>. This sets the internal list for the current simulator to the <code>.simrc</code> value. You must set the <nothot>
+view
+ and <nothot>
+stop
+ lists separately for each <a id="marker-789434"></a>simulator.<a id="override"></a> </nothot></nothot></p>
+<p>
+<a id="pgfId-789435"></a>The following table summarizes the simViewList and simStopList variables that correspond to the internal variables listed for each simulator.</p>
+<table class="webflareTable" id="#id789436">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id789444">
+<a id="pgfId-789444"></a>simSimulator </span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id789447">
+<a id="pgfId-789447"></a>simViewList </span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id789449">
+<a id="pgfId-789449"></a>simStopList</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-789463"></a>SPICE </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-789465"></a>spiceSimViewList </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-789467"></a>spiceSimStopList</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-789469"></a>HSPICE </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-789471"></a>hspiceSimViewList </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-789473"></a>hspiceSimStopList</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-789630"></a>The following example shows how the netlister uses the view and stop list variables to control its traversal of the design hierarchy:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-789498"></a><code>spiceSimViewList = &#8217;(&quot;spice&quot; &quot;cmos.sch&quot; &quot;schematic&quot;)<br />spiceSimStopList = &#8217;(&quot;spice&quot;) </code></pre>
+
+<p>
+<a id="pgfId-789499"></a>The specifications tell the netlister to stop when it finds a cell with a <h-hot><a href="customnet.html#simviewlist">view</a></h-hot> named &#8220;spice&#8221; and write the device into the netlist file. If a &#8220;spice&#8221; view does not exist, the netlister looks for the &#8220;cmos.sch&#8221; view to expand. If neither a &#8220;spice&#8221; nor a &#8220;cmos.sch&#8221; view exists, the netlister looks for the &#8220;schematic&#8221; view. If none of these views exist, the netlister generates an error message.</p>
+
+<h2>
+<a id="pgfId-789930"></a>Controlling Renetlisting<a id="30027"></a></h2>
+
+<p>
+<a id="pgfId-790343"></a><a id="Incremental Netlisting"></a><a id="Incremental Netlisting"></a>Incremental netlisting variables let you reduce netlisting time by eliminating unnecessary netlisting.<a id="incremental"></a></p>
+<p>
+<a id="pgfId-789515"></a><h-hot><a actuate="user" class="URL" href="../ossref/chap3.html#simnotincremental" show="replace" xml:link="simple">simNotIncremental </a></h-hot>&#8211; Set this variable to <code>nil</code> to tell the system to netlist only the parts of your design modified since the last netlisting of the design. The default is <code>nil</code>.</p>
+<p>
+<a id="pgfId-789521"></a><h-hot><a actuate="user" class="URL" href="../ossref/chap3.html#simrenetlistall" show="replace" xml:link="simple">simReNetlistAll</a></h-hot> &#8211; Set this variable to <code>t</code> to generate a new netlist on all the cellviews in your entire design. The default is <code>nil</code>.</p>
+<p>
+<a id="pgfId-789526"></a><h-hot><a actuate="user" class="URL" href="../ossref/chap3.html#simnetlisthier" show="replace" xml:link="simple">simNetlistHier</a></h-hot> &#8211; Set this variable to <code>t</code> to run the hierarchical netlister.</p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="createstim.html" id="prev" title="Creating the Input Stimulus">Creating the Input Stimulus</a></em></b><b><em><a href="runsim.html" id="nex" title="Running a Simulation">Running a Simulation</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

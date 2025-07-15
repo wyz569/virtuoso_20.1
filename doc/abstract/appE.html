@@ -1,0 +1,298 @@
+
+<html><head><title>Tutorial: Generate Abstracts by Using the Standalone Abstract Generator</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-08-16" />
+<meta name="CreateTime" content="1597635223" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso Abstract Generator that you can use to create abstracts from layout data." />
+<meta name="DocTitle" content="Virtuoso Abstract Generator User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Tutorial: Generate Abstracts by Using the Standalone Abstract Generator" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="abstract" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-16" />
+<meta name="ModifiedTime" content="1597635223" />
+<meta name="NextFile" content="appF.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Layout" />
+<meta name="PrevFile" content="appD.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Abstract Generator User Guide -- Tutorial: Generate Abstracts by Using the Standalone Abstract Generator" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="abstractICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="abstractTOC.html">Contents</a></li><li><a class="prev" href="appD.html" title="Abstract Generator Error and Warning Messages">Abstract Generator Error and W ...</a></li><li style="float: right;"><a class="viewPrint" href="abstract.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="appF.html" title="Technology File Requirements for Abstract Generation">Technology File Requirements f ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Abstract Generator User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>F
+<a id="pgfId-1028003"></a> </h1>
+<h1>
+<a id="pgfId-1028006"></a><hr />
+Tutorial: <a id="59119"></a>Generate Abstracts by Using the Standalone Abstract Generator<hr />
+</h1>
+
+<p>
+<a id="pgfId-1028010"></a>This tutorial exp<a id="Tutorial"></a>lains the methods involved in generating abstract LEF from Virtuoso design environment data for use by place-and-route tools such as Innovus<sup>TM</sup> Digital Implementation System (Innovus). The tutorial will guide you through a typical abstract generation flow. It does not explain full Abstract Generator functionality, so if you come across any issues that you cannot resolve, contact your local Cadence Application Engineer or Cadence Customer Support directly.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1028025"></a>Cadence Customer Support is region specific. To find out the e-mail address, phone number, or fax number for your region. Select the <em>Contacts</em> button from the <a actuate="user" class="URL" href="https://support.cadence.com/" show="replace" xml:link="simple">Cadence Online Support </a>home page.</div>
+
+<h2>
+<a id="pgfId-1028041"></a>Sample Library Data</h2>
+
+<p>
+<a id="pgfId-1028052"></a>The sample library material used in this tutorial can be found at the location below.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1028043"></a><code>tools/dfII/samples/tutorials/abstract</code></pre>
+
+<p>
+<a id="pgfId-1028039"></a>This path will be referred to as <code>&lt;tutorial_path&gt;</code>.</p>
+
+<h2>
+<a id="pgfId-1028060"></a>License Requirement</h2>
+
+<p>
+<a id="pgfId-1028064"></a>You should have at least one license of Virtuoso<sup>&#174;</sup> Layout Suite XL.</p>
+
+<h2>
+<a id="pgfId-1028202"></a>Virtuoso Design Environment to LEF Flow Overview</h2>
+
+<p>
+<a id="pgfId-1028204"></a>The process of generating abstract LEF from the Virtuoso design environment by using the standalone Abstract Generator can be summarized by the following procedures:</p>
+<ol><li>
+<a id="pgfId-1028207"></a><strong>Opening a Cell library and Checking Technology Data</strong><br />
+<a id="pgfId-1030020"></a>In this step, we will launch Abstract Generator and open a library. At this stage, we will also check the technology data.<br />
+<a id="pgfId-1030031"></a>Abstract Generator can open libraries existing in the Virtuoso design environment, referenced in your <code>cds.lib</code> file, which would bypass the need for this step.</li><li>
+<a id="pgfId-1029640"></a><strong>Generating Abstract Views</strong><br />
+<a id="pgfId-1030051"></a>Once we have a library with technology information and cell data, we can then begin to generate abstracts from the cell layout view.</li><li>
+<a id="pgfId-1030042"></a><strong>Exporting Abstract LEF</strong><br />
+<a id="pgfId-1030060"></a>The final step is to generate abstract LEF from the cell abstracts.<br />
+<a id="pgfId-1033903"></a>Abstract Generator supports mapping DFII cellType values to the LEF MACRO and LEF58_CLASS properties. These properties are mutually exclusive. For details about LEF58_CLASS, see <em><a actuate="user" class="URL" href="../lefdefref/lefdefrefTOC.html#firstpage" show="replace" xml:link="simple">LEF/DEF 5.8 Language Reference</a></em>.</li></ol>
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1028309"></a>Opening a Cell Library and Checking Technology Data</h2>
+<h3>
+<a id="pgfId-1028312"></a>Starting Abstract Generator</h3>
+
+<ol><li>
+<a id="pgfId-1028318"></a>Change the current path to where the tutorial designs are located:<br />
+<a id="pgfId-1028320"></a><code>cd &lt;tutorial_dir&gt;</code><br />
+<a id="pgfId-1028325"></a>Remember, &lt;<code>tutorial_dir</code>&gt; is the equivalent of <code>tools/dfII/samples/tutorials/abstract</code> in the Virtuoso design environment installation hierarchy.</li><li>
+<a id="pgfId-1028396"></a>Launch Abstract Generator:<br />
+<a id="pgfId-1028332"></a><code>abstract</code><br />
+<a id="pgfId-1028336"></a>The Abstract Generator main window appears:<br />
+<a id="pgfId-1030184"></a><div class="webflare-div-image">
+<img width="666" height="518" src="images/appE-2.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1030185"></a>Opening the Library</h3>
+
+<p>
+<a id="pgfId-1028488"></a>In this step we will open the <code>amspLL</code> library which contains our tutorial data.</p>
+<ol><li>
+<a id="pgfId-1028486"></a>Select <em>File &#8211; Library &#8211; Open</em> to display the Open Library form:<br />
+<a id="pgfId-1030210"></a><div class="webflare-div-image">
+<img width="484" height="182" src="images/appE-3.gif" /></div></li><li>
+<a id="pgfId-1028509"></a>Select the <code>amsPLL</code> library and click the <em>OK</em> button.<br />
+<a id="pgfId-1029697"></a>The library will be opened. At this point the technology data is verified. Any errors would be reported here. However, in this example no errors should be reported.<br />
+<a id="pgfId-1029711"></a>There are 17 cells in the <em>Core</em> bin and 11 cells in the <em>Ignore</em> bin. The top-level cell we are interested in is called <code>pllclk</code> in the <em>Core</em> bin. This cell is a block so we will now want to move it to the <em>Block</em> bin for abstract generation. We do this because Abstract Generator sets default options depending on the bin a cell/block is located in.</li><li>
+<a id="pgfId-1029707"></a>Select the <code>pllclk</code> cell in the <em>Core</em> bin of the cell pane, then select <em>Cells - Move</em>.</li><li>
+<a id="pgfId-1029787"></a>In the <em>Move Selected Cells</em> dialog box, select <em>Block</em> and click <em>OK</em>. The <code>pllclk</code> cell is moved to the <em>Block</em> bin.</li><li>
+<a id="pgfId-1029713"></a>In the <em>Bin</em> pane, select <em>Block. </em>The contents of the <em>Block</em> bin will be displayed to show the selected <code>pllclk</code> cell. <br />
+<a id="pgfId-1029810"></a>We are now ready to start abstract generation.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1028778"></a>You can inspect the layout view for the <code>pllclk</code> cell by selecting <em>Cells &#8211; Edit &#8211; Layout</em>. </div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1028787"></a>Generating Abstract Views</h2>
+
+<p>
+<a id="pgfId-1028794"></a>With the layout and logical information successfully imported into Abstract Generator, we can now begin to generate an abstract view for the <code>pllclk</code> block.</p>
+
+<h3>
+<a id="pgfId-1028799"></a>Running the Pins Step</h3>
+
+<ol><li>
+<a id="pgfId-1028800"></a>With the <code>pllclk</code> block selected, choose <em>Flow &#8211; Pins</em> to display the <em>Running step Pins</em> form. The <em>Map</em> tab is the first tab on view. There are existing terminals in the layout so we are not required to set any options on this tab.</li><li>
+<a id="pgfId-1028844"></a>Click the <em>Run</em> button at the bottom of the form to create the pins view for the <code>pllclk</code> block. An orange exclamation mark will be placed against the <code>pllclk</code> block under the <em>Pins</em> column in the cell pane. This informs us that the step has completed, but with warnings. In this example, these can however safely be ignored.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1028848"></a>You can check the successful creation of the Pins view by selecting <em>Cells &#8211; Edit &#8211; Pins</em>. The Virtuoso layout editor is opened with the Pins view of the <code>pllclk</code> block on display.</div></li></ol>
+
+
+
+<h3>
+<a id="pgfId-1028900"></a>Running the Extract Step</h3>
+
+<p>
+<a id="pgfId-1028901"></a>We shall now create the extraction view for the <code>pllclk</code> block. For the signal pins we will maintain the pins identified by the Pins step, but for the power pins we will run connectivity extraction. This is done to make more of the power routing on the block available as pins for connecting at the next level.</p>
+<ol><li>
+<a id="pgfId-1028920"></a>Select <em>Flow &#8211; Extract</em> to display the <em>Running step Extract</em> form.</li><li>
+<a id="pgfId-1028924"></a>Click the <em>Antenna</em> tab and ensure that the following process antenna calculations have been switched <em>on</em>:<br />
+<a id="pgfId-1028936"></a><em>Calculate input pin antenna
+Calculate output pin antenna
+Calculate inout pin antenna
+Calculate antenna metal area</em><br />
+<a id="pgfId-1030221"></a><div class="webflare-div-image">
+<img width="668" height="146" src="images/appE-4.gif" /></div></li><li>
+<a id="pgfId-1028951"></a>In the <em>Layer Assignment for Antenna regions</em> table, we need to make sure that gate and drain regions can be recognized. Ensure that <code>Poly</code> is listed in the <em>Layer</em> column and that its <em>Geometry Specification</em> is set to <code>Poly and Oxide</code> and <em>Region</em> is set to <em>Gate</em>. Ensure also that <code>Oxide</code> is listed in the <em>Layer</em> column and that its  is set to  and <em>Region</em> is set to .<br />
+<a id="pgfId-1030255"></a><div class="webflare-div-image">
+<img width="667" height="230" src="images/appE-5.gif" /></div></li><li>
+<a id="pgfId-1029869"></a>As we are not going to extract signal nets, ensure that the <em>Use different layer assignments for antenna calculations only</em> option is selected.</li><li>
+<a id="pgfId-1028967"></a>All metal and via layers should already appear in the<em> Layer Assignment for Antenna Extraction</em> table. </li><li>
+<a id="pgfId-1030432"></a>Ensure that the table contains entries for <code>Cont</code>, <code>Poly</code> and <code>Oxide</code> layers and the corresponding entries in the <em>Geometry Specification</em> column. These entries are required in the table to run antenna calculation. Ensure that the g-spec specified for the <code>Oxide</code> layer is <code>Oxide andnot Poly</code>. This will ensure that <code>Oxide</code> is correctly extracted.</li><li>
+<a id="pgfId-1028990"></a>Click the <em>General</em> tab. In the <em>Layer connectivity</em> field, you will see a list of triple layers.<br />
+<a id="pgfId-1028995"></a>A triple layer indicates that the first two layers in the triple are connected by the third (a via or a contact). Ensure that the metal layers are all present and that there are also triple layers specifying <code>Poly</code> to <code>Metal1</code> and <code>Oxide</code> to <code>Metal1</code> connectivity.</li><li>
+<a id="pgfId-1030323"></a>If the <code>Poly</code> and <code>Oxide</code> triple layers have not been defined, add the following to the end of the triple layer list:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1030716">
+<a id="pgfId-1030716"></a><code>(Poly Metal1 Cont) (Oxide Metal1 Cont)</code>.</pre></li><li>
+<a id="pgfId-1030324"></a>Click the <em>Signal</em> tab. Ensure that the <em>Extract signal nets</em> option is not selected. The existing pin shapes are sufficient so there is no requirement for signal net extraction.</li><li>
+<a id="pgfId-1029016"></a>The final task, before running the Extract step, is to set the power net extraction options. These settings are block dependent. For the <code>pllclk</code> block, the Pins step created power pins on <code>Metal3</code> along the bottom edge of the block. The <code>Metal4</code> vertical segments on the right edge of the block should also be modelled as power pins.</li><li>
+<a id="pgfId-1030723"></a>In the <em>Power</em> tab, ensure that the <em>Extract power nets</em> option is selected<em>. </em>In the <em>Layer Assignment for Power Extraction</em> table, ensure that <em>Create Pins</em> is not selected for <code>Metal1</code> and <code>Metal2</code>, and also for <code>Via1</code>,<code>Via2</code>, <code>Via3</code>, <code>Via4</code> and <code>Via5</code>.<br />
+<a id="pgfId-1029037"></a><div class="webflare-div-image">
+<img width="666" height="302" src="images/appE-6.gif" /></div></li><li>
+<a id="pgfId-1029038"></a>Click the <em>Run</em> button at the bottom of the form to create the Extract view for the <code>pllclk</code> block.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1029577"></a>This process may take a couple of minutes.</div>
+<a id="pgfId-1030357"></a>A green tick will be placed against the <code>pllclk</code> block under the <em>Extract</em> column in the cell pane.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1030358"></a>Running the Abstract Step</h3>
+
+<p>
+<a id="pgfId-1029045"></a>Next, we will create the Abstract view for the <code>pllclk</code> block.</p>
+<ol><li>
+<a id="pgfId-1029051"></a>Select <em>Flow &#8211; Abstract</em> to display the <em>Running step Abstract</em> form. The <em>Adjust</em> tab is the first tab on view.</li><li>
+<a id="pgfId-1029061"></a>Select the <em>Create boundary pins</em> option for <em>Signal Nets</em>.<br />
+<a id="pgfId-1029063"></a>In the extraction step, we did not run signal net extraction, so this should not strictly be required because the pins that were mapped in the Pins step are usually fine. However, if the pins created in the Pins step extend deep into the <code>pllclk</code> block, perhaps due to text labels being mapped onto an underneath path, then it is necessary to turn these larger pins into small square pins at the boundary of the block. We do this by selecting the <em>Create boundary pins</em> .<br />
+<a id="pgfId-1029078"></a>For <em>Power Nets</em>, the power pins in the <code>pllclk</code> block are neither boundary pins nor ring pins, therefore, both the <em>Create boundary pins</em> and <em>Create ring pins</em> options should not be selected.<br />
+<a id="pgfId-1030150"></a><div class="webflare-div-image">
+<img width="661" height="262" src="images/appE-7.gif" /></div></li><li>
+<a id="pgfId-1029077"></a>Click the <em>Blockage</em> tab and ensure that each metal layer is listed in the <em>Layer Assignment for Blockages</em> table and that their <em>Blockage</em> type set to <em>Cover</em>.<br />
+<a id="pgfId-1030121"></a><div class="webflare-div-image">
+<img width="675" height="398" src="images/appE-8.gif" /></div></li><li>
+<a id="pgfId-1029095"></a>To create a better Abstract view, we will shrink the cover blockage away from the cell boundary to ensure that <code>Metal3</code> and <code>Metal4</code> power pins are exposed. To achieve this, scroll to the right in the <em>Layer Assignment for Blockages</em> table to the <em>Boundary</em> column and enter <em>15</em> (microns) for <em>Layers</em> <code>Metal3</code>, <code>Metal4</code>, <code>Metal5</code>, and <code>Metal6</code>.</li><li>
+<a id="pgfId-1029148"></a>Click the <em>Grids</em> tab and set <em>Grid analysis mode</em> to <em>off</em>. This should be the default for the <em>Block</em> bin.</li><li>
+<a id="pgfId-1029150"></a>Click the <em>Run</em> button at the bottom of the form to create the Abstract view for the <code>pllclk</code> block.</li><li>
+<a id="pgfId-1029152"></a>A green tick will be placed against the <code>pllclk</code> block under the <em>Abstract</em> column in the cell pane. Again, the newly created Abstract view can be inspected in the Virtuoso layout editor by selecting <em>Cells &#8211; Edit &#8211; Abstract</em>.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1029231"></a>Exporting Abstract LEF</h2>
+
+<p>
+<a id="pgfId-1029236"></a>The final task in completing the generation of abstract LEF from Virtuoso design environment is to export the LEF from Abstract Generator.</p>
+<ol><li>
+<a id="pgfId-1029242"></a>Select <em>File &#8211; Export &#8211; LEF</em>. The Export LEF form is displayed. By default, all information is written to the LEF file.</li><li>
+<a id="pgfId-1029248"></a>However, as we already have a technology LEF file for this tutorial, uncheck the <em>Export Tech LEF Data</em> checkbox to prevent technology LEF being written to the LEF file.<br />
+<a id="pgfId-1029257"></a><div class="webflare-div-image">
+<img width="594" height="415" src="images/appE-9.gif" /></div></li><li>
+<a id="pgfId-1029258"></a>Ensure that the <em>LEF Filename</em> option is set to <code>abstract.lef</code>.</li><li>
+<a id="pgfId-1029581"></a>Change the <em>LEF Version</em> to be 5.5.</li><li>
+<a id="pgfId-1029260"></a>Click the <em>OK</em> button to export the abstract LEF for the <code>pllclk</code> block.<br />
+<a id="pgfId-1029268"></a>The <code>abstract.lef</code> file will be created in the Abstract Generator <em>run</em> directory (by default <code>abstract</code>), which was specified when Abstract Generator was first invoked from the executable in the Virtuoso design environment.</li><li>
+<a id="pgfId-1029273"></a>With the LEF file now successfully exported, close Abstract Generator by selecting <em>File &#8211; Exit</em>.<br />
+<a id="pgfId-1029279"></a>The same Abstract Generator run directory can be used again for future Abstract Generator sessions. You can also re-invoke the abstract executable again from the same run directory.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="appD.html" id="prev" title="Abstract Generator Error and Warning Messages">Abstract Generator Error and W ...</a></em></b><b><em><a href="appF.html" id="nex" title="Technology File Requirements for Abstract Generation">Technology File Requirements f ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

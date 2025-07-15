@@ -1,0 +1,1363 @@
+
+<html><head><title>Device Abutment</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="rishu" />
+<meta name="CreateDate" content="2020-09-21" />
+<meta name="CreateTime" content="1600741525" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the functionality of the Virtuoso Layout Suite XL connectivity-driven features in the current release." />
+<meta name="DocTitle" content="Virtuoso Layout Suite XL: Connectivity Driven Editing User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Device Abutment" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="vxlhelp" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-21" />
+<meta name="ModifiedTime" content="1600741525" />
+<meta name="NextFile" content="chap6.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="chap4.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Layout Suite XL: Connectivity Driven Editing User Guide -- Device Abutment" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vxlhelpICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vxlhelpTOC.html">Contents</a></li><li><a class="prev" href="chap4.html" title="Configuring the Physical Hierarchy">Configuring the Physical Hiera ...</a></li><li style="float: right;"><a class="viewPrint" href="vxlhelp.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="chap6.html" title="Generating a Layout">Generating a Layout</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Layout Suite XL: Connectivity Driven Editing User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>4
+<a id="pgfId-1062776"></a></h1>
+<h1>
+<a id="pgfId-1062778"></a><hr />
+<a id="44020"></a>Device Abutment<hr />
+</h1>
+
+<p>
+<a id="pgfId-1068924"></a><a id="editlayoutFirstpage"></a>Thi<a id="deviceAbutment"></a>s chapter describes the Virtuoso&#174; Layout Suite XL layout editor&#8217;s (Layout XL) abutment capability.</p>
+<p>
+<a id="pgfId-1068925"></a>This chapter discusses the following topics.</p>
+<ul><li>
+<a id="pgfId-1068929"></a><a href="chap5.html#33723">Requirements for Abutment in Layout XL</a></li><li>
+<a id="pgfId-1068933"></a><a href="chap5.html#32814">Setting Up Pcells for Abutment</a> </li><li>
+<a id="pgfId-1068937"></a><a href="chap5.html#43814">Manual Device Abutment</a></li><li>
+<a id="pgfId-1068941"></a><a href="chap5.html#49019">Automatic Device Abutment</a></li><li>
+<a id="pgfId-1068945"></a><a href="chap5.html#81941">Debugging Abutment</a></li><li>
+<a id="pgfId-1068952"></a><a href="chap5.html#36947">Abutment of Dummy Shapes in Pcells</a></li><li>
+<a id="pgfId-1068957"></a><a href="chap5.html#18655">Abutment Function Flow</a></li></ul>
+
+
+
+
+
+
+<p>
+<a id="pgfId-1068959"></a><a id="abutment"></a>Abutment allows cells to be automatically overlapped, aligned, and electrically connected without introducing a design rule violation or connectivity error. Abutment reduces both the area occupied by a circuit and the length of the interconnect wiring. You can use abutment during interactive layout generation.</p>
+
+<p>
+<a id="pgfId-1069056"></a></p>
+<div class="webflare-div-image">
+<img width="663" height="402" src="images/chap5-2.gif" /></div>
+<h4>
+<a id="pgfId-1069058"></a>Mirroring and P<a id="mirroring"></a>in Permutation During Abutment</h4>
+
+<p>
+<a id="pgfId-1069059"></a>If an attempt to abut two devices causes two pins on the same net to touch, a short violation is created. Layout XL tries to resolve this violation automatically by first mirroring the device or chain in question. If that fails, it then attempts to resolve it by permuting pins.</p>
+<p>
+<a id="pgfId-1069060"></a>This behavior is controlled by two environment variables, both of which are switched on by default.</p>
+<ul><li>
+<a id="pgfId-1069064"></a><a href="appA.html#86829">autoMirror<code></code></a> which specifies that if a short violation is created during abutment, then Layout XL first mirrors the device in question in order to resolve the short. Only if this is unsuccessful does Layout XL attempt to resolve the short by permuting the pins.<br />
+<a id="pgfId-1069065"></a>The GUI equivalent is the <em>Mirror transistors</em> option on the Layout XL Generation Options form.<br />
+<a id="pgfId-1069066"></a>Automatic mirroring is temporarily disabled when constraint-aware editing is on and constraints exist between the instances and chains under consideration.</li><li>
+<a id="pgfId-1069070"></a><a href="appA.html#84797">autoMirrorChains<code></code></a> which specifies that device chains are mirrored subject to certain conditions being satisfied. This environment variable is honored only if <code>auto Mirror</code> is set to <code>t</code>. It has no GUI equivalent.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1069071"></a>
+If one of the devices is in any type of group (including a synchronous clone), the other device must be in the same group for automatic mirroring to occur. Mirroring is done on end-pin violations only if they are valid left/right or top/bottom pairs.</div></li></ul>
+
+
+
+
+
+
+<p>
+<a id="pgfId-1069072"></a>To disable the mirroring of devices and chains:</p>
+
+<ol><li>
+<a id="pgfId-1069073"></a>From the layout window menu bar, choose <em>Options &#8211; Layout XL</em> and click the <em>Generation</em> tab.</li><li>
+<a id="pgfId-1069074"></a>Switch off the <em>Mirror transistors</em> option and click <em>OK</em>.<br />
+<a id="pgfId-1069075"></a>This switches off both device mirroring and chain mirroring during abutment.</li></ol>
+
+
+
+<p>
+<a id="pgfId-1069076"></a>Resolving shorts by mirroring rather than permuting pins is desirable because pin permutation</p>
+<ul><li>
+<a id="pgfId-1069077"></a>Assumes that the device is symmetric and therefore the source and drain parameters are not swapped</li><li>
+<a id="pgfId-1069078"></a>Changes the connectivity of the design.</li></ul>
+
+<p>
+<a id="pgfId-1069079"></a>Resolving the short violation through mirroring removes these drawbacks.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069080"></a>No pin permutation is performed on chained devices.</div>
+
+<h2>
+<a id="pgfId-1069082"></a><a id="33723"></a>Requirements for Abutment in Layout XL</h2>
+
+<p>
+<a id="pgfId-1069083"></a>Abutment in Layout XL is triggered when two pins of different instances overlap or when named shapes within two Pcell instance submasters overlap. If they meet the following criteria, the abutment engine executes.</p>
+<ul><li>
+<a id="pgfId-1069084"></a>The abutment engine is enabled.</li><li>
+<a id="pgfId-1069085"></a>Both instances must be Pcells set up for abutment or cells with the appropriate abutment properties set.<br />
+<a id="pgfId-1069089"></a>For more information, see <a href="chap5.html#32814">&#8220;Setting Up Pcells for Abutment&#8221;</a>.</li><li>
+<a id="pgfId-1069093"></a>Both instances must share the same master or must have the <a href="appC.html#84651">abutClass<code></code></a> property set.<br />
+<a id="pgfId-1069094"></a>If two instances have the same master, then they can be abutted, even if the <code>abutClass</code> is set to different values on each instances.<br />
+<a id="pgfId-1069095"></a>To abut two cells with different masters, you must add the <code>abutClass</code> property to the pin of each cell and enter the same abutment class name as the value for each property.<br />
+<a id="pgfId-1069097"></a>For more information, see <a actuate="user" class="URL" href="../skpcellref/skillPcellFunctions.html#mastersubmastercells" show="replace" xml:link="simple">About Pcell Super and Submaster Cells</a> in the <em>Virtuoso Layout Suite SKILL Reference</em>.</li><li>
+<a id="pgfId-1069098"></a>The instances must overlap.</li><li>
+<a id="pgfId-1069099"></a>Both instance pins must be connected to the same net.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069103"></a>To abut overlapping instances with no nets, set the <a href="appA.html#17615">abutWithoutConnectivity</a> environment variable.</div></li><li>
+<a id="pgfId-1069104"></a>Both instance pins must be defined on shapes of the same layer or on layers that are defined as equivalent layers in the technology file.</li><li>
+<a id="pgfId-1069105"></a>Both instance pins can have the same abutment direction if the rotation of one (but not both) of the pins is either <code>R180</code> or <code>MY</code>, or any other rotation that transforms the left-hand side to the right-hand side.</li><li>
+<a id="pgfId-1069106"></a>During placement, the <em>Connectivity extractor</em> and <em>Abut transistors</em> options in the Connectivity form must be turned on.<br />
+<a id="pgfId-1069107"></a>When the <em>Abut transistors</em> option is turned on, devices that have not been abutted but are overlapping are abutted. If the devices are already abutted, <a href="appA.html#12098">autoAbutment</a> does not re-abut the devices.</li><li>
+<a id="pgfId-1069111"></a>If one of the instances is in any type of group (including a synchronous clone), the other instance must be in the same group.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1069112"></a>Abutted devices can share diffusion, contacts, metal tabs, or any shape combined in an instance pin.</p>
+
+<h2>
+<a id="pgfId-1069116"></a><a id="setup"></a><a id="32814"></a>Setting <a id="abutmentSetup"></a>Up Pcells for Abutment</h2>
+
+<p>
+<a id="pgfId-1069119"></a><a id="setupabut"></a>To set up a Pcell so that it can be abutted, add the following <a id="properties"></a>properties on the pins of the cellview:</p>
+<ul><li>
+<a id="pgfId-1069123"></a><a href="appC.html#42342">abutFunction<code></code></a></li><li>
+<a id="pgfId-1069127"></a><a href="appC.html#64594">abutOffset<code></code></a></li><li>
+<a id="pgfId-1069131"></a><a href="appC.html#31242">abutAccessDir<code></code></a></li><li>
+<a id="pgfId-1069135"></a><a href="appC.html#84651">abutClass<code></code></a></li></ul>
+
+
+
+<p>
+<a id="pgfId-1069136"></a>You can also add these properties to a cellview in order to set up abutment for all the pins in the cellview. If any pin in the cellview has properties that differ from the properties set for the cellview, the properties on the pin override the properties on the cellview.</p>
+<p>
+<a id="pgfId-1069137"></a>For examples of how to set abutment properties, see the sample Pcell libraries at</p>
+<ul><li>
+<a id="pgfId-1069138"></a><span class="webflare-courier-new" style="white-space:pre"><em>your_install_dir</em></span><code>/tools/dfII/samples/ROD/rodPcells/components/mos/mos.il</code></li><li>
+<a id="pgfId-1069139"></a><span class="webflare-courier-new" style="white-space:pre"><em>your_install_dir</em></span><code>/tools/dfII/samples/ROD/rodPcells/components/mos/sample_mos.il</code></li></ul>
+
+
+<h4>
+<a id="pgfId-1069140"></a>Steps in Automatic Abutment</h4>
+<ol><li>
+<a id="pgfId-1069141"></a>Layout XL recognizes that two Pcell instances can be abutted together, triggered either by overlapping two instance pins or when you create parameterized cell instances during chaining and folding.<br />
+<a id="pgfId-1069168"></a><div class="webflare-div-image">
+<img width="635" height="219" src="images/chap5-4.gif" /></div></li><li>
+<a id="pgfId-1069169"></a>Automatic abutment identifies cells for abutment by master name or class.</li><li>
+<a id="pgfId-1069170"></a>Auto-abutment calls <code>abutFunction</code>, a user-defined SKILL function that performs the necessary changes to the parameterized cell instances themselves. <br />
+<a id="pgfId-1069171"></a>You must provide the SKILL function because Layout XL has no knowledge of the user-defined parameterized cell.<br />
+<a id="pgfId-1069172"></a><code>abutFunction</code> adjusts the parameters of Pcells and calculates reference edge offsets of conventional cells. It stores the old values, which can be called again if you choose to unabut the instances.<br />
+<a id="pgfId-1069194"></a><div class="webflare-div-image">
+<img width="635" height="222" src="images/chap5-5.gif" /></div></li><li>
+<a id="pgfId-1069195"></a>If the cells can be abutted (the abutment connection condition is 1 or 2), the cells are abutted to the reference edges and the pins are aligned perpendicular to the direction of abutment.<br />
+<a id="pgfId-1069211"></a><div class="webflare-div-image">
+<img width="635" height="200" src="images/chap5-6.gif" /></div>
+<a id="pgfId-1069212"></a>The align edge is always the real outermost edge used, as shown in the figure below. This lets you maintain an L-shaped pin when applying abutment.<br />
+<a id="pgfId-1069239"></a><div class="webflare-div-image">
+<img width="635" height="333" src="images/chap5-7.gif" /></div>
+<a id="pgfId-1069240"></a>If the cells cannot be abutted, the abutment connection condition is 3 and the cells remain in their original configuration.<br />
+<a id="pgfId-1069244"></a>For information on abutment connection conditions, see <a href="appC.html#42342">abutFunction<code></code></a>.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1069246"></a><a id="12282"></a>Sample Parameterized Cells Set Up for Abutment</h4>
+<h4><em>
+<a id="pgfId-1069247"></a>Example 1</em></h4>
+
+<p>
+<a id="pgfId-1069248"></a>This example shows what each of the different parts does:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069249"></a>----------------------------------------------------------------------<br />; Function: abutFunction(iA iB pA pB pASide connection event <br />; @optional (group nil))<br />;<br />; Inputs: group - the abutment group that these two cells belong to.<br />; ______________________________________________________________________</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069250"></a>;<br />;      iA         = Instance Id of cell that will move during abutment<br />; ______________________________________________________________________</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069251"></a>;<br />;      iB         = Instance Id of cell being abutted to<br />; ______________________________________________________________________</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069252"></a>;<br />;      pA         = Overlapping Pin Fig of iA<br />; ______________________________________________________________________</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069253"></a>;<br />;      pB         = Overlapping Pin Fig of iB<br />; ______________________________________________________________________</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069254"></a>;<br />;      pASide     = Abutting pin access direction<br />; ______________________________________________________________________</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069255"></a>;<br />       connection = an integer value of 1 or 2  that indicates:<br />;<br />;      1. pins are connected to the same net and do not<br />;         connect to any other pin.<br />;<br />;      2. pins are connected to the same net and the net<br />;         connects to other pins<br />; ______________________________________________________________________</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069256"></a>;<br />;      event      = integer that represents abutment event:<br />;<br />;      1. compute abutment offset<br />;      2. Pcell parameter adjustment for abutment<br />;      3. Pcell parameter adjustment for unabutment<br />; ______________________________________________________________________</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069257"></a>;<br />;      group      = abutment group pointer available to specific events:<br />;      abutment group pointer available to Events 1, 2, and 3<br />; ______________________________________________________________________</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069259"></a>;
+; Outputs: depends
+;
+; Side effects:
+;
+procedure( abutFunction(iA iB pA pB pASide connection event @optional (group
+nil))
+   prog((result)
+ 
+   case(event
+      (1 ; Compute offset
+         result = getAbutmentOffset(iA iB pA pB pASide connection)
+      )
+      (2 ; Adjust Pcell parameters
+         result = setAbutmentParams(iA iB pA pB pASide connection group)
+      )
+      (3 ; Adjust Pcell parameters back to default resetAbutmentParams(group iA iB)
+         result = t
+      )
+      (t&#160;&#160;&#160;&#160; ; Anything else return a nil<br />         result = nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069260"></a>      )<br />   )<br />   return(result)<br />   )<br />)</pre>
+<h4><em>
+<a id="pgfId-1069261"></a>Example 2</em></h4>
+
+<p>
+<a id="pgfId-1069262"></a>This example shows how to add abutment properties to pins in an inverter Pcell.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1069263"></a>; *** the following 4 pins are on metal1 and are on ***<br />; *** the power and ground rails. This will allow   ***<br />; *** abutment to other standard cells              ***<br /> <br />    obj = leftVddPin~&gt;dbId<br />    dbReplaceProp(obj &quot;abutAccessDir&quot; &quot;list&quot; list(&quot;left&quot;))<br />    dbReplaceProp(obj &quot;abutClass&quot; &quot;string&quot; &quot;stdcell&quot;)<br />    dbReplaceProp(obj &quot;abutFunction&quot; &quot;string&quot; &quot;stdCellFunc&quot;)<br /> <br />; *** the following property is a technique for passing ***<br />; *** information to the user defined function. In this ***<br />; *** case the minimum cell height is dependent on many ***<br />; *** factors including design rules and is originally  ***<br />; *** calculated in the Pcell code. This avoids         ***<br />; *** duplicating calculations in the user-defined      ***<br />; *** function                                          ***<br /> <br />    dbReplaceProp(obj &quot;minCellHeight&quot; &quot;float&quot; minH)<br /> <br />    obj = rightVddPin~&gt;dbId<br />    dbReplaceProp(obj &quot;abutAccessDir&quot; &quot;list&quot; list(&quot;right&quot;))<br />    dbReplaceProp(obj &quot;abutClass&quot; &quot;string&quot; &quot;stdcell&quot;)<br />    dbReplaceProp(obj &quot;abutFunction&quot; &quot;string&quot; &quot;stdCellFunc&quot;)<br />    dbReplaceProp(obj &quot;minCellHeight&quot; &quot;float&quot; minH)<br /> <br />    obj = leftGndPin~&gt;dbId<br />    dbReplaceProp(obj &quot;abutAccessDir&quot; &quot;list&quot; list(&quot;left&quot;))<br />    dbReplaceProp(obj &quot;abutClass&quot; &quot;string&quot; &quot;stdcell&quot;)<br />    dbReplaceProp(obj &quot;abutFunction&quot; &quot;string&quot; &quot;stdCellFunc&quot;)<br />    dbReplaceProp(obj &quot;minCellHeight&quot; &quot;float&quot; minH)<br /> <br />    obj = rightGndPin~&gt;dbId<br />    dbReplaceProp(obj &quot;abutAccessDir&quot; &quot;list&quot; list(&quot;right&quot;))<br />    dbReplaceProp(obj &quot;abutClass&quot; &quot;string&quot; &quot;stdcell&quot;)<br />    dbReplaceProp(obj &quot;abutFunction&quot; &quot;string&quot; &quot;stdCellFunc&quot;)<br />    dbReplaceProp(obj &quot;minCellHeight&quot; &quot;float&quot; minH)<br /> <br /> <br />; *** The following 4 pins are the diffusion pins   ***<br />; *** of the individual MOS devices in the inverter ***<br />; *** this will allow abutment of other individual  ***<br />; *** MOS devices to the inverter                   ***<br /> <br />    obj = POutPin~&gt;dbId<br />    dbReplaceProp(obj &quot;abutAccessDir&quot; &quot;list&quot; list(&quot;right&quot;))<br />    dbReplaceProp(obj &quot;abutClass&quot; &quot;string&quot; &quot;ptran&quot;)<br />    dbReplaceProp(obj &quot;abutFunction&quot; &quot;string&quot; &quot;mosAbutFunc&quot;)<br />    dbReplaceProp(obj &quot;contactParam&quot; &quot;string&quot; &quot;POutCnts&quot;)<br />    dbReplaceProp(obj &quot;w&quot; &quot;float&quot; pw)<br />    ; *** the automatic spacing properties are used if abutment fails ***<br />    dbReplaceProp(obj &quot;vxlInstSpacingDir&quot; &quot;list&quot; list(&quot;right&quot;))<br />    dbReplaceProp(obj &quot;vxlInstSpacingRule&quot; &quot;float&quot; .35 )<br /> <br />    obj = NOutPin~&gt;dbId<br />    dbReplaceProp(obj &quot;abutAccessDir&quot; &quot;list&quot; list(&quot;right&quot;))<br />    dbReplaceProp(obj &quot;abutClass&quot; &quot;string&quot; &quot;ntran&quot;)<br />    dbReplaceProp(obj &quot;abutFunction&quot; &quot;string&quot; &quot;mosAbutFunc&quot;)<br />    dbReplaceProp(obj &quot;contactParam&quot; &quot;string&quot; &quot;NOutCnts&quot;)<br />    dbReplaceProp(obj &quot;w&quot; &quot;float&quot; nw)<br />    dbReplaceProp(obj &quot;vxlInstSpacingDir&quot; &quot;list&quot; list(&quot;right&quot;))<br />    dbReplaceProp(obj &quot;vxlInstSpacingRule&quot; &quot;float&quot; .35 )<br /> <br />    obj = PPwrPin~&gt;dbId<br />    dbReplaceProp(obj &quot;abutAccessDir&quot; &quot;list&quot; list(&quot;left&quot;))<br />    dbReplaceProp(obj &quot;abutClass&quot; &quot;string&quot; &quot;ptran&quot;)<br />    dbReplaceProp(obj &quot;abutFunction&quot; &quot;string&quot; &quot;mosAbutFunc&quot;)<br />    dbReplaceProp(obj &quot;contactParam&quot; &quot;string&quot; &quot;PPwrCnts&quot;)<br />    dbReplaceProp(obj &quot;w&quot; &quot;float&quot; pw)<br />    dbReplaceProp(obj &quot;vxlInstSpacingDir&quot; &quot;list&quot; list(&quot;left&quot;))<br />    dbReplaceProp(obj &quot;vxlInstSpacingRule&quot; &quot;float&quot; .35 )<br /> <br />    obj = NPwrPin~&gt;dbId<br />    dbReplaceProp(obj &quot;abutAccessDir&quot; &quot;list&quot; list(&quot;left&quot;))<br />    dbReplaceProp(obj &quot;abutClass&quot; &quot;string&quot; &quot;ntran&quot;)<br />    dbReplaceProp(obj &quot;abutFunction&quot; &quot;string&quot; &quot;mosAbutFunc&quot;)<br />    dbReplaceProp(obj &quot;contactParam&quot; &quot;string&quot; &quot;NPwrCnts&quot;)<br />    dbReplaceProp(obj &quot;w&quot; &quot;float&quot; nw)<br />    dbReplaceProp(obj &quot;vxlInstSpacingDir&quot; &quot;list&quot; list(&quot;left&quot;))<br />    dbReplaceProp(obj &quot;vxlInstSpacingRule&quot; &quot;float&quot; .35 )<br /></pre>
+<h4>
+<a id="pgfId-1069264"></a>Calls to dbReplaceProp for Abutment Groups</h4>
+
+<p>
+<a id="pgfId-1069265"></a>When using the function <code>dbReplaceProp</code>, you must call <code>dbReplaceProp</code> for abutment groups before calls to <code>dbReplaceProp</code> for Pcell properties because the IDs of the objects before and after abutment occurs cannot be guaranteed to be the same. This is because the instance master is purged as soon as the instance reference count associated with the instance master becomes zero. Therefore you cannot rely on the same data or IDs after Pcell re-evaluation.</p>
+
+<h4>
+<a id="pgfId-1069266"></a>Pin Figure Names must be Unique within a Terminal</h4>
+
+<p>
+<a id="pgfId-1068172"></a>When developing transistor Pcells, wherever there is more than one figure attached to any <code>oaPin</code> (as is the case when two figures are strongly connected), each figure attached to the pin must have a name that is unique within the same terminal and its corresponding must-connect terminals. If this is not the case, use the <code>dbSetPinFigName</code> SKILL function to assign a unique name to each figure attached to the pin.</p>
+
+<h4>
+<a id="pgfId-1069278"></a>Abutting Pcell Supermasters from Legacy Designs</h4>
+
+<p>
+<a id="pgfId-1068244"></a>If a Pcell supermaster that is instantiated in a legacy design has changed, possibly due to a PDK update since the design was last opened in a newer version of Virtuoso, the Pcell submaster might appear to have incorrect contacts. To resolve the contact mismatch and to allow abutment, open the design in Layout XL, discard the edits, and re-read the design from disk.</p>
+
+<h3>
+<a id="pgfId-1069300"></a><a id="10480"></a>Creating CMOS Pcells to Use with Abutment</h3>
+
+<p>
+<a id="pgfId-1069301"></a>To create Pcells that have a built-in abutment capability,</p>
+
+<ol><li>
+<a id="pgfId-1069302"></a>Create a Pcell specifically for abutment.<br />
+<a id="pgfId-1069303"></a>Editing an existing Pcell for abutment is much more difficult than creating a new one for the purpose. For information on creating Pcells, see the <em><a actuate="user" class="URL" href="../pcellref/pcellrefTOC.html#firstpage" show="replace" xml:link="simple">Virtuoso Parameterized Cell Reference</a></em>.</li><li>
+<a id="pgfId-1069305"></a>Add the following abutment parameters to the Pcell.<ol><li>
+<a id="pgfId-1069306"></a>Conditional inclusion or exclusion of contacts. For more information, see <a href="appC.html#61176">abutCondInclusion<code></code></a>.<br /><ffi2-fig-frame-in-2 id="#id1069313">
+<a id="pgfId-1069313"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="602" height="129" src="images/chap5-8.gif" /></div></li><li>
+<a id="pgfId-1069317"></a>Gate pin identification. For more information, see <a href="appC.html#82204">abutGateNet<code></code></a>.<br /><ffi2-fig-frame-in-2 id="#id1069324">
+<a id="pgfId-1069324"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="602" height="133" src="images/chap5-9.gif" /></div></li><li>
+<a id="pgfId-1069328"></a>Access direction identification. For information, see <a href="appC.html#31242">abutAccessDir<code></code></a>.<br /><ffi2-fig-frame-in-2 id="#id1069333">
+<a id="pgfId-1069333"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="602" height="168" src="images/chap5-10.gif" /></div></li><li>
+<a id="pgfId-1069337"></a>Specify stretchable material. For information, see <a href="appC.html#55734">abutStretchMat<code></code></a>.<br />
+<a id="pgfId-1069338"></a>The first element in the <code>abutStretchMat</code> list is <code>drainStretch</code>.<br /><ffi2-fig-frame-in-2 id="#id1069344">
+<a id="pgfId-1069344"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="602" height="132" src="images/chap5-11.gif" /></div>
+<a id="pgfId-1069345"></a>The second element in the <code>abutStretchMat</code> list is <code>abutMinExt</code>.<br /><ffi2-fig-frame-in-2 id="#id1069349">
+<a id="pgfId-1069349"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="599" height="123" src="images/chap5-12.gif" /></div>
+<a id="pgfId-1069350"></a>The third element in the <code>abutStretchMat</code> list is <code>abutRule1Ext</code>.<br /><ffi2-fig-frame-in-2 id="#id1069354">
+<a id="pgfId-1069354"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="599" height="127" src="images/chap5-13.gif" /></div>
+<a id="pgfId-1069355"></a>The fourth element in the <code>abutStretchMat</code> list is <code>abutRule2Ext</code>.<br /><ffi2-fig-frame-in-2 id="#id1069359">
+<a id="pgfId-1069359"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="601" height="125" src="images/chap5-14.gif" /></div>
+<a id="pgfId-1069360"></a>The fifth element in the <code>abutStretchMat</code> list is <code>abutContactExt</code>.<br /><ffi2-fig-frame-in-2 id="#id1069365">
+<a id="pgfId-1069365"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="599" height="143" src="images/chap5-15.gif" /></div></li></ol></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1069366"></a>Abutting MOS Devices without a User-Defined Function</h3>
+
+<p>
+<a id="pgfId-1069367"></a>Another way to process abutment and unabutment without creating an <code>abutFunction</code> callback, is to use the <code>abutMosStretchMat</code> property. The <code>abutMosStretchMat</code> property is used with the automatic abutment properties to define abutment; for more information, see <a href="appC.html#93766"><h-hot>abutMosStretchMat</h-hot><code></code></a>.</p>
+<p>
+<a id="pgfId-1069371"></a>This section describes the automatic abutment properties that you will have to add to Pcells to use auto-abutment on standard MOS Pcells without having to define your own <code>abutFunction</code>.</p>
+
+<h3>
+<a id="pgfId-1069372"></a>Adding Automatic Abutment Properties</h3>
+
+<p>
+<a id="pgfId-1069373"></a>As well as creating specific parameters in the Pcells and named diffusion shape pins, you also have to add the following properties on the shapes the pins are created on. The auto-abutment properties specify whether or not the Pcells can abut.</p>
+<ul><li>
+<a id="pgfId-1069377"></a><a href="appC.html#84651">abutClass<code></code></a> &#8211; Pins with the same <code>abutClass</code> are able to abut.</li><li>
+<a id="pgfId-1069381"></a><a href="appC.html#31242">abutAccessDir<code></code></a> &#8211; Defines the directions in which the pins are able to abut.</li><li>
+<a id="pgfId-1069385"></a><a href="appC.html#82204">abutGateNet<code></code></a> &#8211; Defines the name of the net the gate shapes are on.</li><li>
+<a id="pgfId-1069389"></a><a href="appC.html#61176">abutCondInclusion<code></code></a> &#8211; Defines the name of the boolean property that adds or removes contact shapes over the diffusion pin.</li></ul>
+
+
+
+
+<h3>
+<a id="pgfId-1069391"></a><a id="84113"></a>Abutting Multiple Pins</h3>
+
+<p>
+<a id="pgfId-1069392"></a>Layout XL supports the abutment of more than one pin to a wider single pin.</p>
+<p>
+<a id="pgfId-1069393"></a>Multiple pins on the edge of a cell can also be abutted. Any pair of pins with the correct properties can trigger automatic abutment, but once automatic abutment has been triggered, other pins on that edge that touch pins on the cell it is abutted to will not trigger automatic abutment again. If those pins do not connect, auto-permute tries to resolve the conflict. If the conflict cannot be resolved, a connection violation is flagged.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069394"></a>Make sure that you define abutment in such a way that no Design Rule Checker (DRC) or connectivity violations are introduced by abutment between any selected pair of pins.</div>
+
+<h3>
+<a id="pgfId-1069395"></a>Snapping Instances in the Direction Perpendicular to the Abutment</h3>
+
+<p>
+<a id="pgfId-1069396"></a>The layout environment variable <code>abutPerpSnapOn</code> controls whether Layout XL snaps an instance in the direction perpendicular to the abutment. When <code>abutPerpSnapOn</code> is set to <code>t</code>, Layout XL automatically snaps the moving instance vertically such that the lower-left y coordinates of the two abutting pins are the same.</p>
+
+<h3>
+<a id="pgfId-1069398"></a><a id="68537"></a>Additional Pins on Ignored Instances</h3>
+
+<p>
+<a id="pgfId-1069399"></a>The abutment engine ignores instance terminals belonging to instances with the schematic properties <a href="appC.html#48113">lvsIgnore</a> or <code>ignore</code>. This means that additional pins on ignored instances are also ignored, allowing abutment to take place where it otherwise would not and enabling a tighter placement of abutted components.</p>
+<p>
+<a id="pgfId-1069403"></a>For example, a schematic has two MOS devices connected in series (one&#8217;s source to the other&#8217;s drain). The schematic also places a parasitic capacitor between these MOS devices. The capacitor has the <code>ignore</code> property attached to it. When generating the layout, Layout XL correctly ignores the capacitor and its pin, and abuts the two MOS devices.</p>
+
+<h2>
+<a id="pgfId-1069406"></a><a id="43814"></a>Manual Device<a id="manually"></a> Abutment</h2>
+
+<p>
+<a id="pgfId-1069409"></a>Device abutment <a id="transistorChaining"></a>is t<a id="chaining"></a>he process by which a number of MOS transistors (or the individual folds of folded transistors) are chained in a specific order. Chaining devices helps reduce layout area and capacitance.</p>
+
+<h4>
+<a id="pgfId-1069410"></a>Prerequisites</h4>
+
+<p>
+<a id="pgfId-1069411"></a>The transistors to be chained</p>
+<ul><li>
+<a id="pgfId-1069412"></a>Need not be bound to a schematic instance.</li><li>
+<a id="pgfId-1069415"></a>Must be properly set up for abutment. For more information, see <a href="chap5.html#32814">Setting Up Pcells for Abutment</a>.</li><li>
+<a id="pgfId-1069417"></a>Must have the <code>lxComponentType</code> property set on the cell or library to which they belong. You set this property using the <em>Edit Component Types</em> command. For more information, see the <em>Configure Physical Hierarchy</em> command&#8217;s <a href="chap4.html#14674">Component Types Mode</a>.</li></ul>
+
+
+<p>
+<a id="pgfId-1069421"></a>All parameter values are retained after chaining. The chaining engine always creates pairs of P and N chains with the P chain on top (because the power rail is typically at the top of a cell) and the N chain at the bottom (because the ground rail is typically at the bottom).</p>
+<p>
+<a id="pgfId-1069422"></a>You can use the following commands to chain devices manually.</p>
+<ul><li>
+<a id="pgfId-1069423"></a><em>Generate Chained Devices</em> lets you chain devices interactively while you are editing a layout. See <a href="chap5.html#44843">Chaining Devices Interactively</a>.</li><li>
+<a id="pgfId-1069427"></a>The <em>Chain</em> command in the instance context menu lets you chain devices selectively while you are editing a layout. See <a href="chap5.html#15670">Chaining Devices Using the Context Menu</a>.</li><li>
+<a id="pgfId-1069431"></a><em>Generate Selected From Source</em> can automatically chain devices while generating a layout. See <a href="chap5.html#35735">Chaining Devices when Generating Selected From Source</a>.</li><li>
+<a id="pgfId-1069438"></a><em>Move</em> lets you control chaining while moving devices. See <a href="chap5.html#55370">Moving Chained Transistors</a>.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1038419"></a>
+The results generated by the chaining engine are affected by the setting for the <a href="appA.html#93088">lxStackPartitionParameters</a> environment variable. The <em>Generate Chained Devices</em> command considers the first parameter of this environment variable only if there are 100 instances or more in the selected set. <em>Generate Selected From Source</em> always considers both parameters.</div></li></ul>
+
+
+
+
+
+<h3>
+<a id="pgfId-1069526"></a><a id="abuttransistorchaining"></a><a id="44843"></a>Chaining <a id="interactiveChaining"></a>Devices Interactively</h3>
+
+<p>
+<a id="pgfId-1069527"></a>To chain transistors interactively while you are editing a layout:</p>
+
+<ol><li>
+<a id="pgfId-1069528"></a>From the layout window menu bar, choose <em>Connectivity &#8211; Generate &#8211; Chained Devices</em>.<br />
+<a id="pgfId-1069532"></a>The <a href="appD.html#12930">Generate Chained Devices</a> form appears.<br />
+<a id="pgfId-1069536"></a><div class="webflare-div-image">
+<img width="639" height="311" src="images/chap5-16.gif" /></div></li><li>
+<a id="pgfId-1069537"></a>Set the options you require.<ul><li>
+<a id="pgfId-1069538"></a>To prevent existing chains from being broken during interactive chaining, select <em>Preserve Existing Chains</em>.</li><li>
+<a id="pgfId-1069539"></a>To maintain the relative starting positions of the selected devices in the generated chain, select <em><a actuate="user" class="URL" href="../vxlhelp/appD.html#useDevOrder" show="replace" xml:link="simple">Use Device Order</a></em>.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069541"></a>When <em>Use Device Order </em>is selected, dummy, unconnected, and part-connected devices are chained, where possible. The device nets are assigned to enable device abutment in the order defined by <em>Use Device Order</em>. </div><ul><li>
+<a id="pgfId-1069542"></a>To enable the dummy instances to change their nets on both sides during interactive chaining to support abutment on both sides, set the <a href="appA.html#86659">chainDummyFlexBothEndNets</a> environment variable to <code>true</code>.</li></ul><br />
+<a id="pgfId-1069546"></a>When <em>Use Device Order</em> is deselected, dummy and unconnected devices are not chained. These devices are placed down separately in the order: chains, dummies, and then unconnected devices. Part-connected devices are chained, where possible, with nets assigned to enable device abutment.<br />
+<a id="pgfId-1069547"></a>If <code>useDeviceOrder</code> is set to <code>t</code>, advanced node devices are chained even if their S/D pins are on different nets. In this case, the devices are abutted on dummy pins.</li><li>
+<a id="pgfId-1069548"></a>To select entire chains with a single click, choose <em>Extend Selection</em>. Otherwise, each click selects an individual device, mfactored device, or folded leg.</li><li>
+<a id="pgfId-1069549"></a>To identify nodes that qualify as pseudoparallel connections so that no current passes through the connecting nets, choose <em>Interdigitate Chains</em>.</li><li>
+<a id="pgfId-1069550"></a>To mirror the instances in a chain, choose <em>Mirror</em>.</li><li>
+<a id="pgfId-1069551"></a>To permute the instances in a chain, choose <em>Permute</em>.</li><li>
+<a id="pgfId-1075625"></a>To create the device chains on layout canvas at the same location as the left-most instance selected for chaining, choose <em>Create In Place</em>. If at least one of the instances selected for chaining are on a row region, the chain is created at the same location as the left-most instance in the row region.</li><li>
+<a id="pgfId-1069552"></a>To define the alignment of p- or n-type devices, select an appropriate alignment using the <em>Align PMOS</em> or <em>Align NMOS</em> drop-down list. By default, the NMOS and PMOS alignment is controlled by the current value of the environment variables, <a href="appA.html#88718">lxChainAlignNMOS</a> and <a href="appA.html#11754">lxChainAlignPMOS</a>, respectively.<br /><b>Note:</b><br />
+<a id="pgfId-1069559"></a></li><li>
+<a id="pgfId-1069560"></a>If only one of the devices to be abutted has a bulk, ensure that the <a href="appA.html#72982">chainUseDeviceOrder</a> and <a href="appA.html#34793">chainAllowSingleBulk</a> environment variables are set to <code>t</code>.</li><li>
+<a id="pgfId-1069567"></a>If you are using a FinFET design, the alignment options will be displayed as <em>Align PFIN</em> and <em>Align NFIN.</em></li><li>
+<a id="pgfId-1076175"></a>In the layout canvas, select the devices you want to chain.</li></ul><br />
+<a id="pgfId-1069573"></a>Alternatively, click the <em>Show Device List</em> button to see the list of devices available for chaining. The list box appears in the <a href="appD.html#12930">Generate Chained Devices</a> form.<br />
+<a id="pgfId-1069577"></a>You can also select devices in the layout canvas before you start the command. In this case, the selected devices are highlighted in the form when it opens.<br />
+<a id="pgfId-1069578"></a>The selected devices are highlighted in the canvas.</li><li>
+<a id="pgfId-1069579"></a>Click <em>Apply</em> and move the cursor into the layout canvas.<br />
+<a id="pgfId-1069580"></a>The selected transistors appear as an image of a transistor chain that follows the cursor.<br />
+<a id="pgfId-1069581"></a>If the majority of the selected devices are oriented vertically, the generated chain is also oriented vertically.<ol><li>
+<a id="pgfId-1069582"></a>Click the middle mouse button to rotate a chain by R90.</li><li>
+<a id="pgfId-1069583"></a><code>Shift</code>-click the middle mouse button to flip a chain alternately about its X and Y axes.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069584"></a>You must have <code>lxBindKeys.il</code> loaded in order to use this functionality.</div></li></ol></li><li>
+<a id="pgfId-1069585"></a>Click the layout canvas where you want to place the chained transistors.<br />
+<a id="pgfId-1069586"></a>The transistors are placed where you click.<br />
+<a id="pgfId-1069654"></a><div class="webflare-div-image">
+<img width="632" height="127" src="images/chap5-17.gif" /></div><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1069655"></a>
+You can also chain dummy instances interactively by using the procedure described above. If you select the Use Device Order check box, dummy devices are treated as regular devices during the chaining operation and can support abutment on one side or on both sides depending on the state of the <a href="appA.html#86659">chainDummyFlexBothEndNets</a> environment variable. Dummy devices with floating S/D nets are also supported for interactive chaining. However, if Use Device Order is not selected, dummies are ignored during chaining. As a result, irrespective of their order, dummies are placed at the end of the chain and their original connectivity is retained.</div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1069659"></a>Additional Information</h4>
+
+<ul><li>
+<a id="pgfId-1069660"></a>Chains that comprise only NMOS or only PMOS transistors are aligned with the bottom edge. If you use the <em>Generate All From Source</em> command to create a cluster comprising both an NMOS and a PMOS transistor, the PMOS is placed on top aligned to the lower edge, and the NMOS is placed below it aligned to the upper edge.</li><li>
+<a id="pgfId-1069663"></a>Folded transistors are chained with the number of folds specified in the <a href="appD.html#43913">Generate Folded Devices</a> form. For more information, see <a href="chap7.html#19107">Folding a Transistor or FinFET Device</a>.</li></ul>
+
+
+<h4>
+<a id="pgfId-1069669"></a><a id="15670"></a>Chaining Devices Using the Context Menu</h4>
+
+<p>
+<a id="pgfId-1069670"></a>To manually chain transistors using the instance context menu:</p>
+
+<ul><li>
+<a id="pgfId-1069671"></a>In the Navigator assistant, select the instances to be chained and then right-click to choose <em>Chain</em> &#8211; &lt;<em>Appropriate</em> <em>Align option</em>&gt; from the context menu.<br />
+<a id="pgfId-1069673"></a>The <em>Chain</em> command in the context menu chains the selected set with <em><a actuate="user" class="URL" href="../vxlhelp/appD.html#useDevOrder" show="replace" xml:link="simple">Use Device Order</a></em><em> </em>on and aligns the devices to default, top, center, or bottom depending on the alignment option selected from the context menu.</li></ul>
+
+
+
+<h4><em>
+<a id="pgfId-1069674"></a>Chaining Devices with or without Contacts</em></h4>
+
+<p>
+<a id="pgfId-1069675"></a>Layout XL enables you to choose whether or not to keep contacts for each chain in the selected set. You can set the option to keep or drop contacts.</p>
+<p>
+<a id="pgfId-1069676"></a>To control contacts in a selected chain of chains:</p>
+
+<ul><li>
+<a id="pgfId-1069677"></a>Right-click to select the chain and choose either from the context menu:<ul><li>
+<a id="pgfId-1069678"></a><em>Contacts &#8211; On</em> to keep contacts.</li><li>
+<a id="pgfId-1069679"></a><em>Contacts &#8211; Off</em> to delete contacts.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069680"></a>The <em>Contacts</em> option is disabled, if the selected set does not contain a chain.</div></li></ul></li></ul>
+
+
+
+
+
+
+<p>
+<a id="pgfId-1069681"></a>The selected chains have their contacts kept or deleted in the layout canvas, as appropriate.</p>
+
+<h4>
+<a id="pgfId-1069682"></a>Removing a Device from a Chain</h4>
+
+<p>
+<a id="pgfId-1069683"></a>To remove a device from a chain:</p>
+
+<ol><li>
+<a id="pgfId-1069684"></a>In the layout canvas, select the device you want to remove from a chain.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069688"></a>The <a href="appA.html#44482">chainExtendSelection</a> environment variable must be set to <code>nil</code> to let you select an individual device in a chain.</div></li><li>
+<a id="pgfId-1069689"></a>Choose <em>Edit &#8211; Move</em>.</li><li>
+<a id="pgfId-1069690"></a>Click the layout canvas where you want to place the selected device.<br />
+<a id="pgfId-1069760"></a><div class="webflare-div-image">
+<img width="632" height="125" src="images/chap5-18.gif" /></div></li></ol>
+
+
+
+
+
+<h3>
+<a id="pgfId-1069763"></a><a id="abutpickfromschematic"></a><a id="35735"></a>Chaining Devices when Generating Selected From Source</h3>
+
+<p>
+<a id="pgfId-1069764"></a>To chain devices automatically during the <em>Generate Selected From Source</em> command,</p>
+
+<ul><li>
+<a id="pgfId-1069768"></a>In the <a href="appD.html#35843">Generate Selected Components</a> form, select the <em>Group As In Schematic</em> and <em>Chain</em> options.<br />
+<a id="pgfId-1069775"></a><div class="webflare-div-image">
+<img width="635" height="438" src="images/chap5-19.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069776"></a>The results generated by the chaining engine during this command are affected by the setting for the <a href="appA.html#93088">lxStackPartitionParameters</a> environment variable.</div>
+<a id="pgfId-1069780"></a>If you are using a FinFET design, the chaining and folding threshold fields are displayed as <em>NFIN Fold Threshold</em> and <em>PFIN Fold Threshold</em>, respectively, as shown in the figure below.<br />
+<a id="pgfId-1069789"></a><div class="webflare-div-image">
+<img width="628" height="434" src="images/chap5-20.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1069790"></a>Layout XL cannot automatically chain devices in Place Individually mode. To do this,</p>
+
+<ol><li>
+<a id="pgfId-1069794"></a>Select the <a href="appD.html#62890">Connectivity Tab</a> of the Connectivity form and choose <em>Update connectivity information when design is modified</em>.<br />
+<a id="pgfId-1069800"></a><div class="webflare-div-image">
+<img width="638" height="498" src="images/chap5-21.gif" /></div></li><li>
+<a id="pgfId-1069804"></a>Click the <a href="appD.html#70171">Generation Tab</a> and select <em>Abut transistors</em>.<br />
+<a id="pgfId-1069809"></a><div class="webflare-div-image">
+<img width="603" height="787" src="images/chap5-22.gif" /></div></li><li>
+<a id="pgfId-1069810"></a>From the layout window menu bar, choose <em>Generate Selected From Source</em>.<br />
+<a id="pgfId-1069814"></a>The <a href="appD.html#35843">Generate Selected Components</a> form appears.</li><li>
+<a id="pgfId-1069815"></a>In the schematic, select the instances you want to place, then click in the layout where you want to place the first and second instances.<br />
+<a id="pgfId-1069816"></a>The software places the instances where you click in the same order that you selected them.</li><li>
+<a id="pgfId-1069817"></a>Where the flight lines indicate that abutment is possible, place the devices so that the pins overlap.<br />
+<a id="pgfId-1069818"></a>The devices are chained automatically.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1069822"></a><a id="55370"></a>Moving <a id="chainmode"></a>Chained <a id="abuteditmove"></a>Transistors</h3>
+
+<p>
+<a id="pgfId-1069823"></a>To move chained devices while maintaining the chains,</p>
+
+<ol><li>
+<a id="pgfId-1069824"></a>From the layout window menu bar, choose <em>Edit &#8211; Move</em>.<br />
+<a id="pgfId-1069828"></a>The <a href="appD.html#36156">Move</a> form is displayed.</li><li>
+<a id="pgfId-1069829"></a>Select a chained device and choose the <em>Chain Mode</em> as <em>All</em>.<br />
+<a id="pgfId-1069833"></a><div class="webflare-div-image">
+<img width="635" height="367" src="images/chap5-23.gif" /></div></li><li>
+<a id="pgfId-1069834"></a>Click the reference point for the move.<br />
+<a id="pgfId-1069835"></a>All the devices in the chain are highlighted.</li><li>
+<a id="pgfId-1069836"></a>Click in the layout where you want to place the devices.</li><li>
+<a id="pgfId-1069837"></a>Change the <em>Chain Mode </em>option to <em>Selected</em> and click the selected device.<br />
+<a id="pgfId-1069838"></a>The selected device is moved and the device is no longer a part of the chain.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069839"></a>To move the device back into the chain, choose <em>Edit &#8211; Undo</em>.</div></li><li>
+<a id="pgfId-1069840"></a>Select a device in the center of the chain and change the <em>Chain Mode</em> to <em>Selected Plus Right</em>.</li><li>
+<a id="pgfId-1069841"></a>Click the reference point for the move.<br />
+<a id="pgfId-1069842"></a>You see that all the devices to the right of the selected device remained chained as you move the devices.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069843"></a><em>Selected Plus Left</em> option selects all chained devices to the left of the selected device.</div></li><li>
+<a id="pgfId-1069844"></a>Click in the layout where you want to place the devices.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1069847"></a><a id="49019"></a>Automati<a id="automatically"></a>c Device Abutment</h2>
+
+<p>
+<a id="pgfId-1069848"></a>Use the following commands to automatically abut devices.</p>
+<ul><li>
+<a id="pgfId-1069849"></a>Layout generation automatically abuts transistors when the <em>Chain</em> option is selected. For more information, see <a href="chap5.html#35052">Chaining Transistors Automatically during Layout Generation</a>.</li><li>
+<a id="pgfId-1069853"></a>The <em>Update Components And Nets</em> command automatically abuts when the <em>Chain</em> option is selected. For more information, see <a href="chap5.html#29480">Chaining Transistors Automatically when Updating Components and Nets</a>.</li></ul>
+
+
+<h3>
+<a id="pgfId-1069858"></a><a id="35052"></a>Chaining Transistors Automatically during Layout Generation</h3>
+
+<p>
+<a id="pgfId-1069860"></a><a id="abutlayoutgen"></a>To chain transistors automatically during layout generation,</p>
+
+<ol><li>
+<a id="pgfId-1069861"></a>From the layout window menu bar, choose <em>Connectivity &#8211; Generate &#8211; All From Source</em>.<br />
+<a id="pgfId-1069865"></a>The <a href="appD.html#21178">Generate Layout</a> form is displayed. </li><li>
+<a id="pgfId-1069866"></a>On the <em>Generate</em> tab, select either of the Chaining options:<ul><li>
+<a id="pgfId-1069867"></a>To automatically chain the transistors, select the Chain check box and click OK. <br />
+<a id="pgfId-1069868"></a>The software chains the transistors automatically during layout generation.</li><li>
+<a id="pgfId-1069869"></a>To automatically chain the individual folds of a transistor, select the Chain Folds check box and click OK.<br />
+<a id="pgfId-1069870"></a>The software automatically chains the individual folds of a transistor. The Chain Folds check box is active only when the Chain option is deselected and the Fold option is selected.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069871"></a>The results of the Chaining operation are affected by the state of the <a href="appA.html#93088">lxStackPartitionParameters</a> environment variable.</div></li></ul></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1069878"></a>For more information on generating a layout, see <a href="chap6.html#32515">Generating All Components from Source</a>.</p>
+
+<h3>
+<a id="pgfId-1069882"></a><a id="abutupdatecomponentsnets"></a><a id="29480"></a>Chaining Transistors Automatically when Updating Components and Nets<a id="pickfromschemchain"></a></h3>
+
+<p>
+<a id="pgfId-1069883"></a>To chain transistors automatically when updating components and nets,</p>
+
+<ol><li>
+<a id="pgfId-1069884"></a>From the layout window menu bar, choose <em>Connectivity &#8211; Update &#8211; Components And Nets</em>.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069885"></a>If the schematic has any devices that are missing from the layout, the Generate Layout form is displayed.</div></li><li>
+<a id="pgfId-1069886"></a>On the Generate tab, select either of the chaining options:<ul><li>
+<a id="pgfId-1069887"></a>To automatically chain the transistors, select the Chain check box and click OK. <br />
+<a id="pgfId-1069888"></a>The software chains the transistors automatically during layout generation.</li><li>
+<a id="pgfId-1069889"></a>To automatically chain the individual folds of a transistor, select the Chain Folds check box and click OK.<br />
+<a id="pgfId-1069890"></a>The software automatically chains the individual folds of a transistor. The Chain Folds check box is active only when the Chain option is deselected and the Fold option is selected.<br /><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1069891"></a>
+<em>Update Components And Nets</em> chains only new devices created by the command itself. The new chains are separate and do not attach to old chains. Devices that had been chained prior to running <em>Update Components And Nets</em> are not moved from their existing positions.</div></li></ul></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1069895"></a>For more information on this command, see <a href="chap10.html#41362">Updating Components and Nets</a>.</p>
+
+<h2>
+<a id="pgfId-1069898"></a><a id="81941"></a>Debugging<a id="debuggingAbutment"></a> Abutment</h2>
+
+<p>
+<a id="pgfId-1069899"></a>The <em>Debug Abutment</em> plugin is available for cellviews with <code>maskLayout</code> view type and can be used in Layout XL to debug all abutment events.</p>
+<p>
+<a id="pgfId-1069902"></a>To launch the plugin, choose <em>Launch &#8211; Plugins &#8211; Debug Abutment</em> from the layout window menu bar.</p>
+<p>
+<a id="pgfId-1069903"></a>The Debug Abutment assistant is displayed.</p>
+
+<p>
+<a id="pgfId-1069916"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="313" src="images/chap5-24.gif" /></div>
+
+<p>
+<a id="pgfId-1069917"></a>You use this assistant to specify a set of events as break-points in a user-defined abutment function. The <strong>
+Event</strong>
+ area lets you choose which event to debug.</p>
+<ul><li>
+<a id="pgfId-1069918"></a><em>Pre-Process (Event 5)</em></li><li>
+<a id="pgfId-1069919"></a><em>Adjust Parameters (Event 2)</em></li><li>
+<a id="pgfId-1069920"></a><em>Calculate Spacing (Event 1)</em></li><li>
+<a id="pgfId-1069921"></a><em>Unabutment (Event 3)</em></li><li>
+<a id="pgfId-1069922"></a><em>Non Abutment (Event 4)</em></li></ul>
+
+
+
+
+<p>
+<a id="pgfId-1069923"></a>When a command triggers device abutment, the file containing the user abutment function is displayed in SKILL IDE. The device abutment flow pauses in the user-defined abutment function if the current event matches the events selected in the assistant and information on the pair of abutting devices is displayed in the <strong>
+Abutment event information</strong>
+ area. You can then step through the abutment function using the SKILL IDE commands.</p>
+
+<h3>
+<a id="pgfId-1069924"></a>Using the Debug Assistant</h3>
+
+<p>
+<a id="pgfId-1069925"></a>This section describes how to use the Debug Abutment assistant to debug a user-defined abutment function.</p>
+
+<ol><li>
+<a id="pgfId-1069926"></a>Choose <em>Launch &#8211; Plugins &#8211; Debug Abutment</em> from the layout window menu bar.<br />
+<a id="pgfId-1069927"></a>The Debug Abutment assistant is displayed.</li><li>
+<a id="pgfId-1069928"></a>Choose the abutment events you want to debug.<br />
+<a id="pgfId-1069950"></a><div class="webflare-div-image">
+<img width="665" height="412" src="images/chap5-25.gif" /></div>
+<a id="pgfId-1069951"></a>When you abut two devices (or two chains), the device abutment information is displayed in the assistant and when one of the selected events is executed:<ol><li>
+<a id="pgfId-1069952"></a>SKILL IDE is opened automatically and displays the user-defined abutment function.</li><li>
+<a id="pgfId-1069953"></a>The device abutment flow pauses at the user-defined abutment function, giving you the opportunity to step through the abutment function to debug the specified event using SKILL IDE.</li><li>
+<a id="pgfId-1069954"></a>When current event is finished, control is returned to the abutment engine.</li></ol><br />
+<a id="pgfId-1069955"></a>If another selected event is executed, the debug abutment flow returns to step 2a.</li><li>
+<a id="pgfId-1069956"></a>Select the <em>Debug Pcell </em>check box to debug the Pcell evaluation that is triggered by the code block that modifies the Pcell parameter inside the Pcell abutment function.</li><li>
+<a id="pgfId-1069957"></a>Repeat these steps until device abutment is finished.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069958"></a>The assistant does not show any abutment event results. To see these results, go to the Debug Abutment simulator.</div>
+
+<h2>
+<a id="pgfId-1069965"></a><a id="36947"></a>Abut<a id="dummyShapeAbutment"></a>ment of Dummy Shapes in Pcells</h2>
+
+<p>
+<a id="pgfId-1069966"></a>At advanced nodes, cells are placed close together and such proximity can lead to various interconnect and layout-dependent effects. So, abutment at advanced nodes needs to be driven by specific design rules that will ensure optimal device placement, yield, and performance. For information about the design rules that are applicable at advanced nodes, see <h-hot><a actuate="user" class="URL" href="../ascitechconstr/constraints.html#firstpage" show="replace" xml:link="simple">Supported Constraints and Parameters: Advanced Nodes Only</a></h-hot>.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1069968"></a>
+Abutment at advanced nodes requires a Virtuoso_Adv_Node_Opt_Layout license.</div>
+
+<p>
+<a id="pgfId-1069969"></a>At advanced nodes, abutment of shapes in Pcell submasters, which are not attached to pins is supported. This is enabled by using <h-hot>SKILL functions for Abutment</h-hot> to provide such shapes an abutment name in the Pcell SKILL code, in addition to setting the usual abutment properties on these shapes. In the context of advanced node abutment, dummy shapes such as dummy poly gates or dummy diffusion areas can be made to abut by giving them an abutment name.</p>
+
+<div class="webflare-information-macro webflare-macro-video">
+<a id="pgfId-1069971"></a>
+For a video demonstration of dummy shape abutment (non-connectivity based), see <a actuate="user" class="URL" href="https://support.cadence.com/apex/ArticleAttachmentPortal?id=a1Od0000002JgpdEAC&amp;pageName=ArticleContent&amp;sq=005d0000001T43qAAC" show="replace" xml:link="simple">Interactive Abutment</a>.</div>
+
+<p>
+<a id="pgfId-1069973"></a>During incremental or full extraction, the connectivity extractor creates abutment violations for shapes inside Pcell submasters that have an abutment name, and are not pin figures. Because these shapes have no assigned connectivity at the top level, the extractor performs a shape chase to identify any such shapes at level 1 even when the default extraction depth is 0 and determines what connectivity should be assigned to each shape.</p>
+<p>
+<a id="pgfId-1069974"></a>If the two overlapping shapes identified by the extractor are within Pcell submasters, which contain at least one shape each with an abutment name, then during abutment, the user-defined or PDK SKILL abutment function is called with a new event&#8212;<a href="chap5.html#25937">Abutment Event 5</a>. This new abutment event allows the abutment function to adjust the Pcell parameters and return a SKILL list containing a pair of shapes to be abutted. In the context of advanced node abutment, this new abutment event allows the abutment function to add or remove dummy shapes during abutment so that the shapes which initially overlapped to trigger the abutment can be totally different shapes (with different names) from the shapes that are finally abutted together.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1069978"></a>Dummy shapes are defined by using the customFill layer purpose. For more information about the use of this layer purpose for creating these shapes, see <a actuate="user" class="URL" href="../ascitechfile/chap3.html#customFill" show="replace" xml:link="simple">Layer Purpose for Defining Dummy Shapes (customFill)</a>.</div>
+<p>
+<a id="pgfId-1069980"></a>For more information about the Pcell abutment capability supported by Virtuoso Layout Suite XL, see <a href="chap5.html#25937">Abutment Event 5</a>. For information about the generic device abutment in Virtuoso Layout XL, see <a href="chap5.html#44020">Device Abutment</a>.</p>
+<p>
+<a id="pgfId-1069987"></a>Let us now look at some examples that depict Pcells with and without dummy shapes. To begin with, below is an example of a Pcell without a dummy shape inserted.</p>
+
+<p>
+<a id="pgfId-1069995"></a></p>
+<div class="webflare-div-image">
+<img width="238" height="187" src="images/chap5-27.gif" /></div>
+
+<p>
+<a id="pgfId-1069996"></a>Before we see some examples of Pcells with dummy shapes added, it is useful to know that the dummy shapes in a Pcell can be controlled by using the Pcell parameters.</p>
+<p>
+<a id="pgfId-1069997"></a>Let us now look at some examples of Pcells that have one or more dummy &#8220;poly&#8221; shapes added. Notice that in the figure below, the Pcell at the top has a single dummy poly finger added to the right and the Pcell at the bottom has two dummy poly fingers added on either side.</p>
+
+<p>
+<a id="pgfId-1070021"></a></p>
+<div class="webflare-div-image">
+<img width="669" height="437" src="images/chap5-28.gif" /></div>
+
+<p>
+<a id="pgfId-1070022"></a>Now, let us look at some Pcells that have one or more dummy &#8220;poly&#8221; shapes and one or more &#8220;spaced&#8221; dummy &#8220;diffusion&#8221; shapes added.</p>
+<p>
+<a id="pgfId-1070023"></a>In the figure below, the Pcell at the top has a single dummy poly shape and a dummy diffusion shape added. However, that the dummy diffusion shape is added at a distance from the transistor diffusion.</p>
+
+<p>
+<a id="pgfId-1070051"></a></p>
+<div class="webflare-div-image">
+<img width="664" height="513" src="images/chap5-29.gif" /></div>
+
+<p>
+<a id="pgfId-1070052"></a>Now, let us look at some Pcell examples that have one or more dummy poly shapes and an adjacent dummy diffusion shape added. The dummy diffusion shape is placed immediately adjacent to the transistor poly or diffusion shape.</p>
+<p>
+<a id="pgfId-1070053"></a>In the figure below, notice that the Pcell at the top has two dummy &#8220;poly&#8221; fingers and an adjacent dummy &#8220;diffusion&#8221; shape added. On the other hand, the Pcell at the bottom has two dummy &#8220;poly&#8221; shapes on either side and the dummy &#8220;diffusion&#8221; shape is adjacent to the transistor diffusion.</p>
+
+<p>
+<a id="pgfId-1070091"></a></p>
+<div class="webflare-div-image">
+<img width="655" height="566" src="images/chap5-30.gif" /></div>
+<h3>
+<a id="pgfId-1070093"></a><a id="54079"></a>Prerequisites for Dummy Shape Abutment</h3>
+
+<p>
+<a id="pgfId-1070094"></a>Abutment of shapes in Pcell submasters can trigger due to overlap of two &#8220;named&#8221; abutment shapes that are not attached to pins, or due to the overlap of shapes that are attached to pins.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1070095"></a>For either of the overlap scenarios to result in abutment, the abutment shapes should have the usual abutment properties, such as <code>abutAccessDir</code>, <code>abutName</code>, and <code>abutFunction</code>, defined. For more information, see <a href="chap5.html#48119">Setting Up Pcell Dummy Shapes for Abutment</a>.</div>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1070099"></a>
+The names of the &#8220;named&#8221; abutment shapes are accessible only through SKILL. For more information about the functions available to access these names, see <a actuate="user" class="URL" href="../skdfref/chap2.html#pcellabutment" show="replace" xml:link="simple">SKILL Functions for Abutment</a>.</div>
+<h3>
+<a id="pgfId-1070102"></a><a id="48119"></a>Setting Up Pcell Dummy Shapes for Abutment</h3>
+
+<p>
+<a id="pgfId-1070103"></a>To set up Pcell dummy shapes for abutment at advanced nodes, you must:</p>
+
+<ol><li>
+<a id="pgfId-1070105"></a>Use the <a actuate="user" class="URL" href="../skdfref/chap2.html#dbSetFigAbutName" show="replace" xml:link="simple">dbSetFigAbutName</a> SKILL function to set the <code>abutName</code> of each dummy shape.</li><li>
+<a id="pgfId-1070106"></a>Set up the same abutment properties as required for any other Pcell:<ul><li>
+<a id="pgfId-1070110"></a><a href="appC.html#42342">abutFunction<code></code></a></li><li>
+<a id="pgfId-1070114"></a><a href="appC.html#64594">abutOffset<code></code></a></li><li>
+<a id="pgfId-1070118"></a><a href="appC.html#31242">abutAccessDir<code></code></a></li><li>
+<a id="pgfId-1061663"></a><a href="appC.html#84651">abutClass<code></code></a></li></ul></li></ol>
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1070156"></a><a id="93501"></a>Abutment in Virtu<a id="phoAbut"></a>oso Photonics Solution (ICADVM20.1 Photonics Only)</h4>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1070157"></a>You will need the <code>Virtuoso_Photonics_Option</code> license to use the functionality discussed in this section. For information on obtaining the required license, contact your local Cadence representative.</div>
+<p>
+<a id="pgfId-1070158"></a>When using the Virtuoso Photonics Solution with the <code>Virtuoso_Photonics_Option</code> license checked out, Layout XL enables abutment of Pcells. For photonic designs, this implies that Layout XL supports the abutment of optical waveguides.</p>
+<p>
+<a id="pgfId-1070160"></a>If you set the <h-hot><a actuate="user" class="URL" href="../vxlhelp/appA.html#phoAbutNonPcells" show="replace" xml:link="simple">phoAbutNonPcells</a></h-hot> environment variable to <code>t</code>, Layout XL also supports the abutment of non-Pcell instances with Pcell instances and other non-Pcell instances. During non-Pcell abutment, top-level pins can abut with instance pins. By default, instance pins on the same pin layer are abutted and aligned at the center. </p>
+<p>
+<a id="pgfId-1070161"></a>For photonic designs, waveguide abutment is also supported.</p>
+
+<h2>
+<a id="pgfId-1070163"></a><a id="18655"></a>Abutment Function Flow</h2>
+
+<p>
+<a id="pgfId-1070164"></a>To enable the abutment of Pcell dummy shapes, Event 5 of the <code>abutFunction</code> flow gets precedence over all the other abutment events&#8212;Events 1 to 4 and Event 6. If both the overlapping Pcell pin figures or shapes support Event 5, the sequence in which the <code>abutFunction</code> calls these events is illustrated in the figure below.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1070167"></a>
+Abutment Event 6 only gets triggered when the <a href="appA.html#22449">abutChainEvent</a> environment variable is set to <code>true</code>.</div>
+<p>
+<a id="pgfId-1070207"></a><code></code></p>
+<div class="webflare-div-image">
+<img width="657" height="460" src="images/chap5-31.gif" /></div>
+
+<b>Note:</b><br />
+<a id="pgfId-1070208"></a>
+<ul><li>
+<a id="pgfId-1070209"></a>If either of the overlapping Pcell instances does not support Event 5, the <code>abutFunction </code>starts with Event 2.</li><li>
+<a id="pgfId-1070210"></a>In the event that Pcell abutment fails or the dummy shapes are not considered abuttable, the <code>abutFunction</code> calls the following events, though the order in which these events are called is not fixed. Event 4 is triggered to allow auto-spacing, when required. Event 6 is triggered only when the <a href="appA.html#22449">abutChainEvent</a> environment variable is set to <code>true</code>.<ul><li>
+<a id="pgfId-1070217"></a><a href="chap5.html#54630">Abutment Event 3</a></li><li>
+<a id="pgfId-1070221"></a><a href="chap5.html#45526">Abutment Event 4</a> </li><li>
+<a id="pgfId-1070225"></a><a href="chap5.html#86909">Abutment Event 6</a></li></ul><br />
+<a id="pgfId-1070229"></a>See <a href="chap5.html#74819">Unabutment Flow</a> for more information.</li></ul>
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1070231"></a><a id="25937"></a>Abutment Event 5 </h4>
+<p>
+<a id="pgfId-1070244"></a></p>
+<div class="webflare-div-image">
+<img width="635" height="714" src="images/chap5-32.gif" /></div>
+
+<p>
+<a id="pgfId-1070245"></a>In abutment Event 5, after the abutment engine creates the abutment group and adds the instances that have at least one named abutment shape, the parameters of each Pcell instance get updated, if required. The parameter update allows the dummy shapes that actually abut together to be different from the ones that initially overlapped to trigger the abutment. During the update, any undesired dummy shapes&#8212;poly or diffusion shapes&#8212;are removed.</p>
+<b>Note:</b><br />
+<a id="pgfId-1070246"></a>
+<ul><li>
+<a id="pgfId-1070247"></a>Abutment groups are created as dbGroups by the Virtuoso abutment engine. Pcell abutment functions can use these abutment groups to store and retrieve state information through properties, provided the Pcell abutment functions do not add or remove objects to or from the abutment groups, or modify their existing properties or attributes. For more information about an abutment group and the attributes it supports, see the V<em>irtuoso Design Environment SKILL Reference</em> user guide.</li><li>
+<a id="pgfId-1070248"></a>The abutment engine stores the names of the abuttable pin figures that are passed for abutment <em>Event</em> 5 (or for <a href="chap5.html#92926">Abutment Event 2</a>, as required). The stored figIDs are later used to trigger the re-abutment, if unabutment was triggered due to a parameter update of the Pcell instances. For more information, see <a href="chap5.html#54630">Abutment Event 3</a>.</li></ul>
+
+
+<h4>
+<a id="pgfId-1070256"></a><a id="92926"></a>Abutment Event 2</h4>
+<p>
+<a id="pgfId-1070269"></a></p>
+<div class="webflare-div-image">
+<img width="877" height="775" src="images/chap5-33.gif" /></div>
+
+<p>
+<a id="pgfId-1070270"></a>In Event 2, the abutment engine updates the Pcell abutment parameters on both the Pcell instances based on the connectivity and physical characteristics of the Pcells. This parameter update may result in creation of new masters, which can replace the old ones. For more information, see <a href="chap5.html#43023">Computing Connection Condition for Abutment Event 2</a>.</p>
+<p>
+<a id="pgfId-1070274"></a>After being called with Event 2, if <code>abutFunction</code> returns <code>t</code>, the abutment engine calls the abutment function again, this time with Event 1. On the other hand, if <code>abutFunction</code> returns a value of <code>nil</code>, the Pcells are considered as unabuttable.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1070275"></a>The original Pcell parameter values, prior to the update, are stored to be used later during an unabut call.</div>
+<p>
+<a id="pgfId-1070277"></a><a id="43023"></a>Computing Connection Condition for Abutment Event 2</p>
+<p>
+<a id="pgfId-1070278"></a>After the parameter adjustment, the <code>abutFunction</code> returns the figIDs of the dummy shapes that are actually to be abutted. The returned shapes are used to compute the connection condition for <a href="chap5.html#92926">Abutment Event 2</a> to determine if the connection contacts should be retained or removed during the abutment.</p>
+<p>
+<a id="pgfId-1070282"></a>The shapes that can be returned by the abutment function and their contact condition for Event 2 are as given below:</p>
+
+<ol><li>
+<a id="pgfId-1070283"></a><em>Both figs are pinFigs connected to the same upper-level net</em><br />
+<a id="pgfId-1070284"></a>In this case, the connection condition&#8212;whether the connection contacts should be kept or dropped&#8212;is based on the connectivity of the net at the upper level.</li><li>
+<a id="pgfId-1070285"></a><em>Both figs are pinFigs connected to different upper-level nets</em><br />
+<a id="pgfId-1070286"></a>In this case, because the upper-level net connectivity for both the shapes is different, the abutment is aborted to prevent a short.</li><li>
+<a id="pgfId-1070287"></a><em>Only one fig is a pinFig connected to an upper-level net</em><br />
+<a id="pgfId-1070288"></a>In this case, the connection condition&#8212;whether the connection contacts should be kept or dropped&#8212;is based on the upper-level net to which the pinFig is connected.</li><li>
+<a id="pgfId-1070289"></a><em>Neither fig is connected to an upper-level net</em><br />
+<a id="pgfId-1070290"></a>In this case, the abutment engine returns shapes that are not pinFigs, or returns pinFigs that do not have their terminals connected to instance terminals or nets at a higher level. To determine the connection contact condition for this case, Virtuoso Layout Suite XL supports the following environment variables:<ul><li>
+<a id="pgfId-1070294"></a><a href="appA.html#17615">abutWithoutConnectivity</a></li><li>
+<a id="pgfId-1070296"></a><a actuate="user" class="URL" href="../vlehelp/appB.html#preserveTerminalContacts" show="replace" xml:link="simple">preserveTerminalContacts</a> </li></ul></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1070297"></a>If the abutment Event 5 returns a value of <code>nil</code>, the abutment is aborted.</div>
+
+<h4>
+<a id="pgfId-1070299"></a><a id="21799"></a>Abutment Event 1</h4>
+<p>
+<a id="pgfId-1070312"></a></p>
+<div class="webflare-div-image">
+<img width="667" height="625" src="images/chap5-34.gif" /></div>
+
+<p>
+<a id="pgfId-1070313"></a>During the processing of <em>Event</em> 1, the abutment function calculates the spacing between two figs&#8212;pin figures or shapes&#8212;and returns the value. The use of <code>abutNames</code> takes precedence over the use of pin figure names to find the abuttable pin figures from the new master.</p>
+<p>
+<a id="pgfId-1070314"></a>The abutment engine uses the abutment direction to determine how the instances should move so that the reference edges of the figures are properly spaced. If necessary, the perpendicular edges of the abuttable instances are aligned.</p>
+<b>Note:</b><br />
+<a id="pgfId-1070315"></a>
+<ul><li>
+<a id="pgfId-1070316"></a>If you have <code>abutTogether</code> mode selected, which implies that the Virtuoso Layout XL environment variable <code>moveAsGroup </code>is set to <code>true</code>, the instances move as a group by the smallest distance of all the abutments.</li><li>
+<a id="pgfId-1070317"></a>By default, the abutment group ID is passed to abutment Event 1. You can use the group ID to store the Pcell properties or the Pcell state information at intermediate stages of abutment. You can also use the abutment group ID to retrieve the previously saved Pcell state information.</li></ul>
+
+<p>
+<a id="pgfId-1058364"></a>To prevent the abutment group ID to be passed to Event 1, set the <a href="appA.html#78239">lxAbutPassGroupIdToEvent1</a> environment variable to <code>nil.</code></p>
+
+<h4><em>
+<a id="pgfId-1076812"></a>Notes on Alignment Support</em></h4>
+
+<ul><li>
+<a id="pgfId-1076856"></a>Horizontal and Vertical abutment is supported, depending on the <code>accessDir</code> of the abutting pinFigs.</li><li>
+<a id="pgfId-1076950"></a>Based on the value specified during Event1, abutting instances offset in x and y direction and determine the snapping mode.</li></ul>
+
+<p>
+<a id="pgfId-1076858"></a>The following data types can be returned during Event1:</p>
+<ul><li>
+<a id="pgfId-1076859"></a>Number: Determines the total offset in the direction of abutment.</li><li>
+<a id="pgfId-1077149"></a>String: Determines the snapping mode to be one of (<code>dbcAbutSnapTop</code>, <code>dbcAbutSnapBottom</code>, <code>dbcAbutSnapMiddle</code>, <code>dbcAbutSnapLeft</code>, <code>dbcAbutSnapRight</code>, <code>dbcAbutSnapCenter</code>) corresponding to the values provided (&#8220;<code>top</code>&#8221;, &#8220;<code>bottom</code>&#8221;, &#8220;<code>middle</code>&#8221;, &#8220;<code>left</code>&#8221;, &#8220;<code>right</code>&#8221;, &#8220;<code>center</code>&#8221;).</li><li>
+<a id="pgfId-1077206"></a>List of two numbers (<code>x y</code>): First number decides the total offset in the direction of abutment and the second number decides the perpendicular offset.</li><li>
+<a id="pgfId-1077250"></a>List with one number and one string (<code>x</code> &#8220;<code>left</code>&#8221;): First number decides the total offset in the direction of abutment and the string value decides the snapping offset to be applied.</li></ul>
+
+
+
+<p>
+<a id="pgfId-1077279"></a>The supported snapping modes (<code>dbcAbutSnapTop</code>, <code>dbcAbutSnapBottom</code>, <code>dbcAbutSnapMiddle</code>, <code>dbcAbutSnapLeft</code>, <code>dbcAbutSnapRight</code>, <code>dbcAbutSnapCenter)</code>are detailed below. These snapping modes are useful when devices are of different heights and widths.</p>
+<ul><li>
+<a id="pgfId-1076867"></a>Snapping modes (<code>dbcAbutSnapTop</code>, <code>dbcAbutSnapBottom</code>, <code>dbcAbutSnapMiddle</code>) are useful for horizontal abutment.</li><li>
+<a id="pgfId-1077414"></a>Snapping modes (<code>dbcAbutSnapLeft</code>, <code>dbcAbutSnapRight</code>, <code>dbcAbutSnapCenter</code>) are useful for vertical abutment.</li><li>
+<a id="pgfId-1077444"></a><code>dbcAbutSnapTop</code>: Snaps the smaller device at the top edge of the bigger device.</li><li>
+<a id="pgfId-1077465"></a><code>dbcAbutSnaBottom</code>: Snaps the smaller device at the bottom edge of the bigger device.</li><li>
+<a id="pgfId-1077482"></a><code>dbcAbutSnapMiddle</code>: Snaps the smaller device in the middle of the bigger device in <code>Y</code> direction.</li><li>
+<a id="pgfId-1077502"></a><code>dbcAbutSnapLeft</code>: Snaps the smaller device at the left edge of the bigger device.</li><li>
+<a id="pgfId-1077516"></a><code>dbcAbutSnapRight</code>: Snaps the smaller device at the right edge of the bigger device.</li><li>
+<a id="pgfId-1077530"></a><code>dbcAbutSnapCenter</code>: Snaps the smaller device in the middle of the bigger device in the <code>X</code> direction.</li></ul>
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1070375"></a><a id="86909"></a>Abutment Eve<a id="event6"></a>nt 6</h4>
+
+<p>
+<a id="pgfId-1070378"></a>Abutment Event 6 is the final event triggered for a chain when the <a href="appA.html#22449">abutChainEvent</a> environment variable is set to <code>true</code>. </p>
+<p>
+<a id="pgfId-1070380"></a>Abutment Event 6 is common to both the abutment and the unabutment flows. By default, the event is called at the end of an abutment (or an unabutment) flow. After abutment, the event gets triggered if the size of the chain is more than one. After unabutment, the event gets triggered if the size of the chain is equal to or more than one. </p>
+<p>
+<a id="pgfId-1070381"></a>Abutment Event 6 is an optional event that, when triggered, enables you to modify the resultant chain after abutment (or unabutment). For example, the event could be called to finalize the Source-Drain connections for a chain by adding (or removing) the top-level figures. To enable this, a new optional argument, <code>list of chain instances</code>, is passed to the PDK SKILL abutment function, <code>abutFunction</code>.</p>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1070382"></a>procedure( AbutFunction (iA iB pA pB pinAside conn event @optional (group nil) (chain nil)))</pre>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1070383"></a>The return value of the PDK SKILL abutment function for Abutment Event 6 does not get used by the abutment engine, unlike the return values of other abutment events, such as Abutment Event 2 and 5.</div>
+<p>
+<a id="pgfId-1070384"></a>The PDK abutment function needs to be modified to support the new optional argument. Between each top-level figure and an instance in the chain, the PDK abutment function establishes a parent-child relationship such that the instance in the chain is the parent and the top-level figure is the child.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1070385"></a>When abutted instances are part of a figGroup, during abutment Event 6, the top-level shapes are also added to the figGroup of the abutted instances.</div>
+<p>
+<a id="pgfId-1070386"></a>Given below is an example that illustrates how the Abutment Event 6 can be used to modify a chain that is formed as a result of a recent abutment (or an unabutment) event.</p>
+<p>
+<a id="pgfId-1070387"></a>For the Abutment Event 6 to be triggered, the <code>abutChainEvent</code> environment variable must be set to <code>t:</code></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070388"></a>envSetVal(&quot;layoutXL&quot; &quot;abutChainEvent&quot; &#39;boolean&#160;&#160;t)</pre>
+
+<p>
+<a id="pgfId-1070389"></a>The Abutment Event 6 is triggered using an optional <code>chain</code> argument in the abutment function callback, as illustrated below. </p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070390"></a>procedure(abutFunc(instA instB figA figB accessDir conn event @optional (group nil)&#160;&#160;   (chain nil))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070391"></a>prog( ()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070392"></a>case( event</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070393"></a>( 1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070394"></a>return( myMosDoItEvent1(instA instB figA figB accessDir conn group))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070395"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070396"></a>( 2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070397"></a>return(myMosDoItEvent2(instA instB figA figB accessDir conn group))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070398"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070399"></a>( 3</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070400"></a>return(myMosDoItEvent3(instA instB group))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070401"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070402"></a>( 4</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070403"></a>return(myMosDoItEvent4(instA instB))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070404"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070405"></a>( 5</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070406"></a>return(myMosDoItEvent5(instA instB figA figB accessDir conn group))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070407"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070408"></a>; event 6 for post-process whenever a chain is modified</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070409"></a>( 6</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070410"></a>return(myMosDoItEvent6(instA instB figA figB accessDir conn group chain))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070411"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070412"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070413"></a>return(t)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070414"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070415"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070416"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070417"></a>; Event 6 can be used for modifying completed chains, after abutment or unabutment, to finalize the S-D connections by adding or removing top-level figures.</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070418"></a>procedure(myMosDoItEvent6(instA instB figA figB accessDir conn group chain)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070419"></a>let((objs&#160;&#160;(inst car(chain)) (propname &quot;myEvent6PostProcPropName&quot; ) )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070420"></a>; destroy user-added shapes</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070421"></a>foreach(instId chain foreach(fig instId-&gt;children when(dbFindProp(fig propname) dbDeleteObject(fig))))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070422"></a>; execute event6 processes</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070423"></a>let(( (postcb list( &#39;myCallBackReturnDBObjList ) )&#160;&#160;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070424"></a>foreach(funcobj postcb</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070425"></a>when(getd(funcobj)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070426"></a>objs = apply(funcobj list(chain))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070427"></a>if(typep(objs) == &#39;list&#160;&#160; then</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070428"></a>when(length(objs) &gt; 0</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070429"></a>foreach(obj objs</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070430"></a>if(dbIsId(obj)&#160;&#160;then</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070431"></a>when(inst~&gt;figGroup dbAddFigToFigGroup(inst~&gt;figGroup obj)) ; add user-shapes to parent figGroup</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070432"></a>obj-&gt;parent = inst&#160;&#160;; add parent-child relationship</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070433"></a>dbReplaceProp(obj propname &quot;string&quot; symbolToString(funcobj))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070434"></a>else</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070435"></a>warn(&quot;invalid dbobject returned by %L&quot; funcobj)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070436"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070437"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070438"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070439"></a>else</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070440"></a>; warn(&quot;%L returns value illegal; should return a list of dbobjects.&quot; funcobj)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070441"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070442"></a>);when</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070443"></a>); foreach</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070444"></a>);let</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070445"></a>);let</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070446"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070447"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070448"></a>procedure( myCallBackReturnDBObjList(chain)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070449"></a>let((figs)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070450"></a>; modifies completed chains to finalize the S-D connections by adding top-level figures, adjusting Pcell CDF parameters on chain instance figs, and returns a list of added instances</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1070451"></a>))</pre>
+<h4><em>
+<a id="pgfId-1056507"></a>Related Topics</em></h4>
+
+<p>
+<a id="pgfId-1053379"></a><a href="chap5.html#74819">Unabutment Flow</a></p>
+<p>
+<a id="pgfId-1053389"></a><a href="chap5.html#30912">Dummy Abutment Example</a></p>
+
+<h3>
+<a id="pgfId-1070673"></a><a id="74819"></a>Unabutment Flow</h3>
+
+<p>
+<a id="pgfId-1070674"></a>For design situations where abutment is not possible, the <code>abutFunction</code> calls the abutment events in a sequence that lead to unabutment. This is the case when the Pcell abutment fails or the dummy shapes are not considered suitable for abutment.</p>
+<p>
+<a id="pgfId-1070675"></a>Other than abutment Event 3 that causes the unabutment, other events that are likely to be called during an unabutment flow, include:</p>
+<ul><li>
+<a id="pgfId-1070679"></a><a href="chap5.html#45526">Abutment Event 4</a></li><li>
+<a id="pgfId-1070683"></a><a href="chap5.html#86909">Abutment Event 6</a><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1070686"></a>For abutment Event 6 to be triggered, the <a href="appA.html#22449">abutChainEvent</a> must be set to true. </div></li></ul>
+
+
+
+<h4>
+<a id="pgfId-1070689"></a><a id="54630"></a>Abutment Event 3</h4>
+<p>
+<a id="pgfId-1070693"></a></p>
+<div class="webflare-div-image">
+<img src="images/event3.GIF" /></div>
+
+<p>
+<a id="pgfId-1070694"></a>Event 3 is called to perform unabutment, which can be triggered due to one of the following:</p>
+<ul><li>
+<a id="pgfId-1070695"></a>A layout editor command, such as <em>Move</em>, which moves an abutted instance relative to another instance to which it is abutted. Or, due to a parameter update of the abutted Pcell instances using commands such as <em>Update Layout Parameters</em>, or during a manual parameter update of the Pcell instance using the <em>Property Editor</em> or a stretch handle.</li><li>
+<a id="pgfId-1070696"></a>The abutment engine needs to unabut a partially completed abutment that cannot proceed further. For example, if Event 2 returns <code>nil</code> or the shapes returned by the event are pin figures on different nets.</li></ul>
+
+<p>
+<a id="pgfId-1070697"></a>In Event 3, the <code>abutFunction</code> retrieves the original parameter values that were stored by the function during <a href="chap5.html#92926">Abutment Event 2</a> and <a href="chap5.html#25937">Abutment Event 5</a>. These values are then used to update the Pcell parameters to return the Pcell to its preabutment state.</p>
+<p>
+<a id="pgfId-1070704"></a>If unabutment occurs due to the parameter update of Pcell instances, re-abutment is triggered immediately after the unabutment using the figIDs stored on the current abutment group. The abutment engine is now enhanced to store the figIDs that had triggered the abutment during <a href="chap5.html#25937">Abutment Event 5</a> or <a href="chap5.html#92926">Abutment Event 2</a>, as required.</p>
+<p>
+<a id="pgfId-1070711"></a>Having the figIDs of the originally abutted shapes available ensures that re-abutment can be performed using the same figIDs and in the same manner as the original abutment. Re-abutment is performed even if the abuttable shapes do not physically overlap after the parameter update. </p>
+<p>
+<a id="pgfId-1070712"></a>To determine if explicit re-abutment will be triggered after unabutment, the PDK abutment SKILL Event 3 can call the Boolean SKILL function, <code>dbAbutIs</code><a actuate="user" class="URL" href="../skdfref/chap2.html#dbAbutIsReAbutGroup" show="replace" xml:link="simple"></a><code>ReAbutGroup</code>. If the SKILL function returns <code>true</code>, the PDK SKILL function can store the relevant information, if needed, from the current abutment group. The stored information could be required later during re-abutment of the Pcell instances to achieve abutment with the same settings as before.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1070714"></a>
+The re-abutment of Pcell instances is triggered when the change in the Pcell instance parameters was triggered by an edit in Virtuoso Layout Suite XL, or an abutted instance was remastered. If the parameter change was triggered due to an edit in Virtuoso Layout Suite L, no re-abutment is triggered after unabutment.</div>
+<h4>
+<a id="pgfId-1070716"></a><a id="45526"></a>Abutment Event 4</h4>
+<p>
+<a id="pgfId-1070720"></a></p>
+<div class="webflare-div-image">
+<img src="images/event4.GIF" /></div>
+
+<p>
+<a id="pgfId-1070721"></a>In this event, the abutment engine verifies if the pin figures or shapes have a spacing property set. If the value of that property is set to <code>abutFunction</code>, the abutment engine executes Event 4 using the &#8220;Connect Always&#8221; condition. This allows adjusting the wells and guard rings for the non-abutted instances. The pin figures or shapes are moved based on the value returned by the spacing property. If the spacing property is not set, the instances are not moved.</p>
+
+<h4><em>
+<a id="pgfId-1070722"></a>Related Topics</em></h4>
+
+<p>
+<a id="pgfId-1070726"></a><a href="chap5.html#86909">Abutment Event 6</a></p>
+<p>
+<a id="pgfId-1070730"></a><a href="chap5.html#18655">Abutment Function Flow</a></p>
+
+<h3>
+<a id="pgfId-1070732"></a><a id="30912"></a>Dummy Abutment Example</h3>
+
+<p>
+<a id="pgfId-1070733"></a>Let us now consider an example depicting abutment of dummy shapes. Here, <code>D1</code> and <code>S2</code>, displayed in the figure below, are connected to a top-level net, <code>netA</code>,<code> </code>which has only two instance terminals.</p>
+
+<p>
+<a id="pgfId-1070737"></a></p>
+<div class="webflare-div-image">
+<img src="images/example01.GIF" /></div>
+
+<p>
+<a id="pgfId-1070738"></a>The overlap of the two dummy poly shapes triggers abutment Event 5. This results in the parameters of the overlapping Pcell instances to be updated, causing removal of dummy poly on both the Pcell instances, as shown in the figure below.</p>
+
+<p>
+<a id="pgfId-1070742"></a></p>
+<div class="webflare-div-image">
+<img src="images/example02.GIF" /></div>
+
+<p>
+<a id="pgfId-1070743"></a>After the dummies are removed, the abutment engine identifies that <code>D1</code> and <code>S2</code> are connected to the same upper-level net, <code>netA</code>. This enables the engine to compute the contact condition to be passed to the abutment Event 2.</p>
+<p>
+<a id="pgfId-1070744"></a>In this case, since both the pinFigs are connected to the same upper-level net, the contact condition 1 is applicable, indicating that contacts need to be dropped. For more information about computing the abutment contact conditions, see <a href="chap5.html#43023">Computing Connection Condition for Abutment Event 2</a>.</p>
+<p>
+<a id="pgfId-1070748"></a>During Event 2, the Pcell parameters are adjusted further. In this example, the further parameter adjustment results in removal of <code>S2</code> from the second instance and dropping the connection contacts, as shown in the figure below.</p>
+
+<p>
+<a id="pgfId-1070752"></a></p>
+<div class="webflare-div-image">
+<img src="images/example03.GIF" /></div>
+
+<p>
+<a id="pgfId-1070753"></a>Finally, the engine returns the alignment offset for aligning the abutted pinFigs in the direction of abutment. In this example, the alignment offset is <code>0</code>, so the instances are abutted and aligned, as shown in the figure below.</p>
+
+<p>
+<a id="pgfId-1070757"></a></p>
+<div class="webflare-div-image">
+<img src="images/example04.GIF" /></div>
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="chap4.html" id="prev" title="Configuring the Physical Hierarchy">Configuring the Physical Hiera ...</a></em></b><b><em><a href="chap6.html" id="nex" title="Generating a Layout">Generating a Layout</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

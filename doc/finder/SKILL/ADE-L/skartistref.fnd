@@ -1,0 +1,5401 @@
+;SKILL Language Functions
+("asiInit<yourSimulator>"
+"asiInit<yourSimulator>( 
+o_tool 
+) 
+=> t"
+"Calls the procedures to initialize your simulator's environment. This function must be defined for socket interfaces. Do not use it for direct interfaces.")
+("asiRegisterTool"
+"asiRegisterTool(
+'<simulatorName>
+[ ?class			s_className ]
+[ ?private			s_private ]
+[ ?initFunc			s_initFunc ]
+[ ?mixedSig			s_mixedSig ]
+)
+=> t"
+"Registers your simulator and your initialization function. ")
+("asiInitDataAccessFunction"
+"asiInitDataAccessFunction( 
+o_tool 
+) 
+=> t / nil"
+"Initializes the data access function for the tool. This function can be used by a third-party integrator to define their own data access functions.")
+("asiInitEnvOption"
+"asiInitEnvOption( 
+o_tool 
+) 
+=> t / nil"
+"Initializes the tool-specific environment options for the tools that are derived from the asiAnalog class. This is not applicable for tools derived from the asiSocket class. This function can be used by third-party integrators to define their own environment options.")
+("asiInitAnalysis"
+"asiInitAnalysis( 
+o_tool 
+) 
+=> t / nil"
+"Initializes the tool-specific analysis options for the tools that are derived from the asiAnalog class. This is not applicable for tools derived from the asiSocket class. This function can be used by third-party integrators to define their own analysis options.")
+("asiInitAdvAnalysis"
+"asiInitAdvAnalysis( 
+o_tool 
+)
+=> t / nil"
+"Initializes the tool-specific analysis options for the tools derived from the asiAnalog class. This method can be used by third-party integrators to define their own analysis options in ADE XL.")
+("asiInitSimOption"
+"asiInitSimOption( 
+o_tool 
+) 
+=> t / nil"
+"Initializes the simulation options for the tools that are derived from the asiAnalog class. This is not applicable for tools derived from the asiSocket class. This function can be used by third-party integrators to define their own simulation options.")
+("asiGetPageCallBack"
+"asiGetPageCallBack(
+o_obj
+)
+=> s_func / nil"
+"Returns the callback function name when changing tabs in a multi-tab form.")
+("asiSetPageCallBack"
+"asiSetPageCallBack(
+o_obj
+s_func
+)
+=> t/ nil"
+"Returns the status (whether successful or failed) of the specified callback function, when changing tabs in a multi-tab form.")
+("asiGetNetlistFormatterClass"
+"asiGetNetlistFormatterClass( 
+o_tool 
+) 
+=> s_class / nil"
+"Returns the netlist formatter class for the specified tool.")
+("asiSetNetlistFormatterClass"
+"asiSetNetlistFormatterClass( 
+o_tool 
+s_class 
+) 
+=> s_class"
+"Registers the netlist formatter class with the tool. This function is normally called from the asiInitFormatter method and should be defined for the interface.")
+("asiCreateFormatter"
+"asiCreateFormatter( 
+o_session 
+) 
+=> o_formatter"
+"First, a design object is created with the nlCreateDesign call, using the information on the OASIS session. Subsequently, the formatter is created with a call to nlCreateFormatter, using the information on the session. The formatter is added to the session and can be obtained with asiGetFormatter. This is a convenience routine that you cannot redefine, and the interface should not call it.")
+("asiCreateCdsenvFile"
+"asiCreateCdsenvFile( 
+s_toolName 
+) 
+=> t / nil"
+"Creates a .cdsenv file for the specified tool and dumps it to the current working directory.  This is meant as a development utility for integrators only.")
+("asiGetFormatter"
+"asiGetFormatter( 
+o_session 
+) 
+=> o_formatter / nil"
+"Returns the formatter created with the last asiCreateFormatter call. This is a convenience routine that you should not redefine and the interface should not call.")
+("asiGetSimInputFileName"
+"asiGetSimInputFileName( 
+o_session 
+) 
+=> t_name"
+"Returns the name of the simulator input file. For the asiAnalog_session class, this is input followed by the return value of asiGetSimInputFileSuffix.")
+("asiGetSimInputFileSuffix"
+"asiGetSimInputFileSuffix( 
+o_session 
+)
+=> t_name"
+"Returns the suffix used for the simulator input file. This method can be redefined, and must return a string, or a SKILL error will result.")
+("nlGetNetlister"
+"nlGetNetlister(
+o_formatter
+) 
+=> o_netlister"
+"Returns an object representing the netlister.")
+("nlGetPCellParamSource"
+"nlGetPCellParamSource( 
+o_cellView 
+l_parameters 
+)
+=> l_booleanValues / nil"
+"Identifies the source of value of the Pcell parameters of the given cellview.")
+("nlGetScratchInstance"
+"nlGetScratchInstance(
+t_libName
+t_cellName
+t_viewName
+t_instanceName
+)
+=> d_databaseID / nil"
+"Returns the database ID of the scratch instance to be used for Pcell evaluations.")
+("nlGetSwitchMaster"
+"nlGetSwitchMaster(
+t_libName
+t_cellName
+t_viewName
+t_instanceName
+)
+=> d_databaseID / nil"
+"Returns the database ID of the switch master.")
+("nlGetToolName"
+"nlGetToolName( 
+o_formatter 
+) 
+=> s_toolName"
+"Returns a symbol representing the simulator. It returns the value of the tool name. This name is used for the selection of the simulator information on the library component.")
+("nlInitialize"
+"nlInitialize( 
+o_formatter 
+) 
+=> o_formatter / nil"
+"For the nlFormatter class, this method initializes the netlister. This method can be redefined for the simulator-specific netlister and is called by nlCreateFormatter. This method initializes all simulator-specific aspects of netlisting such as name mapping. For the nlAnalogFormatter class, this method sets a number of netlist options. These options and their values are shown in the table below. To inspect the value of an option, use nlGetOption.")
+("nlPrintHeader"
+"nlPrintHeader( 
+o_formatter 
+) 
+=> t / nil"
+"This method writes the beginning comment, adds .GLOBAL, and prints header comments.")
+("nlIncludePspiceFile"
+"nlIncludePspiceFile( 
+o_formatter 
+t_fileName 
+t_masterName
+) 
+=> t / nil"
+"Prints the include statement for pspice cellviews in the design. This function is called before printing the footer for the netlist for all pspice modules. If your simulator does not support pspice views, call nlError function in this method.")
+("nlIncludeVerilogaFile"
+"nlIncludeVerilogaFile( 
+o_formatter 
+t_filename 
+t_master
+) 
+=> t / nil"
+"Prints the include statement for verilog-a cell views in the design. This is called before printing the footer for the netlist for all verilog-a modules. If your simulator does not support verilog-a views, call nlError in this method.")
+("nlIncludeVerilogFile"
+"nlIncludeVerilogFile( 
+o_formatter 
+t_filename 
+t_master
+) 
+=> t / nil"
+"Prints the include statement for verilog type text cell view in the design. This is called before printing the footer for the netlist for all verilog text cell views. If your simulator does not support verilog-a views, call nlError in this method.")
+("nlIncludeDbDSPFTextFile"
+"nlIncludeDbDSPFTextFile(
+o_formatter
+t_filename
+t_master
+)
+=> t / nil"
+"Prints the dspf_include statement for DSPF type text cellview in the design.")
+("nlIncludeDbSPICEMODELTextFile"
+"nlIncludeDbSPICEMODELTextFile(
+o_formatter
+t_filename
+)
+=> t / nil"
+"Prints the include statement for SPICEMODEL cellviews in the design. This function is called before printing the footer for the netlist for all SPICEMODEL modules. If your simulator does not support SPICEMODEL views, call the nlError function in this method.")
+("nlIsPcellInstance"
+"nlIsPcellInstance(
+t_libName
+t_cellName
+t_viewName
+t_instanceName
+)
+=> t / nil"
+"Checks if the specified instance name represents a schematic Pcell instance.")
+("nlIsPcellParam"
+"nlIsPcellParam(
+t_libName
+t_cellName
+t_viewName
+t_instanceName
+t_deviceParamName
+)
+=> t / nil"
+"Checks if the specified device parameter represents a Pcell parameter.")
+("nlIsSmartExtractedView"
+"nlIsSmartExtractedView(
+o_cellViewHandle
+) 
+=> t / nil"
+"Identifies if the currently netlisted cellview is of the type smart_view. You can use this function in custom netlist procedures to modify the syntax printed to the netlist as required. For example, you can modify the syntax to determine if the printing of parenthesis needs to be enabled or disabled when printing the port connections of the instance.")
+("nlPrintFooter"
+"nlPrintFooter( 
+o_formatter 
+) 
+=> t / nil"
+"This method is called at the end of netlisting. It does not print anything at the end of the netlist for the nlAnalogFormatter class.")
+("nlPrintSubcktHeaderComments"
+"nlPrintSubcktHeaderComments( 
+o_formatter 
+o_cellView 
+) 
+=> t"
+"Prints the comments for the subcircuit header and the mapping information when the printSubcktComments option is set.")
+("nlPrintTopCellHeaderComments"
+"nlPrintTopCellHeaderComments( 
+o_formatter 
+o_cellView 
+) 
+=> t"
+"Calls nlPrintSubcktHeaderComments for the nlAnalogFormatter class.")
+("nlPrintTopCellFooterComments"
+"nlPrintTopCellFooterComments( 
+o_formatter 
+o_cellView 
+) 
+=> t"
+"Returns t at the analogFormatter level.")
+("nlPrintTopCellHeader"
+"nlPrintTopCellHeader( 
+o_formatter 
+o_cellView 
+) 
+=> t / nil"
+"Prints the header of the top-level circuit by calling nlPrintTopCellHeaderComments.")
+("nlPrintTopCellFooter"
+"nlPrintTopCellFooter( 
+o_formatter 
+o_cellView 
+) 
+=> t / nil"
+"Writes the top cell view footer. This function prints an empty line and calls nlPrintTopCellFooterComments.")
+("nlPrintSubcktHeader"
+"nlPrint SubcktHeader( 
+o_formatter 
+o_cellView 
+) 
+=> t / nil"
+"Writes the header for a subcircuit following these steps: prints comments by calling nlPrintSubcktHeaderComments; prints the subckt begin keyword by calling nlPrintSubcktBegin; prints the subckt name by calling nlPrintSubcktName; prints the subckt terminal list by calling nlPrintSubcktTerminalList.")
+("nlPrintSubcktFooter"
+"nlPrintSubcktFooter( 
+o_formatter 
+o_cellView 
+) 
+=> t / nil"
+"Writes the footer for the subcircuit. For the nlAnalogFormatter class, it prints .ends.")
+("nlPrintSubcktFooterComments"
+"nlPrintSubcktFooterComments( 
+o_formatter 
+o_cellView 
+) 
+=> t"
+"Prints the comments for the subcircuit footer by printing the string 'End of subcircuit definition.' preceded by the comment begin string.")
+("nlPrintInstComments"
+"nlPrintInstComments( 
+o_formatter 
+o_instance 
+) 
+=> t"
+"Prints the comments for an instance.")
+("nlPrintInst"
+"nlPrintInst( 
+o_formatter 
+o_instance 
+) 
+=> t / nil"
+"Prints the netlist statement for an instance. This is the default netlist procedure for a component.")
+("nlPrintInstEnd"
+"nlPrintInstEnd( 
+o_formatter 
+o_instance 
+) 
+=> t / nil"
+"Prints the end of the instance statement, which is a return (\n). This method is called by the netlister after the netlist procedure or by nlPrintInst.")
+("nlPrintSubcktBegin"
+"nlPrintSubcktBegin( 
+o_formatter 
+o_cellView 
+) 
+=> t / nil"
+"Prints the .subckt keyword for the nlAnalogFormatter class. This method is called by nlSubcktHeader.")
+("nlPrintSubcktName"
+"nlPrintSubcktName( 
+o_formatter 
+o_cellView 
+) 
+=> t / nil"
+"Prints a space and the simulator name of the subcircuit. This method is used by nlSubcktHeader.")
+("nlPrintSubcktEnd"
+"nlPrintSubcktEnd( 
+o_formatter 
+o_cellView 
+) 
+=> t / nil"
+"For the nlAnalogFormatter class, prints the .ends keyword, followed by a space and the simulator name of the subcircuit, to mark the end of the subcircuit definition. It is called by nlPrintSubcktFooter.")
+("nlPrintHeaderComments"
+"nlPrintHeaderComments( 
+o_formatter 
+) 
+=> t / nil"
+"Prints the comments for the netlist file, including the library, cell, and view names of the top-level cellview of the design netlisted. This method only has effect when the printFileComments netlist option is set.")
+("nlPrintSubcktParameters"
+"nlPrintSubcktParameters( 
+o_formatter 
+o_cellView 
+) 
+=> t / nil"
+"Prints the passed parameters for the subcircuit definition.")
+("nlPrintSubcktTerminalList"
+"nlPrintSubcktTerminalList( 
+o_formatter 
+o_cellView 
+) 
+=> t / nil"
+"Prints the simulator names of the signals connected to the terminals for a subcircuit definition and handles the signals resulting from inherited connections at a lower level .")
+("nlPrintInstName"
+"nlPrintInstName( 
+o_formatter 
+o_instance 
+) 
+=> t / nil"
+"Prints the simulator name of the instance, taking the instance name prefix specified on the component into account when the simulator so requires. This is determined with the useInstNamePrefix netlist option.")
+("nlPrintInstSignals"
+"nlPrintInstSignals( 
+o_formatter 
+o_instance 
+) 
+=> t / nil"
+"Prints the simulator names of the signals according to the terminal order specified on the component, using the nlGetSignalList method of the instance.")
+("nlPrintModelName"
+"nlPrintModelName( 
+o_formatter 
+o_instance 
+) 
+=> t / nil"
+"Prints the model name. The nlGetModelName for the instance is used for the model name.")
+("nlPrintInstParameters"
+"nlPrintInstParameters( 
+o_formatter 
+o_instance 
+) 
+=> t / nil"
+"Prints the instance parameters in name=value pairs.")
+("nlError"
+"nlError( 
+o_netlister 
+t_error 
+) 
+=> nil"
+"Issues a user error. The error is printed immediately and it is collected on the object. In this way, if netlisting is interrupted, the user is aware of any errors that occurred during netlisting. All errors are printed to the netlist log file.")
+("nlObjError"
+"nlObjError( 
+o_netlister 
+o_object 
+t_error 
+) 
+=> nil"
+"Similar to nlError, but prints a description of the object along with the error message. The description includes the library name, the cell name, the view name, and the instance name in case the object is an instance.")
+("nlGetDesign"
+"nlGetDesign( 
+o_netlister 
+) 
+=> o_design"
+"Returns the design object.")
+("nlGetGlobalNets"
+"nlGetGlobalNets( 
+o_netlister 
+) 
+=> l_globalNets"
+"Returns the list of global nets. This method should only be used in the nlPrintHeader method of the formatter.")
+("nlGetNetlistDir"
+"nlGetNetlistDir( 
+o_netlister 
+) 
+=> t_netlistDir"
+"Returns the netlist directory.")
+("nlDisplayOption"
+"nlDisplayOption( 
+o_netlister 
+) 
+=> t"
+"Prints the option names available on this object along with their values.")
+("nlGetCurrentSwitchMaster"
+"nlGetCurrentSwitchMaster( 
+o_netlister 
+) 
+=> S_id"
+"This function returns the database ID for the current switch master for the instance in hierarchical incremental netlisting . This function should only be used while printing the instance statement. Avoid using this function if possible.")
+("nlGetNetlistedStopCellViewList"
+"nlGetNetlistedStopCellViewList( 
+o_netlister 
+) 
+=> l_cellView"
+"Returns a list of cellview objects treated as stop cells for the specified netlister object.")
+("nlGetOption"
+"nlGetOption( 
+o_netlister 
+s_name 
+) 
+=> g_value"
+"Returns the value of the option.")
+("nlGetOptionNameList"
+"nlGetOptionNameList( 
+o_netlister 
+) 
+=> l_names"
+"Returns the list of option names available on this object.")
+("nlMapGlobalNet"
+"nlMapGlobalNet( 
+o_netlister
+t_net 
+) 
+=> t_map"
+"Maps a global net (signal) to the simulator name. This should only be used in the nlPrintHeader method of the formatter. Use at any other time is an error.")
+("nlInfo"
+"nlInfo( 
+o_netlister 
+t_info 
+[ g_arg ... ]
+) 
+=> t"
+"Sends an informational message to the calling application.")
+("nlSetOption"
+"nlSetOption( 
+o_netlister 
+s_option 
+g_value 
+) 
+=> t / nil"
+"Sets an option value. For information about options, see Netlist Options on page 4-41.")
+("nlWarning"
+"nlWarning( 
+o_netlister 
+t_warning 
+[ g_arg ... ] 
+) 
+=> t"
+"Issue a warning to the user.")
+("nlPrintComment"
+"nlPrintComment( 
+o_netlister 
+[ t_arg1 t_arg2 ... ] 
+) 
+=> t / nil"
+"Prints a comment. Use this method to print all comments. This method uses the comment character and line wrapping. A subsequent nlPrintf call inserts the end comment string.")
+("nlPrintIndentString"
+"nlPrintIndentString( 
+o_netlister 
+) 
+=> t / nil"
+"Prints the indent string for the instance statement. When inside the top-level circuit, the empty string is printed. When inside subcircuit definitions, the value of the subcktIndentString netlist option is printed.")
+("nlPrintString"
+"nlPrintString( 
+o_netlister, 
+[ @rest t_args ]
+) 
+=> t / nil"
+"Prints the string arguments to the file. This function does the required line folding, prefixing, and, postfixing.")
+("nlPrintStringNoFold"
+"nlPrintStringNoFold( 
+o_netlister, 
+[ @rest t_args ]
+)
+=> t / nil"
+"Prints the string arguments to the file, like the function nlPrintString. This function does the required prefixing and postfixing, but does not fold the line until a newline character or maxLineLength is encountered. While in a 'no fold' print mode, calls cannot be made to nlPrintString.")
+("nlIsModelNameInherited"
+"nlIsModelNameInherited( 
+o_instance 
+) 
+=> t / nil"
+"Returns t if the model name for the stopping instance is passed through the hierarchy through parameters.")
+("nlGetFormatter"
+"nlGetFormatter( 
+o_instance 
+) 
+=> o_formatter"
+"Returns the formatter.")
+("nlGetSimName"
+"nlGetSimName( 
+o_instance 
+) 
+=> t_name"
+"If the input type is cellview object, then returns the simulator name of the subcircuit. If the input type is instance object, then returns the mapped name of the instance. The name returned depends on the useInstNamePrefix netlist option. When it is not set, the name prefix is not taken into account. However, for instances representing interface elements, the name prefix is always taken into account. No mapping is performed for interface elements.")
+("nlGetSignalList"
+"nlGetSignalList( 
+o_instance 
+) 
+=> l_signals"
+"Returns the list of mapped signal names for the instance according to the terminal order specified for the cellview. Use this method for printing instances to the netlist by the nlPrintInst method of the formatter. The terminal order for schematic subcircuits is determined by the pin order property on the schematic, or by the termOrder property on the CDF, or by the system, in that order.")
+("nlGetTerminalList"
+"nlGetTerminalList( 
+o_instance 
+) 
+=> l_terminals"
+"Returns the list of terminal names in the order specified on the pin order property on the schematic, or on the termOrder property on the CDF, or on the cellview of the instance, in that order. This method should not be used by the formatter. In contrast to nlGetSignalList, buses are not handled individually: a terminal such as out<0:3> is represented in its original form.")
+("nlGetTerminalSignalName"
+"nlGetTerminalSignalName( 
+o_instance 
+t_terminal 
+[ x_bit ] 
+) 
+=> t_signal"
+"Returns the name of the signal connected to the terminal.")
+("nlGetNumberOfBits"
+"nlGetNumberOfBits( 
+o_instance 
+t_terminal 
+) 
+=> x_bits"
+"Returns the number of bits on the instance and terminal specified.")
+("nlGetModelName"
+"nlGetModelName( 
+o_instance 
+) 
+=> t_modelName"
+"This method must be used to obtain the model name of an instance. Use of this method assures consistency in netlisting across interfaces. For instances that represent subcircuits, this method returns a name chosen by the netlister, using the modulePrefix netlist option.")
+("nlGetParamList"
+"nlGetParamList( 
+o_instance 
+)
+=> l_parameters"
+"Returns the list of parameters of the specified instance or cellview.")
+("nlGetParamStringValue"
+"nlGetParamStringValue( 
+o_instance 
+s_parameter 
+) 
+=> t_value / nil"
+"Returns a string representing the parameter value for the instance and parameter name.")
+("nlGetId"
+"nlGetId( 
+o_cellView 
+) 
+=> g_id"
+"Returns the database ID for the instance. If the instance represents a cdba instance, this id is a database ID. Avoid using this function if possible, and use type-checking precautions.")
+("nlIncludeSrcFile"
+"nlIncludeSrcFile( 
+o_formatter 
+t_filename 
+)
+=> t / nil"
+"Prints the include statement for instances bound to source files using Hierarchy Editor. This is called while printing the footer for the netlist for all the source files to which any instance in the design is bound. If your simulator does not support source file bindings, call nlError in this method.")
+("nlPrintComments"
+"nlPrintComments( 
+o_instance 
+) 
+=> t"
+"Prints the comments for the instance being netlisted.")
+("nlGetCellName"
+"nlGetCellName(
+o_inst
+)
+=> t_cellName"
+"Gets the cell name of the specified instance.")
+("nlGetLibName"
+"nlGetLibName(
+o_inst
+)
+=> t_libName"
+"Gets the library name of the specified instance.")
+("nlGetSimTerminalNets"
+"nlGetSimTerminalNets( 
+o_cellView 
+) 
+=> l_signals"
+"Returns the list of mapped names of signals connecting to the terminals of the cellview based on the terminal order specified for the cellview. Several signals may come from inherited connections.  Signal buses are handled in scalar form. For example, net10<0:3> is mapped as net10_0, net10_1, net10_2 and net10_3. Use this function while printing the subcircuit definition.")
+("nlGetTerminalNets"
+"nlGetTerminalNets( 
+o_cellView 
+) 
+=> l_signals"
+"Returns the schematic names of the signals connected to the terminals. Many of the signals may come from inherited connections.")
+("nlGetSwitchViewList"
+"nlGetSwitchViewList( 
+o_cellView 
+) 
+=> l_switchViews"
+"Returns the switch view list for the cellView.")
+("nlGetViewName"
+"nlGetViewName( 
+o_cellView 
+) 
+=> t_cellViewName"
+"Returns the view name of the specified cellview object.")
+("nlGetTopLibName"
+"nlGetTopLibName( 
+o_design 
+) 
+=> t_topLibName"
+"Returns the library name of the design.")
+("nlGetTopCellName"
+"nlGetTopCellName( 
+o_design 
+) 
+=> t_topCellName"
+"Returns the cell name of the design.")
+("nlGetTopViewName"
+"nlGetTopViewName( 
+o_design 
+) 
+=> t_topViewName"
+"Returns the view name of the design.")
+("nlTranslateFlatIEPathName"
+"nlTranslateFlatIEPathName(
+o_formatter 
+t_hierDelimiter 
+t_iePathName
+) 
+=> t_iePathName"
+"Parses a hierachical IE instance path and returns the path of the IE instance that is to be printed in the digital netlist.")
+("nlSetPcellName"
+"nlSetPcellName (
+S_cv
+t_paramNames
+g_paramValues
+)
+=> t / nil"
+"Define this function if the default generic OSS naming convention for Pcells needs to be customized.")
+("ansCdlCompPrim"
+"ansCdlCompPrim(
+)"
+"Enables printing of device information for primitives in the auCdl netlist. Specify this function as a netlist procedure in the CDF for the primitive devices for which you want the device information to be printed in the auCdl netlist. For more information about the ansCdlCompPrim netlist procedure, see the Virtuoso Analog Design Environment L User Guide.")
+("ansCdlHnlPrintInst"
+"ansCdlHnlPrintInst(
+)"
+"Customizes how device information is written in the auCdl netlist. Specify this function as a netlist procedure in the CDF for the devices for which you want to customize the device information in the auCdl netlist.")
+("ansCdlPrintString"
+"ansCdlPrintString(
+&_fp 
+S_inst 
+S_master 
+S_parent
+)"
+"Prints comment strings in the device information for instances in the auCdl netlist. To print comment strings in the device information, you must also use the `string argument in the auCdlInstPrintOrder variable defined in the .simrc file. For more information about the auCdlInstPrintOrder variable, see the Virtuoso Analog Design Environment L User Guide.")
+("ansCdlPrintInheritedParams"
+"ansCdlPrintInheritedParams(
+&_fp 
+l_pairList
+)"
+"Customizes how inherited parameters are written in the auCdl netlist.")
+("ansCdlPrintInstParams"
+"ansCdlPrintInstParams(
+&_fp 
+l_pairList
+)"
+"Customizes how instance parameters are written in the auCdl netlist.")
+("ansCdlPrintInstProps"
+"ansCdlPrintInstProps(
+&_fp 
+l_pairList
+)"
+"Enables printing of user-defined instance properties and also customizes the format in which the properties are printed in the netlist. To print user-defined properties in the netlist, you must also use the `instProps argument in the auCdlInstPrintOrder variable defined in the .simrc file. For more information about the auCdlInstPrintOrder variable, see the Virtuoso Analog Design Environment L User Guide.")
+("ansCdlPrintInstName"
+"ansCdlPrintInstName(
+&_fp 
+t_prefix 
+t_name 
+t_mappedName 
+g_isPrimitive 
+S_inst 
+S_master
+)"
+"Customizes how instance names are written in the auCdl netlist.")
+("ansCdlPrintModelName"
+"ansCdlPrintModelName(
+&_fp 
+g_isAPrimitive 
+g_definedPropVal 
+g_modelPropInstVal 
+g_componentPropInstVal 
+g_cdfModelName 
+g_cdfComponentName
+)"
+"Customizes the order in which auCdl looks for model names for primitives and the format in which the model information is written in the netlist.")
+("ansCdlPrintModuleName"
+"ansCdlPrintModuleName(
+&_fp 
+g_isAPrimitive 
+S_inst 
+S_master 
+S_parent 
+t_appedModuleName
+)"
+"Customizes how module names are written in the auCdl netlist for subcircuits.")
+("ansCdlPrintConnections"
+"ansCdlPrintConnections(
+&_fp 
+l_connections
+)"
+"Customizes how the nets connected to a device are written in the auCdl netlist.")
+("ansCdlGetSegmentConnections"
+"ansCdlGetSegmentConnections( 
+S_inst 
+l_connectionPairs 
+n_iterSeg 
+n_iterMult 
+n_numSegments 
+n_multiplicityFactor 
+t_segmentConnType 
+n_netCount 
+)"
+"This function is used to customize the auCdl netlist when the ansCdlHnlPrintInst function is specified as a netlist procedure in the CDF for the device. It controls how connectivity information is written in the netlist for instances for which a multiplicity factor is specified using the m or M property. For example, if an instance with a connection list like ((termA netA) (termB netB)) has to be converted into two segments connected in series, the modified connection list for the first segment will be 
+((termA netA) (termB tempnet_0)) and ((termA tempnet_0) (termB netB)) for the second segment. Define this function as a procedure in the .simrc file.")
+("ansCdlPrintSwitchPCellInst"
+"ansCdlPrintSwitchPCellInst( 
+)"
+"Writes the switch Pcell instance in the auCdl netlist based on the size and input values of the instance.")
+("ansCdlPrintSwitchPCellInstParam"
+"ansCdlPrintSwitchPCellInstParam(
+&_fp
+l_paramsNameValuePairList
+)"
+"Writes into the auCdl netlist the list of CDF parameters and values defined for switch Pcell instances.")
+("ansCdlPrintSwitchPCellSubcktConn"
+"ansCdlPrintSwitchPCellSubcktConn(
+&_fp
+l_connections
+)"
+"Writes into the auCdl netlist the switch Pcell connections specified by hnlSpecialPCellLibCell in the .simrc file.")
+("ansCdlPrintSwitchPCellSubCircuit"
+"ansCdlPrintSwitchPCellSubCircuit(
+&_fp
+)"
+"Writes into the auCdl netlist the subckt definitions specified by hnlSpecialPCellLibCell in the .simrc file.")
+("ansCdlGetSegmentInfo"
+"ansCdlGetSegmentInfo( 
+S_inst 
+S_master 
+S_parent 
+)
+=> l_segment"
+"This function is used to customize the auCdl netlist when the ansCdlHnlPrintInst function is specified as a netlist procedure in the CDF for the device. It returns the number of segments for an instance and the connection type (series, parallel, or user defined connection type name) between the segments. Define this function as a procedure in the .simrc file.")
+("ansCdlGetSegmentInstParams"
+"ansCdlGetSegmentInstParams( 
+S_inst 
+l_propsList 
+n_iterSeg 
+n_iterMult 
+n_numSegments 
+n_multiplicityFactor 
+t_segmentConnType 
+)
+=> l_segment"
+"This function is used to customize the auCdl netlist when the ansCdlHnlPrintInst function is specified as a netlist procedure in the CDF for the device. It controls how values of parameters are printed on segments of an instance. auCdl calls this function with a list of property name and property value pairs for all those properties that are specified in device CDF simulation information instance parameters. Define this function as a procedure in the .simrc file.")
+("ansCdlGetSimPropValue"
+"ansCdlGetSimPropValue ( 
+t_propName 
+)
+=> t_propVal / nil"
+"Returns the value of a specified property on the current instance being netlisted when the ansCdlHnlPrintInst function is specified as a netlist procedure in the CDF for the device.")
+("ansCdlGetMultiplicity"
+"ansCdlGetMultiplicity( 
+S_inst 
+S_master 
+S_parent 
+)
+=> n_multiplicityFactor"
+"Controls how multiplicity (converting an instance into multiple instances connected in parallel) is handled for an instance in the design when the ansCdlHnlPrintInst function is specified as a netlist procedure in the CDF for the master of the instance.")
+("auCdl"
+"auCdl(
+)
+=> t / nil"
+"This function sets defaults of all the variables defined in si.env like preserveRES, shortRES as well as other global variables like cdlSimViewList, cdlPrintComments etc. The function also sets the list of functions and variables that must be unbound when environments(simulators) are changed.")
+("acdlArtPrintIncludedNetlist"
+"acdlArtPrintIncludedNetlist(
+x_artOutfile_file_pointer 
+t_filePath
+) 
+=> userSpecified"
+"Controls how an included netlist is included in the main netlist file. This function can be overridden by user settings. If user-override is not specified, the included netlist is copied without any modification. However, if both acdlPrintIncludedNetlist and acdlArtPrintIncludedNetlist are defined, acdlPrintIncludedNetlist is called. acdlArtPrintIncludedNetlist is preferred because the file pointer is not closed and re-initialized.")
+("auLvs"
+"auLvs(
+)
+=> t / nil"
+"This is the primary function for LVS. It sets up all the actions needed to netlist the layout and schematics design as well as invoke LVS (for comparison) itself.")
+("auProbeAddDevsForNet"
+"auProbeAddDevsForNet(
+)
+=> t / nil"
+"This procedure enables you to select nets using the cursor or by typing the names in the CIW in order to add probes for all devices connected to the selected net. Thus, the function displays the prompt, Point to net or enter net name in CIW. On pointing to the net or typing the net name in CIW, probes would be added on all the devices connected to the selected net.")
+("LVS"
+"LVS(
+)
+=> t / nil"
+"This is the primary function for LVS. It sets up all the actions needed to netlist the layout and schematics design as well as invoke LVS itself.")
+("hnlHspicePrintInstPropVal"
+"hnlHspicePrintInstPropVal( 
+t_propName 
+) 
+=> t_propVal / nil"
+"This procedure returns the value of the property specified by propName if it exists on the current instance. If the value of this property has the syntax specifying an inherited value it returns the name of the property whose value is being inherited without the surrounding syntax.")
+("hnlHspiceInstPropVal"
+"hnlHspiceInstPropVal( 
+l_paramList 
+) 
+=> t / nil"
+"This procedure is prints a list of property values to the netlist.")
+("hnlHspicePrintInstPropEqVal"
+"hnlHspicePrintInstPropEqVal( 
+l_paramList 
+) 
+=> t / nil"
+"This procedure prints a list of property values to the netlist. It is similar to the procedure hnlHspicePrintInstPropVal except that the property name and the symbol, = is included before the value.")
+("hnlHspicePrintMOSfetModel"
+"hnlHspicePrintMOSfetModel(
+) 
+=> t / nil"
+"This function prints out the line for a MOSfet model.")
+("hnlHspicePrintNMOSfetElement"
+"hnlHspicePrintNMOSfetElement(
+) 
+=> t / nil"
+"This function prints out the line for a NMOSfet model.")
+("asiDisplayNetlistOption"
+"asiDisplayNetlistOption( 
+o_tool 
+) 
+=> t / nil"
+"Displays the current set of netlist options and values. Use this function only to determine which netlist options you can modify.")
+("asiGetNetlistOption"
+"asiGetNetlistOption(
+{ o_session | o_tool }
+s_name
+)
+=> g_value / nil"
+"Gets the value of the specified netlist option. ")
+("asiInit<yourSimulator>NetlistOption"
+"asiInit<yourSimulator>NetlistOption( 
+o_tool 
+) 
+=> t"
+"Calls the procedures that modify your simulator's netlist options.")
+("asiSetNetlistOption"
+"asiSetNetlistOption( 
+{ o_session | o_tool }
+s_name
+g_value
+)
+=> g_value / nil"
+"Sets a netlisting option.")
+("asiGetAnalogSimulator"
+"asiGetAnalogSimulator( 
+{ o_session | o_tool } 
+) 
+=> s_simulatorName"
+"Gets the value of the analog simulator for a tool or session object.")
+("asiGetAdvAnalysis"
+"asiGetAdvAnalysis(
+{ o_session | o_tool }
+s_analysisName
+) 
+=> o_analysis / nil"
+"Returns the object of advanced analyses, such as Monte Carlo. This function is similar to the asiGetAnalysis function and is normally used by third party integrator to implement the simulator interface for their simulators.")
+("asiGetEMIROptionVal"
+"asiGetEMIROptionVal(
+o_session 
+s_name
+) 
+=> g_value / nil"
+"Returns the value of the specified EMIR option.")
+("asiGetNetlistFileListToSymLink"
+"asiGetNetlistFileListToSymLink(
+o_session
+)
+=> l_files / nil"
+"Returns the list of files present in the netlist directory and created by the asiNetlist procedure.")
+("asiGetDigitalSimulator"
+"asiGetDigitalSimulator( 
+{ o_session | o_tool } 
+) 
+=> s_simulatorName / nil"
+"Gets the value of the digital simulator for a tool or session object.")
+("asiAnalogAutoloadProc"
+"asiAnalogAutoloadProc(
+) 
+=> t"
+"Called by OASIS for the purpose of autoloading the context.  This is done so that the classes are defined before the tool is created and initialization is started.")
+("ansAnalogRegCDFsimInfo"
+"ansAnalogRegCDFsimInfo(
+) 
+=> t"
+"This is a utility function used to create the CDF for the <yourSimulator> simulator.The ansAnalogRegCDFsimInfo functions are called by the CDF editor. These functions are used to provide data type information for all the simInfo attributes.")
+("asiCheckAcEnabledWhenNoiseEnabled"
+"asiCheckAcEnabledWhenNoiseEnabled( 
+o_session 
+r_form 
+) 
+=> t / nil"
+"This method verifies that an AC analysis is enabled when a noise analysis is selected.  If this is not the case, it displays an error message in the analysis form's error dialog box and sets the error status of the form. It is called during the form apply callback.")
+("asiCheckAnalysis"
+"asiCheckAnalysis( 
+o_analog 
+r_form 
+) 
+=> t / nil"
+"Checking function for the analysis class. e.g. for Spectre simulator object it checks each field value in the environment, highlights any errors, returns t or nil. Can be used for different analog simulator analysis objects.")
+("asiCheckBlank"
+"asiCheckBlank( 
+o_obj 
+r_form 
+s_fieldName 
+) 
+=> t / nil"
+"Verifies that the s_fieldName entry is non-blank.")
+("asiCreateIncludeStatementFile"
+"asiCreateIncludeStatementFile( 
+o_simulatorSession 
+t_netlistFile
+t_includeNetlistFile 
+) 
+=> t_includeNetlistFile / nil"
+"Creates a file that contains a statement to include netlist for simulation. Override this function to create a customized include statement according to the the simulator netlisting procedure and syntax.")
+("asiGetAnalysisField"
+"asiGetAnalysisField( 
+o_analysis 
+s_fieldName 
+)  
+=> o_fieldEnvVar / nil"
+"Returns the specified analysis field object.")
+("asiGetHighPerfformanceOptionVal"
+"asiGetHighPerformanceOptionVal( 
+o_session 
+s_varName 
+)  
+=> t_varNameVal / nil"
+"Returns the field value of the High Performance form with the passed session object.")
+("asiSetHighPerformanceOptionVal"
+"asiSetHighPerformanceOptionVal( 
+s_sessionName 
+s_varName 
+s_varValue 
+)  
+=> t_Value / nil"
+"Sets the value for the specified High Performance option variable.")
+("asiDisplayHighPerformanceOption"
+"asiDisplayHighPerformanceOption( 
+o_toolName 
+)  
+=> t / nil"
+"Displays a list of variable and values of the High Performance Simulation Option form.")
+("asiGetDesignCellName"
+"asiGetDesignCellName( 
+o_session 
+) 
+=> t_cellName / nil"
+"Returns the cell name of the design associated with the passed session object.")
+("asiGetDesignLibName"
+"asiGetDesignLibName( 
+o_session 
+)
+=> t_libName / nil"
+"Returns the library name of the design associated with the passed object.")
+("asiGetDesignViewName"
+"asiGetDesignViewName( 
+o_session 
+) 
+=> t_viewName / nil"
+"Returns the view name of the design associated with the passed object.")
+("asiGetDrlData"
+"asiGetDrlData( 
+t_anaType 
+l_specifier 
+t_dataDir 
+) 
+=> g_familyOrWaveform / nil"
+"Returns the results data for the given specifier from the given data directory.")
+("asiGetId"
+"asiGetId( 
+o_session 
+) 
+=> x_id"
+"Returns the name of the session ID associated with the given OASIS session.")
+("asiGetIterationUpdateFile"
+"asiGetIterationUpdateFile"
+"Returns the name and path to the simulator-specific file in which the iteration number and the corresponding PSF data location is written after each Monte Carlo iteration completes. This file is used to monitor the progress of the Monte Carlo run and to get the directory path from where the PSF data corresponding to an iteration is read.")
+("asiGetResultsPsfDir"
+"asiGetResultsPsfDir(
+o_session
+)  
+=> t_PsfDir / nil"
+"Returns the name of the PSF directory for the current or last-run simulation.")
+("asiGetResultsNetlistDir"
+"asiGetResultsNetlistDir(
+o_session
+)  
+=> t_netlistDir / nil"
+"Returns the name of the netlist directory for the current or last-run simulation.")
+("asiGetSimulatorList"
+"asiGetSimulatorList( 
+@optional s_subclass 
+)
+=> l_simulatorNameList / nil"
+"The function returns a list of all simulation interfaces within the specified simulator subclass.")
+("asiGetSimCommandLineOrder"
+"asiGetSimCommandLineOrder( 
+o_session 
+) 
+=> s_optionList / nil"
+"Returns the order of options used in the simulator run command. By default, it returns the options in the following order:")
+("asiGetStimulusGlobals"
+"asiGetStimulusGlobals(
+o_session
+) 
+=> l_globals / nil"
+"This method retrieves the list of global stimuli from the session.")
+("asiGetStimulusInputs"
+"asiGetStimulusInputs(
+o_session
+) 
+=> l_inputs / nil"
+"This method retrieves the list of input stimuli from the session.")
+("asiIsConfigDesign"
+"asiIsConfigDesign( 
+o_session 
+) 
+=> t / nil"
+"The function returns t if the design associated with the session is a Cadence 5.x configuration.")
+("asiSetValid"
+"asiSetValid( 
+o_analysis
+g_value
+) 
+=> t / nil"
+"The functions sets valid analysis in the current simulation environment. The call to asiSetValid should be used with asiCheck/asiCheckAnalysis method for the analysis.")
+("asiCheckBlankNumericLeq"
+"asiCheckBlankNumericLeq( 
+o_obj 
+r_form 
+s_fieldName 
+g_value 
+) 
+=> t / nil"
+"Verifies that the s_fieldName entry is a numeric value less than or equal to g_value.")
+("asiCheckBlankNumericGeq"
+"asiCheckBlankNumericGeq( 
+o_obj 
+r_form 
+s_fieldName 
+g_value 
+) 
+=> t / nil"
+"Verifies that the s_fieldName entry is a numeric value greater than or equal to g_value.")
+("asiFormatGraphicalStimuli"
+"asiFormatGraphicalStimuli( 
+o_session  
+p_fp 
+) 
+=> t / nil"
+"Formats the graphical stimuli statements to send to Cadence SPICE.")
+("asiFormatGraphicalStimulusFileList"
+"asiFormatGraphicalStimulusFileList( 
+o_session
+&_fp 
+) 
+=> t_string"
+"Formats the statement that includes the graphical stimulus files.")
+("asiAddOceanAlias"
+"asiAddOceanAlias( 
+s_simulatorName 
+s_alias 
+s_analysisName )
+=> t / nil"
+"Adds an ocean alias to the current simulator. This is useful for defining ocean related data access aliases for third party simulator integration.")
+("asiGetAvailableMCOptions"
+"asiGetAvailableMCOptions"
+"Returns a list of Monte Carlo analysis options supported by ADE XL along with their description. The supported Monte Carlo analysis options are displayed in the <OptionName, Description> format.")
+("asiGetSupportedMCOptions"
+"asiGetSupportedMCOptions"
+"Returns a list of Monte Carlo analysis options supported by your simulator. Ensure that the option names returned by this method match with the option names returned by asiGetAvailableMCOptions.")
+("asiSetEMIROptionVal"
+"asiSetEMIROptionVal(
+o_session 
+s_name
+g_value
+) 
+=> t / nil"
+"Sets the given value for the specified EMIR option.")
+("artOutfile"
+"artOutfile( 
+t_name 
+t_mode 
+x_len 
+t_break 
+t_cont 
+t_begCom 
+t_endCom 
+t_tab 
+t_comments 
+) 
+=> x_handle"
+"Opens the named file. The first argument is mandatory. The other arguments keep their default values if they are not set.")
+("artFprintf"
+"artFprintf( 
+x_handle 
+t_text 
+g_args 
+) 
+=> t / nil"
+"Prints out data like the standard C library fprintf, with the handle returned from artOutfile() as the first argument.")
+("artClose"
+"artClose( 
+x_handle 
+) 
+=> t / nil"
+"Closes the file associated with the given handle.")
+("artCloseAllFiles"
+"artCloseAllFiles(
+) 
+=> t / nil"
+"Closes all files opened with artOutfile().")
+("artFlush"
+"artFlush( 
+x_handle 
+) 
+=> t / nil"
+"Flushes the file associated with the given handle.")
+("artListOpenFiles"
+"artListOpenFiles(
+)
+=> l_names / nil"
+"Lists names of all files opened with artOutfile()")
+("asiAddEnvOption"
+"asiAddEnvOption(
+o_tool
+[ ?name s_name ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?browse g_browse ]
+[ ?mode t_browseMode ]
+[ ?invalidateFunc s_invalidateFunc ]
+[ ?defaultSubcircuitCall s_defaultSubcircuitCall ]
+)
+=> o_envVar / nil"
+"Adds a new simulation environment option.")
+("asiChangeEnvOption"
+"asiChangeEnvOption(
+o_tool
+[ ?name s_name ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?invalidateFunc s_invalidateFunc ]
+)
+=> o_envVar / nil"
+"Changes a simulation environment option.")
+("asiChangeEnvOptionFormProperties"
+"asiChangeEnvOptionFormProperties(
+o_tool
+[ ?type s_type ]
+[ ?width x_width ]
+[ ?columns x_columns ]
+)
+=> o_formObj / nil"
+"Changes the display characteristics of the Environment Options form.")
+("asiDeleteEnvOption"
+"asiDeleteEnvOption( 
+o_tool 
+s_name 
+) 
+=> t / nil"
+"Deletes a simulation environment option.")
+("asiDisplayEnvOption"
+"asiDisplayEnvOption( 
+o_tool 
+) 
+=> t / nil"
+"Displays the current set of simulation environment option names and values. Use this function only to determine which environment options you want to modify. Do not use this function as part of another procedure.")
+("asiDisplayEnvOptionFormProperties"
+"asiDisplayEnvOptionFormProperties( 
+o_tool 
+) 
+=> t / nil"
+"Displays the form characteristics for the Environment Options form. Use this function only to determine which form characteristics you want to modify. Do not use this function as part of another procedure.")
+("asiGetEnvOptionChoices"
+"asiGetEnvOptionChoices(
+{ o_session | o_tool }
+s_name 
+)
+=> l_choices / nil"
+"Gets the list of choices for an environment option that is set up as a list box. ")
+("asiGetEnvOptionVal"
+"asiGetEnvOptionVal(
+{ o_session | o_tool }
+s_name 
+)
+=> g_value / nil"
+"Gets the value for the specified simulation environment option.")
+("asiInit<yourSimulator>EnvOption"
+"asiInit<yourSimulator>EnvOption( 
+o_tool 
+) 
+=> t"
+"Calls your procedures to modify the Virtuoso analog design environment simulation options.")
+("asiSetEnvOptionChoices"
+"asiSetEnvOptionChoices(
+{ o_session | o_tool }
+s_name
+l_choices
+)
+=> l_choices / nil"
+"Specifies the list of choices to appear in the list box field for the specified environment option.")
+("asiSetEnvOptionVal"
+"asiSetEnvOptionVal(
+{ o_session | o_tool }
+s_name
+g_value
+)
+=> g_value / nil"
+"Sets the value of the specified simulation environment option.")
+("asiAddSimOption"
+"asiAddSimOption(
+o_tool
+[ ?name s_name ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?browse g_browse ]
+[ ?mode t_browseMode ]
+[ ?invalidateFunc s_invalidateFunc ]
+[ ?genericName s_genericName ]
+[ ?sendMethod s_sendMethod ]
+)
+=> o_envVar / nil"
+"Adds a new simulator option.")
+("asiChangeSimOption"
+"asiChangeSimOption(
+o_tool
+[ ?name s_name ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?invalidateFunc s_invalidateFunc ]
+[ ?genericName s_genericName ]
+[ ?sendMethod s_sendMethod ]
+) 
+=> o_envVar / nil"
+"Changes a simulator option.")
+("asiChangeSimOptionFormProperties"
+"asiChangeSimOptionFormProperties(
+o_tool
+[ ?type s_type ]
+[ ?width x_width ]
+[ ?columns x_columns ]
+)
+=> o_formObj / nil"
+"Changes the display characteristics for the Simulator Options form.")
+("asiDeleteSimOption"
+"asiDeleteSimOption( 
+o_tool 
+s_name 
+) 
+=> t / nil"
+"Deletes a simulator option.")
+("asiDisplaySimOption"
+"asiDisplaySimOption( 
+{ o_tool | o_session } 
+) 
+=> t / nil"
+"Displays the current set of simulator option names and values. Use this function only to determine which simulator options you want to modify. Do not use this function as part of another procedure.")
+("asiDisplaySimOptionFormProperties"
+"asiDisplaySimOptionFormProperties( 
+o_tool 
+) 
+=> t / nil"
+"Displays the characteristics of the Simulator Options form. Use this function only to determine which form characteristics you want to modify. Do not use this function as part of another procedure.")
+("asiGetReservedWordList"
+"asiGetReservedWordList( 
+o_session 
+)
+=> l_list / nil"
+"Returns the simulator specific reserved keyword list. All the keywords specified by asiGetReservedWordList will be taken as keywords and not design variables. This process will ensure that the design parameters are not printed in the simulation control file under `parameters' statement. By default, this function returns nil.")
+("asiIsCaseSensitive"
+"asiIsCaseSensitive( 
+o_session 
+) 
+=> t / nil"
+"Determines whether the simulator is case sensitive or not. Returns t, if the simulator is case sensitive, else returns nil. The default value for this function is t.")
+("asiGetSimOptionChoices"
+"asiGetSimOptionChoices(
+{ o_session | o_tool }
+s_name
+)
+=> l_choices / nil"
+"Gets the list of choices for a simulator option that is set up as a list box.")
+("asiGetSimOptionNameList"
+"asiGetSimOptionNameList( 
+o_tool 
+)
+=> l_nameList"
+"Returns the list of simulator option names.")
+("asiGetSimOptionSendMethod"
+"asiGetSimOptionSendMethod(
+{ o_session | o_tool }
+s_name 
+)
+=> s_sendMethod / nil"
+"Gets the sendMethod for the specified simulator option. The sendMethod indicates how the simulator option is sent to Cadence SPICE.")
+("asiGetSimOptionVal"
+"asiGetSimOptionVal(
+{ o_session | o_tool }
+s_name
+)
+=> g_value / nil"
+"Gets the value for the specified simulator option.")
+("asiGetSimulationRunCommand"
+"asiGetSimulationRunCommand( 
+o_session 
+)
+=> g_command / nil"
+"Gets the simulation run command. For direct simulators, it also creates the runSimulation file.")
+("asiInit<yourSimulator>SimOption"
+"asiInit<yourSimulator>SimOption( 
+o_tool 
+) 
+=> t"
+"Calls the procedures to add your simulator options.")
+("asiSetHostOptions"
+"asiSetHostOptions(
+o_session
+t_hostMode
+[ t_host ]
+[ t_remoteDir ]
+) 
+=> t / nil"
+"Changes the host mode, host and remote directory for simulation.")
+("asiSetSimOptionChoices"
+"asiSetSimOptionChoices(
+{ o_session | o_tool }
+s_name
+l_choices
+)
+=> l_choices / nil"
+"Specifies the list of choices to appear in the list box field for the specified simulator option.")
+("asiSetSimOptionVal"
+"asiSetSimOptionVal(
+{ o_session | o_tool }
+s_name
+g_value
+)
+=> g_value / nil"
+"Sets the value of the specified simulator option.")
+("asiGetSimulatorSrcList"
+"asiGetSimulatorSrcList( 
+o_session
+) 
+=> l_result"
+"Customizes the values in the Function drop-down list box of the Setup Analog Stimuli form.")
+("asiAddAnalysis"
+"asiAddAnalysis(
+o_tool
+[ ?name s_analysisName ]
+[ ?prompt t_prompt ]
+[ ?fieldList l_analysisFields ]
+[ ?optionList l_analysisOptions ]
+[ ?formType s_formType ]
+[ ?enable s_enable ]
+)
+=> o_analysis / nil"
+"Adds a new analysis.")
+("asiAddAnalysisField"
+"asiAddAnalysisField(
+o_analysis
+[ ?name s_fieldName ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?invalidateFunc s_invalidateFunc ]
+)
+=> o_envVar / nil"
+"Adds an analysis field to an existing analysis.")
+("asiAddAnalysisOption"
+"asiAddAnalysisOption(
+o_analysis
+[ ?name s_optionName ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?browse g_browse ]
+[ ?mode t_browseMode ]
+[ ?invalidateFunc s_invalidateFunc ]
+[ ?sendMethod s_sendMethod ]
+)
+=> o_envVar / nil"
+"Adds an option to an existing analysis.")
+("asiChangeAnalysis"
+"asiChangeAnalysis(
+o_tool
+[ ?name s_analysisName ]
+[ ?prompt t_prompt ]
+[ ?fieldList l_analysisFields ]
+[ ?optionList l_analysisOptions ]
+[ ?formType s_formType ]
+)
+=> o_analysis / nil"
+"Changes an existing analysis.")
+("asiChangeAnalysisField"
+"asiChangeAnalysisField(
+o_analysis
+[ ?name s_fieldName ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?invalidateFunc s_invalidateFunc ]
+)
+=> o_envVar / nil"
+"Changes a field in an existing analysis.")
+("asiChangeAnalysisOption"
+"asiChangeAnalysisOption(
+o_analysis
+[ ?name s_optionName ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?invalidateFunc s_invalidateFunc ]
+[ ?sendMethod s_sendMethod ]
+)
+=> o_envVar / nil"
+"Changes an analysis option for an existing analysis.")
+("asiChangeAnalysisOptionFormProperties"
+"asiChangeAnalysisOptionFormProperties(
+o_analysis
+[ ?type s_type ]
+[ ?width x_width ]
+[ ?columns x_columns ]
+)
+=> o_formObj / nil"
+"Changes the display characteristics for one of the analysis options forms.")
+("asiCreateAnalysisField"
+"asiCreateAnalysisField(
+[ ?name s_fieldName ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?invalidateFunc s_invalidateFunc ]
+)
+=> o_envVar / nil"
+"Creates a new analysis field, such as from or to, for a new or changed analysis.")
+("asiCreateAnalysisOption"
+"asiCreateAnalysisOption(
+[ ?name s_optionName ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?invalidateFunc s_invalidateFunc ]
+[ ?sendMethod s_sendMethod ]
+)
+=> o_envVar / nil"
+"Creates a new analysis option for a new or changed analysis. You can call this function from within asiAddAnalysis or asiChangeAnalysis as an argument to ?optionList.")
+("asiDeleteAnalysis"
+"asiDeleteAnalysis( 
+o_tool 
+s_analysisName 
+)
+=> t / nil"
+"Deletes an analysis.")
+("asiDeleteAnalysisField"
+"asiDeleteAnalysisField( 
+o_analysis 
+s_fieldName 
+)
+=> t / nil"
+"Deletes an analysis field from an existing analysis.")
+("asiDeleteAnalysisOption"
+"asiDeleteAnalysisOption( 
+o_analysis 
+s_optionName 
+) 
+=> t / nil"
+"Deletes an analysis option.")
+("asiDisableAnalysis"
+"asiDisableAnalysis( 
+o_analysis 
+) 
+=> t / nil"
+"Disables an analysis while keeping it in the analysis list. The analysis remains in the UI, but it is not sent to the simulator.")
+("asiDisplayAnalysis"
+"asiDisplayAnalysis( 
+o_tool 
+) 
+=> t / nil"
+"Displays the analyses for a tool. Use this function to determine which analyses you need to add or modify. Do not use this function as part of another procedure.")
+("asiDisplayAnalysisField"
+"asiDisplayAnalysisField( 
+o_analysis 
+) 
+=> t / nil"
+"Displays the analysis field names for an analysis. Use this function to determine which analysis field you want to modify. Do not use this function as part of another procedure.")
+("asiDisplayAnalysisOption"
+"asiDisplayAnalysisOption( 
+o_analysis 
+) 
+=> t / nil"
+"Displays the analysis option names for an analysis. Use this function to determine which analysis option you want to modify. Do not use this function as part of another procedure.")
+("asiDisplayAnalysisOptionFormProperties"
+"asiDisplayAnalysisOptionFormProperties( 
+o_analysis 
+)
+=> t / nil"
+"Displays the characteristics for one of the analysis options forms. Use this function only to determine which form characteristics you want to modify. Do not use this function as part of another procedure.")
+("asiEnableAnalysis"
+"asiEnableAnalysis( 
+o_analysis
+) 
+=> t / nil"
+"Enables an analysis, which means the analysis is selected and sent to the simulator.")
+("asiGetAnalysis"
+"asiGetAnalysis(
+{ o_session | o_tool }
+s_analysisName
+)
+=> o_analysis / nil"
+"Gets an analysis object.")
+("asiGetAnalysisFieldChoices"
+"asiGetAnalysisFieldChoices( 
+o_analysis 
+s_fieldName 
+)
+=> l_choices / nil"
+"Gets the list of choices for an analysis field that is set up as a list box.")
+("asiGetAnalysisFieldList"
+"asiGetAnalysisFieldList( 
+o_analysis 
+)
+=> l_fieldList / nil"
+"Returns a list of analysis field objects defined for a particular analysis object.")
+("asiGetAnalysisFieldVal"
+"asiGetAnalysisFieldVal( 
+o_analysis 
+s_fieldName 
+)
+=> g_value / nil"
+"Gets the value of an analysis field from the environment.")
+("asiGetAnalysisFormFieldChoices"
+"asiGetAnalysisFormFieldChoices( 
+r_form 
+s_analysisName 
+s_fieldName 
+)
+=> l_choices / nil"
+"Returns the list of choices for a field in the Choosing Analyses form. This procedure can be used within the asiCheck method to get the list of choices for an analysis field from the form for subsequent value checking. You can also use this procedure in an expression that controls whether a field is displayed in the form.")
+("asiGetAnalysisFormObj"
+"asiGetAnalysisFormObj(
+o_session
+)
+=> o_analysis / nil"
+"Returns the current analysis selected in the Choosing Analysis form for the simulation session.")
+("asiGetAnalysisFormFieldVal"
+"asiGetAnalysisFormFieldVal( 
+r_form 
+s_analysisName 
+s_fieldName 
+)
+=> g_fieldValue / nil"
+"Returns the value of a field in the Choosing Analyses form. This procedure can be used within the asiCheck method to get the values of analysis fields from the form for subsequent value checking. You can also use this procedure in an expression that controls whether a field is displayed in the form.")
+("asiGetAnalysisName"
+"asiGetAnalysisName( 
+o_analysis 
+) 
+=> s_analysisName / nil"
+"Gets the name of the analysis.")
+("asiGetAnalysisNameList"
+"asiGetAnalysisNameList(
+{ o_session | o_tool }
+) 
+=> l_analysesNames"
+"Returns a list of analysis names defined for a tool.")
+("asiGetAnalysisOptionChoices "
+"asiGetAnalysisOptionChoices( 
+o_analysis 
+s_optionName 
+)
+=> l_choices / nil"
+"Gets the list of choices for an analysis option that is set up as a list box.")
+("asiGetAnalysisOptionList"
+"asiGetAnalysisOptionList( 
+o_analysis 
+)
+=> l_optionObjects / nil"
+"Gets a list of analysis option objects defined for a particular analysis object.")
+("asiGetAnalysisOptionSendMethod"
+"asiGetAnalysisOptionSendMethod( 
+o_analysis 
+s_optionName 
+)
+=> s_sendMethod"
+"Gets the sendMethod for an option in an analysis. The sendMethod indicates how the analysis option is sent to Cadence SPICE.")
+("asiGetAnalysisOptionVal"
+"asiGetAnalysisOptionVal( 
+o_analysis 
+s_optionName 
+)
+=> g_value / nil"
+"Gets the value for the given option in an analysis.")
+("asiGetAnalysisParamNameList"
+"asiGetAnalysisParamNameList( 
+o_analysis 
+)
+=> l_analysisParamNameList / nil"
+"Returns a concatenated list of fields and options defined for an analysis object.")
+("asiGetEnabledAnalysisList"
+"asiGetEnabledAnalysisList( 
+o_session 
+) 
+=> l_analysisEnabledList / nil"
+"Returns a list of all the enabled analyses.")
+("asiInit<yourSimulator>Analysis"
+"asiInit<yourSimulator>Analysis( 
+o_tool
+) 
+=> t"
+"Calls the procedures that modify your simulator's analyses.")
+("asiIsAnalysisEnabled"
+"asiIsAnalysisEnabled( 
+o_analysis 
+)  
+=> t / nil"
+"Tests to determine whether an analysis is enabled.")
+("asiSetAnalysisFieldChoices"
+"asiSetAnalysisFieldChoices( 
+o_analysis 
+s_fieldName 
+l_choices
+)
+=> l_choices / nil"
+"Specifies the list of choices to appear in the list box for an analysis field.")
+("asiSetAnalysisFieldVal"
+"asiSetAnalysisFieldVal( 
+o_analysis 
+s_fieldName 
+g_value 
+)
+=> g_value / nil"
+"Sets the value for a field of an analysis.")
+("asiSetAnalysisFormFieldChoices"
+"asiSetAnalysisFormFieldChoices( 
+r_form 
+s_analysisName 
+s_fieldName 
+l_choices 
+)
+=> l_choices / nil"
+"Sets the list of choices for the specified field on the Choosing Analyses form.")
+("asiSetAnalysisFormFieldVal"
+"asiSetAnalysisFormFieldVal( 
+r_form 
+s_analysisName 
+s_fieldName 
+g_value 
+)
+=> g_value / nil"
+"Sets the value of a field on the Choosing Analyses form.")
+("asiSetAnalysisFormWidth"
+"asiSetAnalysisFormWidth( 
+o_tool 
+x_width 
+) 
+=> x_width / nil"
+"Sets the width of the Choosing Analyses form. You need to add a call to this procedure to the analysis.il file if you do not want the inherited width of the analysis form.")
+("asiSetAnalysisOptionFormProperties"
+"asiSetAnalysisOptionFormProperties(
+o_analysis
+[ ?type s_type ]
+[ ?width x_width ]
+[ ?columns x_columns ]
+)
+=> o_formObj / nil"
+"Sets the display characteristics for a new analysis options form.")
+("asiSetAnalysisOptionChoices"
+"asiSetAnalysisOptionChoices(
+o_analysis 
+s_optionName 
+l_choices
+)
+=> l_choices / nil"
+"Specifies the list of choices for an analysis option that is set up as a list box.")
+("asiSetAnalysisOptionVal"
+"asiSetAnalysisOptionVal( 
+o_analysis 
+s_optionName 
+g_value 
+)
+=> g_value / nil"
+"Sets the value of an option in an analysis.")
+("apaExport"
+"apaExport(
+w_windowId
+)
+=> t"
+"This function can be used to export the sweep specifications, specified in the given Parametric Analysis window, to a file in the comma-separated values (csv) format. When called, the function opens the Export data in a csv format dialog where you need to provide name of the file to which the sweep data is to be exported.")
+("apaExportCB"
+"apaExportCB(
+w_windowId
+)
+=> t"
+"Callback for the menu File-Export to csv File in the Parametric Analysis window.")
+("apaStop"
+"apaStop(
+)
+=> t"
+"This function can be used to stop a parametric analysis. Before calling this function from the CIW, make the parametric analysis window the current window. When called, this function will terminate the current simulator run and stop the parametric analysis. Any partial data created by parametric analysis will be removed. You can use the Pause or Pause Now menus to pause the parametric analysis before calling this function.")
+("apaStopCB"
+"apaStopCB(
+w_windowId
+)
+=> t"
+"Callback for the future menu Analysis-Stop in a parametric analysis window.")
+("asiInitialize"
+"asiInitialize( 
+o_tool 
+) 
+=> o_tool / nil"
+"Initializes the tools that are derived from the asiAnalog class. This method is not called for tools that are derived from the asiSocket class.")
+("asiNetlist"
+"asiNetlist( 
+o_session 
+) 
+=> g_status / nil"
+"This method performs the creation of a design object. It then creates the formatter object with nlCreateFormatter, after which the netlister is run and a netlist is generated with nlNetlist. Netlist statistics are then printed. The netlister also provides a component count, as well as the addition of design variables found during netlisting.")
+("asiInterruptSim"
+"asiInterruptSim( 
+o_session
+) 
+=> g_status / nil"
+"This method provides an interrupt to the simulation run process for a session. It is associated with the Simulation->Stop action in the user interface. This method is called by the environment. Therefore, you should not call it directly from the interface. This method can be re-defined for the interface. Use callNextMethod in this definition.")
+("asiSetProjectDirChangeSetup"
+"asiSetProjectDirChangeSetup( 
+o_session 
+)
+=> t / nil"
+"Enables you to modify the simulator settings for the given session after changing the project directory. This method is called by the environment. Therefore, you should not call it directly from the interface.")
+("asiQuitSimulator"
+"asiQuitSimulator( 
+o_session 
+[ ?mode g_mode ] 
+) 
+=> g_status / nil"
+"This method terminates or kills the simulator run process based on the ipc signal being sent to the specified process. By default, the direct integration code sends a hard-kill signal to the simulator process. To change this option and send a soft-kill signal, the ?mode option should be set to true and overloaded for yourSimulator session. This method is called by the environment, therefore, you should not call it directly from the interface. This method can be re-defined for the interface. Use, callNextMethod in its definition.")
+("asiRunSimulation"
+"asiRunSimulation( 
+o_session 
+) 
+=> g_status / nil"
+"This method performs the simulation for the session. This method is called by the environment, so you should not call it directly from the interface. This method can be redefined for the interface. Use callNextMethod in this definition.")
+("asiGetPredefinedCommandLineOption"
+"asiGetPredefinedCommandLineOption( 
+o_session 
+) 
+=> t_predefinedCmdLineOption"
+"Gets the predefined simulation command line options. This function returns an empty string at the asiAnalog class. Overload this method for your simulator.")
+("asiGetCommandFooter"
+"asiGetCommandFooter( 
+o_session
+) 
+=> t_commandFooter"
+"Specifies the footer of the simulation run command.")
+("asiFormatControlStmts"
+"asiFormatControlStmts( 
+o_session 
+p_fp
+) 
+=> t / nil"
+"Creates and formats all control statements. It formats the following in the following order: node sets by calling asiFormatNoteSet; initial conditions by calling asiFormatInitCond; simulator options by calling asiFormatSimulatorOptions; analyses by calling asiFormatAnalysisList; nets/currents to save by calling asiFormatKeepList.")
+("asiFormatDesignVarList"
+"asiFormatDesignVarList( 
+o_session 
+) 
+=> t / nil"
+"Formats and prints the design variable statements to the design variable file. This routine first prints the string .PARAM followed by the design variables in name=value pairs. The design variables are obtained by calling asiGetDesignVarList.")
+("asiFormatInitCond"
+"asiFormatInitCond( 
+o_session 
+p_fp 
+) 
+=> t / nil"
+"Formats and prints the initial condition commands to the control statement file. This routine prints the string .IC followed by the initial conditions in V(net)=voltage pairs.")
+("asiFormatNodeSet"
+"asiFormatNodeSet (
+o_session 
+p_fp 
+) 
+=> t / nil"
+"Formats and prints the nodeset commands to the control statement file. This routine prints .NODESET and then the nodesets in V(net)=voltage pairs.")
+("asiFormatKeepList"
+"asiFormatKeepList( 
+o_session 
+p_fp
+) 
+=> t / nil"
+"Formats and prints the signal save commands to the control statement file. At the asiAnalog class this routine returns t. You need to create your own asiFormatKeepList routine.")
+("asiFormatSimulatorOptions"
+"asiFormatSimulatorOptions( 
+o_session 
+p_fp 
+) 
+=> t / nil"
+"Formats and prints the simulator option statements to the designated file. This routine prints .OPTIONS followed by name=value pairs.")
+("asiFormatAnalysisList"
+"asiFormatAnalysisList( 
+o_ana 
+p_fp
+) 
+=> t / nil"
+"Formats all enabled analyses by calling asiFormatAnalysis.")
+("asiFormatAnalysis"
+"asiFormatAnalysis( 
+o_ana 
+p_fp
+) 
+=> t / nil"
+"Formats and prints analysis statements to the control file. For the general asiAnalog class, it follows this routine: prints the analysis name by calling asiGetAnalysisName; prints the list of signals by calling asiGetAnalysisSigList and formats them in parentheses [for example: (net1 net2)]; prints the analysis field list in name=value pairs; prints the analysis options in name=value pairs; uses asiGetFormattedVal() to obtain the print string for an analysis field value or an analysis option value. Please see the description of asiGetFormattedVal routine for more details.")
+("asiFormatModelLibSelectionList"
+"asiFormatModelLibSelectionList(
+o_session 
+p_fp
+) 
+=> t / nil"
+"Formats the statement which specifies the model library information.")
+("asiFormatDefinitionFileList"
+"asiFormatDefinitionFileList( 
+o_session
+p_fp
+) 
+=> t / nil"
+"Formats the statement which includes the specified definition files.")
+("asiFormatTextStimulusFileList"
+"asiFormatTextFileList( 
+o_session 
+p_fp
+) 
+=> t / nil"
+"Formats the statement which includes the textual stimulus files.")
+("asiNeedSuffixEvaluation"
+"asiNeedSuffixEvaluation(
+o_session
+) 
+=> t / nil"
+"Specify whether the interface needs suffix evaluation or not. When this method returns t, the numeric suffixes specified in a numericString field will be evaluated. For example, suppose the start frequency field for the AC analysis has a value of 10M, asiGetFormattedVal(ac_start_fieldObj ) returns 1e7 provided it is created as a `numericString field.")
+("asiInvalidateControlStmts"
+"asiInvalidateControlStmts ( 
+{ o_session | o_tool }
+)
+=> t / nil"
+"The asiInvalidateControlStmts function is a wrapper to asiInvalidateFlowchartStep, which invalidates the asiSendControlStmts flowchart step.")
+("asiGetSimExecName"
+"asiGetSimExecName( 
+o_session 
+) 
+=> t_simulatorExecutableName"
+"Gets the name of the simulator executable by calling asiGetSimName.")
+("asiGetCommandLineOption"
+"asiGetCommandLineOption( 
+o_session
+) 
+=> t_CommandLineOption"
+"Gets the simulation command line options. At the asiAnalog class this method returns the value of the environment option `userComdLineOption.")
+("asiGetAnalysisSigList"
+"asiGetAnalysisSigList( 
+o_session 
+o_ana
+) 
+=> l_sigObjList"
+"Gets a list of analysis field objects which are of the type net. For example, the p and n nodes for the Spectre noise analysis.")
+("asiGetAnalysisType"
+"asiGetAnalysisType( 
+o_analysis 
+) 
+=> s_analysisType"
+"Gets the type of the analysis.")
+("asiGetAnalysisSimFieldList"
+"asiGetAnalysisSimFieldList(
+o_session 
+o_ana 
+) 
+=> l_simFieldObjList"
+"Gets a list of simulator analysis field objects which need to be netlisted.")
+("asiGetModelLibSelectionList"
+"asiGetModelLibSelectionList( 
+o_session 
+) 
+=> l_modelLibSelectionList / nil"
+"Formats the statement which specifies the model library information.")
+("asiGetModelLibFile"
+"asiGetModelLibFile( 
+o_modelLibSelection 
+) 
+=> t_fileName / nil"
+"Gets the file name of a model library selection object.")
+("asiGetModelLibSection"
+"asiGetModelLibSection( 
+o_modelLibSelection 
+) 
+=> t_sectionName / nil"
+"Gets the section name of a model library selection object.")
+("asiGetDefinitionFileList"
+"asiGetDefinitionFileList( 
+o_session
+) 
+=> l_definitionFileList / nil"
+"Gets the list of definition file names associated with the given simulation session.")
+("asiGetTextStimulusFileList"
+"asiGetDefinitionFileList( 
+o_session
+) 
+=> l_definitionFileList / nil"
+"Gets the list of textual stimulus file names associated with the given simulation session.")
+("asiGetFormattedVal"
+"asiGetFormattedVal( 
+o_anaField | o_anaOption | o_simOption 
+) 
+=> t_formattedVal / nil"
+"Gets the string value of an analysis field object, an analysis option object, or a simulator option object. The format of the string values are based on the object types which are specified with functions such as asiCreateAnalysisField, asiCreateAnalysisOption, asiAddSimOption. A number of examples can be found in the example section.")
+("asiGetSelObjName"
+"asiGetSelObjName( 
+o_selObj 
+) 
+=> t_name"
+"Returns the schematic name of the selected signal object.")
+("asiGetSelObjType"
+"asiGetSelObjType( 
+o_selObj
+) 
+=> t_signalType"
+"Returns the type of the selected signal object.")
+("asiGetSelObjValue"
+"asiGetSelObjValue( 
+o_selObj
+)
+=> t_value"
+"Returns the initial condition or nodeset values specified on the selected signal object.")
+("asiMapOutputName"
+"asiMapOutputName( 
+t_dir
+s_type
+t_name
+[ ?formatflag s_formatflag ]
+) 
+=> l_nameList"
+"Maps the given schematic name of the given type using the netlist directory. The result is a list of mapped strings.")
+("asiGetSimInputFileList"
+"asiGetSimInputFileList( 
+o_session 
+)
+=> l_fileNamesList"
+"Returns a list of all file names concatenated to generate the input file to the simulator. You can override this method to add/delete files used to generate the final input file to your simulator.")
+("artInvalidateAmap"
+"artInvalidateAmap( 
+)
+=> t / nil"
+"Resets the in-memory Amap cache. Further mapping function calls will result in re-reading the amap files from disk.")
+("asiAddFlowchartLink"
+"asiAddFlowchartLink( 
+o_flowchart 
+s_parentStep
+s_childStep
+)
+=> t / nil"
+"Creates a new link between the specified parent and child steps, which were created with asiAddFlowchartStep.")
+("asiAddFlowchartStep"
+"asiAddFlowchartStep( 
+o_flowchart
+[ ?name s_name ]
+[ ?description t_description ]
+[ ?runMessage t_runMessage ]
+[ ?function s_function ]
+[ ?checkFunc s_checkFunc ]
+[ ?preFunc s_preFunc ]
+[ ?postFunc s_postFunc ]
+[ ?ignoreFunc s_ignoreFunc ]
+)
+=> o_step / nil"
+"Adds a new step to an existing flowchart. ")
+("asiChangeFlowchartStep"
+"asiChangeFlowchartStep(
+o_flowchart
+[ ?name t_name ]
+[ ?description t_description ]
+[ ?runMessage t_runMessage ]
+[ ?function s_function ]
+[ ?checkFunc s_checkFunc ]
+[ ?preFunc s_preFunc ]
+[ ?postFunc s_postFunc ]
+[ ?ignoreFunc s_ignoreFunc ]
+)
+=> o_step / nil"
+"Changes a flowchart step in an existing flowchart")
+("asiCreateFlowchart"
+"asiCreateFlowchart( 
+o_tool
+) 
+=> o_flowchart"
+"Creates a new flowchart.")
+("asiDeleteFlowchartLink"
+"asiDeleteFlowchartLink( 
+o_flowchart 
+s_parentStep
+s_childStep
+)
+=> t / nil"
+"Deletes the link between the specified parent and child steps.")
+("asiDeleteFlowchartStep"
+"asiDeleteFlowchartStep( 
+o_flowchart 
+s_name
+[ s_splice ]
+)
+=> t / nil"
+"Deletes a step and any attached links from an existing flowchart. Typically, you do not need this function because you can unlink any flowchart step that you do not want to use with the asiDeleteFlowchartLink function.")
+("asiDisplayFlowchart"
+"asiDisplayFlowchart( 
+o_tool
+[ s_rootstep ]
+)
+=> t / nil"
+"Displays the current steps and links for the flowchart. You can display all the step and link information, or you can display the steps and links that are below the rootstep step. Use this function only to determine which part of the flowchart you want to modify. Do not use this function as part of another procedure.")
+("asiExecuteFlowchart"
+"asiExecuteFlowchart( 
+o_session 
+s_goalStep 
+[ s_printMessages ]
+)
+=> t / nil"
+"Executes the flowchart for a given session up to and including the goal step.")
+("asiFinalNetlist"
+"asiFinalNetlist( 
+o_session
+)
+=> t | l_dpl"
+"Creates the final netlist.")
+("asiGetFlowchart"
+"asiGetFlowchart( 
+{ o_tool | o_session }
+)
+=> o_flowchart"
+"Gets the flowchart object for a tool or session.")
+("asiInit<yourSimulator>Flowchart"
+"asiInit<yourSimulator>Flowchart( 
+o_tool 
+) 
+=> t"
+"Calls the procedures to initialize the flowchart for your simulator.")
+("asiInvalidateFlowchartStep"
+"asiInvalidateFlowchartStep( 
+o_session 
+s_step
+) 
+=> t / nil"
+"Invalidates a flowchart step for a particular session.")
+("asiRawNetlist"
+"asiRawNetlist( 
+o_session
+) 
+=> t / nil"
+"Creates a raw netlist.")
+("asiSendAnalysis"
+"asiSendAnalysis( 
+o_session
+) 
+=> t / nil"
+"Sends analyses to Cadence SPICE by calling asiFormatAnalysis for each analysis.")
+("asiSendControlStmts"
+"asiSendControlStmts( 
+o_session
+) 
+=> t / nil"
+"Sends information such as nodesets, initial conditions, keep lists or output, analyses, restore files, include files, and stimulus files to Cadence SPICE.")
+("asiSendDesignVars"
+"asiSendDesignVars( 
+o_session
+) 
+=> t / nil"
+"Sends the design variables to Cadence SPICE.")
+("asiSendInitCond"
+"asiSendInitCond( 
+o_session
+) 
+=> t / nil"
+"Places all the initial conditions in <netlistDirectory>/raw/ics and sends a ptprop command to Cadence SPICE. ")
+("asiSendInitFile"
+"asiSendInitFile( 
+o_session 
+) 
+=> t / nil"
+"Sends the init.s file to Cadence SPICE.")
+("asiSendKeepList"
+"asiSendKeepList(
+o_session
+) 
+=> t / nil"
+"Sends the keep list to Cadence SPICE. The keep list can contain a list of nets or currents to save and it can contain statements to keep all nets or keep all currents.")
+("asiSendModelPath"
+"asiSendModelPath( 
+o_session
+) 
+=> t / nil"
+"Sends the model path to Cadence SPICE. ")
+("asiSendNetlist"
+"asiSendNetlist( 
+o_session 
+) 
+=> t / nil"
+"Sends the raw netlist to Cadence SPICE using the Cadence SPICE sim command.")
+("asiSendNodeSets"
+"asiSendNodeSets( 
+o_session
+) 
+=> t / nil"
+"Places all the nodesets in <netlistDirectory>/raw/nodesets and sends a ptprop command to Cadence SPICE. ")
+("asiSendOptions"
+"asiSendOptions( 
+o_session
+) 
+=> t / nil"
+"Sends the simulation options to Cadence SPICE.")
+("asiSendRestore"
+"asiSendRestore( 
+o_session
+) 
+=> t"
+"If DC restore is on, send the commands to restore the DC node voltages to Cadence SPICE. If DC restore is off, sends the commands to turn off the DC restore function to Cadence SPICE. This function also works for the transient restore function.")
+("asiSendUpdateFile"
+"asiSendUpdateFile( 
+o_session
+) 
+=> t / nil"
+"Sends the update.s file to Cadence SPICE.")
+("asiAddKeepOption"
+"asiAddKeepOption(
+o_tool
+[ ?name s_name ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?invalidateFunc s_invalidateFunc ]
+)
+=> o_envVar / nil"
+"Adds a simulator keep option variable.")
+("asiChangeKeepOption"
+"asiChangeKeepOption(
+o_tool
+[ ?name s_name ]
+[ ?prompt t_prompt ]
+[ ?type s_type ]
+[ ?choices l_choices ]
+[ ?itemsPerRow x_itemsPerRow ]
+[ ?value g_value ]
+[ ?min g_min ]
+[ ?max g_max ]
+[ ?allowExpr s_allowExpr ]
+[ ?row x_row ]
+[ ?column x_column ]
+[ ?width x_width ]
+[ ?coordinates l_coordinates ]
+[ ?displayOrder x_displayOrder ]
+[ ?labelText t_labelText ]
+[ ?private s_private ]
+[ ?display s_display ]
+[ ?editable s_editable ]
+[ ?appCB s_appCB ]
+[ ?callback t_callback ]
+[ ?formApplyCB s_formApplyCB ]
+[ ?changeCB st_changeCB ]
+[ ?doubleClickCB st_doubleClickCB ]
+[ ?numRows x_numRows ]
+[ ?multipleSelect s_multipleSelect ]
+[ ?invalidateFunc s_invalidateFunc ]
+)
+=> o_envVar / nil"
+"Modifies an existing keep option variable for a simulator.")
+("asiChangeKeepOptionFormProperties"
+"asiChangeKeepOptionFormProperties(
+o_tool
+[ ?type s_type ]
+[ ?width x_width ]
+[ ?columns x_columns ]
+)
+=> o_formObj / nil"
+"Changes the display characteristics of the Keep Options form.")
+("asiDeleteKeepOption"
+"asiDeleteKeepOption( 
+o_tool
+s_name 
+) 
+=> t / nil"
+"Deletes a simulator keep option variable.")
+("asiDisplayKeepOption"
+"asiDisplayKeepOption( 
+o_tool
+) 
+=> t / nil"
+"Displays the current simulator keep option names. Use this function to determine which options you want to modify. Do not use this function as part of another procedure.")
+("asiDisplayKeepOptionFormProperties"
+"asiDisplayKeepOptionFormProperties( 
+o_tool
+) 
+=> t / nil"
+"Displays the form characteristics for the Keep Options form. Use this function only to determine which form characteristics you want to modify. Do not use this function as part of another procedure.")
+("asiGetKeepOptionChoices"
+"asiGetKeepOptionChoices(
+{ o_session | o_tool }
+s_name 
+)
+=> l_choices / nil"
+"Gets the list of choices for a keep option that is set up as a list box. ")
+("asiGetKeepOptionVal"
+"asiGetKeepOptionVal(
+{ o_tool | o_session }
+s_name
+)
+=> g_value"
+"Gets the value of a keep option variable for a tool or session object.")
+("asiInit<yourSimulator>KeepOption"
+"asiInit<yourSimulator>KeepOption( 
+o_tool
+) 
+=> t"
+"Calls the procedures to initialize your simulator keep option variables. ")
+("asiSetKeepOptionChoices"
+"asiSetKeepOptionChoices(
+{ o_session | o_tool }
+s_name
+l_choices
+)
+=> l_choices / nil"
+"Specifies the list of choices to appear in the list box field for the specified keep option.")
+("asiSetKeepOptionVal"
+"asiSetKeepOptionVal(
+{ o_tool | o_session }
+s_name
+g_value
+)
+=> g_value / nil"
+"Sets the value for the specified keep option variable for a tool or session object.")
+("drplMcpValue"
+"drplMcpValue( 
+s_probe 
+) 
+=> f_power"
+"Returns the main channel power value.")
+("drplWrlsAcprValue"
+"drplWrlsAcprValue( 
+s_probe 
+n_idx
+) 
+=> f_acpr"
+"Returns the adjacent channel power ratio value.")
+("drplEvmWrls"
+"drplEvmWrls( 
+s_probe 
+g_percent
+g_sweepValue
+) 
+=> o_waveform"
+"Displays the error vector magnitude value on the constellation plot.")
+("drplACPRWithMask"
+"drplACPRWithMask(
+t_acprw
+t_sig
+)
+=> o_waveform / nil"
+"This function plots acpr and spectrum masks if you select one of standards defined in Channel Definitions on envlp result Direct Plot form. These masks confirm that the acpr reaches the mask requirement defined in communication standards.")
+("drplEvmBpsk"
+"drplEvmBpsk(
+o_waveform1
+o_waveform2
+n_tDelay
+n_sampling
+b_autoLevelDetect
+n_voltage
+n_offset
+b_normalize
+[ ?percent b_percent ]
+)
+=> o_waveform / nil"
+"Processes the I and Q waveform outputs from the transient simulation run to calculate the Error Vector Magnitude (EVM) and plot the I versus Q scatterplot. EVM is a useful measurement to describe the overall signal amplitude and phase modulated signal quality. It is based on a statistical error distribution normalized from an ideal digital modulation. Binary Phase Shift Keying (BPSK) is a typical modulation scheme where EVM is useful. The EVM is calculated by detecting the I and Q signal levels corresponding to the two possible I and Q symbol combinations, and calculating the difference between the signal level and the ideal signal level. Compared to other types of phase shift keying, such as QPSK, QAM16 and QAM64, BPSK has lowest bit error rate for the same signal to noise ratio.")
+("drplPacVolGnExpDen"
+"drplPacVolGnExpDen(
+t_denSigStr
+rh
+t_name
+)
+=> o_waveform / nil"
+"Plots the PAC voltage wave.")
+("drplJitter"
+"drplJitter(
+[ ?result t_result ]
+[ ?resultsDir t_resultsDir ]
+[ ?freq n_freq ]
+[ ?k n_k ]
+[ ?unit t_unit ]
+[ ?ber g_ber ]
+[ ?event n_event ]
+)
+=> value / nil"
+"Calculates jitter from the result of pnoise analysis, where noisetype is set as pmjitter.")
+("drplRFJc"
+"drplRFJc(
+[ ?from n_from ]
+[ ?to n_to ]
+[ ?k n_k ]
+[ ?multiplier n_multiplier ]
+[ ?result t_result ]
+[ ?resultsDir t_resultsDir ]
+[ ?unit t_unit ]
+[ ?ber g_ber ]
+[ ?event S_event ]
+)
+=> value / nil"
+"Calculates cycle jitter from the result of a single event of pnoise analysis where noisetype is set as pmjitter, or from the result of pnoise analysis of oscillators where noiseout is set as [pm].")
+("drplRFJcc"
+"drplRFJcc(
+[ ?from n_from ]
+[ ?to n_to ]
+[ ?k n_k ]
+[ ?multiplier n_multiplier ]
+[ ?result t_result ]
+[ ?resultsDir t_resultsDir ]
+[ ?unit t_unit ]
+[ ?ber g_ber ]
+[ ?event S_event ]
+)
+=> value / nil"
+"Calculates cycle-to-cycle jitter from the result of pnoise analysis for a single event. where noisetype is set as pmjitter, or from the result of pnoise analysis of oscillators where noiseout is set as [pm].")
+("drplParamSweepRFJc"
+"drplParamSweepRFJc(
+[ ?from n_from ]
+[ ?to n_to ]
+[ ?k n_k ]
+[ ?multiplier n_multiplier ]
+[ ?result t_result ]
+[ ?resultsDir t_resultsDir ]
+[ ?unit t_unit ]
+[ ?ber g_ber ]
+[ ?eventList S_eventList ]
+)
+=> o_waveform / nil"
+"Calculates cycle jitter for parametric sweep with multiple events from the result of pnoise analysis where noisetype is set as pmjitter.")
+("drplParamSweepRFJcc"
+"drplParamSweepRFJcc(
+[ ?from n_from ]
+[ ?to n_to ]
+[ ?k n_k ]
+[ ?multiplier n_multiplier ]
+[ ?result t_result ]
+[ ?resultsDir t_resultsDir ]
+[ ?unit t_unit ]
+[ ?ber g_ber ]
+[ ?eventList S_eventList ]
+)
+=> o_waveform / nil"
+"Calculates cycle-to-cycle jitter for parametric sweep with multiple events from the result of pnoise analysis where noisetype is set as pmjitter.")
+("drplRFValueAt"
+"drplRFValueAt(
+o_waveform
+g_xValue
+)
+=> g_yValue / nil"
+"Returns the Y-axis value corresponding to the specified X-axis value on the given waveform.")
+("drplSwpHp"
+"drplSwpHp(
+n_iIndex
+n_jIndex
+[ ?result t_result ]
+[ ?resultsDir t_resultsDir ]
+)
+=> o_waveform / nil"
+"Returns the hybrid matrix for sweep port SP analysis.")
+("drplSwpSp"
+"drplSwpSp(
+n_iIndex
+n_jIndex
+[ ?result t_result ]
+[ ?resultsDir t_resultsDir ]
+)
+=> o_waveform / nil"
+"Returns the S-parameter waveform for sweep port SP analysis.")
+("drplSwpYp"
+"drplSwpYp(
+n_iIndex
+n_jIndex
+[ ?result t_result ]
+[ ?resultsDir t_resultsDir ]
+)
+=> o_waveform / nil"
+"Returns the admittance matrix for sweep port SP analysis.")
+("drplSwpZm"
+"drplSwpZm(
+n_iIndex
+n_jIndex
+[ ?result t_result ]
+[ ?resultsDir t_resultsDir ]
+)
+=> o_waveform / nil"
+"Returns the port input impedance waveform for sweep port SP analysis.")
+("drplSwpZp"
+"drplSwpZp(
+iIndex
+jIndex
+[ ?result t_result ]
+[ ?resultsDir t_resultsDir ]
+)
+=> o_waveform / nil"
+"Returns the impedance matrix for sweep port SP analysis.")
+("asiDefineDataAccessFunction"
+"asiDefineDataAccessFunction( 
+o_tool 
+s_dataType 
+s_dataFunction
+)
+=> s_dataFunction"
+"Redefines a data access function.")
+("asiDefineDataMappingFunction"
+"asiDefineDataMappingFunction( 
+o_tool 
+s_dataType
+s_function
+)
+=> s_function"
+"Defines the data mapping functions.")
+("asiGetCalcResultsDir"
+"asiGetCalcResultsDir(
+)
+=> t_Datadir / nil"
+"Returns the results directory currently used by calculator functions.")
+("asiInit<yourSimulator>DataAccessFunction"
+"asiInit<yourSimulator>DataAccessFunction( 
+o_tool 
+) 
+=> t"
+"Calls the procedures that modify your data access routines. ")
+("VAR"
+"VAR(
+t_variableNname 
+[ t_dataDir ]
+)
+=> n_number / nil"
+"Returns the value of the specified design variable.")
+("DATA"
+"DATA(
+t_netName 
+t_analysis 
+[ t_dataDir ]
+)
+=> o_data / nil"
+"This is a basic data access function. It returns data for the specified node and analysis.")
+("VS"
+"VS(
+t_netName 
+[ t_dataDir ]
+)
+=> o_wave / nil"
+"Returns dc sweep waveform for the specified net.")
+("OP"
+"OP(
+t_instanceName
+t_parameterName 
+[ t_dataDir ]
+)
+=> n_number / nil"
+"Returns the value of the operating point parameter for the specified instance.")
+("OPT"
+"OPT( 
+t_instanceName
+t_parameterName
+[ t_dataDir ]
+)
+=> n_number / nil"
+"Returns the transient operating point for the specified instance parameter.")
+("MP"
+"MP( 
+t_instanceName
+t_parameterName
+[ t_dataDir ]
+)
+=> n_number / nil"
+"Returns the specified model parameter for the instance.")
+("NG"
+"NG(
+[ t_dataDir ]
+)
+=> nw_noiseGain / nil"
+"Returns the noise gain waveform.")
+("VN"
+"VN(
+[ t_dataDir ] 
+)
+=> nw_noise / nil"
+"Returns the noise waveform specified in V/sqrt (Hz).")
+("VN2"
+"VN2(
+[ t_dataDir ]
+)
+=> nw_noise / nil"
+"Returns the noise waveform in V^2/Hz.")
+("VNP"
+"VNP(
+t_name 
+[ t_dataDir ]
+)
+=> g_value / nil"
+"Returns  any single level noise parameter available in the PSF database.")
+("VNPP"
+"VNPP(
+t_name 
+t_param
+[ t_dataDir ]
+)
+=> g_value / nil"
+"VNPP accesses any double level noise parameter available in the PSF database.")
+("VPD"
+"VPD( 
+t_net1 
+t_net2
+[ t_dataDir ]
+)
+=> wave / nil"
+"Returns the waveform representing phase difference between voltages at the two nets.")
+("VF"
+"VF( 
+t_netName
+[ t_dataDir ]
+)
+=> wave / nil"
+"Returns the waveform representing the ac sweep net voltage.")
+("IS"
+"IS( 
+t_terminal
+[ t_dataDir ]
+)
+=> data / nil"
+"Returns waveform representing the dc sweep terminal current.")
+("IT"
+"IT( 
+t_terminal
+[ t_dataDir ]
+)
+=> data / nil"
+"Returns waveform representing the transient sweep terminal current.")
+("IF"
+"IF( 
+t_terminal
+[ t_dataDir ]
+)
+=> data / nil"
+"Returns the waveform representing the ac sweep terminal current.")
+("IDC"
+"IDC(
+t_terminal 
+[ t_dataDir ]
+)
+=> data / nil"
+"Returns the waveform representing the DC terminal current.")
+("VDC"
+"VDC(
+t_netname
+[ t_dataDir ]
+)
+=> data / nil"
+"Returns  dc voltage for the specified net.")
+("SIMULATOR"
+"SIMULATOR(
+[ t_dataDir ]
+)
+=> t_name / nil"
+"Returns the name of simulator.")
+("asiSelectAnalysisCompParam"
+"asiSelectAnalysisCompParam( 
+s_analysisName 
+s_instField
+s_parField
+)
+=> t / nil"
+"Lets the user select a component instance from the schematic to pop up a list box containing the parameters for that instance.")
+("asiSelectAnalysisInst"
+"asiSelectAnalysisInst( 
+s_analysis
+s_field
+[ t_prompt ]
+)
+=> t / nil"
+"Lets the user select an instance from the schematic to be used as input for the specified field for the specified analysis. If the user selects any other object, the system ignores the selection and beeps.")
+("asiSelectAnalysisNet"
+"asiSelectAnalysisNet( 
+s_analysis 
+s_field 
+[ t_prompt ]
+)
+=> t / nil"
+"Lets the user select a net from the schematic to be used as input for the specified field for the specified analysis. If the user selects any other object, the system ignores the selection and beeps.")
+("asiSelectAnalysisSource"
+"asiSelectAnalysisSource( 
+s_analysis 
+s_field 
+[ t_prompt ]
+)
+=> t / nil"
+"Lets the user select a source from the schematic to be used as input for the specified field for the specified analysis. If the user selects any other object, the system ignores the selection and beeps.")
+("asiSelectInst"
+"asiSelectInst(
+s_field
+[ ?prompt t_prompt ]
+[ ?form r_form ]
+[ ?tab l_tab ]
+)
+=> t / nil"
+"Lets you select an instance from the schematic. If you select any other object, the system beeps and ignores the selection.")
+("asiSelectNet"
+"asiSelectNet(
+s_field
+[ ?prompt t_prompt ]
+[ ?form r_form ]
+[ ?tab l_tab ]
+)
+=> t / nil"
+"Lets you select a net from the schematic. If you select any other object, the system ignores the selection and beeps.")
+("asiSelectSourceInst"
+"asiSelectSourceInst(
+s_field
+[ ?prompt t_prompt ]
+[ ?form r_form ]
+[ ?tab l_tab ]
+)
+=> t / nil"
+"Lets you select a source instance on the schematic. If you select any other object, the system beeps and ignores the selection.")
+("asiSelectTerm"
+"asiSelectTerm(
+s_field
+[ ?prompt t_prompt ]
+[ ?form r_form ]
+[ ?tab l_tab ]
+)
+=> t / nil"
+"Lets you select an instance terminal from the schematic. If you select any other object, the system ignores the selection and beeps.")
+("asiSelectTermNet"
+"asiSelectTermNet(
+s_field
+[ ?prompt t_prompt ]
+[ ?form r_form ]
+[ ?tab l_tab ]
+)
+=> t / nil"
+"Lets you select either an instance terminal or a net. If you select any other object, the system beeps and ignores the selection.")
+("ahdlUpdateViewInfo"
+"ahdlUpdateViewInfo(
+t_lib 
+[ ?cell lt_cell ]
+[ ?view lt_view ]
+[ ?tool lt_tool ] 
+)"
+"Updates cells and cellviews created with releases earlier than 4.4.2 so that the cells and cellviews can use cellview-specific parameters and parameter values. During the update, ahdlUpdateViewInfo, parses the Verilog-A or SpectreHDL modules that define the specified cellviews, issues any necessary error messages and updates the cellview CDF information.")
+("amseGeneralSetupForm"
+"amseGeneralSetupForm(
+o_session
+)
+=> t / nil"
+"Opens the General Setup form in Virtuoso AMS Designer. The General Setup form appears when you choose Detailed Setup and then General Setup from the AMS menu in Hierarchy Editor.")
+("amseQuickSetupForm"
+"amseQuickSetupForm(
+o_session
+)
+=> t / nil"
+"Opens the Quick Setup form in Virtuoso AMS Designer. The Quick Setup form appears when you choose Quick Setup from the AMS menu in Hierarchy Editor.")
+("amsUpdateTextviews"
+"amsUpdateTextviews(
+t_libName 
+[ ?cell t_cellName ]
+[ ?view t_viewName ]
+[ ?incremental g_incremental ] 
+)
+=> t / nil"
+"Creates a Virtuoso database, depending on the arguments passed for the following:")
+("vmsUpdateCellViews"
+"vmsUpdateCellViews(
+[ ?lib t_lib ]
+[ ?cell t_cell ]
+[ ?view t_view ]
+[ ?viewt t_viewType ]
+)
+=> t / nil"
+"Updates AMS Designer information with the current state of verilog, systemVerilog, veriloga, verilogams and vhdl text views. You might use this function, for example, when you have updated a Verilog-AMS source file outside of the AMS Designer environment. You might also use it when you receive a Verilog-AMS library in a single source file, bring it into the Library.Cell:View structure using xmvlog -use5x, and then need to prepare the library for use in the AMS Designer environment.")
+("annRetrieveFromEffectiveCDF"
+"annRetrieveFromEffectiveCDF"
+"Retrieves the data from effective CDF. This function is used to match the CDF properties of the graphical window with the global effective CDF properties and needs to be called before annotating CDF properties to reflect the changes done in effective CDF properties.")
+("artEnableAnnotationBalloon"
+"artEnableAnnotationBalloon(
+g_value 
+[ x_firstPoint ]
+[ x_lastPoint ]
+)
+=> t / nil"
+"Enables or disables the display of parametric sweep results annotated on the schematic. When enabled, the first six result points are displayed in a pop-up window that appears when you hover the mouse pointer over an instance on the schematic. Use x_firstPoint and x_lastPoint to specify a range of result points to be displayed in the pop-up window.")
+("artGenerateHierSymbolCDF"
+"artGenerateHierSymbolCDF(
+d_cellView
+[ g_overwrite ]
+) 
+=> t"
+"Creates the cell CDF for the specified cellView, in the same way as happens when you create a symbol from a schematic in Composer. The cellView will be examined for any use of pPar() in expressions, and the corresponding parameters will be added to the CDF if they are not already present. Whilst both schematic and symbol cellViews may be passed to this function, it is usually best to pass a schematic cellView, in order to get the pPar()s used into the CDF.")
+("artGetCdfTargetCV"
+"artGetCdfTargetCV(
+) 
+=> dbobject / nil"
+"This procedure returns the cell view dbobject that is the target of the update instance form or the create instance form. The function requires that either the arm property (armGet 'cdfInfo 'currentCellView) is set to a cellView, or that the variable cdfgForm is bound to a form with a property cellViewId attached (getq cdfgForm cellViewId). If neither of these is bound, nil is returned.")
+("artGetCellViewDesignVarList"
+"artGetCellViewDesignVarList(
+d_cellViewId
+)
+=> l_nameValuePairs"
+"Returns the list of design variable name value pairs associated with the top level cellView.")
+("artCurrentInstSimName"
+"artCurrentInstSimName( 
+)
+=> t_extName"
+"This function provides the external instance name for the current instance being formatted in the netlister. The function should only be used for socket netlisters or custom netlist procedures for socket. The routine does not take into consideration case mapping registered for the tool or the prefix for the instance. It does take care of the netlisting mode (FNL, HNL or IHNL).")
+("artListToWaveform"
+"artListToWaveform( 
+l_xyPairs
+) 
+=> o_waveform"
+"This function takes a list of X,Y points and translates it into a waveform. Each of the X,Y points is also in a list format. If Y points are represented in a list format, they are treated as complex numbers while creating the waveform.")
+("artBlankString"
+"artBlankString(
+g_value
+) 
+=> t / nil"
+"Returns true if the given object is equal to nil. If the given object is a string, checks if the string is empty or has blank space characters only and returns true. If the object is not nil and if the string has non-space characters, it returns nil.")
+("artMakeString"
+"artMakeString( 
+g_anyArg
+)
+=> t_argAsString / nil"
+"Converts data of the given data type to a string. The valid data types for the g_anyArg argument include symbol, integer, float, and string. The floating point numbers are converted into strings by using the `%.16g' format specification to produce the most precise output.")
+("artMakeStringPrec15"
+"artMakeString( 
+g_anyArg
+)
+=> t_argAsString / nil"
+"Converts data of the given data type to a string. The valid data types for the g_anyArg argument include symbol, integer, float, and string. It similar to the function artMakeString, except that it uses the `%.15g' format specification to convert the floating point numbers into strings.")
+("asiAddDesignVarList"
+"asiAddDesignVarList( 
+o_session
+l_designVarList
+)
+=> l_newDesignVarList"
+"Adds a list of variables to the existing session design variable list.")
+("asiAddVerilogArgs"
+"asiAddVerilogArgs( 
+o_session
+t_verilogArg ...
+)
+=> t_verilogArg"
+"For a mixed-signal simulation, this method lets you change the list of arguments that are sent to the Verilog-XL simulator with the -slave option.")
+("asiLoadState"
+"asiLoadState( 
+o_session
+[ ?name t_name ]
+[ ?option s_option ]
+[ ?stateDir t_stateDir ]
+[ ?lib t_lib ]
+[ ?cell t_cell ]
+[ ?simulator t_simulator ]
+)
+=> t / nil"
+"Loads a saved state into the current simulation environment directly from the CIW without displaying the Loading State form.")
+("asiSaveState"
+"asiSaveState( 
+o_session
+[ ?name t_name ]
+[ ?option s_option ]
+[ ?stateDir t_stateDir ]
+[ ?lib t_lib ]
+[ ?cell t_cell ]
+[ ?simulator t_simulator ]
+[ ?description t_description ]
+)
+=> t / nil"
+"Saves the current state of the current simulation environment directly from the CIW without displaying the Saving State form.")
+("asiCheck"
+"asiCheck( 
+o_analysis | o_anaOption | o_envOption | o_simOption | o_keepOption 
+r_form 
+) 
+=> t / nil"
+"Called by the environment to check values in the analysis and option fields.")
+("asiCheckDesignVariable"
+"asiCheckDesignVariable( 
+o_obj 
+r_form 
+s_fieldName 
+) 
+=> t / nil"
+"Verifies that the s_fieldName entry is a valid design variable.")
+("asiCheckExpression"
+"asiCheckExpression( 
+o_obj
+r_form 
+s_fieldName
+[ ?subAnaMsg t_subAnaMsg ]
+) 
+=> t / nil"
+"Verifies that the s_fieldName entry is a valid expression.")
+("asiCheckExpressionGreater "
+"asiCheckExpressionGreater( 
+o_obj
+r_form
+s_fieldName
+g_value 
+[ ?subAnaMsg t_subAnaMsg ] 
+) 
+=> t / nil"
+"Verifies that the s_fieldName entry is an expression that evaluates to a value greater than g_value.")
+("asiCheckBlankNumeric"
+"asiCheckBlankNumeric( 
+o_obj 
+r_form 
+s_fieldName 
+[ ?subAnaMsg t_subAnaMsg ] 
+) 
+=> t / nil"
+"Verifies that the s_fieldName entry is a numeric value.")
+("asiCheckBlankNumericGreater "
+"asiCheckBlankNumericGreater( 
+o_obj 
+r_form
+s_fieldName 
+g_value 
+[ ?subAnaMsg t_subAnaMsg ]
+) 
+=> t / nil"
+"Verifies that the s_fieldName entry is a numeric value greater than g_value.")
+("asiCheckBlankNumericNequal"
+"asiCheckBlankNumericNequal( 
+o_obj 
+r_form 
+s_fieldName 
+g_value 
+[ ?subAnaMsg t_subAnaMsg ] 
+) 
+=> t / nil"
+"Verifies that the s_fieldName entry is a numeric value not equal to g_value.")
+("asiCheckBlankNetExists"
+"asiCheckBlankNetExists( 
+o_obj 
+r_form 
+s_fieldName
+[ ?subAnaMsg t_subAnaMsg ] 
+)
+=> t / nil"
+"Verifies that the s_fieldName entry is a valid net name.")
+("asiCheckBlankInstExists "
+"asiCheckBlankInstExists( 
+o_obj 
+r_form 
+s_fieldName 
+[ ?subAnaMsg t_subAnaMsg ]
+) 
+=> t / nil"
+"Verifies that the s_fieldName entry is a valid instance name.")
+("asiCheckMultipleGreater"
+"asiCheckMultipleGreater( 
+o_obj 
+r_form 
+s_largerField 
+s_smallerField 
+) 
+=> t / nil"
+"Verifies that the value of the s_largerField entry is greater than that of the s_smallerField entry.")
+("asiCheckSimulationSuccess"
+"asiCheckSimulationSuccess( 
+o_session 
+) 
+=> t / nil"
+"Determines if a simulation was successful.")
+("asiCreateLogFileVerilog"
+"asiCreateLogFileVerilog( 
+o_session 
+l_entryList 
+)"
+"Creates the file logFileVerilog in the .../psf directory to indicate the analysis result of Verilog-XL in a mixed-signal transient run.")
+("asiDcStore"
+"asiDcStore(
+o_session 
+t_fileName
+) 
+=> t / nil"
+"Copies the DC node voltages in processId.dc to the name you pass in fileName. This function assumes that your simulator writes the DC node voltages to netlistDir/raw/processId.dc. ")
+("asiGetCurrentSession"
+"asiGetCurrentSession(
+) 
+=> o_session / nil"
+"Returns the session object for the current session. ")
+("asiGetDesignVarList"
+"asiGetDesignVarList( 
+o_session 
+) 
+=> l_designVarList / nil"
+"Gets the list of design variables for the design associated with the session you specify.")
+("asiGetFormFieldChoices"
+"asiGetFormFieldChoices( 
+r_form 
+s_fieldName 
+)
+=> l_choices / nil"
+"Gets the list of choices for a form field that is set up as a list box.")
+("asiGetFormFieldVal"
+"asiGetFormFieldVal( 
+r_form 
+s_fieldName 
+)
+=> g_value / nil"
+"Gets the value of a field on a form.")
+("asiGetKeepList"
+"asiGetKeepList( 
+o_session 
+) 
+=> l_keepList / nil"
+"Gets a list of signals and currents that are saved during simulation.")
+("asiGetLogFileList"
+"asiGetLogFileList( 
+o_session
+)
+=> l_logFiles / nil"
+"Returns a list of the names of the log files.")
+("asiGetMarchList"
+"asiGetMarchList( 
+o_session
+) 
+=> l_marchList / nil"
+"Returns a list of signals that are to be marched during simulation.")
+("asiGetNetlistDir"
+"asiGetNetlistDir( 
+o_session
+) 
+=> t_netlistDir"
+"Returns the netlist directory. If the directory does not exist, this function creates it.")
+("asiGetOutputList"
+"asiGetOutputList( 
+o_session
+) 
+=> o_outputsList / nil"
+"Returns a list of structures. Each structure defines a output to be saved and/or plotted after simulation.")
+("asiGetPlotList"
+"asiGetPlotList( 
+o_session 
+) 
+=> l_plotList / nil"
+"Gets the list of signals that can be plotted for the current simulation session. ")
+("asiGetPsfDir"
+"asiGetPsfDir( 
+o_session
+)
+=> t_dirName / nil"
+"Returns the name of the PSF directory.")
+("asiGetSession"
+"asiGetSession(
+{ x_id | w_window | r_form | s_name | o_analysis }
+)
+=> o_session / nil"
+"Returns the session object given one of five possible identifiers.")
+("asiGetSimName"
+"asiGetSimName( 
+{ o_tool | o_session }
+)
+=> t_simulatorName"
+"Gets the name of the simulator for a tool or session object.")
+("asiGetTool"
+"asiGetTool( 
+{ t_toolName | o_session }
+)
+=> o_tool"
+"Returns the tool object associated with the specified tool name or session. If the tool object is not found, an attempt is made to create and initialize the tool. ")
+("asiGetTopCellView"
+"asiGetTopCellView( 
+o_session
+)
+=> d_cellView / nil"
+"Returns the top-level cellview associated with the session. ")
+("asiSendSim"
+"asiSendSim( 
+o_session 
+t_command 
+t_callback 
+g_param 
+g_saveOutput
+)
+=> t"
+"Sends a command to Cadence SPICE to forward to the target simulator.")
+("asiSetDesignVarList"
+"asiSetDesignVarList(
+o_session 
+l_designVarList 
+)
+=> l_designVarList"
+"Sets the design variable list for a session.")
+("asiSetFormFieldChoices"
+"asiSetFormFieldChoices( 
+r_form 
+s_fieldName 
+l_choices
+)
+=> l_choices / nil"
+"Sets the list of choices to appear in the list box for the specified form field.")
+("asiSetFormFieldVal"
+"asiSetFormFieldVal( 
+r_form
+s_fieldName
+g_value
+)
+=> g_value / nil"
+"Sets the value of a field on a form.")
+("asiSetKeepList"
+"asiSetKeepList( 
+o_session 
+l_KeepList
+)
+=> l_KeepList"
+"Sets the list of the specific signals and currents to save during simulation.")
+("asiSetMarchList"
+"asiSetMarchList( 
+o_session 
+l_MarchList 
+)
+=> l_MarchList"
+"Sets the list of signals to march during simulation.")
+("asiSetPlotList"
+"asiSetPlotList( 
+o_session 
+l_PlotList
+)
+=> l_PlotList"
+"Sets the plot list for the current simulation session.")
+("asiSetSyncFlag"
+"asiSetSyncFlag( 
+g_flag
+) 
+=> g_flag"
+"This function makes the simulation run in a blocking mode. This implies that control does not come back till the simulation is over. This functionality is needed in the replay files in order to wait for a simulation to finish before proceeding. Call this function (asiSetSyncFlag(t)) just before launching a simulation. This function should only be used for testing capabilities. OCEAN should be used for scripting simulations.")
+("asiTransientStore"
+"asiTransientStore(
+o_session 
+t_fileName
+)
+=> t / nil"
+"Copies the final transient operating points in processId.tr to the name you pass in fileName. This function assumes that your simulator writes the final transient operating points to netlistDir/raw/processId.tr. ")
+("asiMapNetName"
+"asiMapNetName(
+t_dataDir
+l_specifier
+[ ?formatflag s_formatflag ]
+) 
+=> l_specifier"
+"Maps the hierarchical schematic net name to the name in the netlist.")
+("asiMapTerminalName"
+"asiMapTerminalName( 
+t_dataDir
+l_specifier
+[ ?formatflag s_formatflag ]
+) 
+=> l_specifier"
+"Maps the hierarchical schematic terminal name to the name in the netlist.")
+("asiMapInstanceName"
+"asiMapInstanceName( 
+t_dataDir
+l_specifier
+[ ?formatflag s_formatflag ]
+) 
+=> l_specifier"
+"Maps the hierarchical schematic instance name to the name in the netlist.")
+("asiRegCallBackOnSimComp"
+"asiRegCallBackOnSimComp( 
+o_session
+t_callback 
+) 
+=> t / nil"
+"Registers the specified user-defined callback function to run after completion of a simulation. The callback function should accept two arguments, a session object and the simulation status.")
+("asiUnRegCallBackOnSimComp"
+"asiUnRegCallBackOnSimComp( 
+t_callback 
+) 
+=> t / nil"
+"Deregisters the specified callback function registered to run on completion of the simulation.")
+("asiRegCallBackOnSimCompForDist"
+"asiRegCallBackOnSimCompForDist( 
+o_session 
+t_callback 
+) 
+=> t / nil"
+"Registers the specified user-defined callback function to run after completion of distributed jobs.")
+("asiUnRegCallBackOnSimCompForDist"
+"asiUnRegCallBackOnSimCompForDist( 
+o_session 
+t_callback 
+) 
+=> t / nil"
+"Unregisters the specified user-defined callback function that is registered using the asiRegCallBackOnSimComp function.")
+("almDefineParam_accuracyMode"
+"almDefineParam_accuracyMode(
+t_cellName
+) 
+=> s_cellParameter / nil"
+"This function is used to define the accuracy mode.")
+("almDefineParam_additionalParam"
+"almDefineParam_additionalParam(
+t_cellName
+) 
+=> s_cellParameter / nil"
+"This function is used to enable additional parameters.")
+("almDefineParam_fq"
+"almDefineParam_fq(
+t_cellName
+) 
+=> s_cellParameter / nil"
+"This function is used to define a fq parameter.")
+("almDefineParam_noiseParaLabel"
+"almDefineParam_noiseParaLabel(
+t_cellName
+) 
+=> s_cellParameter / nil"
+"Noise parameter label.")
+("almDefineParam_nportFileB"
+"almDefineParam_nportFileB(
+t_cellName
+) 
+=> s_cellParameter / nil"
+"nport file.")
+("almDefineParam_otherParaLabel"
+"almDefineParam_otherParaLabel(
+t_cellName
+) 
+=> s_cellParameter / nil"
+"This function is used to enable other paramters.")
+("almDefineParam_tranAdvanParaLabel"
+"almDefineParam_tranAdvanParaLabel(
+t_cellName
+) 
+=> s_cellParameter / nil"
+"Advanced tran parameter.")
+("almDefineParam_tranParaLabel"
+"almDefineParam_tranParaLabel(
+t_cellName
+) 
+=> s_cellParameter / nil"
+"tran parameter label.")
+("almGetModuleName"
+"almGetModuleName(
+t_lib 
+t_cell 
+[ ?view g_view ]
+[ ?tool g_tool ]
+) 
+=> s_moduleName / nil"
+"Returns the module name for the arguments specified. The netlist procedure is set with almSetModuleName.")
+("almGetNamePrefix"
+"almGetNamePrefix(
+t_lib 
+t_cell 
+[ ?view g_view ]
+[ ?tool g_tool ]
+) 
+=> t_namePrefix / nil"
+"Returns the name prefix for the arguments specified. The netlist procedure is set with almSetNamePrefix.")
+("almGetParameterList"
+"almGetParameterList(
+t_lib
+t_cell
+[ ?view g_view ]
+[ ?tool g_tool ]
+[ ?entry g_entry ]
+) 
+=> l_parameterList / nil"
+"Returns the list of parameters for the arguments specified. The parameter list is set with almSetParameterList.")
+("almGetTerminalList"
+"almGetTerminalList(
+t_lib
+t_cell
+[ ?view g_view ]
+[ ?tool g_tool ]
+) 
+=> l_terminalList / nil"
+"Returns the list of terminal names for the arguments specified. The netlist procedure is set with almSetTerminalList.")
+("almGetTerminalMap"
+"almGetTerminalMap(
+t_lib
+t_cell
+S_terminal
+[ ?view g_view ]
+[ ?tool g_tool ]
+) 
+=> s_map / nil"
+"Returns the simulator name of a terminal for the arguments specified. The netlist procedure is set with almSetTerminalMap.")
+("almSetTerminalMap"
+"almSetTerminalMap(
+t_lib
+t_cell
+S_name
+g_map
+[ ?view g_view ]
+[ ?tool g_tool ]
+)"
+"Sets the mapped name (simulator name) for a terminal name (schematic name) for the arguments specified. The mapped name is used for results display and it is used by the simulator interface in the simulator input file.")
+("almGetOpPointParamMap"
+"almGetOpPointParamMap( 
+t_lib
+t_cell
+[ ?view g_view ] 
+[ ?tool g_tool ]
+) 
+=> l_opMap / nil"
+"Returns the operating-point parameter map for the arguments specified. The netlist procedure is set with almSetOpPointParamMap.")
+("almSetOpPointParamMap"
+"almSetOpPointParamMap(
+t_lib 
+t_cell 
+l_map 
+[ ?view t_view ]
+[ ?tool t_tool ]
+)"
+"Sets the operating-point parameter map for the arguments specified. This map is used in results display.")
+("almGetNetlistProcedure"
+"almGetNetlistProcedure(
+t_lib
+t_cell
+[ ?view g_view ]
+[ ?tool g_tool ]
+) 
+=> s_procedure / nil"
+"Returns the netlist procedure for the arguments specified. The netlist procedure is used to netlist an instance. The netlist procedure is declared with almSetNetlistProcedure.")
+("almGetViewInfoNameList"
+"almGetViewInfoNameList(
+t_lib 
+t_cell
+) 
+=> l_view_list / nil"
+"Returns the list of view-name strings for which view-specific information is available, and for which the view exists.")
+("almGetNetlistType"
+"almGetNetlistType(
+t_lib
+t_cell
+[ ?view t_view ]
+) 
+=> t_netlistType / nil"
+"Returns the netlist type for the library, cell and view specified, if view-specific information is available. This procedure issued during netlisting.")
+("almHasViewInformation"
+"almHasViewInformation( 
+t_lib 
+t_cell 
+t_view 
+) 
+=> t / nil"
+"Determines if the view-specific information is available for the library, cell, and view specified.")
+("almSetNamePrefix"
+"almSetNamePrefix(
+t_lib
+t_cell
+t_name
+[ ?view g_view ]
+[ ?tool g_tool ]
+)"
+"Sets the name prefix for the view or the tool specified.")
+("almSetModuleName "
+"almSetModuleName (
+t_lib
+t_cell
+t_name
+[ ?view g_view ]
+[ ?tool g_tool ]
+)"
+"Sets the module name for the view or tool.")
+("almSetNetlistProcedure"
+"almSetNetlistProcedure(
+t_lib
+t_cell
+s_procedure
+[ ?view g_view ]
+[ ?tool g_tool ]
+)"
+"Sets the netlist procedure for the arguments specified.")
+("almSetParameterList"
+"almSetParameterList(
+t_lib
+t_cell
+l_parameter
+[ ?view g_view ]
+[ ?tool g_tool ]
+[ ?entry g_entry ]
+)"
+"Sets list of parameter names for the arguments specified.")
+("almSetTerminalList"
+"almSetTerminalList(
+t_lib
+t_cell
+l_termList
+[ ?view t_view ]
+[ ?tool t_tool ]
+)"
+"Sets the list of terminal names for the lib arguments specified.")
+("almSetPropMappingList"
+"almSetPropMappingList( 
+t_lib
+t_cell
+l_parameter
+[ ?view g_view ]
+[ ?tool g_tool ]
+[ ?entry g_entry ]
+)"
+"Sets the list of propMapping for the arguments specified.The parameters specified in the l_parameter list are mapped and printed to the netlist if the user has specified these values.")
+("almGetPropMappingList"
+"almGetPropMappingList( 
+t_lib
+t_cell
+[ ?view g_view ]
+[ ?tool g_tool ]
+[ ?entry g_entry ]
+)
+=> l_propMappingList / nil"
+"Returns the propMapping parameter list for the arguments specified. The propMapping list is set with almSetPropMappingList.")
+("almSetOtherParameterList"
+"almSetOtherParameterList(
+t_lib
+t_cell
+l_parameter
+[ ?view g_view ]
+[ ?tool g_tool ]
+[ ?entry g_entry ]
+)"
+"Sets list of other parameter names for the arguments specified.")
+("almGetOtherParameterList"
+"almGetOtherParameterList(
+t_lib
+t_cell
+[ ?view g_view ]
+[ ?tool t_tool ]
+[ ?entry s_entry ]
+)
+=> l_parameterList / nil"
+"Returns the otherParameter list for the arguments specified. The otherParameter list is set with almSetOtherParameterList.")
+("almGetStringParameterList"
+"almGetStringParameterList(
+t_lib
+t_cell
+[ ?view g_view ]
+[ ?tool g_tool ]
+[ ?entry g_entry ]
+)=> l_parameterList / nil"
+"Returns the list of string type parameters for the arguments specified. The parameter list is set with almSetStringParameterList.")
+("almSetStringParameterList"
+"almSetStringParameterList(
+t_lib
+t_cell
+l_parameter
+[ ?view g_view ]
+[ ?tool g_tool ]
+[ ?entry g_entry ]
+)"
+"Sets list of string parameter names for the arguments specified. These parameters are printed to the netlist if the user has given these values.")
+("ancGetSimInstName"
+"ancGetSimInstName( 
+l_netlistDpl
+)
+=> t_extName"
+"This function provides the external instance name for the current instance being formatted in the netlister. The function must only be used by customized socket netlisters or custom socket netlist procedures. The routine takes into consideration the netlist mode (FNL, HNL or IHNL), case mapping (lower, upper or mixed) and the prefix for the instance.")
+("ancAdjustNameCase"
+"ancAdjustNameCase( 
+S_name 
+s_type 
+)
+=> S_name"
+"The function adjusts case for the name passed, based on the type specified.")
+("drbBrowseFormCB"
+"drbBrowseFormCB(
+) 
+=> t / nil"
+"Opens the Browse Project Hierarchy window.")
+("msgHelp"
+"msgHelp(
+S_prodID 
+S_msgID
+) 
+=> t / nil"
+"This function is used to access extended help for an error or a warning message. Currently, Distributed Processing (DP) is the only product that supports this feature.")
+("addCheck"
+"addCheck(
+t_name
+[ ?sub t_sub ]
+[ ?dev t_dev ]
+[ ?devlist l_devlist ]
+[ ?prim t_prim ]
+[ ?mod t_mod ]
+[ ?instparam t_instparam ]
+[ ?modelparam t_modelparam ]
+[ ?opparam t_opparam ]
+[ ?parameter t_parameter ]
+[ ?expression t_expression ]
+[ ?min t_min ]
+[ ?max t_max ]
+[ ?regions t_regions ]
+[ ?duration t_duration ]
+[ ?message t_message ]
+[ ?severity t_severity ]
+[ ?analyses l_analyses ]
+)
+=> t_name / nil"
+"Adds a new device check. Checks can be added to check a device parameter, a subcircuit parameter, a design variable or an expression. The scope of check is decided by the arguments ?sub, ?dev, ?mod, and ?prim. The ?min and ?max parameters can be used to set up the safe region if the parameter/expression being checked goes out of this region and a violation is reported.")
+("deleteChecks"
+"deleteChecks(
+t_check1 
+[ t_check2 t_check3... ]
+)
+=> l_checks / nil"
+"Deletes device checks.")
+("densityEstimateWaveform"
+"densityEstimateWaveform(
+histWf
+)
+=> waveform"
+"Returns the density estimator waveform of a histogram.")
+("disableAllChecks"
+"disableAllChecks(
+)
+=> t / nil"
+"Disables all device checks.")
+("disableChecks"
+"disableChecks(
+t_check1 
+[ t_check2 t_check3... ]
+)
+=> l_checks / nil"
+"Disables device checks. Only enabled device checks appear in Spectre input deck.")
+("disableDeviceChecking"
+"disableDeviceChecking(
+)
+=> no / nil"
+"Disables device checking. It is the same as turning off the Enable Device Checking check box in the Device Checking Setup form. No checks are written to Spectre input file. No device checking happens.")
+("displayChecks"
+"displayChecks(
+?resultsDir t_resultsDir 
+[ t_check1 t_check2 t_check3... ]
+)
+=> nil"
+"Displays device checks. If no name is provided, this function displays all checks that have been added so far. If no device checks have been added and a results directory is set by using the openResults() command, it prints device checks from the asserts.info.asserts file in that results directory. If the results directory is provided, it displays device checks found in the asserts.info.asserts file in that results directory.")
+("enableAllChecks"
+"enableAllChecks(
+)
+=> t / nil"
+"Enables all device checks.")
+("enableChecks"
+"enableChecks(
+t_check1 - 1_checkn
+)
+=> l_checks / nil"
+"Enables device checks. Only enabled device checks appear in Spectre input deck.")
+("enableDeviceChecking"
+"enableDeviceChecking(
+)
+=> yes / nil"
+"Enables device checking. It is the same as turning on the Enable Device Checking check box in the Device Checking Setup form.")
+("setDevCheckOptions"
+"setDevCheckOptions(
+[ ?analysis s_analysis ]
+[ ?start t_start ]
+[ ?stop t_stop ]
+[ ?severity t_severity ]
+[ ?enableAll t_enableAll ]
+[ ?disableAll t_disableAll ]
+)"
+"This function can be used to set various parameters of checklimit statements. User can override the severity specified on individual asserts, provide the time interval during which the checking should be done (applies only to transient analysis), or enable/disable all device checks for the given analysis.")
+("printViolations"
+"printViolations(
+[ ?output t_output ]
+[ ?checks l_checks ]
+[ ?devices l_devices ]
+[ ?models l_models ]
+[ ?primitives l_primitives ]
+[ ?resultsDir t_resultsDir ]
+)
+=> t / nil"
+"Prints a summary of all violations. Format of the output is similar to that of the output from the Print button on the Violations Display form. The resultsDir argument can be used to print violations from the different results directory.")
+("captabSummary"
+"captabSummary(
+[ ?resultsDir t_resultsDir ]
+[ ?analysis o_analysis ]
+)"
+"Prints a summary of the capacitance table from the specified results directory.")
+("evmOFDM"
+"evmOFDM(
+waveform1 o_waveform1
+waveform2 o_waveform2
+sigStandard e_sigStandard
+tstart n_tstart
+modulationType e_modulationType
+fftSize n_fftSize
+PrefixLength n_PrefixLength
+SymbolPeriod n_SymbolPeriod
+[ ?packet n_packetLength ]
+[ ?modifier e_modifier ]
+[ ?skiplength n_skiplength ]
+[ ?idx n_idx ]
+[ ?getval g_getval ]
+)
+=> constellation o_waveform evm_value / nil"
+"Processes the I and Q waveform outputs from the hb-envlp simulation run to calculate the Error Vector Magnitude (EVM) and plot the I versus Q scatterplot (constellation). EVM is a useful measurement to describe the overall signal amplitude and phase modulated signal quality. It is based on a statistical error distribution normalized from an ideal digital modulation. Orthogonal Frequency Division Multiplexing (OFDM) is a modern high throughput modulation scheme widely used in wireless signals, such as 802.11a,g,n, where EVM measurement is useful . The EVM is calculated by detecting the I and Q signal levels corresponding to constellation points of each modulation type (can be BPSK, QPSK, 16QAM, and 64QAM) and calculating the difference between the signal level and the ideal signal level.")
+("relxOption"
+"relxOption(
+[ s_option1 g_optionValue1 ]....[ s_optionN g_optionValueN ]
+)
+=> undefined / nil"
+"Enables you to specify the RelXpert options, along with values, to be used by the simulator.")
+("asiAddModelLibSelection"
+"asiAddModelLibSelection(
+{ o_session | o_tool }
+t_modelLibFile
+t_section
+)
+=> t / nil"
+"Adds a model file by adding an entry to the model library file section (corresponding environment variable modelFiles) and calls asiInvalidateControlStmts.")
+("asiRemoveAllModelLibSelection"
+"asiRemoveAllModelLibSelection(
+{ o_session | o_tool }
+)
+=> t"
+"Removes all the model files by setting the modelFiles variable to nil. In addition, it also invalidates the asiSendControlStmts flowchart step by calling asiInvalidateControlStmts.")
+("asiOpenOceanScript"
+"asiOpenOceanScript(
+t_fileName
+)
+=> fptr"
+"Opens the specified file for writing the OCEAN script. If the file exists, it asks for your permission to overwrite it.")
+("asiWriteOceanScript"
+"asiWriteOceanScript( 
+p_filePointer
+o_session
+[ ?noRun g_noRun ]
+[ ?fullKey g_fullKey ]
+[ ?calledFromCorners g_calledFromCorners ]
+)
+=> t / nil"
+"Writes the OCEAN script.")
+("asiCloseOceanScript"
+"asiCloseOceanScript( 
+p_filePointer 
+)
+=> t / nil"
+"Closes the OCEAN script")
+("drAddElem"
+"drAddElem(
+o_vec
+g_value
+)
+=> t / nil"
+"Puts g_value after the last element in the data vector o_vec. g_value must have the same data type as the data vector.")
+("drGetElem"
+"drGetElem( 
+o_vec
+x_index
+)
+=> g_result"
+"Returns the x_indexth element of the data vector drVecID, assuming a zero- based index.")
+("drSetElem"
+"drSetElem(
+o_vec
+x_index
+g_value
+)
+=> t / nil"
+"Replaces the x_indexth element of the data vector o_vec with g_value. g_value must have the same data type as the data vector.")
+("drCreateVec"
+"drCreateVec( 
+s_dataType
+x_length
+) 
+=> o_vec / nil"
+"Creates a new data vector.")
+("drCreateEmptyWaveform"
+"drCreateEmptyWaveform(
+)
+=> o_waveform"
+"Creates an empty waveform data object.")
+("drCreateWaveform"
+"drCreateWaveform( 
+o_xvec 
+o_yvec
+)
+=> o_wave"
+"Creates a waveform data object with the vectors specified.")
+("drGetWaveformXType"
+"drGetWaveformXType( 
+o_wave
+) 
+=> s_dataType"
+"Returns the X vector data type of the waveform data object o_wave.")
+("drGetWaveformXVec"
+"drGetWaveformXVec( 
+o_wave 
+)
+=> o_vec"
+"Returns the X vector object ID of the waveform data object o_wave.")
+("drGetWaveformYType"
+"drGetWaveformYType(
+o_wave 
+)
+=> s_dataType"
+"Returns the Y vector data type of the waveform data object o_wave.")
+("drGetWaveformYVec"
+"drGetWaveformYVec( 
+o_wave
+)
+=> o_vec"
+"Returns the Y vector object ID of the waveform data object o_wave.")
+("drPutWaveformXVec"
+"drPutWaveformXVec(
+o_wave 
+o_vec
+)
+=> t / nil"
+"Puts the data vector o_vec into the waveform data object o_wave. o_vec is the X vector of the waveform data object. If the o_wave already contains a Y vector, the length of o_vec must be the same as that of the Y vector.")
+("drPutWaveformYVec"
+"drPutWaveformYVec( 
+o_wave
+o_vec 
+)
+=> t / nil"
+"Puts the data vector o_vec into the waveform data object o_wave. o_vec is the Y vector of the waveform data object. If the o_wave already contains a X vector, the length of o_vec must be the same as that of the X vector.")
+("drIsDataVector"
+"drIsDataVector( 
+g_value
+)
+=> t / nil"
+"Returns t when g_value is a valid drVector data object and nil if it is not one.")
+("drIsParamWave"
+"drIsParamWave( 
+g_value
+)
+=> t / nil"
+"Returns t when g_value is a family, for example a parametric wave.")
+("drIsWaveform"
+"drIsWaveform(
+g_value
+)
+=> t / nil"
+"Returns t when g_value is a waveform data object and nil if it is a family.")
+("drType"
+"drType( 
+o_vec
+)
+=> s_type"
+"Returns the data type of the data vector o_vec.")
+("drVectorLength"
+"drVectorLength( 
+o_vec
+)
+=> x_length"
+"Returns the length of the data vector o_vec.")
+("famAddValue"
+"famAddValue( 
+o_family
+g_sweepValue
+g_value
+) 
+=> o_family"
+"Adds a waveform associated with sweepValue to a family if values are specified for both sweepValue and value.")
+("famCreateFamily"
+"famCreateFamily(
+s_sweepName
+s_varType
+) 
+=> o_family"
+"Creates a empty data structure called a family. When filled with data, it is suitable to be plotted plotted as a family of curves. Each waveform has a name given by s_varName and the values are added with famAddValue.")
+("famGetSweepName"
+"famGetSweepName( 
+o_family
+[ x_dim ]
+)
+=> s_sweepName"
+"Returns the name of the sweep variable of the parametric waveform and the dimension supplied.")
+("famGetSweepValues"
+"famGetSweepValues( 
+o_family
+)
+=> l_values"
+"Returns the values of the sweep variable of the family specified. The returned list is sorted in increasing order.")
+("famIsFamily"
+"famIsFamily( 
+g_arg
+)
+=> t / nil"
+"Checks whether the argument specified is a family with at least one waveform.")
+("famMap"
+"famMap( 
+s_func
+o_family 
+[args ...]
+)
+=> o_result"
+"Applies a function with a set of arguments to each member of a family of waveforms.")
+("famValue"
+"famValue( 
+o_family 
+g_sweepValue
+)
+=> o_waveformOrFamily"
+"Returns the waveform whose sweepName has the value specified using sweepValue.")
+("asiVerilogNetlistMoreCB"
+"asiVerilogNetlistMoreCB(
+) 
+=> t"
+"Displays the Verilog HNL Netlisting Option form.")
+("asiGetDigitalNetlistFileName"
+"asiGetDigitalNetlistFileName( 
+o_session
+) 
+=> t_digitalNetlistFileName"
+"Returns the digital netlist file name.")
+("asiConstructDigitalNetlist"
+"asiConstructDigitalNetlist( 
+o_session
+) 
+=> t / nil"
+"Constructs the digital netlist file for viewing.")
+("asiInitializeNetlisterMixed"
+"asiInitializeNetlisterMixed(
+o_session 
+) 
+=> t_mixedSignalDesignObject / nil"
+"Initializes the mixed signal netlister. Partitions the design and then calls nlCreateDesign to get the design object. Does not re-partition if the design has not changed since last partition.")
+("asiNetlistMixed"
+"asiNetlistMixed( 
+o_session 
+) 
+=> g_status / nil"
+"This method performs mixed netlisting. It creates a formatter object with nlCreateFormatter, after which the netlister is run and a netlist is generated with nlNetlist.")
+("asiGetVerilogCommandLineOption"
+"asiGetVerilogCommandLineOption( 
+o_session 
+) 
+=> t_verilogCommandLineOption"
+"Returns the verilog simulator command line options.")
+("asiGetDigitalCommandLineOption"
+"asiGetDigitalCommandLineOption( 
+o_session 
+) 
+=> t_digitalCommandLineOption"
+"Returns the digital part of the mixed simulation command line options.")
+("asiPrepareDigitalSimulation"
+"asiPrepareDigitalSimulation( 
+o_session
+) 
+=> t / nil"
+"Performs digital run directory clean up. It removes the file that stores the exit code for any previous digital simulation and cleans up the digital simulator old log file.")
+("asiCheckDigitalSimulationSuccess"
+"asiCheckDigitalSimulationSuccess( 
+o_session
+) 
+=> t / nil"
+"Reports the success or failure of the simulation by looking at the digital simulator status file. Further, if no digital signals are saved by the user, this routine updates the logFileVerilog file to indicate that no digital waveforms are available for viewing.")
+("asiGetNetworkId"
+"asiGetNetworkId(
+o_session 
+) 
+=> o_networkId"
+"Returns the network ID of a mixed signal design.")
+("asiGetDigitalStimulusFileName"
+"asiGetDigitalStimulusFileName( 
+o_session
+) 
+=> t_digitalStimulusFileName"
+"Returns the digital stimulus file name. This file name is the concatenated path string of the digital netlist run directory followed by testfixture.verimix.")
+("asiEditDigitalStimulus"
+"asiEditDigitalStimulus( 
+o_session
+) 
+=> o_childId / nil"
+"This method edits the digital stimulus file. It gets the full path to the stimulus file by calling asiGetDigitalStimulusFileName. If the stimulus file does not exist, the asiNetlist flowchart step is executed to run the netlister and create a digital stimulus file. Finally the stimulus file is opened in an editor.")
+("asiPartitionDesign"
+"asiPartitionDesign( 
+o_session 
+) 
+=> t / nil"
+"This method partitions a mixed signal design into analog and digital parts.")
+("asiGetDigitalSimulatorLogFileName"
+"asiGetDigitalSimulatorLogFileName( 
+o_session
+) 
+=> t_verilogLogFileName"
+"design.")
+("asiGetDigitalSimExecName"
+"asiGetDigitalSimExecName(
+o_session
+) 
+=> t_digitalSimExecName"
+"Displays the verimix executable name.")
+("asiSetVerilogHost"
+"asiSetVerilogHost( 
+o_session 
+t_host 
+) 
+=> t_digitalSimulatorHostName"
+"Sets the digital simulator host name for mixed signal simulation.")
+("asiSetVerilogHostMode"
+"asiSetVerilogHostMode( 
+o_session
+t_hostMode 
+) 
+=> t_digitalSimulatorHostMode"
+"Specifies whether the digital simulator will run locally or on a remote host. If you specify remote, you must specify the host name by using the asiSetVerilogHost command.")
+("asiGetVerilogHost"
+"asiGetVerilogHost( 
+o_session 
+) 
+=> t_digitalSimulatorHostName"
+"Returns the digital simulator host name for mixed signal simulation. This method first verifies if host name was set using asiSetVerilogHost. If yes, it returns that host name. Otherwise, it returns the default value of digitalHost in the .cdsenv file for tool asimenv and partition startup.")
+("asiGetVerilogHostMode"
+"asiGetVerilogHostMode( 
+o_session
+) 
+=> t_digitalSimulatorHostMode"
+"Returns the digital simulator host mode for mixed signal simulation. This method first verifies if host mode was set using asiSetVerilogHostMode. If yes, it returns that mode. Otherwise, it returns the default value of digitalHostMode in the .cdsenv file for tool asimenv and partition startup.")
+("asiGetAnalogRunDir"
+"asiGetAnalogRunDir( 
+o_session 
+) 
+=> t_AnalogSimulatorRunDir"
+"Returns the analog simulator run directory.")
+("asiGetDigitalRunDir"
+"asiGetDigitalRunDir( 
+o_session
+) 
+=> t_DigitalSimulatorRunDir"
+"Returns the digital simulator run directory.")
+("asiGetAnalogKeepList"
+"asiGetAnalogKeepList( 
+o_session 
+) 
+=> l_AnalogSignalDescriptionList"
+"Returns the list of user-selected output signals that are analog. This method first checks if the current simulation session is mixed signal. If yes, then it returns all the user-selected output signals within the analog partition of the mixed signal design. Otherwise, it calls asiGetKeepList to get the list of signals and currents to be saved during simulation.")
+("asiGetDigitalKeepList"
+"asiGetDigitalKeepList( 
+o_session 
+) 
+=> l_DigitalSignalDescriptionList"
+"Returns the list of user-selected output signals that are digital.")
+("asiInitMixedKeepOption"
+"asiInitMixedKeepOption( 
+o_tool
+)
+=> t"
+"Initializes the mixed signal keep options variables.")
+("asiInitVerilog"
+"asiInitVerilog( 
+o_tool
+) 
+=> t"
+"Initializes the verilog tool.")
+("asiInitVerilogEnvOption"
+"asiInitVerilogEnvOption( 
+o_tool 
+)
+=> t"
+"Initializes the base Verilog environment options.")
+("asiInitVerilogFNLEnvOption"
+"asiInitVerilogFNLEnvOption( 
+o_tool 
+) 
+=> t"
+"Initializes the Verilog FNL netlisting options.")
+("asiInitVerilogHNLEnvOption"
+"asiInitVerilogHNLEnvOption(
+o_tool
+)
+=> t"
+"Initializes the Verilog HNL netlisting options.")
+("asiInitVerilogSimOption"
+"asiInitVerilogSimOption( 
+o_tool 
+)
+=> t"
+"Initializes the simulation options for verilog.")
+("asiSetAnalogSimulator"
+"asiSetAnalogSimulator( 
+o_tool
+s_analogSimulator 
+)
+=> s_analogSimulator"
+"Sets the analog simulator.")
+("asiSetDigitalSimulator"
+"asiSetDigitalSimulator( 
+o_tool
+s_digitalSimulator
+)
+=> s_digitalSimulator"
+"Sets the digital simulator.")
+("mspDisplaySetPartSetupForm"
+"mspDisplaySetPartSetupForm(
+)
+=> t / nil"
+"This function displays the Partitions Options form, which can be used to edit and set the values for the Analog Stop View Set and Digital Stop View Set.")
+("mspEditIEProps"
+"mspEditIEProps( 
+t_objectType
+)
+=> t / nil"
+"This is the main entry procedure for the Interface Element property editor. It takes an object type. The object type can be one of instTerm, instance, terminal, cellView, lib or default. This function first calls a selection function appropriate for the object type which prompts the user to select an object. When the object has been selected, the selection function will execute its callback. An exception to this is that for lib and default objectType values, no selection functions are called. Next, the IE model property editor is called to create a parameter entry form for the current ieModel. The callbacks to this form will attach properties to the object selected earlier.")
+("hnlVerilogPrintNmosPmos"
+"hnlVerilogPrintNmosPmos( 
+t_name
+) 
+=> t"
+"Used by netlister to print pmos, rpmos, nmos, or rnmos gates.")
+("hnlVerilogPrintCmos"
+"hnlVerilogPrintCmos( 
+t_name
+)
+=> t"
+"Used by netlister to print cmos, rcmos gates.")
+("nlGetCdf"
+"nlGetCdf(
+o_inst
+) 
+=> o_cdfId"
+"Obtains the CDF information of the IE cell. CDF information contains the default IE parameter, default IE macro model file name and parameter mapping from CDF to simulator specific names.")
+("sevGetSessionType"
+"sevGetSessionType(
+t_session
+)
+=> t_toolName"
+"Returns the name of the tool associated with the given session.")
+("sevSetMainWindowPulldownMenus"
+"sevSetMainWindowPulldownMenus(
+l_menus
+)
+=> t / nil"
+"Sets the menus for the Virtuoso Analog Simulation Environment window.")
+("sevSetMTSMode"
+"sevSetMTSMode(
+o_session
+g_mtsMode
+[g_noPopups ]
+)
+=> t / nil"
+"Enables or disables the MTS mode.")
+("sevMTSMode"
+"sevMTSMode(
+o_session
+)
+=> t / nil"
+"Returns the status of the MTS mode.")
+("sevMTSOptions"
+"sevMTSOptions(
+o_session
+)
+=> t / nil"
+"Invokes the MTS option form if MTS mode is enabled. A dialog box appears if the MTS option is disabled.")
+("sevOpenXterm"
+"sevOpenXterm( 
+t_dirPath 
+) 
+=> t / nil"
+"Opens an terminal window at the given path.")
+("sevSetSchematicPulldownMenus"
+"sevSetSchematicPulldownMenus(
+l_menus
+)
+=> t / nil"
+"Sets the simulation menus on the schematic window.")
+("sevSetTypeInWindowPulldownMenus"
+"sevSetTypeInWindowPulldownMenus(
+l_menus
+)
+=> t / nil"
+"Sets the menu on the simulator type in window.")
+("sevSetMenuItemLists"
+"sevSetMenuItemLists(
+l_lists
+)
+=> t / nil"
+"Creates the menu item lists.")
+("sevAddMenuItemLists"
+"sevAddMenuItemLists(
+l_lists
+)
+=> t / nil"
+"Adds menu items to an existing menu item list.")
+("sevDirectPlotMenu"
+"sevDirectPlotMenu(
+t_session 
+l_items
+)
+=> t / nil"
+"Creates the direct plot menu item list.")
+("sevEnvironment"
+"sevEnvironment(
+t_session
+)
+=> o_session / nil"
+"Displays the Oasis session object tied to the simulation environment session.")
+("sevNoEnvironment"
+"sevNoEnvironment(
+t_session
+)
+=> t / nil"
+"Indicates whether an Oasis environment is tied to the simulation environment.")
+("sevSaveState"
+"sevSaveState(
+t_session
+)
+=> t / nil"
+"Displays the Saving State form that lets you save the current state of the simulation environment.")
+("sevLoadState"
+"sevLoadState(
+t_session
+)
+=> t / nil"
+"Displays the Loading State form that lets you load a saved state into the current simulation environment.")
+("sevSaveOceanScript"
+"sevSaveOceanScript(
+t_session
+)
+=> t / nil"
+"Displays the Save Ocean Script to File form that lets you save an Ocean script that will regenerate the current session to the specified file.")
+("sevEditOptions"
+"sevEditOptions(
+t_session
+)
+=> t / nil"
+"Displays the Editing Session Options form that lets you edit the options for the given simulation environment session.")
+("sevOpenSchematic"
+"sevOpenSchematic(
+t_session
+)
+=> t / nil"
+"Displays a schematic window for the design that is tied to the simulation environment.")
+("sevMenuItems"
+"sevMenuItems(
+t_session 
+t_name
+)
+=> t / nil"
+"Displays the menu item list that corresponds to the named menu item.")
+("sevReset"
+"sevReset(
+t_session
+)
+=> t / nil"
+"Resets the simulation environment session to its default values.")
+("sevQuit"
+"sevQuit(
+t_session
+)
+=> t / nil"
+"Quits the simulation session.")
+("sevCreateMainWindow"
+"sevCreateMainWindow(
+t_session
+)
+=> t / nil"
+"Creates the main simulation environment window.")
+("sevChooseSimulator"
+"sevChooseSimulator(
+t_session
+[ g_disableProjectDir ]
+)
+=> t / nil"
+"Displays the Choosing Simulator/Directory/Host form that lets you choose the simulator you want to use, the run directory, and the host machine.")
+("sevChooseTemperature"
+"sevChooseTemperature(
+t_session
+)
+=> t / nil"
+"Displays the Setting Temperature form that lets you set the simulation temperature.")
+("sevMpuTool"
+"sevMpuTool(
+t_session
+)
+=> t / nil"
+"Displays the Setting Model Path form that lets you select the paths to the model files.")
+("sevChooseEnvironmentOptions"
+"sevChooseEnvironmentOptions(
+t_session
+)
+=> t / nil"
+"Displays the Environment Options form that lets you select the environment options for the simulation environment session.")
+("sevEditStimulus"
+"sevEditStimulus(
+t_session 
+t_type
+)
+=> t / nil"
+"Displays the specified stimulus in a window for editing.")
+("sevNonMixedSignal"
+"sevNonMixedSignal(
+t_session
+)
+=> t / nil"
+"Indicates whether the session is running a mixed signal simulation.")
+("sevEditSimulationFile"
+"sevEditSimulationFile(
+t_session 
+t_type
+)
+=> t / nil"
+"Displays the specified file in a window for editing.")
+("sevChooseDesign"
+"sevChooseDesign(
+t_session
+)
+=> t / nil"
+"Displays the Choosing Design form that lets you select the design to simulate.")
+("sevEditSelectedAnas"
+"sevEditSelectedAnas(
+t_session
+)
+=> t / nil"
+"Displays the Choosing Analyses form that lets you select and edit the analyses.")
+("sevEditSelectedVars"
+"sevEditSelectedVars(
+t_session
+)
+=> t / nil"
+"Displays the Editing Design Variables form that lets you edit the simulation variables and their values.")
+("sevEditSelectedOuts"
+"sevEditSelectedOuts(
+t_session
+)
+=> t / nil"
+"Displays the Setting Outputs form that lets you edit the simulation outputs.")
+("sevChangeOutsOnSchematic"
+"sevChangeOutsOnSchematic(
+t_session
+t_setType
+[ ?selectionMode selectionMode ]
+)
+=> t / nil"
+"Sets up for selection of selected output types from the schematic.")
+("sevSaveOptions"
+"sevSaveOptions(
+t_session
+)
+=> t / nil"
+"Displays the Save Options form that lets you select what voltages and currents should be automatically saved in the simulation.")
+("sevDeleteSelectedAnas"
+"sevDeleteSelectedAnas(
+t_session
+)
+=> t / nil"
+"Deletes the analyses that are currently selected in the Analysis listbox.")
+("sevNoAnaSelections"
+"sevNoAnaSelections(
+t_session
+)
+=> t / nil"
+"Indicates whether any analyses are selected in the Analysis listbox.")
+("sevActivateSelectedAnas"
+"sevActivateSelectedAnas(
+t_session 
+g_active
+)
+=> t / nil"
+"Enables or disables the selected analyses.")
+("sevDeleteSelectedVars"
+"sevDeleteSelectedVars(
+t_session
+)
+=> t / nil"
+"Deletes any variables that are selected in the Variables listbox.")
+("sevNoVarSelections"
+"sevNoVarSelections(
+t_session
+)
+=> t / nil"
+"Indicates whether any variables are selected in the Variables listbox.")
+("sevFindSelectedVars"
+"sevFindSelectedVars(
+t_session
+)
+=> t / nil"
+"Highlights the device on the schematic where the selected variable is used.")
+("sevCopyCellViewVariables"
+"sevCopyCellViewVariables(
+t_session
+)
+=> t / nil"
+"Copies the cell view variables and their values into the simulation environment.")
+("sevCopyVariablesToCellView"
+"sevCopyVariablesToCellView(
+t_session
+)
+=> t / nil"
+"Copies the simulation session variables and their values into the cellview.")
+("sevDeleteSelectedOuts"
+"sevDeleteSelectedOuts(
+t_session 
+@optional l_listbox
+)
+=> t / nil"
+"Deletes the selected items from the outputs list box.")
+("sevExportOutputsToTxt"
+"sevExportOutputsToTxt(
+t_session
+)
+=> t / nil"
+"Exports the outputs specified in the Output listbox to a text file. This text file can be edited and imported back to ADE.")
+("sevImportOutputsFromTxt"
+"sevImportOutputsFromTxt(
+t_session
+)
+=> t / nil"
+"Imports the outputs saved in a text file to the output list box in the main ADE window.")
+("sevExportOutputsToCSV"
+"sevExportOutputsToCSV(
+t_sevSession
+)
+=> t / nil"
+"Exports the outputs specified in the ADE setup to the CSV file.")
+("sevExportOutputsToFile"
+"sevExportOutputsToFile(
+t_sevSession
+)
+=> t / nil"
+"Exports the output from the ADE setup to the text or CSV file, which is specified by the .cdsenv variable outputsImportExportVersion. If the value of outputsImportExportVersion variable is greater than 1.0, then the function generates the output to the CSV file, else it generates the output to the text file.")
+("sevImportOutputsFromCSV"
+"sevImportOutputsFromCSV(
+t_sevSession
+)
+=> t / nil"
+"Imports the outputs from the CSV file to the ADE setup.")
+("sevImportOutputsFromFile"
+"sevImportOutputsFromFile(
+t_sevSession
+)
+=> t / nil"
+"Imports the output to the ADE setup from the text or CSV file, which is specified by the .cdsenv variable outputsImportExportVersion. If the value of outputsImportExportVersion variable is greater than 1.0, then the function imports the outputs from the CSV file, else it imports the outputs from the text file.")
+("sevNoOutSelections"
+"sevNoOutSelections(
+t_session
+)
+=> t / nil"
+"Indicates whether any output is selected in the Outputs listbox.")
+("sevRemovePlotWindow"
+"sevRemovePlotWindow(
+t_session 
+w_windowID
+)
+=> l_plotWindows / nil"
+"Removes the specified plot window from the list of plot windows owned by the given simulation environment session.")
+("sevSetPropertyForSelectedOuts"
+"sevSetPropertyForSelectedOuts(
+t_session 
+t_property 
+g_value
+)
+=> t / nil"
+"Sets the property to the specified value on the selected outputs.")
+("sevSimulator"
+"sevSimulator(
+t_session
+)
+=> t_simulatorName"
+"Displays the name of the simulator used in the session as a string.")
+("sevRunEngine"
+"sevRunEngine(
+t_session
+)
+=> t / nil"
+"Runs a simulation from the simulation environment session.")
+("sevStopEngine"
+"sevStopEngine(
+t_session
+)
+=> t / nil"
+"Stops the currently running simulation that is tied to the session.")
+("sevIsContinuable"
+"sevIsContinuable(
+t_session
+)
+=> t / nil"
+"Indicates whether the currently run simulation can be continued from its stopping point.")
+("sevSetEngineOptions"
+"sevSetEngineOptions(
+t_session 
+t_type
+)
+=> t / nil"
+"Displays the Engine Options form for the selected type for editing.")
+("sevNetlistFile"
+"sevNetlistFile(
+t_session 
+t_type
+)
+=> t / nil"
+"Creates the selected type of netlist file.")
+("sevOpenEncap"
+"sevOpenEncap(
+t_session
+)
+=> t / nil"
+"Opens the command type in window that lets you enter commands directly to the simulator.")
+("sevViewSimulatorOutput"
+"sevViewSimulatorOutput(
+t_session
+)
+=> t / nil"
+"Displays the simulation output log.")
+("sevNoOutputLog"
+"sevNoOutputLog(
+t_session
+)
+=> t / nil"
+"Indicates whether the simulation output log exists.")
+("sevConvergence"
+"sevConvergence(
+t_session 
+t_type
+)
+=> t / nil"
+"Displays the form for setting up the selected type of convergence aid.")
+("sevNoResults"
+"sevNoResults(
+t_session 
+@optional t_type
+)
+=> t / nil"
+"Indicates whether the specified results exist.")
+("sevNoPlottableOutputs"
+"sevNoPlottableOutputs(
+t_session
+)
+=> t / nil"
+"Indicates whether there are any plottable outputs.")
+("sevCircuitCond"
+"sevCircuitCond(
+t_session
+)
+=> t / nil"
+"Displays the Circuit Conditions form that lets you set or display any special circuit conditions.")
+("sevNoDesign"
+"sevNoDesign(
+t_session
+)
+=> t / nil"
+"Indicates whether a design is tied to the simulation environment.")
+("sevSetSimDataDir"
+"sevSetSimDataDir( 
+t_session 
+t_dir 
+)
+=> t / nil"
+"Loads the results for the specified simulation environment session and results directory.")
+("sevSaveResults"
+"sevSaveResults(
+t_session
+)
+=> t / nil"
+"Displays the Save Results form that lets you save the current results.")
+("sevSelectResults"
+"sevSelectResults(
+t_session
+)
+=> t / nil"
+"Displays the Select Results form that lets you select and load a previously saved set of results.")
+("sevDeleteResults"
+"sevDeleteResults(
+t_session
+)
+=> t / nil"
+"Displays the Delete Results form that lets you delete a set of previously saved results.")
+("sevEditPlottingOptions"
+"sevEditPlottingOptions(
+t_session
+)
+=> t / nil"
+"Displays the Setting Plotting Options form that lets you edit the plotting and printing options.")
+("sevPlotAllOutputs"
+"sevPlotAllOutputs(
+t_session
+)
+=> t / nil"
+"Plots all enabled plottable outputs.")
+("sevNoPlottableSignals"
+"sevNoPlottableSignals(
+t_session
+)
+=> t / nil"
+"Indicates whether there are any plottable outputs.")
+("sevPlotSignals"
+"sevPlotSignals(
+t_session
+t_type
+[ ?disableRedraw g_disableRedraw ]
+)
+=> t / nil"
+"Plots the speacified type of signals that exist as outputs.")
+("sevEvaluateAndPlotExpressions"
+"sevEvaluateAndPlotExpressions(
+t_session
+)
+=> t / nil"
+"Evaluates and plots all the output expressions.")
+("sevNoPlottableExpressions"
+"sevNoPlottableExpressions(
+t_session
+)
+=> t / nil"
+"Indicates whether there are any plottable expressions.")
+("sevPrintResults"
+"sevPrintResults(
+t_session
+t_type
+)
+=> t / nil"
+"Displays the Print Results form that lets you print the selected type of simulation results.")
+("sevRetrieveFromEffectiveCDF"
+"sevRetrieveFromEffectiveCDF"
+"Retrieves data from the effective CDF. This function should be used before the sevAnnotateResults function.")
+("sevAnnotateResults"
+"sevAnnotateResults(
+t_session 
+t_type
+)
+=> t / nil"
+"Annotates the selected results to the schematic window.")
+("sevRegisterPcellsForAnnotation"
+"sevRegisterPcellsForAnnotation(
+l_LibCellNames
+)
+=> l_LibCellNames/ nil"
+"Returns a list of library and cell name pairs for the registered Pcells.")
+("sevGetRegisteredPcellsForAnnotation"
+"sevGetRegisteredPcellsForAnnotation()
+=> l_LibCellNames/ nil"
+"Returns the list of library and cell name pairs of the registered Pcells to be used in the operating point annotation flow.")
+("sevParametricTool"
+"sevParametricTool(
+t_session
+)
+=> t / nil"
+"Opens the Parametric analysis tool.")
+("sevCornersTool"
+"sevCornersTool(
+t_session
+)
+=> t / nil"
+"Opens the Corners tool.")
+("sevMonteCarloTool"
+"sevMonteCarloTool(
+t_session
+)
+=> t / nil"
+"Opens the Analog Statistical Analysis tool.")
+("sevOptimizationTool"
+"sevOptimizationTool(
+t_session
+)
+=> t / nil"
+"Opens the Optimization tool.")
+("sevOpenCalculator"
+"sevOpenCalculator(
+)
+=> t / nil"
+"Opens the Calculator.")
+("sevOpenDRLBrowser"
+"sevOpenDRLBrowser(
+)
+=> t / nil"
+"Opens the Browse Project Hierarchy window.")
+("sevOpenPlotWindow"
+"sevOpenPlotWindow(
+t_session
+)
+=> t / nil"
+"Opens a plot window.")
+("sevOpenPrintWindow"
+"sevOpenPrintWindow(
+t_session
+)
+=> t / nil"
+"Opens a print window.")
+("sevOpenJobMonitor"
+"sevOpenJobMonitor(
+)
+=> t / nil"
+"Opens the Job monitor.")
+("sevIcon"
+"sevIcon(
+t_name
+)
+=> o_icon / nil"
+"Displays the icon object corresponding to the specified name.")
+("sevDeleteSelections"
+"sevDeleteSelections(
+t_session
+)
+=> t / nil"
+"Deletes the selected items in any of the simulation environment list boxes.")
+("sevWhatsNew"
+"sevWhatsNew(
+)
+=> t / nil"
+"Opens the Whats New window for the simulation environment.")
+("sevAboutTool"
+"sevAboutTool(
+t_toolname
+)
+=> t / nil"
+"Generates and displays the standard About DFII window for the tool with the tool name in the message.")
+("sevStartSession"
+"sevStartSession(
+[ ?design g_design ]
+[ ?lib g_lib ]
+[ ?cell g_cell ]
+[ ?view g_view ]
+[ ?schematic g_schematic ]
+)
+=> t / nil"
+"Starts the Virtuoso Analog Simulation Environment session tied to the specified design. It will try the design first, then lib/cell/view, and finally it will try the schematic. If none of these is specified, it will start a skeleton session that will not be able to do anything until a design has been tied to the session. The lib/cell/view arguments must be specified, otherwise they are ignored.")
+("sevEditModels"
+"sevEditModels(
+t_session
+)
+=> t / nil"
+"Displays the Model Library Setup form that lets you edit the Spectre direct model libraries.")
+("sevSetupStimuli"
+"sevSetupStimuli(
+t_session
+)
+=> t / nil"
+"Displays the Setup Analog Stimuli form that lets you specify the circuit stimuli.")
+("sevSetupSimulationFiles"
+"sevSetupSimulationFiles(
+t_session
+)
+=> t / nil"
+"Displays the Simulation Files Setup form that lets you specify the simulation files and paths for Spectre direct simulation.")
+("sevNetlistAndRun"
+"sevNetlistAndRun(
+t_session
+)
+=> t / nil"
+"Forces the circuit to netlist and then runs the simulation.")
+("sevRun"
+"sevRun(
+t_session
+)
+=> t / nil"
+"Runs a simulation using the current netlist.")
+("sevNetlistAndDebug"
+"sevNetlistAndDebug(
+t_session
+)
+=> t / nil"
+"Forces the circuit to netlist and runs the AHDL debugger.")
+("sevDebug"
+"sevDebug(
+t_session
+)
+=> t / nil"
+"Runs the AHDL debugger using the current netlist.")
+("sevLMGTool"
+"sevLMGTool(
+t_session
+)
+=> t / nil"
+"Opens the Transmission Line Modeler tool.")
+("sevPKGTool"
+"sevPKGTool(
+t_session
+)
+=> t / nil"
+"Opens the RFIC Package Modeler tool.")
+("sevKmodelTool"
+"sevKmodelTool(
+t_session
+)
+=> t / nil"
+"Opens the RIFC Modeler for Cierto SPW tool.")
+("sevPCMTool"
+"sevPCMTool(
+t_session
+)
+=> t / nil"
+"Opens the Spiral Inductor Modeler tool.")
+("sevBPMTool"
+"sevBPMTool(
+t_session
+)
+=> t / nil"
+"Opens the Bond Pad Modeler tool.")
+("sevBALMTool"
+"sevBALMTool(
+t_session
+) 
+=> t / nil"
+"Opens the Transformer Modeler tool.")
+("sevActiveSelectedAna"
+"sevActiveSelectedAna(
+o_session
+)
+=> l_analyses / nil"
+"Returns the list of selected analyses that are currently enabled.")
+("sevNonActiveSelectedAna"
+"sevNonActiveSelectedAna(
+o_session
+)
+=> l_analyses / nil"
+"Returns the list of selected analyses that are currently not enabled.")
+("sevSession"
+"sevSession(
+o_entity
+)
+=> t_session / nil"
+"Displays the session ID of the simulation environment such as the ADE L window, the schematic window associated with ADE L, or a form launched from ADE L.")
+("sevSetTopSaveDir"
+"sevSetTopSaveDir(
+o_session
+)
+=> t"
+"This function sets the ADE L Save State directory for the simulation environment session.")
+("sevTopSaveDir"
+"sevTopSaveDir(
+o_session
+)
+=> t_dir"
+"Displays the current ADE L Save State directory path.")
+("sevDisplayViolations"
+"sevDisplayViolations(
+t_sevSession
+)
+=> o_form"
+"Displays the violations form.")
+("sevNoViolationsFound"
+"sevNoViolationsFound(
+s_sevSession
+)
+=> t / nil"
+"Determines if any violation file has been found in the results.")
+("sevParasiticsDisplayed"
+"sevParasiticsDisplayed(
+t_session
+)
+=> t / nil"
+"Determines whether the Show Parasitics menu will be disabled when the DC Operating Point results are available.")
+("sevParasiticsNotDisplayed"
+"sevParasiticsNotDisplayed(
+t_session
+)
+=> t / nil"
+"Determines if the Hide Parasitics menu will be disabled when the DC Operating Point results are available.")
+("sevDevChecking"
+"sevDevChecking(
+t_sevSession
+)
+=> o_form / nil"
+"Displays the Analog Design Environment Device Checking Setup form.")
+("sevSetSolver"
+"sevSetSolver(
+t_session
+)
+=> t / nil"
+"Displays the Choose Solver form, which lets you select a solver.")
+("sevSetConnectModules"
+"sevSetConnectModules(
+t_session
+)
+=> t / nil"
+"Displays the Connect Rules form that allows you to select built-in or user-defined connect rules.")
+("sevInvokeNCBrowse"
+"sevInvokeNCBrowse(
+t_session
+)
+=> t / nil"
+"Displays the NCBrowse window.")
+("sevInvokeSimvision"
+"sevInvokeSimvision(
+t_session
+)
+=> t / nil"
+"Displays the SimVision Waveform window.")
+("sevInvokeSimvisionDebugger"
+"sevInvokeSimvisionDebugger(
+t_session
+)
+=> t / nil"
+"Displays the SimVision Debugger interface with GUI options during an AMS session.")
+("sevNoLog"
+"sevNoLog(
+t_session 
+t_type
+)
+=> t / nil"
+"Checks if the specified log file exists for the AMS interface.")
+("sevViewNetlisterLog"
+"sevViewNetlisterLog(
+t_session
+)
+=> t / nil"
+"Displays the AMS netlister log file.")
+("sevViewCompilerLog"
+"sevViewCompilerLog(
+t_session
+)
+=> t / nil"
+"Displays the AMS simulation compiler log file. The log file can be either ncvlog.log or ncvhdl.log depending on the contents of the AMS design.")
+("sevViewElabLog"
+"sevViewElabLog(
+t_session
+)
+=> t / nil"
+"Displays the AMS simulation elaborator log file.")
+("sevViewNcVerilogLog"
+"sevViewNcverilogLog(
+t_session
+)
+=> t / nil"
+"Displays the AMS simulation NcVerilog log file.")
+("sevViewSimLog"
+"sevViewSimLog(
+t_session
+)
+=> t / nil"
+"Displays the AMS simulator log file.")
+("sevReturnVariablesWithEmptyValues"
+"sevReturnVariablesWithEmptyValues(
+o_session
+)
+=> t_string / nil"
+"Returns the set of variables in a session with empty values.")
+("sevAddExpression"
+"sevAddExpression(
+o_session
+t_expressionname
+t_expression
+)
+=> t / nil"
+"Takes the name and expression as a string and adds a corresponding output in ADE session.")
+("sevGetExpressions"
+"sevGetExpressions(
+o_session
+[ ?axlTestName t_axlTestName ]
+[ ?namedOnly g_namedOnly ]
+)
+=> l_list"
+"Returns all the expressions in the specified ADE/ADEXL session.")
+("sevDeleteSelectedSubckts"
+"sevDeleteSelectedSubckts(
+t_sevSession 
+[ l_instanceList ]
+)
+=> t / nil"
+"Deletes the subcircuit instances selected in the Save By Subckt Instances pane of the simulation window.")
+("sevDeleteSelectedOpPoints"
+"sevDeleteSelectedOpPoints"
+"Deletes the operating point instances selected in the Save Operating Points pane of the simulation window.")
+("cdfCreateBaseLibCDF"
+"cdfCreateBaseLibCDF( 
+g_libId 
+[ ?doneProc t_doneProc ]
+[ ?formInitProc t_formInitProc ]
+[ ?fieldWidth x_fieldWidth ]
+[ ?fieldHeight x_fieldHeight ]
+[ ?buttonFieldWidth x_buttonFieldWidth ]
+[ ?promptWidth x_promptWidth ]
+)
+=> g_cdfDataId / nil"
+"Creates the Base Library CDF that is applied to all the devices in the library. The CDF description is created with no parameters or simModels.")
+("cdfCreateUserLibCDF"
+"cdfCreateUserLibCDF( 
+g_libId 
+[ ?doneProc t_doneProc ]
+[ ?formInitProc t_formInitProc ]
+[ ?fieldWidth x_fieldWidth ]
+[ ?fieldHeight x_fieldHeight ]
+[ ?buttonFieldWidth x_buttonFieldWidth ]
+[ ?promptWidth x_promptWidth ]
+) 
+=> g_cdfDataId / nil"
+"Creates the user-level library CDF that is applied to all the devices in the library. The user-level CDF can override entries in the base-level CDF. Therefore, a combination of the base-level CDF and the user-level CDF becomes the effective CDF.")
+("cdfCreateBaseCellCDF"
+"cdfCreateBaseCellCDF(
+g_cellId 
+[ ?doneProc t_doneProc ]
+[ ?formInitProc t_formInitProc ]
+[ ?fieldWidth x_fieldWidth ]
+[ ?fieldHeight x_fieldHeight ]
+[ ?buttonFieldWidth x_buttonFieldWidth ]
+[ ?promptWidth x_promptWidth ]
+)
+=> g_cdfDataId / nil"
+"Creates a base-level CDF description for a cell. The CDF description is created with no parameters or simulation models.")
+("cdfCreateUserCellCDF"
+"cdfCreateUserCellCDF(
+g_cellId 
+[ ?doneProc t_doneProc ]
+[ ?formInitProc t_formInitProc ]
+[ ?fieldWidth x_fieldWidth ]
+[ ?fieldHeight x_fieldHeight ]
+[ ?buttonFieldWidth x_buttonFieldWidth ]
+[ ?promptWidth x_promptWidth ]
+)
+=> g_cdfDataId / nil"
+"Creates a user-level CDF description for a cell. The CDF description is created with no parameters or simulation models.")
+("cdfCreateParam"
+"cdfCreateParam(
+g_cdfDataId
+[ ?name t_name ]
+[ ?type t_type ]
+[ ?defValue g_defValue ]
+[ ?units t_units ]
+[ ?parseAsNumber t_parseAsNumber ]
+[ ?choices l_choices ]
+[ ?prompt t_prompt ]
+[ ?use t_use ]
+[ ?display t_display ]
+[ ?editable t_editable]
+[ ?dontSave t_dontSave]
+[ ?callback t_callback]
+[ ?storeDefault t_storeDefault ]
+[ ?parseAsCEL t_parseAsCEL ]
+[ ?description t_description ]
+)
+=> g_cdfDataId / nil"
+"Creates a parameter on the specified g_cdfDataId with the specified attributes. The only attributes that are always required are the parameter's name and type. If this parameter description is not overriding an existing base-level parameter definition, you must also specify the default value.")
+("cdfGetBaseLibCDF"
+"cdfGetBaseLibCDF(
+g_libId
+)
+=> g_cdfDataId / nil"
+"Returns the base-level CDF description attached to a library. If one is not defined, it returns nil.")
+("cdfGetUserLibCDF"
+"cdfGetUserLibCDF(
+g_libId
+)
+=> g_cdfDataId / nil"
+"Returns the user-level CDF description attached to a library. If one is not defined, it returns nil.")
+("cdfGetLibCDF"
+"cdfGetLibCDF(
+g_libId
+)
+=> g_cdfDataId / nil"
+"Returns the effective CDF description attached to a library. If neither a base- nor user-level CDF description is defined, it returns nil. The resulting CDF description represents the overlay of the user-level CDF on the base-level CDF.")
+("cdfGetBaseCellCDF"
+"cdfGetBaseCellCDF(
+g_cellId
+)
+=> g_cdfDataId / nil"
+"Returns the base-level CDF description attached to a cell. If one is not defined, it returns nil.")
+("cdfGetUserCellCDF"
+"cdfGetUserCellCDF(
+g_cellId
+)
+=> g_cdfDataId / nil"
+"Returns the user-level CDF description attached to a cell. If one is not defined, it returns nil.")
+("cdfGetCellCDF"
+"cdfGetCellCDF(
+g_cellId
+)
+=> g_cdfDataId / nil"
+"Returns the effective CDF description attached to a cell. If neither a base- nor user-level CDF description is defined for the cell or its library, it returns nil. The resulting CDF description represents the overlay of the user-level cell CDF on the base-level cell CDF on the user-level library CDF on the base-level library CDF.")
+("cdfGetInstCDF"
+"cdfGetInstCDF(
+d_instId
+)
+=> g_cdfDataId / nil"
+"Returns the effective CDF description associated with an instance.")
+("cdfSaveCDF"
+"cdfSaveCDF(
+g_cdfDataId
+)
+=> t / nil"
+"Saves a CDF description to disk.")
+("cdfDump"
+"cdfDump(
+t_libName
+t_fileName 
+[ ?cellName t_cellName ]
+[ ?level s_level ] 
+[ ?edit g_edit ]
+) 
+=> t / nil"
+"Dumps the CDF description for t_libName and t_cellName into t_fileName. If t_cellName is not specified, then only the library CDF description is dumped. t_fileName is created in the current working directory or the directory specified with the filename. s_level is either `base or `user, with `base as the default value. If g_edit is t, a text editor window is automatically opened on t_fileName. The default is no editor.")
+("cdfDumpAll"
+"cdfDumpAll(
+t_libName
+t_fileName 
+[ ?level s_level ] 
+[ ?edit g_edit ]
+) 
+=> t / nil"
+"Dumps the CDF description for t_libName and all its cells into t_fileName. s_level is either `base or `user, with `base as the default value. t_fileName is created in the current working directory or the directory specified with the filename. If g_edit is t, a text editor window is automatically opened on t_fileName. The default is no editor.")
+("cdfDeleteCDF"
+"cdfDeleteCDF(
+g_cdfDataId
+) 
+=> t / nil"
+"Deletes a CDF description, including all attached parameters.")
+("cdfDeleteParam"
+"cdfDeleteParam(
+g_cdfParamId
+) 
+=> t / nil"
+"Deletes a CDF parameter.")
+("cdfCopyCDF"
+"cdfCopyCDF(
+g_cellId | g_libId
+t_dataType
+g_sourceCdfDataId
+)
+=> g_cdfDataId / nil"
+"Copies the CDF data of the specified type from specified source to a library or cell by creating a new CDF data ID.")
+("cdfCopyParam"
+"cdfCopyParam(
+g_cdfDataId 
+g_cdfParamId
+)
+=> g_cdfParamId / nil"
+"Copies a parameter, adding it to g_cdfDataId.")
+("cdfFindParamByName"
+"cdfFindParamByName(
+g_cdfDataId 
+t_name
+)
+=> g_cdfParamId / nil"
+"Returns the parameter ID for the specified parameter name on the specified CDF description, if it exists. If not, it returns nil.")
+("cdfUpdateInstParam"
+"cdfUpdateInstParam( 
+d_instId
+)
+=> t / nil"
+"Stores the CDF parameters specified in the effective cell CDF of the instance master onto the specified instance. If a doneProc post-processing procedure is specified, the function executes that procedure after updating the instance. When the Id given is not for an instance or the instance master does not have CDF definition, it returns nil.")
+("cdfRefreshCDF"
+"cdfRefreshCDF(
+g_libId / g_cellId
+)
+=> t / nil"
+"Updates the CDF structure in the memory for the specified library or cell Id with the contents stored on the hard disk. Returns nil if the CDF structures for the specified library and cell Id is not present in memory.")
+("aedCopyCDF"
+"aedCopyCDF(
+)
+=> t / nil"
+"Opens the Copy Component CDF form.")
+("aedDeleteCDF"
+"aedDeleteCDF(
+)
+=> t / nil"
+"Opens the Delete Component CDF form.")
+("cdfGetUnitScaleFactor"
+"cdfGetUnitScaleFactor(
+t_unitName
+)
+=> t_scaleFactor"
+"Displays the current scale factor for the specified unit.")
+("cdfSetUnitScaleFactor"
+"cdfSetUnitScaleFactor(
+t_unitName
+t_scaleFactor
+)
+=> t / nil"
+"Sets the scale factor for the specified unit.")
+("cdfEditScaleFactors"
+"cdfEditScaleFactors(
+)
+=> t / nil"
+"Displays the Units Scaling Factors form which can be used to set scaling factors for displaying CDF parameters.")
+("cdfEnableScaleFactorRetentionForZero"
+"cdfEnableScaleFactorRetentionForZero(
+)
+=> t"
+"If the scale factor for a unit type is set to auto, this function lets you retain the unit scale factor for a CDF parameter if its specified default value is 0 followed by the scale factor.")
+("cdfDisableScaleFactorRetentionForZero"
+"cdfDisableScaleFactorRetentionForZero(
+)
+=> t"
+"Disables the unit scale factor retention for CDF parameters enabled using the cdfEnableScaleFactorRetentionForZero function.")
+("cdfParseFloatString"
+"cdfParseFloatString( 
+t_string
+)
+=> nil / d_value / t_string"
+"This function uses the standard strtod (string to double) function to parse the input string. When the input string contains trailing non-numerical characters, the fragment of the string is compared against a supported set of scale factor designators.")
+("cdfFormatFloatString"
+"cdfFormatFloatString(
+t_string
+t_scaleFactor
+)
+=> nil / t_val"
+"This function formats the input string into a value representation, if possible. It formats the input string using the input scale factor, re-converts the value to a string, and then returns the formatted string value. If the input string cannot be converted, the input string is returned with no change to it.")
+("cdfSyncInstParamValue"
+"cdfSyncInstParamValue(
+d_instId1
+d_instId2
+)
+=> t / nil"
+"This function generates all the CDF parameters for the first instance (d_instId1) and updates the second instance (d_instId2) with the same values. Both the instances must share the same cell.")
+("cdfUpdateInstSingleParam"
+"cdfUpdateInstSingleParam(
+d_instId
+t_paramName
+)
+=> t / nil"
+"This function copies the specified parameter's (t_paramName) effective value to the specified instance (d_instId).")
+("aedEditCDF"
+"aedEditCDF(
+[ ?libName t_libraryName ] 
+[ ?cellName t_cellName ]
+[ ?cdfType t_cdfType ] 
+) 
+=> t"
+"Opens the Edit CDF form to the library, cell, and CDF type specified by libraryName, cellName, and cdfType.")
+("cdfGetCustomViaCDF"
+"cdfGetCustomViaCDF(
+d_customViaId
+)
+=> g_cdfDataId / nil"
+"Returns the effective CDF description associated with a customVia or returns nil. When the customVia's cell or library has a base or user-level CDF defined, it returns the g_cdfDataId, otherwise returns nil.")
+("cdfUpdateCustomViaParam"
+"cdfUpdateCustomViaParam(
+d_customViaId
+)
+=> t / nil"
+"Stores the parameters specified in the effective cell CDF of the customVia in the specified customVia instance. When the specified ID is not for a customVia instance or the instance master does not have CDF definition, it returns nil.")
+("relxAddReliabilityInStateComponent"
+"relxAddReliabilityInStateComponent"
+"Adds the Reliability Setup option in the save and load state forms of the specified session. To reuse the save and load state flow of ADE in your simulator, you can rewrite this function and ensure that the function returns t.")
+("relxAddReliabilityOption"
+"relxAddReliabilityOption"
+"Adds a variable to the specified Reliability tool.")
+("relxCreateRunObjectFile"
+"relxCreateRunObjectFile"
+"Creates the runObject file for the specified session.")
+("relxDisplayReliabilityForm"
+"relxDisplayReliabilityForm"
+"Displays the Reliability form for the specified session.")
+("relxDisplayResult"
+"relxDisplayResult"
+"Displays the specified result log file.")
+("relxFormatRXControlFile"
+"relxFormatRXControlFile"
+"When the session is created using Spectre, this function creates a file that includes all the possible options for Relxpert Reliability simulator mode. This function does not work for other sessions. If Lynx's netlist flow is based on the result of this function, you need to rewrite the relxGetRXControlFileName function.")
+("relxGetModifyNetlistVal"
+"relxGetModifyNetlistVal"
+"Checks whether to modify the netlist before aging starts. You can rewrite this function as per your requirements.")
+("relxGetMosAgingTimeUnitVal"
+"relxGetMosAgingTimeUnitVal"
+"Returns the unit of aging time, which can be represented in years, days, hours, minutes or seconds. Only one unit of time is supported for a given simulation run.")
+("relxGetMosAgingTimeVal"
+"relxGetMosAgingTimeVal"
+"Returns the aging time value of the simulation in the specified session. The aging time can be in years, days, hours, minutes or seconds. Only one unit of time is supported for a given simulation run.")
+("relxGetReliabilityOptionChoices"
+"relxGetReliabilityOptionChoices"
+"Returns the possible values for the specified Reliability option in the given analog session. This function works for fields that are of type radio, cyclic, and toggle.")
+("relxGetReliabilityOptionVal"
+"relxGetReliabilityOptionVal"
+"Returns the value of the specified Reliability option variable in the given session.")
+("relxGetRelxStage"
+"relxGetRelxStage(
+o_session
+)
+=> t_relxStage / nil"
+"Returns the current stage of the reliability simulation in the given session.")
+("relxGetStressFileDir"
+"relxGetStressFileDir(
+o_session
+)
+=> t_stressFileDir / nil"
+"Returns the directory of the stress file.")
+("relxGetRXControlFileName"
+"relxGetRXControlFileName"
+"Returns the name of the RXControl file.")
+("relxGetSimulationRunCommand"
+"relxGetSimulationRunCommand"
+"Formats the content of the simulation run file present in the netlist directory. This file is required to run simulation flow.")
+("relxGetSpecifiedReliabilityStateFileName"
+"relxGetSpecifiedReliabilityStateFileName"
+"Returns the name of the state file used the Reliability form. By default, the name of the state file is relxOptions. However, you can rewrite this function to define another name for the state file for your simulator.")
+("relxGetUserCmdLine"
+"relxGetUserCmdLine"
+"Returns the value of the userCmdLine option in the specified session.")
+("relxHighLightDevices"
+"relxHighLightDevices"
+"Highlights the specified device and instance list on schematic, and also displays information for the selected devices and instances in the form of tags.")
+("relxInitAdapterReliabilityOption"
+"relxInitAdapterReliabilityOption"
+"Rewrites the asiInitialize function when called in the initialization flow for the specified tool. This function internally calls the relxInitReliabilityOption function and also adds some private variables to this function.")
+("relxInitReliabilityOption"
+"relxInitReliabilityOption"
+"Initializes the Reliability Option form in the specified tool. You can rewrite this function by using unit functions relxAddReliabilityOption and relxSetReliabilityOptionFormProperties.")
+("relxIsAgingOn"
+"relxIsAgingOn"
+"Checks whether aging is ON or OFF in the specified session.")
+("relxIsReliabilityEnabled"
+"relxIsReliabilityEnabled"
+"Checks whether the Reliability analysis is enabled or disabled in the specified session.")
+("relxIsStressOn"
+"relxIsStressOn"
+"Checks whether the stress is ON or OFF in the specified session.")
+("relxPostSimulation"
+"relxPostSimulation"
+"Description")
+("relxRunSimulation"
+"relxRunSimulation"
+"Runs the Relxpert simulation.")
+("relxSetAgingVal"
+"relxSetAgingVal"
+"Enables or disables aging for simulation in the specified session. Also sets the specified simulation aging value, while enabling aging.")
+("relxSetReliabilityOptionFormProperties"
+"relxSetReliabilityOptionFormProperties"
+"Sets the various properties of the Reliability form.")
+("relxSetReliabilityOptionVal"
+"relxSetReliabilityOptionVal"
+"Sets the value of the specified Reliability option variable in the given session.")
+("relxSetReliabilityVal"
+"relxSetReliabilityVal"
+"Enables or disables the Reliability analysis in the specified session.")
+("asiStmSupportWaveformGeneration"
+"asiStmSupportWaveformGeneration(
+o_session
+)
+=> t / nil"
+"Determines whether the Stimuli Assignment form supports waveform preview functionality or not.")
+("asiStmGenerateNetlist"
+"asiStmGenerateNetlist(
+o_session
+wavepath
+nodeDesc
+[?o_simOptions]
+)
+=> l_netlistStatus"
+"Generates netlist, as part of preview waveform generation for a stimuli and saves it at the specified psf directory path.")
+("asiStmRunSimulation"
+"asiStmRunSimulation(
+o_session
+wavepath
+nodeDesc
+[?o_simOptions]
+[?o_varDefinitions]
+)
+=> l_simStatus"
+"Runs a simulation by using the netlist generated by SKILL function asiStmGenerateNetlist, and writes the psf waveform data at the specified path.")
+("asiStmGenerateWaveform"
+"asiStmGenerateWaveform(
+o_session
+session_wavepath
+directory_stimuliDesc
+[?o_simOptions]
+[?o_varDefinitions]
+)
+=> l_waveStatus"
+"Generates preview waveforms for the specified stimuli under the given directory path.")

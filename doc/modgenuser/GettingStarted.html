@@ -1,0 +1,522 @@
+
+<html><head><title>Getting Started</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="spriya" />
+<meta name="CreateDate" content="2020-09-15" />
+<meta name="CreateTime" content="1600172383" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the functionality of the Virtuoso Layout Suite GXL cell planner, module generator, and analog placement functionality in the current release." />
+<meta name="DocTitle" content="Virtuoso Module Generator User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Getting Started" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="modgenuser" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-15" />
+<meta name="ModifiedTime" content="1600172383" />
+<meta name="NextFile" content="ModgenPatterns.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="preface.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Module Generator User Guide -- Getting Started" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="modgenuserICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="modgenuserTOC.html">Contents</a></li><li><a class="prev" href="preface.html" title="Preface">Preface</a></li><li style="float: right;"><a class="viewPrint" href="modgenuser.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="ModgenPatterns.html" title="Working with Patterns">Working with Patterns</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Module Generator User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>1
+<a id="pgfId-1036241"></a></h1>
+<h1>
+<a id="pgfId-1036243"></a><hr />
+<a id="44786"></a>Getting Started<hr />
+</h1>
+
+<p>
+<a id="pgfId-1036273"></a>This chapter covers the following topics:</p>
+<ul><li>
+<a id="pgfId-1040154"></a><a href="GettingStarted.html#74126">Understanding Module Generators</a></li><li>
+<a id="pgfId-1040152"></a><a href="GettingStarted.html#42197">Technology File Requirements</a></li><li>
+<a id="pgfId-1040167"></a><a href="GettingStarted.html#29946">Setting the Default Workspace for Modgen</a></li><li>
+<a id="pgfId-1040175"></a><a href="GettingStarted.html#81446">Creating a Modgen</a></li><li>
+<a id="pgfId-1040189"></a><a href="GettingStarted.html#53593">Editing a Modgen</a></li><li>
+<a id="pgfId-1040195"></a><a href="GettingStarted.html#23067">Specifying Modgen Parameters</a></li><li>
+<a id="pgfId-1040177"></a><a href="GettingStarted.html#12890">Modifying a Modgen</a></li><li>
+<a id="pgfId-1040204"></a><a href="GettingStarted.html#21645">Customizing a Modgen</a></li><li>
+<a id="pgfId-1040206"></a><a href="GettingStarted.html#86070">Quitting the Module Generator Tool</a></li><li>
+<a id="pgfId-1040179"></a><a href="GettingStarted.html#61892">Regenerating a Modgen</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1036415"></a><a id="74126"></a>Understanding Module Generators</h2>
+
+<p>
+<a id="pgfId-1036274"></a>Module generators are designed to provide a way to generate multiple Pcell instances into a complex, highly matched, structured array. With the Modgen tool, you specify the devices to be arrayed, then specify an interdigitation pattern, insert dummy devices, body contacts, and guard rings. Finally, you control the routing style and generate internal routing geometry.</p>
+<p>
+<a id="pgfId-1036275"></a>Module generators can be created from either the schematic or the layout. When you create a Modgen from the schematic, the tool creates a Modgen constraint on the schematic that will then be used when the layout is generated using <em>Generate All From Source</em> or <em>Generate Selected From Source</em>. When run from the schematic, by default, the Modgen creates a temporary physConfig. Use the <a href="ModgenEnvars.html#14956"><h-hot>modgenPhysConfigs</h-hot><code></code></a> environment variable to specify a different physconfig that already exists to be used by the Modgen.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1036279"></a>
+The Modgen router cannot route devices with horizontal terminals. If you want all devices in the Modgen to be horizontal, first route the Modgen with the terminals in a vertical orientation and then rotate the entire Modgen to accomplish the desired effect.</div>
+
+<p>
+<a id="pgfId-1036281"></a>To know more about the Modgen Flow in Virtuoso, view or download the <h-hot><a actuate="user" class="URL" href="https://support.cadence.com/apex/articleattachmentportal?id=a1Od00000066MJyEAM&amp;pageName=ArticleContent&amp;attachId=069d0000003EtUJAA0" show="replace" xml:link="simple">Modgen Rapid Adoption Kit</a></h-hot>. This kit provides information about using various Modgen functionalists to increase layout productivity.</p>
+
+<h3>
+<a id="pgfId-1037305"></a><a id="42197"></a>Technology File Requirements</h3>
+
+<p>
+<a id="pgfId-1037306"></a>The following Mogen features require specific technology file information.</p>
+
+<h3>
+<a id="pgfId-1037307"></a>Routing</h3>
+
+<p>
+<a id="pgfId-1037308"></a>Routing in the module generators requires a complete Layout Function section for metal and poly layers and basic width and spacing rules on the metal and poly layers.</p>
+
+<h3>
+<a id="pgfId-1037309"></a>Body Contacts</h3>
+
+<p>
+<a id="pgfId-1037310"></a>In order to use body contacts in the module generators, you must complete either the Standard Via definition or a custom via definition, which define a connection to well/active layers. In addition, the well and active layers should be defined in the Layer Function section.</p>
+
+<h3>
+<a id="pgfId-1037311"></a>Guard Rings</h3>
+
+<p>
+<a id="pgfId-1037312"></a>To utilize guard rings in module generators, define your Multiple Part Paths (MPPs).</p>
+
+<h3>
+<a id="pgfId-1037313"></a>Technology Group and Constraint Group Support</h3>
+
+<p>
+<a id="pgfId-1037314"></a>Modgens read rules from user-defined Constraint Groups as well as the Foundry technology group. The default lookup path for these tools is in the following order:</p>
+<ol><li>
+<a id="pgfId-1037315"></a> Specified tool Constraint Group, which is stored either in the design or in the technology library</li><li>
+<a id="pgfId-1037316"></a> Design-level default Constraint Group</li><li>
+<a id="pgfId-1037317"></a> Foundry Constraint Group, which is stored in the technology library</li></ol>
+
+
+<p>
+<a id="pgfId-1037318"></a>The tool Constraint Group is stored outside the Foundry Constraint Group. So before running the tool, you need to specify the tool Constraint Group to be used. Use the following environment variables to specify the tool Constraint Group.</p>
+<p>
+<a id="pgfId-1037322"></a>Modgen: <a href="ModgenEnvars.html#69891"><h-hot>modgenPlacementConstraintGroup</h-hot><code></code></a></p>
+<p>
+<a id="pgfId-1037323"></a>While specifying the environment variable, if the string is left empty, then the Foundry Constraint Group is used. If the string has an invalid value, a warning is displayed and then the Foundry Constraint Group is used. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1037324"></a>If the default Wire Editing Constraint Group is set, then Modgen reads from it as well.</div>
+
+<h3>
+<a id="pgfId-1037325"></a>Placement Grid Support</h3>
+
+<p>
+<a id="pgfId-1037326"></a>Placement grid support is a method that keeps all shapes on specific grids per layer. The placement grid rule is obeyed at a higher precedence than custom spacing or detailed spacing rules. So, even if, according to the custom spacing rule, an instance is placed off the instance grid, it is automatically snapped to the next nearest placement grid. In addition, the origin of the Modgen FigGroup is placed on the placement grid. This ensures correct placement of instances on their respective placement grids when the entire Modgen is placed by the placer.</p>
+<p>
+<a id="pgfId-1037330"></a>Use environment variable <a href="ModgenEnvars.html#55637">chainPermutePins<code></code></a> to controls the application of the placement grid rule.</p>
+<p>
+<a id="pgfId-1037331"></a>If the aapUsePlacementGrid is set to <em>t</em>, you need to set the following placement grid rules either in the techfile or in a custom Constraint Group that the Modgen refers to.</p>
+<ul><li>
+<a id="pgfId-1037332"></a>horizontalPlacementOffset &#8211; Specifies the horizontal offset from the origin for the vertical placement grid </li><li>
+<a id="pgfId-1037333"></a>horizontalPlacementPitch &#8211; Specifies the horizontal spacing between each vertical placement grid line</li><li>
+<a id="pgfId-1037334"></a>verticalPlacementOffset &#8211; Specifies the vertical offset from the origin for the horizontal placement grid.</li><li>
+<a id="pgfId-1037335"></a>verticalPlacementPitch &#8211; Specifies the vertical space between each horizontal placement grid line.</li></ul>
+
+
+
+<p>
+<a id="pgfId-1037336"></a>Example:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037337"></a>(placementGrids</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037338"></a> (verticalPitch 1.0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037339"></a> (verticalOffset 0.0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037340"></a> (horizontalPitch 1.5)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037341"></a> (horizontalOffset 0.5)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1037342"></a>)</pre>
+
+<p>
+<a id="pgfId-1037343"></a>Situation 1: The placement grid values exist and are on the grid with respect to the manufacturing grid</p>
+<ul><li>
+<a id="pgfId-1037344"></a>During placement, the origin of each instance is snapped to the nearest placement grid horizontally and vertically. For the Modgen, the instances are snapped up.</li></ul>
+<p>
+<a id="pgfId-1037345"></a>Situation 2: The placement grid values exist, but are not on the grid with respect to the manufacturing grid</p>
+<ul><li>
+<a id="pgfId-1037346"></a>A warning is displayed and placement continues using only the manufacturing grid.</li></ul>
+
+<h2>
+<a id="pgfId-1036480"></a><a id="29946"></a>Setting the Default Work<a id="modgen_workspace"></a>space for Modgen</h2>
+
+<p>
+<a id="pgfId-1036484"></a>Use the <a href="ModgenEnvars.html#26593"><h-hot>modgenWindowConfigFile</h-hot><code></code></a> environment variable to specify the default workspace to be loaded when Modgen is invoked. The specified workspace, if available either in the local .cadence directory or in any directory in the CSF hierarchical search, is applied to the current Modgen session. If the workspace is invalid, then a warning message is displayed and the default Modgen Edition workspace is loaded.</p>
+<p>
+<a id="pgfId-1036485"></a>You can also create a workspace for the current Modgen session. For detailed information on workspaces and how you define them, see <h-hot><a actuate="user" class="URL" href="../wincfg/wincfgsIntro.html#firstpage" show="replace" xml:link="simple">Getting Started with Workspaces</a></h-hot> and <h-hot><a actuate="user" class="URL" href="../wincfg/wincfgsUsing.html#firstpage" show="replace" xml:link="simple">Working with Workspaces</a></h-hot> in the <em>Virtuoso Design Environment User Guide and <h-hot><a actuate="user" class="URL" href="../vlehelp/chap1.html#workspaces" show="replace" xml:link="simple">Workspaces</a></h-hot><em> in the </em>Virtuoso Layout Suite XL User Guide.</em></p>
+
+<h2>
+<a id="pgfId-1036467"></a><a id="81446"></a>Creating a Modgen<a id="createModgen"></a> <a id="marker-1040970"></a></h2>
+
+<p>
+<a id="pgfId-1036285"></a>You can use the Modgen tool to create one placeable object from multiple instances.</p>
+
+<div class="webflare-information-macro webflare-macro-video">
+<a id="pgfId-1036287"></a>
+For more information on creating Modgens, see the <a actuate="user" class="URL" href="https://support.cadence.com/apex/ArticleAttachmentPortal?id=a1Od0000005cd7gEAA&amp;pageName=ArticleContent" show="replace" xml:link="simple">Creating Modgens</a> video.</div>
+
+<p>
+<a id="pgfId-1036288"></a>Modgens can be created from both, schematic and layout designs. </p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1037741"></a>
+When creating a Modgen from a layout design, the device spacing values are compacted to the minimum DRC and constraint correct spacing. To retain and apply the layout spacing values as the custom spacing values, set the <a href="ModgenEnvars.html#13010">modgenCreatePreserveSpacing</a> to <code>t</code>.</div>
+
+<p class="webflare-indent1">
+<a id="pgfId-1040447"></a>The <a href="ModgenEnvars.html#38680">modgenReferencePoint</a> environment variable specifies the reference point for aligning Modgens that are either created or repositioned. The default value is <code>center</code>, where the center of the new or edited Modgen is aligned with the center of an existing Modgen. Use <a href="ModgenEnvars.html#88484">modgenCreateReferenceLPP</a> to specify the layer geometry to be used to determine the Modgen&#8217;s pattern.</p>
+<p>
+<a id="pgfId-1039475"></a>There are several ways to create a Modgen.</p>
+
+<h4>
+<a id="pgfId-1038090"></a>Method 1 - Using the Constraint Manager Toolbar</h4>
+
+<ol><li>
+<a id="pgfId-1036289"></a>Select the devices you want to include as one placeable object from the schematic or layout design.</li><li>
+<a id="pgfId-1036291"></a>Choose <em>Module Generator</em> from the Constraint Manager toolbar.<br />
+<a id="pgfId-1039602"></a><div class="webflare-div-image">
+<img width="668" height="204" src="images/GettingStarted-5.gif" /></div></li></ol>
+
+
+
+
+
+<p>
+<a id="pgfId-1038481"></a>A new Modgen constraint is created and the Modgen Editor is invoked.</p>
+
+<h4>
+<a id="pgfId-1038152"></a>Method 2 - Using the Place Menu </h4>
+
+<ol><li>
+<a id="pgfId-1038222"></a>Select the instances, Modgens, figGroups, and mosaics you want to include as one placeable object from the schematic or layout design.</li><li>
+<a id="pgfId-1036292"></a>Select <em>Place</em>&#8212;<em>Modgen</em>&#8212;<em>Create/Edit Modgen</em>. </li></ol>
+
+<p>
+<a id="pgfId-1038487"></a>A new Modgen constraint is created. However, the Modgen Editor is not invoked. Use the Modgen on-canvas commands to edit the Modgen directly in the layout canvas.To know more about these commands, see <a href="EditModgens.html#68091">Using the Modgen On-Canvas Commands</a>.</p>
+
+<h4>
+<a id="pgfId-1038607"></a>Method 3 - Using Conv<a id="convertMosaic"></a>ert to Modgen</h4>
+
+<p>
+<a id="pgfId-1039984"></a>A mosaic is a compact array of instances that belong to the same mfactored instance, and therefore have the same master and connectivity. You can convert a mosaic in the layout design to a Modgen. To do this:</p>
+<ol><li>
+<a id="pgfId-1039227"></a>Select the mosaic to be converted into a Modgen.</li><li>
+<a id="pgfId-1039228"></a>Select <em>Edit</em>&#8212;<em>Convert</em>&#8212;<em>To Modgen</em>. Alternatively, right-click the mosaic in the canvas and choose <em>Convert to Modgen</em> from the shortcut menu.</li></ol>
+
+<p>
+<a id="pgfId-1039861"></a>A new Modgen constraint is created. However, the Modgen Editor is not invoked. Use the Modgen on-canvas commands to edit the Modgen directly in the layout canvas. To know more about these commands, see <a href="EditModgens.html#68091">Using the Modgen On-Canvas Commands</a>.</p>
+
+<h4>
+<a id="pgfId-1040285"></a>Method 4 - Using SKILL Functions</h4>
+
+<p>
+<a id="pgfId-1040325"></a>Use one of the following SKILL Functions:</p>
+<ul><li>
+<a id="pgfId-1040327"></a><a actuate="user" class="URL" href="../constraintsSKILL/constskillFunctions.html#ciConCreate" show="replace" xml:link="simple">ciConCreate</a>: Creates the Modgen constraint. <br />
+<a id="pgfId-1040328"></a>Example 1: Creates a Modgen constraint that includes the specified members. The parameters define the number of rows and number of columns that the Modgen constraint should have:<span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040329">
+<a id="pgfId-1040329"></a>modgen = ciConCreate(cache &#39;modgen </pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040330">
+<a id="pgfId-1040330"></a> ?members list( list(&quot;M0&quot; &#39;inst) list(&quot;M1&quot; &#39;inst)   list(&quot;M2&quot; &#39;inst) list(&quot;M3&quot; &#39;inst) )</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040331">
+<a id="pgfId-1040331"></a> ?params list( list( &quot;numRows&quot; 1) list( &quot;numCols&quot;  4)</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040332">
+<a id="pgfId-1040332"></a>  ); list</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040333">
+<a id="pgfId-1040333"></a>); ciConCreate</pre></span>
+<a id="pgfId-1040334"></a>Example 2: Includes the pattern parameter, which maps the symbols in the Modgen to the required alphabets.<span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040335">
+<a id="pgfId-1040335"></a>Modgen = ciConCreate(cache &#8216;modgen</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040336">
+<a id="pgfId-1040336"></a> ?members list(    </pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040337">
+<a id="pgfId-1040337"></a> list(&quot;M0&quot; &#39;inst  list( list(&quot;row&quot; 0) list(&quot;col&quot; 0)))</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040338">
+<a id="pgfId-1040338"></a> list(&quot;M0&quot; &#39;inst  list( list(&quot;row&quot; 0) list(&quot;col&quot; 1)))</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040339">
+<a id="pgfId-1040339"></a> list(&quot;M1&quot; &#39;inst  list( list(&quot;row&quot; 1) list(&quot;col&quot; 0)))</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040340">
+<a id="pgfId-1040340"></a> list(&quot;M1&quot; &#39;inst  list( list(&quot;row&quot; 1) list(&quot;col&quot; 1)))</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040341">
+<a id="pgfId-1040341"></a> ); list</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040342">
+<a id="pgfId-1040342"></a> ?params   list(</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040343">
+<a id="pgfId-1040343"></a> list( &quot;numRows&quot; 2)</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040344">
+<a id="pgfId-1040344"></a> list( &quot;numCols&quot; 2)</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040345">
+<a id="pgfId-1040345"></a> list( &quot;pattern&quot; &quot;mapping (  (M0  X) (M1 Y)  ) &quot;)</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040346">
+<a id="pgfId-1040346"></a> ); list</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040347">
+<a id="pgfId-1040347"></a>); ciConCreate</pre></span></li><li>
+<a id="pgfId-1040349"></a><strong><a actuate="user" class="URL" href="../sklayoutref/modgen.html#gpeCreateSandbox" show="replace" xml:link="simple">gpeCreateSandbox</a></strong>: Creates a Modgen sandbox object that includes the specified instances. <br />
+<a id="pgfId-1040350"></a>Example: Creates a Modgen similar to Example 2 above.<span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040351">
+<a id="pgfId-1040351"></a>sbox = gpeCreateSandbox( ?sync t);</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040352">
+<a id="pgfId-1040352"></a>gpeSetMap(sbox list( list(&quot;M0&quot; &quot;X&quot;) list(&quot;M1&quot; &quot;Y&quot;)));</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040353">
+<a id="pgfId-1040353"></a>gpeSetGrid(sbox list( &quot;X&quot; &#8220;X&#8221;) list(&quot;Y&quot; &quot;Y&quot;)));</pre></span></li><li>
+<a id="pgfId-1040355"></a><a actuate="user" class="URL" href="../sklayoutref/modgen.html#mgCreateModgenAsLayout" show="replace" xml:link="simple">mgCreateModgenAsLayout: </a>Creates a Modgen from the list of selected instances and keeps the instance locations inside the Modgen, as close as possible to their original locations in the layout.<br />
+<a id="pgfId-1040356"></a>Example: Creates a Modgen in the current editing cellview (<code>geGetEditCellView</code>) that includes all instances current selected (<code>geGetSelSet</code>).<span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040357">
+<a id="pgfId-1040357"></a>mgCreateModgenAsLayout(geGetEditCellView() geGetSelSet())</pre></span></li><li>
+<a id="pgfId-1040359"></a><a actuate="user" class="URL" href="../sklayoutref/modgen.html#mgCreateModgenConstraintAsLayout" show="replace" xml:link="simple">mgCreateModgenConstraintAsLayout: </a>Creates a Modgen constraint that uses the current layout to drive the initial Modgen constraint and row/column assignments.<br />
+<a id="pgfId-1040360"></a>Example: The following example works only if the current cellview is of the layout type. <code>geGetEditCellView</code> returns a valid layout cellview ID. The Modgen includes the instances that are selected in the cellview.<span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040361">
+<a id="pgfId-1040361"></a>mgCid = mgCreateModgenConstraintAsLayout(geGetEditCellView()  geGetSelSet())</pre></span></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ul><li>
+<a id="pgfId-1040349"></a><strong><a actuate="user" class="URL" href="../sklayoutref/modgen.html#gpeCreateSandbox" show="replace" xml:link="simple">gpeCreateSandbox</a></strong>: Creates a Modgen sandbox object that includes the specified instances. <br />
+<a id="pgfId-1040350"></a>Example: Creates a Modgen similar to Example 2 above.<span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040351">
+<a id="pgfId-1040351"></a>sbox = gpeCreateSandbox( ?sync t);</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040352">
+<a id="pgfId-1040352"></a>gpeSetMap(sbox list( list(&quot;M0&quot; &quot;X&quot;) list(&quot;M1&quot; &quot;Y&quot;)));</pre></span><span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040353">
+<a id="pgfId-1040353"></a>gpeSetGrid(sbox list( &quot;X&quot; &#8220;X&#8221;) list(&quot;Y&quot; &quot;Y&quot;)));</pre></span></li><li>
+<a id="pgfId-1040355"></a><a actuate="user" class="URL" href="../sklayoutref/modgen.html#mgCreateModgenAsLayout" show="replace" xml:link="simple">mgCreateModgenAsLayout: </a>Creates a Modgen from the list of selected instances and keeps the instance locations inside the Modgen, as close as possible to their original locations in the layout.<br />
+<a id="pgfId-1040356"></a>Example: Creates a Modgen in the current editing cellview (<code>geGetEditCellView</code>) that includes all instances current selected (<code>geGetSelSet</code>).<span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040357">
+<a id="pgfId-1040357"></a>mgCreateModgenAsLayout(geGetEditCellView() geGetSelSet())</pre></span></li><li>
+<a id="pgfId-1040359"></a><a actuate="user" class="URL" href="../sklayoutref/modgen.html#mgCreateModgenConstraintAsLayout" show="replace" xml:link="simple">mgCreateModgenConstraintAsLayout: </a>Creates a Modgen constraint that uses the current layout to drive the initial Modgen constraint and row/column assignments.<br />
+<a id="pgfId-1040360"></a>Example: The following example works only if the current cellview is of the layout type. <code>geGetEditCellView</code> returns a valid layout cellview ID. The Modgen includes the instances that are selected in the cellview.<span class="indent-as-level2"><pre class="webflare-pre-block webflare-courier-new" id="#id1040361">
+<a id="pgfId-1040361"></a>mgCid = mgCreateModgenConstraintAsLayout(geGetEditCellView()  geGetSelSet())</pre></span></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1038501"></a><a id="53593"></a>Editing a Modgen</h2>
+
+<p>
+<a id="pgfId-1036293"></a>Use one of the following methods to open an existing Modgen in the Modgen editor:</p>
+<ul><li>
+<a id="pgfId-1036294"></a>Double-click the Modgen in the design.</li><li>
+<a id="pgfId-1036295"></a>Double-click the Modgen constraint in the Constraint Manager toolbar.</li><li>
+<a id="pgfId-1036296"></a>Select the Modgen and choose <em>Place</em>&#8212;<em>Modgen</em>&#8212;<em>Create/Edit Modgen</em>.</li><li>
+<a id="pgfId-1036297"></a>Select the Modgen and choose the Module Generator icon in the Constraint Manager assistant toolbar.</li><li>
+<a id="pgfId-1036298"></a>Select the Modgen figGroups in the layout canvas, right click, and select <em>Edit Modgen</em>.</li></ul>
+
+
+
+
+<p>
+<a id="pgfId-1036300"></a>Corresponding SKILL function: <a href="../sklayoutref/modgen.html#mgCreateOrEdit">mgCreateOrEdit</a></p>
+
+<div class="webflare-information-macro webflare-macro-tip">
+<a id="pgfId-1036301"></a>
+If the Constraint Manager isn&#8217;t visible, choose <em>Windows &#8211; Assistants &#8211; Constraint Manager</em>. If the <em>Modgen</em> icon isn&#8217;t visible, click the <em>&gt;&gt;</em> button.</div>
+
+<p class="webflare-indent1">
+<a id="pgfId-1036302"></a>(Layout only) If you launched Modgen from the layout, place the module in the layout.</p>
+<p>
+<a id="pgfId-1036303"></a>The module appears in the layout window, and the layout window moves into Module Generator Edit mode. The default workspace is displayed. You can either use the existing default workspace or define a different workspace and set it as the default workspace. For more information about setting a different default workspace, see <a href="GettingStarted.html#12890">Modifying a Modgen</a>.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036307"></a>When a Modgen is invoked from a schematic cellView, it is displayed in the Modgen Previewer window. Changes made to the Modgen are saved in the constraint view for that schematic cellView. Later, you can transfer these changes from the schematic to the layout cellView.</div>
+<p>
+<a id="pgfId-1036308"></a>Here is a quick look at the default workspace:</p>
+
+<p>
+<a id="pgfId-1036349"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="687" src="images/GettingStarted-7.gif" /></div>
+
+<p>
+<a id="pgfId-1036350"></a>The following toolbars are specific to Modgen:</p>
+
+<ul><li style="list-style-type: none;background-image: none;"><ul><li>
+<a id="pgfId-1036351"></a>Modgen Placement Toolbar: <br /><ffi2-fig-frame-in-2 id="#id1036356">
+<a id="pgfId-1036356"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="33" src="images/GettingStarted-8.gif" /></div></li><li>
+<a id="pgfId-1036357"></a>Modgen Routing Toolbar:<br /><ffi2-fig-frame-in-2 id="#id1036362">
+<a id="pgfId-1036362"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="668" height="25" src="images/GettingStarted-9.gif" /></div></li></ul></li></ul>
+
+
+
+
+
+
+<p>
+<a id="pgfId-1036363"></a>As with all other toolbars, you can enable or disable the Modgen toolbars by right-clicking anywhere in the main toolbar area and selecting the required toolbar name. You can use the handle on the left hand side of the toolbar to reposition it anywhere within the Modgen editor.</p>
+<p>
+<a id="pgfId-1037440"></a>You can use the Toolbar Manager to make incremental and local changes to the Modgen toolbars. For example you can add, edit, or remove toolbar items. For more information about Toolbar Manager, see <h-hot><a actuate="user" class="URL" href="../wincfg/customize.html#toolbarManager" show="replace" xml:link="simple">Using Toolbar Manager</a></h-hot> in <em>Virtuoso Design Environment User Guide</em>.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1036364"></a>
+You can also prevent Modgen from unauthorized edits. If a user edits a Modgen by moving instances/body contacts or stretching wires, then the edit is essentially ignored. Therefore, when the Modgen is updated as a result of such edits, any moved/stretched objects will be reset to where they should be according to the constraint.</div>
+
+<div class="webflare-indent1 webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036365"></a>This is not done by invoking an undo command under the covers. However, it is done by simply re-doing the Modgen layout according to the information in the constraint.</div>
+<ul><li>
+<a id="pgfId-1036366"></a>If geometry is added or deleted from the Modgen, then the Modgen constraint will become disabled. This means that it is no longer a Modgen. However, it will remain a figGroup of type <code>none</code>.</li><li>
+<a id="pgfId-1036367"></a>If the geometry is accidentally added or deleted, it can be removed or re-added by undoing the operations (pressing the &#39;u&#39; key). Invoking undo will actually remove (or re-add) the geometry and re-enable the Modgen constraint. </li><li>
+<a id="pgfId-1036368"></a>If the geometry was purposely added, then the user can exit the Modgen Editor and the result will be a standard figGroup. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036369"></a>At this point, if users want to turn this figGroup back into a Modgen, then they will have to first edit the figGroup to remove (add) the added (deleted) geometry before attempting to re-enable the Modgen constraint.</div></li></ul>
+
+
+
+
+<h2>
+<a id="pgfId-1036539"></a><a id="23067"></a><a id="48336"></a>Specifying Modgen Parameters</h2>
+
+<p>
+<a id="pgfId-1036540"></a>You can now set up the module generator parameters, including the number of rows, number of columns, the type of router, the interdigitation pattern, etc. These parameters are specified in the Module Generator panel at the bottom right.</p>
+<ol><li>
+<a id="pgfId-1036541"></a>In the Module Generator panel, specify the number of rows for the array in the <em>Nb of Rows</em> field.</li><li>
+<a id="pgfId-1036542"></a>In the <em>Nb of Cols</em> field, specify the number of columns you want in the array.<br /><div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1036543"></a>
+While other parameters are listed in the Module Generator panel, there are easier, graphical interfaces to these parameters available from the Module Generator toolbar at the top.</div></li></ol>
+
+
+
+
+<p>
+<a id="pgfId-1036544"></a>You can now do any of the following:</p>
+<ul><li>
+<a id="pgfId-1036545"></a>specify an interdigitation pattern for this module and save the pattern for future use (see <a href="ModgenPatterns.html#28745">Setting Up the Custom Interdigitation Pattern File</a> and <a href="ModgenPatterns.html#82434">Using the Modgen Pattern Editor</a>)</li><li>
+<a id="pgfId-1036555"></a>specify dummy device properties and add dummy devices (see <a href="EditModgens.html#13336">Creating Dummy Devices</a>)</li><li>
+<a id="pgfId-1036558"></a>specify properties for body contacts and add body contacts to the module (see <a href="EditModgens.html#85394">Adding Body Contacts</a>)</li><li>
+<a id="pgfId-1037221"></a>specify guard rings on the module (see <a href="EditModgens.html#10032">Specifying Guard Rings</a>)</li><li>
+<a id="pgfId-1037224"></a>define topology patterns and creating pin to trunk routes (see <a href="modgenTopology.html#74466">Creating Topology Patterns and pin-to-trunk Routing</a>)</li><li>
+<a id="pgfId-1037229"></a>abut devices (see <a href="EditModgens.html#44563">Abutting Devices</a>)<br /><div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1036572"></a>
+The Module Generator commands are all invoked from the Module Generator form, pop-up menus, and the Modgen toolbar. Typical Virtuoso commands such as Edit&#8212;Delete are not supported in the Modgen Editor mode.
+
+If you want to perform some interactive customizations, such as moving devices inside a Modgen, then you need to first disable the Modgen constraint by selecting it in the Constraint Manager and setting the Enabled parameter to False. This will turn the Modgen into a standard database figGroup. Then you need to do an Edit in Place to customize the Modgen. Any operation, such as UCN, should not affect any custom edits in this state.
+
+This operation should only be done if you are satisfied with the final layout and configuration of the Modgen. After making these modifications, if you re-enable the Modgen constraint by setting the Enabled parameter to True, then all modifications performed outside the Modgen environment will be lost.1 </div></li></ul>
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1036645"></a><a id="12890"></a><a id="60218"></a>Modifying a Modgen<a id="marker-1036644"></a></h2>
+
+<p>
+<a id="pgfId-1036646"></a>Once you have created a Modgen, you can modify any of its properties.</p>
+
+<div class="webflare-information-macro webflare-macro-video">
+<a id="pgfId-1036648"></a>
+For more information on modifying modgens, see the <a actuate="user" class="URL" href="https://support.cadence.com/wps/mypoc/cos?uri=deeplinkmin:VideoViewer;src=wp;q=Video/Custom_IC_Design/modgen_edit.htm;searchHash=5c78a81038c2a7324c96748b3195c6d7" show="replace" xml:link="simple">Modifying Modgens</a> video.</div>
+
+<p>
+<a id="pgfId-1036649"></a>To modify a module from the schematic or layout:</p>
+<ol><li>
+<a id="pgfId-1036650"></a>Select the <strong>Modgen</strong> constraint in the Constraint Manager.</li><li>
+<a id="pgfId-1036654"></a>Click the <em>Modgen</em> <img src="images/modgen_icon.gif" />
+ icon.<br />
+<a id="pgfId-1036655"></a>The Modgen Editor appears.</li></ol>
+
+
+
+
+
+<h2>
+<a id="pgfId-1036658"></a><a id="21645"></a>Customizing a Modgen<a id="marker-1036657"></a></h2>
+
+<p>
+<a id="pgfId-1036659"></a>To customize the Modgen geometry after the Modgen has been created and edited using the Modgen editor in the Layout Editor, disable the Modgen constraint. That will change the Modgen FigGroup type to <em>none</em>, which will then allow you to utilize <em>Hierarchy &#8212; Edit In Place</em> to customize any of the Modgen geometry, or add any geometry to the FigGroup.</p>
+<p>
+<a id="pgfId-1036660"></a>Any geometry that was created or customized inside the FigGroup will be discarded and replaced with the regenerated Modgen geometry. Other edits or customizations in the cellview, such as constraint addition/deletion/editing or instance parameter changes will be retained.</p>
+
+<h2>
+<a id="pgfId-1036663"></a><a id="86070"></a>Quitting the Module Generator Tool<a id="marker-1036662"></a></h2>
+
+<p>
+<a id="pgfId-1036664"></a>When you are finished specifying your module, you can quit Module Generator mode.</p>
+<p>
+<a id="pgfId-1036665"></a>Use one of the following methods to quit the Modgen mode:</p>
+<ul><li>
+<a id="pgfId-1036666"></a>Click the Close button in the upper-right corner of the window.</li><li>
+<a id="pgfId-1036670"></a>Click the <em>Exit </em><img src="images/ExitIcon.gif" />
+ icon on the toolbar.</li><li>
+<a id="pgfId-1036671"></a>Use the <code>Shift</code> + <code>B</code> key combination.</li><li>
+<a id="pgfId-1036672"></a>Right-click to display the shortcut menu and select <em>Exit Modgen</em>.</li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-1036673"></a>The Module Generator now creates a new Modgen constraint. When you start Virtuoso Layout Suite and Generate from Source, this module generator constraint is transferred to the layout and respected during analog auto placement.</p>
+<p>
+<a id="pgfId-1036677"></a>Use the <a href="ModgenEnvars.html#91083"><h-hot>modgenSaveOnClosePreviewWindow</h-hot><code></code></a> environment variable to control the behavior when the Modgen Previewer window is closed using the Close button.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036678"></a>This environment variable is not applicable when the Modgen Previewer window is closed using any other method.</div>
+<p>
+<a id="pgfId-1036679"></a>You can set this environment variable to one of the following values:</p>
+<ul><li>
+<a id="pgfId-1036680"></a><code>prompt</code>: A pop-up message is displayed requesting for confirmation whether changes to the Modgen need to be saved. Choose <em>Yes</em> to save changes, <em>No</em> to discard changes, or <em>Cancel</em> to reject the closing of the window.</li><li>
+<a id="pgfId-1036681"></a><code>yes</code>: No pop-up is displayed. Instead, all modifications are saved and the window is closed.</li><li>
+<a id="pgfId-1036682"></a><code>no</code>: No pop-up is displayed. Instead, all modifications are discarded and the window is closed.</li></ul>
+
+
+
+<h2>
+<a id="pgfId-1036684"></a><a id="61892"></a>Regenerating a Modgen</h2>
+
+<p>
+<a id="pgfId-1036685"></a>After performing certain tasks, such as moving a Modgen from one placement area to another, you may want to regenerate the Modgen. Here are the steps to regenerate a Modgen:</p>
+<ol><li>
+<a id="pgfId-1036686"></a>Select one or more Modgen-type figGroups in the layout canvas.</li><li>
+<a id="pgfId-1036687"></a>Right-click to display the shortcut menu.</li><li>
+<a id="pgfId-1036688"></a>Select <em>Regenerate Modgen</em>.</li></ol>
+
+
+<p>
+<a id="pgfId-1036690"></a>Corresponding SKILL API: <a href="../sklayoutref/modgen.html#mgRegenerateModgen">mgRegenerateModgen</a><a id="12346"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="preface.html" id="prev" title="Preface">Preface</a></em></b><b><em><a href="ModgenPatterns.html" id="nex" title="Working with Patterns">Working with Patterns</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

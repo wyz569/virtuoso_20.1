@@ -1,0 +1,342 @@
+
+<html><head><title>Verification Problem</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-09-16" />
+<meta name="CreateTime" content="1568626962" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Digital-centric Mixed-signal Verification methodology that enables top-level verification at digital speed." />
+<meta name="DocTitle" content="Verilog-AMS Real Valued Modeling Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Verification Problem" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2" />
+<meta name="Keyword" content="wreal" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-09-16" />
+<meta name="ModifiedTime" content="1568626962" />
+<meta name="NextFile" content="Chap2.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Chapter1.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Xcelium" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Verilog-AMS Real Valued Modeling Guide -- Verification Problem" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="product_feature" content="" />
+<meta name="product_subfeature" content="" />
+<meta name="Version" content="19.09" />
+<meta name="SpaceKey" content="wreal1909" />
+<meta name="webflare-version" content="1.4" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="wrealTOC.html">Contents</a></li><li><a class="prev" href="Chapter1.html" title="Introduction">Introduction</a></li><li style="float: right;"><a class="viewPrint" href="wreal.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Chap2.html" title="Verilog-AMS Wreal Features">Verilog-AMS Wreal Features</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Verilog-AMS Real Valued Modeling Guide<br />Product Version 19.09, September 2019</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;">
+
+<h1>2
+<a id="pgfId-1032955"></a></h1>
+<h1>
+<a id="pgfId-1036163"></a><hr />
+<a id="13199"></a>Verification Problem<hr />
+</h1>
+
+<p>
+<a id="pgfId-1036164"></a>A typical SoC Verification flow involves top-level simulation of components at various levels of abstraction. The verification engineer needs to integrate modules from the analog and digital design team as well as from third-party IP providers. Each module in itself could be a mixed-signal design that is created using either an analog-centric or a digital-centric use-model. The design descriptions could be schematics, SystemVerilog, and Verilog (or VHDL)-AMS in a single top-level SoC verification. <a href="Chap1a.html#24511">Figure 2-1</a>  illustrates this scenario (the dark gray blocks are analog or mixed-signal blocks): </p>
+
+<p>
+<a id="pgfId-1035475"></a></p>
+<div class="webflare-div-image">
+<img src="images/Mixed-signal_system_on_chip.gif" /></div>
+<p><strong>Figure 2-1
+<a id="pgfId-1035476"></a><a id="24511"></a>: Mixed-signal system on chip </strong></p>
+
+<p>
+<a id="pgfId-1035477"></a>At present, functional complexity in terms of modes of operation, extensive digital calibration, and architectural algorithms overwhelms the traditional verification methodologies. Simulation at this top-level is extremely costly (both in terms of time and licensing cost) because a significant amount of the SoC has to be simulated inside the analog engine. Finding a way to reduce the time and expense to verify the SoC, while trading off some accuracy that is not needed at this high level of integration, is extremely important. Infact, the basic models of the analog parts might be sufficient for the verification steps.</p>
+<p>
+<a id="pgfId-1035478"></a>The verification problem is hierarchical, as the design is created in a hierarchical fashion. The top-level SoC is the highest level of integration and can be tested using the top-level verification step. Verification steps are much cheaper and easier on smaller blocks because the simulation performance is better and the verification tasks are more limited. Nevertheless, the integration of multiple blocks needs to be verified to ensure that the interfaces work correctly and the blocks work together smoothly. </p>
+<p>
+<a id="pgfId-1035479"></a>Generally, the verification goal is split into two parts: fulfilling the specification requirements and verifying that the system works correctly.</p>
+<p>
+<a id="pgfId-1035480"></a>The main goal is always to fulfill the requirements given in the specification. This determines that the system does what it needs to do. </p>
+<p>
+<a id="pgfId-1035684"></a>However, it is also important to verify what the system should not do. This includes reactions on conditions that are outside of the specification, deadlocks, power supply current peaks, oscillations, and so on. In most cases, these conditions are harder to verify because they are not explicitly stated. </p>
+<p>
+<a id="pgfId-1035685"></a>The verification tasks require a certain amount of simulation data, data accuracy, and the right simulation context. For example, a detailed analysis of an RF low noise amplifier requires very high simulation accuracy, whereas checking the pin connectivity for the same block has an extremely low sensitivity towards accuracy. On the other hand, the pin connection check requires the block to be simulated in the context of the surrounding circuitry whereas the RF checks might be relatively independent of the integration.</p>
+<p>
+<a id="pgfId-1035483"></a>Consequently, a full chip simulation using the highest level of simulation accuracy would be desirable to fulfill all verification requirements at the same time. However, the limiting factor in this context is simulation performance. Even though the simulation performance of current simulation tools has greatly improved (by using the fast SPICE methods), the increased complexity of designs will continue to limit detailed verification by time and simulation performance. On the other hand, very few verification goals require a high level of simulation accuracy within a full chip simulation context. </p>
+<p>
+<a id="pgfId-1035484"></a>The practical way around this problem is a hierarchical verification approach that uses different levels of design abstractions for different verification goals. For the analog circuit part, common levels of abstraction are:</p>
+<ul><li>
+<a id="pgfId-1035485"></a>Extracted transistor netlist including parasitic elements</li><li>
+<a id="pgfId-1035486"></a>Transistor-level SPICE simulation</li><li>
+<a id="pgfId-1035487"></a>Transistor-level fast SPICE simulation</li><li>
+<a id="pgfId-1035488"></a>Analog/conservative behavioral modeling</li><li>
+<a id="pgfId-1035489"></a>Real value modeling</li><li>
+<a id="pgfId-1035490"></a>Pure digital model</li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-1035491"></a>The gain in simulation performance and the reduction in accuracy are highly dependent on the application. The real value modeling approach will be discussed in detail below. It should be noted that the Virtuoso AMS Designer does support a mixed-signal simulation including all levels of abstractions above. It also supports all common design and modeling languages. </p>
+
+<h2>
+<a id="pgfId-1035494"></a><a id="RealValuedModelingAppNote-Simulationperf"></a><a id="_Toc234394641"></a>Real Value Modeling </h2>
+
+<p>
+<a id="pgfId-1035495"></a>The target application of real valued modeling (RVM, also called real number modeling) is to bridge the gap between the performance requirements for a full chip simulation and the accuracy limitations of a mixed-signal design. A significant speed-up in simulation performance and reduction in the license cost can be achieved by replacing the analog portions of the SoC with functionally equivalent real value models that do not require the analog engine. In addition, typical analog simulation problems, such as convergence issues, very small time steps, and capacity and performance limitations are eliminated while maintaining the fundamental analog, meaning continuous value, and behavior of the circuitry. <a href="Chap1a.html#29592">Figure 2-2</a>  shows a modified version of <a href="Chap1a.html#24511">Figure 2-1</a> with the analog portions of the design replaced with functionally equivalent real value models (shown in red):</p>
+
+<p>
+<a id="pgfId-1035499"></a> </p>
+<div class="webflare-div-image">
+<img src="images/Mixed-signal_SOC_with_wreal_models_and_testbench.gif" /></div>
+<p><strong>Figure 2-2
+<a id="pgfId-1035500"></a><a id="29592"></a>Mixed-signal SoC with wreal models and testbench</strong></p>
+
+<p>
+<a id="pgfId-1035501"></a>It is obvious that this top-level verification strategy is not a replacement for detailed block or multiple-block, cluster-level verification with full analog simulation accuracy. Even for the top-level verification, there might be rare cases where the RVM approach does not provide enough accuracy for a particular verification goal, such as cross talk of a global net into an analog sub block. The model verification task that compares the model against the transistor-level reference for each RVM model used in the top-level verification is essential to qualify the overall verification result.</p>
+<p>
+<a id="pgfId-1035502"></a>RVM also opens the door to use other logic verification methodologies (see <a href="appA.html#44786">Appendix A: Advanced Digital Verification Methodology</a>), such as</p>
+<ul><li>
+<a id="pgfId-1035503"></a>Metric-driven verification (randomization, coverage, and assertion-based)</li><li>
+<a id="pgfId-1035504"></a>Higher-level verification languages, such as SystemVerilog and e </li></ul>
+
+<p>
+<a id="pgfId-1035505"></a>These verification techniques are not yet fully supported for electrical systems and they require a high simulation performance to check sufficient number of data cycles. RVM can address both these issues. </p>
+<p>
+<a id="pgfId-1035506"></a>RVM is a mixed approach, borrowing concepts from analog and digital simulation domain. The values are continuous, floating-point (real) numbers, as in the analog world. However, time is discrete, implying that the real signals change values based on discrete events. In this approach, we apply the signal flow concept so that the digital engine can solve the RVM system without support of the analog solver. This guarantees a high simulation performance in the range of a normal digital simulation and orders of magnitudes higher than the analog simulation speed.</p>
+<p>
+<a id="pgfId-1035507"></a>There are four different language standards that support RVM. These are:</p>
+<ul><li>
+<a id="pgfId-1035508"></a> wreal ports in Verilog-AMS</li><li>
+<a id="pgfId-1035509"></a>wreal in VHDL</li><li>
+<a id="pgfId-1035510"></a>wreal variables in SystemVerilog </li><li>
+<a id="pgfId-1035511"></a>wreal types in e</li></ul>
+
+
+
+<p>
+<a id="pgfId-1035512"></a>It is important to note that the real-wire (wreal) is defined only in the Verilog-AMS LRM. Thus, a wreal can be used only in the Verilog-AMS block. However, it is only the digital kernel that solves the wreal system. There are no performance drawbacks when using these types of Verilog-AMS modules in a digital simulation context as compared to other real value modeling approaches, such as SV-real or VDHL-real.</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1035513"></a>Real value models in e are mainly targeting for testbench development.</div>
+<h3>
+<a id="pgfId-1035516"></a><a id="_Toc234394642"></a>Simulation Performance, Accuracy, and Modeling Effort</h3>
+
+<p>
+<a id="pgfId-1035517"></a>For the analog subsystem, common levels of abstraction are:</p>
+<ul><li>
+<a id="pgfId-1035518"></a>Extracted transistor netlist including parasitic elements<ul><li>
+<a id="pgfId-1035519"></a>Post layout representation </li><li>
+<a id="pgfId-1035520"></a>Highest level of accuracy that can be achieved in circuit-level simulation</li><li>
+<a id="pgfId-1035521"></a>Huge amount of devices</li><li>
+<a id="pgfId-1035522"></a>Low simulation performance</li></ul></li><li>
+<a id="pgfId-1035523"></a>Transistor-level representation, SPICE-level simulation<ul><li>
+<a id="pgfId-1035524"></a>Nominal reference for analog simulation</li><li>
+<a id="pgfId-1035525"></a>Often used as &#8220;golden&#8221; simulation reference</li></ul></li><li>
+<a id="pgfId-1035526"></a>Transistor-level representation, fast SPICE simulation<ul><li>
+<a id="pgfId-1035527"></a>Trade off between accuracy and speed</li><li>
+<a id="pgfId-1035528"></a>Mostly close to SPICE-level simulation accuracy</li><li>
+<a id="pgfId-1035529"></a>Simulation speedup compared to classical SPICE in the range of 20x</li></ul></li><li>
+<a id="pgfId-1035530"></a>Analog behavioral modeling<ul><li>
+<a id="pgfId-1035531"></a>Conservative behavioral models using voltages and currents</li><li>
+<a id="pgfId-1035532"></a>Written in Verilog-A, Verilog-AMS, or VHDL-AMS </li><li>
+<a id="pgfId-1035533"></a>Typical speedup compared to classical SPICE in the range of 5-100x</li></ul></li><li>
+<a id="pgfId-1035534"></a>Real value modeling<ul><li>
+<a id="pgfId-1035535"></a>Continuous value, discrete time (event-based) models</li><li>
+<a id="pgfId-1035536"></a>Signal flow models </li><li>
+<a id="pgfId-1035537"></a>Written in Verilog-AMS, VHDL, SystemVerilog, e</li><li>
+<a id="pgfId-1035538"></a>Maintaining analog-like behavior</li><li>
+<a id="pgfId-1035539"></a>Can be solved in digital simulation kernel</li><li>
+<a id="pgfId-1035540"></a>Simulation performance close to digital speed</li><li>
+<a id="pgfId-1035697"></a>Compared to classical SPICE approach, a performance improvement of 100000-1000000x can be achieved.</li></ul></li><li>
+<a id="pgfId-1035541"></a>Pure digital model<ul><li>
+<a id="pgfId-1035542"></a>Digital model for analog blocks</li><li>
+<a id="pgfId-1035543"></a>Written in Verilog, SystemVerilog, and VHDL</li><li>
+<a id="pgfId-1035544"></a>Analog signal represented as single logic value: very poor representation of analog behavior but potentially sufficient for connectivity type of checks</li><li>
+<a id="pgfId-1035545"></a>Analog signal represented as logic bus: similar accuracy as RVM, however, no match between digital and analog implementation (bus vs. scalar wire)</li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1035985"></a>The gain in simulation performance and reduction in accuracy are highly dependent on the application. There is no general recommendation on what level of abstraction might be useful. This heavily depends on the verification goals. All have particular advantages and disadvantages, and thus a useful application area. For example, a very rough digital model might be sufficient for just connectivity or timing checks.</p>
+<p>
+<a id="pgfId-1035986"></a><a href="Chap1a.html#_Ref232309774">Figure 2-3</a> shows a general trend in the accuracy/performance tradeoff. The numbers are generic and can vary significantly for different applications.</p>
+
+<p>
+<a id="pgfId-1035894"></a>.</p>
+<div class="webflare-div-image">
+<img src="images/Model_accuracy_versus_performance_gain.gif" /></div>
+<p><strong>Figure 2-3
+<a id="pgfId-1035891"></a><a id="_Ref232309774"></a>Model accuracy versus performance gain</strong></p>
+
+<p>
+<a id="pgfId-1035554"></a>Classical SPICE-level simulations are used as golden reference simulation. Fast SPICE engines reach the same accuracy but can also trade-off some accuracy for speed (mainly fast SPICE). Analog behavioral modeling provides a large range of capabilities, reaching from high accuracy to high performance. However, it should be noted that a low-performance, low-accuracy model is a potential risk for inexperienced modelers. In particular, convergence issues caused by over-idealized models might slow down the overall simulation significantly. This may result in a performance decrease rather than the expected simulation speed improvement.</p>
+<p>
+<a id="pgfId-1035555"></a>As mentioned earlier, RVM provides high simulation performance but restricts the model accuracy at the same time. Finally, pure digital model can be very inaccurate but might be sufficient for verification tasks including connectivity checks.</p>
+<p>
+<a id="pgfId-1035556"></a>The other effect to consider in this context is the effort required to set up a simulation or create the model. <a href="Chap1a.html#_Ref232309791">Figure 2-4</a>  illustrates the general trends. </p>
+
+<p>
+<a id="pgfId-1035561"></a></p>
+<div class="webflare-div-image">
+<img src="images/Model_effort_versus_performance_gain.gif" /></div>
+<p><strong>Figure 2-4
+<a id="pgfId-1035564"></a><a id="_Ref232309791"></a>Modeling effort versus performance gain</strong></p>
+
+<p>
+<a id="pgfId-1035565"></a>As SPICE simulations are reference simulations, these are always executed and the effort to run this simulation must always be taken into account. Turbo SPICE and APS setup requires only one additional option (<code>-turbo</code>); so no additional work is required. Since FastSpice simulations require a detailed control on speed vs. accuracy, on a block-level basis, some amount of setup effort and understanding of the design is required.</p>
+<p>
+<a id="pgfId-1035566"></a>Analog behavioral model creation effort can range from hours to days and possibly weeks to become a good behavioral model. RVM is inherently restricted to the signal flow approach and analog convergence is not an issue. Consequently, the modeling effort is significantly lower as compared to analog behavioral models. Secondly, and more importantly, the design engineer does not need to learn a new language to create the real value models. Therefore, the ramp-up time to create these models is much lower than creating analog behavioral models. On the other hand, pure digital models &#8211; not using RVM &#8211; do have significant drawbacks in terms of functionality that limit the use for analog models (See section <a href="Chap2.html#_Ref232936861">Why wreal?</a>).</p>
+<p>
+<a id="pgfId-1035567"></a>Behavioral models can also be differentiated by the modeling goal. A performance-oriented model needs to precisely capture critical behavior, which is necessary to efficiently explore the design space and make implementation trade-offs. Functional models capture the actual circuit behavior only to the detail needed to verify the correct design functionally. Both types of models are found in top-down and bottom-up modeling. However, the top-level functional verification is far more common in bottom-up modeling where it is used to perform the final design verification prior to tape-out. For example, the functional verification model can be used to study dynamic closed-loop functionality between the RF and digital baseband ICs, whereas a performance-oriented model of an RF block can be used for cascaded measurements, such as IP3 and explore system-level metrics, such as bit error rate and error vector magnitude. </p>
+
+<h3>
+<a id="pgfId-1035569"></a><a id="_Toc234394643"></a>Limitations of the RVM Approach</h3>
+
+<p>
+<a id="pgfId-1035570"></a>Real valued models are obviously limited due to the signal flow approach. On the other hand, this modeling limitation is an enabling factor that is able to solve the equations inside the digital kernel. Simple analog primitives, like a resistor, are impossible to model as real value model. The branch current through the terminals and the voltage across both pins are defined as a fixed ratio, however, there is no signal flow representation for this.</p>
+<p>
+<a id="pgfId-1035571"></a>The same limitation applies for an analog RC filter. However, in most cases it is relatively straightforward to convert the analog filter characteristic, using the bilinear transform, into a discrete domain filter. A z-domain filter is easy to implement in real values. (See section <a href="Chap3new.html#_Ref232935631">Low Pass Filter</a>). </p>
+<p>
+<a id="pgfId-1035572"></a>This means, a real value model is always an abstraction above and beyond the analog behavioral details. Given the target application described above for functional verification of the analog and digital integration check, this would be a mandatory step anyway. </p>
+<p>
+<a id="pgfId-1035573"></a>Detailed analog behavior, such as impedance matching, transistor sizing, continuous time feedback, low-level RC coupling effects, sensible nonlinear input/output impedance interactions, noise level, and similar effects need to be verified on the lower analog block level using conservative behavioral models or transistor-level representations.</p>
+
+<h3>
+<a id="pgfId-1035575"></a><a id="_Toc234394644"></a>Model Verification</h3>
+
+<p>
+<a id="pgfId-1035576"></a>Top-level verification based on real value models is only as good as the models themselves. Thus, a model verification step is mandatory for bottom-up models. In most cases, the transistor-level implementation is used as reference implementation for the real-value models. Simulation setup and testbenches are available in the analog block-level flow for these blocks. </p>
+<p>
+<a id="pgfId-1035577"></a>To verify the model versus the reference, identical simulations are performed using the reference, and the model and the simulation results are compared. This can be done manually or using a newly developed tool, DCM Model Validation (DMV), to set up the simulation runs and result comparison.</p>
+
+<h2>
+<a id="pgfId-1035579"></a><a id="_Toc234394645"></a>A RVM-based Workflow</h2>
+
+<p>
+<a id="pgfId-1035580"></a>From a high-level point of view, a mixed-signal flow including real value modeling could look like as follows.</p>
+<p>
+<a id="pgfId-1035919"></a>Concept engineering is developing the system-level view of the chip. Architectural trade-offs are made based on the system-level simulation. This is also the starting point for the baseline specification for the building blocks. For the system-level simulation, top-down models are used (See <a href="Chap1a.html#_Ref232310780">Figure 2-5</a> ). Using the real value models is an attractive possibility because it enables the connect engineer to use the same simulation environment as the detailed block implementation. Thus, the real value models are used as initial specification for the block-level implementation and are exchanged seamlessly between the concept and block-level flows.</p>
+<p>
+<a id="pgfId-1036145"></a>Beside the specification and interface definitions, a high-level verification plan is developed based on the implemented features and blocks.</p>
+
+<p>
+<a id="pgfId-1036153"></a></p>
+<div class="webflare-div-image">
+<img src="images/Concepteng_view.gif" /></div>
+<p><strong>Figure 2-5
+<a id="pgfId-1036150"></a><a id="_Ref232310780"></a>Concept engineering view</strong></p>
+
+<p>
+<a id="pgfId-1035589"></a>The digital block-level implementation and verification flows are mainly based on languages, such as VHDL and Verilog. Tests are created in the design language or special verification languages, such as e or SystemVerilog (See <a href="Chap1a.html#50524">Figure 2-6</a> ). </p>
+<p>
+<a id="pgfId-1035590"></a>The verification plan is updated, if needed, based on the implementation details and features of each digital block.</p>
+
+<p>
+<a id="pgfId-1035591"></a></p>
+<div class="webflare-div-image">
+<img src="images/Pure_digital_testbench.gif" /></div>
+<p><strong>Figure 2-6
+<a id="pgfId-1035593"></a><a id="50524"></a>Pure digital testbench</strong></p>
+
+<p>
+<a id="pgfId-1035594"></a>Over time, the number of blocks and the number of tests grow (See <a href="Chap1a.html#_Ref232310983">Figure 2-7</a> ). Due to the high simulation performance, a large set of digital blocks in a complex testbench is mostly uncritical from the simulation point of view. </p>
+<p>
+<a id="pgfId-1035595"></a>The pure digital verification results are captured in the Verification metric (coverage).</p>
+
+<p>
+<a id="pgfId-1035596"></a></p>
+<div class="webflare-div-image">
+<img src="images/topleveldigitaltestbench.gif" /></div>
+<p><strong>Figure 2-7
+<a id="pgfId-1035944"></a><a id="_Ref232310983"></a>Top-level digital testbench</strong></p>
+
+<p>
+<a id="pgfId-1035945"></a>A similar process is followed on the pure analog implementation side (See <a href="Chap1a.html#_Ref232311213">Figure 2-8</a> ); however, the implementation and simulation environment is different. Analog users mostly use the Virtuoso Analog Design Environment (ADE) as their working environment. The testbench is a schematic. There are often different testbenches and ADE states for a single analog block. For example, for an AC configuration and a transient simulation.</p>
+<p>
+<a id="pgfId-1035765"></a>Verification is often based on visual waveform inspection. Given the level of detail and size of the blocks, this is not a limiting factor for the analog designer. </p>
+
+<p>
+<a id="pgfId-1035766"></a></p>
+<div class="webflare-div-image">
+<img src="images/Analog_block_level_testbench.gif" /></div>
+<p><strong>Figure 2-8
+<a id="pgfId-1035768"></a><a id="_Ref232311213"></a>Analog block-level testbench</strong></p>
+
+<p>
+<a id="pgfId-1035604"></a>To improve simulation performance for top-level verification, a real value model needs to be created. This model is validated with the same analog testbench used for the transistor model to ensure whether the functionality matches the transistor-level reference or not (See <a href="Chap1a.html#_Ref232311246">Figure 2-9</a> ).</p>
+<p>
+<a id="pgfId-1035605"></a>The model validation process is scheduled as a regression run to ensure that the model stays in sync with potential design changes later in the flow.</p>
+
+<p>
+<a id="pgfId-1035791"></a></p>
+<div class="webflare-div-image">
+<img src="images/verifying_the_wreal_model_in_the_analog_environment.gif" /></div>
+<p><strong>Figure 2-9
+<a id="pgfId-1035608"></a><a id="_Ref232311246"></a>Verifying the wreal model in the analog environment</strong></p>
+
+<p>
+<a id="pgfId-1035609"></a>Both the analog and digital implementation flows are often mixed-signal where the analog part is represented as the transistor-level model or behavioral real model for functional verification (See <a href="Chap1a.html#_Ref232311275">Figure 2-10</a> ). The detailed analog/digital performance verification, such as impedance matching, noise/gain levels needs to be verified as completely as possible at this block-level, since the simulation performance does allow a very accurate transistor-level simulation.</p>
+<p>
+<a id="pgfId-1035610"></a>This is a critical verification step in the overall chip verification task. The top-level verification based on real values is complementary to these low-level verification tasks. They are not replacing them by any means. </p>
+
+<p>
+<a id="pgfId-1035806"></a></p>
+<div class="webflare-div-image">
+<img src="images/Mixed-signal_block_level_test.gif" /></div>
+<p><strong>Figure 2-10
+<a id="pgfId-1035613"></a><a id="_Ref232311275"></a>Mixed-signal block-level test</strong></p>
+
+<p>
+<a id="pgfId-1035899"></a>As shown in <a href="Chap1a.html#_Ref232311314">Figure 2-11</a> , for the top-level verification, all analog content is replaced by the real value models. This ensures a high simulation performance that is required for the top-level verification tasks.</p>
+
+<p>
+<a id="pgfId-1036156"></a></p>
+<div class="webflare-div-image">
+<img src="images/top-level_wreal_testbench.gif" /></div>
+<p><strong>Figure 2-11
+<a id="pgfId-1035905"></a><a id="_Ref232311314"></a>Top-level wreal testbench</strong></p>
+
+<p>
+<a id="pgfId-1035618"></a>Once the main functional verification is done at a high level of abstraction, it might be necessary to replace some critical blocks with the transistor-level representation again to ensure that all analog effects are correctly verified.</p>
+<p>
+<a id="pgfId-1035457"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="Chapter1.html" id="prev" title="Introduction">Introduction</a></em></b><b><em><a href="Chap2.html" id="nex" title="Verilog-AMS Wreal Features">Verilog-AMS Wreal Features</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

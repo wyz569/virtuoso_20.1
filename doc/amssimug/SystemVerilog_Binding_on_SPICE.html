@@ -1,0 +1,94 @@
+
+<html><head><title>SystemVerilog Binding on SPICE</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864928" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="SystemVerilog Binding on SPICE" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="concept" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="Digital Mixed Signal,Digital Mixed Signal,Analog Mixed Signal,Explorer," />
+<meta name="prod_subfeature" content="SV-MS,SV-MS,AMS Designer," />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864928" />
+<meta name="NextFile" content="Using_SystemVerilog_Modules.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="SystemVerilog_and_AMS_Extensions.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- SystemVerilog Binding on SPICE" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="SystemVerilog_and_AMS_Extensions.html" title="SystemVerilog_and_AMS_Extensions">SystemVerilog_and_AMS_Extensio ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Using_SystemVerilog_Modules.html" title="Using_SystemVerilog_Modules">Using_SystemVerilog_Modules</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <h1 style="margin: 4px 0 4px;"><span>SystemVerilog Binding on SPICE</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p><span class="confluence-anchor-link" id="SystemVerilogBindingonSPICE-svbind"></span><span class="confluence-anchor-link" id="SystemVerilogBindingonSPICE-1075660"></span>Spectre AMS Designer&#160;supports the SV&#160;<code style="font-size: 14.0px;letter-spacing: 0.0px;">bind</code>&#160;statement that enables you to specify one or more instantiations of a module without modifying the code of the target. For example, you can use the SV&#160;<code style="font-size: 14.0px;letter-spacing: 0.0px;">bind</code>&#160;statement at SPICE level to access the SPICE nodes and perform verification, such as adding assertion on them. For example:</p>
+
+<p><code>//cell target</code></p>
+
+<p><code>bind analog_top inc #(param_list) xinc (port map);</code></p>
+
+<p><code>// instance target</code><br /><code>bind top.i1 inc #(param_list) xinc (port map);</code></p>
+
+<p>You can use the SV<code>&#160;bind&#160;</code>statement in a cell or instance specification.</p>
+
+<p>In the above example, if cell&#160;<code>analog_top</code>&#160;or instance&#160;<code>top.i1</code>&#160;is a SPICE subcircuit that is configured through the&#160;<code>amsd</code>&#160;control block, it will trigger SV binding on SPICE.</p>
+
+<p>You can also trigger SV binding on SPICE by using the&#160;<code>xrun</code>&#160;command option&#160;<code>-nxmbind.</code>&#160;The&#160;<code>-nxmbind</code>&#160;option does not require re-invocation of<code>&#160;xmvlog</code>/<code>xmelab&#160;</code>commands.</p>
+
+<p>SV binding targets the top-level SPICE instance block as well as any other instance within the scope of the hierarchy of the top-level SPICE instance block; however, there is a restriction to targeting SPICE instances below the top-level SPICE instance block. You need to ensure that the SPICE subcircuit that is instantiated within the top-level SPICE hierarchy is also instantiated in the digital instance. For example:</p>
+
+<p><code>// Here, top.ana_top_inst of subckt ana_top is verilog-spice boundary;</code><br /><code>ana_top_level2 is an instance inside ana_top</code></p>
+
+<p><code>bind top.ana_top_inst.ana_top_level2_inst inc #(param_list) xinc (port map);</code></p>
+
+<p><code>//analog.scs</code><br /><code>.subckt ana_top</code><br /><code>ana_top_level2_inst ana_top_level2 a b</code><br /><code>.endckt</code></p>
+
+<p><code>//amscf.scs</code></p>
+
+<p><code>amsd{</code><br /><code>portmap subckt=ana_top</code><br /><code>config cell=ana_top use=spice</code><br /><code>portmap subckt=ana_top_level2 //This is required</code><br /><code>config cell=ana_top use=spice //This is required</code><br /><code>}</code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>SV<code>&#160;bind&#160;</code>statement does not support the dot star (.*) notation.</p>
+</div>
+</div>
+
+<p>You can ignore the SV bind statements on SPICE blocks by using the&#160;<code>xrun</code>&#160;option&#160;<code>-ignore_svbind_spice.</code></p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="SystemVerilog_and_AMS_Extensions.html" id="prev" title="SystemVerilog_and_AMS_Extensions">SystemVerilog_and_AMS_Extensio ...</a></em></b><b><em><a href="Using_SystemVerilog_Modules.html" id="nex" title="Using_SystemVerilog_Modules">Using_SystemVerilog_Modules</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

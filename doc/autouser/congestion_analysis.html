@@ -1,0 +1,1671 @@
+
+<html><head><title>Running Congestion Analysis (ICADVM20.1 EXL Only)</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="parula" />
+<meta name="CreateDate" content="2020-09-07" />
+<meta name="CreateTime" content="1599477677" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the use model and procedures for the Virtuoso Space-Based Router." />
+<meta name="DocTitle" content="Virtuoso Space-based Router User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Running Congestion Analysis (ICADVM20.1 EXL Only)" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="autouser" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-07" />
+<meta name="ModifiedTime" content="1599477677" />
+<meta name="NextFile" content="specialtyRouting.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="coverblockage.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Space-based Router User Guide -- Running Congestion Analysis (ICADVM20.1 EXL Only)" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="autouserICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="autouserTOC.html">Contents</a></li><li><a class="prev" href="coverblockage.html" title="Managing Cover Obstructions While Routing">Managing Cover Obstructions Wh ...</a></li><li style="float: right;"><a class="viewPrint" href="autouser.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="specialtyRouting.html" title="Specialty Routing">Specialty Routing</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Space-based Router User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>8
+<a id="pgfId-1034311"></a></h1>
+<h1>
+<a id="pgfId-1034313"></a><hr />
+<a id="53702"></a>Running Congestion Analysis (ICADVM20.1 EXL Only)<hr />
+</h1>
+
+<p>
+<a id="pgfId-1135025"></a>Congestion analysis determines the routing capacity of a design. You can run congestion analysis both on globally routed and detail-routed designs. The level of congestion in a design can be represented graphically using a heat map, statistically using a histogram, or by using the routing metrics table that the global routing engine internally uses to map capacity and plan routing.</p>
+<p>
+<a id="pgfId-1135026"></a>To simplify the initial problem, the global router creates a course grid that is a multiple of the average of the pitch or routing track grid for the various layers being routed. This course grid is known as the gcell grid. The congestion for every gcell grid is then calculated as the ratio between the number of routed wires and blockages versus the number of available routing tracks.</p>
+<p>
+<a id="pgfId-1135028"></a>The Congestion Analysis utility lets you run comprehensive checks and ensure that accurate results are extracted and displayed. It also lets you view and analyze the routing density of a design from initial floorplanning to detailed placement and routing. This data is used to streamline the floorplanning task and let you tune global planning to improve routing convergence, and perform congestion-based pin optimization.</p>
+<p>
+<a id="pgfId-1117750"></a>This chapter describes how to run, view, and analyze congestion analysis and covers the following topics:</p>
+<ul><li>
+<a id="pgfId-1117753"></a><a href="congestion_analysis.html#81388">Setting up the Congestion Analysis Environment</a></li><li>
+<a id="pgfId-1117760"></a><a href="congestion_analysis.html#74648">Displaying the Congestion Analysis Assistant</a></li><li>
+<a id="pgfId-1117824"></a><a href="congestion_analysis.html#88221">Using the Congestion Analysis Assistant</a></li><li>
+<a id="pgfId-1154456"></a><a href="congestion_analysis.html#86597">Tasks in the Congestion Analysis Assistant</a></li><li>
+<a id="pgfId-1152605"></a><a href="congestion_analysis.html#85196">Using Global Bias Constraints</a></li><li>
+<a id="pgfId-1181257"></a><a href="congestion_analysis.html#60874">About Scenic Ratio</a></li></ul>
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1108887"></a><a id="81388"></a>Setting up the Conge<a id="congestionEnv"></a>stion Analysis Environment</h2>
+
+<p>
+<a id="pgfId-1108888"></a>There are no specific settings required to perform congestion analysis. However, it would help to note the following important points:</p>
+<ul><li>
+<a id="pgfId-1108889"></a>Ensure that <em>Default Wire Constraint Group</em> is set to <code>LEFDefaultRouteSpec</code>. This is required because the global router requires a default constraint group where both <code>validRoutingLayers</code> and <code>validRoutingVias</code> constraints are set.</li><li>
+<a id="pgfId-1108890"></a>Ensure that <em>Design Style</em> in the Virtuoso Space-based Router form is either selected as <em>Chip Assembly</em> or <em>ASIC</em>.</li><li>
+<a id="pgfId-1182074"></a>Ensure that the <em>Route Flow</em> in the Wire Assistant is selected as <em>Minimum Spanning Tree</em>. Congestion analysis only supports the <em>Minimum Span Tree</em> routing flow.<br /><div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1108862"></a>
+Congestion Analysis has limited functionality when <em>Design Style</em> is set to <em>Device</em>.</div></li></ul>
+
+
+
+
+<h2>
+<a id="pgfId-1108960"></a><a id="74648"></a>Displaying the C<a id="congestionAnalysisAssistant"></a>ongestion Analysis Assistant</h2>
+
+<p>
+<a id="pgfId-1117844"></a>The Congestion Analysis assistant is available only in Layout EXL.</p>
+<p>
+<a id="pgfId-1109027"></a><a id="1104444"></a>To display the Congestion Analysis assistant, do one of the following:</p>
+<ul><li>
+<a id="pgfId-1109159"></a>Choose <em>Window</em> &#8211; <em>Assistants</em> &#8211; <em>Congestion Analysis</em>.</li><li>
+<a id="pgfId-1109218"></a>Right-click anywhere in the layout window menu bar and choose <em>Assistants</em> &#8211; <em>Congestion Analysis</em>.</li><li>
+<a id="pgfId-1164405"></a>Click the <em>Congestion Analysis</em> icon <img width="37" height="34" src="images/congestion_analysis-3.gif" />
+on the <em>Design Planning</em><span> toolbar. For more information, see </span></li></ul>
+
+<a actuate="user" class="URL" href="../vdpuser/chap1.html#vdpToolbar" show="replace" xml:link="simple">Design Planner Toolbar</a><span>.</span>
+<p>
+<a id="pgfId-1109215"></a>To hide the Congestion Analysis assistant, do one of the following:</p>
+<ul><li>
+<a id="pgfId-1109390"></a>Click the <em>Hide</em> button in the Congestion Analysis title bar.</li><li>
+<a id="pgfId-1109456"></a>Right-click anywhere in the layout window menu bar and choose <em>Assistants</em> &#8211; <em>Congestion Analysis</em>.</li></ul>
+
+<p>
+<a id="pgfId-1110307"></a><a id="43330"></a>The <em>
+Congestion Analysis 
+user interface has five major components, as shown below.</em></p>
+<p>
+<a id="pgfId-1121963"></a></p>
+
+<div class="webflare-div-image">
+<img width="668" height="584" src="images/congestion_analysis-4.gif" /></div>
+
+<ul><li>
+<a id="pgfId-1121960"></a><a href="congestion_analysis.html#89862">Title Bar Buttons</a></li><li>
+<a id="pgfId-1110375"></a><a href="congestion_analysis.html#67943">Toolbar</a></li><li>
+<a id="pgfId-1110457"></a><a href="congestion_analysis.html#88780">Customizable Histogram</a></li><li>
+<a id="pgfId-1110464"></a><a href="congestion_analysis.html#50368">Global Cell Track Utilization Table</a></li><li>
+<a id="pgfId-1156497"></a><a href="congestion_analysis.html#76508">Net Selection Table</a></li></ul>
+
+
+
+
+
+<h3>
+<a id="pgfId-1109072"></a><a id="89862"></a>Title Bar Buttons</h3>
+
+<ul><li>
+<a id="pgfId-1109558"></a>Help<br />
+<a id="pgfId-1109523"></a>Displays information about how to use the Congestion Analysis assistant.</li><li>
+<a id="pgfId-1109564"></a>Float/Dock<br />
+<a id="pgfId-1109590"></a>Undocks the Congestion Analysis assistant. Click the button again to dock the Congestion Analysis assistant.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1109711"></a>You can also drag the Congestion Analysis to dock or undock it.</div></li><li>
+<a id="pgfId-1109576"></a>Hide<br />
+<a id="pgfId-1109010"></a>Hides the Congestion Analysis assistant.</li></ul>
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1109789"></a><a id="67943"></a>Too<a id="congestionToolbar"></a>lbar</h3>
+
+<p>
+<a id="pgfId-1109806"></a><a id="1074828"></a>The <em>Congestion Analysis</em> assistant toolbar lets you access the main functions with a single mouse click.</p>
+
+<p>
+<a id="pgfId-1122564"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="59" src="images/congestion_analysis-5.gif" /></div>
+
+<ul><li>
+<a id="pgfId-1109859"></a><em>Analyze Congestion</em><br />
+<a id="pgfId-1122110"></a>Runs different methods of congestion analysis on the design.<br /><table class="webflareTable" id="#id1174511">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1151210">
+<a id="pgfId-1151210"></a>Icon</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1151212">
+<a id="pgfId-1151212"></a>Command</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1151214">
+<a id="pgfId-1151214"></a>Lets you...</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174381"></a><img width="54" height="34" src="images/congestion_analysis-6.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1151218"></a><em>Global Route and Congestion Analysis</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1154719"></a>Runs global routing to build the gcell grid, run four passes of global routing on all nets, and then runs congestion analysis to build the histogram, create the heat map, and populate the global cell track utilization table. This is the default mode.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1151222"></a><img width="52" height="34" src="images/congestion_analysis-7.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1151313"></a><em>Global Route and ECO Congestion Analysis</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1154767"></a>Runs global routing in ECO mode, which means that global routing is run on the nets for which the global bias constraint has been created. It then runs congestion analysis to update histogram, heat map and the global cell track utilization table. </p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1167685"></a>The Global Route and ECO Congestion Analysis option is enabled only when a design has valid global bias constraints.</div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1151325"></a><img width="54" height="40" src="images/congestion_analysis-8.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1151327"></a><em>Global Route and ignore Penalty Congestion Analysis</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1157279"></a>This is a special what-if analysis mode for early floor planning. It runs global routing, wherein, each net takes the shortest possible path regardless of other nets. In this case, gcells tend to be over congested and not well-distributed, resulting in higher nets overlap. Therefore, it is not advised to use this result for detailed routing or detailed floorplanning. This option lets you evaluate if the floorplan is underutilized and if it can be compacted early in the design cycle, or to highlight the most common regions of over-congestion to indicate that more room might be required.</p>
+<p>
+<a id="pgfId-1171193"></a>After running global routing, it runs congestion analysis to update the histogram, the heat map, and the Global Cell Track Utilization table. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1151350"></a><img width="54" height="35" src="images/congestion_analysis-9.gif" /></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1151352"></a><em>Congestion Analysis</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1151354"></a>Runs only congestion analysis on the design to build the histogram, create the heat map and populate the Global Cell Track Utilization table based on the previously routed data. This mode is useful when you already have a fully detail routed design and you want to save the run time.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1151358"></a>NA</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1151360"></a><em>Options</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1151362"></a>Opens the Congestion Analysis subform in the Virtuoso Space-based Router Options form.</p>
+</td>
+</tr>
+</tbody></table></li><li>
+<a id="pgfId-1109881"></a><em>Clear Congestion Analysis Data </em><img width="39" height="37" src="images/congestion_analysis-10.gif" />
+<br />
+<a id="pgfId-1122122"></a>Clears the congestion analysis results and removes global routing.</li><li>
+<a id="pgfId-1109915"></a><em>Zoom Selected Global Cells </em><img width="41" height="36" src="images/congestion_analysis-11.gif" />
+<br />
+<a id="pgfId-1122132"></a>Enables you to zoom to selected global cells or nets.</li><li>
+<a id="pgfId-1109943"></a><em>Filter Global Cells by </em><img width="50" height="36" src="images/congestion_analysis-12.gif" />
+<br />
+<a id="pgfId-1122186"></a>Provides options to filter and display congestion data.<br /><table class="webflareTable" id="#id1151660">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1174703">
+<a id="pgfId-1174703"></a>Command</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1174705">
+<a id="pgfId-1174705"></a>Lets you...</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174707"></a><em>All Layers without Filters</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174709"></a>Resets any filters that have been applied.</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1174710"></a>It does not reset the histogram if it has been customized. You need to reset the histogram using the Congestion Histogram Customize form.</div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174712"></a><em>Define Area</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174714"></a>Lets you draw a box in the main window to filter an area of the design to display congestion analysis. The heat map, histogram, and global cell track utilization table are updated to only show the congestion data within the defined area.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174716"></a><em>Show Selected Global Net Edges</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174718"></a>Highlights the selected nets in the heat map. Also, the histogram and the global cell track utilization table are updated to show the congestion data of only the selected nets. </p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1174719"></a>This filter mode works only if a net or nets have been selected.</div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174721"></a><em>All Layers Average Congestion</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174723"></a>Calculates the average congestion for all horizontal and vertical layers in a design.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174725"></a><em>Used Layers Average Congestion</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174727"></a>Calculates the average congestion for only the horizontal or vertical layers that have been routed in a design.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174729"></a><em>Maximum Congestion</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174731"></a>Calculates the maximum congestion for all horizontal and vertical layers in a design. This is the default congestion analysis mode. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174733"></a><em>Show Unusable Global Cells</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174735"></a>Enables the display of the global cells that are blocked and are essentially not available for any global paths or interactive routing.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174737"></a><em>Congestion Map Visible</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174739"></a>Turns on or off the display of the existing congestion map. For more information, see <a href="congestion_analysis.html#95667">Toggling Congestion Map Visibility</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174745"></a><em>Show Empty Global Cells Only</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174747"></a>Displays all gcells that have zero congestion in the heat map and histogram. For more information, see <a href="congestion_analysis.html#67992">Displaying Empty Global Cells</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174753"></a><em>Layer Display</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174755"></a>Lets you choose specific layers when calculating and displaying congestion in the heat map, histogram, and global cell track utilization table.</p>
+</td>
+</tr>
+</tbody></table></li><li>
+<a id="pgfId-1109967"></a><em>Congestion Histogram Customize </em><img width="35" height="36" src="images/congestion_analysis-13.gif" />
+<br />
+<a id="pgfId-1122342"></a>Enables you to filter the histogram to display specific buckets of congestion.</li><li>
+<a id="pgfId-1109999"></a><em>Global Bias Setup </em><img width="41" height="36" src="images/congestion_analysis-14.gif" />
+<br />
+<a id="pgfId-1135153"></a>Allows you to create, modify, and delete global bias constraints that can be used to plan the routing of a net group.</li><li>
+<a id="pgfId-1110018"></a><em>Finish with Detailed Routing </em><img width="57" height="35" src="images/congestion_analysis-15.gif" />
+<br />
+<a id="pgfId-1135253"></a>Starts Virtuoso Space-based Router to complete detailed routing of the selected set of nets or the entire design.<br /><table class="webflareTable" id="#id1151569">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1174659">
+<a id="pgfId-1174659"></a>Command</span>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id1174661">
+<a id="pgfId-1174661"></a>Lets you...</span>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174663"></a><em>Route All Nets</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174665"></a>Routes all nets using the standard VSR routing flow.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174667"></a><em>Route Selected Nets</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-1174669"></a>Routes only the selected nets using the standard VSR routing flow.</p>
+</td>
+</tr>
+</tbody></table></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1110388"></a><a id="88780"></a>Customizable Histogram</h3>
+
+<p>
+<a id="pgfId-1122658"></a>Running congestion analysis displays the congestion data in the histogram. The histogram illustrates the congestion results in the design based on the selected filter option. </p>
+
+<p>
+<a id="pgfId-1123165"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="235" src="images/congestion_analysis-16.gif" /></div>
+<h3>
+<a id="pgfId-1110413"></a><a id="50368"></a>Global Cell Track Utilization Table</h3>
+
+<p>
+<a id="pgfId-1110839"></a>Running congestion analysis populates the <em>Global Cell Track Utilization</em> table with the capacity and availability information of every gcell in the design.</p>
+
+<p>
+<a id="pgfId-1156314"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="245" src="images/congestion_analysis-17.gif" /></div>
+<h3>
+<a id="pgfId-1144039"></a><a id="76508"></a>Net Selection Table</h3>
+
+<p>
+<a id="pgfId-1156342"></a>After running congestion analysis, when you select a gcell in the <em>Global Cell Track Utilization</em> table, the nets passing through the selected gcell are displayed in a table below the <em>Global Cell Track Utilization</em> table. This table is the Net selection table.</p>
+
+<p>
+<a id="pgfId-1156335"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="340" src="images/congestion_analysis-18.gif" /></div>
+<h2>
+<a id="pgfId-1123210"></a>Loading Congestion Analysis Workspace</h2>
+
+<p>
+<a id="pgfId-1144090"></a>To load the <em>Congestion Analysis </em>workspace and the assistant, choose <em>Windows </em>&#8211; <em>Workspace</em> &#8211; <em>Congestion Analysis</em>. The workspace displays the Navigator assistant, Palette assistant, and the Congestion Analysis assistant.</p>
+
+<p>
+<a id="pgfId-1144394"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="383" src="images/congestion_analysis-19.gif" /></div>
+<h2>
+<a id="pgfId-1110052"></a><a id="88221"></a>Using the Congestion An<a id="useCA"></a>alysis Assistant</h2>
+
+<p>
+<a id="pgfId-1110480"></a>By using the Congestion Analysis assistant, you can run global routing and congestion analysis and illustrate the various methods of viewing congestion in your design. You can <a id="1057305"></a>perform the following tasks.</p>
+<ul><li>
+<a id="pgfId-1113514"></a><a href="congestion_analysis.html#_Toc496793638">Running Global Routing and Congestion Analysis</a></li><li>
+<a id="pgfId-1113452"></a><a href="congestion_analysis.html#35271">Visualizing Congestion</a></li><li>
+<a id="pgfId-1113459"></a><a href="congestion_analysis.html#42083">Analyzing Congestion</a></li></ul>
+
+
+<p>
+<a id="pgfId-1182303"></a>Monaco Congestion Analysis Assistant has only one record per cellview. If you attempt to open another instance of Monaco Congestion Analysis Assistant for the cellview that already has a copy of congestion analysis record, a warning message is displayed, as shown below.</p>
+
+<p>
+<a id="pgfId-1182523"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="101" src="images/congestion_analysis-20.gif" /></div>
+
+<p>
+<a id="pgfId-1182650"></a>This also means that you should only open the Congestion Analysis assistant in one window. The copied one(s) only will display the synchronized heat map, but the Congestion Analysis assistant is not displayed.</p>
+
+<h3>
+<a id="pgfId-1110166"></a><a id="36751"></a><a id="_Toc496793638"></a>Running Global Routing and Congestion Analysis</h3>
+
+<p>
+<a id="pgfId-1110496"></a>Before visualizing the congestion data, run global routing and congestion analysis on the design data. To do this:</p>
+<ol><li>
+<a id="pgfId-1123417"></a>Click the <em>Congestion Analysis</em> icon. It is the first icon on the Congestion Analysis assistant toolbar. <br />
+<a id="pgfId-1125172"></a>The Global routing and congestion analysis is run on the design. You can refer to the status and the results of congestion analysis in CIW or review the data from the log.<br />
+<a id="pgfId-1113698"></a>The global router builds the gcell grid and then runs four passes of global routing in an attempt to route all the nets. Once routing is complete, you can see the number of routes passing through every gcell edge in the design. This information is then used to calculate the availability of each gcell, and illustrate the availability of a gcell as a color on the heat map. The following figure shows the congestion results displayed in the heat map and the histogram in the Congestion Analysis assistant.<br />
+<a id="pgfId-1175226"></a><div class="webflare-div-image">
+<img width="633" height="422" src="images/congestion_analysis-21.gif" /></div>
+<a id="pgfId-1175201"></a>When you modify an object in the design, such as a block, cell, soft block, or change the shape or placement of the virtual hierarchy, the data in the Congestion Analysis assistant is in an invalid state. In this state, a warning message is displayed informing you that the congestion analysis data is no longer valid because some of the routing objects have been modified. <pre class="webflare-pre-block webflare-courier-new" id="#id1177231">
+<a id="pgfId-1177231"></a>*WARNING* (IA-20500): The congestion analysis data is no longer valid because some of the routing objects have been modified. Click the Run Congestion Analysis button on the toolbar to regenerate the congestion data or click the Clear Congestion Analysis Data button on the toolbar to clear the congestion map.</pre>
+<a id="pgfId-1177214"></a>In addition, histogram, Global Cell Track Utilization table and some of the congestion analysis assistant tool bar options are disabled.<br />
+<a id="pgfId-1176238"></a><div class="webflare-div-image">
+<img width="633" height="434" src="images/congestion_analysis-22.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1175793"></a>In the <em>Congestion Analysis</em> toolbar only the first two options, <em>Congestion Analyze</em> and <em>Clear Congestion Analysis Data</em> are enabled.</div>
+<a id="pgfId-1175913"></a>To get the valid data and the state, you need to re-run congestion analysis. Once congestion analysis is run again, histogram, Global Cell Track Utilization table and the toolbar options are enabled and restored.</li><li>
+<a id="pgfId-1110189"></a>To clear the analysis results and delete global routing, click the <em>Clear Congestion Analysis Data</em> icon on the toolbar.<br />
+<a id="pgfId-1156884"></a><div class="webflare-div-image">
+<img width="633" height="61" src="images/congestion_analysis-23.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1110645"></a><a id="1232681"></a><a id="35271"></a>Visualizing Congestion</h3>
+
+<p>
+<a id="pgfId-1113398"></a>Once global routing and congestion analysis is run, there are various methods to view congestion in your design. This section describes some of the methods to view congestion.</p>
+<ul><li>
+<a id="pgfId-1113481"></a><a href="congestion_analysis.html#15014">Viewing the Heat Map</a></li><li>
+<a id="pgfId-1113488"></a><a href="congestion_analysis.html#85988">Viewing the Histogram</a></li><li>
+<a id="pgfId-1113502"></a><a href="congestion_analysis.html#_Toc496793642">Viewing the Global Cell Track Utilization Table</a></li></ul>
+
+
+
+<h4>
+<a id="pgfId-1111663"></a><a id="15014"></a>Viewing the Heat Map</h4>
+
+<p>
+<a id="pgfId-1144814"></a>The heat map is a standard method to visualize congestion. After global routing and congestion analysis is complete, the heat map is updated to illustrate the congestion result in the main window. </p>
+<p>
+<a id="pgfId-1144912"></a>You can use the heat map to visualize and analyze congestion in your design. The heat map shows the level of congestion in different colors. The indication of the different color codes is as given below.</p>
+<ul><li>
+<a id="pgfId-1111665"></a>Cold colors, such as Blue and Green indicate less congestion.</li><li>
+<a id="pgfId-1111666"></a>Warmer colors, such as Yellow, Orange, and Red indicate high congestion.</li><li>
+<a id="pgfId-1111667"></a>Hot colors, such as Purple and white indicate over congestion. </li></ul>
+
+
+<p>
+<a id="pgfId-1123800"></a>The following figure shows the congestion result in the heat map.</p>
+
+<p>
+<a id="pgfId-1124005"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="363" src="images/congestion_analysis-24.gif" /></div>
+
+<p>
+<a id="pgfId-1123949"></a>Since the colors displayed in the heat map are mostly blue and green in color, it indicates that the design is less congested.</p>
+
+<h4>
+<a id="pgfId-1111687"></a><a id="85988"></a>Viewing the Histogram</h4>
+
+<p>
+<a id="pgfId-1124409"></a>Another method to view and analyze congestion in your design is using the histogram section in the Congestion Analysis assistant. The histogram provides instant feedback and displays the amount of congestion in a design. It is used for two purposes:</p>
+<ul><li>
+<a id="pgfId-1111925"></a>Display the color palette for the heat map.</li><li>
+<a id="pgfId-1111930"></a>Display the congestion curve in the design. <br />
+<a id="pgfId-1144981"></a>The length of the color bar in each percentage bucket represents the number of gcells (as a ratio of the entire design) that have a particular level of congestion.</li></ul>
+
+
+<p>
+<a id="pgfId-1111780"></a>The following figure shows an example of a design that is less congested. Most of the gcells are present in the <code>1-20%</code> and<em> </em><code>21-40%</code> buckets. Therefore, there are lots of available tracks throughout the design. </p>
+
+<p>
+<a id="pgfId-1145449"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="236" src="images/congestion_analysis-25.gif" /></div>
+
+<p>
+<a id="pgfId-1145522"></a>Here is another example that shows the over-congested design. Most of the gcells are contained in the upper buckets, which means that less routing resources are available. </p>
+
+<p>
+<a id="pgfId-1145681"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="264" src="images/congestion_analysis-26.gif" /></div>
+<h4>
+<a id="pgfId-1125322"></a>Understanding Gcells</h4>
+
+<p>
+<a id="pgfId-1113045"></a>Global Routing generates a grid of global cells (known as gcells) in the design. The size of a global cell on a given layer is a multiple of the track pitch of that same layer. To calculate congestion, use the number of tracks that cross a gcell edge. This means:</p>
+<ul><li>
+<a id="pgfId-1113046"></a>the capacity of a gcell edge is the total number of tracks that cross that edge.</li><li>
+<a id="pgfId-1113047"></a>The availability of a gcell edge is the capacity minus the number of tracks already used on that edge.</li></ul>
+
+<p>
+<a id="pgfId-1113048"></a>To know the horizontal capacity of a gcell from the following figure, review the left-hand edges of the three highlighted gcells.</p>
+<ul><li>
+<a id="pgfId-1113049"></a>Gcell #1 (in Purple) has a horizontal capacity of three tracks but has 0 tracks available (0% free)</li><li>
+<a id="pgfId-1113050"></a>Gcell #2 (in Yellow) has a horizontal capacity of three tracks and has one track available (33% free)</li><li>
+<a id="pgfId-1112248"></a>Gcell #3 (in Green) has a horizontal capacity of three tracks and has two tracks available (66% free)<br />
+<a id="pgfId-1145194"></a><div class="webflare-div-image">
+<img width="668" height="298" src="images/congestion_analysis-27.gif" /></div></li></ul>
+
+
+
+
+
+<h4>
+<a id="pgfId-1112257"></a><a id="19423"></a><a id="_Toc496793642"></a>Viewing the Global Cell Track Utilization Table</h4>
+
+<p>
+<a id="pgfId-1125678"></a>When global routing and congestion analysis is run, the global cell track utilization table is populated with the capacity and availability information of every gcell in the design. It is an effective and informative arrangement to quickly view the gcell information.</p>
+<ul><li>
+<a id="pgfId-1112259"></a>Horizontal congestion for the track utilization table is calculated using the track capacity and track availability data along the LEFT edge of a gcell.</li><li>
+<a id="pgfId-1112260"></a>Vertical congestion for the track utilization table is calculated using the track capacity and track availability data along the BOTTOM edge of a gcell.</li></ul>
+
+<p>
+<a id="pgfId-1125868"></a>The following figure displays how the information is displayed in the <em>Global Cell Track Utilization</em> table.</p>
+
+<p>
+<a id="pgfId-1125825"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="268" src="images/congestion_analysis-28.gif" /></div>
+
+<p>
+<a id="pgfId-1112261"></a>The <em>Global Cell Track Utilization</em> table consists of seven columns, which are as follows:</p>
+<ul><li>
+<a id="pgfId-1112262"></a><em>Cell Index</em><br />
+<a id="pgfId-1112263"></a>An internal numbering system for all the gcells in a design.</li><li>
+<a id="pgfId-1112264"></a><em>Layer</em><br />
+<a id="pgfId-1112265"></a>A layer of the gcell for which the track utilization data is displayed.</li><li>
+<a id="pgfId-1112266"></a><em>Used Blockages</em><br />
+<a id="pgfId-1112267"></a>The number of tracks used by blockages for the specified layer of the gcell.</li><li>
+<a id="pgfId-1112268"></a><em>Used Pre Routes</em><br />
+<a id="pgfId-1112269"></a>The number of tracks used by pre-routed nets for the specified layer of the gcell.</li><li>
+<a id="pgfId-1112270"></a><em>Used Global Routes</em><br />
+<a id="pgfId-1112271"></a>The number of tracks used by globally routed nets for the specified layer of the gcell.</li><li>
+<a id="pgfId-1112272"></a><em>Available</em><br />
+<a id="pgfId-1112273"></a>The number of tracks that are not used for the specified layer of the gcell. The information in this column is based on a simple calculation.<pre class="webflare-pre-block webflare-courier-new" id="#id1112732">
+<a id="pgfId-1112732"></a>Available = Gcell Total Tracks &#8211; Used Blockages &#8211; Used Pre Routes &#8211; Used Global Routes</pre></li><li>
+<a id="pgfId-1112274"></a><em>Gcell Total Tracks</em><br />
+<a id="pgfId-1112275"></a>The total number of tracks for the specified layer of the gcell.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1112935"></a><a id="42083"></a>Analyzing Congestion</h3>
+
+<p>
+<a id="pgfId-1112938"></a>Let us now see how you can use the heat map, the histogram, and global cell track utilization table to analyze congestion, quickly debug hot spots, and find nets that pass through congested regions of the design. </p>
+<ul><li>
+<a id="pgfId-1116325"></a><a href="congestion_analysis.html#95532">Filtering by Analysis Modes</a></li><li>
+<a id="pgfId-1116348"></a><a href="congestion_analysis.html#35870">Filtering by Layers</a></li><li>
+<a id="pgfId-1116343"></a><a href="congestion_analysis.html#18165">Filtering by Histogram</a></li></ul>
+
+
+
+<h4>
+<a id="pgfId-1112940"></a><a id="95532"></a>Filtering by Ana<a id="analysismode"></a>lysis Modes</h4>
+
+<p>
+<a id="pgfId-1114357"></a>Usually, the average congestion across all layers in the design is displayed on the heat map. However, this can be misleading. To correctly analyze the congestion across all layers and display it on the heat map, you can change the analysis mode. To do this:</p>
+<ol><li>
+<a id="pgfId-1114656"></a>Click the drop-down arrow next to the <em>Filter Global Cells by</em> icon on the <em>Congestion Analysis</em> toolbar. </li><li>
+<a id="pgfId-1114784"></a>Choose the analysis mode from the drop-down list box, as shown in the following figure.<br />
+<a id="pgfId-1126659"></a><div class="webflare-div-image">
+<img width="633" height="432" src="images/congestion_analysis-29.gif" /></div>
+<a id="pgfId-1114359"></a>The three different analysis modes to view congestion on the heat map are: <ul><li>
+<a id="pgfId-1114360"></a><em>All Layers Average Congestion</em><br />
+<a id="pgfId-1114361"></a>For each gcell, calculates the average congestion for all horizontal and vertical layers, and colors the gcell based on the average computed percentage.</li><li>
+<a id="pgfId-1114362"></a><em>Used Layers Average Congestion</em><br />
+<a id="pgfId-1114363"></a>For each gcell, calculates the average congestion for all horizontal and vertical layers that have global routing, and colors the gcell based on the average computed percentage.</li><li>
+<a id="pgfId-1114364"></a><em>Maximum Congestion</em><br />
+<a id="pgfId-1114365"></a>For each gcell, calculates the maximum congested percentage for all horizontal and vertical layers, and colors the gcell based on the maximum congested percentage. This is the default analysis mode. </li></ul><br />
+<a id="pgfId-1112942"></a>You can view variations in the congestion data in the heat map, the histogram, and the global cell track utilization table. The view in the heat map, histogram, and the global cell track utilization table changes to display the variation in congestion data when you switch between the three analysis modes. <br />
+<a id="pgfId-1126745"></a><div class="webflare-div-image">
+<img width="633" height="280" src="images/congestion_analysis-30.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1115046"></a>You would mostly want to view maximum congestion because it quickly and graphically provides you the worst possible heat map across all layers.</div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1115194"></a><a id="35870"></a>Filtering by Layers</h4>
+
+<p>
+<a id="pgfId-1127291"></a>You can quickly view congestion results either in the heat map or the histogram by filtering the results by layer. The two ways to do this are as follows.</p>
+<ul><li>
+<a id="pgfId-1115361"></a><a href="congestion_analysis.html#19256">Selecting a Single Layer</a></li><li>
+<a id="pgfId-1115704"></a><a href="congestion_analysis.html#18835">Selecting Multiple Layers</a></li></ul>
+
+
+<h4><em>
+<a id="pgfId-1115305"></a><a id="19256"></a>Selecting a Sin<a id="singlelayer"></a>gle Layer</em></h4>
+
+<p>
+<a id="pgfId-1115335"></a>To do this:</p>
+<ol><li>
+<a id="pgfId-1115368"></a>Click the drop-down arrow next to the <em>Filter Global Cells by</em> icon on the <em>Congestion Analysis</em> toolbar. </li><li>
+<a id="pgfId-1115380"></a>Choose a layer for which you want to view congestion. For example, select <em>Show met2 Only</em> from the drop-down list.<br />
+<a id="pgfId-1127656"></a><div class="webflare-div-image">
+<img width="633" height="432" src="images/congestion_analysis-31.gif" /></div>
+<a id="pgfId-1115606"></a>The following figure displays the congestion data of the selected layer in the heat map, histogram, and the global cell track utilization table. <br />
+<a id="pgfId-1146376"></a><div class="webflare-div-image">
+<img width="633" height="358" src="images/congestion_analysis-32.gif" /></div>
+<a id="pgfId-1146359"></a>The view in heat map, histogram, and the global cell track utilization table changes to display the variation in the congestion data depending on the metal layer selected. <br />
+<a id="pgfId-1176302"></a>When the layer filter is set to a single layer, the color of the filter icon is changed from Grey to light orange. The tooltip is also updated according to the filter applied.<br />
+<a id="pgfId-1176520"></a><div class="webflare-div-image">
+<img width="633" height="280" src="images/congestion_analysis-33.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1115707"></a><a id="18835"></a>Selecting Mu<a id="multiplelayers"></a>ltiple Layers</em></h4>
+
+<p>
+<a id="pgfId-1115748"></a>To do this:</p>
+<ol><li>
+<a id="pgfId-1115765"></a>Click the drop-down arrow next to the <em>Filter Global Cells by</em> icon on the <em>Congestion Analysis</em> toolbar. </li><li>
+<a id="pgfId-1115761"></a>Click the <em>Layer Display</em> option.<br />
+<a id="pgfId-1127826"></a><div class="webflare-div-image">
+<img width="633" height="429" src="images/congestion_analysis-34.gif" /></div>
+<a id="pgfId-1115809"></a>The Layer Display form is displayed. Using this form, you can choose multiple layers for which you want to display congestion. <br />
+<a id="pgfId-1127874"></a><div class="webflare-div-image">
+<img width="633" height="315" src="images/congestion_analysis-35.gif" /></div></li><li>
+<a id="pgfId-1115972"></a>Choose the layers for which you want to display the congestion data. You can choose:<ul><li>
+<a id="pgfId-1115871"></a><em>All Layers On</em> <br />
+<a id="pgfId-1127915"></a>Selects all the layers displayed in the form.</li><li>
+<a id="pgfId-1127894"></a><em>All Layers Off</em><br />
+<a id="pgfId-1127970"></a>Deselects all the layers displayed in the form.</li><li>
+<a id="pgfId-1115872"></a><em>Horizontal Layers Only</em><br />
+<a id="pgfId-1128026"></a>Selects only the horizontal layers in the design.</li><li>
+<a id="pgfId-1115873"></a><em>Vertical Layers Only</em><br />
+<a id="pgfId-1128089"></a>Selects only the vertical layers in the design.</li></ul></li><li>
+<a id="pgfId-1115875"></a>Click <em>OK</em>.<br />
+<a id="pgfId-1146605"></a>The following figure displays the congestion data for only the horizontal layers.<br />
+<a id="pgfId-1146571"></a><div class="webflare-div-image">
+<img width="633" height="405" src="images/congestion_analysis-36.gif" /></div>
+<a id="pgfId-1128250"></a>The view in the heat map, histogram, and the global cell track utilization table changes to display the variation in the congestion data depending on the metal layers selected.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1163488"></a>Related Topics</em></h4>
+
+<p>
+<a id="pgfId-1163512"></a><a href="appA.html#48453">Layer Display form</a></p>
+
+<h4>
+<a id="pgfId-1116156"></a><a id="18165"></a>Filtering by Histogram</h4>
+
+<p>
+<a id="pgfId-1116363"></a>Another method to view congestion results is to filter the histogram. This method helps in viewing specific buckets of congestion on the heat map. To filter the histogram, perform the following steps:</p>
+<ol><li>
+<a id="pgfId-1116556"></a>Run congestion analysis.</li><li>
+<a id="pgfId-1116697"></a>Select the check box next to the congestion bucket that you want to display on the heat map. You can switch between the different congestion buckets that are available.<br />
+<a id="pgfId-1128376"></a><div class="webflare-div-image">
+<img width="633" height="233" src="images/congestion_analysis-37.gif" /></div>
+<a id="pgfId-1128352"></a>The following figures displays the gcells and their congestion between <code>61-70%</code> and <code>21-40%</code>.<br />
+<a id="pgfId-1147169"></a><div class="webflare-div-image">
+<img width="633" height="358" src="images/congestion_analysis-38.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1128493"></a>The gcells from the unselected congestion buckets appear dim in the heat map.</div>
+<a id="pgfId-1147088"></a>The view in the heat map, histogram, and the global cell track utilization table changes to display the variation in the congestion data depending on the congestion bucket selected.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1120265"></a><a id="86597"></a>Tasks in the Conges<a id="CA_tasks"></a>tion Analysis Assistant</h2>
+
+<p>
+<a id="pgfId-1120314"></a>By using the Congestion Analysis assistant, you can perform the following tasks.</p>
+<ul><li>
+<a id="pgfId-1120397"></a><a href="congestion_analysis.html#97930">Customizing Histogram</a></li><li>
+<a id="pgfId-1134876"></a><a href="congestion_analysis.html#41895">Selecting and Viewing Global Cells</a></li><li>
+<a id="pgfId-1172777"></a><a href="congestion_analysis.html#95667">Toggling Congestion Map Visibility</a></li><li>
+<a id="pgfId-1172794"></a><a href="congestion_analysis.html#67992">Displaying Empty Global Cells</a></li><li>
+<a id="pgfId-1129324"></a><a href="congestion_analysis.html#16717">Finding and Displaying Nets</a></li><li>
+<a id="pgfId-1150261"></a><a href="congestion_analysis.html#73890">Resetting the Histogram and Heat Map Display</a></li></ul>
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1116919"></a><a id="97930"></a>Customizing <a id="customizeHistogram"></a>Histogram</h3>
+
+<p>
+<a id="pgfId-1117927"></a>At times it may become necessary to customize the histogram. Let us consider a scenario when you run global routing and congestion analysis and most of the design is congested. However, there are some very small regions of high congestion. The following figure displays the histogram with small regions of high congestion.</p>
+
+<p>
+<a id="pgfId-1117050"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="250" src="images/congestion_analysis-39.gif" /></div>
+
+<p>
+<a id="pgfId-1117949"></a>Because there are small bands of high congestion, it is difficult to know the number of gcells that are in the 111-200% bucket compared to the ones in the 91-100% bucket. Also, it is difficult to know the number of gcells that are 95% congested compared to ones that are 98% congested. </p>
+<p>
+<a id="pgfId-1117681"></a>In such a scenario, customizing the histogram will be beneficial. You can customize the histogram to only display the congested buckets and expand them to the entire histogram table. To do this:</p>
+<ol><li>
+<a id="pgfId-1117683"></a>Click the <em>Congestion Histogram Customize</em> icon on the Congestion Analysis toolbar.<br />
+<a id="pgfId-1147582"></a><div class="webflare-div-image">
+<img width="633" height="60" src="images/congestion_analysis-40.gif" /></div>
+<a id="pgfId-1118050"></a>The Congestion Histogram Customize form is displayed.<br />
+<a id="pgfId-1128877"></a><div class="webflare-div-image">
+<img width="633" height="339" src="images/congestion_analysis-41.gif" /></div></li><li>
+<a id="pgfId-1118110"></a>From the <em>Customize As</em> drop-down list, select the method by which you want to customize the histogram. You can choose from the following:<ul><li>
+<a id="pgfId-1118245"></a>Choose <em>Default</em> to customize the histogram and display the congestion data in the original format.</li><li>
+<a id="pgfId-1118321"></a>Choose <em>Interval</em> to specify the congestion percentage with which to start and the interval between congestion buckets. For more information, see <a href="congestion_analysis.html#30933">Customized as Interval</a>.</li><li>
+<a id="pgfId-1118357"></a>Choose <em>Start and End</em> to specify the congestion percentage with which to start and end on. The intervals between congestion buckets are derived automatically. For more information, see <a href="congestion_analysis.html#92076">Customized as Start and End</a>.</li><li>
+<a id="pgfId-1130643"></a>Choose <em>Specified</em> to specify the exact congestion percentage buckets. The start percentage for each congestion bucket is manually entered. For more information, see <a href="congestion_analysis.html#25556">Customized as Specified</a>.</li></ul><br />
+<a id="pgfId-1131385"></a>To view the results based on histogram customization, see <a href="congestion_analysis.html#53585">Results Based on Histogram Customization</a>.</li><li>
+<a id="pgfId-1118692"></a>In the <em>Start at</em> field, specify the congestion percentage with which to start. This field is enabled only when the customization method is selected as <em>Interval</em> or <em>Start and End</em>.</li><li>
+<a id="pgfId-1118951"></a>In the <em>End at</em> field, specify the congestion percentage on which you want to end. This field is enabled only when the customization method is selected as <em>Start and End</em>.</li><li>
+<a id="pgfId-1119044"></a>In the <em>With Interval</em> field, specify the interval between the congestion buckets. This field is enabled only when the customization method is selected as <em>Interval</em>.</li><li>
+<a id="pgfId-1129196"></a>Click <em>Refresh</em>. The table entries in the Congestion Histogram Customize form are updated.</li><li>
+<a id="pgfId-1119143"></a>Click <em>OK</em>. The congestion data displayed in the heat map, the histogram, and the global cell track utilization table is updated based on the selected customization method and the related settings.</li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1163567"></a>Related Topics</em></h4>
+
+<p>
+<a id="pgfId-1163571"></a><a href="appA.html#60428">Congestion Histogram Customize</a></p>
+
+<h4>
+<a id="pgfId-1119304"></a><strong>Results Based on Histogram Customization</strong><a id="53585"></a></h4>
+
+<p>
+<a id="pgfId-1131540"></a>The congestion data result is created and displayed based on the histogram customization. Let us see how the result of congestion data differs in three different methods of histogram customization.</p>
+<ul><li>
+<a id="pgfId-1131665"></a><a href="congestion_analysis.html#30933">Customized as Interval</a></li><li>
+<a id="pgfId-1131675"></a><a href="congestion_analysis.html#92076">Customized as Start and End</a></li><li>
+<a id="pgfId-1131693"></a><a href="congestion_analysis.html#25556">Customized as Specified</a></li></ul>
+
+
+
+<h4><em>
+<a id="pgfId-1129421"></a><a id="30933"></a>Customized as Interval</em></h4>
+
+<p>
+<a id="pgfId-1129797"></a>The Interval option lets you specify the congestion percentage to start and the interval between the congestion buckets.</p>
+<p>
+<a id="pgfId-1130185"></a>The following figure shows an example where the histogram starts at the 40% value with an interval of 5% in each bucket. The histogram is updated to only display congestion data for the upper buckets. As can be seen, most of the congestion is in the <em>40-44%</em> bucket.</p>
+
+<p>
+<a id="pgfId-1119776"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="611" src="images/congestion_analysis-42.gif" /></div>
+
+<p>
+<a id="pgfId-1119798"></a>Now, click the check box next to the 65-69% bucket. The gcells in this bucket are highlighted in the heat map and the global cell track utilization table.</p>
+
+<p>
+<a id="pgfId-1147736"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="310" src="images/congestion_analysis-43.gif" /></div>
+<h4><em>
+<a id="pgfId-1119794"></a><a id="92076"></a>Customized as Start and End</em></h4>
+
+<p>
+<a id="pgfId-998370"></a>The <em>Start and End</em> option lets you specify the congestion percentage to start&#160;&#160;and the congestion percentage to end. The intervals between congestion buckets are derived automatically.</p>
+<p>
+<a id="pgfId-1130333"></a>The following figure shows an example where the percentage to start is specified as 1% and the percentage to end is specified as 110%. The interval for each bucket is automatically set to 10%. The histogram is updated to only display congestion data for the specified buckets that were selected in the customization form. As can be seen, most of the congestion is in the <em>12-22%</em> bucket.</p>
+
+<p>
+<a id="pgfId-1130542"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="612" src="images/congestion_analysis-44.gif" /></div>
+
+<p>
+<a id="pgfId-1130693"></a>Now, click the check box next to the <em>56-66%</em> bucket. The gcells in this bucket are highlighted in the heat map and the global cell track utilization table.</p>
+<p>
+<a id="pgfId-1148202"></a></p>
+
+<div class="webflare-div-image">
+<img width="668" height="310" src="images/congestion_analysis-45.gif" /></div>
+<h4><em>
+<a id="pgfId-1130731"></a><a id="25556"></a>Customized as Specified</em></h4>
+
+<p>
+<a id="pgfId-1130732"></a>The <em>Specified </em>lets you specify the exact congestion percentage. The start percentage for each bucket has to be individually specified. </p>
+<p>
+<a id="pgfId-1130733"></a>The following figure shows an example where the percentage to start the histogram is specified as 9%, the next congestion bucket starts at 19%, the one after that at 29%, and so on.</p>
+
+<p>
+<a id="pgfId-1130737"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="618" src="images/congestion_analysis-46.gif" /></div>
+
+<p>
+<a id="pgfId-1131130"></a>The congestion between <em>9-99%</em> is now visible in the histogram. As can be seen, most of the congestion is in the 19-28% bucket. Also, there is hidden congestion in the 117-200% bucket.</p>
+<p>
+<a id="pgfId-1131339"></a>Now, click the check box next to the <em>49-58%</em> bucket to highlight the congested hot spots on the heat map and debug why the gcells are so congested by reviewing the global cell track utilization table.</p>
+
+<p>
+<a id="pgfId-1148468"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="288" src="images/congestion_analysis-47.gif" /></div>
+<h3>
+<a id="pgfId-1131759"></a><a id="41895"></a>Selecting and Viewing Glo<a id="selectGcells"></a>bal Cells</h3>
+
+<p>
+<a id="pgfId-1135651"></a>With the help of the global cell track utilization table, you can view the actual congestion metrics used by the global routing engine.</p>
+<p>
+<a id="pgfId-1131822"></a>You can use the global cell track utilization table to quickly find the most congested gcells in the design. In addition, explore the objects causing that level of congestion and also view the selected gcell(s) in the heat map by zooming in.</p>
+<p>
+<a id="pgfId-1132857"></a>To do this:</p>
+<ol><li>
+<a id="pgfId-1132871"></a>Run congestion analysis by clicking the <em>Congestion Analysis</em> icon on the toolbar.</li><li>
+<a id="pgfId-1133000"></a>Select a gcell from the <em>Global Cell Track Utilization</em> table.<br />
+<a id="pgfId-1117679"></a>The nets passing through the selected gcell are displayed in the section below the <em>Global Cell Track Utilization</em> table. The heat map is also updated to show the location of the selected gcell. However the selected gcell, in the Global Track Utilization table, appears quite small on the heat map because of the design size.</li><li>
+<a id="pgfId-1133319"></a>To view the selected gcell more precisely, use the <em>Zoom selected Global Cells</em> icon on the <em>Congestion Analysis</em> toolbar. <br />
+<a id="pgfId-1133359"></a>The following figure shows the enlarged view of the selected gcell in the heat map. <br />
+<a id="pgfId-1132093"></a><div class="webflare-div-image">
+<img width="633" height="397" src="images/congestion_analysis-48.gif" /></div>
+<a id="pgfId-1132099"></a>Congestion is calculated based on the capacity and availability of edges on a gcell.<ul><li>
+<a id="pgfId-1133613"></a>Horizontal congestion is calculated based on the left edge of a gcell.</li><li>
+<a id="pgfId-1133606"></a>Vertical congestion is calculated based on the bottom edge of a gcell.</li><li>
+<a id="pgfId-1132104"></a>The congestion on the right and top edges of the selected gcell are reflected in the neighboring gcell above it and to the right of the selected gcell.</li></ul></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1132113"></a>An alternative way to select and view a gcell is using the heat map. You can look for the gcells in the heat map and then manually select the gcells that are required. To do this:</p>
+<ol><li>
+<a id="pgfId-1133958"></a>Click the drop-down arrow next to the <em>Filter Global Cells By</em> icon on the <em>Congestion Analysis</em> toolbar. </li><li>
+<a id="pgfId-1134101"></a>To select an area of gcells, click <em>Define Area</em>.<br />
+<a id="pgfId-1134173"></a><div class="webflare-div-image">
+<img width="633" height="432" src="images/congestion_analysis-49.gif" /></div></li><li>
+<a id="pgfId-1132122"></a>Now, select a region on the heat map by clicking a lower-left point and then dragging the  pointer to an upper-right point. <br />
+<a id="pgfId-1149366"></a><div class="webflare-div-image">
+<img width="633" height="370" src="images/congestion_analysis-50.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1132123"></a>The non-selected gcells are dimmed. Also, the histogram and the global cell track utilization table is updated to indicate only the selected gcells.</div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1168424"></a>Sorting Global Cel<a id="sorting"></a>l Track Utilization Table</h4>
+
+<p>
+<a id="pgfId-1168562"></a>To assist in the analysis of congestion analysis, you can sort each column in the Global Cell Track Utilization table. To do this, click the header of the column to be sorted. </p>
+<p>
+<a id="pgfId-1168803"></a>To reverse the sorting of the column, double-click the column.</p>
+<p>
+<a id="pgfId-1168483"></a>In the following figure, the <em>Available</em> column in the Global Cell Track Utilization table is sorted in descending order. The triangle on the column name represents whether the sorted column is ascending or descending order.</p>
+
+<p>
+<a id="pgfId-1170408"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="381" src="images/congestion_analysis-51.gif" /></div>
+<h3>
+<a id="pgfId-1151006"></a><a id="95667"></a>Toggling Congestion Map Visib<a id="CAvisibility"></a>ility</h3>
+
+<p>
+<a id="pgfId-1169232"></a>Sometimes, the heat map may obscure other important design information in the main window. In such a situation, you can toggle the display of the heat map in the main window. To do this:</p>
+<ol><li>
+<a id="pgfId-1169481"></a>Click the <em>Filter</em> button from the Congestion Analysis toolbar.</li><li>
+<a id="pgfId-1169482"></a>Click the <em>Congestion Map Visible</em> option from the drop-down list.<br />
+<a id="pgfId-1169466"></a><div class="webflare-div-image">
+<img width="633" height="432" src="images/congestion_analysis-52.gif" /></div>
+<a id="pgfId-1169540"></a>The display of congestion map is turned off and the congestion map is no longer displayed.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1169257"></a>The histogram and the Global Cell Track Utilization table are disabled and are not filterable or customizable during this mode.</div></li></ol>
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1169787"></a><a id="67992"></a>Displaying Empty Global Ce<a id="zeropercentGcells"></a>lls </h3>
+
+<p>
+<a id="pgfId-1169863"></a>At times, it is useful to visualize parts of a design that have zero percent congestion. This can help in identifying regions that could be used to add additional structures such as hard macros, soft blocks, or routing. Alternatively, this can help to identify regions in a design that could be removed or compacted in order to shrink a design during floor-planning. To only show gcells with zero percent congestion, perform the following steps.</p>
+<ol><li>
+<a id="pgfId-1170170"></a>Click the <em>Filter</em> button from the Congestion Analysis toolbar.</li><li>
+<a id="pgfId-1170171"></a>Click the <em>Show Empty Global Cells Only</em> option from the drop-down list.<br />
+<a id="pgfId-1170153"></a><div class="webflare-div-image">
+<img width="633" height="429" src="images/congestion_analysis-53.gif" /></div>
+<a id="pgfId-1169888"></a>The heat map is turned off and only global cells with zero congestion are displayed in the main window.<br />
+<a id="pgfId-1170345"></a><div class="webflare-div-image">
+<img width="633" height="402" src="images/congestion_analysis-54.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1169913"></a>The histogram and the Global Cell Track Utilization table are disabled and are not filterable or customizable during this mode.</div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1120222"></a><a id="16717"></a>Finding and Displaying Nets</h3>
+
+<p>
+<a id="pgfId-1120415"></a>To know where congestion hot spots exist, it is important to identify the nets passing through congested regions of a design so that corrective action can be taken. This section describes how to:</p>
+<ul><li>
+<a id="pgfId-1120416"></a>Find nets passing through gcells.</li><li>
+<a id="pgfId-1120417"></a>Visualize selected nets as global paths in the heat map.</li></ul>
+
+<p>
+<a id="pgfId-1120530"></a>To find and display the nets that are passing through a gcell, perform the following steps. </p>
+<ol><li>
+<a id="pgfId-1134451"></a>Run congestion analysis by clicking the <em>Congestion Analysis</em> icon on the toolbar.</li><li>
+<a id="pgfId-1120253"></a>Select a gcell in the <em>Global Cell Track Utilization</em> table.</li><li>
+<a id="pgfId-1120676"></a>Select a net from the table of nets displayed below the <em>Global Cell Track Utilization </em>table.<br />
+<a id="pgfId-1120224"></a>All the gcells that the selected net passes through are highlighted. The path displayed by the highlighted gcells is known as the global path. The global path of the selected gcells is seen on the heat map.<br />
+<a id="pgfId-1134674"></a><div class="webflare-div-image">
+<img width="633" height="343" src="images/congestion_analysis-55.gif" /></div></li><li>
+<a id="pgfId-1149460"></a>To view the path more closely, use the <em>Zoom selected Global Cells</em> icon on the <em>Congestion Analysis</em> toolbar. <br />
+<a id="pgfId-1149430"></a><div class="webflare-div-image">
+<img width="633" height="317" src="images/congestion_analysis-56.gif" /></div></li><li>
+<a id="pgfId-1120870"></a>Now, select a range of nets from the <em>Net Selection</em> table by clicking the start and end nets and keeping the <code>Shift</code> key pressed. You can also select multiple nets from the table by clicking multiple nets and keeping the <code>Ctrl</code> key pressed.<br />
+<a id="pgfId-1120873"></a>When multiple nets are selected, the display of gcells for the selected nets look cluttered. This is because the heat map complicates the global paths of the selected nets.<br />
+<a id="pgfId-1149533"></a><div class="webflare-div-image">
+<img width="633" height="359" src="images/congestion_analysis-57.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1143684"></a>The selection of nets is usually done from the Navigator assistant and is considered the primary way of displaying nets on the heat map. However, you can also select a net or a group of nets from the <em>Net Selection</em> table in the Congestion Analysis assistant and have the selected nets displayed in the Navigator assistant. </div></li><li>
+<a id="pgfId-1120875"></a>To only show the congestion on gcells associated with the global paths of the selected nets, click the <em>Show Selected Global Nets Edges</em> option from the <em>Filter</em> drop-down list. The following figure shows how the congestion is displayed before the option is not selected and after the option is selected.<br />
+<a id="pgfId-1151056"></a><div class="webflare-div-image">
+<img width="633" height="385" src="images/congestion_analysis-58.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4>
+<a id="pgfId-1149562"></a>Finding and Displaying Nets in the Navigator</h4>
+
+<p>
+<a id="pgfId-1149660"></a>You can also select nets from the Navigator assistant and have them displayed in the heat map. To do this:</p>
+<ol><li>
+<a id="pgfId-1149738"></a>Open the Navigator assistant in Virtuoso by choosing <em>Windows</em> &#8211; <em>Assistant</em> &#8211; <em>Navigator</em>.</li><li>
+<a id="pgfId-1149766"></a>Click and select the nets from the Navigator assistant. <br />
+<a id="pgfId-1149823"></a>The following figure shows the selected nets in the Navigator assistant and how they are displayed together in the heat map.<br />
+<a id="pgfId-1150071"></a><div class="webflare-div-image">
+<img width="633" height="363" src="images/congestion_analysis-59.gif" /></div></li></ol>
+
+
+
+
+
+<h3>
+<a id="pgfId-1150081"></a><a id="73890"></a>Resetting the Histogram and Heat Map Display </h3>
+
+<p>
+<a id="pgfId-1120866"></a>To reset the histogram and heat map to display every gcell, you need to reset the filtering. To do this:</p>
+<ol><li>
+<a id="pgfId-1121488"></a>Click the <em>Filter</em> button from the Congestion Analysis toolbar.</li><li>
+<a id="pgfId-1121521"></a>Click the <em>All Layers without filtering</em> option from the drop-down list.<br />
+<a id="pgfId-1150891"></a><div class="webflare-div-image">
+<img width="633" height="430" src="images/congestion_analysis-60.gif" /></div>
+<a id="pgfId-1150188"></a>The following figure shows the congestion analysis results when the <em>All Layers without filtering</em> option is selected.<br />
+<a id="pgfId-1169186"></a><div class="webflare-div-image">
+<img width="633" height="552" src="images/congestion_analysis-61.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1135875"></a><a id="85196"></a>Using Global Bi<a id="globalbiasconstraints"></a>as Constraints</h2>
+
+<p>
+<a id="pgfId-1171481"></a>Visualizing and analyzing routing is not of much help if you are unable to make the changes to better suit the design. Congestion Analysis provides the support of global bias constraints, which can be used to plan routing. Once you have identified critical nets or groups of nets, you can add global bias constraints to manage and plan the routing path. These global bias constraints are persistent and are saved to OpenAccess.</p>
+<p>
+<a id="pgfId-1136480"></a>This section describes various aspects of biasing and how to see the actual results by running ECO global routing and congestion analysis:</p>
+<ul><li>
+<a id="pgfId-1136261"></a><a href="congestion_analysis.html#30450">Creating a Global Bias Positive Region Constraint</a> (attract net group into a region)</li><li>
+<a id="pgfId-1136262"></a><a href="congestion_analysis.html#55522">Creating a Global Bias Negative Region Constraint</a> (repel net group out of a region)</li><li>
+<a id="pgfId-1136263"></a><a href="congestion_analysis.html#34875">Creating a Global Bias Path Constraint</a> (guide net group along a path)</li><li>
+<a id="pgfId-1152530"></a><a href="congestion_analysis.html#80982">Creating Multiple Global Bias Constraints for Specific Layers</a> </li></ul>
+
+
+
+
+<h3>
+<a id="pgfId-1136086"></a><a id="30450"></a>Creating a Global Bias Positive Region Constraint</h3>
+
+<p>
+<a id="pgfId-998370"></a>You can consider the global bias positive region constraint as a magnet that can attract a group of nets and buses into a region during global routing. These biased nets take priority over the other nets that also pass through the same region. This means that the global router may push aside the other nets to ensure that the biased nets pass through the region successfully.</p>
+<p>
+<a id="pgfId-1140770"></a>To create a global bias positive region, follow the steps:</p>
+<ol><li>
+<a id="pgfId-998370"></a>Select a net, group of nets, or a bus from the Navigator assistant. For example, here select the net <em>port_pad_data_out&lt;1&gt;</em> from the Navigator assistant.</li><li>
+<a id="pgfId-1136823"></a>Click the <em>Global Bias Setup</em> icon on the Congestion Analysis assistant toolbar.<br />
+<a id="pgfId-1140834"></a><div class="webflare-div-image">
+<img width="633" height="60" src="images/congestion_analysis-62.gif" /></div>
+<a id="pgfId-998370"></a>The Global Bias Setup form displays. <br />
+<a id="pgfId-1140896"></a><div class="webflare-div-image">
+<img width="633" height="432" src="images/congestion_analysis-63.gif" /></div></li><li>
+<a id="pgfId-998375"></a>Click the <em>New</em> button to create a new global bias constraint group.<br />
+<a id="pgfId-1136903"></a>The form is updated to create a default group named as <em>GB002</em>. Also, the net selected in the Navigator assistant appears in the <em>Nets</em> list.<br />
+<a id="pgfId-1152789"></a><div class="webflare-div-image">
+<img width="633" height="478" src="images/congestion_analysis-64.gif" /></div>
+<a id="pgfId-1137215"></a>You can add and remove the nets to the Global Bias Setup form.<br />
+<a id="pgfId-1137327"></a>To add nets:<ol><li>
+<a id="pgfId-1137341"></a>Select a net or a group of nets from the Navigator assistant. </li><li>
+<a id="pgfId-1137426"></a>Click the <em>+ From Navigator</em> button in the Global Bias Setup form.</li></ol><br />
+<a id="pgfId-1137503"></a>The nets selected in the Navigator assistant get displayed in the <em>Nets</em> list box.<br />
+<a id="pgfId-1137493"></a>To remove nets:<ol><li>
+<a id="pgfId-1137584"></a>Select a net from the <em>Nets</em> list box in the Global Bias Setup form.</li><li>
+<a id="pgfId-1137650"></a>Click the <em>- Delete</em> button.</li></ol><br />
+<a id="pgfId-1137679"></a>The selected net is removed from the <em>Nets</em> list box.</li><li>
+<a id="pgfId-1165415"></a>You are allowed to rename the default global bias constraint name to a user-defined name. To edit the name, click in the <em>Global Bias</em> text field and specify another name. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1165581"></a>You can add a net or group of nets selected in the Navigator Assistant to the renamed global bias constraint. This is done using the <em>+ From Navigator</em> button in the Global Bias Setup form.</div></li><li>
+<a id="pgfId-1137763"></a>To add the positive bias region, click the <em>+ Rectangles</em> button.</li><li>
+<a id="pgfId-1137794"></a>Click and drag to draw a region in the heat map.<br />
+<a id="pgfId-1137868"></a>The region created on the heat map is used as the coordinates for the bias area. The bias area is automatically assigned a name called <em>vsrGlobalBias_AB_001 </em>and is displayed in the Bias Areas list box. The Green <em>± </em>symbol in the <em>Bias</em> column next to the bias area indicates that it is a positive bias.<br />
+<a id="pgfId-1141177"></a><div class="webflare-div-image">
+<img width="633" height="393" src="images/congestion_analysis-65.gif" /></div></li><li>
+<a id="pgfId-1137978"></a>If you have created an incorrect region, you can delete it. To do so:<ol><li>
+<a id="pgfId-1138143"></a>Select the bias area from the <em>Bias Areas</em> list box. </li><li>
+<a id="pgfId-1138295"></a>Click the <em>&#8211; Selected Area</em> button.</li></ol><br />
+<a id="pgfId-1141201"></a>The selected bias area is removed.</li><li>
+<a id="pgfId-998383"></a>To see how the new constraint alters routing and congestion, click the <em>ECO</em> button in the Global Bias Setup form. Alternatively, click <em>Global Route and ECO Congestion Analysis</em> option from the <em>Congestion Analysis</em> drop-down list.<br />
+<a id="pgfId-1141263"></a><div class="webflare-div-image">
+<img width="633" height="166" src="images/congestion_analysis-66.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1167585"></a>The <em>ECO</em> button in the Global Bias Setup form is enabled only when there is a valid global bias constraint.</div>
+<a id="pgfId-1138609"></a>The following figure shows that the net is now attracted through the bias region and no longer takes the circuitous path.<br />
+<a id="pgfId-1163659"></a><div class="webflare-div-image">
+<img width="633" height="398" src="images/congestion_analysis-67.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1163669"></a>Related Topics</em></h4>
+
+<p>
+<a id="pgfId-1176742"></a><a href="appA.html#14247">Global Bias Setup Form</a></p>
+
+<h3>
+<a id="pgfId-1138677"></a><a id="55522"></a>Creating a Global Bias Negative Region Constraint</h3>
+
+<p>
+<a id="pgfId-1138744"></a>Consider the global bias negative region constraint as a magnet that can repel a group of nets and buses out of a region during global routing. These biased nets take priority in being pushed out of a bias region by global routing. This can result in the biased nets becoming more circuitous. Another way to conceptualize the negative bias region is as a soft blockage for a selected set of nets.</p>
+<p>
+<a id="pgfId-1153337"></a>To create a global bias negative region, perform the following steps:</p>
+<ol><li>
+<a id="pgfId-1138680"></a>Select a net, group of nets, or a bus from the Navigator assistant. For example, select the net <em>port_pad_data_out&lt;1&gt;</em> from the Navigator assistant.</li><li>
+<a id="pgfId-1138681"></a>Click the <em>Global Bias Setup</em> icon on the <em>Congestion Analysis</em> assistant toolbar.<br />
+<a id="pgfId-1138682"></a>The Global Bias Setup form displays. </li><li>
+<a id="pgfId-1138683"></a>Click the <em>New</em> button to create a new global bias constraint group.<br />
+<a id="pgfId-1138684"></a>The form is updated to create a default group named as <em>GB002</em>. Also, the net selected in the Navigator assistant appears in the <em>Nets</em> list box.<br />
+<a id="pgfId-1153408"></a><br /><div class="webflare-div-image">
+<img width="633" height="485" src="images/congestion_analysis-68.gif" /></div>
+<a id="pgfId-1138685"></a>You can add and remove the nets to the Global Bias Setup form.<br />
+<a id="pgfId-1138686"></a>To add nets:<ol><li>
+<a id="pgfId-1138687"></a>Select a net or a group of nets from the Navigator assistant. </li><li>
+<a id="pgfId-1138688"></a>Click the <em>+ From Navigator</em> button in the Global Bias Setup form.</li></ol><br />
+<a id="pgfId-1138689"></a>The nets selected in the Navigator assistant are displayed in the <em>Nets</em> list box.<br />
+<a id="pgfId-1138690"></a>To remove nets:<ol><li>
+<a id="pgfId-1138691"></a>Select a net from the <em>Nets</em> list box in the Global Bias Setup form.</li><li>
+<a id="pgfId-1138692"></a>Click the <em>- Delete</em> button.</li></ol><br />
+<a id="pgfId-1138693"></a>The selected net is removed from the <em>Nets</em> list box.</li><li>
+<a id="pgfId-1138694"></a>To edit the global bias constraint group name, click in the <em>Global Bias</em> text field and specify another name.</li><li>
+<a id="pgfId-1138695"></a>To add the negative bias region, click the <em>+ Rectangles</em> button.</li><li>
+<a id="pgfId-1138696"></a>Click and drag to draw a region in the heat map.<br />
+<a id="pgfId-1138697"></a>The region created on the heat map is used as the coordinates for the Bias Area. The bias area is automatically assigned a name called <em>vsrGlobalBias_AB_002 </em>and is displayed in the <em>Bias Areas</em> list box. </li><li>
+<a id="pgfId-1171957"></a>Click the green <em>± </em>symbol in the <em>Bias</em> column next to the bias area. This displays a red &#8212;symbol, which indicates a negative bias.<br />
+<a id="pgfId-1141487"></a><div class="webflare-div-image">
+<img width="633" height="402" src="images/congestion_analysis-69.gif" /></div></li><li>
+<a id="pgfId-1138698"></a>If you have created an incorrect region, you can delete it. To do so:<ol><li>
+<a id="pgfId-1138699"></a>Select the bias area from the <em>Bias Areas</em> list box. </li><li>
+<a id="pgfId-1138700"></a>Click the <em>&#8211; Selected Area</em> button.</li></ol><br />
+<a id="pgfId-1141416"></a>The selected bias area is removed.</li><li>
+<a id="pgfId-1138701"></a>To see how the new constraint alters routing and congestion, click the <em>ECO</em> button in the Global Bias Setup form or click the G<em>lobal Route and ECO Congestion Analysis</em> option from the <em>Congestion Analysis</em> drop-down list. <br />
+<a id="pgfId-1135917"></a>The following figure shows that the net is now repelled from the red bias region and can route freely.<br />
+<a id="pgfId-1163721"></a><div class="webflare-div-image">
+<img width="633" height="422" src="images/congestion_analysis-70.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1163730"></a>Related Topics</em></h4>
+
+<p>
+<a id="pgfId-1176806"></a><a href="appA.html#14247">Global Bias Setup Form</a></p>
+
+<h3>
+<a id="pgfId-1139037"></a><a id="34875"></a>Creating a Global Bias Path Constraint</h3>
+
+<p>
+<a id="pgfId-1142837"></a>You can use global bias path constraints to guide a net, group of nets, or a bus along a pre-designated path during global routing. These path-biased nets take priority over the other nets during global routing. This means that the global router may push other nets out of the way and make them less optimal in routing. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1166262"></a>Creating a path is similar to creating a polygon.</div>
+<p>
+<a id="pgfId-1139039"></a>To create a global bias path constraint, follow the steps:</p>
+<ol><li>
+<a id="pgfId-1141725"></a>Select a net, group of nets, or a bus from the Navigator assistant. For example, select the net <em>m_digit_clk</em> from the Navigator assistant.</li><li>
+<a id="pgfId-1139041"></a>Click the <em>Global Bias Setup</em> icon on the <em>Congestion Analysis</em> assistant toolbar.<br />
+<a id="pgfId-1139042"></a>The Global Bias Setup form displays. </li><li>
+<a id="pgfId-1139043"></a>Click the <em>New</em> button to create a new global bias constraint group.<br />
+<a id="pgfId-1139044"></a>The form is updated to create a default group named as <em>GB003</em>. Also, the net selected in the Navigator assistant appears in the <em>Nets</em> list box.<br />
+<a id="pgfId-1153727"></a><br /><div class="webflare-div-image">
+<img width="633" height="416" src="images/congestion_analysis-71.gif" /></div>
+<a id="pgfId-1139045"></a>You can add and remove the nets to or from the Global Bias Setup form.<br />
+<a id="pgfId-1139046"></a>To add nets:<ol><li>
+<a id="pgfId-1139047"></a>Select a net or a group of nets from the Navigator assistant. </li><li>
+<a id="pgfId-1139048"></a>Click the <em>+ From Navigator</em> button in the Global Bias Setup form.</li></ol><br />
+<a id="pgfId-1139049"></a>The nets selected in the Navigator assistant get displayed in the <em>Nets</em> list box.<br />
+<a id="pgfId-1139050"></a>To remove nets:<ol><li>
+<a id="pgfId-1139051"></a>Select a net from the <em>Nets</em> list box in the Global Bias Setup form.</li><li>
+<a id="pgfId-1139052"></a>Click the <em>- Delete</em> button.</li></ol><br />
+<a id="pgfId-1139053"></a>The selected net is removed.</li><li>
+<a id="pgfId-1139054"></a>To edit the global bias constraint group name, click in the <em>Global Bias</em> text field and specify another name.</li><li>
+<a id="pgfId-1139055"></a>To add the path bias constraint, click the <em>+ Paths</em> button.</li><li>
+<a id="pgfId-1139056"></a>Click and drag to draw a path that you want the net to take in the heat map.<br />
+<a id="pgfId-1139057"></a>The path created on the heat map is used as the coordinates for the bias path. The bias path is automatically assigned a name called <em>vsrGlobalBias_AB_003 </em>and is displayed in the <em>Bias Areas</em> list box. <br />
+<a id="pgfId-1141819"></a><div class="webflare-div-image">
+<img width="633" height="345" src="images/congestion_analysis-72.gif" /></div>
+<a id="pgfId-1139514"></a>If you have created an incorrect region, you can delete it. To do so:<ol><li>
+<a id="pgfId-1139059"></a>Select the bias area from the <em>Bias Areas</em> list box. </li><li>
+<a id="pgfId-1139060"></a>Click the <em>&#8211; Selected Area</em> button.<br />
+<a id="pgfId-1141855"></a>The selected bias area is removed.</li></ol></li><li>
+<a id="pgfId-1139061"></a>To see how the new constraint alters routing and congestion, click the <em>ECO</em> button in the Global Bias Setup form or click the <em>Global Route and ECO Congestion Analysis</em> option from the <em>Congestion Analysis</em> drop-down list. <br />
+<a id="pgfId-1139062"></a>The following figure shows that the net now follows the bias path constraint.<br />
+<a id="pgfId-1163780"></a><div class="webflare-div-image">
+<img width="633" height="391" src="images/congestion_analysis-73.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1163789"></a>Related Topics</em></h4>
+
+<p>
+<a id="pgfId-1176862"></a><a href="appA.html#14247">Global Bias Setup Form</a></p>
+
+<h3>
+<a id="pgfId-1139063"></a><a id="80982"></a>Creating Multiple Global Bias Constraints for Specific Layers</h3>
+
+<p>
+<a id="pgfId-1139590"></a>This section describes how to create a negative bias region constraint, create a bias path constraint on a specified set of layers and then run ECO global routing and congestion analysis.</p>
+<p>
+<a id="pgfId-1139650"></a>To do this:</p>
+<ol><li>
+<a id="pgfId-1139066"></a>Select a net, group of nets, or a bus from the Navigator assistant. In this example, the net <em>spi_data</em> is selected from the Navigator assistant.</li><li>
+<a id="pgfId-1139067"></a>Click the <em>Global Bias Setup</em> icon on the <em>Congestion Analysis</em> assistant toolbar.<br />
+<a id="pgfId-1139068"></a>The Global Bias Setup form displays. </li><li>
+<a id="pgfId-1139069"></a>Click the <em>New</em> button to create a new global bias constraint group.<br />
+<a id="pgfId-1139070"></a>The form is updated to create a default group named as <em>GB004</em>. Also, the net selected in the Navigator assistant appears in the <em>Nets</em> list box.<br />
+<a id="pgfId-1154255"></a><div class="webflare-div-image">
+<img width="633" height="430" src="images/congestion_analysis-74.gif" /></div></li><li>
+<a id="pgfId-1139081"></a>To add the negative bias region, click the <em>+ Rectangles</em> button.</li><li>
+<a id="pgfId-1139082"></a>Click and drag to draw a region in the heat map.<br />
+<a id="pgfId-1139083"></a>The region created on the heat map is used as the coordinates for the bias area. The bias area is automatically assigned a name called <em>vsrGlobalBias_AB_004 </em>and is displayed in the <em>Bias Areas</em> list box. </li><li>
+<a id="pgfId-1172443"></a>To create a negative bias, click the green <em>± </em>symbol in the <em>Bias</em> column next to the bias area. This displays a red &#8212; symbol, which indicates a negative bias.<br />
+<a id="pgfId-1173270"></a><div class="webflare-div-image">
+<img width="633" height="381" src="images/congestion_analysis-75.gif" /></div></li><li>
+<a id="pgfId-1139755"></a>To add the bias path, click the <em>+ Paths</em> button.</li><li>
+<a id="pgfId-1139756"></a>Click and drag to draw a path that you want the net to take in the heat map.<br />
+<a id="pgfId-1139757"></a>The path created on the heat map is used as the coordinates for the bias path. The bias path is automatically assigned a name called <em>vsrGlobalBias_AB_005 </em>and is displayed in the <em>Bias Areas</em> list box. <br />
+<a id="pgfId-1154287"></a><div class="webflare-div-image">
+<img width="633" height="381" src="images/congestion_analysis-76.gif" /></div></li><li>
+<a id="pgfId-1139751"></a>Now, let us assign specific layers for the bias path. To do so:<ol><li>
+<a id="pgfId-1139818"></a>In the Global Bias Setup form, click the <em>vsrGlobalBias_AB_005</em> bias area. The <em>- Selected Area</em> and the <em>Define Layers</em> button are now enabled.</li><li>
+<a id="pgfId-1139890"></a>Click <em>Define Layers</em>. <br />
+<a id="pgfId-1140073"></a>The Bias Layers form displays.<br /><ffi2-fig-frame-in-2 id="#id1142148">
+<a id="pgfId-1142148"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="604" height="387" src="images/congestion_analysis-77.gif" /></div></li><li>
+<a id="pgfId-1139085"></a>Click the <em>Specify</em> option. <br />
+<a id="pgfId-1140005"></a>The list box listing the layer names is now enabled.</li><li>
+<a id="pgfId-1139998"></a>Select <em>met1</em> and <em>met2</em> by from the list box by holding the <code>Shift</code> key. This notifies the router that the global bias path must be completed only for the selected routing layers. </li><li>
+<a id="pgfId-1140267"></a>Click <em>Close</em>.<br />
+<a id="pgfId-1140164"></a>The Global Bias Setup form is updated to reflect the layer constraints applied to the <code>vsrGlobalBias_AB_005 </code>bias area. <br /><ffi2-fig-frame-in-2 id="#id1154359">
+<a id="pgfId-1154359"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="604" height="421" src="images/congestion_analysis-78.gif" /></div></li></ol></li><li>
+<a id="pgfId-1140379"></a>To see how the new constraint alters routing and congestion, click the <em>ECO</em> button in the Global Bias Setup form or click the <em>Global Route and ECO Congestion Analysis</em> option from the <em>Congestion Analysis</em> drop-down list.<br />
+<a id="pgfId-1142926"></a>The following figure shows that the net has now been routed outside of the negative bias region and routed along the bias path. <br />
+<a id="pgfId-1139089"></a><div class="webflare-div-image">
+<img width="633" height="392" src="images/congestion_analysis-79.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4><em>
+<a id="pgfId-1163840"></a>Related Topics</em></h4>
+
+<p>
+<a id="pgfId-1163844"></a><a href="appA.html#14247">Global Bias Setup Form</a></p>
+<p>
+<a id="pgfId-1136244"></a><a href="appA.html#44536">Bias Layers Form</a></p>
+
+<h2>
+<a id="pgfId-1178499"></a><a id="60874"></a>About Sc<a id="scenicratio"></a>enic Ratio</h2>
+
+<p>
+<a id="pgfId-1178535"></a>The scenic ratio is used to determine how close the value is to the ideal route when comparing the route in isolation without any congestion penalties, versus the result when all nets are routed and congestion modifies the taken path. When the value of the scenic ratio is close to <code>1</code>, it means that the global route is accurate. The nets on which congestion analysis is not run displays the value of the scenic ratio as <code>0</code>.</p>
+
+<h3>
+<a id="pgfId-1180528"></a>Displaying Scenic Ratio</h3>
+
+<p>
+<a id="pgfId-1178642"></a>To view the value of the scenic ratio for a net:</p>
+<ol><li>
+<a id="pgfId-1180634"></a>Click the <em>Congestion Analysis</em> icon to run congestion analysis.</li><li>
+<a id="pgfId-1178670"></a>Choose <em>Window</em> &#8211; <em>Assistants</em> &#8211; <em>Navigator Assistant</em>.</li><li>
+<a id="pgfId-1178675"></a>Right-click a column header in the Navigator Assistant.<br />
+<a id="pgfId-1178778"></a>A drop-down menu is displayed.<br />
+<a id="pgfId-1181871"></a><div class="webflare-div-image">
+<img width="633" height="414" src="images/congestion_analysis-80.gif" /></div></li><li>
+<a id="pgfId-1178810"></a>Click <em>Scenic Ratio</em> from the drop-down list.<br />
+<a id="pgfId-1178775"></a>The <em>Scenic Ratio</em> column is displayed in the Navigator Assistant pane. This column displays the value of the scenic ratio for all nets in the design.<br />
+<a id="pgfId-1180987"></a><div class="webflare-div-image">
+<img width="633" height="516" src="images/congestion_analysis-81.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1178666"></a><strong>Sorting Scenic Ratio</strong></h3>
+
+<p>
+<a id="pgfId-1179067"></a>You can sort the scenic ratio of nets in ascending or descending order. To sort the scenic ratio, click the <em>Scenic Ratio</em> column header. Clicking the column header the first time would display the scenic ratio of nets in the ascending order. This means that the net with the least value is displayed at the top of the table. When you click the column header the next time, the scenic ratio of nets is displayed in the descending order.</p>
+
+<p>
+<a id="pgfId-1181008"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="593" src="images/congestion_analysis-82.gif" /></div>
+<h3>
+<a id="pgfId-1178637"></a>Modifying Scenic Ratio</h3>
+
+<p>
+<a id="pgfId-1178541"></a>You can modify the scenic ratio of a net by setting the global bias constraint on a net and then rerunning congestion analysis. For more information on how to set global bias, see <a href="congestion_analysis.html#85196">Using Global Bias Constraints</a>. When congestion analysis is rerun, the value of the scenic ratio may change for other nets as well.</p>
+<p>
+<a id="pgfId-1178525"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="coverblockage.html" id="prev" title="Managing Cover Obstructions While Routing">Managing Cover Obstructions Wh ...</a></em></b><b><em><a href="specialtyRouting.html" id="nex" title="Specialty Routing">Specialty Routing</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

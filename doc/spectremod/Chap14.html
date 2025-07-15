@@ -1,0 +1,614 @@
+
+<html><head><title>MOS Capacitance Model</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jommy" />
+<meta name="CreateDate" content="2020-04-19" />
+<meta name="CreateTime" content="1587355748" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the model equations for Cadence circuit simulators" />
+<meta name="DocTitle" content="Spectre Circuit Simulator Components and Device Models Reference" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="MOS Capacitance Model" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.1" />
+<meta name="Keyword" content="spectremod" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-04-19" />
+<meta name="ModifiedTime" content="1587355748" />
+<meta name="NextFile" content="Chap15.html" />
+<meta name="Group" content="Spectre Simulator" />
+<meta name="Platform" content="Analog RF  Mixed-Signal Design" />
+<meta name="PrevFile" content="Chap13.html" />
+<meta name="Product" content="Spectre" />
+<meta name="ProductFamily" content="Spectre" />
+<meta name="ProductVersion" content="19.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre Circuit Simulator Components and Device Models Reference -- MOS Capacitance Model" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="product_feature" content="" />
+<meta name="product_subfeature" content="" />
+<meta name="Version" content="19.1" />
+<meta name="SpaceKey" content="spectremod191" />
+<meta name="webflare-version" content="1.5" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="spectremodTOC.html">Contents</a></li><li><a class="prev" href="Chap13.html" title="Common MOSFET Equations">Common MOSFET Equations</a></li><li style="float: right;"><a class="viewPrint" href="spectremod.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Chap15.html" title="MOS Level-1 Model (mos1)">MOS Level-1 Model (mos1)</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Spectre Circuit Simulator Components and Device Models Reference<br />Product Version 19.1, January 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>13
+<a id="pgfId-1032955"></a></h1>
+<h1>
+<a id="pgfId-1035250"></a><hr />
+MOS Capacitance Model<hr />
+</h1>
+<p>
+<a id="pgfId-1035478"></a>This chapter contains model equations for the MOS capacitance model, including the following:</p>
+
+<ul><li>
+<a id="pgfId-1035482"></a><a href="Chap14.html#14379">Modified Meyer Model</a></li><li>
+<a id="pgfId-1035486"></a><a href="Chap14.html#12051">Yang-Chatterjee Model</a></li><li>
+<a id="pgfId-1035490"></a><a href="Chap14.html#29894">BSIM Charge Model with 0/100 Partitioning (xpart=1)</a></li><li>
+<a id="pgfId-1035494"></a><a href="Chap14.html#54499">BSIM Charge Model with 40/60 Partitioning (xpart=0)</a></li><li>
+<a id="pgfId-1035498"></a><a href="Chap14.html#27333">BSIM Charge Model with 50/50 Partitioning (xpart=0.5)</a></li><li>
+<a id="pgfId-1035502"></a><a href="Chap14.html#27792">Scaling Effects</a></li></ul>
+
+
+
+
+
+
+<p>
+<a id="pgfId-1035635"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="355" src="images/Chap14-2.gif" /></div>
+<p>
+<a id="pgfId-1035636"></a>The Spectre<sup>&#174;</sup> circuit simulator has three charge-based MOS capacitance models that you can select with the model parameter <code>capmod</code>: </p>
+
+<ul><li>
+<a id="pgfId-1035637"></a>The modified Meyer model<br />
+<a id="pgfId-1035638"></a>The modified Meyer model is a first-order model with 40/60 channel charge partitioning in the saturation region. This model does not include any short-channel effects. </li><li>
+<a id="pgfId-1035639"></a>The Yang-Chatterjee model<br />
+<a id="pgfId-1035640"></a>The Yang-Chatterjee model uses a 0/100 channel charge partitioning method and includes some short-channel effects. </li><li>
+<a id="pgfId-1035641"></a>The BSIM charge model<br />
+<a id="pgfId-1035642"></a>The BSIM charge model provides three methods for partitioning. You choose the method you want with the <code>xpart</code> parameter: <ul><li>
+<a id="pgfId-1035643"></a>40/60 for <code>xpart = 0</code> (or <code>xpart &lt; 0.5</code>) <br />
+<a id="pgfId-1035644"></a>For <code>xpart = 0</code>, the BSIM charge model is similar to the modified Meyer model, but it includes short-channel effects.</li><li>
+<a id="pgfId-1035645"></a>50/50 for <code>xpart = 0.5</code></li><li>
+<a id="pgfId-1035646"></a>0/100 for <code>xpart = 1.0</code> (or <code>xpart &gt; 0.5</code>)<br />
+<a id="pgfId-1035647"></a>For <code>xpart = 1</code>, the BSIM charge model is identical to the Yang-Chatterjee model.</li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1035649"></a><a id="14379"></a>Modified Meyer Model </h2>
+<p>
+<a id="pgfId-1035654"></a><img width="294" height="32" src="images/Chap14-3.gif" />
+<a id="marker-1035653"></a></p>
+<p>
+<a id="pgfId-1035659"></a><img width="182" height="29" src="images/Chap14-4.gif" />
+<a id="marker-1035658"></a></p>
+<p>
+<a id="pgfId-1035664"></a><img width="172" height="29" src="images/Chap14-5.gif" />
+<a id="marker-1035663"></a></p>
+<p>
+<a id="pgfId-1035669"></a><img width="211" height="28" src="images/Chap14-6.gif" />
+<a id="marker-1035668"></a></p>
+<p>
+<a id="pgfId-1035674"></a><img width="142" height="28" src="images/Chap14-7.gif" />
+<a id="marker-1035673"></a></p>
+<p>
+<a id="pgfId-1035679"></a><img width="235" height="54" src="images/Chap14-8.gif" />
+<a id="marker-1035678"></a></p>
+<h3>
+<a id="pgfId-1035681"></a><a id="marker-1035680"></a>Accumulation Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1035682"></a>These equations apply when <em>V</em><sub>GS</sub> &#8211; <em>V</em><sub>BS</sub> ≤ <em>V</em><sub>FB</sub>.</div>
+<p>
+<a id="pgfId-1035687"></a><img width="131" height="28" src="images/Chap14-9.gif" />
+<a id="marker-1035686"></a></p>
+<p>
+<a id="pgfId-1035692"></a><img width="141" height="28" src="images/Chap14-10.gif" />
+<a id="marker-1035691"></a></p>
+<p>
+<a id="pgfId-1035693"></a>All other capacitances are zero.</p>
+<h3>
+<a id="pgfId-1035695"></a><a id="marker-1035694"></a>Subthreshold Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1035696"></a>These equations apply when <em>V</em><sub>GS</sub> ≤ <em>V</em><sub>TH</sub>.</div>
+<p>
+<a id="pgfId-1035700"></a><img width="353" height="78" src="images/Chap14-11.gif" /></p>
+<p>
+<a id="pgfId-1035704"></a><img width="151" height="28" src="images/Chap14-12.gif" /></p>
+<p>
+<a id="pgfId-1035705"></a>All other capacitances are zero.</p>
+<h3>
+<a id="pgfId-1035707"></a><a id="marker-1035706"></a>Saturation Region </h3>
+<p>
+<a id="pgfId-1035708"></a>These equations apply when <em>V</em><sub>GS</sub> ≥ <em>V</em><sub>TH</sub> and <em>V</em><sub>DS</sub> ≥ <em>V</em><sub>DSAT</sub><helvetica>
+.
+</helvetica></p>
+<p>
+<a id="pgfId-1035712"></a><img width="91" height="41" src="images/Chap14-13.gif" /></p>
+<p>
+<a id="pgfId-1035716"></a><img width="138" height="54" src="images/Chap14-14.gif" /></p>
+<p>
+<a id="pgfId-1035721"></a><img width="161" height="28" src="images/Chap14-15.gif" />
+<a id="marker-1035720"></a></p>
+<p>
+<a id="pgfId-1035726"></a><img width="137" height="54" src="images/Chap14-16.gif" />
+<a id="marker-1035725"></a></p>
+<p>
+<a id="pgfId-1035731"></a><img width="98" height="28" src="images/Chap14-17.gif" />
+<a id="marker-1035730"></a></p>
+<p>
+<a id="pgfId-1035736"></a><img width="110" height="41" src="images/Chap14-18.gif" />
+<a id="marker-1035735"></a></p>
+<p>
+<a id="pgfId-1035741"></a><img width="147" height="54" src="images/Chap14-19.gif" />
+<a id="marker-1035740"></a></p>
+<p>
+<a id="pgfId-1035746"></a><img width="161" height="28" src="images/Chap14-20.gif" />
+<a id="marker-1035745"></a></p>
+<p>
+<a id="pgfId-1035751"></a><img width="108" height="41" src="images/Chap14-21.gif" />
+<a id="marker-1035750"></a></p>
+<p>
+<a id="pgfId-1035756"></a><img width="146" height="54" src="images/Chap14-22.gif" />
+<a id="marker-1035755"></a></p>
+<p>
+<a id="pgfId-1035761"></a><img width="156" height="28" src="images/Chap14-23.gif" />
+<a id="marker-1035760"></a></p>
+<p>
+<a id="pgfId-1035762"></a>All other capacitances are zero. </p>
+<h3>
+<a id="pgfId-1035764"></a><a id="marker-1035763"></a>Triode Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1035765"></a>These equations apply when <em>V</em><sub>GS</sub> ≥ <em>V</em><sub>TH</sub> and <em>V</em><sub>DS</sub> ≤ <em>V</em><sub>DSAT</sub>.</div>
+<p>
+<a id="pgfId-1035770"></a><img width="278" height="62" src="images/Chap14-24.gif" />
+ <a id="marker-1035769"></a></p>
+<p>
+<a id="pgfId-1035775"></a><img width="280" height="64" src="images/Chap14-25.gif" />
+<a id="marker-1035774"></a></p>
+<p>
+<a id="pgfId-1035780"></a><img width="261" height="61" src="images/Chap14-26.gif" />
+<a id="marker-1035779"></a></p>
+<p>
+<a id="pgfId-1035785"></a><img width="209" height="28" src="images/Chap14-27.gif" />
+<a id="marker-1035784"></a></p>
+<p>
+<a id="pgfId-1035790"></a><img width="137" height="54" src="images/Chap14-28.gif" />
+<a id="marker-1035789"></a></p>
+<p>
+<a id="pgfId-1035795"></a><img width="97" height="28" src="images/Chap14-29.gif" />
+<a id="marker-1035794"></a></p>
+<p>
+<a id="pgfId-1035800"></a><img width="419" height="64" src="images/Chap14-30.gif" />
+<a id="marker-1035799"></a></p>
+<p>
+<a id="pgfId-1035805"></a><img width="470" height="61" src="images/Chap14-31.gif" />
+<a id="marker-1035804"></a></p>
+<p>
+<a id="pgfId-1035810"></a><img width="583" height="64" src="images/Chap14-32.gif" />
+<a id="marker-1035809"></a></p>
+<p>
+<a id="pgfId-1035815"></a><img width="208" height="28" src="images/Chap14-33.gif" />
+<a id="marker-1035814"></a></p>
+<p>
+<a id="pgfId-1035820"></a><img width="533" height="61" src="images/Chap14-34.gif" />
+<a id="marker-1035819"></a></p>
+<p>
+<a id="pgfId-1035824"></a><img width="514" height="61" src="images/Chap14-35.gif" /></p>
+<p>
+<a id="pgfId-1035829"></a><img width="612" height="61" src="images/Chap14-36.gif" />
+<a id="marker-1035828"></a></p>
+<p>
+<a id="pgfId-1035834"></a><img width="357" height="28" src="images/Chap14-37.gif" />
+<a id="marker-1035833"></a></p>
+<h2>
+<a id="pgfId-1035836"></a><a id="12051"></a>Yang-Chatterjee Model</h2>
+<p>
+<a id="pgfId-1035841"></a><img width="295" height="32" src="images/Chap14-38.gif" />
+<a id="marker-1035840"></a></p>
+<p>
+<a id="pgfId-1035846"></a><img width="153" height="28" src="images/Chap14-39.gif" />
+<a id="marker-1035845"></a></p>
+<p>
+<a id="pgfId-1035851"></a><img width="204" height="28" src="images/Chap14-40.gif" />
+<a id="marker-1035850"></a></p>
+<p>
+<a id="pgfId-1035856"></a><img width="150" height="28" src="images/Chap14-41.gif" />
+<a id="marker-1035855"></a></p>
+<p>
+<a id="pgfId-1035861"></a><img width="98" height="54" src="images/Chap14-42.gif" />
+<a id="marker-1035860"></a></p>
+<p>
+<a id="pgfId-1035866"></a><img width="231" height="54" src="images/Chap14-43.gif" />
+<a id="marker-1035865"></a></p>
+<h3>
+<a id="pgfId-1035868"></a><a id="marker-1035867"></a>Accumulation Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1035869"></a>These equations apply when <em>V</em><sub>GS</sub> &#8211;<em> </em>V<sub>BS</sub> ≤ <em>V</em><sub>FB</sub>.</div>
+<p>
+<a id="pgfId-1035874"></a><img width="139" height="32" src="images/Chap14-44.gif" />
+ <a id="marker-1035873"></a></p>
+<p>
+<a id="pgfId-1035879"></a><img width="147" height="28" src="images/Chap14-45.gif" />
+<a id="marker-1035878"></a></p>
+<p>
+<a id="pgfId-1035880"></a>All other capacitances are zero.</p>
+<h3>
+<a id="pgfId-1035882"></a><a id="marker-1035881"></a>Subthreshold Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1035883"></a>These equations apply when <em>V</em><sub>GS</sub> ≤ <em>V</em><sub>TH</sub>.</div>
+<p>
+<a id="pgfId-1035887"></a><img width="353" height="83" src="images/Chap14-46.gif" /></p>
+<p>
+<a id="pgfId-1035891"></a><img width="158" height="28" src="images/Chap14-47.gif" /></p>
+<p>
+<a id="pgfId-1035892"></a>All other capacitances are zero.</p>
+<h3>
+<a id="pgfId-1035894"></a><a id="marker-1035893"></a>Saturation Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1035895"></a>These equations apply when <em>V</em><sub>GS</sub> ≥ <em>V</em><sub>TH</sub> and <em>V</em><sub>DS</sub> ≥ <em>V</em><sub>DSAT</sub>.</div>
+<p>
+<a id="pgfId-1035899"></a><img width="249" height="70" src="images/Chap14-48.gif" /></p>
+<p>
+<a id="pgfId-1035903"></a><img width="267" height="61" src="images/Chap14-49.gif" /></p>
+<p>
+<a id="pgfId-1035908"></a><img width="161" height="28" src="images/Chap14-50.gif" />
+<a id="marker-1035907"></a></p>
+<p>
+<a id="pgfId-1035913"></a><img width="448" height="61" src="images/Chap14-51.gif" />
+<a id="marker-1035912"></a></p>
+<p>
+<a id="pgfId-1035918"></a><img width="525" height="61" src="images/Chap14-52.gif" />
+<a id="marker-1035917"></a></p>
+<p>
+<a id="pgfId-1035923"></a><img width="151" height="28" src="images/Chap14-53.gif" />
+<a id="marker-1035922"></a></p>
+<p>
+<a id="pgfId-1035928"></a><img width="112" height="50" src="images/Chap14-54.gif" />
+<a id="marker-1035927"></a></p>
+<p>
+<a id="pgfId-1035933"></a><img width="130" height="54" src="images/Chap14-55.gif" />
+<a id="marker-1035932"></a></p>
+<p>
+<a id="pgfId-1035938"></a><img width="155" height="28" src="images/Chap14-56.gif" />
+<a id="marker-1035937"></a></p>
+<p>
+<a id="pgfId-1035939"></a>All other capacitances are zero.</p>
+<h3>
+<a id="pgfId-1035941"></a><a id="marker-1035940"></a>Triode Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1035942"></a>These equations apply when <em>V</em><sub>GS</sub> ≥ <em>V</em><sub>TH</sub> and <em>V</em><sub>DS</sub> ≤ <em>V</em><sub>DSAT</sub>.</div>
+<p>
+<a id="pgfId-1035947"></a><img width="183" height="47" src="images/Chap14-57.gif" />
+ <a id="marker-1035946"></a></p>
+<p>
+<a id="pgfId-1035952"></a><img width="394" height="62" src="images/Chap14-58.gif" />
+<a id="marker-1035951"></a></p>
+<p>
+<a id="pgfId-1035957"></a><img width="362" height="61" src="images/Chap14-59.gif" />
+<a id="marker-1035956"></a></p>
+<p>
+<a id="pgfId-1035962"></a><img width="433" height="61" src="images/Chap14-60.gif" />
+<a id="marker-1035961"></a></p>
+<p>
+<a id="pgfId-1035967"></a><img width="209" height="28" src="images/Chap14-61.gif" />
+<a id="marker-1035966"></a></p>
+<p>
+<a id="pgfId-1035972"></a><img width="583" height="62" src="images/Chap14-62.gif" />
+<a id="marker-1035971"></a></p>
+<p>
+<a id="pgfId-1035977"></a><img width="661" height="62" src="images/Chap14-63.gif" />
+<a id="marker-1035976"></a></p>
+<p>
+<a id="pgfId-1035982"></a><img width="431" height="61" src="images/Chap14-64.gif" />
+<a id="marker-1035981"></a></p>
+<p>
+<a id="pgfId-1035987"></a><img width="200" height="28" src="images/Chap14-65.gif" />
+<a id="marker-1035986"></a></p>
+<p>
+<a id="pgfId-1035992"></a><img width="566" height="61" src="images/Chap14-66.gif" />
+<a id="marker-1035991"></a></p>
+<p>
+<a id="pgfId-1035997"></a><img width="531" height="61" src="images/Chap14-67.gif" />
+<a id="marker-1035996"></a></p>
+<p>
+<a id="pgfId-1036002"></a><img width="300" height="61" src="images/Chap14-68.gif" />
+<a id="marker-1036001"></a></p>
+<p>
+<a id="pgfId-1036007"></a><img width="209" height="28" src="images/Chap14-69.gif" />
+<a id="marker-1036006"></a></p>
+<p>
+<a id="pgfId-1036012"></a><img width="210" height="28" src="images/Chap14-70.gif" />
+<a id="marker-1036011"></a></p>
+<p>
+<a id="pgfId-1036017"></a><img width="212" height="28" src="images/Chap14-71.gif" />
+<a id="marker-1036016"></a></p>
+<p>
+<a id="pgfId-1036022"></a><img width="212" height="28" src="images/Chap14-72.gif" />
+<a id="marker-1036021"></a></p>
+<p>
+<a id="pgfId-1036027"></a><img width="206" height="28" src="images/Chap14-73.gif" />
+<a id="marker-1036026"></a></p>
+<h2>
+<a id="pgfId-1036030"></a><a id="29894"></a>BSIM <a id="marker-1036029"></a>Charge Model with 0/100 Partitioning (xpart=1)</h2>
+<p>
+<a id="pgfId-1036031"></a>This model is the same as the Yang-Chatterjee model.</p>
+<h2>
+<a id="pgfId-1036033"></a><a id="54499"></a>BSIM Charge Model with 40/60 Partitioning (xpart=0)</h2>
+<p>
+<a id="pgfId-1036038"></a><img width="294" height="32" src="images/Chap14-74.gif" />
+<a id="marker-1036037"></a></p>
+<p>
+<a id="pgfId-1036043"></a><img width="153" height="28" src="images/Chap14-75.gif" />
+<a id="marker-1036042"></a></p>
+<p>
+<a id="pgfId-1036048"></a><img width="204" height="28" src="images/Chap14-76.gif" />
+<a id="marker-1036047"></a></p>
+<p>
+<a id="pgfId-1036053"></a><img width="142" height="28" src="images/Chap14-77.gif" />
+<a id="marker-1036052"></a></p>
+<p>
+<a id="pgfId-1036058"></a><img width="101" height="54" src="images/Chap14-78.gif" />
+<a id="marker-1036057"></a></p>
+<p>
+<a id="pgfId-1036063"></a><img width="230" height="54" src="images/Chap14-79.gif" />
+<a id="marker-1036062"></a></p>
+<h3>
+<a id="pgfId-1036065"></a><a id="marker-1036064"></a>Accumulation Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036066"></a>These equations apply when <em>V</em><sub>GS</sub> &#8211;<em> </em>V<sub>BS</sub> ≤ <em>V</em><sub>FB</sub>.</div>
+<p>
+<a id="pgfId-1036071"></a><img width="138" height="30" src="images/Chap14-80.gif" />
+<a id="marker-1036070"></a></p>
+<p>
+<a id="pgfId-1036076"></a><img width="148" height="28" src="images/Chap14-81.gif" />
+<a id="marker-1036075"></a></p>
+<p>
+<a id="pgfId-1036077"></a>All other capacitances are zero.</p>
+<h3>
+<a id="pgfId-1036079"></a><a id="marker-1036078"></a>Subthreshold Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036080"></a>These equations apply when <em>V</em><sub>GS</sub> ≤ <em>V</em><sub>TH</sub>.</div>
+<p>
+<a id="pgfId-1036084"></a><img width="353" height="80" src="images/Chap14-82.gif" /></p>
+<p>
+<a id="pgfId-1036088"></a><img width="151" height="28" src="images/Chap14-83.gif" /></p>
+<p>
+<a id="pgfId-1036089"></a>All other capacitances are zero.</p>
+<h3>
+<a id="pgfId-1036091"></a><a id="marker-1036090"></a>Saturation Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036092"></a>These equations apply when <em>V</em><sub>GS</sub> ≥ <em>V</em><sub>TH</sub> and <em>V</em><sub>DS</sub> ≥ <em>V</em><sub>DSAT</sub><helvetica>
+.
+</helvetica></div>
+<p>
+<a id="pgfId-1036096"></a><img width="249" height="64" src="images/Chap14-84.gif" /></p>
+<p>
+<a id="pgfId-1036100"></a><img width="267" height="61" src="images/Chap14-85.gif" /></p>
+<p>
+<a id="pgfId-1036105"></a><img width="160" height="28" src="images/Chap14-86.gif" />
+<a id="marker-1036104"></a></p>
+<p>
+<a id="pgfId-1036110"></a><img width="407" height="61" src="images/Chap14-87.gif" />
+<a id="marker-1036109"></a></p>
+<p>
+<a id="pgfId-1036115"></a><img width="525" height="61" src="images/Chap14-88.gif" />
+<a id="marker-1036114"></a></p>
+<p>
+<a id="pgfId-1036120"></a><img width="160" height="28" src="images/Chap14-89.gif" />
+<a id="marker-1036119"></a></p>
+<p>
+<a id="pgfId-1036125"></a><img width="107" height="41" src="images/Chap14-90.gif" />
+<a id="marker-1036124"></a></p>
+<p>
+<a id="pgfId-1036130"></a><img width="146" height="54" src="images/Chap14-91.gif" />
+<a id="marker-1036129"></a></p>
+<p>
+<a id="pgfId-1036135"></a><img width="154" height="28" src="images/Chap14-92.gif" />
+<a id="marker-1036134"></a></p>
+<p>
+<a id="pgfId-1036140"></a><img width="109" height="41" src="images/Chap14-93.gif" />
+<a id="marker-1036139"></a></p>
+<p>
+<a id="pgfId-1036145"></a><img width="148" height="54" src="images/Chap14-94.gif" />
+<a id="marker-1036144"></a></p>
+<p>
+<a id="pgfId-1036150"></a><img width="160" height="28" src="images/Chap14-95.gif" />
+<a id="marker-1036149"></a></p>
+<p>
+<a id="pgfId-1036151"></a>All other capacitances are zero.</p>
+<h3>
+<a id="pgfId-1036153"></a><a id="marker-1036152"></a>Triode Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036154"></a>These equations apply when <em>V</em><sub>GS</sub> ≥ <em>V</em><sub>TH</sub> and <em>V</em><sub>DS</sub> ≤ <em>V</em><sub>DSAT</sub>.</div>
+<p>
+<a id="pgfId-1036159"></a><img width="181" height="28" src="images/Chap14-96.gif" />
+<a id="marker-1036158"></a></p>
+<p>
+<a id="pgfId-1036164"></a><img width="416" height="64" src="images/Chap14-97.gif" />
+<a id="marker-1036163"></a></p>
+<p>
+<a id="pgfId-1036169"></a><img width="376" height="61" src="images/Chap14-98.gif" />
+<a id="marker-1036168"></a></p>
+<p>
+<a id="pgfId-1036174"></a><img width="445" height="61" src="images/Chap14-99.gif" />
+<a id="marker-1036173"></a></p>
+<p>
+<a id="pgfId-1036179"></a><img width="207" height="28" src="images/Chap14-100.gif" />
+<a id="marker-1036178"></a></p>
+<p>
+<a id="pgfId-1036184"></a><img width="569" height="66" src="images/Chap14-101.gif" />
+<a id="marker-1036183"></a></p>
+<p>
+<a id="pgfId-1036189"></a><img width="364" height="61" src="images/Chap14-102.gif" />
+<a id="marker-1036188"></a></p>
+<p>
+<a id="pgfId-1036194"></a><img width="207" height="28" src="images/Chap14-103.gif" />
+<a id="marker-1036193"></a> </p>
+<p>
+<a id="pgfId-1036199"></a><img width="652" height="116" src="images/Chap14-104.gif" />
+<a id="marker-1036198"></a></p>
+<p>
+<a id="pgfId-1036204"></a><img width="660" height="116" src="images/Chap14-105.gif" />
+<a id="marker-1036203"></a></p>
+<p>
+<a id="pgfId-1036209"></a><img width="522" height="117" src="images/Chap14-106.gif" />
+<a id="marker-1036208"></a></p>
+<p>
+<a id="pgfId-1036214"></a><img width="194" height="28" src="images/Chap14-107.gif" />
+<a id="marker-1036213"></a></p>
+<p>
+<a id="pgfId-1036219"></a><img width="196" height="28" src="images/Chap14-108.gif" />
+<a id="marker-1036218"></a></p>
+<p>
+<a id="pgfId-1036224"></a><img width="199" height="28" src="images/Chap14-109.gif" />
+<a id="marker-1036223"></a></p>
+<p>
+<a id="pgfId-1036229"></a><img width="196" height="28" src="images/Chap14-110.gif" />
+<a id="marker-1036228"></a></p>
+<p>
+<a id="pgfId-1036234"></a><img width="191" height="28" src="images/Chap14-111.gif" />
+<a id="marker-1036233"></a></p>
+<h2>
+<a id="pgfId-1036236"></a><a id="27333"></a>BSIM Charge Model with 50/50 Partitioning (xpart=0.5)</h2>
+<p>
+<a id="pgfId-1036241"></a><img width="294" height="32" src="images/Chap14-112.gif" />
+<a id="marker-1036240"></a></p>
+<p>
+<a id="pgfId-1036246"></a><img width="153" height="28" src="images/Chap14-113.gif" />
+<a id="marker-1036245"></a></p>
+<p>
+<a id="pgfId-1036251"></a><img width="204" height="28" src="images/Chap14-114.gif" />
+<a id="marker-1036250"></a></p>
+<p>
+<a id="pgfId-1036256"></a><img width="142" height="28" src="images/Chap14-115.gif" />
+<a id="marker-1036255"></a></p>
+<p>
+<a id="pgfId-1036261"></a><img width="101" height="54" src="images/Chap14-116.gif" />
+<a id="marker-1036260"></a></p>
+<p>
+<a id="pgfId-1036266"></a><img width="216" height="54" src="images/Chap14-117.gif" />
+<a id="marker-1036265"></a></p>
+<h3>
+<a id="pgfId-1036268"></a><a id="marker-1036267"></a>Accumulation Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036269"></a>These equations apply when <em>V</em><sub>GS</sub> &#8211;<em> </em>V<sub>BS</sub> ≤ <em>V</em><sub>FB</sub>.</div>
+<p>
+<a id="pgfId-1036274"></a><img width="139" height="28" src="images/Chap14-118.gif" />
+<a id="marker-1036273"></a></p>
+<p>
+<a id="pgfId-1036279"></a><img width="148" height="28" src="images/Chap14-119.gif" />
+<a id="marker-1036278"></a></p>
+<p>
+<a id="pgfId-1036280"></a>All other capacitances are zero.</p>
+<h3>
+<a id="pgfId-1036282"></a><a id="marker-1036281"></a>Subthreshold Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036283"></a>These equations apply when <em>V</em><sub>GS</sub> ≤ <em>V</em><sub>TH</sub>.</div>
+<p>
+<a id="pgfId-1036287"></a><img width="353" height="78" src="images/Chap14-120.gif" /></p>
+<p>
+<a id="pgfId-1036291"></a><img width="147" height="28" src="images/Chap14-121.gif" /></p>
+<p>
+<a id="pgfId-1036292"></a>All other capacitances are zero.</p>
+<h3>
+<a id="pgfId-1036294"></a><a id="marker-1036293"></a>Saturation Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036295"></a>These equations apply when <em>V</em><sub>GS</sub> ≥ <em>V</em><sub>TH</sub> and <em>V</em><sub>DS</sub> ≥ <em>V</em><sub>DSAT</sub><helvetica>
+.
+</helvetica></div>
+<p>
+<a id="pgfId-1036299"></a><img width="249" height="62" src="images/Chap14-122.gif" /></p>
+<p>
+<a id="pgfId-1036303"></a><img width="267" height="61" src="images/Chap14-123.gif" /></p>
+<p>
+<a id="pgfId-1036308"></a><img width="160" height="28" src="images/Chap14-124.gif" />
+<a id="marker-1036307"></a></p>
+<p>
+<a id="pgfId-1036313"></a><img width="407" height="61" src="images/Chap14-125.gif" />
+<a id="marker-1036312"></a></p>
+<p>
+<a id="pgfId-1036318"></a><img width="525" height="61" src="images/Chap14-126.gif" />
+<a id="marker-1036317"></a></p>
+<p>
+<a id="pgfId-1036323"></a><img width="160" height="28" src="images/Chap14-127.gif" />
+<a id="marker-1036322"></a></p>
+<p>
+<a id="pgfId-1036328"></a><img width="155" height="41" src="images/Chap14-128.gif" />
+<a id="marker-1036327"></a></p>
+<p>
+<a id="pgfId-1036333"></a><img width="194" height="54" src="images/Chap14-129.gif" />
+<a id="marker-1036332"></a></p>
+<p>
+<a id="pgfId-1036338"></a><img width="210" height="28" src="images/Chap14-130.gif" />
+<a id="marker-1036337"></a></p>
+<p>
+<a id="pgfId-1036339"></a>All other capacitances are zero.</p>
+<h3>
+<a id="pgfId-1036341"></a><a id="marker-1036340"></a>Triode Region </h3>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1036342"></a>These equations apply when <em>V</em><sub>GS</sub> ≥ <em>V</em><sub>TH</sub> and <em>V</em><sub>DS</sub> ≤ <em>V</em><sub>DSAT</sub>.</div>
+<p>
+<a id="pgfId-1036347"></a><img width="182" height="28" src="images/Chap14-131.gif" />
+<a id="marker-1036346"></a></p>
+<p>
+<a id="pgfId-1036352"></a><img width="416" height="64" src="images/Chap14-132.gif" />
+<a id="marker-1036351"></a></p>
+<p>
+<a id="pgfId-1036357"></a><img width="366" height="61" src="images/Chap14-133.gif" />
+<a id="marker-1036356"></a></p>
+<p>
+<a id="pgfId-1036362"></a><img width="453" height="64" src="images/Chap14-134.gif" />
+<a id="marker-1036361"></a></p>
+<p>
+<a id="pgfId-1036367"></a><img width="209" height="28" src="images/Chap14-135.gif" />
+<a id="marker-1036366"></a></p>
+<p>
+<a id="pgfId-1036372"></a><img width="585" height="64" src="images/Chap14-136.gif" />
+<a id="marker-1036371"></a></p>
+<p>
+<a id="pgfId-1036377"></a><img width="650" height="64" src="images/Chap14-137.gif" />
+<a id="marker-1036376"></a></p>
+<p>
+<a id="pgfId-1036382"></a><img width="368" height="61" src="images/Chap14-138.gif" />
+<a id="marker-1036381"></a></p>
+<p>
+<a id="pgfId-1036387"></a><img width="209" height="28" src="images/Chap14-139.gif" />
+<a id="marker-1036386"></a></p>
+<p>
+<a id="pgfId-1036392"></a><img width="581" height="61" src="images/Chap14-140.gif" />
+<a id="marker-1036391"></a></p>
+<p>
+<a id="pgfId-1036397"></a><img width="579" height="61" src="images/Chap14-141.gif" />
+<a id="marker-1036396"></a></p>
+<p>
+<a id="pgfId-1036402"></a><img width="295" height="61" src="images/Chap14-142.gif" />
+<a id="marker-1036401"></a></p>
+<p>
+<a id="pgfId-1036407"></a><img width="241" height="28" src="images/Chap14-143.gif" />
+<a id="marker-1036406"></a></p>
+<h2>
+<a id="pgfId-1036409"></a><a id="27792"></a>Scaling Effects</h2>
+<p>
+<a id="pgfId-1035457"></a>For scaling effects, see <a href="Chap3.html#21782">Scaling Factors (scale and scalem)</a>.</p>
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="Chap13.html" id="prev" title="Common MOSFET Equations">Common MOSFET Equations</a></em></b><b><em><a href="Chap15.html" id="nex" title="MOS Level-1 Model (mos1)">MOS Level-1 Model (mos1)</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

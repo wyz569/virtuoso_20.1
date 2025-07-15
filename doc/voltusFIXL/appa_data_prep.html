@@ -1,0 +1,125 @@
+
+<html><head><title>Third-Party DSPF</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="pallabi" />
+<meta name="CreateDate" content="2020-09-17" />
+<meta name="CreateTime" content="1600411262" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="This manual describes the use flow information in Voltus-Fi Custom Power Integrity Solution." />
+<meta name="DocTitle" content="Voltus-Fi Custom Power Integrity Solution XL User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Third-Party DSPF" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2" />
+<meta name="Keyword" content="voltusFIXL" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-17" />
+<meta name="ModifiedTime" content="1600411262" />
+<meta name="NextFile" content="emdatafile_ict_file.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Digital IC Design,Digital IC Design" />
+<meta name="PrevFile" content="appC_form_descriptions.html" />
+<meta name="c_product" content="Virtuoso Power System,Voltus-Fi" />
+<meta name="Product" content="Virtuoso Power System,Voltus-Fi" />
+<meta name="ProductFamily" content="Virtuoso Power System,Voltus-Fi" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Voltus-Fi Custom Power Integrity Solution XL User Guide -- Third-Party DSPF" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="voltusFIXLICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="voltusFIXLTOC.html">Contents</a></li><li><a class="prev" href="appC_form_descriptions.html" title="Voltus-Fi Form Descriptions">Voltus-Fi Form Descriptions</a></li><li style="float: right;"><a class="viewPrint" href="voltusFIXL.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="emdatafile_ict_file.html" title="Converting the EM Data File to ICT File">Converting the EM Data File to ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Voltus-Fi Custom Power Integrity Solution XL User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>A
+<a id="pgfId-1032955"></a></h1>
+<h1>
+<a id="pgfId-1035250"></a><hr />
+<a id="21236"></a>Third-Party DSPF<hr />
+</h1>
+<h2>
+<a id="pgfId-1042712"></a>Troubleshooting Information Related to Third-Party DSPF File</h2>
+<h3>
+<a id="pgfId-1042713"></a>Problem &#8211; Missing Number of Vias</h3>
+
+<p>
+<a id="pgfId-1042952"></a>The DSPF files are created using the parasitic extraction tools, and the content and format of these files are heavily dependent on the extraction tool and the extraction runset. </p>
+<p>
+<a id="pgfId-1043000"></a>In the EM analysis flow, after you calculate the current density of a presistor, you can compare it with the current density limits from the <code>qrcTechFile</code>, the ICT file, or the <code>emDataFile</code> that you have provided in order to locate violations. The current density limit is width-based for the metal or diffusion layers and area-based for via layers. The value of <code>$L</code> or <code>$W</code> is used to select the current density limit for metal layers, and the value of <code>$A</code> is used to select the current density limit for via layers. In case of a via array, the total area of the via specified in the DSPF file is divided by the value of <code>$N</code>, which is the number of vias, in order to obtain the area of a single via, and the current density related to that area is selected from the technology file to check the EM violations.</p>
+<p>
+<a id="pgfId-1043011"></a>You can view two examples below, one of a Quantus-extracted DSPF file and the other of a third-party-extracted DSPF file.</p>
+
+<p><strong>Example A-1
+<a id="pgfId-1042714"></a>Quantus-Extracted DSPF</strong></p>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1042715"></a>Rk173 AVSS#200 AVSS#201 0.020247 $metal1_conn&#160;&#160;$L=0.17 $W=0.54 $X=13.301 $Y=0.43</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1042716"></a>Rw174 AVSS#44 AVSS#45 0.250000 $Via1&#160;&#160;$A=0.0098 $N=2 $X=18.545 $Y=16.18</pre>
+<p><strong>Example A-2
+<a id="pgfId-1042717"></a>Third-Party-Extracted DSPF</strong></p>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1042718"></a>Rg1 XR1#PLUS A#2 1.209331 $metal1&#160;&#160;$L=0.56205 $W=0.1071 $X=5.582 $Y=0.13</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1042719"></a>Ro31 net06 net06#7 12.500000 $VIA1&#160;&#160;$A=0.003969 $X=23.085 $Y=0.135</pre>
+
+<p>
+<a id="pgfId-1043154"></a>Information about the number of vias (<code>$N</code>) is missing in the third-party-extracted DSPF file example. The EMIR analysis performed using such files leads to erroneous results because the correct EM rules are not picked from the ICT file or the <code>emDataFile</code>. </p>
+<p>
+<a id="pgfId-1043155"></a>As in the case of the example shown above, the resistance value, area, and coordinates of the via resistor are given, but the number of vias or <code>$N</code> is not mentioned. Without this information, Voltus-Fi fails to calculate the area of a single via and check the current density limit related to that via area.</p>
+
+<h3>
+<a id="pgfId-1042940"></a><a id="76600"></a>Solution</h3>
+
+<p>
+<a id="pgfId-1039298"></a>To resolve the problem of missing number of vias or <code>$N</code> information in a third-party DSPF file, use one of the following options in batch mode:</p>
+<ul><li>
+<a id="pgfId-1042777"></a>Set the following variable in the <code>vfibatch</code> command file before running the <code>load_em_results</code> command:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1045950">
+<a id="pgfId-1045950"></a><code>set_variable viaCountFromResistance true</code> </pre>
+<a id="pgfId-1045858"></a>Alternatively, include the following option in the EMIR control file before running simulation:<pre class="webflare-pre-block webflare-courier-new" id="#id1045959">
+<a id="pgfId-1045959"></a><code>emirutil viaCountFromResistance=[true]</code> </pre><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1043242"></a>Specifying the <code>viaCountResistance</code> variable using the <code>set_variable</code> command will generate EM results (taking care of <code>$N</code>) during the batch mode run. Specifying the <code>viaCountResistance</code> variable using the <code>emirutil</code> command will generate EM results (taking care of <code>$N</code>) in the report file *<code>rpt_em,</code>during Spectre simulation itself. The file, <code>*rpt_em</code> is created along with the simulation result file, <code>*.emir#_bin</code> file.</div></li><li>
+<a id="pgfId-1043304"></a>Include the &#8220;<code>area_resistance</code>&#8221; of vias in the ICT file. The format is as follows:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1043305">
+<a id="pgfId-1043305"></a>area_resistance &lt;r<code><em>esistance value 1</em></code>&gt; &lt;<code><em>area 1</em></code>&gt; &lt;<code><em>resistance value 2</em></code>&gt; &lt;<code><em>area 2</em></code>&gt; &#8230;. &lt;r<code><em>esistance value N</em></code>&gt; &lt;<code><em>area N</em></code>&gt;</pre></li><li>
+<a id="pgfId-1043307"></a>Include the &quot;<code>contact_resistance</code>&quot; of vias in the ICT file. The resistance of a single via is equal to <code>contact_resistance</code>. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1043308"></a>If no <code>area_resistance</code> value is matching, Voltus-Fi will use <code>contact_resistance</code>.</div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-1043309"></a>Voltus-Fi-XL calculates the number of vias (without <code>$N</code>) from the following:</p>
+<ul><li>
+<a id="pgfId-1043310"></a>Resistance value of the via array resistor (from the DSPF) </li><li>
+<a id="pgfId-1043311"></a>Resistance value of a single via, which is equal to the <code>contact_resistance </code>(from the ICT file)<br />
+<a id="pgfId-1043312"></a>OR<br />
+<a id="pgfId-1043313"></a>Resistance value of all vias, which is equal to <code>area_resistance</code> (from the ICT file)</li></ul>
+
+
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="appC_form_descriptions.html" id="prev" title="Voltus-Fi Form Descriptions">Voltus-Fi Form Descriptions</a></em></b><b><em><a href="emdatafile_ict_file.html" id="nex" title="Converting the EM Data File to ICT File">Converting the EM Data File to ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

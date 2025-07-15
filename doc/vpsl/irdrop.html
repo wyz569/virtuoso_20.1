@@ -1,0 +1,660 @@
+
+<html><head><title>IR Drop Analysis</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="pallabi" />
+<meta name="CreateDate" content="2020-09-11" />
+<meta name="CreateTime" content="1599809761" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to perform power-grid and electromigration analysis using the Virtuoso Power System Product, Power IR/EM." />
+<meta name="DocTitle" content="Power IR/EM User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="IR Drop Analysis" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2" />
+<meta name="Keyword" content="vpsl" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-11" />
+<meta name="ModifiedTime" content="1599809761" />
+<meta name="NextFile" content="emanalysis.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Digital IC Design" />
+<meta name="PrevFile" content="setenv.html" />
+<meta name="c_product" content="Virtuoso Power System" />
+<meta name="Product" content="Virtuoso Power System" />
+<meta name="ProductFamily" content="Virtuoso Power System" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Power IR/EM User Guide -- IR Drop Analysis" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vpslICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vpslTOC.html">Contents</a></li><li><a class="prev" href="setenv.html" title="Setting Up the Power IR/EM Environment">Setting Up the Power IR/EM Env ...</a></li><li style="float: right;"><a class="viewPrint" href="vpsl.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="emanalysis.html" title="EM Analysis">EM Analysis</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Power IR/EM User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>5
+<a id="pgfId-15296784"></a></h1>
+<h1>
+<a id="pgfId-15296785"></a><hr />
+<a id="94552"></a>IR Drop Analysis<hr />
+</h1>
+
+<ul><li>
+<a id="pgfId-15296789"></a><a href="irdrop.html#68212">Overview</a></li><li>
+<a id="pgfId-15315514"></a><a href="irdrop.html#99263">Package Effect in IR Drop Analysis</a></li><li>
+<a id="pgfId-15301403"></a><a href="irdrop.html#34114">IR Drop Analysis</a><ul><li>
+<a id="pgfId-15215970"></a><a href="irdrop.html#41546">Analyzing IR Drop Across Design Resistors</a></li><li>
+<a id="pgfId-15297024"></a><a href="irdrop.html#30674">Writing Out an IR Command File</a></li><li>
+<a id="pgfId-15297034"></a><a href="irdrop.html#96035">Opening Power IR/EM Directly from Extracted View</a></li></ul></li><li>
+<a id="pgfId-15297044"></a><a href="irdrop.html#48868">IR Drop Results</a><ul><li>
+<a id="pgfId-15316362"></a><a href="irdrop.html#28480">Importing Results of a Previous Analysis</a></li><li>
+<a id="pgfId-15316380"></a><a href="irdrop.html#18276">Selecting Options in the IR (voltage) Drop Results Form to View Results</a></li><li>
+<a id="pgfId-15303885"></a><a href="irdrop.html#97306">Customizing Error Layer Display for IR Drop Results</a></li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-15296816"></a><a id="68212"></a>Overview</h2>
+
+<p>
+<a id="pgfId-15301243"></a><a id="marker-15301865"></a>IR Drop is the voltage reduction that occurs on power supply networks (VDD) in integrated circuits.</p>
+<p>
+<a id="pgfId-15301244"></a>Integrated-circuit design usually assumes the availability of an ideal power supply that can instantly deliver any amount of current to maintain the specified voltage throughout the chip. In reality, however, the combination of increasing current per-unit area on the die and narrowing metal line widths (which increases the power-grid resistance) causes localized voltage drops within the power grid, leading to decreased power supply voltage at transistors.</p>
+<p>
+<a id="pgfId-15301245"></a>These localized drops in the power supply voltage decrease the operating voltage of the chip, potentially causing timing problems and functional failures.</p>
+<p>
+<a id="pgfId-15301261"></a><a id="marker-15301608"></a>IR Drop analysis involves analyzing the power grid to identify the IR Drop problems so that they can be corrected.</p>
+
+<h2>
+<a id="pgfId-15315455"></a><a id="99263"></a>Package Effect in IR Drop Analysis</h2>
+
+<p>
+<a id="pgfId-15315456"></a>The image below depicts how voltage drop is calculated by the software and how package effect is incorporated in IR drop analysis to report accurate IR drop. </p>
+
+<p><strong>Figure 5-1
+<a id="pgfId-15315457"></a>Calculating IR Drop</strong></p>
+<p>
+<a id="pgfId-15315461"></a></p>
+<div class="webflare-div-image">
+<img width="662" height="349" src="images/irdrop-2.gif" /></div>
+
+<p>
+<a id="pgfId-15315462"></a>In Scenario1 shown in above image, the IR drop at node, 1:VDD, is calculated using the following equation:</p>
+<p>
+<a id="pgfId-15315463"></a>IR drop at 1:VDD = V &#8211; V1</p>
+<p>
+<a id="pgfId-15315464"></a>In Scenario2, there is additional resistance due to package effect. However, by default, the software will calculate the IR drop at node, 1:VDD, using the following equation:</p>
+<p>
+<a id="pgfId-15315465"></a>IR drop at 1:VDD = V2 &#8211; V1</p>
+<p>
+<a id="pgfId-15315466"></a>To incorporate package effect in the above calculation, you can specify the value of &#8220;V&#8221;. The software will then calculate the IR drop at node, 1:VDD, using the following equation:</p>
+<p>
+<a id="pgfId-15315467"></a>IR drop at 1:VDD = V &#8211; V1</p>
+<p>
+<a id="pgfId-15315468"></a>To specify the voltages, open the IR (voltage) Drop Analysis form and click <em>Update Voltages for Pins/Signals</em> to update voltages for pins/signals appearing in the list box. The details are provided in the subsequent section.</p>
+
+<h2>
+<a id="pgfId-15301208"></a><a id="34114"></a>IR Drop An<a id="vsaIRDropHelp"></a>alysis</h2>
+
+<p>
+<a id="pgfId-15297073"></a>Power IR/EM is used to create a &#8220;thermal map&#8221; representation of the IR Drop on selected pins and signals. </p>
+<p>
+<a id="pgfId-15297075"></a>To perform IR Drop analysis from the <a id="marker-15301617"></a>Virtuoso layout window, follow these steps:</p>
+<ul><li>
+<a id="pgfId-15297085"></a>In the Main menu, choose <em>VPS-L. </em><a id="marker-15297074"></a>Two options<em>, </em><em>Analyze Extracted View Pin(s)</em><a id="marker-15301622"></a> and <em>Analyze Extracted View Signal(s) </em><a id="marker-15301627"></a>appear in the drop-down list.<em> </em></li><li>
+<a id="pgfId-15300320"></a>Choose <em>Analyze Extracted View Pin(s) </em>for analyzing the power pins of the design and <em>Analyze Extracted View Signal(s) </em>to analyze the signals of the design. <br /><strong class="webflare-fig-line-height">Figure 5-2
+<a id="pgfId-15306924"></a>Opening IR Drop Analysis Form</strong>
+<a id="pgfId-15306928"></a><div class="webflare-div-image">
+<img width="650" height="115" src="images/irdrop-3.gif" /></div></li><li>
+<a id="pgfId-15303995"></a>From the drop-down list, select <em>I</em><a id="marker-15303993"></a><em>R Drop Analysis. </em>The IR (Voltage) Drop Analysis form opens. <a id="marker-15303994"></a><a id="43709"></a><br /><strong class="webflare-fig-line-height">Figure 5-3
+<a id="pgfId-15303997"></a><a id="16337"></a>Running (Voltage) Drop Analysis</strong>
+<a id="pgfId-15296830"></a><div class="webflare-div-image">
+<img width="668" height="276" src="images/irdrop-4.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15315640"></a>When the above form opens, the settings that were specified in the previous session are displayed. These settings are saved in the <code>vsaIRLast.cfg</code> file that is created for every session by default. However, if you do not want the software to load the settings of the previous session by default, set the <a href="../vpsl/setenv.html#vsaDisableLastConfig">-vsaDisableLastConfig</a> environment variable to <code>true</code>.</div>
+<ul><li>
+<a id="pgfId-15315626"></a>In the <em>QRC extracted cellview</em>, you can view the <em>Extracted Library</em>, <em>Extracted Cell</em>, and <em>Extracted View</em> name created during the extraction run. See <a actuate="user" class="URL" href="../vpsl/analysisflow.html#RunningPVSQRC" show="replace" xml:link="simple">Running Pegasus Quantus QRC</a> in the &#8220;IR/EM Analysis Flow&#8221;<em> </em>chapter. The default view name for an extracted view is <code>av_extracted</code>.</li><li>
+<a id="pgfId-15296836"></a>Click <em>All pins</em> to perform IR drop analysis on all pins.<em> </em>The default option is to perform IR drop analysis on all pins<em>. </em></li><li>
+<a id="pgfId-15314531"></a>Click<em> Select pins </em>to select the pin names on which the IR Drop analysis should be performed. <a id="marker-15313128"></a><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15314542"></a>When <em>Analyze Extracted View Signal(s) </em><a id="marker-15313129"></a>is selected, the form shows the above two fields as <em>All signals</em> and <em>Select signals</em> respectively.<em> </em>In this case, use <em>Select signals</em> to select the signal names on which the IR Drop analysis should be performed. Pin or signal names can be searched by typing the name of the pin or signal in the search field. The search field also accepts SKILL regular expressions.</div></li><li>
+<a id="pgfId-15314791"></a>Click <em>Update Voltages for Pins</em> to update voltages for pins appearing in the list box. When you click this button, the Update IR Pin Voltages form opens. This form is shown below.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15297936"></a>When <em>Analyze Extracted View Signal(s) </em><a id="marker-15314792"></a>is selected, the IR (voltage) Drop Analysis form shows an <em>Update Voltages for Signals</em> button. Click this button to update voltages for signals.</div><strong>Figure 5-4
+<a id="pgfId-15314818"></a>Updating Voltages for Pins</strong>
+<a id="pgfId-15314822"></a><div class="webflare-div-image">
+<img width="365" height="295" src="images/irdrop-5.gif" /></div>
+<a id="pgfId-15314823"></a>The above form shows a table with two columns, &#8220;Pin&#8221; and &#8220;Voltage&#8221;. Double-click the &#8220;Voltage&#8221; column to type the updated voltage for any pin. Click <em>OK</em>. The updated voltages appear in the list box in the IR (Voltage) Drop Analysis form. This is shown below.<a id="marker-15314824"></a><br /><ffi2-fig-frame-in-2 id="#id15314851">
+<a id="pgfId-15314851"></a></ffi2-fig-frame-in-2><div class="webflare-div-image">
+<img width="504" height="159" src="images/irdrop-6.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15314870"></a>When you click <em>Update Voltages for Signals</em>, the Update Signal Voltages form opens. You can update the voltages in this form and click <em>OK</em>. The updated voltages appear in the list box in the <a id="marker-15314879"></a>IR (Voltage) Drop Analysis form. </div></li><li>
+<a id="pgfId-15314780"></a><em>In </em>the<em> Calculate IR Drop </em><a id="marker-15301711"></a>cyclic field, choose <em>at every segment</em> to include all segments of the net in the IR Drop analysis. </li><li>
+<a id="pgfId-15314578"></a>Choose the <em>Simulation Directory</em><a id="marker-15314574"></a><a id="vsaIRDropBrowserSimDirFileBrowserHelp"></a> to point to the results of the Spectre, UltraSim, or APS simulation that was performed on the extracted view. <a id="marker-15314576"></a><a id="marker-15314577"></a><a id="marker-15314579"></a><a id="marker-15314580"></a></li><li>
+<a id="pgfId-15312365"></a>You can also click <em>Select Simulation directory</em> to specify the simulation directory. The Select Simulation Directory form opens. This form is shown below.<br /><strong class="webflare-fig-line-height">Figure 5-5
+<a id="pgfId-15312367"></a>Selecting the Simulation Directory</strong>
+<a id="pgfId-15312371"></a><div class="webflare-div-image">
+<img width="575" height="438" src="images/irdrop-7.gif" /></div><ul><li>
+<a id="pgfId-15312372"></a>In this form, choose the simulation directory and click <em>OK</em>.<br />
+<a id="pgfId-15306209"></a>For more information, see <a actuate="user" class="URL" href="../vpsl/analysisflow.html#RunningSpectreSimulation" show="replace" xml:link="simple">Running a Spectre Simulation</a>, <a actuate="user" class="URL" href="../vpsl/analysisflow.html#RunningUltrasimSimulation" show="replace" xml:link="simple">Running An UltraSim Simulation</a>, or <a actuate="user" class="URL" href="../vpsl/analysisflow.html#RunningAPSSimulation" show="replace" xml:link="simple">Running an APS Simulation</a> in the &#8220;IR/EM Analysis Flow&#8221;<em> </em>chapter. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15298008"></a>The <em>Example Directory</em> field shows you how to specify this value.</div></li></ul></li><li>
+<a id="pgfId-15298010"></a>In the <em>Analyze results </em><a id="marker-15298009"></a>cyclic field, choose either <em>DCOP</em><a id="marker-15302230"></a><a id="marker-15302231"></a> or <a id="marker-15302232"></a><em>TRANSIENT</em> simulation.<ul><li>
+<a id="pgfId-15302244"></a>The DC operating point (DCOP) analysis is recommended for large analog designs that are difficult to simulate in Spectre using transient analysis, especially with all parasitics included. </li><li>
+<a id="pgfId-15302176"></a>The <em>TRANSIENT </em>option sets the simulation time in seconds automatically when the <em>from/to </em>fields are selected. It also allows you to specify the following methods of processing results.<ul><li>
+<a id="pgfId-15302204"></a>Average&#8212;Calculates the <a id="marker-15302203"></a>current density violations based on the average value of the DC current for metal lines, vias, and contacts.</li><li>
+<a id="pgfId-15302206"></a>Peak&#8212;Calculates the current density violations based on the maximum DC current for metal lines, vias, and contacts.</li></ul></li></ul></li><li>
+<a id="pgfId-15314639"></a>If your simulation data is in <code>vavo.db</code> format, the <em>vavo_db</em> option appears in the form. This option is selected by default. To use the PSF database, deselect this option. This option is available only if you are using <code>vavo.db</code>. You can also specify this option in the batch mode by using the <a href="../vpsl/batchmode.html#vsa_vavo_db_enable">_vsa_vavo_db_enable</a><code> </code>command<code>.</code> For details of this command, see the &#8220;Batch Mode Execution&#8221; chapter.</li><li>
+<a id="pgfId-15315870"></a>In the <em>Type of IR Drop </em><a id="marker-15314638"></a>cyclic field, choose the type of IR Drop analysis to be performed, <em>Peak</em> (default) or <em>Average</em>. In the results file that is generated, the &#8220;Results type&#8221; field will indicate whether the <em>Type of IR Drop</em> is Peak or Average. The IR Drop Results form shows the type of analysis being performed in the title bar.</li><li>
+<a id="pgfId-15305374"></a>In <em>Ignore Voltage Drop Less than</em>, specify the minimum voltage for which you want to view IR drop results. The software will only show IR drop results for voltages greater than that specified in this field.</li><li>
+<a id="pgfId-15312314"></a>Click <em>Save State</em><a id="vsaIRDropSaveStateToFileHelp"></a> to save the information filled out in the form. The Save IR Form State To A File form opens. This form is shown below.<br /><strong class="webflare-fig-line-height">Figure 5-6
+<a id="pgfId-15312315"></a>Saving IR Form State to a File</strong>
+<a id="pgfId-15312319"></a><div class="webflare-div-image">
+<img width="627" height="91" src="images/irdrop-8.gif" /></div><ul><li>
+<a id="pgfId-15306286"></a>In this form, specify the <em>Output File Name</em> and click <em>OK</em>. </li></ul></li><li>
+<a id="pgfId-15312201"></a>Click <em>Load State</em><a id="vsaIRDropLoadStateFileHelp"></a> to load previously saved information in the form. The Select Existing IR From State File form opens. This form is shown below.<br /><strong class="webflare-fig-line-height">Figure 5-7
+<a id="pgfId-15312232"></a>Selecting an Existing IR State</strong>
+<a id="pgfId-15312236"></a><div class="webflare-div-image">
+<img width="572" height="438" src="images/irdrop-9.gif" /></div><ul><li>
+<a id="pgfId-15312224"></a>In this form, select the file and click OK.</li></ul></li><li>
+<a id="pgfId-15315957"></a>After completing the inputs in the IR Drop Analysis form, click <em>OK </em>or <em>Apply</em>. When you click <em>OK</em> or <em>Apply</em> in this form, the result file and the configuration file are stored in the following location by default:<br />
+<a id="pgfId-15315958"></a><code>working directory/VSA.OUT/CURRENT_DATE/</code><br />
+<a id="pgfId-15315959"></a>Example:<br />
+<a id="pgfId-15315960"></a><span class="webflare-courier-new" style="white-space:pre"><em>working_dir</em></span><code>/VSA.OUT/MAY_5_1/IRDrop.results and IR.cfg</code><br />
+<a id="pgfId-15315961"></a>If multiple sessions are run on the same day, the name of the <code>CURRENT_DATE</code> folder will be updated sequentially. This is shown below.<br />
+<a id="pgfId-15316067"></a><span class="webflare-courier-new" style="white-space:pre"><em>working_dir</em></span><code>/VSA.OUT/MAY_5_2/IRDrop.results and IR.cfg</code><br />
+<a id="pgfId-15313363"></a><span class="webflare-courier-new" style="white-space:pre"><em>working_dir</em></span><code>/VSA.OUT/MAY_5_3/IRDrop.results and IR.cfg</code><br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15316014"></a>If you do not have permissions in the working directory, these files will be saved in your home directory.</div><div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-15316043"></a>
+If you do not want to save the above files, set the <a href="../vpsl/setenv.html#vsaDisableAutoArchive">_vsaDisableAutoArchive</a> environment variable to <code>&#8220;true&#8221;</code>.</div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15296862"></a><a id="41546"></a>Analyzing IR Drop Acro<a id="vsaAdvancedOptionsHelp"></a>ss Design Resistors</h3>
+
+<p>
+<a id="pgfId-15296863"></a>By default, Power IR/EM performs <a id="marker-15301737"></a>IR Drop analysis across parasitic resistors as part of a single net entity and the net is considered to terminate at the pin of the first design device, which might be a resistor. Normally, the signal resumes on the other side of the resistor (the other pin) with a different net name, and is considered by Power IR/EM to be a different signal during IR Drop analysis. </p>
+<p>
+<a id="pgfId-15316536"></a>However, in many designs, metal resistors are added to power lines and it is desirable to perform IR Drop analysis on the complete net, even though the signal might traverse both design and parasitic resistors. You can specify the design resistors to include in the IR drop analysis as shown below.</p>
+<p>
+<a id="pgfId-15316547"></a>You can also exclude bulk terminals of the design resistors from the IR drop analysis by specifying the names of the terminals in the Advanced options for IR (voltage) Drop Analysis form. This is shown below.</p>
+<p>
+<a id="pgfId-15296865"></a>To specify design resistors and to exclude their bulk terminals for IR drop analysis, follow these steps:</p>
+<ul><li>
+<a id="pgfId-15300458"></a>In the <a id="marker-15300491"></a>IR (Voltage) Drop Analysis form, click <em>Advanced</em> at the bottom of the form. The form shown below opens.<br /><strong class="webflare-fig-line-height">Figure 5-8
+<a id="pgfId-15296866"></a>Specifying Advanced options for <a id="92798"></a>IR (Voltage) Drop Analysis Form</strong>
+<a id="pgfId-15296870"></a><div class="webflare-div-image">
+<img width="514" height="160" src="images/irdrop-11.gif" /></div></li><li>
+<a id="pgfId-15296871"></a>Click the <em>Use design resistor / explicit resistor </em>option to specify that IR Drop analysis should be performed across design resistors. </li><li>
+<a id="pgfId-15296872"></a>In the <em>Enter design resistor cell name </em>field, type the cell names of the specific design resistors that are to be included in the IR Drop analysis. Multiple cells can be specified by placing a space between cell names.</li><li>
+<a id="pgfId-15316617"></a>In the <em>Exclude design resistor terminals (bulk)</em> field, type the names of the bulk terminals to exclude from the IR drop analysis. Multiple terminals can be specified by placing a space between terminal names.</li><li>
+<a id="pgfId-15313171"></a>Click<a id="vsaIRDropLoadResistorFileHelp"></a> <em>Load From File </em>to specify the file with the cell names of the specific design resistors to be included in the IR drop analysis. The Select an Existing Design Resistor File form opens. This form is shown below.<br /><strong class="webflare-fig-line-height">Figure 5-9
+<a id="pgfId-15313172"></a>Selecting an Existing Design Resistor File</strong>
+<a id="pgfId-15313183"></a><div class="webflare-div-image">
+<img width="551" height="423" src="images/irdrop-12.gif" /></div></li><li>
+<a id="pgfId-15313156"></a>In this form, choose the file and click <em>OK</em>.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15300572"></a><a id="30674"></a>Writing Out an <a id="SaveIRCommandsToAFile"></a>IR Co<a id="vsaIRDropResultsSaveCommandsHelp"></a>mmand File</h3>
+
+<p>
+<a id="pgfId-15302290"></a>To generate a batch mode command file, follow these steps:</p>
+<ul><li>
+<a id="pgfId-15302293"></a>In the <em></em><a id="marker-15302291"></a><a id="marker-15302292"></a><a id="marker-15302323"></a>IR (Voltage) Drop Analysis form, select the <em>Results Directory</em> and pin name.</li><li>
+<a id="pgfId-15309858"></a>Click <em>Generate Command File. </em>The Save IR Commands To a File form opens. This form is shown below.<br /><strong class="webflare-fig-line-height">Figure 5-10
+<a id="pgfId-15304681"></a>Saving IR Commands To a File</strong>
+<a id="pgfId-15304691"></a><div class="webflare-div-image">
+<img width="623" height="212" src="images/irdrop-13.gif" /></div></li><li>
+<a id="pgfId-15311888"></a>In this form, specify the <em>Command File Name</em>. If the command file name is not specified, the software either uses <code>&lt;Batch job Name&gt;.cmd</code>  as the default command file name or if the batch job name is not provided, then it uses <code>vsaIRBatch.cmd </code>as the default command file name.</li><li>
+<a id="pgfId-15311889"></a>Specify the <em>Batch Job Name</em>, which is a unique job name to distinguish between different jobs. This allows you to run multiple command files &#8211; generated by different job names &#8211; in the same working directory.</li><li>
+<a id="pgfId-15314757"></a>Click <em>View file</em> to view the command file. This option is selected by default. If you do not want to view the command file, you can change the default selection of this option by setting the <a href="../vpsl/setenv.html#vsaUncheckViewFile">_vsaUncheckViewFile</a><code> </code>environment variable to <code>true.</code></li><li>
+<a id="pgfId-15311890"></a>In the <em>Run Options</em> group box, click <em>Run file</em> to run the generated command file in the background.</li><li>
+<a id="pgfId-15311891"></a>Specify the Local Server Farm or the <em>LSF Command String </em>, which is the name of the wrapper string command that will launch Power IR/EM in the batch mode. For example, you can specify <code>bsub -q lnx64 </code>as the LSF command string. You can also specify the LSF string by using the environment variable, <a href="../vpsl/setenv.html#vsaLSFMachineString">_vsaLSFMachineString</a>. When this environment variable is set, the <em>LSF Command String</em> field is pre-filled with the specified command. </li><li>
+<a id="pgfId-15316267"></a>Click <em>Load GIF Viewer </em>to launch the vsaPlot, which is used for visualizing and customizing the IR drop and EM analysis results. For details, see the &#8220;<a actuate="user" class="URL" href="../vpsl/vsaPlot.html#firstpage" show="replace" xml:link="simple">Visualizing Results in vsaPlot</a>&#8221; chapter.</li><li>
+<a id="pgfId-15311880"></a>Click <em>OK</em>. </li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15296880"></a><a id="96035"></a>Opening Power IR/EM Dire<a id="vsaHierNameHelp"></a>ctly from Extracted View </h3>
+
+<p>
+<a id="pgfId-15296881"></a>In the GUI mode, the <a id="marker-15309881"></a>extracted view can be opened directly, bypassing the need for a top-level schematic. When <a id="marker-15309883"></a>IR Drop analysis is started, and the testbench schematic is available, a form opens asking for the hierarchical name of the design. Provide the hierarchical name of the design and ensure that the hierarchical name is complete including the delimiter being used, if any. For example /X1 or /IO/I1.</p>
+<p>
+<a id="pgfId-15298254"></a>The pin map information can be entered in the same form and is specified in the following format:</p>
+
+<a id="pgfId-15296885"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+(extracted_pin_name1 testbench_pin_name1)(extracted_pin_name2 testbench_pin_name2) ...</pre>
+
+<p>
+<a id="pgfId-15296886"></a>This information is required to be added for any pins that have different names between the extracted view and testbench schematic view.</p>
+<p>
+<a id="pgfId-15301110"></a>This form for specifying hierarchy and pin map information can also be evoked by clicking the <em>Hierarchy PinMap Options</em> on the <em></em><a id="marker-15301821"></a>IR (Voltage) Drop Analysis form or <em></em><a id="marker-15303286"></a>Electromigration Power Grid Analysis form depending upon the type of analysis you want to perform. This provides the option to change hierarchy or pin map information. This form is shown below. </p>
+
+<p><strong>Figure 5-11
+<a id="pgfId-15300733"></a><a id="61829"></a>Hierarchy Form</strong></p>
+<p>
+<a id="pgfId-15312465"></a></p>
+<div class="webflare-div-image">
+<img width="513" height="197" src="images/irdrop-14.gif" /></div>
+<h2>
+<a id="pgfId-15312469"></a><a id="48868"></a>IR Drop <a id="vsaIRDropReadResultsHelp"></a>Res<a id="vsaIRDropResultsHelp"></a>ults</h2>
+
+<p>
+<a id="pgfId-15312470"></a>You can view the results of the IR drop analysis by selecting the various options available in the IR (voltage) Drop Results form. You can either import the results of an IR drop analysis performed earlier or view results for the current IR drop analysis run by using this form. Both methods are detailed below.</p>
+
+<h3>
+<a id="pgfId-15298298"></a><a id="28480"></a>Importing Results of a Previous Analysis</h3>
+
+<p>
+<a id="pgfId-15305736"></a>To import the results of an IR Drop analysis performed earlier, perform the following steps:</p>
+<ul><li>
+<a id="pgfId-15306011"></a>Select <em>Analyze Extracted View Pin(s) or Analyze Extracted View Signal(s) </em>&#8211;<em> Import IR Drop Results. </em><br /><strong class="webflare-fig-line-height">Figure 5-12
+<a id="pgfId-15307193"></a>Opening Import IR Drop Results Form</strong>
+<a id="pgfId-15307197"></a><div class="webflare-div-image">
+<img width="626" height="171" src="images/irdrop-15.gif" /></div></li><li>
+<a id="pgfId-15307212"></a>The<em> </em><em>Select </em>Existing Results File form opens. <br /><strong class="webflare-fig-line-height">Figure 5-13
+<a id="pgfId-15307229"></a>Importing Existing IR Drop Results</strong>
+<a id="pgfId-15307233"></a><div class="webflare-div-image">
+<img width="480" height="362" src="images/irdrop-16.gif" /></div></li><li>
+<a id="pgfId-15306043"></a>Select the file from the list and click <em>OK. </em>The IR (voltage) Drop Results form opens.<br /><strong class="webflare-fig-line-height">Figure 5-14
+<a id="pgfId-15310672"></a>Opening IR (voltage) Drop Results Form when IR Drop Results are Imported</strong>
+<a id="pgfId-15310677"></a><div class="webflare-div-image">
+<img width="528" height="488" src="images/irdrop-17.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15315341"></a>When existing results for IR drop analysis are imported, the IR (voltage) Drop Results form provides a <em>Save Marking</em> button instead of <em>Save Results to A File</em> button. This is shown in the above form. </div><ul><li>
+<a id="pgfId-15315343"></a>Click <em>Save Marking</em><a id="vsaIRImportResultWriteOutputHelp"></a> to save the marked results in a file for future reference. The Save Marking Data form opens. The results can be reloaded in subsequent sessions. This is shown below.<br /><strong class="webflare-fig-line-height">Figure 5-15
+<a id="pgfId-15315344"></a>Saving the Marking Data</strong>
+<a id="pgfId-15315348"></a><div class="webflare-div-image">
+<img width="655" height="98" src="images/irdrop-18.gif" /></div></li></ul>
+<a id="pgfId-15315349"></a>In this form, specify the <em>Output File Name</em> and click <em>OK</em>.</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15310679"></a><a id="18276"></a>Selecting Options in the IR (voltage) Drop Results Form to View Results</h3>
+
+<p>
+<a id="pgfId-15310681"></a>The IR drop analysis results can be viewed using the various options provided in the IR (voltage) Drop Results form. </p>
+<p>
+<a id="pgfId-15310682"></a>After performing IR drop analysis, when you click OK on the IR (voltage) Drop Analysis form, the IR (voltage) Drop Results form opens. This form is shown below.</p>
+
+<p><strong>Figure 5-16
+<a id="pgfId-15310685"></a><a id="80190"></a>Opening IR (voltage) Drop Results Form for the Current IR Drop Analysis Run</strong></p>
+<p>
+<a id="pgfId-15310689"></a></p>
+<div class="webflare-div-image">
+<img width="530" height="484" src="images/irdrop-19.gif" /></div>
+
+<p>
+<a id="pgfId-15310690"></a>This form displays the IR drop information for the specified extracted view. In the form above, the extracted view selected is <code>av_R</code>. In this form, specify the following:</p>
+<ul><li>
+<a id="pgfId-15310692"></a>In Layout Window Number, s<a id="marker-15310691"></a>pecify the window ID for the layout, if a layout is open for the design. Click <em>Get Layout Window Number </em><a id="marker-15310693"></a>to enable the software to get the layout window number automatically from an already open window. If no layout window is open, a new window will be opened with a layout view.</li><li>
+<a id="pgfId-15310694"></a>In the drop-down list provided against the <em>Select Pin/Signal</em> field, select the pin or signal for which you want to view the results. <br /><strong class="webflare-fig-line-height">Figure 5-17
+<a id="pgfId-15310695"></a>Selecting Pins/Signals from the Drop-down List</strong>
+<a id="pgfId-15310699"></a><div class="webflare-div-image">
+<img width="525" height="293" src="images/irdrop-20.gif" /></div>
+<a id="pgfId-15310700"></a>You can also search for pin or signal names by typing the name in the search field and pressing the enter button &#8211; the button with the green arrow &#8211; or by using SKILL regular expressions. The pin or signal names can also be searched on the basis of IR drop by providing the IR drop limit with a comparison operator. For example, to view results for pins or signals with voltage drop greater than 15.00m, type <code>&gt;15</code> in the search field.</li><li>
+<a id="pgfId-15310701"></a>In the table, filter out results for the selected pins or signals on the basis of the following: <ul><li>
+<a id="pgfId-15310702"></a>Voltage Drop</li><li>
+<a id="pgfId-15310703"></a>QRC Net Name</li><li>
+<a id="pgfId-15310704"></a>Simulation Net Name</li><li>
+<a id="pgfId-15310705"></a>Pin Name</li><li>
+<a id="pgfId-15310706"></a>Time (seconds) &#8211; This column is not available when the type of IR drop analysis performed is average.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15310707"></a>To sort by heading, double-click the headings.</div></li></ul></li><li>
+<a id="pgfId-15310709"></a>Click <em>Mark</em><a id="marker-15310708"></a> and Unmark for marking and unmarking nets. Select the nets and click <em>Mark</em>. A hash (#) symbol gets added in the beginning of the rows in which the IR drop analysis results of the nets are displayed. The result file displays the IR drop analysis results for all marked nets. Similarly, click <em>Unmark</em> to unmark a net. Nets showing false errors can be unmarked so they are not reported in the result file. This helps save time spent viewing and debugging all the false errors reported in the result file.<br /><strong class="webflare-fig-line-height">Figure 5-18
+<a id="pgfId-15310710"></a>Marking Nets in the IR Drop Results Form</strong>
+<a id="pgfId-15310714"></a><div class="webflare-div-image">
+<img width="527" height="484" src="images/irdrop-21.gif" /></div></li><li>
+<a id="pgfId-15310716"></a>Click <em>Zoom To Net</em><a id="marker-15310715"></a> to enlarge the view of the currently selected net in the list box on the layout. This is shown below.<br /><strong class="webflare-fig-line-height">Figure 5-19
+<a id="pgfId-15310717"></a>Zooming to Selected Net in the Layout</strong>
+<a id="pgfId-15310721"></a><div class="webflare-div-image">
+<img width="651" height="499" src="images/irdrop-22.gif" /></div></li><li>
+<a id="pgfId-15310722"></a>Click <em>Plot Nets</em> to display the current waveform on the selected net in the Virtuoso (R) Visualization &amp; Analysis XL window. This is shown below.<br /><strong class="webflare-fig-line-height">Figure 5-20
+<a id="pgfId-15310726"></a><a id="36729"></a><a id="11754"></a>Viewing Current Waveforms on the Selected Nets in <a id="27486"></a>Virtuoso (R) Visualization &amp; Analysis XL </strong>
+<a id="pgfId-15310730"></a><div class="webflare-div-image">
+<img width="668" height="722" src="images/irdrop-23.gif" /></div></li><li>
+<a id="pgfId-15310731"></a>Click <em>Save Results To A File</em><a id="vsaIRDropResultsWriteOutputHelp"></a> to save the IR drop analysis results as a text file. The Save IR Drop Analysis To A File form opens. This form is shown below.<br /><strong class="webflare-fig-line-height">Figure 5-21
+<a id="pgfId-15310732"></a>Saving IR Drop Analysis Results to a File</strong>
+<a id="pgfId-15310736"></a><div class="webflare-div-image">
+<img width="623" height="112" src="images/irdrop-24.gif" /></div><ul><li>
+<a id="pgfId-15310737"></a>In this form, specify the <em>Output File Name</em>.</li><li>
+<a id="pgfId-15308775"></a>Click <em>View file</em> to view the result file. This option is selected by default. If you do not want to view the result file, you can change the default selection of this option by setting the <a href="../vpsl/setenv.html#vsaUncheckViewFile">_vsaUncheckViewFile</a><code> </code>environment variable to <code>true.</code></li><li>
+<a id="pgfId-15312747"></a>Click <em>OK.</em></li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-15313561"></a><a id="97306"></a>Customi<a id="errorLayerDisplayIR"></a>zing Error L<a id="vsaIRDropResultsWriteOutputHelp"></a>ayer D<a id="vsaIRPlotsHelp"></a>isplay for IR Drop Results</h3>
+
+<p>
+<a id="pgfId-15313562"></a>Power IR/EM lets you customize IR drop result displays on the Virtuoso layout. For this, you can customize settings in the Plots form. </p>
+<p>
+<a id="pgfId-15313563"></a>In this form, you can customize the violation voltage ranges using a continuos RGB gradient. The vast range of color options provided by the RGB gradient makes it easier to view a specific range of violations.</p>
+<p>
+<a id="pgfId-15313564"></a>Click <em>Plots</em> in the IR (voltage) Drop Results form. The form shown below opens.</p>
+
+<p><strong>Figure 5-22
+<a id="pgfId-15313565"></a>Displaying Highlight Color Spectrum and Options for Customizing Display of IR Drop Plots</strong></p>
+<p>
+<a id="pgfId-15313569"></a></p>
+<div class="webflare-div-image">
+<img width="517" height="464" src="images/irdrop-25.gif" /></div>
+
+<p>
+<a id="pgfId-15313570"></a>In the Select Layers group box:</p>
+<ul><li>
+<a id="pgfId-15313571"></a>Select the layers for which you want to view the violations. Click <em>AV</em> or <em>NV </em>to select or deselect all layers respectively. Click the layer names to select specific layers. When the Plots form opens, all layers are selected by default.</li><li>
+<a id="pgfId-15314949"></a>Two buttons, with up and down arrows, are provided next to the layers listed in the list box. You can change the order of layers by selecting any layer and then clicking the up or down arrow button to move the layer up or down in the list. The updated layer order is reflected in the plot highlights on the extracted view. The images below show the change in plot highlights on the extracted view when the order of Metal2 layer is changed.<br /><strong class="webflare-fig-line-height">Figure 5-23
+<a id="pgfId-15314978"></a>Changing the Order of Layers</strong>
+<a id="pgfId-15315008"></a><div class="webflare-div-image">
+<img width="668" height="489" src="images/irdrop-26.gif" /></div><strong>Figure 5-24
+<a id="pgfId-15315123"></a>Changing the Order of Layers </strong>
+<a id="pgfId-15315127"></a><div class="webflare-div-image">
+<img width="668" height="486" src="images/irdrop-27.gif" /></div></li><li>
+<a id="pgfId-15313572"></a>The RGB color spectrum is provided for viewing violations in different colors.<code> </code>The ruler range of IR drop values for all or selected layers is provided next to the color spectrum. The image below shows the layout display of total violation ranges for all layers.<br /><strong class="webflare-fig-line-height">Figure 5-25
+<a id="pgfId-15313573"></a>Displaying Total Violation Range for All Layers on the Layout</strong>
+<a id="pgfId-15313577"></a><div class="webflare-div-image">
+<img width="668" height="482" src="images/irdrop-28.gif" /></div></li><li>
+<a id="pgfId-15313578"></a><em>Min</em> and <em>Max </em>sliders are provided for customizing the ruler range for viewing the violations that fall within the specified <em>Min Max</em> slider range. You can move the Min Max sliders up and down to update the ruler ranges according to the new slider positions.<br />
+<a id="pgfId-15313579"></a>When <em>Min Max</em> sliders are used to specify the ruler range for violations, the selection is updated in the <em>Customize Range</em> fields.<br />
+<a id="pgfId-15313580"></a>The violations above and below the slider marks are displayed in &#8220;deep red&#8221; and &#8220;deep blue&#8221; respectively. This is shown in the image below.<br /><strong class="webflare-fig-line-height">Figure 5-26
+<a id="pgfId-15313581"></a>Customizing the Ruler Range for Viewing IR Drop Violations</strong>
+<a id="pgfId-15313585"></a><div class="webflare-div-image">
+<img width="666" height="482" src="images/irdrop-29.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-15313586"></a>In the Set Range group box:</p>
+<ul><li>
+<a id="pgfId-15313587"></a>Click <em>All Layers</em> to specify the total violation range. When <em>All Layers</em> is selected, the total violation range remains constant irrespective of whether the layers are selected or deselected in the <em>Select Layers</em> group box.</li><li>
+<a id="pgfId-15313588"></a>Click <em>Selected Layers</em> to select the violation range for layers selected in the <em>Select Layers</em> group box. The range is updated both on the slider and in the <em>Customize Range</em> fields for the violations of the selected layers. The layout is highlighted accordingly.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15313589"></a>The software saves the last state for <em>All Layers.</em> When you switch back to <em>All Layers</em> after using <em>Selected Layers</em>, the <em>Min Max</em> slider values, the ruler range, and the values in the <em>Customize Range</em> fields are restored to those in the previously-saved state. The display on the layout is updated accordingly.</div></li><li>
+<a id="pgfId-15313590"></a>Click <em>Customize Range </em>to enter the minimum and maximum values of the required range in the text fields and press enter. The specified range becomes the new ruler range. </li><li>
+<a id="pgfId-15313591"></a>Click <em>Reset </em>to restore the ruler range to the default values. For <em>All Layers</em>, when you click <em>Reset</em>, the ruler range moves back to the total violation range. For <em>Selected Layers, </em>when you click <em>Reset, </em>the ruler range moves back to the total violation range for selected layers only.</li></ul>
+
+
+
+
+<p>
+<a id="pgfId-15313592"></a>In the <em>Select</em> group box:</p>
+<ul><li>
+<a id="pgfId-15313593"></a>Click <em>Net Shapes </em>to highlight the specified nets on the layout. For example, to highlight a net, select the net in the IR (voltage) Drop Results form and then click <em>Net Shapes</em> in the Plots form. The selected net is highlighted in the layout as seen in below images.<br /><strong class="webflare-fig-line-height">Figure 5-27
+<a id="pgfId-15313594"></a>Selecting a Net in the IR (voltage) Drop Results Form</strong>
+<a id="pgfId-15313599"></a><div class="webflare-div-image">
+<img width="597" height="442" src="images/irdrop-30.gif" /></div><strong>Figure 5-28
+<a id="pgfId-15313600"></a>Highlighting Net Shapes on the Layout</strong>
+<a id="pgfId-15313604"></a><div class="webflare-div-image">
+<img width="665" height="308" src="images/irdrop-31.gif" /></div></li><li>
+<a id="pgfId-15313605"></a>Click <em>Pin Shapes </em>to highlight the specified pins on the layout. First, select the net in the IR (voltage) Drop Results form and then click <em>Pin Shapes</em> in the Plots form. The pin shape is highlighted in the layout as seen in below image.<br /><strong class="webflare-fig-line-height">Figure 5-29
+<a id="pgfId-15313606"></a>Highlighting Selected Pin Shapes on the Layout</strong>
+<a id="pgfId-15313611"></a><div class="webflare-div-image">
+<img width="652" height="198" src="images/irdrop-32.gif" /></div><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-15313612"></a>In the above image, a pink textbox is used to show the highlighted pin clearly for your reference.</div></li><li>
+<a id="pgfId-15313613"></a>Select or deselect <em>Display DFII Layers</em> to toggle the visibility of the DFII layers on the layout. This is shown in the image below.<br /><strong class="webflare-fig-line-height">Figure 5-30
+<a id="pgfId-15313614"></a>Toggling Display of DFII Layers on the Layout</strong>
+<a id="pgfId-15313618"></a><div class="webflare-div-image">
+<img width="647" height="364" src="images/irdrop-33.gif" /></div></li><li>
+<a id="pgfId-15313619"></a>Select and deselect <em>Show Plots</em> to toggle the highlights on the layout. This is shown in the image below.<br /><strong class="webflare-fig-line-height">Figure 5-31
+<a id="pgfId-15313620"></a>Toggling Highlights on the Layout</strong>
+<a id="pgfId-15313624"></a><div class="webflare-div-image">
+<img width="605" height="333" src="images/irdrop-34.gif" /></div></li><li>
+<a id="pgfId-15313625"></a>Click <em>Show out of range values</em> to show violations with values outside the specified ruler range. For example, in the image below, the <em>Min</em> slider is set at 0.004579. When you click <em>Show out of range values</em>, the layout shows violations below the specified minimum range in deep blue. <br /><strong class="webflare-fig-line-height">Figure 5-32
+<a id="pgfId-15313626"></a>Showing Out of Range Values</strong>
+<a id="pgfId-15313630"></a><div class="webflare-div-image">
+<img width="667" height="454" src="images/irdrop-35.gif" /></div></li><li>
+<a id="pgfId-15313631"></a>Click <em>Get Value on Layout</em> to retrieve the values from the extracted view. For this, first click <em>Get Value on Layout </em>in the <em>Plots </em>form and then click on the layout to select a point. The violations at that point are marked on the ruler with red arrows and are highlighted in the IR (voltage) Drop Results form. The range of violations is listed in the <em>Customize Range</em> fields. This is shown in the image below.<br /><strong class="webflare-fig-line-height">Figure 5-33
+<a id="pgfId-15313632"></a>Retrieving Values from the Extracted View</strong>
+<a id="pgfId-15313636"></a><div class="webflare-div-image">
+<img width="665" height="448" src="images/irdrop-36.gif" /></div></li><li>
+<a id="pgfId-15313637"></a>Click <em>Zoom Select Max Violation</em> to highlight the maximum violation in the selected area. For this, select an area on the layout to locate the maximum violation in that area. The maximum violation in the selected area is marked on the ruler with a red arrow and highlighted in the IR (voltage) Drop Results form, and the layout zooms to the maximum violation. This is shown in the image below.<br /><strong class="webflare-fig-line-height">Figure 5-34
+<a id="pgfId-15313638"></a>Zooming into the Maximum Violation in the Selected Area</strong>
+<a id="pgfId-15313642"></a><div class="webflare-div-image">
+<img width="663" height="447" src="images/irdrop-37.gif" /></div></li><li>
+<a id="pgfId-15313643"></a>Click <em>Default</em> to restore the default settings.</li><li>
+<a id="pgfId-15313644"></a>Click <em>Close</em> to exit. </li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="setenv.html" id="prev" title="Setting Up the Power IR/EM Environment">Setting Up the Power IR/EM Env ...</a></em></b><b><em><a href="emanalysis.html" id="nex" title="EM Analysis">EM Analysis</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

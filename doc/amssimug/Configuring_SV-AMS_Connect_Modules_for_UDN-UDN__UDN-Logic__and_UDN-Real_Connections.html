@@ -1,0 +1,112 @@
+
+<html><head><title>Configuring SV-AMS Connect Modules for UDN-UDN, UDN-Logic, and UDN-Real Connections</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864936" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Configuring SV-AMS Connect Modules for UDN-UDN, UDN-Logic, and UDN-Real Connections" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="concept" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="Analog Mixed Signal,Digital Mixed Signal,Analog Mixed Signal,Digital Mixed Signal,Explorer,AMS Designer," />
+<meta name="prod_subfeature" content="Documentation,SV-MS,SV-MS,Documentation,AMS Designer," />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864936" />
+<meta name="NextFile" content="Using_Complex_Port_Definition_with_User_Defined_Nettype.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Using_Custom_ie_Parameter_and_Connect_Module_Names_for_UDN-to-Electrical_Connections.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- Configuring SV-AMS Connect Modules for UDN-UDN, UDN-Logic, and UDN-Real Connections" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Using_Custom_ie_Parameter_and_Connect_Module_Names_for_UDN-to-Electrical_Connections.html" title="Using_Custom_ie_Parameter_and_Connect_Module_Names_for_UDN-to-Electrical_Connections">Using_Custom_ie_Parameter_and_ ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Using_Complex_Port_Definition_with_User_Defined_Nettype.html" title="Using_Complex_Port_Definition_with_User_Defined_Nettype">Using_Complex_Port_Definition_ ...</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <h1 style="margin: 4px 0 4px;"><span>Configuring SV-AMS Connect Modules for UDN-UDN, UDN-Logic, and UDN-Real Connections</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    
+<p><span class="confluence-anchor-link" id="ConfiguringSV-AMSConnectModulesforUDN-UDN,UDN-Logic,andUDN-RealConnections-Config_svams_cm"></span>You can enable&#160;automatic insertion of SV-AMS connect modules for designs where both port connections are discrete nettypes including wire, SV wreal, and UDN such as:</p>
+<ul><li>UDN (User Defined Nettype) to another UDN</li><li>SV real nets (Built-in wreal or real UDNs) to logic nets</li><li>UDN to a logic wire</li><li>UDN to real nets (built-in VAMS/SVwreal nets or real UDNs)</li></ul>
+<p>The direction of the connect module is determined by the direction of the port that is declared across which it is inserted (input, output, or inout). Both the highcon and lowcon of the port, must be nets and the port must be collapsible for a connect module to be inserted.</p>
+
+<p>At elaboration time, when the tool detects port connections, where both the upper and lower connected nets have different nettype, it inserts the custom SV-AMS connect modules with the correct parameterization.</p>
+
+<p>To insert custom SV-AMS connect modules, you must specify the&#160;<code>-rnm_dmsie</code>&#160;option in the&#160;<code>xrun</code>&#160;command-line along with the&#160;<code>-custom_udn_cr</code>&#160;option and other required files such as the&#160;<code>amscf.scs</code>&#160;file, the SystemVerilog file (<code>.sv</code>), where the SystemVerilog block/structural netlists are defined, and the SystemVerilog-AMS (<code>.svams</code>) file that contains the connect module descriptions. You can provide only UDN to UDN/Logic/Real connect modules.</p>
+
+<p>&#160;Currently, the following use models are supported:</p>
+<h3 id="ConfiguringSV-AMSConnectModulesforUDN-UDN,UDN-Logic,andUDN-RealConnections-UseModel1">Use Model 1</h3>
+
+<p>For analog mixed-signal designs or DMS SV-RNM designs that have an amsd control block defined. You must use the ie card statement in the amsd block to specify the vsup value, nettype parameter names of your choice. The nettype parameter should have all valid UDN types used in design which needs SVAMS connect module insertion.</p>
+
+<p>The&#160;<code>amscf.scs</code>&#160;file is then passed on to&#160;<code>xrun</code>, along with the&#160;<code>-rnm_dmsie</code>&#160;and the&#160;<code>-custom_udn_cr</code>&#160;options. And, the tool automatically collects the valid parameter set.</p>
+
+<p><strong>Syntax</strong>:</p>
+
+<p><code>%xrun -custom_udn_cr -rnm_dmsie amsd.scs connect_modules.svams&#160; top.sv</code></p>
+
+<p>Here is an example of the amsd control block where a custom SV-UDN,&#160;<code>myUDN</code>&#160;is introduced using the&#160;<code>nettype</code>&#160;paramter along with the&#160;<code>vsp</code>&#160;value:</p>
+
+<p><code>//amsd.scs file</code><br /><code>amsd {</code><br /><code>&#160; &#160; &#160; &#160;ie vsup=2.5 nettype=&#8221;myUDN&#8221;</code><br /><code>&#160; &#160; &#160;}</code></p>
+<h3 id="ConfiguringSV-AMSConnectModulesforUDN-UDN,UDN-Logic,andUDN-RealConnections-UseModel2">Use Model 2</h3>
+
+<p>In this use model an existing amsd control block can be used for SV-AMS connect module by simply adding only the&#160;<code>nettype</code>&#160;parameter. And, the tool implicitly creates an&#160;<code>ie</code>&#160;card with default&#160;<code>vsup=1.8</code>&#160;and creates the connect rules based on the connect module that you have provided.</p>
+
+<p>&#160;<strong>Syntax</strong>:</p>
+
+<p><code>% xrun -custom_udn_cr -rnm_dmsie amsd.scs connect_modules.svams top.sv</code></p>
+
+<p>Here is an example of the amsd control block where custom SV-UDNs,&#160;<code>nettypea</code>&#160;and&#160;<code>nettypeb</code>&#160;are&#160;introduced using the&#160;<code>nettype</code>&#160;paramter:</p>
+
+<p><code>//amscf.scs</code><br /><code>amsd{</code><br /><code>&#160; &#160; &#160; ie nettype=&quot;nettypea nettypeb&quot;</code><br /><code>&#160; &#160; }</code></p>
+
+<p><code>&#160;//Or:</code></p>
+
+<p><code>&#160;amsd{</code><br /><code>&#160; &#160; &#160; udt nettype=&quot;nettypea nettypeb&quot;</code><br /><code>&#160; &#160; }</code></p>
+<h3 id="ConfiguringSV-AMSConnectModulesforUDN-UDN,UDN-Logic,andUDN-RealConnections-UseModel3"><span>Use Model 3</span></h3>
+
+<p>In this use model,&#160;<code>vsup</code>&#160;is supported within the custom SV-AMS connect modules along with various other parameters that allows you to have a high level of control on IE configuration.&#160;<code>ie</code>&#160;card can parameterize these SV-AMS connect modules within various scopes.</p>
+
+<p><strong>Syntax</strong>:</p>
+
+<p><code>%xrun -custom_udn_cr -rnm_dmsie amsd.scs connect_modules.svams&#160; top.sv</code></p>
+
+<p>Here is an example where the parameters&#160;<code>vsup</code>&#160;and&#160;<code>tdelay</code>&#160;are parameterized within a different cell&#160;scope</p>
+
+<p><code>//amsd.scs</code><br /><code>amsd {</code><br /><code>&#160;ie vsup=1.8 nettype-&#8220;myUDN&#8221;</code><br /><code>&#160;ie vsup=4.0 tdelay=2.5 cell=ana_top_1 nettype=&#8221;myUDN&#8221;</code><br /><code>}</code></p>
+<h3 id="ConfiguringSV-AMSConnectModulesforUDN-UDN,UDN-Logic,andUDN-RealConnections-Limitations">Limitations</h3>
+<ul><li>SV-AMS connect modules is not inserted for port connections of variable ports, constant expressions, constants, arithmetic expressions, and non-constant array selects.</li><li>When using multiple wreal types you need a set of SV-AMS connect modules for each wreal type.</li><li>SV-AMS connect modules inserted on discrete nets that are also connected to SIE module ports (like a wreal tran) are not supported and results in an error. You encounter the&#160;<code>*E,SIEDTM</code>&#160;error if the connect module is inserted directly on the SIE port and if the connect module is inserted further up in the hierarchy the&#160;<code>*E,B2BSIE</code>&#160;error is generated.</li><li>Insertion of connect modules on ports with concat or other complex expressions.</li><li>Insertion of connect modules at mixed language boundaries such as VHDL and SystemC.</li><li>All current restrictions on R2L IEs remain as restrictions on DMS IEs as well.</li><li>IE optimization is not applied to these connect module instances.</li><li>SV-AMS connect module insertion is not supported with Incremental Elaboration.</li></ul>
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Using_Custom_ie_Parameter_and_Connect_Module_Names_for_UDN-to-Electrical_Connections.html" id="prev" title="Using_Custom_ie_Parameter_and_Connect_Module_Names_for_UDN-to-Electrical_Connections">Using_Custom_ie_Parameter_and_ ...</a></em></b><b><em><a href="Using_Complex_Port_Definition_with_User_Defined_Nettype.html" id="nex" title="Using_Complex_Port_Definition_with_User_Defined_Nettype">Using_Complex_Port_Definition_ ...</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

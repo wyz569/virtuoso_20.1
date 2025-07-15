@@ -1,0 +1,667 @@
+
+<html><head><title>Virtuoso Layout Suite XL: Basic Editing Frequently Asked Questions</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="komal" />
+<meta name="CreateDate" content="2020-09-14" />
+<meta name="CreateTime" content="1600072272" />
+<meta name="DataType" content="FAQs" />
+<meta name="Description" content="Describes answers for the frequently asked questions related to Virtuoso Layout Suite" />
+<meta name="DocTitle" content="Virtuoso Layout Suite Frequently Asked Questions" />
+<meta name="DocType" content="FAQ" />
+<meta name="FileTitle" content="Virtuoso Layout Suite XL: Basic Editing Frequently Asked Questions" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="vlsfaq" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-14" />
+<meta name="ModifiedTime" content="1600072272" />
+<meta name="NextFile" content="" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="preface.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Layout Suite Frequently Asked Questions -- Virtuoso Layout Suite XL: Basic Editing Frequently Asked Questions" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vlsfaqICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vlsfaqTOC.html">Contents</a></li><li><a class="prev" href="preface.html" title="Preface">Preface</a></li><li style="float: right;"><a class="viewPrint" href="vlsfaq.pdf">View/Print PDF</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Layout Suite Frequently Asked Questions<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>
+<a id="pgfId-1076215"></a><hr />
+Virtuoso Layout Suite XL: Basic Editing Frequently Asked Questions<hr />
+</h1>
+
+<p>
+<a id="pgfId-1079191"></a>This document lists the frequently asked questions and answers related to Virtuoso Layout Suite.</p>
+
+<h3>
+<a id="pgfId-1085336"></a><a id="58714"></a><a id="43646"></a>How do I enable the Used option in the Layers panel of the Palette assistant for every layout view that I open?</h3>
+
+<p>
+<a id="pgfId-1085337"></a>In the <code>.cdsenv</code> file, set the <code>pteUsedOnlyScope</code> environment variable to <code>t</code>.</p>
+<p>
+<a id="pgfId-1085326"></a><code>layout pteUsedOnlyScope boolean t</code></p>
+
+<h3>
+<a id="pgfId-1079474"></a>How can I ensure that a specific layer is used to trace the net using the Mark Net functionality?</h3>
+
+<p>
+<a id="pgfId-1081307"></a>I am using the Mark Net functionality for tracing a net in Virtuoso Layout Editor. The Mark Net functionality starts marking the nets using <em>y0 drawing</em> layer, then <em>y1 drawing </em>and so on till it reaches <em>y9 drawing</em>. After <em>y9 drawing</em>, it again starts marking the nets on <em>y0 drawing</em>. This is because by default the <em>Cycle Through System Colors Automatically</em> option in the MarkNet Options form is selected. If I disable this option using the <code>.cdsenv</code> variable, the net is always marked using the <em>y0 drawing</em> layer. Is there a way that the Mark Net functionality uses the <em>y4 drawing</em> layer by default for marking the nets?</p>
+<p>
+<a id="pgfId-1085206"></a>---------------</p>
+<p>
+<a id="pgfId-1079583"></a>You can use the following steps to make the Mark Net functionality use a specific layer to trace the nets:</p>
+<ol><li>
+<a id="pgfId-1081070"></a>Set the <code>markNetAutoColorCycle</code> and <code>markNetThickline</code> environment variables in the appropriate .<code>cdsenv</code> files as shown below:<br />
+<a id="pgfId-1085126"></a><code>layout markNetAutoColorCycle boolean nil</code><br />
+<a id="pgfId-1081123"></a>The above environment variable disables the <em>Cycle Through System Colors Automatically</em> option.<br />
+<a id="pgfId-1081189"></a><code>layout markNetThickline boolean t</code><br />
+<a id="pgfId-1081190"></a>The above environment variable sets the mark net thick option to <code>t</code>. <br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1081201"></a>This option has been enabled in IC6.1.6 and above releases.</div></li><li>
+<a id="pgfId-1081249"></a>Load the SKILL code listed below in CIW or through the <code>.cdsinit</code> file. It defines the bindkey <code>F10 </code>that can be used to reset the MarkNet Options form so that it sets the default layer in the form.<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1079587">
+<a id="pgfId-1079587"></a>load &quot; CCSFixMarkNetColor.il&quot;</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079597">
+<a id="pgfId-1079597"></a>procedure(CCSFixMarkNetColor()</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079598">
+<a id="pgfId-1079598"></a>let(()</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079599">
+<a id="pgfId-1079599"></a>;;Change the index of nth function to specify the specific layer to use in the order of y0-y9, like for y0 nth(0..), for y1 nth(1&#8230;) etc and so on.</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079600">
+<a id="pgfId-1079600"></a>hiRegTimer(&quot;le0MarkNetForm-&gt;optionTabs-&gt;page1-&gt;markNetColor-&gt;value=nth(4 le0MarkNetForm-&gt;optionTabs-&gt;page1-&gt;markNetColor-&gt;choices)&quot; 1)</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079601">
+<a id="pgfId-1079601"></a>leHiMarkNet()</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079602">
+<a id="pgfId-1079602"></a>t</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079603">
+<a id="pgfId-1079603"></a>) ;let</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079604">
+<a id="pgfId-1079604"></a>) ;procedure CCSFixMarkNetColor</pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079605">
+<a id="pgfId-1079605"></a> </pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079606">
+<a id="pgfId-1079606"></a>hiSetBindKey(&quot;Layout&quot; &quot;F10&quot; &quot;CCSFixMarkNetColor()&quot;)</pre></li><li>
+<a id="pgfId-1083725"></a>Open the layout window and press the <code>F10</code> bindkey to invoke the mark net and trace a net. The <code>y4 drawing</code> layer will be used to mark the nets.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1079607"></a>In IC 6.1.6 and above releases, new SKILL functions <code>leMarkNet</code>, <code>leSaveMarkNet</code>, <code>leUnmarkNet</code> are available. In IC6.1.6.500.1 and above, and ICADV12.1.500.3 and above, the following function can also be used to mark the nets on a specific <code>y0 drawing - y9 drawing </code>layers.</div><pre class="webflare-pre-block webflare-courier-new" id="#id1079608">
+<a id="pgfId-1079608"></a><code>leMarkNet(&#39;(5.7 103.0) ?startLevel 0 ?stopLevel 32 ?thickLine t ?markNetColor &quot;y2&quot;)</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079610">
+<a id="pgfId-1079610"></a><code>procedure(CCSMarkNet()</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079611">
+<a id="pgfId-1079611"></a><code>enterPoint(</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079612">
+<a id="pgfId-1079612"></a><code>?prompts list(&quot;Click on a point to Mark the Net&quot;)</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079613">
+<a id="pgfId-1079613"></a><code>?doneProc &quot;CCSTraceNet&quot;</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079614">
+<a id="pgfId-1079614"></a><code>);enterPoint</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079615">
+<a id="pgfId-1079615"></a><code>);procedure CCSMarkNet</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079616">
+<a id="pgfId-1079616"></a><code> </code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079617">
+<a id="pgfId-1079617"></a><code>procedure(CCSTraceNet(win done pt &quot;wgl&quot;)</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079618">
+<a id="pgfId-1079618"></a><code>let(()</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079619">
+<a id="pgfId-1079619"></a><code>when(done</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079620">
+<a id="pgfId-1079620"></a><code>geGetWindowCellView(win)</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079621">
+<a id="pgfId-1079621"></a><code>pt=car(pt)</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079622">
+<a id="pgfId-1079622"></a><code>printf(&quot;Clicked point is %L\n&quot; pt)</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079623">
+<a id="pgfId-1079623"></a><code>leMarkNet(pt ?startLevel 0 ?stopLevel 32 ?thickLine t ?markNetColor &quot;y2&quot;)</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079624">
+<a id="pgfId-1079624"></a><code>printf(&quot;Marked the Net\n&quot;)</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079625">
+<a id="pgfId-1079625"></a><code>); when</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079626">
+<a id="pgfId-1079626"></a><code>);let</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079627">
+<a id="pgfId-1079627"></a><code>);procedure CCSTraceNet</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079628">
+<a id="pgfId-1079628"></a><code> </code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079629">
+<a id="pgfId-1079629"></a><code>hiSetBindKey(&quot;Layout&quot; &quot;&lt;Key&gt;F10&quot; &quot;CCSMarkNet()&quot;)</code></pre><pre class="webflare-pre-block webflare-courier-new" id="#id1079630">
+<a id="pgfId-1079630"></a><code>hiSetBindKey(&quot;Layout&quot; &quot;&lt;Key&gt;F11&quot; &quot;leUnmarkNet()&quot;)</code></pre></li></ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1079560"></a>How can I change the number of rows and columns during a subsequent Copy operation?</h3>
+
+<p>
+<a id="pgfId-1079707"></a>To change the number of rows and columns in the subsequent copy operation, you can set the environment variable <code>copyResetRowCol</code>, in the home directory or the <code>.cdsenv</code> file.</p>
+
+<a id="pgfId-1079710"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+layout copyResetRowCol boolean t</pre>
+
+<p>
+<a id="pgfId-1079711"></a>If the environment variable <code>copyResetRowCol</code> is set to <code>nil</code>, the last values used for rows and columns are used for the next Copy operation. However, if the <code>copyResetRowCol</code> environment variable is set to <code>t</code>, the values of rows and columns in the Enter Points form get reset. The default value of this environment variable is <code>nil</code>.</p>
+<p>
+<a id="pgfId-1079715"></a>You can also set the <code>copyResetRowCol </code>variable in the .<code>cdsinit</code> file using the following command:</p>
+
+<a id="pgfId-1079716"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+leSetEnv(&quot;copyResetRowCol&quot; t)</pre>
+<h3>
+<a id="pgfId-1079671"></a>How can I replace cellviews hierarchically in a design?</h3>
+
+<p>
+<a id="pgfId-1082168"></a>I need to replace a cellview hierarchically in a design. For example, there is a cell, <code>MYCAP</code>, with multiple layout views, <code>layout_A</code> and <code>layout_B</code>. The <code>layout_A</code> of <code>MYCAP</code> cell is instantiated in the cell, <code>MY_CAP_ARRAY</code>, in the library, <code>testlib</code>. How can I swap <code>layout_A</code> with <code>layout_B</code> in the cell <code>MY_CAP_ARRAY</code>?</p>
+<p>
+<a id="pgfId-1082169"></a>You can use the sample SKILL API is shown below to replace cellviews hierarchically in a design:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1079773"></a>CCSTop(&quot;tstlib&quot; &quot;MY_CAP_ARRAY&quot; &quot;layout&quot; &quot;MYCAP&quot; &quot;layout_A&quot; &quot;layout_B&quot; &#39;(&quot;refLibA&quot; &quot;refLibB&quot;) )</pre>
+
+<p>
+<a id="pgfId-1079775"></a>In the above SKILl API, <code>refLibA</code> and <code>refLibB</code> are read-only reference libraries.</p>
+
+<h3>
+<a id="pgfId-1083213"></a>How can I list the hierarchy from top to bottom?</h3>
+
+<p>
+<a id="pgfId-1083214"></a>I used the command, <em>Edit &#8211; Hierarchy &#8211; Tree</em> with the <em>Top to bottom </em>option selected, but the complete hierarchy is not listed.</p>
+<p>
+<a id="pgfId-1083205"></a>The <em>Display Level</em> settings in the Display Options form limits the number of levels listed by the <code>Tree</code> command. If the <em>Display Level</em> is set to 0 through 3, even if you select the <em>Top to bottom </em>option on the Tree form, the output will be for levels 0 through 3 only. So, before running the <code>Tree</code> command with the <em>Top to bottom </em>option selected, change the <em>Display Level </em>value to 32.</p>
+
+<h3>
+<a id="pgfId-1079762"></a>When I stretch a path that overlaps a shape, why does the path remain connected to the shape?</h3>
+
+<p>
+<a id="pgfId-1079817"></a>I created a rectangle and then created a path that is on the same layer and overlaps the rectangle. When I try to stretch the path, the end of the path remains connected to the rectangle. I have deselected the <em>Maintain Connections</em> option on the Layout Editor Options form.</p>
+<p>
+<a id="pgfId-1079833"></a>You should use the <em>Keep Wires Connected To</em> option on the Stretch form to specify the connectivity option. If you have not selected this option, the path will not remain connected to the rectangle.</p>
+
+<h3>
+<a id="pgfId-1079809"></a>Why does the Zoom In command take a long time to refresh the layout if the layout has multiple large sized rulers?</h3>
+
+<p>
+<a id="pgfId-1079890"></a>In IC6.1.5 ISR13 and above releases, set the <code>useTheNewMeasurementImpl </code>environment variable to <code>t</code> to activate the new drawing code for the rulers. This will reduce the time to refresh.</p>
+<p>
+<a id="pgfId-1079892"></a><code>graphic useTheNewMeasurementImpl boolean t</code></p>
+<p>
+<a id="pgfId-1079894"></a>Or through the <code>cdsinit</code> file or CIW:</p>
+<p>
+<a id="pgfId-1079896"></a><code>envSetVal(&quot;graphic&quot; &quot;useTheNewMeasurementImpl&quot; &#39;boolean t)</code></p>
+<p>
+<a id="pgfId-1082352"></a>In IC6.1.6 and above releases, the graphic <code>useTheNewMeasurementImpl</code> environment variable is not available and has been removed from the <code>cdsenv</code> file of the hierarchy. In these releases, the ruler behavior is controlled by the layout <code>rulerImpl</code> environment variable that is set to sting <code>new</code>, by default. Also, in IC6.1.6 and above releases, OA supports scratch cellviews and can create transient rulers. A transient ruler is a ruler that cannot be saved. However, by default, persistent rulers are created in the layout editor. A persistent ruler can be saved. If you want to create transient rulers, deselect the <em>Create Ruler as a savable object </em>option on the <em>General</em> tab of the <em>Create Ruler</em> form. </p>
+
+<h3>
+<a id="pgfId-1083342"></a>How can I set the Auto mode in the Create Label command as the default label creation mode? Also, why do we need to press F3 to display the Create Label form?</h3>
+
+<p>
+<a id="pgfId-1083343"></a>You can control default mode for the Create Label command by setting the <code>labelMode</code> option environment variable in the home directory or the <code>.cdsenv</code> file, as shown below:</p>
+<p>
+<a id="pgfId-1083344"></a><code>layout&#160;&#160; labelMode&#160;&#160; cyclic&#160;&#160;&quot;auto&quot;</code></p>
+<p>
+<a id="pgfId-1083345"></a> You can also set it through the <code>.cdsinit</code> file:</p>
+<p>
+<a id="pgfId-1083346"></a><code>envSetVal(&quot;layout&quot;&#160;&#160;&quot;labelMode&quot;&#160;&#160;&#39;cyclic&#160;&#160;&quot;auto&quot;)</code></p>
+<p>
+<a id="pgfId-1083347"></a> Also, the <code>leHiCreateLabel</code> SKILL API supports a second argument through which you can pass on the mode in which you want to launch the Create Label command.</p>
+
+<a id="pgfId-1083348"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+leHiCreateLabel(hiGetCurrentWindow()  &quot;auto&quot;)</pre>
+
+<p>
+<a id="pgfId-1083349"></a>You can also permanently change the bindkey settings to set the auto mode as the default mode for the Create Label command, as shown below:</p>
+
+<a id="pgfId-1083350"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+hiSetBindKey(&quot;Layout&quot; &quot;&lt;Key&gt;L&quot;  &quot;leHiCreateLabel(hiGetCurrentWindow()  \&quot;auto\&quot;)&quot;)</pre>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1083351"></a> In IC614 and above releases, you need to press F3 to open the Create Label form. As a workaround, you can define a SKILL function and a bindkey to display the form by default, as shown below:</div>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083352"></a>;---------------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083353"></a>procedure(CCScreateLabel()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083354"></a>envSetVal(&quot;ui&quot; &quot;showOptionForms&quot; &#39;boolean t)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083355"></a>leHiCreateLabel()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083356"></a>envSetVal(&quot;ui&quot; &quot;showOptionForms&quot; &#39;boolean nil)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083357"></a>)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083358"></a>hiSetBindKey(&quot;Layout&quot; &quot;&lt;Key&gt;L&quot; &quot;CCScreateLabel&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083359"></a> ;--------------</pre>
+
+<p>
+<a id="pgfId-1083360"></a> The <code>L</code> bindkey can be used to invoke the Create Label command.</p>
+
+<h3>
+<a id="pgfId-1083390"></a>When I create pins, why are the labels not being displayed?</h3>
+
+<p>
+<a id="pgfId-1083515"></a>You should enable the <em>Pin Names </em>option on the Display Options form to display the labels for pins. You can also enable the display of pin names by setting the <code>displayPinNames</code> environment variable in the <code>.cdsenv</code> file, as shown below:</p>
+<p>
+<a id="pgfId-1083539"></a><code>layout displayPinNames boolean t</code></p>
+
+<h3>
+<a id="pgfId-1083381"></a>How can I create pins by reading data from a text file?</h3>
+
+<p>
+<a id="pgfId-1080010"></a>I need to automate the pin creation process by reading an ASCII/text file as an input. The input file contains details of pin coordinates, layer (lpp), pin names, and access direction.</p>
+<p>
+<a id="pgfId-1082576"></a>You can use the steps mentioned below to create pins by reading data from a text file. A sample input text file and SKILL code are also shown below:</p>
+<p>
+<a id="pgfId-1083954"></a>Input text file (<code>indata</code>):</p>
+<p>
+<a id="pgfId-1082577"></a><code>-&gt;layer purpose shape points termName termDirection accessDirection&lt;-</code></p>
+<p>
+<a id="pgfId-1082578"></a><code>&quot;Poly&quot; &quot;drawing&quot; &quot;rectangle&quot; 1.7 1.5 2.4 2.6 &quot;my_pin1&quot; &quot;inputOutput&quot; &quot;top&quot;</code></p>
+<p>
+<a id="pgfId-1082579"></a><code>&quot;Metal1&quot; &quot;drawing&quot; &quot;rectangle&quot; 3.2 3.3 4.3 4.8 &quot;my_pin2&quot; &quot;input&quot; &quot;bottom&quot;</code></p>
+<p>
+<a id="pgfId-1083015"></a><code>&quot;Metal2&quot; &quot;drawing&quot; &quot;rectangle&quot; 5.1 5.2 6.4 6.7 &quot;my_pin3&quot; &quot;output&quot; &quot;none&quot;</code></p>
+<p>
+<a id="pgfId-1083016"></a>A sample SKILL code that can be used for pin creation is shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083017"></a>;----------------CCSCreatePin.il----------------------------------------------------------------</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082583"></a>procedure(CCSCreatePin(pinListfile libName cellName viewName)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082584"></a> let((z inPort cvId nextline layer purpose lpp shape p1 p2 p3 p4 points termName termDir accessDir)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082585"></a>  inPort = infile(pinListfile)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082586"></a>  cvId=dbOpenCellViewByType(libName cellName viewName &quot;&quot; &quot;a&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082587"></a>  when( inPort</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082588"></a>   while(z=gets(nextline inPort)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082589"></a>   layer=readstring(nth(0 parseString(z)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082590"></a>   purpose=readstring(nth(1 parseString(z)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082591"></a>   lpp=list(layer purpose)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082592"></a>   shape=readstring(nth(2 parseString(z)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082593"></a>   p1=readstring(nth(3 parseString(z)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082594"></a>   p2=readstring(nth(4 parseString(z)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082595"></a>   p3=readstring(nth(5 parseString(z)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082596"></a>   p4=readstring(nth(6 parseString(z)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082597"></a>   points=list(p1:p2 p3:p4)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082598"></a>   termName=readstring(nth(7 parseString(z)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082599"></a>   termDir=readstring(nth(8 parseString(z)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082600"></a>   accessDir=list(readstring(nth(9 parseString(z))))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082601"></a>   leCreatePin(cvId lpp shape points termName termDir accessDir)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082602"></a>   )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082603"></a>  close(inPort)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082604"></a>  );when</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082605"></a> );let</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1082634"></a>);procedure</pre>
+
+<p>
+<a id="pgfId-1082568"></a>You can use the following steps to create pins by reading data from a text file:</p>
+<ol><li>
+<a id="pgfId-1082489"></a>Load the SKILL script <code>CCSCreatePin.il</code> through CIW or <code>.cdsinit</code> file. Ensure that the layout cellview exists.</li><li>
+<a id="pgfId-1082534"></a>Call the below mentioned SKILL procedure:<br /><pre class="webflare-pre-block webflare-courier-new" id="#id1082536">
+<a id="pgfId-1082536"></a><code>CCSCreatePin(&quot;./indata&quot; &quot;library&quot; &quot;cell&quot; &quot;layout&quot;)</code></pre>
+<a id="pgfId-1082493"></a>You should specify the first argument as the input file name, followed the library name, cell name, and view name of the layout cellview where the pins need to be created.</li></ol>
+
+
+
+
+<h3>
+<a id="pgfId-1083271"></a>How can I set the default via on the Create Via form</h3>
+
+<p>
+<a id="pgfId-1083272"></a>I need to change the default value of Via Definition in the Create Via form. I need to set the via <code>M5_M4v</code> as the default via. Whenever I open a new layout window, by default, the <code>M5_M4v</code> via should appear in the <em>Via Definition</em> field.</p>
+<p>
+<a id="pgfId-1083273"></a>The Create Via form reads the constraint group set in <em>Create Via</em> section of Layout Editor Options form. The list of valid vias for this constraint group are populated in <code>Via Definition </code>field.</p>
+<p>
+<a id="pgfId-1083274"></a>You can use the below mentioned SKILL code to change the default via in <em>Via Definition</em> field.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083275"></a><code>procedure(CCSRegProc(args)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083276"></a><code>    hiRegTimer(&quot;CCSSetDefVia(args-&gt;window)&quot; 5)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083277"></a><code>    leHiCreateVia()  </code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083278"></a><code>) ;proc</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083279"></a><code> </code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083280"></a><code>procedure(CCSSetDefVia(window)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083281"></a><code>    let((cv cstG currCG techId validVias)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083282"></a><code>      cancelEnterFun(&#39;le0ViaForm)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083283"></a><code>        cv=geGetWindowCellView(window)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083284"></a><code>        if(envGetVal(&quot;layout&quot; &quot;viaConstraintGroup&quot;)==&quot;Same as Wire&quot; then</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083285"></a><code>               currCG=envGetVal(&quot;layout&quot; &quot;wireConstraintGroup&quot;)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083286"></a><code>              else</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083287"></a><code>              currCG=envGetVal(&quot;layout&quot; &quot;viaConstraintGroup&quot;)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083288"></a><code>          ) ;if</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083289"></a><code>      techId=techGetTechFile(cv)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083290"></a><code>      cstG=cstFindConstraintGroupIn(techId currCG)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083291"></a><code>      validVias=car(setof(x cstG~&gt;objects  x~&gt;defName==&quot;validVias&quot;))~&gt;value</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083292"></a><code> </code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083293"></a><code>       if(member(&quot;M5_M4v&quot; validVias) then</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083294"></a><code>          le0ViaForm-&gt;viaSingleModeScrollView-&gt;viaDefName-&gt;value=&quot;M5_M4v&quot;</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083295"></a><code>         ) ;if</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083296"></a><code>) ;let</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083297"></a><code>) ;procedure</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083298"></a><code> </code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083299"></a><code>deRegUserTriggers(&quot;maskLayout&quot; nil nil &#39;CCSRegProc)</code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083300"></a><code>deRegUserTriggers(&quot;maskLayoutXL&quot; nil nil &#39;CCSRegProc) </code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083301"></a><code> </code></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1083302"></a><code>hiSetBindKey(&quot;Layout&quot; &quot;&lt;Key&gt;o&quot; &quot;CCSSetDefVia(hiGetCurrentWindow()) leHiCreateVia()&quot;)</code></pre>
+
+<p>
+<a id="pgfId-1083304"></a>Use the following steps to use the above mentioned SKILL code:</p>
+<ol><li>
+<a id="pgfId-1083305"></a> Save the above code in a file, for example, <code>CCSChangeDefaultVia.il</code>.</li><li>
+<a id="pgfId-1083306"></a>Add the load command to load this file to your <code>.cdsinit</code> file: <code>load&quot;&lt;path_to_file&gt;&quot;/CCSChangeDefaultVia.il&quot;</code>.</li><li>
+<a id="pgfId-1083307"></a>Start Virtuoso and open any layout cellview. If the constraint group set for the Create Via option in the Layout Editor Options form has <code>M5_M4v</code> in the list of valid vias then it will become the default via in the <em>Via Definition</em> field.</li><li>
+<a id="pgfId-1083308"></a>Change the constraint group for Create Via in the Layout Editor Options form. Then, open the Create Via form using the bindkey <code>o</code>. After this, you may use either the bindkey or the menu option.</li></ol>
+
+
+
+
+<h3>
+<a id="pgfId-1083263"></a>How can I map the parameters on the System tab while creating a custom via?</h3>
+
+<p>
+<a id="pgfId-1084037"></a>While creating a custom via, to change rows and columns, I need to specify the values in the <em>Rows</em> and <em>Columns</em> fields on the <em>User defined </em>tab instead of the <em>System</em> tab of the Create Via form. Is there a way to setup the pcell using the <em>Rows</em> and <em>Columns</em> options on the <em>System</em> tab instead of the <em>User defined </em>tab? </p>
+<p>
+<a id="pgfId-1084052"></a>You can use the <em>Rows</em> and <em>Columns</em> values of the System tab if you specify the parameter names in the via pcell code as <code>row</code> and <code>column</code>. Also, for mapping the pcell via, use the following names to map the system parameters: <code>row</code>, <code>column</code>, <code>w</code>, <code>l</code>, <code>xCutSpacing</code>, <code>yCutSpacing</code>, <code>xBias</code>, and <code>yBias</code>. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1083239"></a>If the pcell via has the enclosure information, it will be displayed under the <em>User Defined</em> tab and user can modify the value only on this tab.</div>
+
+<h3>
+<a id="pgfId-1083228"></a>How can I set the default value for viaRows and viaColumns to two cuts?</h3>
+
+<p>
+<a id="pgfId-1080106"></a>In IC6.1.5 ISR9, I have set the following three variables in the appropriate <code>.cdsenv</code> or <code>.cdsinit</code> file, to set the default values of rows and columns to two cuts.</p>
+<p>
+<a id="pgfId-1080107"></a><code>.cdsenv</code> file</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080108"></a>layout viaRows int 2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080109"></a>layout viaColumns int 2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080110"></a>layout viaUseRowColDefault boolean nil</pre>
+
+<p>
+<a id="pgfId-1080112"></a>Or</p>
+<p>
+<a id="pgfId-1080113"></a><code>.cdsinit</code></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080114"></a>envSetVal(&quot;layout&quot; &quot;viaRows&quot; &#39;int 2)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080115"></a>envSetVal(&quot;layout&quot; &quot;viaColumns&quot; &#39;int 2)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080116"></a>envSetVal(&quot;layout&quot; &quot;viaUseRowColDefault&quot; &#39;boolean nil)</pre>
+
+<p>
+<a id="pgfId-1084072"></a>After starting the Virtuoso session, the values for these variables are set. However, when the <em>Create - Via</em> command is invoked in the layout window, the defined values of <code>viaRows</code> and <code>viaColumns</code> are reset to <code>1</code>, as shown in the <code>CDS.log</code> file below:</p>
+<p>
+<a id="pgfId-1084073"></a><code>CDS.log file</code></p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080120"></a>\i envGetVal(&quot;layout&quot; &quot;viaRows&quot; )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080121"></a>\t 2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080122"></a>\i envGetVal(&quot;layout&quot; &quot;viaColumns&quot; )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080123"></a>\t 2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080124"></a>\p &gt;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080125"></a>\a leHiCreateVia()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080126"></a>\o Loading via.cxt</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080127"></a>\o Loading layers.cxt</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080128"></a>\p &gt;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080129"></a>\i envGetVal(&quot;layout&quot; &quot;viaRows&quot; )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080130"></a>\t 1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080131"></a>\i envGetVal(&quot;layout&quot; &quot;viaColumns&quot; )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080132"></a>\t 1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080133"></a>\p &gt;</pre>
+
+<p>
+<a id="pgfId-1080134"></a>In the above log file, the value for <code>viaRows</code> and <code>viaColumns</code> changed to <code>1</code> after invoking the <code>leHiCreateVia()</code>API. The first time the <code>leHiCreateVia()</code> SKILL API is invoked, the variables <code>viaRows</code> and <code>viaColumns</code> are reset to <code>1</code>. If <code>envSetVal</code> is used to define the values after this, the required number of rows and columns are actually used. The above variable settings used to work fine in IC6.1.4 release. How to can I get the default values to be set first time?</p>
+<p>
+<a id="pgfId-1080148"></a>The above mentioned issue has been fixed in IC6.1.5 ISR11 and above releases. If you are using IC6.1.5 release or IC6.1.5 ISR1 to IC6.1.5 ISR10, you will get this issue.This is because the default settings of these variables in the <code>.cdsenv</code> file in the hierarchy are: </p>
+<p>
+<a id="pgfId-1082821"></a><code>viaUseRowColDefault = t, viaRows =1 and viaColumns = 1</code></p>
+<p>
+<a id="pgfId-1080150"></a>The above environment variables work for the <code>Create Via</code> command in <em>Single</em> mode. When the environment variable <code>viaUseRowColDefault</code> is set to <code>t</code>, the row and column defined in the <code>viaDef</code> of the technology file are populated every time <code>leHiCreateVia()</code> is invoked. When <code>viaUseRowColDefault</code> is set to <code>nil</code>, the row and column defined by the environment variables <code>viaRows</code> and <code>viaColumns</code> are populated in the Create Via form. The row and column values overridden by you get dynamically updated to the environment variables <code>viaRows</code> and <code>viaColumns</code>. </p>
+<p>
+<a id="pgfId-1082925"></a>For IC5.1.4.1 release, the variables names are listed below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080156"></a>layout contactResetRowCol boolean nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080157"></a>layout contactRows int 2</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080158"></a>layout contactColumns int 2</pre>
+<h3>
+<a id="pgfId-1080098"></a>Why does the ruler disappear from screen when I save the design if the Save Rulers option is not selected?</h3>
+
+<p>
+<a id="pgfId-1080193"></a>I am using the smart ruler functionality of IC6.1.4, where the ruler provides extra capability of snapping and saving rulers into the design database. When I disable the <em>Save Rulers</em> option on the Layout Editor Options form, the rulers are not saved in the design. However, it also clears the rulers from the display whenever I try to save the design. As a layout designer, I often use the <em>Save</em> command to save my layout design work but I do not want to save rulers in database. Therefore, I do not select the <em>Save Rulers</em> option on the Layout Editor Options form. The rulers are not visible in the design which is not the desired behavior. Is there a way to keep the rulers on screen but not save them in the database when the design is saved using the <em>Save</em> command?</p>
+<p>
+<a id="pgfId-1080209"></a>You can retain the rulers on the screen and not save them in the database with the help of SKILL code mentioned below:</p>
+<p>
+<a id="pgfId-1080220"></a>Load the below mentioned SKILL code through the<code> .cdsinit</code> file or CIW:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080221"></a>load &quot;CCSrestoreRulers.il&quot;</pre>
+
+<p>
+<a id="pgfId-1080222"></a>This code ensures that the rulers are not saved in the database but are displayed on the screen even if the design is saved. After loading this file, pre-save and post-save triggers are registered. These triggers work for layout views only. The SKILL code enables the <code>saveRulers</code> environment variable, by default. This environment variable enables the <em>Save Rulers</em> option on the Layout Editor Options form. However, if you want to save the rulers, use the <code>F9</code> bindkey. Once the <em>Save Rulers</em> option is selected on the Layout Editor Options form, the pre-save trigger is disabled.</p>
+<p>
+<a id="pgfId-1080230"></a>If you have enabled the <em>Save Rulers</em> option on the Layout Editor Options form, to get back to the pre-save trigger mode, use the <code>F10</code> bindkey so that the pre-save trigger is registered once again.</p>
+<p>
+<a id="pgfId-1080232"></a>The below mentioned SKILL code uses the global variable <code>rulerPtListGLOBAL</code>.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080233"></a>*/</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080234"></a>/* Presave trigger for maskLayout views */</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080235"></a>procedure(CCSgrabRulers(cv)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080236"></a>let((currentRulers)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080237"></a>if(cv~&gt;cellViewType==&quot;maskLayout&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080238"></a>     then</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080239"></a>;; Get all the ruler ID&#39;s</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080240"></a>    currentRulers=setof(sh cv~&gt;markers sh~&gt;objType==&quot;ruler&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080241"></a>;; If rulers are in design then store ruler points in global list</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080242"></a>         if(currentRulers then</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080243"></a>              rulerPtListGLOBAL=foreach(mapcar rulerId currentRulers</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080244"></a>                                                          rulerId~&gt;points</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080245"></a>                                                            )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080246"></a>;; Delete all the rulers</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080247"></a>               foreach(rulerId currentRulers dbDeleteObject(rulerId))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080248"></a>;; If no rulers then make sure that global list is empty</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080249"></a>                        else</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080250"></a>                        rulerPtListGLOBAL=nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080251"></a>                        )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080252"></a>               )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080253"></a>     )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080254"></a>) ;; Pre save proc ends</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080255"></a>/* Postsave trigger for maskLayout views */</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080256"></a>procedure(CCSrestoreRulers(cv)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080257"></a>if(cv~&gt;cellViewType==&quot;maskLayout&quot; &amp;&amp; rulerPtListGLOBAL</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080258"></a>then</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080259"></a>;; Stop the cellview modification counter otherwise cell will be inconsistent</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080260"></a>dbDisableCellViewCounter(cv)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080261"></a>;; Recreate all the rulers from global list</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080262"></a>foreach(rulerPt rulerPtListGLOBAL leCreateRuler(cv rulerPt))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080263"></a>               )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080264"></a>;; After creation empty the global list</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080265"></a>rulerPtListGLOBAL=nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080266"></a>;; Enable cellview modification counter for normal working</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080267"></a>dbEnableCellViewCounter(cv)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080268"></a>)&#160;&#160;;; Post save proc ends</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080269"></a>/* Procedure for truly saving rulers */</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080270"></a>procedure(CCStrulySaveRulers()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080271"></a>dbUnregSaveTrigger(&#39;CCSgrabRulers)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080272"></a>)</pre>
+
+<p>
+<a id="pgfId-1080273"></a>Press the <em>F9</em> key before the save operation for pre-save trigger mode:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080274"></a>hiSetBindKey(&quot;Layout&quot; &quot;&lt;Key&gt;F9&quot; &quot;CCStrulySaveRulers()&quot;)</pre>
+
+<p>
+<a id="pgfId-1080275"></a>Press the <em>F10</em> key to ensure that the rulers are not saved:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080276"></a>hiSetBindKey(&quot;Layout&quot; &quot;&lt;Key&gt;F10&quot; &quot;dbRegSaveTrigger(&#39;CCSgrabRulers)&quot;)</pre>
+
+<p>
+<a id="pgfId-1080277"></a>Ensure that the saveRulers environment variable is set to true:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080278"></a>leSetEnv(&quot;saveRulers&quot; t)</pre>
+
+<p>
+<a id="pgfId-1080279"></a>Register the pre and post-save triggers:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080280"></a>dbRegSaveTrigger(&#39;CCSgrabRulers)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1080281"></a>dbRegPostSaveTrigger(&#39;CCSrestoreRulers)</pre>
+<h3>
+<a id="pgfId-1080322"></a>How can I cycle through the snapping targets in the Create Ruler command?</h3>
+
+<p>
+<a id="pgfId-1084700"></a>Press <code>Spacebar</code> to cycle through the snapping targets in the <em>Create Ruler</em> and <em>Quick Align</em> commands.</p>
+
+<h3>
+<a id="pgfId-1084779"></a>How can I find the cds environment variables corresponding to the fields in the Display Options and Layout Editor Options forms?</h3>
+
+<p>
+<a id="pgfId-1084878"></a>You can find the cds environment variables corresponding to the fields in the Display Options and Layout Editor Options forms by searching the field in the Search Assistant. You access the <em>Search </em>assistant by selecting <em>Window &#8211; Assistants &#8211; Search.</em></p>
+
+<h3>
+<a id="pgfId-1084879"></a>How can I define the layout cellview Selection Box?</h3>
+
+<p>
+<a id="pgfId-1081741"></a>A cell is selectable when the cursor moves over an invisible layer near the cell boundary. Can this invisible layer be changed so that the selectability of the cell is very tiny? For example, the selectability is only the lower left corner of the cell. When the cursor moves over the cell, it will not be selectable, or dynamically highlighted till the cursor is on the lower left corner of the cell.</p>
+<p>
+<a id="pgfId-1081852"></a>You should enable the <em>Use True BBox</em> option on the Display Options form to create user-defined instance or drawing shape to display the outline of the instance instead of the cellview bbox.</p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="preface.html" id="prev" title="Preface">Preface</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

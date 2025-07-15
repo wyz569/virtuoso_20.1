@@ -1,0 +1,180 @@
+
+<html><head><title>SystemVerilog User Defined Nettype and Electrical Connections</title>
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-11-04" />
+<meta name="CreateTime" content="1572864924" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Virtuoso AMS Designer simulator, a mixed-signal simulator that supports the Verilog-AMS and VHDL-AMS language standards." />
+<meta name="DocTitle" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="SystemVerilog User Defined Nettype and Electrical Connections" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="FileType" content="Chapter" />
+<meta name="Keyword" content="amssimug" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-11-04" />
+<meta name="ModifiedTime" content="1572864924" />
+<meta name="NextFile" content="Auto-Partitioning_Designs_with_SV-RNM_Ports.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Using_SystemVerilog_Interconnects.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Functional Verification" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide -- SystemVerilog User Defined Nettype and Electrical Connections" />
+<meta name="Version" content="19.09" />
+<meta name="Renderer" content="WIKI" />
+<meta name="SpaceKey" content="amssimug2003" />
+<meta name="confluence-version" content="6.13.3" />
+<meta name="ecms-plugin-version" content="03.30.005" />
+
+        
+        <link href="styles/site.css" rel="stylesheet" type="text/css" />
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    
+
+    </head><body style="background-color: #FFFFFF;"><!-- Begin Buttons --><header xmlns:html="http://www.w3.org/1999/xhtml"><div class="docHeadr">Product Documentation<img src="images/Cadence-Logo.jpg" /></div>
+<nav class="blueHead"><ul><li><a class="content" href="amssimugTOC.html">Contents</a></li><li><a class="prev" href="Using_SystemVerilog_Interconnects.html" title="Using_SystemVerilog_Interconnects">Using_SystemVerilog_Interconne ...</a></li><li style="float: right;"><a class="viewPrint" href="amssimug.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Auto-Partitioning_Designs_with_SV-RNM_Ports.html" title="Auto-Partitioning_Designs_with_SV-RNM_Ports">Auto-Partitioning_Designs_with ...</a></li></ul></nav></header><!-- End Buttons --><div xmlns:html="http://www.w3.org/1999/xhtml" style="font-size:14px;line-height:1.42857142857;margin:20px 0 0 0;font-weight:bold;"><center>Spectre AMS Designer and Xcelium Simulator Mixed-Signal User Guide<br />Product Version 19.09, September 2019</center></div>
+<div xmlns:html="http://www.w3.org/1999/xhtml" style="margin-left:5%;">
+<p></p>
+
+<p></p>
+<div id="main-header">
+                    
+                    
+                                                <h1 style="margin: 4px 0 4px;"><span>SystemVerilog User Defined Nettype and Electrical Connections</span></h1>
+
+                    
+                </div>
+<div class="wiki-content group" id="main-content">
+                    <h2 id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077221"><span class="confluence-anchor-link" id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077221"></span></h2>
+
+<p>This section describes how you can use a design that has SystemVerilog user-defined nettype (UDN) to electrical net connections. You can use the built-in or user defined UDN to electrical bidirectional connect modules to set up a SystemVerilog Real Numbered Model UDN and a Verilog-AMS (or SPICE/Spectre) electrical port connected on a mixed signal net design.</p>
+
+<p>This section covers the following topics:</p>
+<ul><li><a href="#SystemVerilogUserDefinedNettypeandElectricalConnections-1077293">Using the Built-In EE Package Connect Modules</a></li></ul><ul><li><a href="#SystemVerilogUserDefinedNettypeandElectricalConnections-1077873">Using Custom User-Defined Nettype and Connect Modules</a></li></ul>
+<p>To set up a SystemVerilog UDN-Electrical connection, you can do the following:</p>
+<ul><li>Use the built-in nettype (EEnet) decalred in the<code>&#160;EE_pkg.sv&#160;</code>package file to connect electrical ports (Verilog-AMS or SPICE/Spectre). These connections are done by inserting built-in Connect Modules (<code>EEnet_2_E.svams</code>,<code>&#160;E_2_EEnet.svams</code>,<code>&#160;EEnet_to_E_bidir.svams</code>). For more information, see<a href="#SystemVerilogUserDefinedNettypeandElectricalConnections-1077293">&#160;Using the Built-In EE Package Connect Modules</a>.</li></ul><ul><li>Create custom user-defined nettype (UDN) with resolution function and custom Connect Modules to insert between custom UDN and electrical connections. For more information, see<a href="#SystemVerilogUserDefinedNettypeandElectricalConnections-1077873">&#160;Using Custom User-Defined Nettype and Connect Modules</a>.</li></ul><h3 id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077293UsingtheBuilt-InEEPackageConnectModules"><span class="confluence-anchor-link" id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077293"></span>Using the Built-In EE Package Connect Modules</h3>
+
+<p>Cadence provides the&#160;<code>EE_pkg.sv</code>&#160;package file that contains the definition of&#160;<code>EEnettype</code>&#160;and resolution. It provides the user-defined type,&#160;<code>EEnet</code>&#160;that handles pins that are structures (<code>EEstruct</code>) of three real values {V,I,R} (Voltage, Current, Resistance).&#160;<code>EEnet</code>&#160;models a combination of a series of voltage sources and resistors and a parallel current source and defines the resolution function to generate a resolved voltage from any useful combination of the inputs.</p>
+
+<p>The&#160;<code>ee_pkg.sv</code>&#160;file is available in the&#160;<code>your_install_dir</code><code>/tools.lnx86/affirma_ams/etc/dms</code>&#160;directory. This file contains a user-defined type (UDT) &quot;<code>EEstruct</code>&quot;, a user-defined resolution function (UDR) &quot;<code>res_EE</code>&quot;, and a user-defined nettype (UDN) &quot;<code>EEnet</code>&quot;.</p>
+<span class="content-title"><strong>Figure 19.1:</strong> The Built-in <code>ee_pkg.sv</code> File</span>
+<p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236106/305236107.jpg" data-linked-resource-container-id="305236106" data-linked-resource-container-version="2" data-linked-resource-content-type="image/jpeg" data-linked-resource-default-alias="ee_pkg.jpg" data-linked-resource-id="305236107" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" height="250" src="attachments/305236106/305236107.jpg" /></span></p>
+
+<p>To automatically insert the built-in connect module for a EEnet-to-Electrical Connection, you must do the following:</p>
+<ul><li>Import the<code>&#160;EE_pkg&#160;</code>file and declare the<code>&#160;EEnet&#160;</code>type in your SV design. For example:<br /><code>import EE_pkg::*;<br /></code><code>module VsrcG(P,vval,imeas);<br /></code><code>inout EEnet P;<br /></code><code>input real vval;<br /></code><code>output real imeas;<br /></code><code>&#8230;<br /></code><code>Endmodule<br /><br /></code>The above example is provided in the&#160;<code>VsrcG.sv</code>&#160;file available in the&#160;<code>your_install_dir</code><code>/tools.lnx86/affirma_ams/etc/dms/EE_pkg_examples</code>&#160;directory.</li></ul><ul><li>Declare the electrical object in the&#160;<code>.vams</code>&#160;file. For example:<br /><code>`timescale 1ns/1ps<br /></code><code>`include &quot;disciplines.vams&quot;<br /></code><code>module EVRsrc(P,N,vval,rval,imeas);<br /></code><code>inout P,N; electrical P,N;<br /></code><code>input wreal vval,rval;<br /></code><code>output wreal imeas;<br /></code><code>&#8230;<br /></code><code>Endmodule</code></li></ul><ul><li>Specify how you want the tool to map the UDN ports to the Electrical connection ports. The following example illustrates a top module instantiating&#160;<code>VsrcG</code>&#160;module having&#160;<code>EEnet</code>&#160;port connecting to Electrical port in&#160;<code>EVRsrc.<br /></code><code>module top();<br /></code><code>&#8230;<br /></code><code>///<br /></code><code>VsrcG v1da ( LDda, V1 , Iv1da); //Instance with EEnet Port<br /></code><code>EVRsrc r1da (LDda, RAda, 0.0 , R1 , Ir1da) ; //Instance with Electrical port<br /></code><code>&#8230;<br /></code><code>endmodule</code></li></ul>
+<p>The tool automatically inserts the appropriate built-in connect module between the EEnet-electrical ports. The following are the in-built connect module specification files:</p>
+<ul><li><span style="color: rgb(0,0,0);"><strong>EEnet_to_E.svams</strong></span>: This is an EEnet port to electrical connect module example. It connects an EEnet port to an electrical port in the SV domain.</li></ul><ul><li><span style="color: rgb(0,0,0);"><strong>E_to_EEnet.svams</strong></span>: This is an electrical to EEnet port connect module example. It connects an Electrical port to an EEnet port in the SV domain.</li></ul><ul><li><span style="color: rgb(0,0,0);"><strong>EEnet_to_E_bidir.svams</strong></span>: This is a bidirectional SystemVerilog-AMS connect module example. It can connect an Electrical port to an EEnet port in the SV domain.</li></ul>
+<p>These connect modules have appropriate port types and directions for use. For instance, the following example illustrates a bidirectional Electrical to EEnet port connect module:</p>
+<span class="content-title"><strong>Figure 19.2:</strong> Bidirectional Electrical to EEnet Connect Module</span><div class="pbi_avoid">
+<p><strong><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236106/305236108.png" data-linked-resource-container-id="305236106" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="wrealModeling_xcelium.22.1.2.png" data-linked-resource-id="305236108" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236106/305236108.png" width="640px" /></span></strong></p>
+</div>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>By default, the built-in nettype is specified in the AMSD control block. However, you can modify the values, if required. For more information, see<a href="#SystemVerilogUserDefinedNettypeandElectricalConnections-1077902">&#160;Specifying UDN in the AMSD Control Block</a>.</p>
+</div>
+</div>
+<h3 id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077873UsingCustomUser-DefinedNettypeandConnectModules"><span class="confluence-anchor-link" id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077873"></span>Using Custom User-Defined Nettype and Connect Modules</h3>
+
+<p>In addition to the built-in connect modules, you can create custom user-defined nettype (UDN) with resolution function and connect modules (user-defined connect modules).</p>
+<ul><li><a href="#SystemVerilogUserDefinedNettypeandElectricalConnections-1077900">Creating Custom User-Defined Nettype</a></li></ul><ul><li><a href="#SystemVerilogUserDefinedNettypeandElectricalConnections-1077901">Creating Custom Connect Module</a></li></ul><ul><li><a href="#SystemVerilogUserDefinedNettypeandElectricalConnections-1077902">Specifying UDN in the AMSD Control Block</a></li></ul><h4 id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077900CreatingCustomUser-DefinedNettype"><span class="confluence-anchor-link" id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077900"></span>Creating Custom User-Defined Nettype</h4>
+
+<p>You can create your own&#160;<code>*.sv</code>&#160;package file and define the custom user-defined nettype (UDN) with resolution function in this file.</p>
+
+<p>A UDN is declared with the System Verilog keyword&#160;<code>nettype</code>, and must include a data type with a resolution function. Use the&#160;<code>with</code>&#160;keyword to specify the resolution function. For example, the following declares a user-defined nettype,&#160;<code>myNT</code>&#160;with datatype&#160;<code>myT</code>&#160;and a UDR,&#160;<code>RESFUNC</code>:</p>
+
+<p><code>nettype myT myNT with RESFUNC;</code></p>
+
+<p>The following is an example of a custom UDN with resolution function:</p>
+
+<p><code>// udt_package</code><br /><code>//</code></p>
+
+<p><code>package udt_package;</code></p>
+
+<p><code>&#160; typedef struct {</code><br /><code>real r;</code><br /><code>} myT;</code></p>
+
+<p><code>&#160; &#160;function automatic myT RESFUNC(input myT drivers[]);</code><br /><code>begin</code></p>
+
+<p><code>&#160;&#160;&#160;&#160; RESFUNC.r = 0.0;</code><br /><code>&#160;&#160;&#160;&#160; foreach (drivers[j]) begin</code></p>
+
+<p><code>&#160; &#160; &#160; &#160; // $display(&quot;\nRESFUNC : drivers[%0d].r = {%0f} &quot;, j, drivers[j].r);</code></p>
+
+<p><code>&#160; &#160; &#160; &#160; if (drivers[j].r === `wrealZState) continue;</code></p>
+
+<p><code>&#160; &#160; &#160; &#160; else RESFUNC.r += drivers[j].r;</code></p>
+
+<p><code>&#160;&#160;&#160;&#160; end</code></p>
+
+<p><code>&#160;&#160;&#160;&#160;end</code></p>
+
+<p><code>endfunction</code></p>
+
+<p><code>nettype myT myNT with RESFUNC;</code></p>
+
+<p><code>endpackage</code></p>
+<h4 id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077901CreatingCustomConnectModule"><span class="confluence-anchor-link" id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077901"></span>Creating Custom Connect Module</h4>
+
+<p>You can create custom connect module that contains connect module definitions and discipline definitions to suit your design requirements. And, you must save the file with the SystemVerilog-AMS file extension&#160;<code>.svams</code>.</p>
+
+<p>The following must be specified in the custom connect module file:</p>
+<ul><li>Import the custom udt_package. This is the&#160;<code>.sv</code>&#160;file in which you have defined your custom UDN.</li></ul><ul><li>Specify the custom connect module name and logic. The name of the custom connect module must be based on the port direction. For instance, the following is an example of an Electrical-to-UDN connection, and the name of the custom module is&#160;<code>E_2_myNT</code>.<br /><br /></li></ul><span class="content-title"><strong>Example 19.1:</strong> Bidirectional SystemVerilog-AMS Connect Module</span>
+<p><code>`include &quot;disciplines.vams&quot;</code></p>
+
+<p><code>import udt_package::*;</code></p>
+
+<p><code>connectmodule E_2_myNT (Ain, Dout); // input electrical Ain, output myNT Dout</code></p>
+
+<p><code>&#160; input Ain;</code><br /><code>&#160; electrical Ain;</code><br /><code>&#160; output Dout;</code><br /><code>&#160; myNT Dout;</code><br /><code>parameter real vss=0 ;// from (-inf:inf); // Voltage of negative supply</code></p>
+
+<p><code>...</code></p>
+
+<p><code>endconnectmodule</code></p>
+<span class="content-title"><strong>Example 19.2:</strong> top.sv</span>
+<p>The following example (<code>top.sv</code>) illustrates how a custom connect module is inserted between the custom UDN&#160;<code>myNT</code>&#160;and the electrical port&#160;<code>sigout</code>, which is declared in<code>&#160;elect_sine_driver&#160;</code>(See<a href="#SystemVerilogUserDefinedNettypeandElectricalConnections-1078265">&#160;Example, analog.vams</a>).</p>
+
+<p><code>import udt_package::*;</code></p>
+
+<p><code>module top;</code><br /><code>myNT nt1;</code><br /><code>real myr;</code><br /><code>elect_sine_driver sine_driver1 (nt1); // 0 to 10v sine wave driver</code><br /><code>assign myr = nt1.r;</code></p>
+
+<p><code>endmodule</code></p>
+<span class="content-title"><strong>Example 19.3:</strong> analog.vams<span class="confluence-anchor-link" id="SystemVerilogUserDefinedNettypeandElectricalConnections-1078265"></span></span>
+<p><code>`timescale 1ns / 1ns</code></p>
+
+<p><code>`include &quot;disciplines.vams&quot;</code></p>
+
+<p><code>module elect_sine_driver (sigout);</code></p>
+
+<p><code>output sigout;</code><br /><code>electrical sigout;</code><br /><code>electrical gnd;</code><br /><code>ground gnd;</code></p>
+
+<p><code>vsource #(.type(&quot;sine&quot;), .ampl(5.0), .dc(5.0), .freq(1.0M)) v0 (sigout, gnd);</code></p>
+
+<p><code>endmodule</code></p>
+<h4 id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077902SpecifyingUDNintheAMSDControlBlock"><span class="confluence-anchor-link" id="SystemVerilogUserDefinedNettypeandElectricalConnections-1077902"></span>Specifying UDN in the AMSD Control Block</h4>
+
+<p>After you declare the custom UDN and connect module, you must specify the user-defined nettype and connect module parameters for the UDN-Electrical connections in the AMSD control file. It is defined using the ie card statement in an amsd block.</p>
+
+<p>The following example defines the connect module insertion for the custom nettype&#160;<code>myNT</code>. You can also customize parameters named&#160;&#160;<code>Ts</code>,&#160;<code>Ra</code>,&#160;<code>MaxIter</code>,&#160;<code>Vtol</code>,&#160;<code>Itol</code>,&#160;<code>Rrel</code>,&#160;<code>Roff</code>,&#160;<code>Vx</code>,&#160;<code>Rx</code>.</p>
+<span class="content-title"><strong>Figure 19.3:</strong> The AMSD Control File</span><div class="pbi_avoid">
+<p><strong><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" data-base-url="https://rdwiki.cadence.com" data-image-src="attachments/305236106/305236109.png" data-linked-resource-container-id="305236106" data-linked-resource-container-version="2" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="wrealModeling_xcelium.22.1.3.png" data-linked-resource-id="305236109" data-linked-resource-type="attachment" data-linked-resource-version="1" data-unresolved-comment-count="0" src="attachments/305236106/305236109.png" width="640px" /></span></strong></p>
+</div>
+
+<p>A sample AMSD control file,&#160;<code>amscf.scs</code>&#160;is available at,&#160;<code>&lt;</code><em><code>your_install_dir</code></em><code>&gt;/tools/affirma_ams/dms/EE_pkg_examples.</code></p>
+<div class="confluence-information-macro confluence-information-macro-note"><span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span><div class="confluence-information-macro-body">
+<p>If you are using the built-in UDN, you do not have to explicitly specify the nettype parameter in the <code>ie</code> card statement. The tool automatically identifies the built-in UDN.</p>
+</div>
+</div>
+
+<p>For more information about SV-RNM and electrical connections, see <a class="external-link" href="https://support.cadence.com/apex/ArticleAttachmentPortal?id=a1O0V0000090zyDUAQ&amp;pageName=ArticleContent&amp;sq=005d0000001T48sAAC_20181010102454985" rel="nofollow">Modeling Electrical Behavior in System Verilog - RNM</a>.</p>
+
+                    </div>
+<br /><br /></div>
+<footer xmlns:html="http://www.w3.org/1999/xhtml"><nav class="navigation"><b><em><a href="Using_SystemVerilog_Interconnects.html" id="prev" title="Using_SystemVerilog_Interconnects">Using_SystemVerilog_Interconne ...</a></em></b><b><em><a href="Auto-Partitioning_Designs_with_SV-RNM_Ports.html" id="nex" title="Auto-Partitioning_Designs_with_SV-RNM_Ports">Auto-Partitioning_Designs_with ...</a></em></b></nav><div>
+          For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved.
+        </div>
+</footer><br xmlns:html="http://www.w3.org/1999/xhtml" /></body></html>

@@ -1,0 +1,899 @@
+
+<html><head><title>Introduction</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="sumehta" />
+<meta name="CreateDate" content="2020-09-17" />
+<meta name="CreateTime" content="1600404210" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes SKILL functions that you can use to create or modify user interfaces programmatically." />
+<meta name="DocTitle" content="Cadence User Interface SKILL Reference" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Introduction" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="skuiref" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-17" />
+<meta name="ModifiedTime" content="1600404210" />
+<meta name="NextFile" content="chap2.html" />
+<meta name="Group" content="SKILL Language" />
+<meta name="Platform" content="Cadence Shared Tools" />
+<meta name="PrevFile" content="preface.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="SKILL" />
+<meta name="ProductFamily" content="SKILL" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Cadence User Interface SKILL Reference -- Introduction" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="skuirefICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="skuirefTOC.html">Contents</a></li><li><a class="prev" href="preface.html" title="Preface">Preface</a></li><li style="float: right;"><a class="viewPrint" href="skuiref.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="chap2.html" title="Command Interpreter Window">Command Interpreter Window</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Cadence User Interface SKILL Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>1
+<a id="pgfId-115216"></a></h1>
+<h1>
+<a id="pgfId-115671"></a><hr />
+Introduction<hr />
+</h1>
+
+<p>
+<a id="pgfId-470139"></a>This chapter describes the following topics:</p>
+<ul><li>
+<a id="pgfId-470140"></a><a href="chap1.html#36749">Access to the User Interface</a></li><li>
+<a id="pgfId-470145"></a><a href="chap1.html#32513">Callback Routines</a></li><li>
+<a id="pgfId-473398"></a><a href="chap1.html#81089">Configuring Clipboard/Selection Behavior</a></li></ul>
+
+
+
+<h2>
+<a id="pgfId-115680"></a><a id="36749"></a>Access to the User Interface</h2>
+
+<p>
+<a id="pgfId-116656"></a>At system start-up, the look and feel of the system is determined by a configurable system <a id="marker-115180"></a>start-up file. Once the system is running, changing the system&#8217;s look and feel, creating new objects, and object manipulation is possible through SKILL and C user interface access routines. The goal of these interface routines is to provide layered, controlled access to the user interface and its objects. </p>
+<p>
+<a id="pgfId-115228"></a>Access is available through <a id="marker-115181"></a>high-level objects, composed of primitive user interface elements: menus, scroll bars, popup menus, labels, command buttons, and so forth, or through primitive objects themselves. Several layers of start-up configuration files are supplied. You can customize the functionality on each level.</p>
+
+<h3>
+<a id="pgfId-115396"></a>Bottom-Up Construction</h3>
+
+<p>
+<a id="pgfId-115231"></a>Larger, <a id="marker-115191"></a>composite user-interface objects must be created in a bottom-up fashion; that is, each sub-object that makes up a composite object must be created before the composite object is created. A menu is an example of a composite object. Each menu item must be created before the call to <code>hiCreateMenu</code>, which accepts menu item objects as arguments. </p>
+
+<h3>
+<a id="pgfId-115409"></a>Global Symbols</h3>
+
+<p>
+<a id="pgfId-115236"></a>Most of the user interface objects you create (that is, forms, menus, list boxes, non-blocking dialog boxes) are used and accessed in more than one SKILL routine. For this reason it is necessary to use a unique <a id="marker-115192"></a>global SKILL symbol as the SKILL handle in the creation routines. The user interface code depends on this. </p>
+<p>
+<a id="pgfId-115229"></a>For example, when the form is created and the SKILL handle passed to <code>hiCreateAppForm</code> or <code>hiCreateForm</code> is not global, any attempts to bring this form down (via the <em>OK</em> or <em>Cancel</em> button) will fail. This is because the user interface code cannot access the form contents if the form symbol is not global.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-471967"></a>When defining names for forms, fields, or other user interface objects, do not use any characters other than alphanumerics, underscore, and question mark  Also, do not begin the name with a numeric character or a question mark.</div>
+
+<h3>
+<a id="pgfId-115426"></a>Destroying</h3>
+
+<p>
+<a id="pgfId-115235"></a>Do not try to destroy a user-interface object by resetting its SKILL handle to <code>nil</code>. This will destroy the SKILL contents of the object, but will leave the memory associated with the object unreferenced, and impossible to free. For menus and forms, use the appropriate delete function (that is, <code>hiDeleteMenu</code> or <code>hiDeleteForm</code>). List boxes and dialog boxes will be properly destroyed when they are removed from the screen.</p>
+
+<h3>
+<a id="pgfId-115447"></a>SKILL Coding</h3>
+
+<p>
+<a id="pgfId-115217"></a>General information about programming in SKILL is available in the <em>Cadence SKILL Language User Guide</em> and the <em>Cadence SKILL Language Reference</em>. Understand the coding techniques described in these documents before accessing the user interface.</p>
+
+<h2>
+<a id="pgfId-472517"></a><a id="marker-115176"></a><a id="32513"></a>Call<a id="callbackroutine"></a>back Routines</h2>
+
+<p>
+<a id="pgfId-472518"></a>User interface objects can have callback routines associated with them. A callback is a SKILL routine that is asynchronously &#8220;called back&#8221; if some triggering user action takes place. Examples of such actions would be values being changed on forms, menu item selection, or dialog box confirmation. Typically, callbacks analyze and process data that you provide. In the case of forms, for example, a callback can be specified for each form field or for the form itself.</p>
+<p>
+<a id="pgfId-472519"></a>This section describes the following topics:</p>
+<ul><li>
+<a id="pgfId-472522"></a><a href="chap1.html#97450">Types of Callback</a></li><li>
+<a id="pgfId-472526"></a><a href="chap1.html#30422">Callbacks Supported by HI Forms and Fields</a></li><li>
+<a id="pgfId-472530"></a><a href="chap1.html#57770">Function Object Callbacks</a><ul><li>
+<a id="pgfId-472534"></a><a href="chap1.html#86150">Callback Syntax</a></li><li>
+<a id="pgfId-472538"></a><a href="chap1.html#44350">Function Object Callbacks with Additional Arguments</a></li></ul></li></ul>
+
+
+
+
+
+<h3>
+<a id="pgfId-472541"></a><a id="97450"></a>Types of Callback</h3>
+
+<p>
+<a id="pgfId-472542"></a>SKILL callbacks can be strings, symbols, or function objects. In either case, the string, the function specified by its symbol, or the function object, is evaluated in SKILL at the time the callback is triggered. </p>
+<p>
+<a id="pgfId-472543"></a>If the callback is:</p>
+<ul><li>
+<a id="pgfId-472544"></a>a string, it must be a complete, valid SKILL expression, because this string is passed directly to SKILL for evaluation. </li><li>
+<a id="pgfId-472545"></a>a symbol, it is assumed that the value of this symbol is a function, and a predetermined set of arguments is passed to that function.</li><li>
+<a id="pgfId-472546"></a>a function object, a predetermined set of arguments are passed to that function.</li></ul>
+
+
+<p>
+<a id="pgfId-472547"></a>A function object callback offers the following main advantages over the string and symbol types:</p>
+<ul><li>
+<a id="pgfId-472548"></a>The string and symbol callbacks are required to be in the global namespace. However, you need not define a function object type callback in the global namespace and if you define it in SKILL++, it is evaluated in the same environment in which it is defined.</li><li>
+<a id="pgfId-472549"></a>When string and symbol callbacks are used, to access a field, you have to know where that field is used at the callback creation time. However, for a function object, you do not need to know the location of the field where it is to be used.</li></ul>
+
+
+<h3>
+<a id="pgfId-472551"></a><a id="30422"></a>Callbacks Supported by HI Forms and Fields</h3>
+
+<p>
+<a id="pgfId-472552"></a>In HI forms, you can define callbacks for the OK and Cancel buttons, customized callbacks in <code>?buttonLayout</code>, and mapCallback. In HI fields, the most common callback is the common value change callback (<code>?callback</code>). However, there are 22 different types of HI fields and you can define callbacks to handle different events for these fields. For example, for the type-in fields you can define the <code>?modifyCallback</code> and <code>?focusInCallback</code>. For report and tree fields, you can define callbacks to handle pointer events. </p>
+<p>
+<a id="pgfId-472656"></a>The following table lists the various callbacks supported by HI forms and fields.</p>
+<table class="webflareTable" id="#id472553">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472555"></a>HI Form/Field Name</p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472557"></a>Callback Name</p>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472559"></a>hiCreateAppForm </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472561"></a><code>?callback<br /></code>?mapCB </pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472563"></a>hiChangeFormCallback </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472565"></a><code>?callback </code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472567"></a>hiCreateStringField</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-472568"></a>hiCreateFileSelectorField supports the same callbacks as hiCreateStringField</div>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472570"></a><code>?callback<br />?modifyCallback<br />?focusInCallback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472572"></a>hiCreateIntField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472574"></a><code>?callback<br />?focusInCallback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472576"></a>hiCreateFloatField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472578"></a><code>?callback<br />?focusInCallback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472580"></a>hiCreateListField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472582"></a><code>?callback<br />?focusInCallback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472584"></a>hiCreatePointField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472586"></a><code>?callback<br />?focusInCallback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472588"></a>hiCreateBBoxField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472590"></a><code>?callback<br />?focusInCallback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472592"></a>hiCreateComboField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472594"></a><code>?callback<br />?modifyCallback<br />?focusInCallback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472596"></a>hiCreateMLTextField </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472598"></a><code>?callback<br />?focusInCallback<br />?changeCB</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472600"></a>hiCreateToggleField </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472602"></a><code>?callback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472604"></a>hiCreateRadioField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472606"></a><code>?callback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472608"></a>hiCreateCyclicField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472610"></a><code>?callback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472612"></a>hiCreateButtonBoxField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472614"></a><code>?callback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472616"></a>hiCreateSpinBox</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472618"></a><code>?callback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472620"></a>hiCreateFloatSpinBox</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472622"></a><code>?callback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472624"></a>hiCreateScaleField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472626"></a><code>?callback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472628"></a>hiCreateHypertextField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472630"></a><code>?callback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472632"></a>hiCreateButton</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-472633"></a>hiCreateFormButton is an alias to hiCreateButton and therefore the arguments will be the same for both the functions</div>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472635"></a><code>?callback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472637"></a>hiCreateBooleanButton</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472639"></a><code>?callback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472641"></a>hiCreateTabField </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472643"></a><code>?callback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472645"></a>hiCreateListBoxField </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472647"></a><code>?callback<br />?changeCB<br />?doubleClickCB</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472649"></a>hiCreateReportField </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472651"></a><code>?callback<br />?doubleClickCB<br />?sortCallback</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472653"></a>hiCreateTreeTable </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472655"></a><code>?callback<br />?expandCallback<br />?collapseCallback<br />?hiDoubleClickCallback<br />?sortCallback</code></pre>
+</td>
+</tr>
+</tbody></table>
+
+<h3>
+<a id="pgfId-472658"></a><a id="57770"></a>Function Object Callbacks</h3>
+<h4>
+<a id="pgfId-472660"></a><a id="86150"></a>Callback Syntax</h4>
+
+<p>
+<a id="pgfId-472661"></a>The syntax of a function object callback is the following:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472662"></a>&lt;<code><em>callback</em></code>&gt; (<code><em>o_field g_scope</em></code> @<code><em>rest_args</em></code>)</pre>
+
+<p>
+<a id="pgfId-472663"></a>where,</p>
+<ul><li>
+<a id="pgfId-472664"></a><span class="webflare-courier-new" style="white-space:pre"><em>o_field</em></span><code> </code>is the field whose callback is triggered. It can be used to access the properties of the field (<span class="webflare-courier-new" style="white-space:pre"><em>o_field</em></span><code>-&gt;</code><span class="webflare-courier-new" style="white-space:pre"><em>value</em></span><code>)</code>. </li><li>
+<a id="pgfId-472665"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_scope</em></span> is the location where the field is instantiated. It can be a HI form, a scroll-region field, or a page of a tab field. It can be used to access fields that are placed in the same scroll-region, tab page, or form where the field (<span class="webflare-courier-new" style="white-space:pre"><em>o_field</em></span>) for which the callback is triggered placed. To access the fields in the same form but outside <span class="webflare-courier-new" style="white-space:pre"><em>g_scope</em></span>, a function is provided. The function name is hiGetFieldScope.<br /><div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-472666"></a>The syntax for hiGetFieldScope is <code>(hiGetFieldScope </code><span class="webflare-courier-new" style="white-space:pre"><em>g_field</em></span><code>)</code>. 
+When the given <span class="webflare-courier-new" style="white-space:pre"><em>g_field</em></span> is a HI field, which can be a scroll-region, tab or tab-page field, the function returns the scope containing the field. The return value can be a scroll-region, a tab page, a tab field, form, or nil.</div></li><li>
+<a id="pgfId-472667"></a><code>@</code><span class="webflare-courier-new" style="white-space:pre"><em>rest_args</em></span> is a variable argument list that is used for those fields whose callback expects one or more additional arguments.</li></ul>
+
+
+
+<p>
+<a id="pgfId-472668"></a>Example 1:</p>
+<p>
+<a id="pgfId-472669"></a>In this example, the function <code>make_radians_degrees_fields()</code> creates two type-in fields, <code>Radians</code> and <code>Degrees</code> with a local callback <code>converter</code>. The callback is used to set the value of the <code>Radians</code> field based on the value of the <code>Degrees </code>field and vice versa. Also, in this example, the callback is not defined in the global namespace and that there is no need to know where the two type-in fields are to be placed.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474143"></a>(defun converter (field scope)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474144"></a>  (let ((scale 180.0/3.14159265))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474145"></a>    (caseq field-&gt;hiFieldSym</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474146"></a>    (radians scope-&gt;degrees-&gt;value = (round field-&gt;value * scale))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474147"></a>    (degrees scope-&gt;radians-&gt;value = field-&gt;value / scale)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474148"></a>    (t (assert &quot;this shouldn&#39;t happen&quot;)))))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474149"></a>      </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474150"></a>(defun make_radians_degrees_fields ()</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474151"></a>  (list</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474152"></a>    (hiCreateFloatField ?name &#39;radians ?callback &#39;converter ?prompt &quot;Radians&quot; ?value 0.0)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474153"></a>    (hiCreateIntField ?name &#39;degrees ?callback &#39;converter  ?prompt &quot;Degrees&quot; ?value 0)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474154"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474155"></a>;; create the form</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474156"></a>Form2D = hiCreateAppForm(</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474157"></a>                ?name           &#39;Form2D</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474158"></a>                ?formTitle      &quot;R2D&amp;D2R Converter&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474159"></a>                ?fields (make_radians_degrees_fields)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-474160"></a>             )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472681"></a>hiDisplayForm(Form2D)</pre>
+
+<p>
+<a id="pgfId-472682"></a>Example 2:</p>
+<p>
+<a id="pgfId-472683"></a>In this example, the function <code>list_png_files()</code> searches for all the <code>.png</code> files in the given directory, lists them in a cyclic field, and prints the filename when an icon is selected from the cyclic field.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472684"></a>(defun list_png_files ( dir )</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472685"></a>  (let ((png_files (rexMatchList &quot;.png$&quot; (getDirFiles dir)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472686"></a>        (png_table (makeTable &quot;icon to .png file name&quot; nil)))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472687"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472688"></a>    ;; establish mapping</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472689"></a>    (mapcar (lambda (x) png_table[ (hiLoadIconFile x 24 24) ] = x) png_files)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472690"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472691"></a>    (hiDisplayForm</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472692"></a>     (hiCreateAppForm</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472693"></a>      ?name &#39;png_list_form ?formTitle &quot;PNG List&quot; ?buttonLayout &#39;Close</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472694"></a>      ?fields (list (hiCreateCyclicField</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472695"></a>                     ?name &#39;icons ?prompt &quot;Icons&quot; ?choices png_table-&gt;?</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472696"></a>                     ?callback (lambda (field scope item)</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472697"></a>                                 (printf &quot;selected item is %L\n&quot; png_table[ item]))))))))</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472698"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472699"></a>(list_png_files (prependInstallPath &quot;../../share/cdssetup/icons/24x24&quot;))</pre>
+<h4>
+<a id="pgfId-472702"></a>Function Object <a id="44350"></a><a id="53345"></a>Callbacks with Additional Arguments</h4>
+
+<p>
+<a id="pgfId-472703"></a>Callbacks of function object type for certain HI fields require arguments in addition to <span class="webflare-courier-new" style="white-space:pre"><em>o_field</em></span> and <span class="webflare-courier-new" style="white-space:pre"><em>g_scope</em></span>. The following table lists such callbacks:</p>
+<table class="webflareTable" id="#id472704">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472706"></a>HI Form/Field Names</p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472708"></a>Callback Name</p>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472710"></a>Callback Syntax</p>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472712"></a>hiCreateToggleField </p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472714"></a>?callback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472716"></a>&lt; toggle field callback &gt; ( <code><em>o_field g_scope s_item g_value</em></code>)</pre>
+<p>
+<a id="pgfId-472717"></a>where,<br /><span class="webflare-courier-new" style="white-space:pre"><em>s_item</em></span> is the name of the item specified as a symbol.<br /><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> specifies the value of the toggle item whose value was changed.</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-472718"></a>If the toggle field is instantiated at multiple places, <span class="webflare-courier-new" style="white-space:pre"><em>g_scope</em></span> passed to a toggle field callback can be different from the one in which the toggle field is placed. </div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472720"></a>hiCreateButtonBoxField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472722"></a>?callback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472724"></a>&lt; button box field callback &gt; ( <code><em>o_field g_scope t_button_text</em></code>)</pre>
+<p>
+<a id="pgfId-472725"></a>where,<br /><span class="webflare-courier-new" style="white-space:pre"><em>t_button_text</em></span> specifies the text string of the button that was pressed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472727"></a>hiCreateBooleanButton</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472729"></a>?callback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472731"></a>&lt; boolean button field callback &gt; ( <code><em>o_field g_scope g_value</em></code>) </pre>
+<p>
+<a id="pgfId-472732"></a>where, <br /><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> specifies the value of the boolean button.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472734"></a>hiCreateRadioField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472736"></a>?callback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472738"></a>&lt; radio field callback &gt; ( <code><em>o_field g_scope t_selection</em></code>) </pre>
+
+<p>
+<a id="pgfId-472739"></a>where,<br /><span class="webflare-courier-new" style="white-space:pre"><em>t_selection</em></span> specifies the string representing the radio item that was selected.</p>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472741"></a>hiCreateCyclicField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472743"></a>?callback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472745"></a>&lt; cyclic field callback &gt; ( <code><em>o_field g_scope g_item</em></code> )</pre>
+
+<p>
+<a id="pgfId-472746"></a>where,<br /><span class="webflare-courier-new" style="white-space:pre"><em>g_item </em></span>specifies the item selected, which can be either text or icon.</p>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472748"></a>hiCreateReportField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472750"></a>?callback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472752"></a>&lt; report callback &gt; ( <code><em>o_field g_scope l_selected_items</em></code> )</pre>
+
+<p>
+<a id="pgfId-472753"></a>where,<br /><span class="webflare-courier-new" style="white-space:pre"><em>l_selected_items</em></span> specifies a list of integers representing the selected items of the report.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-472754"></a>The <span class="webflare-courier-new" style="white-space:pre"><em>g_scope</em></span> argument passed to a report field callback can be different from the one in which the report field is placed, if the report field is instantiated multiple times. </div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472756"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472758"></a>?doubleClickCB</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472760"></a> &lt; double click callback &gt; ( <code><em>o_field g_scope x_item_index</em></code> )</pre>
+<p>
+<a id="pgfId-472761"></a>where,<br /><span class="webflare-courier-new" style="white-space:pre"><em>x_item_index</em></span> specifies an integer representing the item that was double-clicked.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472763"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472765"></a>?sortCallback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472767"></a>&lt; sort callback &gt; ( <code><em>o_field g_scope l_sort_property </em></code>)</pre>
+<p>
+<a id="pgfId-472768"></a>where,<br /><span class="webflare-courier-new" style="white-space:pre"><em>l_sort_property</em></span> is a list (columnToSort sortDirection), where columnToSort is an integer indicating the column to sort and sortDirection is t or nil, indicating descending or ascending order, respectively. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472770"></a>hiCreateTreeTable</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472772"></a>?callback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472774"></a> &lt; tree table callback &gt; ( <code><em>o_field g_scope l_items</em></code> )</pre>
+<p>
+<a id="pgfId-472775"></a>where,<br /><span class="webflare-courier-new" style="white-space:pre"><em>l_items</em></span><code> </code>is the list of selected items (symbols).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472777"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472779"></a>?sortCallback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472781"></a>&lt; sort callback &gt; ( <code><em>o_field g_scope l_sort_property </em></code>)</pre>
+<p>
+<a id="pgfId-472782"></a>where,<br /><span class="webflare-courier-new" style="white-space:pre"><em>l_sort_property</em></span> is a list (columnToSort sortDirection), where columnToSort is an integer indicating the column to sort and sortDirection is t or nil, indicating descending or ascending order, respectively.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472784"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472786"></a>?expandCallback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472788"></a>&lt; expand callback &gt; ( <code><em>o_field g_scope s_item</em></code> )</pre>
+<p>
+<a id="pgfId-472789"></a>where,<br /><span class="webflare-courier-new" style="white-space:pre"><em>s_item</em></span> is the symbol of the item being expanded.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472791"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472793"></a>?collapseCallback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472795"></a>&lt; collapse callback &gt; ( <code><em>o_field g_scope s_item</em></code> )</pre>
+<p>
+<a id="pgfId-472796"></a>where, <br /><span class="webflare-courier-new" style="white-space:pre"><em>s_item </em></span>is the symbol of the item being collapsed</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472798"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472800"></a>?doubleClickCB</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472802"></a>&lt; double click callback &gt; ( <code><em>o_field g_scope s_item</em></code> )</pre>
+<p>
+<a id="pgfId-472803"></a>where,<br /><span class="webflare-courier-new" style="white-space:pre"><em>s_item</em></span> is the symbol of the item being double-clicked</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472805"></a>hiCreateStringField<br />hiCreateComboField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472807"></a>?modifyCallback</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472809"></a>&lt; field modify callback &gt; ( <code><em>o_field g_scope t_latestTextValue g_sourceOfChange</em></code>) </pre>
+<p>
+<a id="pgfId-472810"></a>where, <br /><span class="webflare-courier-new" style="white-space:pre"><em>t_latestTextValue</em></span> is the latest text value of the field<br /><span class="webflare-courier-new" style="white-space:pre"><em>g_sourceOfChange </em></span>is<code> t</code> or <code>nil,</code> where <code>t </code>indicates that the change was made through the program (by changing the value of the field) and <code>nil</code> indicates that the change was made by a user action.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472812"></a>hiCreateHyperTextField</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472814"></a>?callback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472816"></a>&lt; hypertext field callback &gt; ( <code><em>o_field g_scope t_hyperlinkName t_hyperlinkRef</em></code>)</pre>
+<p>
+<a id="pgfId-472817"></a>where, <br /><span class="webflare-courier-new" style="white-space:pre"><em>t_hyperlinkName</em></span> is the name of the hyperlink.</p>
+<p>
+<a id="pgfId-472818"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_hyperlinkRef</em></span> is the URL associated with the link.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472820"></a>hiCreateAppForm</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472822"></a>?callback</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472824"></a>&lt; form callback &gt; ( <code><em>r_form </em></code>)</pre>
+<p>
+<a id="pgfId-472825"></a>where, <br /><span class="webflare-courier-new" style="white-space:pre"><em>r_form</em></span> is the form for which an OK, Cancel, or custom action is triggered</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472827"></a>hiChangeFormCallback</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-472829"></a>?callback</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-472831"></a>&lt; form callback &gt; ( <code><em>r_form </em></code>)</pre>
+<p>
+<a id="pgfId-472832"></a>where, <br /><span class="webflare-courier-new" style="white-space:pre"><em>r_form</em></span> is the form for which an OK, Cancel, or custom action is triggered</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-115735"></a></p>
+<p>
+<a id="pgfId-472886"></a>Restrictions</p>
+<p>
+<a id="pgfId-472879"></a>There are a few restrictions on the functionality of callback routines:</p>
+<ul><li>
+<a id="pgfId-115737"></a>They cannot return data on the stack. Instead, <a id="marker-115736"></a>callback expressions that return a value might do so in this manner: <br /><pre class="webflare-pre-block webflare-courier-new" id="#id471165">
+<a id="pgfId-471165"></a><code>someSymbol</code> = hiSomeRoutine(y)</pre>
+<a id="pgfId-471169"></a>In this example, <code>someSymbol</code> is a global SKILL symbol to be accessed later. </li><li>
+<a id="pgfId-115224"></a>Make callbacks as short and as clean as possible. In particular, be careful to avoid corrupting program data. As an example, the results can be unpredictable if a form callback modifies the form itself. Callbacks with destructive actions such as form modification should be associated with actions that cannot be reversed, and cannot be done programmatically; that is, do not have a destructive action associated with a toggle button press (the toggle button has two states). Because this process can be simulated programmatically, doing so may unintentionally execute the destructive callback multiple times. In this case, the callback should be associated with a form button, which is an irreversible, non-programmatic action. </li><li>
+<a id="pgfId-115225"></a>Avoid <a id="marker-115196"></a>recursion in programming callbacks. This is a common mistake, and is easily demonstrated by a field callback which again sets the value of the field itself. Since callbacks are called when the value of the field changes, this would recursively continue calling the field callback, which sets the field value, which calls the field&#8217;s callback, which sets the field&#8217;s value, and so on.</li></ul>
+
+
+
+
+
+
+<p>
+<a id="pgfId-115226"></a>If an error is detected in a callback routine, a dialog box should be brought up to <a id="marker-115202"></a>flag the error, or an error logged in the CIW output panel. The field (type-in fields only) can be highlighted as well.</p>
+
+<h2>
+<a id="pgfId-473361"></a><a id="81089"></a>Configuring Clipboard/Selection Behavior</h2>
+
+<p>
+<a id="pgfId-473365"></a>To configure the clipboard/selection behavior, click <em>Klipper &#8211; Clipboard tool</em> <img src="images/clipboard1.gif" />
+ icon from the right side of the bottom panel and choose <em>Configure Klipper</em></p><span> from the context menu.</span>
+<p>
+<a id="pgfId-473366"></a>The Configure &#8211; KDE Panel dialog box is displayed.</p>
+
+<p>
+<a id="pgfId-473370"></a></p>
+<div class="webflare-div-image">
+<img src="images/clipboard.gif" /></div>
+
+<p>
+<a id="pgfId-473387"></a>In the General tab, you can choose one of the following options:</p>
+<table class="webflareTable" id="#id473371">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id473373">
+<a id="pgfId-473373"></a>Option</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id473375">
+<a id="pgfId-473375"></a>Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-473377"></a><em>Synchronize contents of the clipboard and the selection</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-473379"></a>Synchronizes the content of clipboard and selection buffers.</p>
+
+<p>
+<a id="pgfId-473380"></a>If this option is selected, the return value of <code>hiGetClipboard( &#39;clipboard )</code> and <code>hiGetClipboard( &#39;selection )</code> APIs will be the same.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-473382"></a><em>Separate clipboard and selection</em></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-473384"></a>Keeps the clipboard and selection buffers separate. </p>
+<p>
+<a id="pgfId-473385"></a>If this option is selected, the <code>hiGetClipboard( &#39;clibpoard )</code> will return the text saved using the Copy (Ctrl+v) operation. However, the <code>hiGetClipboard( &#39;selection )</code> will return the selected text.</p>
+
+<p>
+<a id="pgfId-473386"></a>This option is selected by default in KDE 3.x.</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-473190"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="preface.html" id="prev" title="Preface">Preface</a></em></b><b><em><a href="chap2.html" id="nex" title="Command Interpreter Window">Command Interpreter Window</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

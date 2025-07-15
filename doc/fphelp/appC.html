@@ -1,0 +1,165 @@
+
+<html><head><title>Block Override Support</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="spriya" />
+<meta name="CreateDate" content="2020-09-20" />
+<meta name="CreateTime" content="1600670080" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="You can use this manual as a reference for the Virtuoso Floorplanner, which includes automatic and interactive floorplanning tools that let you specify the rough topology of a physical chip." />
+<meta name="DocTitle" content="Virtuoso Floorplanner User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Block Override Support" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="fphelp" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-20" />
+<meta name="ModifiedTime" content="1600670080" />
+<meta name="NextFile" content="appD.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="appA.html" />
+<meta name="c_product" content="Virtuoso Layout Suite" />
+<meta name="Product" content="Virtuoso Layout Suite" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Floorplanner User Guide -- Block Override Support" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="fphelpICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="fphelpTOC.html">Contents</a></li><li><a class="prev" href="appA.html" title="Area Estimation Framework">Area Estimation Framework</a></li><li style="float: right;"><a class="viewPrint" href="fphelp.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="appD.html" title="Floorplan Property File">Floorplan Property File</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Floorplanner User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>B
+<a id="pgfId-1032955"></a></h1>
+<h1>
+<a id="pgfId-1035250"></a><hr />
+<a id="93997"></a>Block Override Support<hr />
+</h1>
+
+<p>
+<a id="pgfId-1040666"></a>Floorplanning engine supports overridden terminals and instance terminals in block domain. The Floorplanning commands do not create overriding terminals or instance terminals. However these overridden terminals and instance terminals can be present in OpenAccess data coming from Innovus<sup>TM</sup> Digital Implementation System (Innovus) or any other application using OA. Therefore, the support is required for interoperability between Innovus and Virtuoso.</p>
+<p>
+<a id="pgfId-1040667"></a>The behavior of commands in Floorplanning is given as follows:</p>
+<ul><li>
+<a id="pgfId-1040668"></a>The commands processing pins and pin figures on overridden terminals and instance terminals, of master instance having pins and pin figures, should consider overridden terminal and instance terminal as a normal block domain terminal or instance terminal, without any difference in the behavior. For example, the Pin Optimize command should optimize pins on overridden terminal and instance terminal.</li><li>
+<a id="pgfId-1040669"></a>The commands involving change of sigType should be careful that nets connected to overriding terminals and instance terminals can only be of sigType &#8220;power&#8221;, &#8220;ground&#8221;, &quot;tieHi&quot;, &quot;tieLo&quot;, and &quot;tieOff&#8221;.</li><li>
+<a id="pgfId-1040670"></a>The commands processing (deleting) empty nets should be careful because a net may be empty only in the block domain and may have a terminal/instance terminal in module domain. Therefore, the net is not empty as corresponding terminals and instance terminals are hidden in the block domain.</li></ul>
+
+
+<p>
+<a id="pgfId-1040671"></a>Commands related to terminals and instance terminals are as follows:</p>
+<ul><li>
+<a id="pgfId-1040672"></a>Pin Optimize</li><li>
+<a id="pgfId-1040673"></a>Pin Align</li><li>
+<a id="pgfId-1040674"></a>Push Into Blocks</li><li>
+<a id="pgfId-1040675"></a>Load Physical View</li><li>
+<a id="pgfId-1040676"></a>Create Soft Pins</li><li>
+<a id="pgfId-1040677"></a>Edit Soft Blocks</li><li>
+<a id="pgfId-1040678"></a>Set Pin Connectivity</li><li>
+<a id="pgfId-1040679"></a>Pin Snap</li></ul>
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-1040680"></a>Concept of Overriding Terminals and Instance Terminals</h2>
+
+<p>
+<a id="pgfId-1040681"></a>The &#8220;tieHigh&#8221;, &#8220;tieLow&#8221;, &#8220;tieOff&#8221;, &#8220;power&#8221;, &#8220;ground&#8221;, and &#8220;signal&#8221; nets specified in verilog can be implemented in block domain using any physical only net. The example for this is given as follows:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1040682"></a>/ Verilog file for cell &quot;top_level&quot; view &quot;layout&quot;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1040683"></a>// Language Version: 2001</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1040684"></a>module top_level (</pre>
+
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040685"></a>A,</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040686"></a>B,</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040687"></a>C,</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040688"></a>D,</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040689"></a>Z</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040690"></a>);</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040691"></a>input A;</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040692"></a>input B;</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040693"></a>input C;</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040694"></a>input D;</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040695"></a>input _IN;</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040696"></a>output Z;</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040697"></a>output _OUT;</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040698"></a>wire net1;</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040699"></a>assign _OUT = 1&#8217;b1;</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040700"></a>assign _IN = 1&#8217;b0;</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040701"></a>block3 I1 ( .A(A), .B(B), .C(C), .Y(net1), .Z(1&#8217;b1));</pre>
+<pre class="webflare-courier-new webflare-indent1 codeContent">
+<a id="pgfId-1040702"></a>block I2 ( .A(net1), .B(1&#8217;b1), .C(D), .Z(Z), .„nd! (1&#8217;b0), .\vdd! (1&#8217;b1));</pre>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1040703"></a>endmodule // top_level</pre>
+
+<p>
+<a id="pgfId-1040704"></a>In the mentioned example, observe the following in the connectivity:</p>
+<ul><li>
+<a id="pgfId-1040705"></a>The terminals _IN and _OUT are connected to tie0 and tie1nets, respectively.</li><li>
+<a id="pgfId-1040706"></a>The instance terminals corresponding to I1/Z and I2/B are connected to tie.</li><li>
+<a id="pgfId-1040707"></a>The instance terminals corresponding to I2/vdd! and I2/gnd! are connected to tie1 and tie0 nets, respectively</li></ul>
+
+
+<p>
+<a id="pgfId-1040708"></a>It is significant to understand that verilog designer has no clue how 1&#8217;b1 (tieHi) and 1&#8217;b0 (tieLow) nets will be implemented in the layout or block domain. It depends on the block designer to choose any physical only net to implement 1&#8217;b1 and 1&#8217;b0. For example, the following array of nets can be used to implement.</p>
+<ul><li>
+<a id="pgfId-1040709"></a>_IN and I2/gnd! (tie0) to be implemented by net VSS (physical only).</li><li>
+<a id="pgfId-1040710"></a>_OUT and I2/vdd! (tie1) to be implemented by net VDD (physical only).</li><li>
+<a id="pgfId-1040711"></a>I1/Z and I2/B (tie1) to be implemented by net INTERNALVDD (physical only).</li></ul>
+
+
+<p>
+<a id="pgfId-1040712"></a>The following changes in the block domain will have to be made.</p>
+<ul><li>
+<a id="pgfId-1040713"></a>Hide _IN _OUT terminals.</li><li>
+<a id="pgfId-1040714"></a>Hide instance terminals I2/gnd!, I2/vdd!, I1/Z and I2/B.</li><li>
+<a id="pgfId-1040715"></a>Create overriding terminals and overriding instance terminals with same names to implement them using the above mentioned physical only nets.</li></ul>
+
+
+<p>
+<a id="pgfId-1040401"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="appA.html" id="prev" title="Area Estimation Framework">Area Estimation Framework</a></em></b><b><em><a href="appD.html" id="nex" title="Floorplan Property File">Floorplan Property File</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

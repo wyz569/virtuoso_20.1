@@ -1,0 +1,147 @@
+
+<html><head><title>cdsDaemonStarter Configuration</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="sumehta" />
+<meta name="CreateDate" content="2020-08-19" />
+<meta name="CreateTime" content="1597901568" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to use the Cadence application infrastructure." />
+<meta name="DocTitle" content="Cadence Application Infrastructure User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="cdsDaemonStarter Configuration" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="caiuser" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-08-19" />
+<meta name="ModifiedTime" content="1597901568" />
+<meta name="NextFile" content="appA.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Cadence Shared Tools" />
+<meta name="PrevFile" content="chap12.html" />
+<meta name="c_product" content="Cadence Shared Tools" />
+<meta name="Product" content="Cadence Shared Tools" />
+<meta name="ProductFamily" content="Cadence Shared Tools" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Cadence Application Infrastructure User Guide -- cdsDaemonStarter Configuration" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="caiuserICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="caiuserTOC.html">Contents</a></li><li><a class="prev" href="chap12.html" title="Occurrence Property Dictionary">Occurrence Property Dictionary</a></li><li style="float: right;"><a class="viewPrint" href="caiuser.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="appA.html" title="Common Design Files">Common Design Files</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Cadence Application Infrastructure User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>13
+<a id="pgfId-1008781"></a></h1>
+<h1>
+<a id="pgfId-1011663"></a><hr />
+cdsDaemonStarter Configuration<hr />
+</h1>
+
+<p>
+<a id="pgfId-1014140"></a>This chapter describes the following:</p>
+<ul><li>
+<a id="pgfId-1017703"></a><a href="chap13.html#42159">cdsDaemonStarter Configuration</a><ul><li>
+<a id="pgfId-1023147"></a><a href="chap13.html#33851">Control Groups</a></li><li>
+<a id="pgfId-1023158"></a><a href="chap13.html#11693">Wrapper Installation</a></li></ul></li></ul>
+
+
+
+<h2>
+<a id="pgfId-1023080"></a>cds<a id="42159"></a>Daemo<a id="DaemonStarter"></a>nStarter Configuration</h2>
+
+<p>
+<a id="pgfId-1023081"></a>cdsDaemonStarter configuration enables you to launch a program without inheriting the control group of its parent. The following programs are started in Virtuoso using an optional cdsDaemonStarter script: </p>
+<ul><li>
+<a id="pgfId-1023298"></a><code>clsbd</code></li><li>
+<a id="pgfId-1023299"></a><code>oaFSLockD</code></li><li>
+<a id="pgfId-1023300"></a><code>cdsXvnc </code></li><li>
+<a id="pgfId-1023301"></a><code>cdsNameServer</code></li></ul>
+
+
+
+
+<h3>
+<a id="pgfId-1023379"></a><a id="33851"></a>Control Groups</h3>
+
+<p>
+<a id="pgfId-1023380"></a>When the Linux control group functionality is enabled, a job is considered to be running until all the processes in the control group exit. This causes a problem because some processes are intended to daemonize themselves and continue to run after the parent job has finished. </p>
+<p>
+<a id="pgfId-1023084"></a>To solve this problem, a support for an optional wrapper script has been introduced, which is automatically invoked by the Cadence software to start daemonizing processes. The arguments to the wrapper script indicates which daemon program (and its arguments) should start.</p>
+<p>
+<a id="pgfId-1023085"></a>This is illustrated by the following pass-through example:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023086"></a>#!/bin/ksh<br />exec &quot;$@&quot;</pre>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1023087"></a>The korn shell uses &quot;<code>$@</code>&quot; to denote the arguments provided to the wrapper script.</div>
+
+<p>
+<a id="pgfId-1023088"></a>You can use the following wrapper script to launch the program in a specific control group:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023187"></a>#!/bin/ksh<br />cgexec -g someControlGroupInfo --sticky &quot;$@&quot;</pre>
+
+<p>
+<a id="pgfId-1023188"></a>If Load Sharing Facility (LSF, version 9) control group functionality is enabled, you can use the following wrapper script to launch the program:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-1023191"></a>#!/bin/ksh
+# If it looks like an LSF environment, look for job-specific control group
+if [ -n &quot;${LSF_CGROUP_TOPDIR_KEY}&quot; -a -n &quot;${LSB_JOBID}&quot; -a \
+&#160;&#160;&#160;&#160;-n &quot;${LSF_BINDIR}&quot; -a -r /proc/self/cgroup ]; then
+&#160;&#160;&#160;&#160;if grep &quot;:/lsf/${LSF_CGROUP_TOPDIR_KEY}/job\.${LSB_JOBID}\.&quot; \
+&#160;&#160;&#160;&#160;  /proc/self/cgroup &gt;/dev/null; then<br />  exec ${LSF_BINDIR}/lsgrun -m $(uname -n) &quot;$@&quot; &lt; /dev/null<br />  # only reached if above exec failed<br /> fi<br />fi&#160;&#160;&#160;&#160;
+exec &quot;$@&quot;</pre>
+
+<p>
+<a id="pgfId-1023418"></a>As illustrated above, the <code>lsgrun</code> command starts the daemon in a different control group than the parent.</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1023426"></a>You can also copy the LSF daemon starter sample script from the following location:</div>
+
+<p>
+<a id="pgfId-1023448"></a><code>&lt;cdsInstallDir&gt;/cdssetup/daemon/starter.lsf.sample</code></p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1023499"></a>You can copy the OpenLava (OLV) daemon starter sample script from the following location:</div>
+
+<p>
+<a id="pgfId-1023500"></a><code>&lt;cdsInstallDir&gt;/cdssetup/daemon/starter.olv.sample</code></p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-1024157"></a>The <code>$HOME</code> variable must be set to ensure that these daemon processes are started.</div>
+<h3>
+<a id="pgfId-1023420"></a><a id="11693"></a>Wrapper Installation</h3>
+
+<p>
+<a id="pgfId-1023421"></a>Normally, the wrapper is installed as <code>${CDS_SITE}/cdssetup/daemon/starter</code>, where the default value for <code>${CDS_SITE}</code> is <code>&lt;cdsInstallDir&gt;/share/local/</code>. You can also install the wrapper as <code>cdssetup/daemon/starter</code> into a directory that is searched by the Cadence Setup File (<code>csf</code>) package.</p>
+
+<div class="webflare-information-macro webflare-macro-information">
+<a id="pgfId-1023095"></a>
+It is recommended that you test the wrapper before wide-spread deployment by installing it into a local location, such as <code>~/cdssetup/daemon/starter</code>. You must also ensure that you have appropriate execute permissions. For more information, refer to <a href="chap3.html#33714">Search Mechanism</a>.</div>
+
+<p>
+<a id="pgfId-1023099"></a>After installing the wrapper, you can use the following command to confirm that it is found by <code>csf</code>:</p>
+<p>
+<a id="pgfId-1023100"></a><code>% cdswhich cdssetup/daemon/starter</code></p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a id="pgfId-1023101"></a>
+As some programs change their working directory on startup, you should avoid installing the wrapper in the current working directory.</div>
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="chap12.html" id="prev" title="Occurrence Property Dictionary">Occurrence Property Dictionary</a></em></b><b><em><a href="appA.html" id="nex" title="Common Design Files">Common Design Files</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

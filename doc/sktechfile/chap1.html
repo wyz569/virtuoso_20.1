@@ -1,0 +1,3683 @@
+
+<html><head><title>Administrative Functions</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-09-09" />
+<meta name="CreateTime" content="1599639250" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to create, update, maintain, and use incremental technology databases and display resources." />
+<meta name="DocTitle" content="Virtuoso Technology Data SKILL Reference" />
+<meta name="DocType" content="Reference" />
+<meta name="FileTitle" content="Administrative Functions" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="sktechfile" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-09" />
+<meta name="ModifiedTime" content="1599639250" />
+<meta name="NextFile" content="chap2.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design,Cadence Shared Tools" />
+<meta name="PrevFile" content="preface.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="Virtuoso Layout Suite,Virtuoso Shared Tools" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite,Virtuoso Shared Tools" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Technology Data SKILL Reference -- Administrative Functions" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="sktechfileICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="sktechfileTOC.html">Contents</a></li><li><a class="prev" href="preface.html" title="Preface">Preface</a></li><li style="float: right;"><a class="viewPrint" href="sktechfile.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="chap2.html" title="Controls Functions">Controls Functions</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Technology Data SKILL Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>1
+<a name="pgfId-251531"></a></h1>
+<h1>
+<a name="pgfId-251532"></a><hr />
+<a name="30401"></a>Administrative Functions<hr />
+</h1>
+
+<p>
+<a name="pgfId-929400"></a>This chapter describes administrative SKILL functions that let you do the following:</p>
+<ul><li>
+<a name="pgfId-929401"></a>Open and close a technology file in virtual memory</li><li>
+<a name="pgfId-929402"></a>Manage files opened in virtual memory. Includes<ul><li>
+<a name="pgfId-929403"></a>Purging virtual memory</li><li>
+<a name="pgfId-929404"></a>Refreshing virtual memory with the disk version</li><li>
+<a name="pgfId-929405"></a>Getting identifiers of open technology files</li></ul></li><li>
+<a name="pgfId-929406"></a>Save the technology file opened in virtual memory to disk</li><li>
+<a name="pgfId-929407"></a>Attach a technology file to a Virtuoso<sup>&#174;</sup> Design Environment library</li><li>
+<a name="pgfId-929408"></a>Dump open technology files to ASCII files</li><li>
+<a name="pgfId-929409"></a>Compile and load ASCII files to virtual memory</li><li>
+<a name="pgfId-929410"></a>Execute programs based on dump and load triggers</li><li>
+<a name="pgfId-929411"></a>Set and get control parameters for use in the technology data</li><li>
+<a name="pgfId-929454"></a>Determine the units set for each cellview type in a technology database</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a name="pgfId-929455"></a>The chapter includes the following topics:</p>
+<ul><li>
+<a name="pgfId-929459"></a><a href="chap1.html#39918">File Functions</a></li><li>
+<a name="pgfId-867506"></a><a href="chap1.html#23650">Attach Functions</a></li><li>
+<a name="pgfId-867508"></a><a href="chap1.html#18400">Dump, Load, and Trigger Functions</a></li><li>
+<a name="pgfId-869521"></a><a href="chap1.html#19278">Floating-Point Precision Function</a></li><li>
+<a name="pgfId-928830"></a><a href="chap1.html#43213">ICC Information Function</a></li></ul>
+
+
+
+
+
+<h2>
+<a name="pgfId-928846"></a><a name="39918"></a>File Functions</h2>
+
+<p>
+<a name="pgfId-804177"></a>These functions let you open, close, and manage data in virtual memory. The open functions provide three modes that control what remains on disk and what is loaded into virtual memory. The modes are as follows:</p>
+<ul><li>
+<a name="pgfId-804180"></a>Read &#8212; loads the contents of the technology database into virtual memory and does not allow any edits to it</li><li>
+<a name="pgfId-818525"></a>Append &#8212; loads the contents of the technology database into virtual memory and does allow edits</li><li>
+<a name="pgfId-818526"></a>Write &#8212; deletes the contents of the technology database on disk and loads the empty database into virtual memory<br />
+<a name="pgfId-804183"></a>Write mode does allow edits. <em>Use this mode with extreme caution.</em></li></ul>
+
+
+
+
+
+<p>
+<a name="pgfId-929690"></a>This topic contains the following functions:</p>
+<ul><li>
+<a name="pgfId-929507"></a><a href="chap1.html#77104">techOpenTechFile</a></li><li>
+<a name="pgfId-929511"></a><a href="chap1.html#82421">techOpenDefaultTechFile</a></li><li>
+<a name="pgfId-929515"></a><a href="chap1.html#77008">techReopenTechFile</a></li><li>
+<a name="pgfId-929519"></a><a href="chap1.html#79106">techCopyTechFile</a></li><li>
+<a name="pgfId-929523"></a><a href="chap1.html#64354">techDeleteTechFile</a></li><li>
+<a name="pgfId-929527"></a><a href="chap1.html#37528">techSaveTechFile</a></li><li>
+<a name="pgfId-929531"></a><a href="chap1.html#45790">techCloseTechFile</a></li><li>
+<a name="pgfId-929535"></a><a href="chap1.html#77027">techPurgeTechFile</a></li><li>
+<a name="pgfId-929539"></a><a href="chap1.html#25114">techRefreshTechFile</a></li><li>
+<a name="pgfId-929543"></a><a href="chap1.html#43436">techTruncateTechFile</a></li><li>
+<a name="pgfId-929547"></a><a href="chap1.html#60774">techGetDefaultTechName</a></li><li>
+<a name="pgfId-929551"></a><a href="chap1.html#72724">techGetTechFile</a></li><li>
+<a name="pgfId-929555"></a><a href="chap1.html#17216">techGetTechFileDdId</a></li><li>
+<a name="pgfId-929559"></a><a href="chap1.html#95469">techGetOpenTechFiles</a></li><li>
+<a name="pgfId-929563"></a><a href="chap1.html#28868">techVerifyTechFileId</a></li><li>
+<a name="pgfId-929567"></a><a href="chap1.html#64888">techSetEvaluate</a></li><li>
+<a name="pgfId-929571"></a><a href="chap1.html#71285">techSetTimeStamp</a></li><li>
+<a name="pgfId-929575"></a><a href="chap1.html#27442">techGetTimeStamp</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techOpenTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-249175"></a><a name="techOpenTechFile"></a><a name="77104"></a>techOpenTechFile</h3>
+<a name="pgfId-248130"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techOpenTechFile( 
+<code><em>t_libName</em></code> 
+<code><em>t_binaryName
+</em></code>[ <code><em>t_mode </em></code>] 
+) 
+=&gt; <code><em>d_techID</em></code> / nil</pre>
+<h4>
+<a name="pgfId-872240"></a>Description</h4>
+
+<p>
+<a name="pgfId-872448"></a>Loads a binary technology database in virtual memory with the specified mode (<code>r</code>, <code>w</code>, and <code>a</code>) and returns the database identifier of that database. </p>
+<ul><li>
+<a name="pgfId-930408"></a>If you specify <code>r</code> mode, the file can only be read. </li><li>
+<a name="pgfId-930419"></a>If you specify <code>w</code> mode, the contents of the database are deleted or truncated, and an empty technology database is loaded into virtual memory. </li><li>
+<a name="pgfId-930428"></a>If you specify <code>a</code> mode, the technology database is loaded in append mode, which means that you can edit the contents of the database.</li></ul>
+
+
+<p>
+<a name="pgfId-882234"></a>The <code>libName</code> argument specifies the library that the technology database will be loaded from. If the specified library contains the technology database, that database will be opened using the requested mode. If the library is a design library that is attached to another library for technology data, the technology database from the attached technology library will be opened. If the library is a design library that is attached to the default Cadence technology database, then if the mode requested is &#8216;<code>r</code>&#8217;, the default Cadence technology database will be opened. If the library is a design library that is attached to the default Cadence technology database, if the mode is &#8216;<code>a</code>&#8217; or &#8216;<code>w</code>&#8217;, an empty technology database will be created in the library.</p>
+<p>
+<a name="pgfId-930465"></a>The <code>libName</code> of the <code>dbId</code> for the technology database can be queried after the function is complete to determine if the technology database loaded is defined in the requested library or is from an attached technology library.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a name="pgfId-872451"></a>
+If you open a technology library in write mode, the contents of the disk file are deleted. Therefore, you must use this function with extreme care.</div>
+<h4>
+<a name="pgfId-253308"></a>Arguments</h4>
+<table class="webflareTable" id="#id930472">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930474"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_libName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932695"></a>Name of the library from which the technology database is opened.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930478"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_binaryName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930480"></a>The name of the binary technology library to open. This argument is no longer used, but needs to be specified to pass the syntax check.</p>
+<p>
+<a name="pgfId-932713"></a>Valid values: Any string</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930514"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_mode</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930516"></a>The mode in which to open the file.</p>
+<p>
+<a name="pgfId-932736"></a>Valid values: <code>r</code> (read only), <code>w</code> (delete contents and load empty file), <code>a</code> (append or edit mode)</p>
+<p>
+<a name="pgfId-932745"></a>Default: <code>r</code></p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-932754"></a>If you do not specify a mode, or if you specify <code>r</code> mode, the file can only be read. If you specify <code>w</code> mode, the contents of the disk file are deleted, or truncated, and an empty technology file is loaded into virtual memory. If you specify <code>a</code> mode, the binary technology database is loaded in append mode, which means that you can edit the contents of the file.</div>
+
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-253310"></a>Value Returned</h4>
+<table class="webflareTable" id="#id930531">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930533"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930535"></a>Database identifier of the technology database loaded into virtual memory.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930537"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930539"></a>The technology library or file does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-253312"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-882291"></a>techID = techOpenTechFile(&quot;cellTechLib&quot; &quot;tech&quot; &quot;a&quot;)<br />=&gt; db:25675212</pre>
+
+<p>
+<a name="pgfId-937962"></a>Opens the technology database from the library named &#8220;<code>cellTechLib</code>&#8221;, and loads it into virtual memory in append mode. Sets the variable <code>techID</code> to that database.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techOpenDefaultTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-937965"></a><a name="techOpenDefaultTechFile"></a><a name="82421"></a>techOpenDefaultTechFile</h3>
+<a name="pgfId-937966"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techOpenDefaultTechFile( 
+) 
+=&gt; <code><em>d_techID</em></code> / nil</pre>
+<h4>
+<a name="pgfId-829785"></a>Description</h4>
+
+<p>
+<a name="pgfId-269366"></a>Loads the Cadence-supplied default binary technology database into virtual memory in read mode and returns the database identifier.The default technology database resides at the following location:
+
+<span class="webflare-courier-new" style="white-space:pre"><em>your_install_dir</em></span><code>/tools/dfII/etc/cdsDefTechLib/tech.db</code></p>
+
+<h4>
+<a name="pgfId-871237"></a>Arguments</h4>
+
+<p>
+<a name="pgfId-816346"></a>None</p>
+
+<h4>
+<a name="pgfId-816335"></a>Value Returned</h4>
+<table class="webflareTable" id="#id930547">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930549"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930551"></a>The identifier of the technology database loaded into virtual memory.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930553"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930555"></a>The technology database does not exist or is not at the expected location.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-269098"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-269099"></a>techID = techOpenDefaultTechFile()<br />=&gt; db:23676263</pre>
+
+<p>
+<a name="pgfId-269100"></a>Loads the default technology database, <code>cdsDefTechFile</code>, from the installation directory into virtual memory. Returns the database identifier.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techReopenTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-247755"></a><a name="techReopenTechFile"></a><a name="77008"></a>techReopenTechFile</h3>
+<a name="pgfId-253482"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techReopenTechFile( 
+<code><em>d_techID</em></code> 
+<code><em>t_mode</em></code> 
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-253483"></a>Description</h4>
+
+<p>
+<a name="pgfId-831110"></a>Changes the mode of a technology database that has been opened. Use this function to upgrade the mode from <code>r</code> (read only) to <code>a</code> (append).</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a name="pgfId-831120"></a>
+Mode changes other than from read to append are not recommended. If you change the mode from read or append to write, the contents of both the disk file and virtual memory are deleted. If you change the mode from append or write to read, the database contents are not refreshed and you are not prompted to save your changes when you exit.</div>
+<h4>
+<a name="pgfId-296761"></a>Arguments</h4>
+<table class="webflareTable" id="#id932626">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932628"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932630"></a>The identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932911"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_mode</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932913"></a>The mode in which to reopen the database.</p>
+<p>
+<a name="pgfId-932944"></a>Valid values: <code>a</code> (append or edit mode), <code>r</code> (read only), <code>w</code> (delete contents and load empty file)</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-253487"></a>Value Returned</h4>
+<table class="webflareTable" id="#id930589">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930591"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930593"></a>The database was reopened in the specified mode.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930595"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930597"></a>The technology database does not exist or is already open in append or write mode.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-253490"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-253491"></a>techReopenTechFile(techID &quot;a&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-271551"></a>Reopens the technology database identified by <code>techID</code> in <code>a</code> (append) mode so you can edit it.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techCopyTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-235374"></a><a name="techCopyTechFile"></a><a name="79106"></a>techCopyTechFile</h3>
+<a name="pgfId-235376"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techCopyTechFile( 
+<code><em>d_techID</em></code> 
+<code><em>t_newTechDBName
+t_path
+</em></code>[ <code><em>g_deleteOriginal </em></code>] 
+) 
+=&gt; <code><em>d_newtechID</em></code> / nil</pre>
+<h4>
+<a name="pgfId-235378"></a>Description</h4>
+
+<p>
+<a name="pgfId-235382"></a>Copies a technology database to a new location and optionally deletes the original. This function is especially useful for separating technology data out of libraries that contain both design data and technology data as it will copy only the technology data.</p>
+
+<h4>
+<a name="pgfId-871633"></a>Arguments</h4>
+<table class="webflareTable" id="#id932609">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932611"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932613"></a>The identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932998"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_newTechDBName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-933000"></a>The name of the new technology database to create.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-933002"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_path</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-933004"></a>The UNIX path of the directory where you want the new technology database to be created. This path is automatically added to your <code>cds.lib</code> file.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-933006"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_deleteOriginal</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-933008"></a>Indicates that you want the design data in the original database attached to the new technology database and the original technology data removed from the design library. </p>
+<p>
+<a name="pgfId-933095"></a>Valid values: <code>t</code>, <code>nil</code></p>
+<p>
+<a name="pgfId-933104"></a>Default: <code>nil</code></p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-235397"></a>Value Returned</h4>
+<table class="webflareTable" id="#id930631">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930633"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_newTechID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930635"></a>The database identifier of the new technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930637"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930639"></a>The technology database does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-235400"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-235401"></a>techCopyTechFile(tfID &quot;newTechLib&quot; &quot;/usr2/lukan/4.4data&quot; t)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-235402"></a>Copies the technology database identified by <code>tfID</code> to a new database called <code>newTechLib</code> and reattaches the contents of the original database to the new technology database.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techDeleteTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-235677"></a><a name="techDeleteTechFile"></a><a name="64354"></a>techDeleteTechFile</h3>
+<a name="pgfId-235679"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techDeleteTechFile( 
+<code><em>d_techID</em></code> 
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-235681"></a>Description</h4>
+
+<p>
+<a name="pgfId-235685"></a>Deletes a technology database. This function is useful for deleting redundant technology data from design libraries that have been updated to share technology databases.</p>
+
+<h4>
+<a name="pgfId-235697"></a>Arguments</h4>
+<table class="webflareTable" id="#id932592">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932594"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932596"></a>The identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-235700"></a>Value Returned</h4>
+<table class="webflareTable" id="#id930673">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930675"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930677"></a>The technology data was deleted.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930679"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930681"></a>The technology database does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-235703"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-872356"></a>techDeleteTechFile( tfID )<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-872357"></a>Deletes the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSaveTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-872358"></a><a name="techSaveTechFile"></a><a name="37528"></a>techSaveTechFile</h3>
+<a name="pgfId-248745"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSaveTechFile(
+<code><em>d_techID
+</em></code>) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-829856"></a>Description</h4>
+
+<p>
+<a name="pgfId-248750"></a>Saves the specified technology database from virtual memory to the disk file from which it was opened.</p>
+
+<h4>
+<a name="pgfId-867376"></a>Arguments</h4>
+<table class="webflareTable" id="#id932575">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932577"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932579"></a>The identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-867378"></a>Value Returned</h4>
+<table class="webflareTable" id="#id930722">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930724"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930726"></a>The save completed successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930728"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930730"></a>The virtual memory version of the technology database was not saved; the specified technology database identifier is invalid or the system was not able to write to the directory containing the disk file.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-870963"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-870964"></a>techSaveTechFile( tfID )<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-249814"></a>Saves the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techCloseTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-308929"></a><a name="45790"></a>t<a name="techCloseTechFile"></a>echCloseTechFile</h3>
+<a name="pgfId-308930"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techCloseTechFile( 
+<code><em>d_techID</em></code> 
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-308931"></a>Description</h4>
+
+<p>
+<a name="pgfId-308932"></a>Changes the status of the technology database to closed and decrements the close count. The technology database is not purged from virtual memory until the system needs to use the memory. Internally, the system maintains a count of the number of times you open and close a specific technology database. The count increments when you open and decrements when you close. When the close count is 0 and the system needs more virtual memory, it purges the technology database from virtual memory.</p>
+
+<h4>
+<a name="pgfId-308933"></a>Arguments</h4>
+<table class="webflareTable" id="#id932558">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932560"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932562"></a>The identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-308935"></a>Value Returned</h4>
+<table class="webflareTable" id="#id931658">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931660"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931662"></a>The technology database was closed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931664"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931666"></a>The technology database does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-308938"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-308939"></a>techCloseTechFile(tfID)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-308940"></a>Closes the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techPurgeTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-247758"></a><a name="77027"></a>t<a name="techPurgeTechFile"></a>echPurgeTechFile</h3>
+<a name="pgfId-253630"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techPurgeTechFile( 
+<code><em>d_techID</em></code> 
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-867383"></a>Description</h4>
+
+<p>
+<a name="pgfId-867386"></a>Deletes the database from virtual memory if the close count for the file is 0. Internally, the system maintains a count of the number of times you open and close a specific technology database. The count increments when you open and decrements when you close. When the close count is 0 and the system needs more virtual memory, it automatically purges the technology database to free the memory. This function lets you manually purge the technology database.</p>
+
+<h4>
+<a name="pgfId-867388"></a>Arguments</h4>
+<table class="webflareTable" id="#id932541">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932543"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932545"></a>The identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-253635"></a>Value Returned</h4>
+<table class="webflareTable" id="#id931700">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931702"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931704"></a>The memory was purged.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931706"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931708"></a>The technology database does not exist or the close count is greater than 0.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-277538"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-253639"></a>techPurgeTechFile(tfID)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-272418"></a>Frees the memory allocated to the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techRefreshTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-247759"></a><a name="techRefreshTechFile"></a><a name="25114"></a>techRefreshTechFile</h3>
+<a name="pgfId-933404"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techRefreshTechFile( 
+<code><em>d_techID</em></code> 
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-933406"></a>Description</h4>
+
+<p>
+<a name="pgfId-933407"></a>Deletes the technology database loaded in virtual memory and reloads the binary database stored on disk. The edit mode (append, read, or write) of the database remains the same. If you refresh a technology database open in append mode, any changes you made and did not save are lost. If you refresh a technology database open in write mode, the empty disk file is loaded into virtual memory.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a name="pgfId-933409"></a>
+All changes not saved to disk are deleted when you use this function.</div>
+<h4>
+<a name="pgfId-933415"></a>Arguments</h4>
+<table class="webflareTable" id="#id933410">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-933412"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-933414"></a>The identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-933425"></a>Value Returned</h4>
+<table class="webflareTable" id="#id933416">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-933418"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-933420"></a>The technology database was refreshed.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-933422"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-933424"></a>The technology database does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-933426"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-933434"></a>techRefreshTechFile(tfID)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-933435"></a>Refreshes the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techTruncateTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-933431"></a><a name="techTruncateTechFile"></a><a name="43436"></a>techTruncateTechFile</h3>
+<a name="pgfId-254162"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techTruncateTechFile( 
+<code><em>d_techID</em></code> 
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-254163"></a>Description</h4>
+
+<p>
+<a name="pgfId-307913"></a>Deletes the contents of the technology database stored on disk.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a name="pgfId-307923"></a>
+This function deletes data from disk. Use this function with extreme care. </div>
+<h4>
+<a name="pgfId-254165"></a>Arguments</h4>
+<table class="webflareTable" id="#id932507">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932509"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932511"></a>The identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-254167"></a>Value Returned</h4>
+<table class="webflareTable" id="#id931784">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931786"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931788"></a>The technology database was truncated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931790"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931792"></a>The technology database does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-254170"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-274754"></a>techTruncateTechFile(tfID)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-274755"></a>Truncates the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetDefaultTechName
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-870099"></a><a name="techGetDefaultTechName"></a><a name="60774"></a>techGetDefaultTechName</h3>
+<a name="pgfId-870101"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetDefaultTechName( 
+) 
+=&gt; <code><em>t_binaryName</em></code> / nil</pre>
+<h4>
+<a name="pgfId-870103"></a>Description</h4>
+
+<p>
+<a name="pgfId-870107"></a>Returns the default name of the binary technology database.</p>
+
+<h4>
+<a name="pgfId-870109"></a>Arguments</h4>
+
+<p>
+<a name="pgfId-870114"></a>None</p>
+
+<h4>
+<a name="pgfId-870136"></a>Value Returned</h4>
+<table class="webflareTable" id="#id931805">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931807"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_binaryName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931809"></a>The default name of the binary technology database (always <code>tech.db</code>).</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931811"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931813"></a>The function failed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-870117"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-870590"></a>techGetDefaultTechName( )<br />=&gt; &quot;tech.db&quot;</pre>
+
+<p>
+<a name="pgfId-870591"></a>Returns the default binary technology database name, <code>tech.db</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-266470"></a><a name="techGetTechFile"></a><a name="72724"></a>techGetTechFile</h3>
+<a name="pgfId-266471"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetTechFile( 
+{ <code><em>g_libID</em></code> }
+) 
+=&gt; <code><em>d_techID</em></code> / nil</pre>
+<h4>
+<a name="pgfId-266472"></a>Description</h4>
+
+<p>
+<a name="pgfId-266473"></a>Returns the identifier of the technology database attached to the specified DFII library.</p>
+
+<h4>
+<a name="pgfId-266474"></a>Arguments</h4>
+<table class="webflareTable" id="#id931826">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931828"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_libID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931830"></a>The design data identifier for the database. </p>
+<p>
+<a name="pgfId-933592"></a>To get the design data identifier, use the <code>ddGetObj</code> function. For more information, see <em><a actuate="user" class="URL" href="../skdfref/chap3.html#ddGetObj" show="replace" xml:link="simple">Virtuoso Design Environment SKILL Reference</a></em>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-266476"></a>Value Returned</h4>
+<table class="webflareTable" id="#id931847">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931849"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931851"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931853"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931855"></a>The library does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-266479"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-266480"></a>techGetTechFile( libID )<br />=&gt; techFileID</pre>
+
+<p>
+<a name="pgfId-804943"></a>Returns the database identifier of the technology database bound to the library identified by <code>libID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetTechFileDdId
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-804944"></a><a name="techGetTechFileDdId"></a><a name="17216"></a>techGetTechFileDdId</h3>
+<a name="pgfId-869220"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetTechFileDdId( 
+<code><em>d_techID
+</em></code>) 
+=&gt; <code><em>g_ddtechID</em></code> / nil</pre>
+<h4>
+<a name="pgfId-254473"></a>Description</h4>
+
+<p>
+<a name="pgfId-867740"></a>Returns the design data identifier for the technology database identified by the specified <span class="webflare-courier-new" style="white-space:pre"><em>techID</em></span>. This function is a wrapper for the <code>ddGetObj</code> function specifically designed to return the design data identifier of a technology database.<code></code></p>
+<p>
+<a name="pgfId-309473"></a>For more information about design data identifiers and <code>ddGetObj</code>, see <em><a actuate="user" class="URL" href="../skdfref/chap3.html#ddGetObj" show="replace" xml:link="simple">Virtuoso Design Environment SKILL Reference</a></em>.</p>
+
+<h4>
+<a name="pgfId-867781"></a>Arguments</h4>
+<table class="webflareTable" id="#id932490">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932492"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932494"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-254477"></a>Value Returned</h4>
+<table class="webflareTable" id="#id931868">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931870"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_ddtechId</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931872"></a>The design data identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931874"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931876"></a>The technology database does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-805039"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-867789"></a>ddtechFileId = techGetTechFileDdId ( tfID )</pre>
+
+<p>
+<a name="pgfId-817688"></a>Returns the design data identifier of the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetOpenTechFiles
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-867392"></a><a name="techGetOpenTechFiles"></a><a name="95469"></a>techGetOpenTechFiles</h3>
+<a name="pgfId-867394"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetOpenTechFiles(
+) 
+=&gt; <code><em>l_techIDs</em></code> / nil</pre>
+<h4>
+<a name="pgfId-867396"></a>Description</h4>
+
+<p>
+<a name="pgfId-867399"></a>Returns a list of the database identifiers of the technology databases that are open.</p>
+
+<h4>
+<a name="pgfId-254631"></a>Arguments</h4>
+
+<p>
+<a name="pgfId-817850"></a>None</p>
+
+<h4>
+<a name="pgfId-817833"></a>Value Returned</h4>
+<table class="webflareTable" id="#id931889">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931891"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_techIDs</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931893"></a>A list of database identifiers for the open technology databases.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931895"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931897"></a>There are no technology databases open.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-254634"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-254635"></a>techGetOpenTechFiles()<br />=&gt; (db:0x025c001a db:0x025c001b db:0x025c001d db:0x025c0030)</pre>
+
+<p>
+<a name="pgfId-281065"></a>Returns the database identifiers of all open technology databases.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techVerifyTechFileId
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-805234"></a><a name="techVerifyTechFileId"></a><a name="28868"></a>techVerifyTechFileId</h3>
+<a name="pgfId-805236"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techVerifyTechFileId( 
+<code><em>d_ID</em></code> 
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-254744"></a>Description</h4>
+
+<p>
+<a name="pgfId-254745"></a>Determines whether the specified database identifier is for a technology database.</p>
+
+<h4>
+<a name="pgfId-254746"></a>Arguments</h4>
+<table class="webflareTable" id="#id931910">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931912"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_ID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931914"></a>The database identifier you want to check.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-254748"></a>Value Returned</h4>
+<table class="webflareTable" id="#id931931">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931933"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931935"></a>The database identifier is that of a technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931937"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931939"></a>The identifier is invalid or does not belong to a technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-254751"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-817966"></a>techVerifyTechFileId( tfID )<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-817967"></a>Indicates that the variable <code>tfID</code> contains the database identifier of a technology database.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetEvaluate
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-817968"></a><a name="64888"></a>t<a name="techSetEvaluate"></a>echSetEvaluate</h3>
+<a name="pgfId-289497"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetEvaluate(
+<code><em>g_value
+</em></code>) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-867404"></a>Description</h4>
+
+<p>
+<a name="pgfId-872651"></a>Sets an internal flag that indicates whether the <code>tcDumpTechFile</code> and <code>techGet</code> functions evaluate expressions or read expressions as strings. The system automatically sets this internal flag to <code>nil</code> when it dumps a technology file so that expressions and controls are preserved. This function lets you manually set the flag. </p>
+<p>
+<a name="pgfId-311338"></a>For more information about using control parameters, see <a href="chap2.html#41707">Controls Functions</a>.</p>
+
+<h4>
+<a name="pgfId-289500"></a>Arguments</h4>
+<table class="webflareTable" id="#id931952">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931954"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931956"></a>Indicates whether you want expressions evaluated when a technology database is dumped to ASCII.</p>
+<p>
+<a name="pgfId-933916"></a>Valid values: <code>t</code> (evaluate), <code>nil</code> (read as expressions)</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-289502"></a>Value Returned</h4>
+<table class="webflareTable" id="#id931973">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931975"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931977"></a>The internal flag is set to the value you specify.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931979"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931981"></a>The input is neither <code>t</code> nor <code>nil</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-289505"></a>Example</h4>
+
+<p>
+<a name="pgfId-871262"></a>In the following example, <code>techGetSpacingRule</code> returns the value of the control parameter when <code>techSetEvaluate</code> is set to <code>t</code>. After setting the evaluation flag to <code>nil</code>, <code>techGetSpacingRule</code> returns the unevaluated value for the <code>minWidth</code> spacing rule.</p>
+
+<p>
+<a name="pgfId-949741"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="342" src="images/chap1-3.gif" /></div>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetTimeStamp
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-259209"></a><a name="techSetTimeStamp"></a><a name="71285"></a>techSetTimeStamp</h3>
+<a name="pgfId-259210"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetTimeStamp( 
+<code><em>d_techID</em></code> 
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-281448"></a>Description</h4>
+
+<p>
+<a name="pgfId-815331"></a>Updates the internal time stamp of the technology database to the current time. The time stamp is an integer representing the number of seconds elapsed since 00:00:00 GMT, January 1, 1970. </p>
+
+<h4>
+<a name="pgfId-281492"></a>Arguments</h4>
+<table class="webflareTable" id="#id931994">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931996"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-931998"></a>The identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-281515"></a>Value Returned</h4>
+<table class="webflareTable" id="#id932015">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932017"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932019"></a>The time stamp was updated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932021"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932023"></a>The technology database does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-297871"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-311393"></a>techSetTimeStamp(tfID)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-281558"></a>Updates the time stamp for the technology database identified by <code>tfID</code> to the current time.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetTimeStamp
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-259212"></a><a name="techGetTimeStamp"></a><a name="27442"></a>techGetTimeStamp</h3>
+<a name="pgfId-259214"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetTimeStamp(
+<code><em>d_techID
+</em></code>) 
+=&gt; <code><em>x_timeStamp</em></code> / nil</pre>
+<h4>
+<a name="pgfId-259216"></a>Description</h4>
+
+<p>
+<a name="pgfId-259217"></a>Returns the last save time of the technology database loaded. The time stamp is updated every time you save the technology database. The time stamp is an integer representing the number of seconds elapsed since 00:00:00 GMT, January 1, 1970. </p>
+
+<h4>
+<a name="pgfId-259220"></a>Arguments</h4>
+<table class="webflareTable" id="#id932036">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932038"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932040"></a>The identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-259222"></a>Value Returned</h4>
+<table class="webflareTable" id="#id932057">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932059"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_timeStamp</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932061"></a>The number of seconds elapsed since 00:00:00 GMT, <br />January 1, 1970.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932063"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-932065"></a>The technology database does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-259225"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-873274"></a>techGetTimeStamp( tfID )<br />=&gt; 10281600</pre>
+
+<p>
+<a name="pgfId-946251"></a>Returns the time elapsed since the last update of the technology database identified by <code>tfID</code>. In this example, the time is 10281600/60<sub>*</sub>60<sub>*</sub>24 = 119 days.</p>
+
+<!-- [TOPIC_END] -->
+<h2>
+<a name="pgfId-946294"></a><a name="23650"></a>Attach Functions</h2>
+
+<p>
+<a name="pgfId-872685"></a>These functions let you attach, or bind, a specific technology database to a DFII library. You can also delete the binding.</p>
+<p>
+<a name="pgfId-287438"></a>The technology database binding is made up of two properties, <code>techLib</code> and <code>techFile</code>. You must set both properties for every DFII library. The properties are defined as follows:</p>
+<table class="webflareTable" id="#id867340">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-867342"></a><code>techLib</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-867344"></a>The name of the DFII technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-867346"></a><code>techFile</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-867348"></a>The name of the binary technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a name="pgfId-929599"></a>This topic contains the following functions:</p>
+<ul><li>
+<a name="pgfId-929705"></a><a href="chap1.html#86874">techBindTechFile</a></li><li>
+<a name="pgfId-929603"></a><a href="chap1.html#18911">techGetTechFileName</a></li><li>
+<a name="pgfId-929607"></a><a href="chap1.html#58896">techSetTechLibName</a></li><li>
+<a name="pgfId-929611"></a><a href="chap1.html#33734">techGetTechLibName</a></li><li>
+<a name="pgfId-929615"></a><a href="chap1.html#63982">techDeleteTechLibName</a></li><li>
+<a name="pgfId-929619"></a><a href="chap1.html#17587">techUnattachTechFile</a></li></ul>
+
+
+
+
+
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techBindTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-263884"></a><a name="86874"></a>t<a name="techBindTechFile"></a>echBindTechFile</h3>
+<a name="pgfId-264224"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techBindTechFile(
+<code><em>g_ID</em></code> 
+[ <code><em>t_techLibName</em></code> 
+[ <code><em>t_binaryName
+</em></code>[ <code><em>updateDev </em></code>] ] ]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-869074"></a>Description</h4>
+
+<p>
+<a name="pgfId-869076"></a>Attaches the specified DFII library to the specified technology database by creating <code>techLib</code> and <code>techFile</code> properties. To get the design data identifier for a DFII library, use the <code>ddGetObj</code> function.</p>
+<p>
+<a name="pgfId-312448"></a>For more information about design data identifiers and <code>ddGetObj</code>, see <em><a actuate="user" class="URL" href="../skdfref/chap3.html#ddGetObj" show="replace" xml:link="simple">Virtuoso Design Environment SKILL Reference</a></em>.</p>
+
+<h4>
+<a name="pgfId-282017"></a>Arguments</h4>
+<table class="webflareTable" id="#id934064">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934066"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_ID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934068"></a>The design data identifier for the library to attach.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934070"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_techLibName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934072"></a>The design data identifier for the DFII library. </p>
+<p>
+<a name="pgfId-934758"></a>Default: <code>cdsDefTechLib</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934766"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_binaryName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934768"></a>The name of the binary technology database. You must specify a technology library name for <span class="webflare-courier-new" style="white-space:pre"><em>t_techLibName</em></span> before you can use this argument.</p>
+<p>
+<a name="pgfId-934820"></a>Default: <code>tech.db</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934770"></a><span class="webflare-courier-new" style="white-space:pre"><em>updateDev</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934772"></a>Indicates whether you want the system to update the binding for all instances in the design library. You must specify <span class="webflare-courier-new" style="white-space:pre"><em>t_techLibName</em></span> and <span class="webflare-courier-new" style="white-space:pre"><em>t_binaryName</em></span> before you can use this argument.</p>
+<p>
+<a name="pgfId-934841"></a>Valid values: <code>t</code>, <code>nil</code></p>
+<p>
+<a name="pgfId-934850"></a>Default: <code>nil</code></p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-282034"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934080">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934082"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934084"></a>The <code>techFile</code> and <code>techLib</code> properties are set to the specified technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934086"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934088"></a>The DFII library or technology database does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-934941"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-934942"></a>techBindTechFile(ddGetObj(&quot;myLib&quot;) &quot;newTechLib&quot; &quot;tech.db&quot; t)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-870619"></a>Sets the <code>techLib</code> and <code>techFile</code> properties for the DFII library identified by <code>myLib</code> to <code>newTechLib</code> and <code>tech.db</code>. This example also updates all device instances in the design library to point to the devices in the technology library <code>newTechLib</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetTechFileName
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-873504"></a><a name="techGetTechFileName"></a><a name="18911"></a>techGetTechFileName</h3>
+<a name="pgfId-873506"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetTechFileName( 
+<code><em>g_ID
+</em></code>) 
+=&gt; <code><em>t_name</em></code> / nil</pre>
+<h4>
+<a name="pgfId-873452"></a>Description</h4>
+
+<p>
+<a name="pgfId-873454"></a>Returns the value of the <code>techFile</code> property for the specified DFII library. This property is one of two that attach a library to a technology database.</p>
+
+<h4>
+<a name="pgfId-873457"></a>Arguments</h4>
+<table class="webflareTable" id="#id934945">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934947"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_ID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934949"></a>The design data identifier for the library. To get the design data identifier, use <code>ddGetObj</code>. For more information, see <em><a actuate="user" class="URL" href="../skdfref/chap3.html#ddGetObj" show="replace" xml:link="simple">Virtuoso Design Environment SKILL Reference</a></em>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-873460"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934103">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934105"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_name</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934107"></a>The value of the <code>techFile</code> property.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934109"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934111"></a>The library does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-873464"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-873465"></a>techGetTechFileName(ddGetObj(&quot;libName&quot;))<br />=&gt; tech.db</pre>
+
+<p>
+<a name="pgfId-873466"></a>Returns the name of the technology database bound to the DFII library identified by the design data identifier obtained by <code>ddGetObj(&quot;libName&quot;)</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetTechLibName
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-264061"></a><a name="techSetTechLibName"></a><a name="58896"></a>techSetTechLibName</h3>
+<a name="pgfId-830291"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetTechLibName( 
+<code><em>g_ID
+t_libName</em></code> 
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-830292"></a>Description</h4>
+
+<p>
+<a name="pgfId-312983"></a>Updates the <code>techLib</code> property of the specified library. This property is one of two that attach a library to a technology database.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a name="pgfId-819398"></a>
+Use this function only to update an existing techLib property. Use techBindTechFile to create the techLib and techFile properties. </div>
+<h4>
+<a name="pgfId-312994"></a>Arguments</h4>
+<table class="webflareTable" id="#id934961">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934963"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_ID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934965"></a>The design data identifier for the library. To get the design data identifier, use <code>ddGetObj</code>. For more information, see <em><a actuate="user" class="URL" href="../skdfref/chap3.html#ddGetObj" show="replace" xml:link="simple">Virtuoso Design Environment SKILL Reference</a></em>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934967"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_libName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934969"></a>The name of the DFII library containing the technology database you want to use.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-263890"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934124">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934126"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934128"></a>The <code>techLib</code> property is updated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934130"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934132"></a>The library does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-263893"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-263894"></a>techSetTechLibName(libID ddGetObj(&quot;libName&quot;))<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-282956"></a>Updates the <code>techLib</code> property for the library identified by <code>libID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetTechLibName
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-247775"></a><a name="techGetTechLibName"></a><a name="33734"></a>techGetTechLibName</h3>
+<a name="pgfId-248174"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetTechLibName( 
+<code><em>g_ID
+</em></code>)
+=&gt; <code><em>t_name</em></code> / nil</pre>
+<h4>
+<a name="pgfId-283495"></a>Description</h4>
+
+<p>
+<a name="pgfId-283695"></a>Returns the value of the <code>techLib</code> property set for the specified library. This property is one of two that attach a library to a technology database.</p>
+
+<h4>
+<a name="pgfId-283497"></a>Arguments</h4>
+<table class="webflareTable" id="#id934989">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934991"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_ID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934993"></a>The design data identifier for the library. To get the design data identifier, use <code>ddGetObj</code>. For more information about design data identifiers and <code>ddGetObj</code>, see <em><a actuate="user" class="URL" href="../skdfref/chap3.html#ddGetObj" show="replace" xml:link="simple">Virtuoso Design Environment SKILL Reference</a></em>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-283502"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934145">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934147"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_name</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934149"></a>The value of the <code>techLib</code> property.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934151"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934153"></a>The library or technology library name does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-283505"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-283506"></a>techGetTechLibName(ddGetObj(&quot;libName&quot;))<br />=&gt; techLib</pre>
+
+<p>
+<a name="pgfId-283507"></a>Returns the name of the library bound to the library <code>libName</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techDeleteTechLibName
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-247778"></a><a name="techDeleteTechLibName"></a><a name="63982"></a>techDeleteTechLibName</h3>
+<a name="pgfId-248180"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techDeleteTechLibName( 
+<code><em>g_ID
+</em></code>) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-286807"></a>Description</h4>
+
+<p>
+<a name="pgfId-286808"></a>Deletes the <code>techLib</code> property for the specified DFII library. This property is one of two that attach a library to a technology database.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a name="pgfId-877746"></a>
+DFII applications cannot display a cellview without a technology database. If you delete part of the technology database binding, DFII uses the default technology database your_install_dir/tools/dfII/etc/cdsDefTechLib/tech.db.</div>
+<h4>
+<a name="pgfId-871722"></a>Arguments</h4>
+<table class="webflareTable" id="#id935010">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935012"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_ID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935014"></a>The design data identifier for the library. To get the design data identifier, use <code>ddGetObj</code>. For more information about design data identifiers and <code>ddGetObj</code>, see <em><a actuate="user" class="URL" href="../skdfref/chap3.html#ddGetObj" show="replace" xml:link="simple">Virtuoso Design Environment SKILL Reference</a></em>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-286814"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934166">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934168"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934170"></a>The <code>techLib</code> property is deleted.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934172"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934174"></a>The library does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-286817"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-286818"></a>techDeleteTechLibName(ddGetObj(&quot;libName&quot;))<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-820126"></a>Deletes the <code>techLib</code> property for the library identified by the design data identifier obtained by <code>ddGetObj(&quot;libName&quot;)</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techUnattachTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-869340"></a><a name="techUnattachTechFile"></a><a name="17587"></a>techUnattachTechFile</h3>
+<a name="pgfId-869342"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techUnattachTechFile( 
+<code><em>d_object
+</em></code>) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-869310"></a>Description</h4>
+
+<p>
+<a name="pgfId-869312"></a>Unattaches a technology database from a design library. This function unattach the technology library from the design library without remaster the devices in the design library. However, the device master cellviews remain unchanged. </p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a name="pgfId-871761"></a>
+If you unattach the technology database from a design library, without attaching another technology database to the design library, DFII uses the default technology database your_install_dir/tools/dfII/etc/cdsDefTechLib/tech.db.</div>
+<h4>
+<a name="pgfId-869316"></a>Arguments</h4>
+<table class="webflareTable" id="#id935031">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935033"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_object</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935035"></a>The design data identifier for the library for which to unattach its attached technology library. To get the design data identifier, use <code>ddGetObj</code>. For more information, see <em><a actuate="user" class="URL" href="../skdfref/chap3.html#ddGetObj" show="replace" xml:link="simple">Virtuoso Design Environment SKILL Reference</a></em>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-869319"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934194">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934196"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934198"></a>The technology library is unattached from the design object.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934200"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934202"></a>The librarydoes not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-869322"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-869323"></a>techUnattachTechFile(ddGetObj(&quot;libName&quot;))<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-869324"></a>Unattaches the technology database currently attached to the library identified by <code>libID</code>.</p>
+
+<!-- [TOPIC_END] -->
+<h2>
+<a name="pgfId-247784"></a><a name="18400"></a>Dump, Load, and Trigger Functions</h2>
+
+<p>
+<a name="pgfId-820558"></a>These functions let you transfer technology data from ASCII format to virtual memory (load) and back again (dump). You can also set programs to execute based on a dump or load trigger.</p>
+<p>
+<a name="pgfId-820599"></a>The dump and load trigger functions notify you when a dump or load event occurs. Triggers are of two types, pre-event and post-event. Pre-event triggers notify you before the event occurs, post-event triggers notify you afterward. </p>
+<p>
+<a name="pgfId-929736"></a>This topic contains the following functions:</p>
+<ul><li>
+<a name="pgfId-929643"></a><a href="chap1.html#22600">tcDumpTechFile</a></li><li>
+<a name="pgfId-929647"></a><a href="chap1.html#16493">tcLoadTechFile</a></li><li>
+<a name="pgfId-929651"></a><a href="chap1.html#67358">tcRegPreDumpTrigger</a></li><li>
+<a name="pgfId-929655"></a><a href="chap1.html#70018">tcUnregPreDumpTrigger</a></li><li>
+<a name="pgfId-929659"></a><a href="chap1.html#20350">tcRegPostDumpTrigger</a></li><li>
+<a name="pgfId-929663"></a><a href="chap1.html#96084">tcUnregPostDumpTrigger</a></li><li>
+<a name="pgfId-929667"></a><a href="chap1.html#58547">tcRegPreLoadTrigger</a></li><li>
+<a name="pgfId-929671"></a><a href="chap1.html#27185">tcUnregPreLoadTrigger</a></li><li>
+<a name="pgfId-929675"></a><a href="chap1.html#27681">tcRegPostLoadTrigger</a></li><li>
+<a name="pgfId-929679"></a><a href="chap1.html#72083">tcUnregPostLoadTrigger</a></li><li>
+<a name="pgfId-949075"></a><a href="chap1.html#34032">tcRegPostSetRefTrigger</a></li><li>
+<a name="pgfId-949068"></a><a href="chap1.html#50496">tcUnregPostSetRefTrigger</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a name="pgfId-949818"></a></p>
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcDumpTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-232463"></a><a name="tcDumpTechFile"></a><a name="22600"></a>tcDum<a name="tcdump"></a>pTechFile</h3>
+<a name="pgfId-881717"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcDumpTechFile(
+<code><em>d_techID</em></code> 
+<code><em>t_dumpFile
+</em></code>[ <code><em>l_sectionList</em></code> <code><em>t_mode 
+g_dumpEmptySectionHdrs </em></code>]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-316404"></a>Description</h4>
+
+<p>
+<a name="pgfId-316405"></a>Dumps the technology data in the specified binary technology database to the specified ASCII file.</p>
+
+<div class="webflare-information-macro webflare-macro-warning">
+<a name="pgfId-316415"></a>
+If the specified dump file exists, this function overwrites it without warning. Cadence recommends that you specify a temporary dump file and not overwrite your existing ASCII technology file.</div>
+<h4>
+<a name="pgfId-316416"></a>Arguments</h4>
+<table class="webflareTable" id="#id935052">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935054"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935056"></a>The identifier of the technology database to dump.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935058"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_dumpFile</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935060"></a>Name of the ASCII file to create.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-937310"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_sectionList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-937312"></a>List of the technology file sections to dump. The list has the following syntax:</p>
+<p>
+<a name="pgfId-937345"></a><code>list( </code><span class="webflare-courier-new" style="white-space:pre"><em>t_sectionName</em></span><code> &#8230; )</code></p>
+<p>
+<a name="pgfId-937352"></a>where, <span class="webflare-courier-new" style="white-space:pre"><em>t_className</em></span> is the name of the main technology file section.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-937314"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_mode</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-937316"></a>Mode in which to dump the specified sections: append to the specified dump file or write over the specified dump file if it already exists.</p>
+<p>
+<a name="pgfId-937479"></a>Valid values: <code>a</code>, <code>w</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-937422"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_dumpEmptySectionHdrs</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-937448"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-937450"></a>Dumps all section headers for sections selected in the section list. If the section list is <code>nil</code>, then it will dump all the sections.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-881786"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934222">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934224"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934226"></a>The dump completed successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934228"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934230"></a>The technology database is not open in virtual memory or you do not have write permission for the dump file.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-231725"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-231726"></a>tcDumpTechFile(tfID &quot;dumpFile&quot;)</pre>
+
+<p>
+<a name="pgfId-231727"></a>Dumps the contents of the technology database identified by <code>tfID</code> to a text file called <code>dumpFile</code>.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-872073"></a>tcDumpTechFile(tfID &quot;dumpFile&quot; list(&quot;controls&quot; &quot;constraintGroups&quot; &quot;viaDefs&quot;) &quot;w&quot;)</pre>
+
+<p>
+<a name="pgfId-872074"></a>Dumps the contents of the <code>controls</code>, <code>constraintGroups</code>, and <code>viaDefs</code> sections of the technology database identified by <code>tfID</code> to a text file called <code>dumpFile</code> in write mode (if the file <code>dumpFile</code> already exists, this function overwrites it).</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcLoadTechFile
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-821114"></a><a name="tcLoadTechFile"></a><a name="16493"></a>tcLoadTechFile</h3>
+<a name="pgfId-821115"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcLoadTechFile(
+<code><em>d_techID</em></code> 
+<code><em>t_sourceFile
+</em></code>[ <code><em>t_mode</em></code> [ <code><em>l_sections </em></code>] ]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-867417"></a>Description</h4>
+
+<p>
+<a name="pgfId-867420"></a>Compiles the ASCII source file, opens the technology database in <code>a</code> (append) mode, and updates it with the compiled data. The default action is to merge the newly compiled data with the technology database already loaded into virtual memory. If you set <span class="webflare-courier-new" style="white-space:pre"><em>t_mode</em></span> to <code>w</code>, the system deletes the data in virtual memory and loads the newly compiled data. If you specify the sections to compile, this function compiles only the specified sections and preserves the data in the other sections.</p>
+<p>
+<a name="pgfId-867422"></a>If you opened the technology database in read mode, this function upgrades the mode to append or write. If you opened the technology database in append or write mode and then ran <code>tcLoadTechFile</code> with the default merge action, this function merges the newly compiled data with the data, if any, currently in virtual memory.</p>
+
+<h4>
+<a name="pgfId-821119"></a>Arguments</h4>
+<table class="webflareTable" id="#id935073">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935075"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935077"></a>Database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935079"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_sourceFile</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935081"></a>Name of the ASCII technology file you want to compile and load.</p>
+<p>
+<a name="pgfId-937115"></a>Valid value: Any string</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-937088"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_mode</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-937090"></a>Indicates whether you want to replace the existing technology data in virtual memory with the newly compiled data.<br />Valid Values: <code>w</code> replaces the data, <code>a</code> merges the data with the data that exists in virtual memory</p>
+<p>
+<a name="pgfId-937197"></a>Default: <code>a</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-937092"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_sections</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-937094"></a>List of sections to compile.</p>
+<p>
+<a name="pgfId-937188"></a>Valid values: &#8216;<code>controls</code>, &#8216;<code>layerDefinitions</code>, &#8216;<code>layerRules</code>, &#8216;<code>constraintGroups</code>, &#8216;<code>siteDefs</code>, &#8216;<code>viaDefs</code>, &#8216;<code>viaSpecs</code>, &#8216;<code>devices</code>, &#8216;<code>leRules</code></p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-871481"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934243">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934245"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934247"></a>The ASCII source file compiled successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934249"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934251"></a>The technology database does not exist or the source file does not exist, does not compile, or does not merge with the existing technology database properly. Error messages may be displayed listing syntax problems in the source file.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-821128"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-821129"></a>tcLoadTechFile(techGetTechFile( techID ) &quot;my_source&quot;)</pre>
+
+<p>
+<a name="pgfId-821130"></a>Compiles the <code>my_source</code> ASCII file. Merges the technology data into the virtual memory used by the technology database for the database identified by <code>techID</code>.</p>
+<p>
+<a name="pgfId-949829"></a></p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcRegPostAttachTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-891010"></a>tcRegPo<a name="tcRegPostAttachTrigger"></a>stAttachTrigger</h3>
+<a name="pgfId-891012"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcRegPostAttachTrigger(
+<code><em>s_function
+</em></code>[ <code><em>x_priority </em></code>]
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-891014"></a>Description</h4>
+
+<p>
+<a name="pgfId-891019"></a>Registers a trigger function the system calls after attaching a design library to a technology library. You can use this function to keep track of the technology library of a design library is attached to.</p>
+
+<h4>
+<a name="pgfId-891086"></a>Arguments</h4>
+<table class="webflareTable" id="#id935094">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935096"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935098"></a>A SKILL procedure with two arguments: the name of the design library and the name of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935100"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_priority</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935102"></a>Trigger functions are called in order of priority, with 0 having the highest priority. If you do not specify a priority argument, the default is the lowest priority (that is, it executes after any other trigger function that specifies a priority). </p>
+<p>
+<a name="pgfId-938091"></a>Valid values: Any integer</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-891031"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934299">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934301"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934303"></a>The trigger function is registered.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934305"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934307"></a>The trigger function is registered.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-891034"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-891156"></a>procedure(myPostAttachTrig(libName techLibName)
+&#160;&#160;&#160;&#160;println(&quot;myPostAttachTrig&quot;)
+&#160;&#160;&#160;&#160;printf(&quot;Attach design library &#39;%s&#39; to technology library &#39;%s&#39;.\n&quot; libName techLibName)<br />)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-891035"></a>tcRegPostAttachTrigger(&#39;myPostAttachTrig)</pre>
+
+<p>
+<a name="pgfId-891036"></a>Registers a trigger function, &#39;<code>myPostAttachTrig</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcUnregPostAttachTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-891247"></a>tcUnregPo<a name="tcUnregPostAttachTrigger"></a>stAttachTrigger</h3>
+<a name="pgfId-891249"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcUnregPostAttachTrigger(
+<code><em>s_trigFun
+</em></code>) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-891251"></a>Description</h4>
+
+<p>
+<a name="pgfId-891253"></a>Unregisters post attach trigger so the system does not call the function after attaching a design library to a technology library.</p>
+
+<h4>
+<a name="pgfId-891254"></a>Arguments</h4>
+<table class="webflareTable" id="#id935115">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935117"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_trigFun</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935119"></a>Name of the trigger.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-891257"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934327">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934329"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934331"></a>The trigger function is unregistered successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934333"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934335"></a>An error occurred during execution.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-891260"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-891262"></a>tcUnregPostAttachTrigger(&#39;myPostAttachTrig)</pre>
+
+<p>
+<a name="pgfId-891263"></a>Unregisters a trigger function, &#39;<code>myPostAttachTrig</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcRegPreDumpTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-316998"></a><a name="tcRegPreDumpTrigger"></a><a name="67358"></a>tcRegPreDumpTrigger</h3>
+<a name="pgfId-316999"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcRegPreDumpTrigger(
+<code><em>s_function
+</em></code>[ <code><em>x_priority </em></code>]
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-317002"></a>Description</h4>
+
+<p>
+<a name="pgfId-317003"></a>Registers a trigger function the system calls before dumping a technology database. The <span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span> argument is a SKILL procedure with three arguments: the database identifier of the technology database, the port (or print destination) for the dump file, and the name of the dump file.
+
+Trigger functions are called in order of priority, with 0 having the highest priority. If you do not specify a priority argument, the default is the lowest priority (that is, it executes after any other trigger function that specifies a priority).</p>
+<p>
+<a name="pgfId-320213"></a>You can use this function to add header information to the dumped technology file. You can also use this function to dump the technology data into your preferred format and prevent the system-provided dumping.</p>
+
+<h4>
+<a name="pgfId-317005"></a>Arguments</h4>
+<table class="webflareTable" id="#id935136">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935138"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935140"></a>Symbol indicating the name of the trigger function. The format of the function is as follows:</p>
+<p>
+<a name="pgfId-936630"></a><code>function( </code><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>p_port</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>t_dumpName</em></span><code> ) <br />=&gt; t / nil</code></p>
+<p>
+<a name="pgfId-936637"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-936772"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span> is the database identifier of the technology database.</li><li>
+<a name="pgfId-936672"></a><span class="webflare-courier-new" style="white-space:pre"><em>p_port</em></span> is the port for the dump file. (You can use the infile function to get port data for a file.)</li><li>
+<a name="pgfId-936695"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_dumpName</em></span> is the name of the dump file.</li></ul>
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935142"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_priority</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935144"></a>Priority of this trigger function. </p>
+<p>
+<a name="pgfId-936748"></a>Valid values: Any integer</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-317009"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934348">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934350"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934352"></a>The trigger function registers.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934354"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934356"></a>The SKILL procedure does not exist or is incomplete; the trigger function did not register.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-317012"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-318242"></a>procedure(MYPreDumpTrigger(techID techport 
+&#160;&#160;&#160;&#160;techfile)
+if(techID~&gt;owner == &quot;sysAdmin&quot;
+  &amp;&amp; techID~&gt;MYTechName 
+  &amp;&amp; techID~&gt;MYversion then
+&#160;&#160;&#160;&#160;; write header info at top of dumped file.
+&#160;&#160;&#160;&#160;fprintf(techport &quot;Tech Name = %s.\nVer. %f\n&quot;
+&#160;&#160;&#160;&#160;techID~&gt;MYTechName techID~&gt;MYversion)<br />    )<br />    t<br />)<br />
+tcRegPreDumpTrigger(&#8217;MYPreDumpTrigger)</pre>
+
+<p>
+<a name="pgfId-317014"></a>Registers a predump trigger that writes the header information at the top of the dumped technology file.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcUnregPreDumpTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-317645"></a><a name="tcUnregPreDumpTrigger"></a><a name="70018"></a>tcUnregPreDumpTrigger</h3>
+<a name="pgfId-317646"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcUnregPreDumpTrigger(
+<code><em>s_function
+</em></code>) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-317648"></a>Description</h4>
+
+<p>
+<a name="pgfId-317649"></a>Unregisters the specified predump trigger function so the system does not call it before dumping a technology database. </p>
+
+<h4>
+<a name="pgfId-317651"></a>Arguments</h4>
+<table class="webflareTable" id="#id935157">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935159"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935161"></a>Name of the registered trigger function (a symbol) to unregister.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-317654"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934369">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934371"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934373"></a>The trigger function registration is deleted.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934375"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934377"></a>The trigger function registration does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-317657"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-317658"></a>tcUnregPreDumpTrigger(&#8217;MYPreDumpTriggerFunc)</pre>
+
+<p>
+<a name="pgfId-822476"></a>Unregisters <code>MYPreDumpTriggerFunc</code> trigger function.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcRegPostDumpTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-316739"></a><a name="tcRegPostDumpTrigger"></a><a name="20350"></a>tcRegPostDumpTrigger</h3>
+<a name="pgfId-316740"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcRegPostDumpTrigger(
+<code><em>s_function
+</em></code>[ <code><em>x_priority </em></code>]
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-316743"></a>Description</h4>
+
+<p>
+<a name="pgfId-316744"></a>Registers a trigger function the system calls after it dumps a technology database. The <span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span> argument is a SKILL procedure with three arguments: the database identifier of the technology database, the port (or print destination) for the dump file, and the name of the dump file.
+
+Trigger functions are called in order of priority, with 0 having the highest priority. If you do not specify a priority argument, the default is the lowest priority (that is, it is executed after any other trigger function that specifies a priority).</p>
+
+<h4>
+<a name="pgfId-316746"></a>Arguments</h4>
+<table class="webflareTable" id="#id935178">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935180"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935182"></a>Symbol indicating the name of the trigger function. The format is as follows:</p>
+<p>
+<a name="pgfId-936367"></a><code>function( </code><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>p_port</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>t_dumpName</em></span><code> ) <br />=&gt; t / nil</code></p>
+<p>
+<a name="pgfId-936374"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-936405"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span> is the database identifier of the technology database.</li><li>
+<a name="pgfId-936381"></a><span class="webflare-courier-new" style="white-space:pre"><em>p_port</em></span> is the port for the dump file. (You can use the <code>infile</code> function to get port data for a file.)</li><li>
+<a name="pgfId-936442"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_dumpName</em></span> is the name of the dump file.</li></ul>
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935184"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_priority</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935186"></a>Priority of this trigger function. </p>
+<p>
+<a name="pgfId-936340"></a>Valid values: Any integer</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-316750"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934390">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934392"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934394"></a>The trigger function is registered.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934396"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934398"></a>The SKILL procedure does not exist or is incomplete; the trigger function did not register.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcUnregPostDumpTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-317452"></a><a name="tcUnregPostDumpTrigger"></a><a name="96084"></a>tcUnregPostDumpTrigger</h3>
+<a name="pgfId-830591"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcUnregPostDumpTrigger(
+<code><em>s_function
+</em></code>) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-830593"></a>Description</h4>
+
+<p>
+<a name="pgfId-318696"></a>Unregisters the specified postdump trigger function so the system does not call it after dumping a technology database.</p>
+
+<h4>
+<a name="pgfId-317458"></a>Arguments</h4>
+<table class="webflareTable" id="#id935199">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935201"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935203"></a>Symbol indicating the name of the registered trigger function.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-317461"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934418">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934420"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934422"></a>The trigger function registration is deleted.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934424"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934426"></a>The trigger function registration does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-317464"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-317465"></a>tcUnregPostDumpEchFileTrigger(&#8217;MYPostLoadTriggerFunc)</pre>
+
+<p>
+<a name="pgfId-823556"></a>Unregisters the <code>MYPostLoadTriggerFunc</code> trigger function.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcRegPreLoadTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-317242"></a><a name="tcRegPreLoadTrigger"></a><a name="58547"></a>tcRegPreLoadTrigger</h3>
+<a name="pgfId-317243"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcRegPreLoadTrigger(
+<code><em>s_function
+</em></code>[ <code><em>x_priority </em></code>]
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-867434"></a>Description</h4>
+
+<p>
+<a name="pgfId-872959"></a>Registers a trigger function the system calls before loading a technology database. The <span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span> argument is a SKILL procedure with two arguments: the database identifier of the technology database and the name of the ASCII technology file you are loading. 
+
+Trigger functions are called in order of priority, with 0 having the highest priority. If you do not specify a priority argument, the default is the lowest priority (that is, it executes after any other trigger function that specifies a priority).</p>
+<p>
+<a name="pgfId-872962"></a>You can use this function to check the technology file contents before loading the technology file. Library administrators can use this mechanism to prevent library users from accidentally overwriting technology data that must be consistent with the centrally defined technology data.</p>
+
+<h4>
+<a name="pgfId-317250"></a>Arguments</h4>
+<table class="webflareTable" id="#id935220">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935222"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935224"></a>Symbol indicating the name of the trigger function. The format of the function is as follows:</p>
+<p>
+<a name="pgfId-936053"></a><code>function( </code><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>t_techFileName</em></span><code> ) <br />=&gt; t / nil</code></p>
+<p>
+<a name="pgfId-936151"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-936060"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span> is the database identifier of the technology database.</li><li>
+<a name="pgfId-936095"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_techFileName</em></span> is the name of the ASCII technology file.</li></ul>
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935226"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_priority</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935228"></a>Priority of this trigger function.</p>
+<p>
+<a name="pgfId-936190"></a>Valid values: Any integer</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-317254"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934439">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934441"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934443"></a>The trigger function is registered.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934445"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934447"></a>The SKILL procedure does not exist or is incomplete; the trigger function did not register.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-870975"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-870976"></a>procedure(MYFilterTechFileLoad( TFID techfile)
+&#160;&#160;&#160;&#160;prog((techport)
+&#160;&#160;&#160;&#160; if(TFID~&gt;owner != &quot;sysAdmin&quot; return(t))<br />  ; TFID is owned by central admintrator.<br />  ; Do not allow user to overwrite protected <br />  ; technology data.<br />  techport = infile(techfile)<br />  ; Read file into big list then check the<br />  ; section headers.<br />  while((section = read(techport))<br />   if( listp(section) &amp;&amp; memq(car(section)<br />    MYProtectedSections) then<br />    warn(&quot;Cannot load techfile containing<br />     \&quot;%s\&quot; section&quot; car(section))<br />  close (techport)<br />    return(nil)<br />   )<br />  )<br />  close(techport)       <br />   return(t)<br /> )<br />)<br />tcRegPreLoadTrigger(&#8217;MYFilterTechFileLoad)</pre>
+
+<p>
+<a name="pgfId-317259"></a>Registers a preload trigger that prevents a user from accidentally overwriting the technology data defined by the library owner.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcUnregPreLoadTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-317830"></a><a name="tcUnregPreLoadTrigger"></a><a name="27185"></a>tcUnregPreLoadTrigger</h3>
+<a name="pgfId-317831"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcUnregPreLoadTrigger(
+<code><em>s_function
+</em></code>) 
+=&gt; t / nil </pre>
+<h4>
+<a name="pgfId-317833"></a>Description</h4>
+
+<p>
+<a name="pgfId-317834"></a>Unregisters the specified preload trigger function so the system does not call it before loading a technology file.</p>
+
+<h4>
+<a name="pgfId-317836"></a>Arguments</h4>
+<table class="webflareTable" id="#id935241">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935243"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935245"></a>Name of the registered trigger function (a symbol) to unregister.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-319784"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934460">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934462"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934464"></a>The trigger function registration is deleted.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934466"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934468"></a>The trigger function registration does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-317842"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-317843"></a>tcUnregPreLoadTrigger(&#8217;MYPreLoadTriggerFunc)</pre>
+
+<p>
+<a name="pgfId-823957"></a>Unregisters <code>MYPreLoadTriggerFunc</code> trigger function.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcRegPostLoadTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-248233"></a><a name="tcRegPostLoadTrigger"></a><a name="27681"></a>tcRegPostLoadTrigger</h3>
+<a name="pgfId-248234"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcRegPostLoadTrigger(
+<code><em>s_function
+</em></code>[ <code><em>x_priority </em></code>]
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-248236"></a>Description</h4>
+
+<p>
+<a name="pgfId-248237"></a>Registers a trigger function the system calls after loading a technology file. The <span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span> argument is a SKILL procedure with two arguments: the database identifier of the technology database and the name of the ASCII technology file you are loading.
+
+Trigger functions are called in order of priority, with 0 having the highest priority. If you do not specify a priority argument, the default is the lowest priority (that is, it executes after any other trigger function that specifies a priority).</p>
+<p>
+<a name="pgfId-320746"></a>You can use this function to keep track of the contents of the technology file or to update any related technology data based on the contents of the technology file.</p>
+
+<h4>
+<a name="pgfId-935675"></a>Arguments</h4>
+<table class="webflareTable" id="#id935666">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935668"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935690"></a>Symbol indicating the name of the trigger function. The format is as follows:</p>
+<p>
+<a name="pgfId-935670"></a><code>function( </code><span class="webflare-courier-new" style="white-space:pre"><em>d_techId</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>t_techFileName</em></span><code> ) <br />=&gt; t / nil</code></p>
+<p>
+<a name="pgfId-935715"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-935862"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techId</em></span> is the database identifier of the technology database.</li><li>
+<a name="pgfId-935722"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_techFileName</em></span> is the name of the ASCII technology file.</li></ul>
+
+
+<p>
+<a name="pgfId-935729"></a>Returns <code>t</code> if the database identifier is loaded successfully; returns <code>nil</code> if the database identifier or ASCII technology file does not exist.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935672"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_priority</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935674"></a>Priority of this trigger function, with 0 having the highest priority. If you do not specify a priority argument, by default it takes the lowest priority. It means, this function is executed after any other trigger function that specifies a priority.</p>
+<p>
+<a name="pgfId-935917"></a>Valid values: Any integer</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-248243"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934481">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934483"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934485"></a>The trigger function is registered.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934487"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934489"></a>The SKILL procedure does not exist or is incomplete; the trigger function did not register.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-248246"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-248247"></a>procedure(MYPostLoadTriggerFunc(techId techfile)
+&#160;&#160;&#160;&#160;if(techId~&gt;owner == &quot;sysAdmin&quot; &amp;&amp; techId~&gt;mode == &quot;a&quot; 
+&#160;&#160;&#160;&#160;then
+&#160;&#160;&#160;&#160;; set flag to indicate that tech data has 
+&#160;&#160;&#160;&#160;; been overwritten
+&#160;&#160;&#160;&#160;techId~&gt;myTechDataHasBeenModifiedFlag = t
+&#160;&#160;&#160;&#160;)<br />)<br />tcRegPostLoadTrigger(&#8217;MYPostLoadTriggerFunc)</pre>
+
+<p>
+<a name="pgfId-248248"></a>Registers a trigger function that indicates that the technology data in the technology library has been overwritten.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcUnregPostLoadTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-248304"></a><a name="tcUnregPostLoadTrigger"></a><a name="72083"></a>tcUnregPostLoadTrigger</h3>
+<a name="pgfId-248305"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcUnregPostLoadTrigger(
+<code><em>s_function
+</em></code>) 
+=&gt; t / nil </pre>
+<h4>
+<a name="pgfId-248307"></a>Description</h4>
+
+<p>
+<a name="pgfId-248308"></a>Unregisters the specified trigger function so the system does not call it after loading a technology file.</p>
+
+<h4>
+<a name="pgfId-248310"></a>Arguments</h4>
+<table class="webflareTable" id="#id935283">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935285"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_function</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935287"></a>Symbol indicating the name of the registered trigger function to unregister. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-248313"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934502">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934504"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934506"></a>The trigger function registration is deleted.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934508"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934510"></a>The trigger function registration does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-248316"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-248317"></a>tcUnregPostLoadTrigger(&#8217;MYPostLoadTriggerFunc)</pre>
+
+<p>
+<a name="pgfId-824361"></a>Unregisters <code>MYPostLoadTriggerFunc</code> trigger function.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcRegPostSetRefTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-885138"></a><a name="34032"></a>tcReg<a name="tcRegPostSetRefTrigger"></a>PostSetRefTrigger</h3>
+<a name="pgfId-885140"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcRegPostSetRefTrigger(
+<code><em>s_trigFunc</em></code> 
+[ <code><em>x_priority </em></code>]
+)
+=&gt; t / nil</pre>
+
+<p>
+<a name="pgfId-885143"></a>Registers a trigger function that the system calls after setting the reference for the specified technology database. You can use this function to keep track of the technology database reference when a technology database is updated.</p>
+
+<h4>
+<a name="pgfId-885144"></a>Arguments</h4>
+<table class="webflareTable" id="#id935304">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935306"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_trigFunc</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935308"></a>Name of the trigger.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935310"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_priority</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935312"></a>Priority of the trigger. Trigger functions are called in order of priority, with 0 having the highest priority. If you do not specify a priority argument, the default is the lowest priority (that is, it executes after any other trigger function that specifies a priority).</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-885147"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934523">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934525"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934527"></a>The trigger function is registered successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934529"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934531"></a>The trigger function is not registered. The SKILL procedure either does not exist or is incomplete.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-885150"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-888015"></a>procedure(myPostSetRefTrig(libName)
+&#160;&#160;&#160;&#160;println(&quot;myPostSetRefTrig&quot;)
+&#160;&#160;&#160;&#160;tf =  techGetTechFile(ddGetObj(libName))
+&#160;&#160;&#160;&#160;printf(&quot;Set Ref &#39;%L&#39; to techLib &#39;%s&#39;.\n&quot; tf~&gt;refLibNames libName)<br />)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-885151"></a>tcRegPostSetRefTrigger(&#39;myPostSetRefTrig)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-885234"></a>Registers the <code>myPostSetRefTrig</code> trigger.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=tcUnregPostSetRefTrigger
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-885188"></a><a name="50496"></a>tcUnreg<a name="tcUnregPostSetRefTrigger"></a>PostSetRefTrigger</h3>
+<a name="pgfId-885190"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+tcUnregPostSetRefTrigger(
+<code><em>s_trigFunc
+</em></code>)
+=&gt; t / nil</pre>
+
+<p>
+<a name="pgfId-885193"></a>Unregisters a specified trigger function so that the system does not call it after setting the reference for the specified technology database.</p>
+
+<h4>
+<a name="pgfId-885194"></a>Arguments</h4>
+<table class="webflareTable" id="#id935332">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935334"></a><span class="webflare-courier-new" style="white-space:pre"><em>s_trigFunc</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-935336"></a>Name of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-885197"></a>Value Returned</h4>
+<table class="webflareTable" id="#id934544">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934546"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934548"></a>The trigger function is unregistered successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934550"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-934552"></a>An error occurred during execution.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-885200"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-885201"></a>tcUnregPostSetRefTrigger(&#39;CCSpostSetRefTrig)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-885123"></a>Unregisters the <code>CCSpostSetRefTrig</code> trigger.</p>
+
+<!-- [TOPIC_END] -->
+<h2>
+<a name="pgfId-255116"></a><a name="19278"></a>Floating-Point Precision Function</h2>
+
+<p>
+<a name="pgfId-869398"></a>This function lets you set the precision, or number of digits following the decimal point, in floating-point numbers. Different systems can require different levels of precision for floating-point calculations.</p>
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetPrecision
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-869401"></a><a name="techSetPrecision"></a>techSetPrecision</h3>
+<a name="pgfId-869403"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetPrecision(
+<code><em>x_digits
+</em></code>) 
+=&gt; t / nil </pre>
+<h4>
+<a name="pgfId-869405"></a>Description</h4>
+
+<p>
+<a name="pgfId-869440"></a>Sets the precision, or number of digits following the decimal point, to be used in floating-point calculations.</p>
+<p>
+<a name="pgfId-881897"></a>This function treats a real number as a float (double) number and performs the following checks.</p>
+<ul><li>
+<a name="pgfId-881900"></a>If absolute value of number less than equal to <code>1/10^n</code> (precision), then the same number is returned.</li><li>
+<a name="pgfId-881902"></a>If absolute value of number greater than precision, then it is rounded off to the precision digit.</li></ul>
+
+
+<h4>
+<a name="pgfId-869412"></a>Arguments</h4>
+<table class="webflareTable" id="#id930200">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930202"></a><span class="webflare-courier-new" style="white-space:pre"><em>x_digits</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930204"></a>Number of digits following the decimal point in floating-point numbers.</p>
+<p>
+<a name="pgfId-930266"></a>Valid values: <code>1</code> through <code>8</code></p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-930277"></a>If a value greater than <code>8</code> is assigned, <span class="webflare-courier-new" style="white-space:pre"><em>x_digit</em></span> is set to <code>8</code>. It is also ensured that no overflow occurs when the value gets close to <code>8</code>.</div>
+
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-869414"></a>Value Returned</h4>
+<table class="webflareTable" id="#id930216">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930218"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930220"></a>The specified precision was set.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930222"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-930224"></a>The precision was not set because the specified precision value was invalid.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-869417"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-869418"></a>techSetPrecision(6)</pre>
+
+<p>
+<a name="pgfId-869419"></a>Sets the precision for floating-point numbers to <code>6</code>.</p>
+
+<!-- [TOPIC_END] -->
+<h2>
+<a name="pgfId-894981"></a><a name="43213"></a>ICC Information Function</h2>
+
+<p>
+<a name="pgfId-882491"></a>This function creates a constraint group and rules file for the Virtuoso chip assembly router.</p>
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techMakeVirtuosoIccInfo
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-882499"></a><a name="techMakeVirtuosoIccInfo"></a>techMakeVirtuosoIccInfo</h3>
+<a name="pgfId-882500"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techMakeVirtuosoIccInfo(
+<code><em>d_techID
+</em></code>[ <code><em>g_iccRuleFileName</em></code> ]
+[ <code><em>g_constraintGroupName</em></code> ]
+[ <code><em>b_replaceConstraintGroup</em></code> ]
+[ <code><em>b_removeParams</em></code> ]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-882502"></a>Description</h4>
+
+<p>
+<a name="pgfId-895074"></a>Creates a constraint group from Virtuoso chip assembly router rules. Also creates a separate abstract rules file when <code>iccConductors</code> and/or <code>iccKeepouts</code> are specified. The router rules can be either in a separate ASCII icc rules file or in the technology file <code>techParams</code> section.</p>
+
+<h4>
+<a name="pgfId-895076"></a>Arguments</h4>
+<table class="webflareTable" id="#id929831">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929833"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929835"></a>The database identifier of the technology database in which to create the constraint group</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-929837"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_iccRuleFileName</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929892"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929894"></a>The name of the Virtuoso chip assembly router rules file.</p>
+<p>
+<a name="pgfId-930021"></a>Valid values: A Virtuoso chip assembly router rules filename or <code>nil</code> to take data from technology file <code>techParams</code> section.</p>
+<p>
+<a name="pgfId-930030"></a>Default: <code>nil</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-929910"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_constraintGroupName</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929914"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929916"></a>The name of the constraint group to create.</p>
+<p>
+<a name="pgfId-930037"></a>Valid values: A valid constraint group name or <code>nil</code>.</p>
+<p>
+<a name="pgfId-930044"></a>Default: <code>virtuosoDefaultSetup</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-929918"></a><span class="webflare-courier-new" style="white-space:pre"><em>b_replaceConstraintGroup</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929922"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929924"></a>If the named constraint group already exists, indicates whether to replace the named constraint group or append to it.</p>
+<p>
+<a name="pgfId-930051"></a>Valid values: <code>t</code> (replaces) and <code>nil</code> (appends)</p>
+<p>
+<a name="pgfId-930070"></a>Default: <code>nil</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929926"></a><span class="webflare-courier-new" style="white-space:pre"><em>b_removeParams</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929928"></a></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929930"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929932"></a>If parameters are obtained from the technology file, instead of a chip assembly router rules file, indicates whether to remove the parameters from the <code>techParams</code> section after mapping them to a constraint group.</p>
+<p>
+<a name="pgfId-930145"></a>Valid values: <code>t</code> (remove) and <code>nil</code> (retain) </p>
+<p>
+<a name="pgfId-930169"></a>Default: <code>nil</code></p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-882512"></a>Value Returned</h4>
+<table class="webflareTable" id="#id929785">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929787"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929789"></a>The constraint group and separate abstract file, if required, were successfully created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929791"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-929793"></a>The technology database does not exist, the router rules file does not exist, or there is no data from which to create the constraint group.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-882515"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-882516"></a>techMakeVirtuosoIccInfo(tfID &quot;iccRules&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-882517"></a>Creates the constraint group <code>virtuosoDefaultSetup</code> in the technology database identified by <code>tfID</code> from the router rules file <code>iccRules</code>.</p>
+<p>
+<a name="pgfId-884088"></a></p>
+<p>
+<a name="pgfId-886929"></a></p>
+<p>
+<a name="pgfId-889761"></a></p>
+<p>
+<a name="pgfId-893107"></a></p>
+<p>
+<a name="pgfId-949958"></a></p>
+
+<!-- [TOPIC_END] -->
+
+<p>
+<a name="pgfId-939941"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="preface.html" id="prev" title="Preface">Preface</a></em></b><b><em><a href="chap2.html" id="nex" title="Controls Functions">Controls Functions</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

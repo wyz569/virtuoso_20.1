@@ -1,0 +1,1147 @@
+
+<html><head><title>Exporting Power Intent of a Design</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="deeptig" />
+<meta name="CreateDate" content="2020-09-17" />
+<meta name="CreateTime" content="1600389174" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes Virtuoso Power Manager that describes the power intent information of the designs." />
+<meta name="DocTitle" content="Virtuoso Power Manager User Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Exporting Power Intent of a Design" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="vpm" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-17" />
+<meta name="ModifiedTime" content="1600389174" />
+<meta name="NextFile" content="chap4.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design,Custom IC Design,Custom IC Design" />
+<meta name="PrevFile" content="indesignchecks.html" />
+<meta name="c_product" content="Virtuoso Analog Design Environment,Virtuoso Layout Suite,Virtuoso Schematic Editor" />
+<meta name="Product" content="Virtuoso Analog Design Environment,Virtuoso Layout Suite,Virtuoso Schematic Editor" />
+<meta name="ProductFamily" content="Virtuoso Analog Design Environment,Virtuoso Layout Suite,Virtuoso Schematic Editor" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Power Manager User Guide -- Exporting Power Intent of a Design" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="vpmICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="vpmTOC.html">Contents</a></li><li><a class="prev" href="indesignchecks.html" title="Running In-Design Checks">Running In-Design Checks</a></li><li style="float: right;"><a class="viewPrint" href="vpm.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="chap4.html" title="Verifying Power Intent of a Design">Verifying Power Intent of a De ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Power Manager User Guide<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>6
+<a id="pgfId-857691"></a></h1>
+<h1>
+<a id="pgfId-878194"></a><hr />
+<a id="26645"></a>Exporting Power Intent of a Design<hr />
+</h1>
+
+<p>
+<a id="pgfId-942682"></a>The power intent of the design specified in the 1801 file acts as a design source along with the logical intent (synthesized Verilog netlist). This collection of source input files is utilized by different tools, including the formal verification tools. The 1801 information is expected to successively refine at various design stages, one of which is the case where the design information changes (ECO). Here, a 1801 file incorporating all the design changes is required to be regenerated to have a logical equivalence with the updated design schematic. </p>
+<p>
+<a id="pgfId-942683"></a>The export flow enables you to extract the design connectivity from the schematic and export the low power design intent to a 1801 file. This helps in adding the updated content in incremental stages of IP authoring, which can finally be verified for correctness using CLP along with a VerilogPG netlist.</p>
+<p>
+<a id="pgfId-942660"></a>The chapter includes the following sections:</p>
+<ul><li>
+<a id="pgfId-949032"></a><a href="chap3.html#61628">Export Flow</a></li><li>
+<a id="pgfId-949042"></a><a href="chap3.html#58930">Extracting the Power Intent from a Design</a></li><li>
+<a id="pgfId-949049"></a><a href="chap3.html#88464">Exporting 1801 Design Model</a></li><li>
+<a id="pgfId-949056"></a><a href="chap3.html#37296">Exporting 1801 Power Model</a></li><li>
+<a id="pgfId-958875"></a><a href="chap3.html#27668">Exporting Liberty Power Model</a></li></ul>
+
+
+
+
+
+<h2>
+<a id="pgfId-942716"></a><a id="61628"></a>Export Flow</h2>
+
+<p>
+<a id="pgfId-942739"></a>The illustration below gives an overview of the export flow.</p>
+
+<p>
+<a id="pgfId-942767"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="349" src="images/chap3-2.gif" /></div>
+
+<p>
+<a id="pgfId-942769"></a>Here are the key stages of the export flow.</p>
+<ul><li>
+<a id="pgfId-942824"></a>Extraction of design <ul><li>
+<a id="pgfId-942825"></a>Partitioning of the design</li><li>
+<a id="pgfId-942826"></a>Identification of PG net types, standard, special and other cell types</li><li>
+<a id="pgfId-942827"></a>Propagation of power information to sub blocks down the hierarchy</li><li>
+<a id="pgfId-942828"></a>Creation of power domains and power modes</li></ul></li><li>
+<a id="pgfId-942829"></a>Creation and export of Design Model of the design</li><li>
+<a id="pgfId-942830"></a>Creation and export of Power Model of the design</li><li>
+<a id="pgfId-942831"></a>Creation and export of Liberty Macro Model of the design</li></ul>
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-942754"></a><a id="58930"></a>Extracting the P<a id="vpmUIExtractPowerIntentForm"></a>ower Intent from a Design</h2>
+
+<p>
+<a id="pgfId-942877"></a>If your design includes objects that describe the power intent for the design, you can extract the power intent, which can further be exported to a 1801 file, to be used further in design flow. </p>
+<p>
+<a id="pgfId-942878"></a>To extract power intent from a design:</p>
+<ol><li>
+<a id="pgfId-942880"></a>Open the design in Power Manager.</li><li>
+<a id="pgfId-942882"></a>Prepare the setup for automatic extraction. For more details about how to prepare the setup, refer to <a href="chap1.html#43880">Specifying the Setup</a>. Load the setup from Power Manager toolbar or menu.</li><li>
+<a id="pgfId-942884"></a>On the Power Manager toolbar or menu, click <em>Extract from Design</em>.<br />
+<a id="pgfId-942885"></a>The Extract Power Intent form appears.<br />
+<a id="pgfId-942873"></a><div class="webflare-div-image">
+<img width="668" height="175" src="images/chap3-3.gif" /></div></li></ol>
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-942998"></a>The library, cell, and view name list of the currently open cellview are shown in the form. The fields specify the information of the cellview, which is non-editable, being extracted.</p>
+<p>
+<a id="pgfId-942999"></a>For a pure schematic-based design, Power Manager always extracts a flat (design model, power model, or macro model) 1801. If there are hierarchical blocks in the design that have their own associated 1801 file, the tool does not extract details of that block and generates a hierarchical 1801, instead by integrating the 1801 file of the lower-level blocks. During the extraction of design schematic the following steps are performed:</p>
+
+<h3>
+<a id="pgfId-942955"></a>Identification of Design Objects</h3>
+
+<p>
+<a id="pgfId-943124"></a>The design extraction involves the identification of the essential design objects, which are required for building a correct power intent. These include:</p>
+<ul><li>
+<a id="pgfId-943125"></a>Identification of power and ground nets associated with each cell in the design hierarchy by using the name-based registration in the setup file.</li><li>
+<a id="pgfId-943126"></a>Identification of the standard and special cells that have associated Liberty models or a 1801 special cell definition file at the path specified in the setup. When found, the tool identifies the cells defined in the 1801 file as standard or special cells.</li></ul>
+
+<p>
+<a id="pgfId-943128"></a>For details, refer to <a href="chap1.html#43880">Specifying the Setup</a>.</p>
+
+<h3>
+<a id="pgfId-943120"></a>Partitioning of the Design</h3>
+
+<p>
+<a id="pgfId-943220"></a>A design can contain different types of cells. For example, the following example design contains various types of blocks.</p>
+
+<p>
+<a id="pgfId-942957"></a></p>
+<div class="webflare-div-image">
+<img width="668" height="404" src="images/chap3-4.gif" /></div>
+
+<p>
+<a id="pgfId-943256"></a>During extraction, the extractor handles each type of cell differently. For example, if a cell is already bound with a 1801 file that was previously imported in the schematic of the cell, the extractor refers to the1801file instead of re-extracting the power information of the cellview.</p>
+<p>
+<a id="pgfId-943257"></a>Similarly, for all multi-supply cells that contain primitive cell instances that were identified during the partitioning stage, the extractor extracts the cellview-level power domain information and stitches it to the top-level domains. Instances of single supply cells are considered as standard cells and their power attributes are derived from their corresponding Liberty model and stitched to the top-level power domains. Therefore, before extracting power intent, the tool needs to identify different types of cells and blocks in the design.</p>
+<p>
+<a id="pgfId-943258"></a>During partitioning, the Schematic Editor traverses through the design and identifies the following types of cells:</p>
+
+<p>
+<a id="pgfId-942959"></a></p>
+<table class="webflareTable" id="#id943317">
+<tbody><tr>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id943319">
+<a id="pgfId-943319"></a>Cell Type</span>
+</th>
+<th class="webflareTh" colspan="1" rowspan="1">
+<span class="tbl-head" id="#id943321">
+<a id="pgfId-943321"></a>Description</span>
+</th>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-943326"></a>Primitive cells</p>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-943493"></a>A cell that meets the following criteria:</p>
+
+<ul><li>
+<a id="pgfId-943494"></a>Does not contain any instances </li><li>
+<a id="pgfId-943495"></a>Does not have any power pin or ground pin</li></ul>
+
+
+<p>
+<a id="pgfId-943496"></a>Examples: PMOS, NMOS, RES</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-943530"></a>Passive cells</p>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-943549"></a>A cell that meets the following criteria:</p>
+
+<ul><li>
+<a id="pgfId-943550"></a>Contains only primitive instances </li><li>
+<a id="pgfId-943551"></a>Does not have any power pin or ground pin</li></ul>
+
+
+<p>
+<a id="pgfId-943552"></a>Examples: resistor bank or capacitor bank</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-943340"></a>Low power special cells</p>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-943623"></a>A cell that is registered as a special low power cell.</p>
+<p>
+<a id="pgfId-943624"></a>Examples: isolation cell, level shifter, power switch</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-943347"></a>Single supply voltage cells</p>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-943677"></a>A cell that meets the following criteria:</p>
+
+<ul><li>
+<a id="pgfId-943678"></a>Contains zero or more primitive cell or passive cell instances </li><li>
+<a id="pgfId-943679"></a>Has one power pin and one ground pin</li></ul>
+
+
+<p>
+<a id="pgfId-943680"></a>Example: single-rail cell</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-943354"></a>Multiple supply voltage cells</p>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-943715"></a>A cell that meets the following criteria:</p>
+
+<ul><li>
+<a id="pgfId-943716"></a>Contains zero or more primitive cell or passive cell instances </li><li>
+<a id="pgfId-943717"></a>Has more than one power pin and one or more ground pins</li></ul>
+
+
+<p>
+<a id="pgfId-943718"></a>Example: multi-rail cell</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-943361"></a>1801 cells</p>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-943754"></a>A cell that contains the existing 1801 model. The power intent that has been imported by using the <em>File</em> &#8211; <em>Import Power Intent</em> command is being applied to this cell.</p>
+<p>
+<a id="pgfId-943755"></a>For more details on importing power intent, refer to <a href="chap2.html#29412">Importing the Power Intent of a Design</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-943368"></a>Macro cells</p>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-943903"></a>A cell that meets any one of the following criteria:</p>
+
+<ul><li>
+<a id="pgfId-943904"></a>Contains one or more instances of primitive cell or passive cell and one or more instances of single supply cell, multiple supply voltage cell, or 1801 cell</li><li>
+<a id="pgfId-943905"></a>Contains one or more instances of primitive cell or passive cell and has more than one power pin and one or more ground pin</li><li>
+<a id="pgfId-943906"></a>Has more than one power pin and one or more ground pin, but does not contain any cell, that is, an empty cell with multiple supply voltages</li></ul>
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a id="pgfId-943375"></a>Hierarchy cells</p>
+
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a id="pgfId-943941"></a>A cell that meets the following criteria:</p>
+
+<ul><li>
+<a id="pgfId-943942"></a>Contains instances of single supply cell, multiple supply voltage cell, macro cell, or 1801 cell</li><li>
+<a id="pgfId-943943"></a>Does not contain any primitive cell or passive cell</li></ul>
+
+
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a id="pgfId-943966"></a>After the design partitioning, the next step is the design elaboration. The design elaboration involves the creation of an Embedded Module Hierarchy (EMH), which is a model for storing the hierarchical design data supported at the open access database level. For Power Manager, this open access cellview is called the power view. For details about the power view, refer to <a href="chap3.html#36099">Power View</a>. The extractor traverses the entire schematic hierarchy to achieve the following:</p>
+<ul><li>
+<a id="pgfId-943967"></a>Builds a data structure that contains the OA equivalent objects from the database objects encountered. The structure includes a top-level design, instances, nets, terms, instTerms and net connectivity.</li><li>
+<a id="pgfId-943968"></a>Utilizes all the instances of the cells that have Liberty models, associated power views, and associated 1801 model.  </li><li>
+<a id="pgfId-943969"></a>Extracts power intent by tracing the connectivity. The connectivity tracing is done considering the block domain of open access cellview, that is, the flat representation of the entire schematic hierarchy in EMH. </li><li>
+<a id="pgfId-943970"></a>Identifies power nets and ground nets and their equivalent power or ground nets by the sigType in the schematic or the name-based registration in the setup.</li><li>
+<a id="pgfId-943971"></a>Identifies switchable or non-switchable power nets or ground nets. This is the output from switch supply pin of switch cell instances (Power Switch).</li><li>
+<a id="pgfId-943972"></a>Pairs the power nets and ground nets. PG net pairing is done by looking at the related PG pins of standard cell instances, special cell instances, macro cell instances. In addition, pairing is also done by tracing a path between the top-block power and ground nets through the source-drain terminals of transistors, shorts, and connector devices in the top block. </li><li>
+<a id="pgfId-943973"></a>Models various states where every single supply each state is assigned a specific voltage or the state of supply sets, that is, collection of supplies instead of individual supplies by using PST for exporting design and power models.</li><li>
+<a id="pgfId-943974"></a>Assigns instances to the power domains.</li><li>
+<a id="pgfId-943975"></a>Creates power states and the power modes. Also, assigns power domains to these power modes.</li><li>
+<a id="pgfId-943976"></a>Identifies boundary ports and assigns these ports to the power domains. This identification is done based on tracing the connectivity through transistors and two terminal devices. Related power and ground nets of ports are derived by analyzing the related supplies of the driver or receiver instTerms in the top block. While identifying ports for creating power domains, it is checked whether the port could be related to more than one power domain by virtue of its connections to one or more instances that may belong to multiple power domains. In such a situation, the port is not associated with any power domain and the warning messages are issued depending on the situation. There are three scenarios where the ports are not related to any of the power domains due to ambiguity in deciding the power domain:<br />
+<a id="pgfId-944244"></a><strong>Case 1</strong>: In this scenario, port C can be related to either of the two supply sets (<code>SS__VDD__VSS</code> and <code>SS__VDDext__VSS</code>) due to its connectivity to <code>M2</code>, which falls in the path of <code>VDD</code>, <code>VSS</code> as well as <code>ExtVDD</code>, <code>VSS</code>. Therefore, port C is not related to any supply set because there is ambiguity related to its power domain.<br />
+<a id="pgfId-944245"></a><div class="webflare-div-image">
+<img width="668" height="330" src="images/chap3-5.gif" /></div>
+<a id="pgfId-944246"></a><strong>Case 2</strong>: In this scenario, the port IN1 is driving two inverter instances that belong to different supply sets and so it can be assigned either to <code>SS__VDD__VSS</code> or <code>SS__vdd__vss</code>. Therefore, port IN1 is not related to any supply set because there is ambiguity related to its power domain.<br />
+<a id="pgfId-944247"></a><div class="webflare-div-image">
+<img width="668" height="443" src="images/chap3-6.gif" /></div>
+<a id="pgfId-944248"></a><strong>Case 3</strong>: In this scenario, the port <code>TOP_IN</code> drives two pins, <code>IN1</code> and <code>IN2</code>, of a hierarchical instance. Inside the instances (not shown in the image), <code>IN1</code> and <code>IN2</code> are separately driving two inverters, which are in two separate supply sets <code>SS__VDD1__VSS</code> and <code>SS__VDD2__VSS</code>, respectively. The port <code>TOP_IN</code> can be assigned either <code>SS__VDD1__VSS</code> or <code>SS__VDD2__VSS</code>, therefore, it is not related to any supply set due to ambiguity in its power domain.<br />
+<a id="pgfId-942961"></a><div class="webflare-div-image">
+<img width="668" height="410" src="images/chap3-7.gif" /></div></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-944314"></a>In such scenarios, you can provide the information of data ports to explicitly specify their supply set, forcing the tool to associate the data ports to the desired power domain. For details on how to register this information, refer to <a href="chap1.html#73071">Supply Set and Power Domain Registration</a>.</p>
+<p>
+<a id="pgfId-944316"></a>While extracting power intent, Power Manager gives precedence to the explicit registration of the port attributes and traces connectivity through transistors and the two-terminal devices. Each data terminal that can be traced to a power terminal is created as a boundary port for the corresponding power domain. If a data terminal is connected to more than one power terminal, it is attached to the power domain as specified in the port attribute registered in the setup for that data terminal. If the port attribute is not registered in the setup, the tool would associate the data terminal to all possible power domains found by connectivity tracing.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-942963"></a>While extracting power intent, the tool checks each macro cell and the top cell to find ports that are not related to any supply terminal. The tool does not assign such ports to any power domain and displays a warning message for each cell to report such ports in that cell, as shown below:</div>
+<p>
+<a id="pgfId-959710"></a><code>\w *WARNING* (LP-3034): Could not determine driver/receiver supplies for logic port &#39;enps_3v3_i, dll_amux_ao, dll_ibias_10u_ai&#39; in the Liberty or setup files. Ensure that the required supplies are defined in the files.</code></p>
+<ul><li>
+<a id="pgfId-944423"></a>Derives domain shutoff conditions by backtracing the enable pins of switch cell instances in the top block to the top block ports and combining those ports in suitable expression as per the design.</li><li>
+<a id="pgfId-944424"></a>Integrates sub blocks that have their own 1801files.<ul><li>
+<a id="pgfId-944425"></a>If the 1801 block has a power intent specified as a Liberty macro model, it identifies the top-level domain that maps to the macro-level domain and creates a domain mapping. PG net voltages in macro cells are assigned from the top net voltages. This might lead to a conflict if the net voltage specified in the macro model are of different voltage levels as compared to the voltage levels of the top net voltage. This conflict can be noted at the verification stage of the power intent.</li><li>
+<a id="pgfId-944426"></a>If the 1801 block has power intent of the design model type, Power Manager collates all the power domains in the 1801 block hierarchy and integrates the 1801 cell in the same way as for a block with the macro model type.</li></ul><br />
+<a id="pgfId-944427"></a>For more details about how to import an existing 1801 file for a sub block, refer to <a href="chap2.html#29412">Importing the Power Intent of a Design</a>.</li><li>
+<a id="pgfId-944428"></a>Identifies low power special cells and creates power switch rules, isolation rules, and level shifter rules, as required. Enable conditions are derived by backtracing the enable pins of special cells.</li></ul>
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-942967"></a>If a level shifter cell contains an enable pin, it is identified as both an isolation cell and as a level shifter cell. Such cells are also referred as combo cells. In this case, while extracting power intent, the tool defines it as a level shifter cell as well as an isolation cell. In addition, corresponding level shifter and isolation rules are defined.</div>
+
+<h4><em>
+<a id="pgfId-942969"></a>Creation of Power Domains</em></h4>
+
+<p>
+<a id="pgfId-942971"></a>While extracting power intent, Power Manager automatically identifies the power nets and ground nets in the design as described below. Further, for each power net, it finds the ground net associated with it and for each unique pair of power net and ground net, creates a power domain.</p>
+<p>
+<a id="pgfId-944611"></a>Identifying Switchable and Non-Switchable Power Nets and Ground Nets</p>
+<ul><li>
+<a id="pgfId-944612"></a>A net is identified as a non-switchable power net if either of the following conditions are met:<ul><li>
+<a id="pgfId-944613"></a>the sigType property of the net is power</li><li>
+<a id="pgfId-944614"></a>the net name is registered as a power net</li><li>
+<a id="pgfId-944615"></a>the net is not an output of a switch cell and cannot be hierarchically traced to an output of a switch cell.</li></ul></li><li>
+<a id="pgfId-944616"></a>A net is identified as a switchable power net if either of the following conditions are met:<ul><li>
+<a id="pgfId-944617"></a>the net is an output of a head-switch cell</li><li>
+<a id="pgfId-944618"></a>the net can be hierarchically traced to an output of a head-switch cell</li></ul></li><li>
+<a id="pgfId-944619"></a>A net is identified as a non-switchable ground net if:<ul><li>
+<a id="pgfId-944620"></a>the sigType of the net is ground.</li><li>
+<a id="pgfId-944621"></a>the net name is registered as a ground net.</li><li>
+<a id="pgfId-944622"></a>the net is not an output of a switch cell and cannot be hierarchically traced to an output of a switch cell.</li></ul></li><li>
+<a id="pgfId-944623"></a>A net is identified as a switchable ground net if either of the following conditions are met:<ul><li>
+<a id="pgfId-944624"></a>the net is an output of a foot-switch cell</li><li>
+<a id="pgfId-944640"></a>the net can be hierarchically traced to an output of a foot-switch cell</li></ul></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-942975"></a>If you have not registered any names for power nets and none of the nets in the design have their signal type set to power, then Power Manager does not extract any power domains.</div>
+<p>
+<a id="pgfId-942977"></a>After identifying the power nets and ground nets, the unique power net/ground net pairs (Supply sets) are identified. For this, the tool traces the paths from a power net to a ground net. The tool also considers the power net/ground net pairs registered in the setup.</p>
+<p>
+<a id="pgfId-944696"></a>Supply sets can be defined in the setup for the following scenarios.</p>
+<ul><li>
+<a id="pgfId-944697"></a>The primary supply set for the power domains mentioned in the setup.</li><li>
+<a id="pgfId-944698"></a>The power and ground nets that cannot be paired by traversing the design hierarchy or parsing the Liberty in case of a Liberty cell.</li></ul>
+
+<p>
+<a id="pgfId-944757"></a>Supply set identification can be done explicitly in a setup template or by automatic identification. </p>
+<p>
+<a id="pgfId-944758"></a>If you want to partition the design for assigning a particular instance to some power domain, provide the list of domain, instances, and primary supply set. For more information refer to <a href="chap1.html#61921">Supply Set and Power Domain Registration</a>.</p>
+<p>
+<a id="pgfId-944943"></a>If power domains and supply set information is provided in the setup, the following is the sequence of tasks being done:</p>
+<ul><li>
+<a id="pgfId-944944"></a><code>create_power_domain</code> commands are created in the exported 1801 file based on the number of power domains.</li><li>
+<a id="pgfId-944945"></a>Primary supply set are referred from the setup.</li><li>
+<a id="pgfId-944946"></a>Extra supplies that need not to be a part of setup are identified by the tool. </li><li>
+<a id="pgfId-944947"></a><code>connect_supply_net</code> command is generated for supply nets that are a part of extra supplies.</li><li>
+<a id="pgfId-944948"></a>For any other instance that is not a part of any power domain remains in the default domain.</li><li>
+<a id="pgfId-944949"></a>If there is no power domain assignment, a single power domain is created and all the instances are connected by using <code>connect_supply_net</code>.</li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-944950"></a>The following examples show how power domains are created:</p>
+<p>
+<a id="pgfId-945248"></a>Example 1:</p>
+<p>
+<a id="pgfId-945249"></a>Consider the following design that does not have the user-defined supply sets and power domains specified in the setup:</p>
+
+<p>
+<a id="pgfId-945304"></a></p>
+<div class="webflare-div-image">
+<img src="images/PIA_pwrdmn_ext02.gif" /></div>
+
+<p>
+<a id="pgfId-945251"></a>In this case, the tool traverses though the design and creates the following power domains:</p>
+<ul><li>
+<a id="pgfId-945252"></a><code>SS__VDD1__GND1</code></li><li>
+<a id="pgfId-945253"></a><code>SS__VDD2__GND2</code></li><li>
+<a id="pgfId-945254"></a><code>SS__VDD3__GND3</code></li></ul>
+
+
+<p>
+<a id="pgfId-945255"></a>Example 2:</p>
+<p>
+<a id="pgfId-945256"></a>Now, consider the following design that contains a head-switch. </p>
+
+<p>
+<a id="pgfId-945257"></a></p>
+<div class="webflare-div-image">
+<img src="images/PIA_pwrdmn_ext01.gif" /></div>
+
+<p>
+<a id="pgfId-945258"></a>In this case, the tool creates one default power domain and two supply sets:</p>
+<ul><li>
+<a id="pgfId-945259"></a><code>pd__VDD__VSS</code></li><li>
+<a id="pgfId-960241"></a><code>SS_VDD_VSS</code></li><li>
+<a id="pgfId-945260"></a><code>SS_NET1_VSS</code></li></ul>
+
+
+<p>
+<a id="pgfId-945261"></a>Example 3:</p>
+<p>
+<a id="pgfId-942979"></a>If a primitive instance has one netSet property each for a power and ground supply, it is added to the power domain created for that power and ground supply pair even if the instance does not have any power/ground pins in the symbol/schematic view. If a power domain does not exist for that power and ground supply pair, a new power domain is created and the primitive instance is added to it. However, if the primitive instance has more than one netSet property for power or ground, it does not contribute towards the creation of a power domain and a warning message is displayed in the power intent extraction log.</p>
+
+<h3>
+<a id="pgfId-942981"></a><a id="36099"></a>Power View </h3>
+
+<p>
+<a id="pgfId-945337"></a>Power view is an OA view generated corresponding to each cell that is being extracted to export the power intent. The power view stores the following information:</p>
+<ul><li>
+<a id="pgfId-945338"></a>Set up information of the cellview prior to extraction</li><li>
+<a id="pgfId-945339"></a>Extracted and/or imported power intent information</li><li>
+<a id="pgfId-945340"></a>The design information derived from the schematic design (EMH and native OA objects)</li><li>
+<a id="pgfId-945341"></a>Internal data structures</li></ul>
+
+
+
+<p>
+<a id="pgfId-945342"></a>The power view is co-managed with the schematic view of the design. The view is automatically updated upon extraction when the setup or design changes. There is no need to explicitly load the setup for each successive extraction run until the power view exists for a cell and there is no change in the setup information of the design. The power view by default gets created in the design library within the design cell, adjacent to the design view/schematic. If the parent library is non-editable, <a href="VPM_envVars.html#72369">lpDBGlobalSearchLibs</a> and <a href="VPM_envVars.html#91646">lpDBGlobalSearchViews</a> can be used to save the power view in an editable user-defined library. The power view is also automatically purged when the associated schematic cellview is purged for reasons, such as on closing the schematic or calling the <code>dbPurge</code>/<code>dbClose</code> SKILL function.</p>
+
+<h2>
+<a id="pgfId-942983"></a><a id="88464"></a>Expor<a id="vpmUIExportPowerIntentForm"></a>ting 1801 Design Model</h2>
+
+<p>
+<a id="pgfId-945601"></a>You can export the power intent specified for your design to a 1801 design model file. To export power intent from a design:</p>
+<ol><li>
+<a id="pgfId-945602"></a>Open the design in Power Manager.</li><li>
+<a id="pgfId-945604"></a>Prepare the setup for automatic extraction. For more details about how to   prepare the setup, refer to Setup Preparation for Automatic Extraction of Power Intent. Load the setup from Power Manager toolbar/menu.</li><li>
+<a id="pgfId-945632"></a>Click <em>Power Manager</em> &#8211; <em>Extract from Design</em>.</li><li>
+<a id="pgfId-945633"></a>Click <em>Power Manager</em> &#8211; <em>Export from Design</em>.<br />
+<a id="pgfId-939887"></a>The Export Power Intent form appears.<br />
+<a id="pgfId-940324"></a><div class="webflare-div-image">
+<img width="668" height="250" src="images/chap3-10.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-945792"></a>The library, cell, and view names of the cell that is currently open are displayed by default in the form. In the <em>1801 File</em> field, specify the path and the name of file for exporting the power intent and click OK. Select the <em>Overwrite Existing File</em> check box to overwrite the file. </p>
+<p>
+<a id="pgfId-945793"></a>The <a href="VPM_SKILL.html#71975">vpmExportPowerIntent</a> SKILL function has been provided to export the 1801 Design Model information for a cellview. </p>
+<p>
+<a id="pgfId-945794"></a>In 1801 design model, the power intent of the sub-blocks is exported along with power intent of the top design. For a pure schematic-based design, the Power Manager always extracts a flat 1801.</p>
+<p>
+<a id="pgfId-940305"></a>An example of an exported 1801 design model file is shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945909"></a>set_design_attributes -attribute top_ports_have_anon_supply 0</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945910"></a>##### Supply Ports <strong>(Section 1)</strong>###################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945911"></a>create_supply_port VDD&#160;&#160;     -direction inout</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945918"></a>create_supply_port VDDA&#160;&#160;    -direction inout</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945919"></a>create_supply_port VDDSW     -direction inout&#160;&#160;&#160;&#160;  </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945920"></a>create_supply_port VSS&#160;&#160;     -direction inout</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-958955"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945921"></a>##### Supply Nets <strong>(Section 2)</strong>####################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945922"></a>create_supply_net VDD&#160;&#160; -resolve parallel</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945929"></a>create_supply_net VDDA  -resolve parallel&#160;&#160;&#160;&#160; </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945930"></a>create_supply_net VDDSW -resolve parallel&#160;&#160;&#160;&#160;  </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945931"></a>create_supply_net VSS&#160;&#160; -resolve parallel</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-958958"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945932"></a>##### Supply Net Connections <strong>(Section 3)</strong>##########################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945933"></a>connect_supply_net VDD&#160;&#160;  -ports { VDD }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945940"></a>connect_supply_net VDDA&#160;&#160; -ports { VDDA }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945941"></a>connect_supply_net VDDSW&#160;&#160;-ports { I3/I0/VDD }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945942"></a>connect_supply_net VSS&#160;&#160;  -ports { VSS }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-958963"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-958960"></a>##### Supply Sets <strong>(Section 4)</strong>####################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945950"></a>create_supply_set SS_VDDA_VSS&#160;&#160;-function { power VDDA } -function { ground VSS }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945951"></a>create_supply_set SS_VDDSW_VSS -function { power VDDSW } -function { ground VSS }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945952"></a>create_supply_set SS_VDD_VSS&#160;&#160; -function { power VDD } -function { ground VSS }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-958966"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945953"></a>##### Power Domains <strong>(Section 5)</strong>##################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945954"></a>create_power_domain PD_TOP -include_scope -supply { primary SS_VDD_VSS } \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945961"></a>-supply { extra_supplies_1 SS_VDDSW_VSS }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945962"></a>create_power_domain PD_LS -elements { I0 } -supply { primary SS_VDDA_VSS } \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945963"></a>-supply { extra_supplies_1 SS_VDD_VSS }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-958969"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945964"></a>###### Standard Cells <strong>(Section 6)</strong>#############################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945965"></a>connect_supply_net VDD&#160;&#160; -ports { I0/I20/I0/VDD }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945966"></a>connect_supply_net VDDSW -ports { I3/I1/VDD }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945973"></a>###### Special Cells ###################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945974"></a>connect_supply_net VDD&#160;&#160; -ports { I0/I22/ExtVDD }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945975"></a>connect_supply_net VDDSW -ports { I3/I0/VDD }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945976"></a>###### Macro Cells ####################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945977"></a>connect_supply_net VDD&#160;&#160; -ports { I2/VDD_ext }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945978"></a>connect_supply_net VSS&#160;&#160; -ports { I2/VSS_ext }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-948703"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945985"></a>##### Port Attributes <strong>(Section 7)</strong>############################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945986"></a>set_port_attributes&#160;&#160;-port en_iso&#160;&#160;-receiver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945987"></a>set_port_attributes&#160;&#160;-port in1&#160;&#160;-receiver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945988"></a>######### Isolation Rules #####################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945995"></a>set_isolation PD_TOP_ISO_0 -domain PD_TOP -elements { out_iso } -isolation_supply_set&#160;&#160;SS_VDD_VSS -isolation_signal en_iso -isolation_sense high -location self -clamp_value 0</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-948706"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945996"></a>######### Level Shifter Rules <strong>(Section 8)</strong>############</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945997"></a>set_level_shifter PD_LS_ls_0 -domain PD_LS -elements {I0/out_ls } -input_supply_set SS_VDDA_VSS \ -output_supply_set SS_VDD_VSS -location self -rule both</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945998"></a>##### Switch Rules ##################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-945999"></a>create_power_switch I3_I0 -output_supply_port { VDD VDDSW } -input_supply_port { ExtVDD VDD } \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946000"></a>-control_port { PSO psw_en } -on_state { on ExtVDD {!PSO} } -off_state { off PSO } -domain PD_TOP</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-948709"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946001"></a>#####&#160;&#160; Supply Port States <strong>(Section 9)</strong> ###########################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946008"></a>add_port_state I3/I0/VDD&#160;&#160; -state { V110 1.1 }&#160;&#160;-state { OFF off } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946009"></a>add_port_state VDD&#160;&#160;     -state { V110 1.1 }  -state { OFF off } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946010"></a>add_port_state VDDA&#160;&#160;    -state { V130 1.3 }  -state { OFF off } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946011"></a>add_port_state VSS&#160;&#160;     -state { OFF 0 } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946171"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946012"></a>#####&#160;&#160; Power State Table <strong>(Section 10)</strong> ###########################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946013"></a>create_pst&#160;&#160;             top_pst -supplies       [list I3/I0/VDD  VDD   VDDA  VSS   ]</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946020"></a>add_pst_state State_1&#160;&#160;  -pst top_pst -state    {     V110       V110  V130  OFF   }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946021"></a>add_pst_state State_2&#160;&#160;  -pst top_pst -state    {     OFF        V110  V130  OFF   }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-946022"></a>add_pst_state State_3&#160;&#160;  -pst top_pst -state    {     OFF        OFF   OFF   OFF   }</pre>
+
+<p>
+<a id="pgfId-946190"></a>The following points explain the different sections of the exported 1801 design model: </p>
+<ul><li>
+<a id="pgfId-946191"></a><strong>Section1</strong>: The <code>create_supply_port</code> command defines a supply port in the scope of the power domain. These are created for all the top-level supply ports identified.</li><li>
+<a id="pgfId-946192"></a><strong>Section2</strong>: The <code>create_supply_net</code> command creates a supply net in the scope of the power domain. These are created for all the top-level supply nets identified.</li><li>
+<a id="pgfId-946193"></a><strong>Section3</strong>: The <code>connect_supply_net</code> command connects a supply net to the specified ports. These commands are for handling the interface connectivity. The commands are for both the top level as well as for hierarchical interface connectivity. This resolves the connectivity of PG nets from down the hierarchy to the top level PG nets for different blocks. Section6 also performs the same task.</li><li>
+<a id="pgfId-946194"></a><strong>Section4</strong>: The <code>create_supply_set</code> command creates the supply set name within the current scope. This defines the primary and extra supply sets or available supplies associated with the different power domains.</li><li>
+<a id="pgfId-946195"></a><strong>Section5</strong>: The <code>create_power_domain</code> command defines a power domain and the set of instances that are in the extent of the power domain. It may also specify whether the power domain can be partitioned further by the subsequent commands.</li><li>
+<a id="pgfId-959479"></a><strong>Section6</strong>: The <code>connect_supply_net </code>command defines the standard, special, and macro cells.</li><li>
+<a id="pgfId-946196"></a><strong>Section7</strong>: The <code>set_port_attributes</code> command specifies the information associated with data ports of instances. The attributes of this command identify a port&#39;s related supplies (driver or receiver) and the boundary of a power domain.</li><li>
+<a id="pgfId-946197"></a><strong>Section8</strong>: These commands define the low power strategy (Level Shifters, Isolation, and Power Switch) adopted for the ports on the interface of a power domain. This is required to correct for voltage differences between the driving and receiving supplies of a port or to ensure correct electrical and logical functionality when domains are in different power states.<br />
+<a id="pgfId-946198"></a>The correct strategy adopted is also based on the cell type identified while reading the schematic based on their Liberty model or special cell definition file registered in the setup. For details, refer to <a href="chap1.html#73071">Supply Set and Power Domain Registration</a>.</li><li>
+<a id="pgfId-946199"></a><strong>Section9</strong>: The <code>add_port_state</code> command adds the state information to a supply port. If the voltage values are specified, the supply net state is <code>FULL_ON</code> and the voltage value is the single nominal value or within the range of min to max. If the supply net state is off, the voltage value is OFF. For net voltage registration, refer to <a href="chap1.html#91816">Device and Cell Registration</a>.</li><li>
+<a id="pgfId-946200"></a><strong>Section10</strong>: The <code>add_pst_state</code> command defines the name for a specific state of the supply nets defined for the power state table (PST). This command defines system power states of the IP.</li></ul>
+
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-946201"></a>The output supply port that is the output of a power switch, output of a LDO, or voltage regulator can be identified by explicit user registration in the setup. In addition, the output supply port can be identified from the Liberty model or the 1801 file, if available for the block. The commands associated with the output port would appear in Section1, Section2, Section9, and Section10. </p>
+<p>
+<a id="pgfId-946202"></a>A hierarchical internal net is not generated for commands related to Section1, Section2, Section3, and Section6. Any block with internal net (not available at the top) should be extracted and 1801 generated. Then, use the 1801 binding for the top block.</p>
+<p>
+<a id="pgfId-946203"></a>For more information on the 1801 commands, refer to <em>IEEE Standard for Design and Verification of Low-Power Integrated Circuits</em>.</p>
+
+<h2>
+<a id="pgfId-947419"></a><a id="37296"></a>Exporting 1801 Power Model</h2>
+
+<p>
+<a id="pgfId-947420"></a>You can export the power intent specified for the design to a 1801 power model file. To export power intent from a design,</p>
+<ol><li>
+<a id="pgfId-947421"></a>Open the cellview in Power Manager.</li><li>
+<a id="pgfId-947423"></a>Prepare the setup for automatic extraction. For more details about how to prepare the setup, refer to <a href="chap1.html#65633">Setup for Automatic Extraction of Power Intent</a>.</li><li>
+<a id="pgfId-947424"></a>Load the setup from the Power Manager toolbar/menu.</li><li>
+<a id="pgfId-947425"></a>On the Power Manager toolbar/menu, click <em>Extract from Design</em>.</li><li>
+<a id="pgfId-960321"></a>Use <a href="VPM_SKILL.html#28179">vpmExportPowerModel</a> to export the 1801 Power Model information for a cellview.</li></ol>
+
+
+
+
+<p>
+<a id="pgfId-947428"></a>In the 1801 power model, the power intent of the top design is only exported as the power intent information, with no sub-block power intent details. A power model is used to define the power intent of a hard IP cell. The command pair <code>begin_power_model</code> and <code>end_power_model</code> create a definitive boundary for the power intent for the hard IP cell. A model name is created, and it is targeted for a specific macro cell.</p>
+<p>
+<a id="pgfId-947430"></a>The interfaces of the hard IP power model include the top-level power domain for this IP cell and all the supplies of IP. This power domain is also used to specify the system power states at the hard IP level.</p>
+<ul><li>
+<a id="pgfId-947432"></a>An example of an exported 1801 power model file is shown below:</li></ul>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947433"></a>upf_version 2.1</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947434"></a>##### Power Model Initialization <strong>(Section 1)</strong>##################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947441"></a>begin_power_model top_model -for top</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947442"></a>##### Supply Ports <strong>(Section 2)</strong>###################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960464"></a>create_supply_port VDD!&#160;&#160;-direction inout</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960465"></a>create_supply_port VDDA! -direction inout</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960466"></a>create_supply_port VSS!&#160;&#160;-direction inout</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947455"></a>##### Supply Nets <strong>(Section 3)</strong>####################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960479"></a>create_supply_net VDD&#160;&#160; -resolve parallel </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960480"></a>create_supply_net VDD1&#160;&#160;-resolve parallel </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960481"></a>create_supply_net VDDA&#160;&#160;-resolve parallel </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960482"></a>create_supply_net VDDSW -resolve parallel </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960483"></a>create_supply_net VSS&#160;&#160; -resolve parallel </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960484"></a>create_supply_net VSS1&#160;&#160;-resolve parallel </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960499"></a>connect_supply_net VDD&#160;&#160;  -ports { VDD }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960500"></a>connect_supply_net VDDA&#160;&#160; -ports { VDDA }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960501"></a>connect_supply_net VDDSW&#160;&#160;-ports { I3/I0/VDD }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960502"></a>connect_supply_net VSS&#160;&#160;  -ports { VSS }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947467"></a>##### Supply Sets <strong>(Section 4)</strong>####################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960517"></a>create_supply_set SS_VDDA_VSS&#160;&#160;    -function { power VDDA } -function { ground VSS }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960518"></a>create_supply_set SS_VDDSW_VSS&#160;&#160;   -function { power VDDSW } -function { ground VSS }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960519"></a>create_supply_set SS_VDD_VSS&#160;&#160;     -function { power VDD } -function { ground VSS }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947477"></a>##### Power Domains <strong>(Section 5)</strong>#################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960532"></a>create_power_domain PD_MACRO -elements {.}&#160;&#160;\</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960533"></a>-supply { primary SS_VDD_VSS } \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960534"></a>-supply { extra_supplies_0 SS_VDD+VDDSW_VSS } \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960535"></a>-supply { extra_supplies_1 SS_VDDA_VSS } \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960536"></a>-supply { extra_supplies_2 SS_VDDSW_VSS }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947488"></a>##### Port Attributes <strong>(Section 6)</strong>############################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960666"></a>set_port_attributes&#160;&#160;-port en_iso&#160;&#160;-receiver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960667"></a>set_port_attributes&#160;&#160;-port in1&#160;&#160;-receiver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960668"></a>set_port_attributes&#160;&#160;-port in2&#160;&#160;-receiver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960669"></a>set_port_attributes&#160;&#160;-port in3&#160;&#160;-receiver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960670"></a>set_port_attributes&#160;&#160;-port in4&#160;&#160;-receiver_supply SS_VDD+VDDSW_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960671"></a>set_port_attributes&#160;&#160;-port out1&#160;&#160;-driver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960672"></a>set_port_attributes&#160;&#160;-port out2&#160;&#160;-driver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960673"></a>set_port_attributes&#160;&#160;-port out3&#160;&#160;-driver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960674"></a>set_port_attributes&#160;&#160;-port out_iso&#160;&#160;-driver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960675"></a>set_port_attributes&#160;&#160;-port out_psw&#160;&#160;-driver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960676"></a>set_port_attributes&#160;&#160;-port outvdd&#160;&#160;-driver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960677"></a>set_port_attributes&#160;&#160;-port psw_en&#160;&#160;-receiver_supply SS_VDD_VSS</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960662"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947532"></a>##### Power States <strong>(Section 7)</strong>###########################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960809"></a>add_power_state SS_VDDA_VSS -supply \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960810"></a>                             -state { ON -simstate NORMAL \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960811"></a>                                  -supply_expr { power == { FULL_ON 1.300000 } &amp;&amp; ground == { FULL_ON 0.000000 } }} \ </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960812"></a>                              -state { OFF -simstate CORRUPT \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960813"></a>                                  -supply_expr { power == OFF &amp;&amp; ground == OFF }}</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960814"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960815"></a>add_power_state SS_VDDSW_VSS -supply \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960816"></a>                             -state { ON -simstate NORMAL \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960817"></a>                                  -supply_expr { power == { FULL_ON 1.100000 } &amp;&amp; ground == { FULL_ON 0.000000 } }} \ </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960818"></a>                              -state { OFF -simstate CORRUPT \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960819"></a>                                  -supply_expr { power == OFF &amp;&amp; ground == OFF }}</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960820"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960821"></a>add_power_state SS_VDD_VSS -supply \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960822"></a>                             -state { ON -simstate NORMAL \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960823"></a>                                  -supply_expr { power == { FULL_ON 1.100000 } &amp;&amp; ground == { FULL_ON 0.000000 } }} \ </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960824"></a>                              -state { OFF -simstate CORRUPT \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960825"></a>                                  -supply_expr { power == OFF &amp;&amp; ground == OFF }}</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960826"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960827"></a>add_power_state PD_MACRO -domain&#160;&#160;\</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960828"></a>                             -state { S0 -logic_expr { SS_VDD_VSS == ON &amp;&amp; SS_VDDSW_VSS == ON &amp;&amp; SS_VDDA_VSS == ON }} \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960829"></a>                             -state { S1 -logic_expr { SS_VDD_VSS == ON &amp;&amp; SS_VDDSW_VSS == ON &amp;&amp; SS_VDDA_VSS == OFF }} \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960830"></a>                             -state { S2 -logic_expr { SS_VDD_VSS == ON &amp;&amp; SS_VDDSW_VSS == OFF &amp;&amp; SS_VDDA_VSS == ON }} \</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-960831"></a>                             -state { S3 -logic_expr { SS_VDD_VSS == ON &amp;&amp; SS_VDDSW_VSS == OFF &amp;&amp; SS_VDDA_VSS == OFF }}</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947576"></a>##### Power Model End <strong>(Section 8)</strong>######################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947577"></a>end_power_model</pre>
+
+<p>
+<a id="pgfId-947579"></a>The following points explain the different sections of the exported 1801 power model: </p>
+<ul><li>
+<a id="pgfId-947580"></a><strong>Section1</strong>: The <code>begin_power_model</code> command defines the boundary condition for the power model. This marks the beginning of the power model.</li><li>
+<a id="pgfId-947581"></a><strong>Section2</strong>: The <code>create_supply_port</code> command defines a supply port in the scope of the power domain. These are created for all the top-level supply ports identified.</li><li>
+<a id="pgfId-947583"></a><strong>Section3</strong>: The <code>create_supply_net</code> command creates a supply net in the scope of the power domain. These are created for all the top-level supply nets identified.</li><li>
+<a id="pgfId-947585"></a><strong>Section4</strong>: The <code>create_supply_set</code> command creates the supply set name within the current scope. This section associates the interface supplies to the boundary supply ports or internally generated supplies.</li><li>
+<a id="pgfId-947587"></a><strong>Section5</strong>: The <code>create_power_domain</code> command defines a power domain and the set of instances that are in the extent of the power domain. It may also specify whether the power domain can be partitioned further by subsequent commands.</li><li>
+<a id="pgfId-947588"></a><strong>Section6</strong>: The <code>set_port_attributes</code> command specifies the information associated with data ports of instances. The attributes of this command identify a port&#8217;s related supplies (driver or receiver) and define the boundary of a power domain.</li><li>
+<a id="pgfId-947593"></a><strong>Section7</strong>: The <code>add_power_state</code> command adds the state information to a supply port. If the voltage values are specified, the supply net state is <code>FULL_ON</code> and the voltage value is the single nominal value or within the range of min to max. If the supply net state is off, the voltage value is OFF. For net voltage registration, refer to <a href="chap1.html#91236">Supply Nets Registration</a>.</li><li>
+<a id="pgfId-947595"></a><strong>Section8</strong>: The <code>end_power_model</code> command defines the boundary condition for the power model. The power model ends here.</li></ul>
+
+
+
+
+
+
+
+
+<h2>
+<a id="pgfId-947599"></a><a id="27668"></a>Exporting Lib<a id="vpmUIExportLibertyModelForm"></a>erty Power Model</h2>
+
+<p>
+<a id="pgfId-960335"></a>You can export the power intent specified for the design as a Liberty power model template file with the non-characterized attributes for <code>pg_pin</code> and pin groups of a library or cell, such as <code>related_power_pin</code>, <code>related_ground_pin</code>, <code>pg_type</code>, <code>direction</code>, <code>is_isolated</code>, <code>isolation_enable_condition</code>, <code>switch_pin</code>, <code>pg_function</code>, <code>switch_function</code>, and so on. To export power intent from a design,</p>
+<ol><li>
+<a id="pgfId-947601"></a>Open the cellview in the Power Manager.</li><li>
+<a id="pgfId-947603"></a>Prepare the setup for automatic extraction. For more details about how to prepare the setup, refer to <a href="chap1.html#65633">Setup for Automatic Extraction of Power Intent</a>.</li><li>
+<a id="pgfId-947604"></a>Load the setup from the Power Manager toolbar/menu.</li><li>
+<a id="pgfId-948318"></a>Click <em>Power Manager</em> &#8211; <em>Extract from Design</em>.</li><li>
+<a id="pgfId-948319"></a>Click <em>Power Manager</em> &#8211; <em>Export Liberty Model</em>.<br />
+<a id="pgfId-948320"></a>The Export Liberty Model form appears.<br />
+<a id="pgfId-948324"></a><div class="webflare-div-image">
+<img width="668" height="267" src="images/chap3-11.gif" /></div></li></ol>
+
+
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-962015"></a>The library, cell, and view names of the cellview that is currently open are displayed by default in the form. In the <em>Liberty File </em>field, specify the path and the name of the file for exporting the Liberty power model and click<em> OK</em>. Select the <em>Overwrite Existing File</em> check box to overwrite the file. </p>
+<div class="webflare-information-macro webflare-macro-note">
+<a id="pgfId-947614"></a><a href="VPM_SKILL.html#26020">vpmExportDotLib</a> has been provided to export the Liberty power model information for a cellview.</div>
+<p>
+<a id="pgfId-947615"></a>Liberty power model is the power intent at the macro model level, for complex design blocks. This can also be referred as a black box model of the power characteristics of a complex design block or a hard IP. Power Manager helps in automatically extracting the power intent from the design schematic and exporting the low power attributes to a Liberty Power Model template. It can be further integrated while extracting the power intent of the top design. The Exported Liberty Power Model, having the PG attributes can be stitched to the baseline Liberty model from an IP characterization tool to generate a complete liberty file for schematic IP ready for verification and implementation. </p>
+<p>
+<a id="pgfId-947617"></a>While creating the Liberty power model for a macro cell, the following tasks are performed:</p>
+<ul><li>
+<a id="pgfId-947619"></a>Identifies power nets and ground nets and their equivalent power or ground nets.</li><li>
+<a id="pgfId-947620"></a>Identifies switchable or non-switchable power nets or ground nets.</li><li>
+<a id="pgfId-947621"></a>Identifies boundary ports for the macro.</li><li>
+<a id="pgfId-947623"></a>Relates the boundary ports to the related power and ground supply pairs by tracing.</li><li>
+<a id="pgfId-947624"></a>Identifies low power special cells and the boundary ports associated with boundary ports to print the relevant attributes.</li><li>
+<a id="pgfId-947625"></a>Backtraces the data path from the control pins of the low power special cells to the macro or design ports for generating enable or shutoff conditions. Refer to <a href="chap1.html#65633">Setup for Automatic Extraction of Power Intent</a> for cell registration requirements to enable backtracing. </li></ul>
+
+
+
+
+
+
+
+The Liberty power model also enables creation of analog ports. Analog ports are a list of ports of a macro cell or a design that either drive the analog circuits or are driven by them. In a Liberty power model, a port is considered an analog port in the following cases: 
+
+<ul><li>
+<a id="pgfId-947630"></a>There is a user override, by defining <code>portAttribute</code>, in the setup that declares the pin as analog. </li><li>
+<a id="pgfId-947631"></a>The pin has a related power or a related ground found by tracing the power and ground path.</li><li>
+<a id="pgfId-947632"></a>The pin is not a driver or load of one or more instance pins that produce digital output, such as (Liberty or user-defined) standard cell input/output pin, which has a related power and a related ground attribute.</li><li>
+<a id="pgfId-947633"></a>The pin is not feedthrough and unconnected.</li></ul>
+
+
+
+
+
+Ports identified as analog ports have the  attribute associated with them.
+
+<ul><li>
+<a id="pgfId-947639"></a>An example of an exported Liberty Power Model file is shown below:</li></ul>
+
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947651"></a>####################################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947652"></a>/*</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947653"></a> <strong>Liberty Power Model Template (Section 1)</strong></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947660"></a> =============================</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947661"></a> library&#160;&#160;            : upf_export;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947662"></a> cell&#160;&#160;               : top;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947663"></a> Program Version&#160;&#160;    : sub-version  IC6.1.8-64b.main.174 ;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947664"></a>*/</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947665"></a>##################<strong>(Section 2)</strong>###################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947666"></a>library(upf_export) {</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947667"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947668"></a> date&#160;&#160;               : &quot;Wed Mar  6 18:02:38 2019 &quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947675"></a> comment&#160;&#160;            : &quot;Generated by Virtuoso Power Manager&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947676"></a> voltage_unit&#160;&#160;       : &quot;1V&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947677"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947678"></a> voltage_map( VDD , 1.100000);</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947679"></a> voltage_map( VDDA , 1.300000);</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947680"></a> voltage_map( VDDSW , 1.100000);</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947681"></a> voltage_map( VSS , 0.000000);</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947682"></a>#####################<strong>(Section 3)</strong>################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947683"></a> cell(top)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947684"></a>  switch_cell_type&#160;&#160;   : fine_grain;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947685"></a>  is_macro_cell&#160;&#160;      : true;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947692"></a>  pg_pin(VDD)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947693"></a>   voltage_name&#160;&#160;       : VDD;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947694"></a>   pg_type&#160;&#160;            : primary_power;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947695"></a>   direction&#160;&#160;          : inout;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947696"></a>  } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947697"></a>  pg_pin(VDDA)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947698"></a>   voltage_name&#160;&#160;       : VDDA;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947699"></a>   pg_type&#160;&#160;            : primary_power;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947700"></a>   direction&#160;&#160;          : inout;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947701"></a>  } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947702"></a>  pg_pin(VSS)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947703"></a>   voltage_name&#160;&#160;       : VSS;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947704"></a>   pg_type&#160;&#160;            : primary_ground;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947705"></a>   direction&#160;&#160;          : inout;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947706"></a>  } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947707"></a>  pg_pin(VDDSW)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947708"></a>   switch_function&#160;&#160;    : &quot;psw_en&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947709"></a>   voltage_name&#160;&#160;       : VDDSW;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947710"></a>   pg_function&#160;&#160;        : VDD;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947711"></a>   pg_type&#160;&#160;            : internal_power;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947712"></a>   direction&#160;&#160;          : internal;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947713"></a>  }</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947714"></a>######################################################</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947715"></a>  pin(en_iso)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947716"></a>   related_ground_pin&#160;&#160; : VSS;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947717"></a>   related_power_pin&#160;&#160;  : VDD;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947718"></a>   direction&#160;&#160;          : input;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947719"></a>  } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947720"></a>  pin(in1)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947721"></a>   related_ground_pin&#160;&#160; : VSS;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947722"></a>   related_power_pin&#160;&#160;  : VDD;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947723"></a>   direction&#160;&#160;          : input;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947724"></a>  } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947725"></a>  pin(out1)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947726"></a>   power_down_function&#160;&#160;: &quot;!VDD + VSS&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947727"></a>   related_ground_pin&#160;&#160; : VSS;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947728"></a>   related_power_pin&#160;&#160;  : VDD;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947729"></a>   direction&#160;&#160;          : output;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947730"></a>  } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947731"></a>  pin(out_iso)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947732"></a>   is_isolated&#160;&#160;        : true;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947733"></a>   power_down_function&#160;&#160;: &quot;!VDD + VSS&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947734"></a>   related_ground_pin&#160;&#160; : VSS;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947735"></a>   related_power_pin&#160;&#160;  : VDD;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947736"></a>   isolation_enable_condition : &quot;en_iso&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947737"></a>   direction&#160;&#160;          : output;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947738"></a>  } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947739"></a>  pin(out_psw)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947740"></a>   power_down_function&#160;&#160;: &quot;!VDD + VSS&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947741"></a>   related_ground_pin&#160;&#160; : VSS;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947742"></a>   related_power_pin&#160;&#160;  : VDD;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947743"></a>   direction&#160;&#160;          : output;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947744"></a>  } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947745"></a>  pin(outvdd)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947746"></a>   power_down_function&#160;&#160;: &quot;!VDD + VSS&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947747"></a>   related_ground_pin&#160;&#160; : VSS;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947748"></a>   related_power_pin&#160;&#160;  : VDD;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947749"></a>   direction&#160;&#160;          : output;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947750"></a>  } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947751"></a>  pin(psw_en)&#160;&#160;{</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947752"></a>   antenna_diode_related_ground_pins : &quot;VSS&quot;;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947753"></a>   switch_pin&#160;&#160;         : true;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947754"></a>   related_ground_pin&#160;&#160; : VSS;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947755"></a>   related_power_pin&#160;&#160;  : VDD;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947756"></a>   direction&#160;&#160;          : input;</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947757"></a>  } </pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947758"></a> } /* end of cell top */</pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947759"></a></pre>
+<pre class="webflare-courier-new codeContent">
+<a id="pgfId-947760"></a>} /* end of library upf_export */</pre>
+
+<p>
+<a id="pgfId-947763"></a>The following points explain the different sections of the exported Liberty power model: </p>
+<ul><li>
+<a id="pgfId-947764"></a><strong>Section1</strong>: This section includes the basic design information in terms of the library and cell names for which the Liberty power model has been extracted and the software version used for the same.</li><li>
+<a id="pgfId-947765"></a><strong>Section2</strong>: This section represents the library description. These are library level features and attributes. <br />
+<a id="pgfId-947766"></a>The library level <code>voltage_map</code> attribute associates the voltage name with the relative voltage values. These specified voltage names are referenced by the <code>pg_pin</code> groups defined at the cellview level. The voltage map can be a combination of both the primary power and ground supplies and bias power and ground supplies. Voltage values in the Liberty power model should follow the voltage values of the top-level design power intent where model is integrated unless a corresponding error is flagged at the power intent verification stage by CLP. </li><li>
+<a id="pgfId-947767"></a><strong>Section3</strong>: This section represents the cell group information and the related attributes. The cell group statement gives the name of the cell being described. It appears at the library group level. The Liberty power model exports the power intent of the design, therefore, the information in this group comprises of:<ul><li>
+<a id="pgfId-947768"></a><code>is_macro_cell</code>: The attribute identifies whether a cell is a macro cell.</li><li>
+<a id="pgfId-947769"></a><code>switch_cell_type</code>: This attribute supports macro cells with internal switches present to generate internal power. The valid values for this attribute are <code>coarse_grain</code> and <code>fine_grain</code>.</li><li>
+<a id="pgfId-947770"></a>Pin level attributes: The different pin level attributes, such as <code>pg_pin</code>, <code>pg_type</code>, <code>power_down_function</code>, <code>related_power_pin</code>, <code>related_ground_pin</code>, <code>input_signal_level</code> and <code>output_signal_level</code> describe the specific information extracted from the design schematic by Power Manager extractor for all the boundary ports (PG and data). The state of these attributes is dependent on the setup registration for PG nets, connectivity, and design topology. </li><li>
+<a id="pgfId-947772"></a>Macro Cell Modeling: The attributes <code>is_isolated</code>,  <code>isolation_enable_condition</code>, <code>switch_pin</code>, <code>switch_function</code>, <code>pg_function</code>, and <code>pg_types</code> are required for macro cell modeling. These are required to model the cells, which use low power special cells, such as isolation cells and power switch cells connected to boundary ports. </li></ul></li></ul>
+
+
+
+
+
+
+
+<p>
+<a id="pgfId-959782"></a>For more information on the 1801 commands, refer to <em>Liberty User Guides and Reference Manual Suite</em> (Version 2017.06).</p>
+<p>
+<a id="pgfId-941456"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="indesignchecks.html" id="prev" title="Running In-Design Checks">Running In-Design Checks</a></em></b><b><em><a href="chap4.html" id="nex" title="Verifying Power Intent of a Design">Verifying Power Intent of a De ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

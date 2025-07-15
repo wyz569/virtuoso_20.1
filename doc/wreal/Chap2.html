@@ -1,0 +1,2375 @@
+
+<html><head><title>Verilog-AMS Wreal Features</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-09-16" />
+<meta name="CreateTime" content="1568626966" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Digital-centric Mixed-signal Verification methodology that enables top-level verification at digital speed." />
+<meta name="DocTitle" content="Verilog-AMS Real Valued Modeling Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Verilog-AMS Wreal Features" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2" />
+<meta name="Keyword" content="wreal" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-09-16" />
+<meta name="ModifiedTime" content="1568626966" />
+<meta name="NextFile" content="Chap3new.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Chap1a.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Xcelium" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Verilog-AMS Real Valued Modeling Guide -- Verilog-AMS Wreal Features" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="product_feature" content="" />
+<meta name="product_subfeature" content="" />
+<meta name="Version" content="19.09" />
+<meta name="SpaceKey" content="wreal1909" />
+<meta name="webflare-version" content="1.4" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="wrealTOC.html">Contents</a></li><li><a class="prev" href="Chap1a.html" title="Verification Problem">Verification Problem</a></li><li style="float: right;"><a class="viewPrint" href="wreal.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Chap3new.html" title="Modeling with Wreal">Modeling with Wreal</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Verilog-AMS Real Valued Modeling Guide<br />Product Version 19.09, September 2019</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;">
+
+<h1>3
+<a id="pgfId-1032955"></a></h1>
+<h1>
+<a id="pgfId-1036736"></a><hr />
+<a id="96221"></a>Verilog-AMS Wreal Features<hr />
+</h1>
+
+<p>
+<a id="pgfId-1036737"></a>Real Valued Modeling (RVM) is a method by which you can perform verification of analog or mixed-signal designs using discretely simulated real values. This allows simulation using only the digital solver, avoiding the slower analog simulation and enabling intensive verification of mixed-signal design within a short period. In this context, you need to consider the trade-off between simulation performance and accuracy. RVM also opens up the possibility of linkage with other advanced verification technologies, such as assertion-based verification, without the difficulty of interfacing with the analog engine or defining new semantics to deal with the analog values. It is anticipated that you will enable the RVM flow by migrating your analog models or transistor-level design to RVM style. </p>
+<p>
+<a id="pgfId-1035473"></a>Most of the system verification in analog, digital, and mixed-signal domain is based on simulation runs. To meet the verification goals, certain amount of simulation data and data accuracy are required. For example, a detailed analysis of an RF low noise amplifier requires very high simulation accuracy, but a single RF sinusoid period might be sufficient. On the other hand, a pin connectivity check for a large digital block has an extremely low sensitivity towards accuracy, but may require a long transient simulation time to cover all sorts of events and states.</p>
+<p>
+<a id="pgfId-1035474"></a>Consequently, a long full-chip simulation run using highest level of simulation accuracy would be desirable. The limiting factor in this context is simulation performance. The only practical way around this problem is a hierarchical verification approach that uses different level of design abstractions for different verification goals. </p>
+<p>
+<a id="pgfId-1035475"></a>RVM is an interesting add-on to classical mixed-signal verification approaches, such as Verilog and SPICE mixed-signal simulation or pure digital modeling of the analog block in the mixed-signal design. It is not meant to replace other verification tasks including detailed analog performance verification. These tasks are still needed to ensure the correct behavior of the block. RVM complements the methodology with a high simulation performance configuration mainly targeting the functional verification goals.</p>
+
+<h2>
+<a id="pgfId-1035478"></a><a id="_Ref232936861"></a><a id="_Toc234394647"></a>Why wreal?</h2>
+
+<p>
+<a id="pgfId-1035479"></a>As mentioned above, there are several real value modeling languages. What is the advantage of wreal today?</p>
+<p>
+<a id="pgfId-1035480"></a>Verilog is built on a single type &#8211; binary. Inside a module, real valued variables can be used; however, real values cannot be passed directly through ports. Passing real values through ports requires conversion to bit vectors using <code>$real2bits()</code> and <code>$bits2real() </code>system functions. This adds a lot of type conversion effort to the modeling. Moreover, the bit vector representation (for example, 64 bit vector) of the block interconnect is not matching with the physical connection (single wire).</p>
+<p>
+<a id="pgfId-1036741"></a>Wreal is a native Verilog-AMS feature and includes all the benefits of a digital signal in Verilog-AMS. These are:</p>
+<ul><li>
+<a id="pgfId-1036746"></a>Easy interaction with the analog portion of the design.</li><li>
+<a id="pgfId-1036752"></a>A wreal net can be directly connected to the electrical nets by using automatically inserted E2R and R2E connect modules.</li><li>
+<a id="pgfId-1036755"></a>Discipline association: The discipline concept is widely used in Verilog-AMS to check connectivity, customize connect modules, and apply resolution functions.</li><li>
+<a id="pgfId-1036756"></a>Multiple wreal driver support.</li><li>
+<a id="pgfId-1036757"></a>Ability for scope-based wreal driver resolution function specification.</li><li>
+<a id="pgfId-1036758"></a>Identification of high impedance/unknown state(X/Z support) for real values.</li><li>
+<a id="pgfId-1036759"></a>Fully supported in dfII environment, thus bridging analog and digital use models.</li></ul>
+
+
+
+
+
+
+<p>
+<a id="pgfId-1035481"></a>SystemVerilog supports the usage of real variables as ports, but there are certain limitations that apply to SystemVerilog and Verilog:</p>
+<ul><li>
+<a id="pgfId-1035482"></a>Real value resolution functions for multiple-driver nets are not supported. It actually forbids multiple drivers for variable ports. </li><li>
+<a id="pgfId-1035483"></a>No support for X/Z state</li><li>
+<a id="pgfId-1035485"></a>Limited connectivity to analog models</li><li>
+<a id="pgfId-1036766"></a>No Discipline association</li></ul>
+
+
+
+<p>
+<a id="pgfId-1036774"></a>The difference between the VHDL real and Verilog-AMS wreal capabilities are not significant. Wreal is more advanced in the area of connect modules and interfacing with the analog design portion while VHDL real is a slightly more flexible in terms of resolution function and user defined types. In general, VHDL centric users will most likely prefer VHDL real, while Verilog users will pick Verilog-AMS wreal as the preferred language.</p>
+
+<h2>
+<a id="pgfId-1035495"></a><a id="_Toc234394648"></a>Verilog-AMS Wreal Language</h2>
+
+<p>
+<a id="pgfId-1035496"></a>In traditional Verilog, real values were modeled using 64-bit vectors, which encoded the real value in the IEEE floating point format. Two system tasks, $realtobits and $bitstoreal, were provided to encode and decode the real values in the 64-bit vectors. However, this use model does not support reconfigurable models under a schematic-based environment. In this environment, you model a real value with a single, scalar entity, which does not map into the traditional Verilog representation of a 64-bit vector real. This also proved difficult in the mixed-language world with VHDL reals not mapping cleanly to the 64-bit vectors used in traditional Verilog.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036783"></a>module top();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035498"></a>   wire [63:0] bitvector;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035499"></a>   source I1  (bitvector);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035500"></a>   sink   I2  (bitvector);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035501"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035502"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035503"></a>module source(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035504"></a>   input r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035505"></a>   wire [63:0] r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035506"></a>   real        realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035507"></a>   reg [63:0]  bitvector;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035508"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035509"></a>      while (realnumber &lt; 10.0) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035510"></a>         #1 realnumber = realnumber + 0.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035511"></a>         bitvector =  $realtobits(realnumber);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035512"></a>      end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035513"></a>      $stop;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035514"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035515"></a>   assign r = bitvector;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035516"></a>endmodule // send</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035517"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035518"></a>module sink(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035519"></a>   input r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035520"></a>   real  realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035521"></a>   wire [63:0] r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035522"></a>      always @(r) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035523"></a>      realnumber =  $bitstoreal(r) ;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035524"></a>      $display(&quot; real value = %f \n&quot;, realnumber);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035525"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035526"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035528"></a>In Verilog-AMS, the concept of a truly real-valued net/wire was introduced, called &quot;wreal&quot; &#8211; a real valued wire. These nets represent a real-valued physical connection between structural entities. The following example illustrates the same connection between the blocks &#8220;source&#8221; and &#8220;sink&#8221; as we saw in the previous one. However, there is no type conversion needed and the connecting wire is a scalar value.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035529"></a>`include &quot;disciplines.h&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035530"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035531"></a>module top();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035532"></a>   wreal real_wire;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035533"></a>   source I1  (real_wire);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035534"></a>   sink   I2  (real_wire);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035535"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035536"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035537"></a>module source(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035538"></a>   input r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035539"></a>   wreal  r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035540"></a>   real  realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035541"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035542"></a>      while (realnumber &lt; 10.0) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035543"></a>         #1 realnumber = realnumber + 0.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035544"></a>      end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035545"></a>      $stop;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035546"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035547"></a>   assign r = realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035548"></a>endmodule // send</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035549"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035550"></a>module sink(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035551"></a>   input r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035552"></a>   wreal r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035553"></a>   always @(r) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035554"></a>      $display(&quot; real value = %f \n&quot;, r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035555"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035556"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035558"></a>The following example illustrates the use of a real wire type as in input port of a voltage-controlled oscillator (VCO). The real value <code>vin</code> is used in an <code>always</code> block. This is possible due to the event-based nature of a wreal net&#8212;calculating the output frequency of the VCO.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035559"></a>&#8216;include &#8220;disciplines.vams&#8221;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036812"></a>&#8216;timescale 1ns / 1ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036841"></a>module top ();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036842"></a> wreal w in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036843"></a> real r in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036844"></a> vco vco(w in, clk);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036845"></a> always begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036846"></a>  r in = 1.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036847"></a>  #10 r in = 1.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036848"></a>  #10 r in = 0.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036851"></a>  #10 r in = -0.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036860"></a>  #10 r in = 1.345;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036863"></a>  #10 $finish;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036864"></a>end&#160;&#160;&#160;&#160;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036865"></a>assign w in = r in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036866"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036875"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036814"></a>module vco(vin, clk); </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037891"></a> input vin;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037890"></a> wreal vin;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035561"></a> output clk;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035562"></a> reg clk;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035564"></a> real freq, clk_delay ;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035565"></a> real center freq=1; // freq in GHZ</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036832"></a> real vco gain=1; // freq gain in GHZ</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036833"></a> initial clk=0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035566"></a> always @(vin)begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035568"></a>      freq = center_freq + vco_gain*vin;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035569"></a>      clk_delay = 1.0/(2*freq);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035570"></a>    end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035572"></a> always #clk_delay clk = ~clk;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035574"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037907"></a></pre>
+<p>
+<a id="pgfId-1035575"></a></p>
+<div class="webflare-div-image">
+<img src="images/waveform1-simvision.gif" /></div>
+
+<p>
+<a id="pgfId-1035577"></a>The simulation results show the change of the output frequency according to the input values. The event-based behavior of the wreal signal is visible as well.</p>
+<p>
+<a id="pgfId-1035578"></a>Wreal wires are defined as follows in the 2.3 version of the Verilog-AMS LRM (Section 3.7).</p>
+
+<h4>
+<a id="pgfId-1035580"></a><em>Real net declarations</em></h4>
+
+<p>
+<a id="pgfId-1037384"></a><em>The wreal, or real net data type, represents a real-valued physical connection between structural entities. A wreal net shall not store its value. A wreal net can be used for real-valued nets, which are driven by a single driver, such as a continuous assignment. If no driver is connected to a wreal net, its value shall be zero (0.0). Unlike other digital nets, which have an initial value of &#8216;z&#8217;, wreal nets shall have an initial value of zero.</em></p>
+<p>
+<a id="pgfId-1037283"></a><em>Wreal nets can only be connected to compatible interconnect and other wreal or real expressions. They cannot be connected to any other wires, although connection to explicitly declared 64-bit wires can be done via system tasks $realtobits and $bitstoreal. Compatible interconnect are nets of type wire, tri, and wreal where the IEEE std 1364-2005 Verilog HDL net resolution is extended for wreal. When the two nets connected by a port are of net type wreal and wire/tri, the resulting single net will be assigned as wreal. Connection to other net types will result in an error.</em></p>
+<p>
+<a id="pgfId-1036881"></a>The Verilog-AMS LRM lists the following restrictions on wreal nets:</p>
+<ul><li>
+<a id="pgfId-1036882"></a>Can have at most one driver</li><li>
+<a id="pgfId-1036883"></a>Can only connect to other wreals, wires, or real-valued expressions</li><li>
+<a id="pgfId-1035586"></a>Scalar only and no support for arrays</li></ul>
+
+
+<p>
+<a id="pgfId-1035587"></a>The example above shows that the wreal functionality is useful for practical designs. Standard mathematical functions, such as sin, cos, abs, log, min, and max are support on real variables in standard verilog. This enables basic modeling capabilities when combining the real calculations with wreal wire connections. However, the limitations introduced by the LRM definitions have a substantial impact on the usability. As a result, Cadence extended the wreal support beyond the LRM limitations, enabling a huge variety of applications with the extended wreal features. Details are given in the next chapter.</p>
+
+<h2>
+<a id="pgfId-1035589"></a><a id="_Toc234394649"></a>Advanced Wreal Modeling Features</h2>
+
+<p>
+<a id="pgfId-1035590"></a>In order to provide some benefit to the wreal construct, Cadence has made significant extensions, beyond the Verilog-AMS LRM restrictions. These extensions are:</p>
+<ul><li>
+<a id="pgfId-1035591"></a>Electrical to wreal and wreal to electrical connect modules</li><li>
+<a id="pgfId-1035592"></a>Support for wreal arrays</li><li>
+<a id="pgfId-1035593"></a>Support for wrealXState and wrealZState </li><li>
+<a id="pgfId-1035594"></a>Support for multiple wreal drivers and resolution functions </li><li>
+<a id="pgfId-1035595"></a>Support for wreal table models</li><li>
+<a id="pgfId-1035596"></a>Ability to connect a wreal to a VHDL real signal or SystemVerilog real variable</li><li>
+<a id="pgfId-1035597"></a>Automatic &#8220;type-casting&#8221; to wreal when a wire is hierarchically connected to a wreal, SystemVerilog real variable, or VHDL real signal</li></ul>
+
+
+
+
+
+
+<p>
+<a id="pgfId-1035598"></a>The following sections will provide a quick overview into those enhancements and the application area.</p>
+
+<h3>
+<a id="pgfId-1035600"></a><a id="_Toc234394650"></a>Wreal Arrays</h3>
+
+<p>
+<a id="pgfId-1035601"></a>Similar to busses, a wreal array groups multiple real values into a single, indexible entity. The following example demonstrates the definition of a wreal array: </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035602"></a>module ams_tb;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037823"></a> wreal y[3:2];</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037825"></a> sub_design d1(y);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037831"></a> initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037838"></a> #10 $display(&quot;%f,%f&quot;,y[2],y[3]);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037842"></a> end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037843"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037849"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037844"></a>module sub_design(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037845"></a> output wreal r [1:0];</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037846"></a> assign r[1] = 2.7182818;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037847"></a> assign r[0] = 3.142818;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037855"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035604"></a>A direct assignment of a complete array to another array is currently not supported. Assignments have to be split on the scalar level.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035605"></a>module foo(p,r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035606"></a>  output wreal r [1:0];</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035607"></a>  input  wreal p [1:0];</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035608"></a>  // this is currently not supported</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035609"></a>  // assign r=p;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035610"></a>  assign r[0]=p[0];</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035611"></a>  assign r[1]=p[1];</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035612"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035614"></a>Wreal vectors have no useful meaning to them when considered as a single entity, thus, they are not supported.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035615"></a>    // wreal [7:0] r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035616"></a>    // What would be the meaning of r as a whole?</pre>
+
+<p>
+<a id="pgfId-1035618"></a>However, wire vectors can legally be connected to wreal arrays, as shown in the following example. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035619"></a>module ams_tb;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035620"></a>   wreal y[3:2];</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035621"></a>   wire [1:0]x;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035622"></a>   foo f1 (x,y);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035623"></a>   sub_design d1 (x);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035624"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035625"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035626"></a>      #10 $display(&quot;%f,%f&quot;,y[2],y[3]);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035627"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035628"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035630"></a>Note the wire definition in the third line. Internally, the wreal vector is converted into a wreal array of the same size. </p>
+
+<h3>
+<a id="pgfId-1035632"></a><a id="_Toc234394651"></a>Wreal X and Z State </h3>
+
+<p>
+<a id="pgfId-1035633"></a>The concept of an unknown &#8211; X and high impedance &#8211; Z state used in the 4-state logic is useful for wreal signals as well. The meaning of X and Z is equivalent for the wreal case. Two new keywords `wrealZState and `wrealZState are used to define the related conditions in the wreal context, as shown in the following example. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035634"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035635"></a>module top();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035636"></a>   wreal s;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035637"></a>   real r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035638"></a>   foo f1 (s);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035639"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035640"></a>      #1 r = 1.234;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035641"></a>      #1 r = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035642"></a>      #1 r = 3.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035643"></a>      #1 r = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035644"></a>      #1 r = -4.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035645"></a>      #1 $stop;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035646"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035647"></a>   assign s = r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035648"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035649"></a>      </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035650"></a>module foo(a);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035651"></a>   inout a;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035652"></a>   wreal a;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035653"></a>   always @(a) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035654"></a>      if(a === `wrealZState)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035655"></a>        $display(&quot;--&gt; Z&quot;);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035656"></a>      else if(a === `wrealXState)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035657"></a>        $display(&quot;--&gt; X&quot;);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035658"></a>      else</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035659"></a> $display(&quot;%f&quot;, a);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035660"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035661"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035663"></a>The output result for the above example is shown below:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035664"></a>1.234000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035665"></a>--&gt; Z</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035666"></a>3.200000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035667"></a>--&gt; X</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035668"></a>-4.200000</pre>
+
+<p>
+<a id="pgfId-1035670"></a>&#8216;wrealXState and &#8216;wrealZState are internally defined constants. Be aware that these constants can be overwritten locally; however, this is obviously not recommended.</p>
+<p>
+<a id="pgfId-1035671"></a>It is important to use the <code>===</code> operator in these type of comparisons. An <code>a == 1&#39;bx</code> comparison always returns &#39;<code>x</code>&#39; due to the fact that Verilog does not assume the comparison between two unknown values to be true. Verilog is pessimistic and interprets &#39;<code>x</code>&#39; as <code>0</code> in the conditional statements. The <code>===</code> operator provides the comparison functionality including <code>x</code> and <code>z</code> states.</p>
+<p>
+<a id="pgfId-1035672"></a>The output of the above example using the <code>==</code> instead of the <code>===</code> operator would be:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035673"></a>1.234000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035674"></a>`wrealZState</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035675"></a>3.200000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035676"></a>`wrealXState</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035677"></a>-4.200000</pre>
+
+<p>
+<a id="pgfId-1035679"></a>In all cases, the simulator would go into the <code>$display(&quot;%f&quot;, a);</code> condition.</p>
+
+<h3>
+<a id="pgfId-1035681"></a><a id="_Toc234394652"></a>Multiple Driven Wreals </h3>
+
+<p>
+<a id="pgfId-1035682"></a>While the resulting values of multiply driven 4-state logic nets are relatively obvious, it is not obvious what the result value on a wreal net should be if one driver provides 2.7 and another -4.87 at the same time. Should the output be the sum, the average, an X? Since there is no single answer to that question, a user-selectable resolution function is provided.</p>
+<p>
+<a id="pgfId-1035683"></a>Currently (IES 82 FCS), six resolution functions are supported:</p>
+<ul><li style="list-style-type: none;background-image: none;"><ul><li>
+<a id="pgfId-1037072"></a>DEFAULT &#8211; Single active driver only, support for Z state</li><li>
+<a id="pgfId-1037073"></a>4STATE &#8211; Similar to Verilog 4-State resolution for digital nets</li><li>
+<a id="pgfId-1037074"></a>SUM &#8211; Resolves to a summation of all the driver values</li><li>
+<a id="pgfId-1037066"></a>AVG &#8211; Resolves to the average of all the driver values</li><li>
+<a id="pgfId-1037079"></a>MIN &#8211; Resolves to the least value of all the driver values</li><li>
+<a id="pgfId-1037060"></a>MAX &#8211; Resolves to the greatest value of all the driver values</li></ul></li></ul>
+
+
+
+
+
+<p>
+<a id="pgfId-1035690"></a>The resolution function are selectable with <code>&#8211;wreal_resolution &lt;res_func&gt; </code>argument to <code>xmelab</code> or <code>xrun</code>.</p>
+<p>
+<a id="pgfId-1035691"></a>Table 1 shows the results of a wreal, which is being driven by two drivers using different resolution functions:</p>
+<p>
+<a id="pgfId-1037818"></a></p>
+<table class="webflareTable" id="#id1035692">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037644"></a>D1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037646"></a>D2</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037648"></a>Default</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037650"></a>4state</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037652"></a>sum</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037654"></a>avg</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037656"></a>min</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037658"></a>max</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037660"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037662"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037664"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037666"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037668"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037670"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037672"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037674"></a>x</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037676"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037678"></a>z</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037680"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037682"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037684"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037686"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037688"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037690"></a>x</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037692"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037694"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037696"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037698"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037700"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037702"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037704"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037706"></a>x</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037708"></a>z</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037710"></a>z</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037712"></a>z</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037714"></a>z</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037716"></a>z</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037718"></a>z</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037720"></a>z</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037722"></a>z</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037724"></a>z</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037726"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037728"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037730"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037732"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037734"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037736"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037738"></a>1.1</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037740"></a>2.2</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037742"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037744"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037746"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037748"></a>3.3</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037750"></a>1.65</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037752"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037754"></a>2.2</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037756"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037758"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037760"></a>x</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037762"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037764"></a>2.2</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037766"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037768"></a>1.1</pre>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<pre class="webflare-courier-new">
+<a id="pgfId-1037770"></a>1.1</pre>
+</td>
+</tr>
+</tbody></table>
+<p>
+<a id="pgfId-1035823"></a>The resolution function defined by the <code>&#8211;wreal_resolution</code> command line switch is a global setting that applies to all wreal nets in the design. Local resolution functions are supported as well; however, we need the concept of disciplines (see <a href="Chap2.html#_Toc234394660">Discipline Naming</a>). For more information on local resolution function, see <a href="Chap2.html#_Toc234394661">Local Resolution Functions</a>. </p>
+<p>
+<a id="pgfId-1035824"></a>The following example illustrates the use of multiple drivers on a wreal net. The top-level wire <br />&#8220;real_wire&#8221; is driven by the two blocks &#8220;source1&#8221; and &#8220;source2&#8221;. A third module is reading and displaying the result value of the net.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035825"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037084"></a>module top();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037085"></a>   wreal real_wire;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035829"></a>   source1 I1  (real_wire);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035830"></a>   source2 I2  (real_wire);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035831"></a>   sink    I3  (real_wire);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035832"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035833"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035834"></a>module source1(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035835"></a>   output r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035836"></a>   wreal  r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035837"></a>   real      realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035838"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035839"></a>      #1 realnumber = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035840"></a>      #1 realnumber = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035841"></a>      #1 realnumber = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035842"></a>      #1 realnumber = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035843"></a>      #1 realnumber = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035844"></a>      #1 realnumber = 2.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035845"></a>      #1 realnumber = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035846"></a>      #1 $stop;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035847"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035848"></a>   assign r = realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035849"></a>endmodule // send</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035850"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035851"></a>module source2(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035852"></a>   output r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035853"></a>   wreal  r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035854"></a>   real      realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035855"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035856"></a>      #1 realnumber = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035857"></a>      #1 realnumber = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035858"></a>      #1 realnumber = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035859"></a>      #1 realnumber = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035860"></a>      #1 realnumber = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035861"></a>      #1 realnumber = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035862"></a>      #1 realnumber = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035863"></a>      #1 $stop;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035864"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035865"></a>   assign r = realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035866"></a>endmodule // send</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035867"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035868"></a>module sink(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035869"></a>   input r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035870"></a>   wreal r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035871"></a>   always @(r) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035872"></a>      $display(&quot; real value = %f&quot;, r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035873"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035874"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035876"></a>The output of the simulation depends on the <code>&#8211;wreal_resolution</code> argument to <code>xrun</code>. For example, if the following statement is used for simulation: </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035877"></a>xrun multi_driver.vams -exit -wreal_resolution sum</pre>
+
+<p>
+<a id="pgfId-1037312"></a>The resulting output is displayed as shown below:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1037096"></a>real value = `wrealXState</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035881"></a>real value = `wrealXState</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035882"></a>real value = `wrealXState</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035883"></a>real value = `wrealZState</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035884"></a>real value = 1.100000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035885"></a>real value = 3.300000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035886"></a>real value = 2.200000</pre>
+
+<p>
+<a id="pgfId-1035888"></a>In the given example, the wreal drivers and receivers are nicely separated in different modules; however, the resolution function feature works the same way inside a single model. If you display <code>r</code> and <code>realnumber</code> in one of the source modules in the example, you will notice that the driven real value realnumber and the received wreal value r are different. The received wreal value represents the end result of the overall resolution process.&#160;&#160;</p>
+<p>
+<a id="pgfId-1035889"></a>The resolution function provides you the ability to model analog behaviors, such as current summing nodes, in a straightforward manner. </p>
+
+<h3>
+<a id="pgfId-1035891"></a><a id="_Toc234394653"></a>Wreal Coercion</h3>
+
+<p>
+<a id="pgfId-1035892"></a>During the elaboration phase, the connectivity of a mixed-signal design is computed. This also involves determining and attaching types, such as logic type and electrical type to interconnects (wires). The Verilog-AMS LRM only allows wreal ports and nets to connect to wires. In this case, the wires get resolved to the type wreal. This process is called coercion to wreal.</p>
+<p>
+<a id="pgfId-1035893"></a>We have enhanced this functionality in several ways. When a wire/interconnect is connected to a net of the type wreal, SV real, or VHDL real, it is coerced to wreal as well. Such coercion can occur across multiple hierarchical levels. The coercion process allows a seamless connection of devices without worrying about the interconnects and their types. This offers tremendous value in terms of model portability across various design configurations. In a different configuration, interconnect might be used to connect electrical ports &#8211; this works seamlessly without any change in the source code.</p>
+<p>
+<a id="pgfId-1035894"></a>The following example illustrates the coercion function:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035895"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035896"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035897"></a>module top();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035898"></a>   wire w;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035899"></a>   sub1 I1 (w);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035900"></a>   sub2 I2 (w);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035901"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035902"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035903"></a>module sub1(foo);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035904"></a>   output foo;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035905"></a>   source I1  (foo);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035906"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035907"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035908"></a>module sub2(foo);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035909"></a>   input foo;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035910"></a>   sink   I3  (foo);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035911"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035913"></a>We do have some levels of hierarchy and the connection between the blocks is implemented using wires. Note that we have not defined any discipline or type for the wires. This is essential to give the elaborator the flexibility to choose the appropriate wire type. </p>
+<p>
+<a id="pgfId-1035914"></a>We could use the following electrical definitions for the modules source and sink:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035915"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035916"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035917"></a>module source (r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035918"></a>   output r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035919"></a>   electrical  r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035920"></a>   analog begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035921"></a>      V(r) &lt;+ sin($abstime * 1e4);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035922"></a>      $bound_step(1e-5); // limit the step size</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035923"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035924"></a>endmodule // send</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035925"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035926"></a>module sink (r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035927"></a>   input r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035928"></a>   electrical r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035929"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035930"></a>   analog begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035931"></a>      $display(&quot; voltage = %f&quot;, V(r));</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035932"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037321"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1037322"></a>The entire wire hierarchy in the three top-level modules will become electrical due to the connection of the wires to the electrical ports. Using exactly the same top-level hierarchy with different leaf-level blocks will result in different wire type and discipline assignment.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035936"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035937"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035938"></a>module source(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035939"></a>   output r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035940"></a>   wreal  r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035941"></a>   real      realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035942"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035943"></a>      #1 realnumber = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035944"></a>      #1 realnumber = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035945"></a>      #1 realnumber = 2.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035946"></a>      #1 realnumber = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035947"></a>      #1 $stop;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035948"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035949"></a>   assign r = realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035950"></a>endmodule // send</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035951"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035952"></a>module sink (r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035953"></a>   input r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035954"></a>   wreal r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035955"></a>   always @(r) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035956"></a>      $display(&quot; real value = %f&quot;, r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035957"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035958"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035960"></a>In this case, the top-level wires are coerced to a wreal wire type. Thus, the coercion mechanism enables a straightforward reuse of testbench and sub-level hierarchies even if leaf-level blocks are swapped out by wreal blocks. Explicit definitions of wreal wire type in the upper levels of the hierarchy is not necessary.</p>
+<p>
+<a id="pgfId-1035961"></a>Please note that a wreal wire that is used in any behavioral context, such as source and sink blocks should be declared explicitly as wreal type. This ensures that the object used in the behavioral code do have a well-defined type. The coercion mechanism is indented to be used for pure interconnect wires only. </p>
+
+<h3>
+<a id="pgfId-1035963"></a><a id="_Toc234394654"></a>Wreal Table Models </h3>
+
+<p>
+<a id="pgfId-1035964"></a>Another useful enhancement is the <code>$table_model</code> function known from analog Verilog-A and Verilog-AMS blocks. The function is now available for real values as well. Please find details of the <code>$table_model</code> function and the different options to the function in the related documentation (Cadence Verilog-AMS Language Reference).<a id="OLE_LINK1"></a></p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035967"></a><a id="OLE_LINK2"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035968"></a>`timescale 1ns / 1ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035969"></a>module top();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035970"></a>   wreal s, vdd;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035971"></a>   logic out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035972"></a>   real r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035973"></a>   vco f1 (out, vdd, s);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035974"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035975"></a>      #10 r = 1.234;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035976"></a>      #10 r = 5;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035977"></a>      #10 r = 0.45;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035978"></a>      #10 r = 23;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035979"></a>      #10 r = 4.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035980"></a>      #1 $stop;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035981"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035982"></a>   assign s = r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035983"></a>   assign vdd = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035984"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035985"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035986"></a>module vco(out, vdd, vctrl);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035987"></a>   output out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035988"></a>   logic out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035989"></a>   input  vdd, vctrl;   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035990"></a>   wreal  vdd, vctrl;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035991"></a>   reg &#160;&#160;&#160;&#160;     osc = 1&#39;b0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035992"></a>   real      tableFreq, halfper;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035993"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035994"></a>   always @(vdd, vctrl) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035995"></a>      tableFreq = $table_model(vdd, vctrl,&quot;./vcoFreq.tbl&quot;, </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035996"></a>                                          &quot;3CC,1EL&quot;);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035997"></a>      halfper = 1/(2*tableFreq);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035998"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035999"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036000"></a>   always begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036001"></a>      #halfper osc = !osc;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036002"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036003"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036004"></a>   assign out = osc;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036005"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1036008"></a>The example above calculates the VCO output frequency according to the table in the text file <code>vcoFrep.tbl</code>. This file is shown below:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036009"></a><code>#VDD    &#160;&#160;&#160;&#160;VCNTL   &#160;&#160;&#160;&#160; Freq/GHz</code></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036010"></a><code>1       &#160;&#160;&#160;&#160;0       &#160;&#160;&#160;&#160; 9.81</code></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036011"></a><code>1       &#160;&#160;&#160;&#160;0.4     &#160;&#160;&#160;&#160; 1.05</code></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036012"></a><code>1       &#160;&#160;&#160;&#160;0.8     &#160;&#160;&#160;&#160; 1.41</code></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036013"></a><code>1.1     &#160;&#160;&#160;&#160;0       &#160;&#160;&#160;&#160; 9.88</code></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036014"></a><code>1.1     &#160;&#160;&#160;&#160;0.45    &#160;&#160;&#160;&#160; 1.29</code></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036015"></a><code>1.1     &#160;&#160;&#160;&#160;0.9     &#160;&#160;&#160;&#160; 1.52</code></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036016"></a><code>1.2     &#160;&#160;&#160;&#160;0       &#160;&#160;&#160;&#160; 9.95</code></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036017"></a><code>1.2     &#160;&#160;&#160;&#160;0.5     &#160;&#160;&#160;&#160; 1.37</code></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036018"></a><code>1.2     &#160;&#160;&#160;&#160;1       &#160;&#160;&#160;&#160; 1.69</code></pre>
+
+<p>
+<a id="pgfId-1036020"></a>Assuming that the VDD=1.1 and VCNTRL=0.45, the output frequency would be 1.29 GHz. For values between the definition points (for example, VCNTRL=0.687), a linear or third order spline interpolation is used. </p>
+<p>
+<a id="pgfId-1036021"></a>Use the <code>$table_model </code>function to model the behavior of a design by interpolating between and extrapolating outside of data points. The syntax of the table model file is identical to the <code>$table_model</code> function that have been available in the analog context for years.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036022"></a>table_model_declaration ::=&#160;&#160;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036023"></a>$table_model(variables , table_source [ , ctrl_string ] )</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036024"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036025"></a>sub_ctrl_string ::=</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036026"></a>   &#160;&#160;&#160;&#160;    &#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;I</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036027"></a>   &#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;|  &#160;&#160;&#160;&#160;D</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036028"></a>   &#160;&#160;&#160;&#160; |&#160;&#160; [ degree_char ] [ extrap_char [ extrap_char ]]</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036029"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036030"></a>degree_char ::=</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036031"></a>   &#160;&#160;&#160;&#160;    &#160;&#160;&#160;&#160;1 | 2 | 3</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036032"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036033"></a>extrap_char ::=</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036034"></a>   &#160;&#160;&#160;&#160;    &#160;&#160;&#160;&#160;C | L | S | E</pre>
+
+<p>
+<a id="pgfId-1036036"></a>The <code>ctrl_string</code> controls the numerical aspects of the interpolation process. It consists of sub control strings for each dimension.</p>
+<p>
+<a id="pgfId-1036037"></a>When you specify I (ignore), the software ignores the corresponding dimension (column) in the data file. You might use this setting to skip over index numbers. For example, when you associate the I (ignore) value with a dimension, you must not specify a corresponding variable for that dimension.</p>
+<p>
+<a id="pgfId-1036038"></a>When you specify D (discrete), the software does not use interpolation for this dimension. If the software cannot find the exact value for the dimension in the corresponding dimension in the data file, it issues an error message and the simulation stops.</p>
+<p>
+<a id="pgfId-1036039"></a>degree_char is the degree of the splines used for interpolation. Important values for the degree are 1 and 3. The default value is 1, which results in a linear interpolation between data points. 3 specifies a 3rd order spline interpolation.</p>
+<p>
+<a id="pgfId-1036040"></a>The extrap_char controls how the simulator evaluates a point that is outside the region of sample points included in the data file. The C (clamp) extrapolation method uses a horizontal line that passes through the nearest sample point, also called the end point, to extend the model evaluation. The L (linear) extrapolation method, which is the default method, models the extrapolation through a tangent line at the end point. The S (spline) extrapolation method uses the polynomial for the nearest segment (the segment at the end) to evaluate a point beyond the interpolation area. The E (error) extrapolation method issues a warning when the point to be evaluated is beyond the interpolation area.</p>
+<p>
+<a id="pgfId-1037864"></a>You can specify the extrapolation method to be used for each end of the sample point region. When you do not specify an extrap_char value, the linear extrapolation method is used for both ends. When you specify only one extrap_char value, the specified extrapolation method is used for both ends. When you specify two extrap_char values, the first character specifies the extrapolation method for the end with the smaller coordinate value, and the second character specifies the method for the end with the larger coordinate value.</p>
+<p>
+<a id="pgfId-1037865"></a>In the example above, we used the control string &#8220;&quot;<code>3CC,1EL</code>&quot;&#8221;. This specifies a 3rd order spline interpolation of the <code>vdd</code> variable, while the <code>vctrl </code>variable entries in the table are interpolated in a linear fashion. Input values for <code>vdd</code> below 1.0 or above 1.2 are clamped to 1.0 and 1.2 respectively. Input values below 0.0 for <code>vctrl</code> will result in an error, while larger value than 1.0 will be extrapolated linearly.</p>
+
+<h2>
+<a id="pgfId-1036044"></a><a id="_Toc234394655"></a>Connecting Wreals to Other Domains and Languages</h2>
+
+<p>
+<a id="pgfId-1036045"></a>Wreal signals need to be connected to other real type variable and signals as well as other domains, such as logical and electrical. In the same context, the connection across language, boundaries are important to discuss. How does Verilog-AMS wreal interact with VHDL and SystemVerilog for example?</p>
+
+<h3>
+<a id="pgfId-1036047"></a><a id="_Toc234394656"></a>Wreal connecting to VHDL real and SystemVerilog real </h3>
+
+<p>
+<a id="pgfId-1036048"></a>The connection between VHDL real and SystemVerilog real numbers is a direct connection because the data type is equivalent. The following example shows how the different languages can interact with each other. The top-level generates a real value that is passed into two sub modules, one being a VHDL and the other a SystemVerilog module.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036049"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036050"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036051"></a>module vhdl_sv_wreal ();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036052"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036053"></a>   wreal&#160;&#160;&#160;&#160;real_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036054"></a>   wreal&#160;&#160;&#160;&#160;sv_real_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036055"></a>   wreal&#160;&#160;&#160;&#160;vhdl_real_out ;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036056"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036057"></a>   real real_in_reg;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036058"></a>   sv_sub i_sv_sub (real_in, sv_real_out);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036059"></a>   vhdl_sub i_vhdl_sub (real_in, vhdl_real_out);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036060"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036061"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036062"></a>      real_in_reg = 1.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036063"></a>      #10 real_in_reg = 5.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036064"></a>      #10 real_in_reg = 3.6;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036065"></a>      #10 $finish;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036066"></a>   end // initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036067"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036068"></a>   always @(real_in) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036069"></a>   &#160;&#160;&#160;&#160;$display(&quot;%M: real_in = %f&quot;, real_in);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036070"></a>   end   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036071"></a>   always @(vhdl_real_out) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036072"></a>   &#160;&#160;&#160;&#160;$display(&quot;%M: vhdl_real_out = %f&quot;, vhdl_real_out);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036073"></a>   end   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036074"></a>   always @(sv_real_out) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036075"></a> $display(&quot;%M: sv_real_out = %f&quot;, sv_real_out);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036076"></a>   end   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036077"></a>   assign real_in = real_in_reg;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036078"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036079"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1036081"></a>In the above example, there is no interface code or any type conversion necessary to the connection. The VHDL sub module is written in pure digital VHDL using the real data type for the ports. The incoming real value is printed out to ensure that we are receiving the right value. After a multiplication by 2.0, the value is transferred to a sub module written in Verilog-AMS/wreal. The output value of the wreal sub module is again printed and multiplied before it is passed back to the top-level module.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036082"></a>library ieee;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036083"></a>use ieee.std_logic_1164.all;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036084"></a>USE STD.textio.all;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036085"></a>use work.all;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036086"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036087"></a>entity vhdl_sub is </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036088"></a>  port (</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036089"></a>    real_in: in real;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036090"></a>    vhdl_real_out : out real</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036091"></a>    );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036092"></a>end;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036093"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036094"></a>architecture behavioral of vhdl_sub is</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036095"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036096"></a>  signal real_2 : real;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036097"></a>  signal real_4 : real;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036098"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036100"></a>  component wreal_sub </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036101"></a>    port (</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036102"></a>      wreal_in: in real;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036103"></a>      wreal_out : out real</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036104"></a>      );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036105"></a>  end component;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036106"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036108"></a>BEGIN</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036109"></a>  process(real_in)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036110"></a>    variable l : line;     </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036111"></a>  BEGIN</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036112"></a>    write(l, vhdl_sub&#39;path_name);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036113"></a>    write(l, string&#39;(&quot; : real_in = &quot;));</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036114"></a>    write(l, real&#39;image(real_in) );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036115"></a>    writeline( output, l );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036116"></a>  end process;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036117"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036118"></a>  process(real_4)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036119"></a>    variable l : line;     </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036120"></a>  BEGIN</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036121"></a>    write(l, vhdl_sub&#39;path_name);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036122"></a>    write(l, string&#39;(&quot; : real_4 = &quot;));</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036123"></a>    write(l, real&#39;image(real_4) );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036124"></a>    writeline( output, l );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036125"></a>  end process;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036126"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036127"></a>  i_wreal_sub : wreal_sub</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036128"></a>    port map (</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036129"></a>      wreal_in =&gt; real_2,</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036130"></a>      wreal_out =&gt; real_4</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036131"></a>      );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036132"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036133"></a>  real_2 &lt;= real_in * 2.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036134"></a>  vhdl_real_out &lt;= real_4 * 2.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036135"></a>end;</pre>
+
+<p>
+<a id="pgfId-1036137"></a>The wreal sub block is shown below. It receives the value, prints it, and returns the double value back to the upper-level module.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036138"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036139"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036140"></a>module wreal_sub(wreal_in, wreal_out);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036141"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036142"></a>   input wreal_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036143"></a>   wreal wreal_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036144"></a>   output wreal_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036145"></a>   wreal wreal_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036146"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036147"></a>   real   wreal_out_reg;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036148"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036149"></a>   always @(wreal_in) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036150"></a>      wreal_out_reg = wreal_in * 2.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036151"></a>      $display(&quot;%M: real_in = %f&quot;, wreal_in);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036152"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036153"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036154"></a>   assign wreal_out = wreal_out_reg;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036155"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036156"></a>endmodule // wreal_sub</pre>
+
+<p>
+<a id="pgfId-1036158"></a>In parallel to the VHDL sub module, an equivalent SystemVerilog implementation is instantiated. It performs the same operation as described above and instantiates the same sub-level wreal module.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036159"></a>module sv_sub (real_in, sv_real_out);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036160"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036161"></a>   input var real real_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036162"></a>   output var real sv_real_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036163"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036164"></a>   var real sv_real_2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036165"></a>   var real sv_real_4;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036166"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036167"></a>   always @(real_in) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036168"></a>      sv_real_2 = real_in * 2.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036169"></a>      $display(&quot;%M: real_in = %f&quot;, real_in);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036170"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036171"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036172"></a>   always @(sv_real_4) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036173"></a>      $display(&quot;%M: sv_real_4 = %f&quot;, sv_real_4);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036174"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036175"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036176"></a>   wreal_sub i_wreal_sub (sv_real_2, sv_real_4);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036177"></a>   assign sv_real_out = sv_real_4 * 2.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036178"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036179"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036180"></a>endmodule // sv_real</pre>
+
+<p>
+<a id="pgfId-1036182"></a>As expected, the output displays the multiplication of the input value in the two sub level blocks.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036183"></a>xcelium&gt; run</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036184"></a>vhdl_sv_wreal:i_vhdl_sub:vhdl_sub : real_4 = 0.0</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036185"></a>vhdl_sv_wreal:i_vhdl_sub:vhdl_sub : real_in = 0.0</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036186"></a>vhdl_sv_wreal: real_in = 1.000000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036187"></a>vhdl_sv_wreal:i_vhdl_sub:vhdl_sub : real_in = 1.0</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036188"></a>vhdl_sv_wreal.i_sv_sub: real_in = 1.000000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036189"></a>vhdl_sv_wreal.i_sv_sub.i_wreal_sub: real_in = 2.000000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036190"></a>vhdl_sv_wreal.i_vhdl_sub:i_wreal_sub: real_in = 2.000000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036191"></a>vhdl_sv_wreal:i_vhdl_sub:vhdl_sub : real_4 = 4.0</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036192"></a>vhdl_sv_wreal.i_sv_sub: sv_real_4 = 4.000000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036193"></a>vhdl_sv_wreal: sv_real_out = 8.000000</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037333"></a>vhdl_sv_wreal: vhdl_real_out = 8.000000</pre>
+<h3>
+<a id="pgfId-1037336"></a><a id="_Toc234394657"></a>Connection to the Electrical Domain</h3>
+
+<p>
+<a id="pgfId-1036198"></a>Similar to the mechanism of automatically inserted connect modules (AICM) between the electrical and logic domain, these connect modules are available between wreal and electrical and vice versa. The connect modules (CM) are called E2R, R2E_2, and ER_bidir. They are inserted automatically, if needed, during the elaboration process.</p>
+<p>
+<a id="pgfId-1036199"></a>The current connect modules is shown below. The source file can be found in the IUS/IES release in &lt;install_path&gt;/tools/affirma_ams/etc/connect_lib/. The Real to Electrical (R2E) CM implementation is relatively straightforward. The newly introduced X and Z states are taken into account. The input wreal value is assigned to a voltage source with a serial resistance. Transition operators help avoid abrupt changes in the behavior that might convergence issues in the analog solver. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036200"></a>// R2E_2.vams - Efficient Verilog-AMS discrete wreal to </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036201"></a>// electrical connection module</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036202"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036204"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036205"></a>`timescale 1ns / 100ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036206"></a> </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036207"></a>connectmodule R2E_2 (Din, Aout);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036208"></a>  input Din;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036209"></a>  wreal Din;&#160;&#160;&#160;&#160;  // input wreal</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036210"></a>  \logic Din;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036211"></a>  output Aout;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036212"></a>  electrical Aout;&#160;&#160;&#160;&#160;  // output electrical</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036213"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036214"></a>  parameter real vsup = 1.8&#160;&#160;&#160;&#160;     from (0:inf);   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036215"></a>                    // supply voltage</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036216"></a>  parameter real vdelta = vsup/64 from (0:vsup];&#160;&#160;&#160;&#160;        </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036217"></a>                    // voltage delta</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036218"></a>  parameter real vx = 0&#160;&#160;&#160;&#160;     from [0:vsup];   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036219"></a>                    // X output voltage</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036220"></a>  parameter real vz = vx&#160;&#160;&#160;&#160;    from [0:vsup];   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036221"></a>                    // Z output voltage</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036222"></a>  parameter real tr = 10p&#160;&#160;&#160;&#160;     from (0:inf);   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036223"></a>                    // risetime of analog output</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036224"></a>  parameter real tf = tr&#160;&#160;&#160;&#160;    from (0:inf);   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036225"></a>                  &#160;&#160;&#160;&#160;  // falltime of analog output</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036226"></a>  parameter real ttol_t = (tr+tf)/20 from (0:inf); </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036227"></a>                   &#160;&#160;&#160;&#160;  // time tol of transition</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036228"></a>  parameter real tdelay = 0&#160;&#160;&#160;&#160;     from [0:inf);   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036229"></a>// delay time of analog output</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036230"></a>  parameter real rout = 200&#160;&#160;&#160;&#160;     from (0:inf);   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036231"></a>// output resistance</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036232"></a>  parameter real rx = rout&#160;&#160;&#160;&#160;     from (0:inf);   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036233"></a>// X output resistance</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036234"></a>  parameter real rz = 10M&#160;&#160;&#160;&#160;     from (0:inf);   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036235"></a>// Z output resistance</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036237"></a>  </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037141"></a>real Vstate, Rstate;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036238"></a>  real Vout, Rout;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036240"></a>  initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036241"></a>    if (Din === `wrealXState)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036242"></a>      begin Vstate = vx; Rstate = rx; end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036243"></a>    else if (Din === `wrealZState)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036244"></a>      begin Vstate = vz; Rstate = rz; end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036245"></a>    else</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036246"></a>      begin Vstate = Din; Rstate = rout; end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036247"></a>  end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036249"></a>  always @(Din) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036250"></a>    if (Din === `wrealXState)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036251"></a>      begin Vstate = vx; Rstate = rx; end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036252"></a>    else if (Din === `wrealZState)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036253"></a>      begin Rstate = rz; end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036254"></a>    else if (Din-Vstate &gt;= vdelta || Vstate-Din &gt;= vdelta)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036255"></a>      begin Vstate = Din; Rstate = rout; end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036256"></a>  end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036258"></a>  assign Din = Din;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036260"></a>  analog begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036261"></a>    Vout = transition(Vstate, tdelay, tr, tf, ttol_t);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036262"></a>    Rout = transition(Rstate, tdelay, tr, tf, ttol_t);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036263"></a>    I(Aout) &lt;+ (V(Aout) - Vout) / Rout;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036264"></a>  end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036266"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1036268"></a>In contrast to the R2E, the E2R (Electrical to Real) operation is not so obvious because the continuous analog value needs to be translated into an event-based wreal signal. For this purpose, we created a new system function, <code>absdelta</code>, which creates events based on input value changes. In the CM below, the <code>absdelta</code> function issues an event and thus updates the wreal value whenever V(<code>Ain</code>) changes more than the value <code>vdelta</code>. </p>
+<p>
+<a id="pgfId-1037150"></a>More precisely, the <code>absdelta</code> function generates events for the following times and conditions</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1037151"></a>(absdelta ( expr, delta [ , time_tol [ , expr_tol ]]):</pre>
+
+<ul><li>
+<a id="pgfId-1037152"></a>At time zero</li><li>
+<a id="pgfId-1037157"></a>When the analog solver finds a stable solution during initialization</li><li>
+<a id="pgfId-1037160"></a>When the expr value changes more than delta plus or minus expr_tol, relative to the previous <code>absdelta</code> event (but not when the current time is within time_tol of the previous absdelta event)</li><li>
+<a id="pgfId-1037163"></a>When expr changes direction (but not when the amount of the change is less than expr_tol</li></ul>
+
+
+
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036275"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037345"></a>// E2R.vams - basic Verilog-AMS electrical to discrete wreal connection module</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036276"></a>// last revised:&#160;&#160;08/01/06, jhou</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036277"></a>//</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036278"></a>// REVISION HISTORY:</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036279"></a>// Created:&#160;&#160;08/01/06, jhou</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036280"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036281"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036282"></a>`timescale 1ns / 100ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036283"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036284"></a>connectmodule E2R (Ain, Dout);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036285"></a>input Ain;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036286"></a>electrical Ain;&#160;&#160;  //input electrical</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036287"></a>output Dout;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036288"></a>wreal Dout;&#160;&#160;      //output wreal</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036289"></a>\logic Dout;&#160;&#160;     //discrete domain</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036290"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036291"></a>  parameter real vdelta=1.8/64   from (0:inf);    </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036292"></a>// voltage delta</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036293"></a>  parameter real vtol=vdelta/4   from (0:vdelta); </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036294"></a>// voltage tolerance</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036295"></a>  parameter real ttol=10p        from (0:1m];     </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036296"></a>// time tolerance</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036297"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036298"></a>  real Dreg;       &#160;&#160;&#160;&#160;   //real register for A to D wreal conversion</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036299"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036300"></a>  assign Dout = Dreg;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037167"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037168"></a>//discretize V(Ain) triggered by absdelta function</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1037169"></a>  always @(absdelta(V(Ain), vdelta, ttol, vtol))</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036304"></a> Dreg = V(Ain);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036306"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1036308"></a>The proper setting of the CM parameters is critical for correct simulation results. While the supply voltage level mainly influences the electrical to logic connection thresholds, the E2R settings can be totally independent of the supply voltage. For example, if we pass an electrical 5 mV bias voltage into a wreal block, a good setting for a <code>vdelta</code> parameter might be 100uV, independent of what the supply voltage is.</p>
+<p>
+<a id="pgfId-1036309"></a>Also, consider the default resistance in the R2E CM. If a wreal net is connected to an electrical part that consumes significant current (for example, power net) the 200-Ohm default resistance of the R2E CM might have an unwanted influence on the signal level.</p>
+<p>
+<a id="pgfId-1036310"></a>We will talk about ways to influence the CM insertion by discipline settings in later sections. The following example shows a simple connection between electrical and wreal. The E2R connect module will be inserted automatically. The connect rule definition at the end of the file defines the parameters for the connect modules.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036311"></a>// run with:</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036312"></a>// xrun cm.vams cm.scs -clean -amsconnrules e2r_only </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036313"></a>//&#160;&#160;      -discipline logic</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036314"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036315"></a>`timescale 1ns / 1ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036316"></a>module top();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036317"></a>   wreal real_wire;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036318"></a>   source I1  (real_wire);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036319"></a>   sink   I3  (real_wire);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036320"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036321"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036322"></a>module source(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036323"></a>   output r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036324"></a>   electrical  r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036325"></a>   analog begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036326"></a>      V(r) &lt;+ sin($abstime * 1E4);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036327"></a>      $bound_step(1e-5); // limit the step size</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036328"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036329"></a>endmodule // source</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036330"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036331"></a>module sink(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036332"></a>   input r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036333"></a>   wreal r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036334"></a>   always @(r) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036335"></a>      $display(&quot; real value = %f&quot;, r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036336"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036337"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036339"></a>connectrules e2r_only;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036340"></a>  connect E2R</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036341"></a>      #( .vdelta(0.1), .vtol(0.001), .ttol(1n));</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036342"></a>Endconnectrules</pre>
+
+<p>
+<a id="pgfId-1036344"></a>The <code>analog.scs</code> file contains the following statements:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036345"></a>simulator lang=spectre</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036347"></a>tran1 tran stop=1ms</pre>
+<h3>
+<a id="pgfId-1036350"></a><a id="_Toc234394658"></a>Connection to the Digital Domain</h3>
+
+<p>
+<a id="pgfId-1038684"></a>The concept of automatic inserted connect modules applies between the discrete (logic and wreal) and continuous, such as electrical and mechanical domain. It also applies to the connection between two discrete domains, such as wreal to logic connection. The connect modules (CM) are called L2R and R2L. They are inserted automatically, if needed, during the elaboration process.</p>
+<p>
+<a id="pgfId-1038685"></a>The following is an example of a basic logic to real (L2R) connect module:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1038686"></a>connectmodule L2R(L, R);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038687"></a> input L; \logic L;<br /> output R; wreal_dsp R;<br /> parameter real vsup = 1.8 from (0:inf);<br /> parameter real vlo = 0;<br /> parameter real vhi = vsup from (vlo:vsup);<br /> parameter real vtlo = vsup / 3;<br /> parameter real vthi = vsup /1.5;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038688"></a> wire [31:0] L_val;<br /> reg [1:0] L_code;<br /> real L_real;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038689"></a> initial<br />  begin<br />   $BIE_input_strength(L, L_val);<br /> end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038690"></a> // Determine the value and strength of L and convert to a real number</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038691"></a> always<br />  begin<br />   L_code = L_val &amp; 2&#39;b11;<br />   case (L_code)<br />   2&#39;b00: L_real = vlo;<br />   2&#39;b01: L_real = vsup;<br />   2&#39;b11: L_real = `wrealXState<br />   2&#39;b10: L_real = `wrealZState;<br />  endcase</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038692"></a>  @(L_val)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038693"></a> end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038694"></a> // drive the converted value back onto the R output pin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038695"></a> assign R = L_real;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038696"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1038697"></a>The following is an example of the R2L connect module:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1038698"></a>connectmodule R2L(L, R);
+&#160;&#160;&#160;&#160;output L; \logic L;
+&#160;&#160;&#160;&#160;input R; wreal_dsp R;
+&#160;&#160;&#160;&#160;parameter real vsup = 1.8 from (0:inf);
+&#160;&#160;&#160;&#160;parameter real vlo = 0;
+&#160;&#160;&#160;&#160;parameter real vhi = vsup from (vlo:vsup);
+&#160;&#160;&#160;&#160;parameter real vtlo = vsup / 3;
+&#160;&#160;&#160;&#160;parameter real vthi = vsup /1.5;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038699"></a> wreal R_val;<br /> reg R_logic;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038700"></a> initial<br />  begin<br />   $BIE_input_real(R, R_val);<br /> end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038701"></a> // Determine the value of R and convert to a logic value</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038702"></a> always<br />  begin<br />   if(R_val &gt;= vthi)<br />    R_logic = 1&#39;b1;<br />   else if (R_val &lt;= vtlo)<br />    R_logic = 1&#39;b0;<br />   else if(R_val === `wrealZState)<br />    R_logic = 1&#39;bz;<br />   else<br />     R_logic = 1&#39;bx;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038703"></a>   @(R_val);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038704"></a>  end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038705"></a> // drive the converted value back onto the output L pin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038706"></a> assign L = R_logic;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1038707"></a>endmodule</pre>
+<h3>
+<a id="pgfId-1036405"></a><a id="_Toc234394659"></a>Working with Disciplines</h3>
+
+<p>
+<a id="pgfId-1036406"></a>The concept of disciplines was introduced in the Verilog-AMS language to differentiate different domains within discrete and continuous design part. For example, disciplines are used to separate different power domains, such as a 3.3 V logic and a 1.8 V logic region. The same applies for the continuous domain. While the systems of equations for electrical and mechanical descriptions are identical for the simulation, the disciplines are used to apply different settings like access functions to both design parts.</p>
+<p>
+<a id="pgfId-1036407"></a>Elaborator and simulation functions are influenced by the discipline settings. Also, the connect modules to be used in certain places are controlled by the discipline.</p>
+<p>
+<a id="pgfId-1037207"></a>The discipline definition could be applied within the design itself or it can be assigned to design objects by using the <code>&#8211;setdiscipline</code> option of <code>xrun/xmelab</code>. The later choice provides a powerful mechanism to influence the simulator without changing the underlying design information. For the below example, the command line setting is shown as follows:</p>
+<pre class="webflare-courier-new webflare-indent1">
+<a id="pgfId-1037208"></a> -setd &quot;INSTTERM-top.I1.UP- wreal_voltage&quot; </pre>
+<pre class="webflare-courier-new webflare-indent1">
+<a id="pgfId-1037211"></a> -setd &quot;INSTTERM-top.I1.DN- wreal_voltage&quot; </pre>
+<pre class="webflare-courier-new webflare-indent1">
+<a id="pgfId-1037212"></a> -setd &quot;INSTTERM-top.I1.Z- wreal_current&quot;.</pre>
+<p>
+<a id="pgfId-1036409"></a>The following example introduces the concept of connect module insertion being controlled by the discipline definition. A wreal model of a very simple charge pump is used inside an analog testbench. The stimuli are created by pulse voltage sources. The output of the charge pump is connected to a simple RC filter. </p>
+<p>
+<a id="pgfId-1036410"></a>The charge pump circuit drives current into the RC filter according to the input voltage levels. However, simulating this design as it would not lead to the expected simulation results. The wreal output signal of the charge pump is +/- 300u. This value is far smaller than the normal accuracy setting for R2E CM, that might be in a range of 1m. Moreover, the normal R2E CM is an electrical voltage source at the output. This does not fit to our requirements here.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036411"></a>module top();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036412"></a>   electrical in1, in2, out, gnd;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036413"></a>   ground gnd;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036414"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036415"></a>   vsource #(.type(&quot;pulse&quot;), .val0(0), .val1(3.3), .period(2n), </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036416"></a>             .delay(0), .rise(100p), .fall(100p), .width(1n)) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036417"></a>           V1 (in1, gnd);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036418"></a>   vsource #(.type(&quot;pulse&quot;), .val0(0), .val1(3.3),</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036419"></a>             .period(1.87n), .delay(0.5n), .rise(100p),</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036420"></a>             .fall(100p), .width(1n)) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036421"></a>           V2 (in2, gnd);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036422"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036423"></a>   CP I1  (in1, in2, out);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036424"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036425"></a>   capacitor #(.c(4p)) c1 (out, gnd);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036426"></a>   resistor #(.r(20k)) r1 (out, gnd);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036427"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036428"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036429"></a>module CP(UP, DN, Z );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036430"></a>   input UP;                 &#160;&#160;&#160;&#160;     // Increment Input Controls</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036431"></a>   input DN;                 &#160;&#160;&#160;&#160;     // Decrement Input Controls</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036432"></a>   output Z;                 &#160;&#160;&#160;&#160;     // Single ended output</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036433"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036434"></a>   wreal UP, DN, Z;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036435"></a>   wreal_current Z;        &#160;&#160;&#160;&#160;     // Disciplines could be hardcoded </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036436"></a>   wreal_voltage UP, DN;  &#160;&#160;&#160;&#160;     //&#160;&#160; or set with the -setd option</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036437"></a>   parameter real I_out    = 300u;           // Output Current</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036438"></a>   parameter real thres    = 1.5;            // threshold value</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036439"></a>   real      iup, idn, out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036440"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036441"></a>   always @(UP) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036442"></a>      if (UP &gt; thres )</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036443"></a> iup = I_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036444"></a>      else</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036445"></a> iup = 0.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036446"></a>      out = iup - idn;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036447"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036448"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036449"></a>   always @(DN) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036450"></a>      if (DN &gt; thres )</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036451"></a> idn = I_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036452"></a>      else</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036453"></a> idn = 0.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036454"></a>      out = iup - idn;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036455"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036456"></a>   assign Z = out;  </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036457"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1036459"></a>A few things need to be done to setup the testcase correctly. First, we need to define a wreal to electrical connect module with a current source output, as shown below. To simplify matters only basic conversion features have been taken into account. However, <code>`wrealX/ZStates</code> are not considered.</p>
+<p>
+<a id="pgfId-1036460"></a>The standard E2R CM can be used for the voltage to wreal conversion at the input of the charge pump. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036461"></a>connectmodule R2E_current (Din, Aout);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036462"></a>   input Din;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036463"></a>   wreal Din;&#160;&#160;&#160;&#160;   // input wreal</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036464"></a>   \logic Din;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036465"></a>   output Aout;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036466"></a>   electrical Aout;&#160;&#160;&#160;&#160;   // output electrical</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036467"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036468"></a>parameter real tr = 10p&#160;&#160;&#160;&#160;     from (0:inf);   <br />// risetime of analog output</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036469"></a>   parameter real tf = tr&#160;&#160;&#160;&#160;      from (0:inf);   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036470"></a>// falltime of analog output</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036471"></a>   parameter real ttol_t = (tr+tf)/20   from (0:inf);      </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036472"></a>// time tol of transition</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036473"></a>   parameter real rout = 1M&#160;&#160;&#160;&#160;      from (0:inf);   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036474"></a>// output resistance</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036475"></a>   real      Iout;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036476"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036477"></a>   assign Din = Din;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036478"></a>   analog begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036479"></a>      Iout = transition(Din, 0, tr, tf, ttol_t);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036480"></a>      I(Aout) &lt;+ (V(Aout) / rout) - Iout;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036481"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036482"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1036483"></a>As said earlier, discipline settings are used to control the connect module insertion process. For this purpose, we need to specify two new discrete disciplines for the &#8220;voltage&#8221; and the &#8220;current&#8221; domain inside our wreal model. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036484"></a>discipline wreal_current</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036485"></a>  domain discrete;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036486"></a>enddiscipline</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036487"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036488"></a>discipline wreal_voltage</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036489"></a>  domain discrete;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036490"></a>enddiscipline </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036491"></a></pre>
+
+<p>
+<a id="pgfId-1036492"></a>The next step is to associate the connect modules with the appropriate discipline interfaces.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036493"></a>connectrules wreal_V_I;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036494"></a>  connect E2R</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036495"></a>      #( .vdelta(0.1), .vtol(0.001), .ttol(1n)) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036496"></a>      electrical, wreal_voltage;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036497"></a>  connect R2E_current</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036498"></a>      #( .tr(0.1n), .rout(1M) ) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036499"></a>      wreal_current, electrical;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036500"></a>endconnectrules</pre>
+
+<p>
+<a id="pgfId-1036502"></a>The standard E2R/R2E connect module is used to combine the logic and electrical discipline. In this case, we need a connect module between the electrical and the <code>wreal_voltage</code> discipline. The default settings can be overwritten in the connect rules definition as shown above. The same applies for the R2E connect module. In addition, we use the newly defined R2E_current connect module instead of the default one.</p>
+<p>
+<a id="pgfId-1038017"></a>Note that the defined current connect module is oversimplified to understand basic principles. For real usage, we need to consider more details, such as E2R_current. The current is generated from the global ground node. Thus, it is not considered in the power nets. The current source is not supply-limited that means it would create current even if the voltage is above or below the supply range.</p>
+<p>
+<a id="pgfId-1037926"></a>Current based connect modules are sensitive about the placement of the CMs in the design. See the figure below. The output current of the one/two connect modules would be quite different in the two cases (assuming a wreal resolution function other than sum). To avoid these type of problems, current based CM are recommended for point-to-point connections only or you have to make sure that the resolution function sum is used for the wreal net in question.</p>
+
+<p>
+<a id="pgfId-1037930"></a></p>
+<div class="webflare-div-image">
+<img src="images/wreal-electrical.gif" /></div>
+
+<p>
+<a id="pgfId-1036506"></a>The final step is the definition of the disciplines in the design. This is done as hard coded assignments, as shown in the two commented lines in the charge pump definitions. The source code modification is often not appropriate. In these cases, the disciplines can be set by <code>&#8211;setdiscipline</code> options to <code>xrun/xmelab</code>. These external settings allow discipline definitions without any source code modifications. There are different scopes available for the <code>setdiscipline</code> option, including library, cell, and instances. For the example shown above, the following command line <code>run</code> option would be appropriate. All the code examples and the discipline.vams and timescale settings are assumed to be included in the <code>cp.vams</code> file. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036507"></a>xrun cp.vams analog.scs -clean -amsconnrules wreal_V_I -setd &quot;INSTTERM-top.I1.UP- wreal_voltage&quot; -setd &quot;INSTTERM-top.I1.DN- wreal_voltage&quot; -setd &quot;INSTTERM-top.I1.Z- wreal_current&quot;</pre>
+<slink60-styrsid7748695-code id="#id1036508">
+<a id="pgfId-1036508"></a></slink60-styrsid7748695-code>
+
+<p>
+<a id="pgfId-1036509"></a>The figure below shows the simulation results for the example. The loading of the capacitor through the charge pump output current is clearly visible.</p>
+
+<p>
+<a id="pgfId-1037225"></a></p>
+<div class="webflare-div-image">
+<img src="images/waveform1-simvision-1.gif" /></div>
+<h3>
+<a id="pgfId-1036512"></a><a id="_Toc234394660"></a>Discipline Naming</h3>
+
+<p>
+<a id="pgfId-1036513"></a>Discipline names are user-defined strings. The basic disciplines are defined in &lt;IUS/IES path&gt;/tools/spectre/etc/ahdl/disciplines.vams. This includes the default discipline &#8220;logic&#8221; for the discrete part and various continuous disciplines, such as electrical, magnetic, thermal, and translational. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036515"></a>discipline my_electrical</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036516"></a>  &#160;&#160;&#160;&#160;potential&#160;&#160;  Voltage;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036517"></a>  &#160;&#160;&#160;&#160;flow&#160;&#160;       Current;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036518"></a>enddiscipline</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036519"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036520"></a>discipline my_logic</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036521"></a>  domain discrete;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036522"></a>enddiscipline</pre>
+
+<p>
+<a id="pgfId-1036524"></a>New disciplines can also be defined as shown in the examples above. Continuous disciplines need the potential and flow definition while the discrete discipline is defined only with the keyword <code>discrete</code>.</p>
+<p>
+<a id="pgfId-1036525"></a>There is no standard available for variable names other than the default definitions. The following list recommends a useful naming convention for the discipline definition. Appling these naming conventions simplifies the IP exchange between different groups. </p>
+<p>
+<a id="pgfId-1036526"></a>If different discipline naming had been used, the <code>connect</code> or <code>resolveto</code> command defines identical/compatible disciplines. In the below example, disciplines A, B, and C are defined as compatible. They are all resolved toward the discipline A.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036527"></a>connectrules cr;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036528"></a>  connect  A, B, C resolveto A;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036529"></a>endconnectrules </pre>
+
+<p>
+<a id="pgfId-1037234"></a>Here is a list of recommended names for wreal disciplines.</p>
+<ul><li>
+<a id="pgfId-1037235"></a> wreal_voltage normal voltage: 
+R2E has default output resistance.</li><li>
+<a id="pgfId-1037241"></a> wreal_vsup     power supply:    
+R2E has zero output resistance. </li><li>
+<a id="pgfId-1037244"></a> wreal_vmatch   matched load  
+R2E is driven with twice the wreal value through output resistor Rmatch. E2R input resistance is also Rmatch.</li><li>
+<a id="pgfId-1036535"></a> wreal_current    ideal current
+R2E is current with impedance. E2R is a fixed-bias voltage plus load resistance.  Supply limiters in R2E could prevent that the voltage exceeds gnd or vdd levels.</li><li>
+<a id="pgfId-1037249"></a> wreal_iloadgnd   gnd based current
+R2E is resistor from pin to ground, no E2R.</li><li>
+<a id="pgfId-1037252"></a> wreal_iloadsup    supply based current
+R2E is resistor from pin to supply, no E2R.</li></ul>
+
+
+
+
+
+
+<h3>
+<a id="pgfId-1036539"></a><a id="_Toc234394661"></a>Local Resolution Functions</h3>
+
+<p>
+<a id="pgfId-1036540"></a>We introduced the concept of wreal resolution functions above; however, the setting was limited to one global resolution function. This is not appropriate in larger designs where wreals are used to model different types of interconnects (For example, voltage and currents).</p>
+<p>
+<a id="pgfId-1036541"></a>To differentiate which resolution function should be used for which net, the discipline concept introduced above is used. Starting in IUS/IES82_s010 disciplines definitions can contain realresolve statements that control the resolution function for the discipline. Moving forward we will simplify the use model significantly hiding some of the discipline definition overhead that is required today. The following code example defines a sum resolution function for the wreal_current discipline. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036542"></a>discipline wreal_current</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036543"></a>  domain discrete;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036544"></a>  realresolve  sum;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036545"></a>enddiscipline</pre>
+
+<p>
+<a id="pgfId-1036547"></a>Consider the same example as above for the resolution function. Two drivers are stimulating the same net and a receiver displays the resolution values. In this case, we have two instances of all three blocks in the top-level and we want to control the resolution function separately for both.</p>
+<p>
+<a id="pgfId-1036548"></a>We are using the discrete disciplines wreal_current and wreal_voltage for the two wreal wires. The discipline and the related resolution functions are defined first. The wreal_current discipline is using the sum resolution function assuming that current summing is the appropriate behavior in this case. The voltage related wreal discipline is using the average function that provides the right output value under the assumption that the driver strengths are equivalent.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036549"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036550"></a>`timescale 1ns/1ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036551"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036552"></a>discipline wreal_current</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036553"></a>  domain discrete;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036554"></a>  realresolve  sum;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036555"></a>enddiscipline</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036556"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036557"></a>discipline wreal_voltage</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036558"></a>  domain discrete;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036559"></a>  realresolve  avg;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036560"></a>enddiscipline</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036561"></a>  </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036562"></a>module top();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036563"></a>   wreal real_wire1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036564"></a>   wreal_current  real_wire1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036565"></a>   source1 I11  (real_wire1);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036566"></a>   source2 I21  (real_wire1);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036567"></a>   sink   I31  (real_wire1);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036568"></a>   wreal real_wire2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036569"></a>   wreal_voltage real_wire2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036570"></a>   source1 I12  (real_wire2);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036571"></a>   source2 I22  (real_wire2);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036572"></a>   sink   I32  (real_wire2);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036573"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036574"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036575"></a>module source1(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036576"></a>   output r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036577"></a>   wreal  r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036578"></a>   real      realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036579"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036580"></a>      #1 realnumber = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036581"></a>      #1 realnumber = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036582"></a>      #1 realnumber = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036583"></a>      #1 realnumber = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036584"></a>      #1 realnumber = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036585"></a>      #1 realnumber = 2.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036586"></a>      #1 realnumber = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036587"></a>      #1 $stop;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036588"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036589"></a>   assign r = realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036590"></a>endmodule // send</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036591"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036592"></a>module source2(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036593"></a>   output r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036594"></a>   wreal  r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036595"></a>   real      realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036596"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036597"></a>      #1 realnumber = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036598"></a>      #1 realnumber = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036599"></a>      #1 realnumber = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036600"></a>      #1 realnumber = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036601"></a>      #1 realnumber = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036602"></a>      #1 realnumber = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036603"></a>      #1 realnumber = 1.1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036604"></a>      #1 $stop;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036605"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036606"></a>   assign r = realnumber;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036607"></a>endmodule // send</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036608"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036609"></a>module sink(r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036610"></a>   input r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036611"></a>   wreal r;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036612"></a>   always @(r) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036613"></a>      $display(&quot;%m --&gt; real value @ %f = %f&quot;, $abstime/1n, r);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036614"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036615"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1036617"></a>It is not appropriate in all cases to hardcode the resolution functions and discipline assignment in the Verilog-AMS source. We have discussed about assigning the discipline using the <code>&#8211;setdiscipline</code> switch in the previous section. The resolution function itself can also be applied to a discipline during the elaboration time. If we define an ams control file (using the file extension <code>*.scs</code>) with the following content:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036618"></a>amsd {</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036619"></a>  connectmap discipline=&quot;wreal_current&quot; realresolve=sum</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036620"></a>  connectmap discipline=&quot;wreal_voltage&quot; realresolve=avg</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036621"></a>}</pre>
+
+<p>
+<a id="pgfId-1036623"></a>The resolution function assignment would give the same result as defined in the hard coded example above. The <code>xrun</code> switch <code>+wreal_res_info</code> provides information of the resolution function used for net in the design.</p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="Chap1a.html" id="prev" title="Verification Problem">Verification Problem</a></em></b><b><em><a href="Chap3new.html" id="nex" title="Modeling with Wreal">Modeling with Wreal</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

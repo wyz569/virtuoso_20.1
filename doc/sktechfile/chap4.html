@@ -1,0 +1,3626 @@
+
+<html><head><title>Physical and Electrical Constraints Functions</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="umap" />
+<meta name="CreateDate" content="2020-09-09" />
+<meta name="CreateTime" content="1599639258" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes how to create, update, maintain, and use incremental technology databases and display resources." />
+<meta name="DocTitle" content="Virtuoso Technology Data SKILL Reference" />
+<meta name="DocType" content="Reference" />
+<meta name="FileTitle" content="Physical and Electrical Constraints Functions" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="sktechfile" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-09" />
+<meta name="ModifiedTime" content="1599639258" />
+<meta name="NextFile" content="chap5.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design,Cadence Shared Tools" />
+<meta name="PrevFile" content="chap3.html" />
+<meta name="c_product" content="Virtuoso Layout Suite,Virtuoso Layout Suite,Virtuoso Schematic Editor,Virtuoso Analog Design Environment" />
+<meta name="Product" content="Virtuoso Layout Suite,Virtuoso Shared Tools" />
+<meta name="ProductFamily" content="Virtuoso Layout Suite,Virtuoso Shared Tools" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Technology Data SKILL Reference -- Physical and Electrical Constraints Functions" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="sktechfileICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="sktechfileTOC.html">Contents</a></li><li><a class="prev" href="chap3.html" title="Layers Functions">Layers Functions</a></li><li style="float: right;"><a class="viewPrint" href="sktechfile.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="chap5.html" title="Place and Route Functions">Place and Route Functions</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Technology Data SKILL Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>4
+<a name="pgfId-704311"></a></h1>
+<h1>
+<a name="pgfId-251532"></a><hr />
+<a name="23363"></a>Physical and Electrical Constraints Functions<hr />
+</h1>
+
+<p>
+<a name="pgfId-695786"></a>This chapter describes functions that let you update, establish, and return technology database physical and electrical constraints and layer attributes&#8212;update or return constraints from the <code>foundry</code> constraint group and layer attributes from the <code>layerRules</code> section of the technology file.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-715343"></a>Adding new constraints to a technology database with SKILL functions sometimes results in the creation of a new section of an already existing category. For example, adding a new spacing rule results in the addition of a new <code>spacings()</code> section somewhere after the last <code>spacings()</code> section that already exists in the technology database. This is done to preserve the correct order of the constraints; as long as the constraints are in the proper order in the technology database, multiple sections of the same category can coexist without problems. The descriptions for SKILL functions that can create a new section indicate that fact with a statement such as, &quot;If the specified constraint does not already exist, this function creates a new <code>spacings</code> section containing the constraint.&quot;</div>
+<p>
+<a name="pgfId-704649"></a>The chapter includes the following topics:</p>
+<ul><li>
+<a name="pgfId-704653"></a><a href="chap4.html#39406">Physical Constraints Functions</a></li><li>
+<a name="pgfId-704739"></a><a href="chap4.html#40169">Electrical Constraints and Layer Attributes Functions</a></li></ul>
+
+
+<h2>
+<a name="pgfId-429502"></a><a name="39406"></a>Physical Constraints Functions</h2>
+
+<p>
+<a name="pgfId-704633"></a>The following functions set and get spacing rules and via stack limits:</p>
+<ul><li>
+<a name="pgfId-720764"></a><a href="chap4.html#15522">techSetSpacingRule</a></li><li>
+<a name="pgfId-720774"></a><a href="chap4.html#29477">techGetSpacingRules</a></li><li>
+<a name="pgfId-720784"></a><a href="chap4.html#35385">techGetSpacingRule</a></li><li>
+<a name="pgfId-720794"></a><a href="chap4.html#55417">techSetOrderedSpacingRule</a></li><li>
+<a name="pgfId-720804"></a><a href="chap4.html#98340">techGetOrderedSpacingRules</a></li><li>
+<a name="pgfId-720838"></a><a href="chap4.html#76606">techGetOrderedSpacingRule</a></li><li>
+<a name="pgfId-720842"></a><a href="chap4.html#38801">techCreateSpacingRuleTable</a></li><li>
+<a name="pgfId-720850"></a><a href="chap4.html#91650">techGetSpacingRuleTable</a></li><li>
+<a name="pgfId-720870"></a><a href="chap4.html#76134">techGetSpacingRuleTables</a></li><li>
+<a name="pgfId-720880"></a><a href="chap4.html#76920">techSetSpacingRuleTableEntry</a></li><li>
+<a name="pgfId-720890"></a><a href="chap4.html#89793">techGetSpacingRuleTableEntry</a></li><li>
+<a name="pgfId-720900"></a><a href="chap4.html#15506">techSetViaStackLimit</a></li><li>
+<a name="pgfId-720910"></a><a href="chap4.html#41773">techGetViaStackLimit</a></li><li>
+<a name="pgfId-720920"></a><a href="chap4.html#57128">techSetViaStackLimits</a></li><li>
+<a name="pgfId-720930"></a><a href="chap4.html#37086">techGetViaStackLimits</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetSpacingRule
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-720845"></a><a name="techSetSpacingRule"></a><a name="15522"></a>techSetSpacingRule</h3>
+<a name="pgfId-673031"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetSpacingRule(
+<code><em>d_techID</em></code> 
+<code><em>t_constraint</em></code> 
+<code><em>g_value</em></code> 
+<code><em>tx_layer1</em></code> 
+[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-429504"></a>Description</h4>
+
+<p>
+<a name="pgfId-430326"></a>Updates the value of the constraint in the specified technology database that (a) is in the <code>foundry</code> constraint group, (b) is the first hard constraint with the specified name in a <code>spacings</code> subsection, and (c) is applied to the specified layer or layers. If the specified constraint does not already exist, this function creates a new <code>spacings</code> section containing the constraint.</p>
+
+<h4>
+<a name="pgfId-429506"></a>Arguments</h4>
+<table class="webflareTable" id="#id716166">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716168"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716170"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716172"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716174"></a>The name of the spacing constraint. </p>
+<p>
+<a name="pgfId-722507"></a>Valid values: Any valid spacing constraint name</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716825"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716827"></a>The value of the spacing constraint.</p>
+<p>
+<a name="pgfId-722514"></a>Valid values: Any floating-point number, any integer</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716855"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716857"></a>The first layer. </p>
+<p>
+<a name="pgfId-722521"></a>Valid values: The layer name or number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716859"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716861"></a>The optional second layer. </p>
+<p>
+<a name="pgfId-722528"></a>Valid values: The layer name or number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-429508"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715513">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715515"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715517"></a>The spacing constraint was updated or created successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715519"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715521"></a>The technology database does not exist or the layers are not defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-429512"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-429513"></a>techSetSpacingRule(tfID &quot;minSpacing&quot; 0.6 &quot;metal1&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-670854"></a>Sets the minimum spacing constraint for <code>metal1</code> objects to <code>0.6</code> user units in the <code>foundry</code> constraint group of the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetSpacingRules
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-670855"></a><a name="techGetSpacingRules"></a><a name="29477"></a>techGetSpacingRules</h3>
+<a name="pgfId-250220"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetSpacingRules(
+<code><em>d_techID
+</em></code>) 
+=&gt; <code><em>l_spacingRules</em></code> / nil</pre>
+<h4>
+<a name="pgfId-250221"></a>Description</h4>
+
+<p>
+<a name="pgfId-700038"></a>Returns a list of the spacing constraints defined in the specified technology database. ASCII technology file location: <code>spacings</code> subsection(s) in the <code>foundry</code> constraint group.</p>
+
+<h4>
+<a name="pgfId-700040"></a>Arguments</h4>
+<table class="webflareTable" id="#id716219">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716221"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716223"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-250225"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715533">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715535"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_spacingRules</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715537"></a>A list of lists containing the spacing constraint settings. The list has the following syntax: </p>
+<p>
+<a name="pgfId-722563"></a><code>( ( t_constraint </code><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>t_layer1</em></span><code> <br />[ </code><span class="webflare-courier-new" style="white-space:pre"><em>t_layer2</em></span><code> ] ) &#8230; ) </code></p>
+<p>
+<a name="pgfId-722570"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-722577"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span> is the name of the spacing constraint.</li><li>
+<a name="pgfId-722596"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is the value of the spacing constraint. </li><li>
+<a name="pgfId-722603"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_layer1</em></span> is the first layer. </li><li>
+<a name="pgfId-722610"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_layer2</em></span> is the second layer. Returned only for two-layer spacing constraints.</li></ul>
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715539"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715541"></a>The technology database does not exist or there are no spacing constraints defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-250229"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-696448"></a>techGetSpacingRules(tfID)
+=&gt; ((&quot;minWidth&quot; 2 
+&#160;&#160;&#160;&#160;(&quot;Metal1&quot; &quot;slot&quot;)
+)
+(&quot;minSameNetSpacing&quot; 0.12
+&#160;&#160;&#160;&#160;(&quot;Metal1&quot; &quot;slot&quot;)
+)
+(&quot;minSpacing&quot; 0.12
+&#160;&#160;&#160;&#160;(&quot;Metal1&quot; &quot;slot&quot;)
+(&quot;minWidth&quot; 2
+&#160;&#160;&#160;&#160;(&quot;Metal2&quot; &quot;slot&quot;)
+)
+(&quot;minSameNetSpacing&quot; 0.14
+&#160;&#160;&#160;&#160;(&quot;Metal2&quot; &quot;slot&quot;)
+)
+(&quot;minSpacing&quot; 0.14 
+&#160;&#160;&#160;&#160;(&quot;Metal2&quot; &quot;slot&quot;) <br />)<br />
+&#8230;
+(&quot;minSameNetSpacing&quot; 0.12 &quot;Metal1&quot;)
+(&quot;minSpacing&quot; 0.12 &quot;Metal1&quot;)
+(&quot;minWidth&quot; 0.14 &quot;Via1&quot;)
+(&quot;minSameNetSpacing&quot; 0.15 &quot;Via1&quot;)
+(&quot;minSameNetSpacing&quot; 0.14 &quot;Metal2&quot;)
+(&quot;minSpacing&quot; 0.14 &quot;Metal2&quot;)
+(&quot;minWidth&quot; 0.14 &quot;Via2&quot;)
+(&quot;minSameNetSpacing&quot; 0.15 &quot;Via2&quot;) 
+
+&#8230;
+(&quot;stackable&quot; t &quot;Metal1&quot; &quot;Metal1&quot;)
+(&quot;stackable&quot; t &quot;Metal2&quot; &quot;Metal2&quot;)
+(&quot;stackable&quot; t &quot;Via1&quot; &quot;Via2&quot;)
+(&quot;stackable&quot; t &quot;Via2&quot; &quot;Via3&quot;)
+&#8230;
+)</pre>
+
+<p>
+<a name="pgfId-700343"></a>Returns the spacing constraints defined in the <code>foundry</code> constraint group of the technology database identified by <code>tfID</code>. (&#8230; indicates that return values have been deleted from the original sample listing for purposes of brevity.)</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetSpacingRule
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-700110"></a><a name="techGetSpacingRule"></a><a name="35385"></a>techGetSpacingRule</h3>
+<a name="pgfId-695702"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetSpacingRule(
+<code><em>d_techID</em></code> 
+<code><em>t_constraint</em></code> 
+<code><em>tx_layer1</em></code> 
+[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; <code><em>g_value</em></code> / nil</pre>
+<h4>
+<a name="pgfId-700443"></a>Description</h4>
+
+<p>
+<a name="pgfId-717084"></a>Returns the value of the constraint in the specified technology database that (a) is in the <code>foundry</code> constraint group, (b) is the first hard constraint with the specified name in a <code>spacings</code> subsection, and (c) is applied to the specified layer or layers.</p>
+
+<h4>
+<a name="pgfId-717103"></a>Arguments</h4>
+<table class="webflareTable" id="#id717086">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717088"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717090"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717092"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717094"></a>The name of the spacing constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717096"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717098"></a>The first layer. </p>
+<p>
+<a name="pgfId-722657"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717100"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717102"></a>The optional second layer. </p>
+<p>
+<a name="pgfId-722668"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-433672"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715554">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715556"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715558"></a>The value of the spacing constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715560"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715562"></a>The technology database does not exist or the spacing constraint is not defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-433681"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-433682"></a>techGetSpacingRule(tfID &quot;minSameNetSpacing&quot; &quot;Metal1&quot;)<br />=&gt; 0.12</pre>
+
+<p>
+<a name="pgfId-433684"></a>Returns the value of the <code>minSameNetSpacing</code> spacing constraint defined for the <code>metal1</code> layer in the <code>foundry</code> constraint group of the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetOrderedSpacingRule
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-438484"></a><a name="55417"></a>t<a name="techSetOrderedSpacingRule"></a>echSetOrderedSpacingRule</h3>
+<a name="pgfId-438485"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetOrderedSpacingRule(
+<code><em>d_techID</em></code> 
+<code><em>t_constraint</em></code> 
+<code><em>g_value</em></code> 
+<code><em>tx_layer1</em></code> 
+<code><em>tx_layer2
+</em></code>) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-674830"></a>Description</h4>
+
+<p>
+<a name="pgfId-700472"></a>Updates the value of the constraint in the specified technology database that (a) is in the <code>foundry</code> constraint group, (b) is the first hard constraint with the specified name in an <code>orderedSpacings</code> subsection, and (c) is applied to the specified layers. If the specified constraint does not already exist, this function creates a new <code>orderedSpacings</code> section containing the constraint.</p>
+
+<h4>
+<a name="pgfId-438489"></a>Arguments</h4>
+<table class="webflareTable" id="#id716261">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716263"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716265"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716267"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716269"></a>The name of the spacing constraint.</p>
+<p>
+<a name="pgfId-722682"></a>Valid values: Any string (example: <code>minEnclosure</code>)</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717210"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717212"></a>The value of the spacing constraint.</p>
+<p>
+<a name="pgfId-722693"></a>Valid values: Any floating-point number, any integer</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717214"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717216"></a>The first layer. </p>
+<p>
+<a name="pgfId-722712"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717218"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717220"></a>The second layer. </p>
+<p>
+<a name="pgfId-722719"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-438495"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715582">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715584"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715586"></a>The spacing constraint was updated or created successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715588"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715590"></a>The technology database does not exist or the layers are not defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-694781"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-694782"></a>techSetOrderedSpacingRule(tfID &quot;minEnclosure&quot; 0.6 &quot;Metal1&quot; &quot;Via1&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-438501"></a>Sets the minimum enclosure constraint for the <code>Metal1</code> and <code>Via1</code> layers to <code>0.6</code> user units in the <code>foundry</code> constraint group of the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetOrderedSpacingRules
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-438502"></a><a name="techGetOrderedSpacingRules"></a><a name="98340"></a>techGetOrderedSpacingRules</h3>
+<a name="pgfId-438503"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetOrderedSpacingRules(
+<code><em>d_techID
+</em></code>) 
+=&gt; <code><em>l_spacingRules</em></code> / nil</pre>
+<h4>
+<a name="pgfId-438504"></a>Description</h4>
+
+<p>
+<a name="pgfId-675029"></a>Returns a list of all of the ordered spacing constraints defined in the specified technology database. ASCII technology file location: <code>orderedSpacings </code>subsection(s) in the <code>foundry</code> constraint group.</p>
+
+<h4>
+<a name="pgfId-438506"></a>Arguments</h4>
+<table class="webflareTable" id="#id716282">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716284"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716286"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-438508"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715603">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715605"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_spacingRules</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715607"></a>A list of lists containing the ordered spacing constraint settings. The list has the following syntax: </p>
+<p>
+<a name="pgfId-722726"></a><code>( ( </code><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer1</em></span><code> <br /></code><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer2</em></span><code> ) &#8230; ) </code></p>
+<p>
+<a name="pgfId-722736"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-722743"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span> is the name of the spacing constraint.</li><li>
+<a name="pgfId-722750"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is the value of the spacing constraint. </li><li>
+<a name="pgfId-722757"></a><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer1</em></span> is the first layer. </li><li>
+<a name="pgfId-722764"></a><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer2</em></span> is the second layer.</li></ul>
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715609"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715611"></a>The technology database does not exist or there are no spacing constraints defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-438517"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-700859"></a>techGetOrderedSpacingRules(tfID)<br />=&gt; ((&quot;minEnclosure&quot; 0.005 &quot;Metal1&quot; &quot;Via1&quot;)<br />       (&quot;minEnclosure&quot; 0.005 &quot;Metal2&quot; &quot;Via1&quot;)<br />       (&quot;minEnclosure&quot; 0.005 &quot;Metal2&quot; &quot;Via2&quot;)<br />       (&quot;minEnclosure&quot; 0.005 &quot;Metal3&quot; &quot;Via2&quot;)<br />       (&quot;minEnclosure&quot; 0.005 &quot;Metal3&quot; &quot;Via3&quot;)<br />       (&quot;minEnclosure&quot; 0.005 &quot;Metal4&quot; &quot;Via3&quot;)<br />       (&quot;minEnclosure&quot; 0.005 &quot;Metal4&quot; &quot;Via4&quot;)<br />       (&quot;minEnclosure&quot; 0.005 &quot;Metal5&quot; &quot;Via4&quot;)<br />       (&quot;minEnclosure&quot; 0.005 &quot;Metal5&quot; &quot;Via5&quot;)<br />       (&quot;minEnclosure&quot; 0.005 &quot;Metal6&quot; &quot;Via5&quot;)<br />       (&quot;minEnclosure&quot; 0.005 &quot;Metal6&quot; &quot;Via6&quot;)<br />       (&quot;minEnclosure&quot; 0.005 &quot;Metal7&quot; &quot;Via6&quot;)<br />       (&quot;minEnclosure&quot; 0.03  &quot;Metal7&quot; &quot;Via7&quot;)<br />       (&quot;minEnclosure&quot; 0.05  &quot;Metal8&quot; &quot;Via7&quot;)<br />       (&quot;minEnclosure&quot; 0.03  &quot;Metal8&quot; &quot;Via8&quot;)<br />       (&quot;minEnclosure&quot; 0.05  &quot;Metal9&quot; &quot;Via8&quot;)<br />       (&quot;minEnclosure&quot; 0.0   &quot;Metal1&quot; &quot;Cont&quot;)<br />       (&quot;minEnclosure&quot; 0.2   &quot;Oxide&quot; &quot;Poly&quot;)<br />       (&quot;minEnclosure&quot; 0.14  &quot;Nimp&quot; &quot;Oxide&quot;)<br />       (&quot;minEnclosure&quot; 0.18  &quot;Nimp&quot; &quot;Poly&quot;)<br />       (&quot;minEnclosure&quot; 0.12  &quot;Pimp&quot; &quot;Poly&quot;)<br />       (&quot;minEnclosure&quot; 0.18  &quot;Pimp&quot; &quot;Oxide&quot;)<br />       (&quot;minEnclosure&quot; 0.14  &quot;Nwell&quot; &quot;Oxide&quot;)<br />       (&quot;minEnclosure&quot; 10.0  &quot;Metal1&quot; &quot;Metal2&quot;)<br />   )</pre>
+
+<p>
+<a name="pgfId-700671"></a>Returns the ordered spacing constraints defined in the <code>foundry</code> constraint group of the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetOrderedSpacingRule
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-438521"></a><a name="techGetOrderedSpacingRule"></a><a name="76606"></a>techGetOrderedSpacingRule</h3>
+<a name="pgfId-438522"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetOrderedSpacingRule(
+<code><em>d_techID</em></code> 
+<code><em>t_constraint</em></code> 
+<code><em>tx_layer1</em></code> 
+<code><em>tx_layer2
+</em></code>) 
+=&gt; <code><em>g_value</em></code> / nil</pre>
+<h4>
+<a name="pgfId-695717"></a>Description</h4>
+
+<p>
+<a name="pgfId-695719"></a>Returns the value of the constraint in the specified technology database that (a) is in the <code>foundry</code> constraint group, (b) is the first hard constraint with the specified name in an <code>orderedSpacings</code> subsection, and (c) is applied to the specified layers.</p>
+
+<h4>
+<a name="pgfId-438525"></a>Arguments</h4>
+<table class="webflareTable" id="#id716303">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716305"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716307"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716309"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716311"></a>The name of the ordered spacing constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717424"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717426"></a>The first layer. </p>
+<p>
+<a name="pgfId-722814"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717428"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717430"></a>The second layer. </p>
+<p>
+<a name="pgfId-722821"></a>Valid Values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-438529"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715624">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715626"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715628"></a>The value of the ordered spacing constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715630"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715632"></a>The technology database does not exist or the specified constraint does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-438532"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-438533"></a>techGetOrderedSpacingRule(tfID &quot;minEnclosure&quot; &quot;Metal2&quot; &quot;Via1&quot;)<br />=&gt; 0.005</pre>
+
+<p>
+<a name="pgfId-438535"></a>Returns the value of the <code>minEnclosure</code> ordered spacing constraint defined for the <code>Metal2</code> and <code>Via1</code> layers in the <code>foundry</code> constraint group of the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techCreateSpacingRuleTable
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-696869"></a><a name="techCreateSpacingRuleTable"></a><a name="38801"></a>techCreateSpacingRuleTable</h3>
+<a name="pgfId-696871"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techCreateSpacingRuleTable( 
+<code><em>d_techID</em></code> 
+<code><em>t_constraintName 
+l_indexDefinitions 
+tx_layer1 
+</em></code>[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-712290"></a>Description</h4>
+
+<p>
+<a name="pgfId-712291"></a>Creates a spacing table and indexes for the named constraint in the specified technology database. This new table does not overwrite an existing one. ASCII technology file location: <code>spacingTables</code> subsection in the <code>foundry</code> constraint group. To create table entries, use <a href="chap4.html#techSetSpacingRuleTableEntry">techSetSpacingRuleTableEntry</a>. If a <code>spacingTables</code> subsection does not exist, this function creates one.</p>
+
+<h4>
+<a name="pgfId-696876"></a>Arguments</h4>
+<table class="webflareTable" id="#id716324">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716326"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716328"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716330"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraintName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716332"></a>The name of the spacing constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-717560"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_indexDefinitions</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717564"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717566"></a>A list defining the name of the index or indexes for the table. The list has the following syntax:</p>
+<p>
+<a name="pgfId-722872"></a><code>list( [ </code><span class="webflare-courier-new" style="white-space:pre"><em>t_index1Name</em></span><code> ] nil nil <br />[ </code><span class="webflare-courier-new" style="white-space:pre"><em>t_index2Name</em></span><code> ] nil nil ) </code></p>
+<p>
+<a name="pgfId-722889"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-722837"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_index1Name</em></span> is the name of the first dimension of a two-dimensional table or the only dimension of a one-dimensional table.<br />
+<a name="pgfId-722844"></a>Valid values: Any number or string </li><li>
+<a name="pgfId-722853"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_index2Name</em></span> is the name of the second dimension of a two-dimensional table.<br />
+<a name="pgfId-722860"></a>Valid values: Any number or string</li></ul>
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717602"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717604"></a>The first layer on which to apply the table constraint. </p>
+<p>
+<a name="pgfId-717641"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717606"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717608"></a>The optional second layer on which to apply the table constraint. </p>
+<p>
+<a name="pgfId-722939"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-699843"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715652">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715654"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715656"></a>The spacing table was created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715658"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715660"></a>The spacing table was not created.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-697614"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-697615"></a>techCreateSpacingRuleTable(tfID &quot;minSpacing&quot; <br />list(&quot;width&quot; nil nil &quot;length&quot; nil nil) &quot;Metal1&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-699842"></a>Creates a 2D <code>minSpacing</code> table with indexes <code>width</code> and <code>length</code> for <code>Metal1</code> in the <code>foundry</code> constraint group:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-699880"></a>spacingTables(<br />;( constraint layer1 [layer2]<br />;   (( index1Definitions    [index2Defintions]) [defaultValue] )<br />;   ( table) )<br />;( --------------------------------------------)<br /> ( minSpacing                 &quot;Metal1&quot;<br />    ((&quot;width&quot;  nil  nil     &quot;length&quot;  nil  nil))<br />     (<br />      )<br /> )<br />) ;spacingTables</pre>
+
+<p>
+<a name="pgfId-707468"></a><code>defaultValue</code> is the value that is currently not obeyed by any tool. Therefore, if you query for a value that is not present in the table, <code>0</code> is returned irrespective of the value specified in this field.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-722964"></a>( minSpacing                 &quot;Metal1&quot;<br />    ((&quot;width&quot;  nil  nil     &quot;length&quot;  nil  nil)0.08)<br />     (<br />      (0.2 0.38)   0.11<br />      (0.2 0.42)   0.11<br />      (0.2 1.5)    0.11<br />      )<br /> )</pre>
+
+<p>
+<a name="pgfId-722965"></a>Returns 0 if you query (0.1 0.1) from the table. This is because none of the entries in the table fits the (0.1 0.1) criterion. The lowest entry is width, which is greater than 0.2 and parallel run length is greater than 0.38. So, all queries below this particular value will return 0.</p>
+<p>
+<a name="pgfId-707604"></a>It is recommended that you provide a full table for greater clarity, as shown below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-707518"></a>( minSpacing                 &quot;Metal1&quot;<br />    ((&quot;width&quot;  nil  nil     &quot;length&quot;  nil  nil)0.08)<br />     (</pre>
+
+<p>
+<a name="pgfId-707523"></a>      (0.0 0.0)    0.09<br />      (0.0 0.38)   0.09<br />      (0.0 0.42)   0.09<br />      (0.0 1.5)    0.09<br />      (0.2 0.0)    0.09<br />      (0.2 0.38)   0.11<br />      (0.2 0.42)   0.11<br />      (0.2 1.5)    0.11<br />      )<br /> )</p>
+<p>
+<a name="pgfId-707603"></a>If you now query (0.1 0.1), you will get 0.09.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetSpacingRuleTable
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-697045"></a><a name="91650"></a>t<a name="techGetSpacingRuleTable"></a>echGetSpacingRuleTable</h3>
+<a name="pgfId-697046"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetSpacingRuleTable(
+<code><em>d_techID</em></code> 
+<code><em>t_constraintName</em></code> 
+<code><em>tx_layer1</em></code> 
+[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; <code><em>l_tables</em></code> / nil</pre>
+<h4>
+<a name="pgfId-697048"></a>Description</h4>
+
+<p>
+<a name="pgfId-697049"></a>Returns the table data for the specified constraint defined in the specified technology database and applied to the specified layer or layers. ASCII technology file location: <code>spacingTables</code> subsection in the <code>foundry</code> constraint group.</p>
+
+<h4>
+<a name="pgfId-697051"></a>Arguments</h4>
+<table class="webflareTable" id="#id716345">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716347"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716349"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716351"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraintName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716353"></a>The name of the spacing constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717751"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717753"></a>The first layer on which to apply the table constraint. </p>
+<p>
+<a name="pgfId-724657"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717755"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717757"></a>The optional second layer on which to apply the table constraint. </p>
+<p>
+<a name="pgfId-724668"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-697056"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715673">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715675"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_tables</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715677"></a>A list defining the table entries. The list has the following syntax:</p>
+<p>
+<a name="pgfId-722985"></a><code>( ( </code><span class="webflare-courier-new" style="white-space:pre"><em>l_indexDefinitions</em></span><code> ) </code><span class="webflare-courier-new" style="white-space:pre"><em>l_table</em></span><code> )</code></p>
+<p>
+<a name="pgfId-723030"></a>where, </p>
+
+<ul><li>
+<a name="pgfId-723092"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_indexDefinitions</em></span> is a list naming the table indexes. This list has the following syntax:<br />
+<a name="pgfId-723076"></a><code>( </code><span class="webflare-courier-new" style="white-space:pre"><em>nt_index1Name</em></span><code>  nil nil 
+[ </code><span class="webflare-courier-new" style="white-space:pre"><em>nt_index2Name</em></span><code>  nil nil] )</code><br />
+<a name="pgfId-723077"></a>where, <span class="webflare-courier-new" style="white-space:pre"><em>nt_index1Name</em></span> is the name of the first dimension of a two-dimensional table or the only dimension of a one-dimensional table and <span class="webflare-courier-new" style="white-space:pre"><em>nt_index2Name</em></span> is the name the second dimension of a two-dimensional table. </li><li>
+<a name="pgfId-723007"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_table</em></span> is a list of the table entries.</li></ul>
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715679"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715681"></a>The technology database does not exist or there are no spacing tables defined for the specified constraint on the specified layer or layers.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-697063"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-701314"></a>techGetSpacingRuleTable(tfID &quot;minSpacing&quot; &quot;Metal1&quot;<br />=&gt; ((&quot;width&quot; nil nil &quot;length&quot; nil nil<br />      )<br />      (0.0005 0.0005) 0.12<br />      (0.0005 0.5605) 0.18<br />      (0.0005 1.5005) 0.5<br />      (0.0005 3.0005) 0.9<br />      (0.0005 7.5005)<br />      2.5<br />      (0.1805 0.0005) 0.18<br />      (0.1805 0.5605) 0.18<br />      (0.1805 1.5005) 0.5<br />      (0.1805 3.0005) 0.9<br />      (0.1805 7.5005)<br />      2.5<br />      (1.5005 0.0005) 0.5<br />      (1.5005 0.5605) 0.5<br />      (1.5005 1.5005) 0.5<br />      (1.5005 3.0005) 0.9<br />      (1.5005 7.5005)<br />      2.5<br />      (3.0005 0.0005) 0.9<br />      (3.0005 0.5605) 0.9<br />      (3.0005 1.5005) 0.9<br />      (3.0005 3.0005) 0.9<br />      (3.0005 7.5005)<br />      2.5<br />      (4.5005 0.0005) 1.5<br />      (4.5005 0.5605) 1.5<br />      (4.5005 1.5005) 1.5<br />      (4.5005 3.0005) 1.5<br />      (4.5005 7.5005)<br />      2.5<br />      (7.5005 0.0005) 2.5<br />      (7.5005 0.5605) 2.5<br />      (7.5005 1.5005) 2.5<br />      (7.5005 3.0005) 2.5<br />      (7.5005 7.5005)<br />      2.5<br />   )</pre>
+
+<p>
+<a name="pgfId-701483"></a>Returns the table data for the <code>minSpacing</code> constraint applied to layer <code>Metal1</code> in the <code>foundry</code> constraint group of the technology database identified by <code>tfID</code>. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetSpacingRuleTables
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-697070"></a><a name="techGetSpacingRuleTables"></a><a name="76134"></a>techGetSpacingRuleTables</h3>
+<a name="pgfId-697072"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetSpacingRuleTables( 
+<code><em>d_techID</em></code> 
+) 
+=&gt; <code><em>l_tables</em></code> / nil</pre>
+<h4>
+<a name="pgfId-697074"></a>Description</h4>
+
+<p>
+<a name="pgfId-697075"></a>Returns a list of the spacing tables and the layers to which they apply as defined in the specified technology database. ASCII technology file location: <code>spacingTables</code> subsection in the <code>foundry</code> constraint group.</p>
+
+<h4>
+<a name="pgfId-697077"></a>Arguments</h4>
+<table class="webflareTable" id="#id716366">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716368"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716370"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-697079"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715701">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715703"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_tables</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715705"></a>A list of the table spacing constraint names and the layers to which they apply. The list has the following syntax:</p>
+<p>
+<a name="pgfId-723111"></a><code>( ( </code><span class="webflare-courier-new" style="white-space:pre"><em>t_constraintName</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span><code> <br />[ </code><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span><code> ] ) &#8230; )</code></p>
+<p>
+<a name="pgfId-723119"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-723127"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraintName</em></span> is the name of the spacing constraint. </li><li>
+<a name="pgfId-723134"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span> is the first layer on which the table constraint is applied. </li><li>
+<a name="pgfId-723141"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span> is the optional second layer on which the table constraint is applied.</li></ul>
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715707"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715709"></a>The technology database does not exist or there are no spacing constraints tables defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-697084"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-697085"></a>techGetSpacingRuleTables(tfID)<br />=&gt; ((&quot;minDensity&quot; &quot;Metal1&quot;) <br />       (&quot;maxDensity&quot; &quot;Metal1&quot;) <br />       (&quot;minDensity&quot; &quot;Metal2&quot;) <br />       (&quot;maxDensity&quot; &quot;Metal2&quot;) <br />       (&quot;minDensity&quot; &quot;Metal3&quot;)<br />       (&quot;maxDensity&quot; &quot;Metal3&quot;) <br />       (&quot;minDensity&quot; &quot;Metal4&quot;) <br />       (&quot;maxDensity&quot; &quot;Metal4&quot;) <br />       (&quot;minDensity&quot; &quot;Metal5&quot;) <br />       (&quot;maxDensity&quot; &quot;Metal5&quot;)<br />       (&quot;minDensity&quot; &quot;Metal6&quot;) <br />       (&quot;maxDensity&quot; &quot;Metal6&quot;) <br />       (&quot;minDensity&quot; &quot;Metal7&quot;) <br />       (&quot;maxDensity&quot; &quot;Metal7&quot;) <br />       (&quot;minDensity&quot; &quot;Metal8&quot;)<br />       (&quot;maxDensity&quot; &quot;Metal8&quot;) <br />       (&quot;minDensity&quot; &quot;Metal9&quot;) <br />       (&quot;maxDensity&quot; &quot;Metal9&quot;) <br />       (&quot;minNumCut&quot; &quot;Cont&quot;) <br />       (&quot;minNumCut&quot; &quot;Via1&quot;)<br />       (&quot;minNumCut&quot; &quot;Via2&quot;) <br />       (&quot;minNumCut&quot; &quot;Via3&quot;) <br />       (&quot;minNumCut&quot; &quot;Via4&quot;) <br />       (&quot;minNumCut&quot; &quot;Via5&quot;) <br />       (&quot;minNumCut&quot; &quot;Via6&quot;)<br />       (&quot;minNumCut&quot; &quot;Via7&quot;) <br />       (&quot;minNumCut&quot; &quot;Via8&quot;) <br />       (&quot;minSpacing&quot; &quot;Metal1&quot;) <br />       (&quot;minSpacing&quot; &quot;Metal2&quot;) <br />       (&quot;minSpacing&quot; &quot;Metal3&quot;)<br />       (&quot;minSpacing&quot; &quot;Metal4&quot;) <br />       (&quot;minSpacing&quot; &quot;Metal5&quot;) <br />       (&quot;minSpacing&quot; &quot;Metal6&quot;) <br />       (&quot;minSpacing&quot; &quot;Metal7&quot;) <br />       (&quot;minSpacing&quot; &quot;Metal8&quot;)<br />       (&quot;minSpacing&quot; &quot;Metal9&quot;)<br />   )</pre>
+
+<p>
+<a name="pgfId-701645"></a>Returns the names of the table spacing constraints defined in the <code>foundry</code> constraint group and the layers to which each applies in the technology database identified by <code>tfID</code>. The <code>spacingTables</code> constraints in this technology database are all single-layer spacing constraints.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetSpacingRuleTableEntry
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-697089"></a><a name="techSetSpacingRuleTableEntry"></a><a name="76920"></a>techSetSpacingRuleTableEntry</h3>
+<a name="pgfId-697091"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetSpacingRuleTableEntry( 
+<code><em>d_techID</em></code> 
+<code><em>t_constraintName
+</em></code>g_index | <code><em>l_index
+g_value
+tx_layer1
+</em></code>[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-697093"></a>Description</h4>
+
+<p>
+<a name="pgfId-699948"></a>Updates the specified spacing table in the specified technology database. ASCII technology file location: <code>spacingTables</code> subsection in the <code>foundry</code> constraint group. If the specified index or index pair is in the table, this function updates the value assigned. If the specified index or index pair is not in the table, this function adds an entry to the table with the specified data.</p>
+
+<h4>
+<a name="pgfId-697096"></a>Arguments</h4>
+<table class="webflareTable" id="#id716387">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716389"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716391"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716393"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraintName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716395"></a>The name of the spacing constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717979"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_index</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717981"></a>The index in a one-dimensional table for which to set the table value.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717983"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_index</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-717985"></a>A list specifying the pair of indexes in a two-dimensional table for which to set the table value. The list has the following syntax:</p>
+<p>
+<a name="pgfId-723184"></a><code>list( </code><span class="webflare-courier-new" style="white-space:pre"><em>g_index1</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>g_index2</em></span><code> ) </code></p>
+<p>
+<a name="pgfId-723192"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-723199"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_index1</em></span> is the first table index. </li><li>
+<a name="pgfId-723206"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_index2</em></span> is the second table index.</li></ul>
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718077"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718079"></a>The value to apply to the specified table index or index pair.</p>
+<p>
+<a name="pgfId-723231"></a>Valid values: Any number or string</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718107"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718109"></a>The first layer on which the table constraint is applied. </p>
+<p>
+<a name="pgfId-723240"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718141"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718143"></a>The optional second layer on which the table constraint is applied. </p>
+<p>
+<a name="pgfId-723251"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-697105"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715722">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715724"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715726"></a>The table was successfully updated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715728"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715730"></a>The technology database does not exist or the spacing table does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-697108"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-697109"></a>techSetSpacingRuleTableEntry(tfID &quot;minSpacing&quot; list(0.005 0.005) 0.14 &quot;Metal1&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-697112"></a>Updates the <code>minSpacing</code> value to <code>0.14</code> in the 2-D <code>minSpacing</code> spacing table for <code>Metal1</code> containing the indexes <code>(0.005 0.005)</code>. </p>
+<p>
+<a name="pgfId-724737"></a>Example 1</p>
+<p>
+<a name="pgfId-699789"></a>The original table:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-699770"></a>spacingTables(
+( minSpacing                 &quot;Metal1&quot;
+&#160;&#160;&#160;&#160;(( &quot;width&quot;   nil  nil &#160;&#160;&#160;&#160; &quot;length&quot;   nil   nil  ) )
+&#160;&#160;&#160;&#160;(
+&#160;&#160;&#160;&#160;   (0.0005    0.0005    ) 0.12
+&#160;&#160;&#160;&#160;   (0.0005    0.5605    ) 0.18
+&#160;&#160;&#160;&#160;   (0.0005    1.5005    ) 0.5
+&#160;&#160;&#160;&#160;   (0.0005    3.0005    ) 0.9
+&#160;&#160;&#160;&#160;   (0.0005    7.5005    ) 2.5
+&#160;&#160;&#160;&#160;   (0.1805    0.0005    ) 0.18<br />      )<br />)<br /></pre>
+
+<p>
+<a name="pgfId-699790"></a>Changes to:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-699798"></a>spacingTables(
+( minSpacing                 &quot;Metal1&quot;
+&#160;&#160;&#160;&#160;(( &quot;width&quot;   nil  nil &#160;&#160;&#160;&#160; &quot;length&quot;   nil   nil  ))
+&#160;&#160;&#160;&#160;(
+&#160;&#160;&#160;&#160;   (0.0005    0.0005    ) 0.14
+&#160;&#160;&#160;&#160;   (0.0005    0.5605    ) 0.18
+&#160;&#160;&#160;&#160;   (0.0005    1.5005    ) 0.5
+&#160;&#160;&#160;&#160;   (0.0005    3.0005    ) 0.9
+&#160;&#160;&#160;&#160;   (0.0005    7.5005    ) 2.5
+&#160;&#160;&#160;&#160;   (0.1805    0.0005    ) 0.18<br />      )<br />  )</pre>
+
+<p>
+<a name="pgfId-699799"></a>Example 2</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-699986"></a>techSetSpacingRuleTableEntry(tfID &quot;minSpacing&quot; list(0.1 0.005) 0.14 &quot;Metal1&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-699992"></a>The original table:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-699993"></a>spacingTables(
+( minSpacing                 &quot;Metal1&quot;
+&#160;&#160;&#160;&#160;(( &quot;width&quot;   nil  nil &#160;&#160;&#160;&#160; &quot;length&quot;   nil   nil  ) )
+&#160;&#160;&#160;&#160;(
+&#160;&#160;&#160;&#160;   (0.0005    0.0005    ) 0.12
+&#160;&#160;&#160;&#160;   (0.0005    0.5605    ) 0.18
+&#160;&#160;&#160;&#160;   (0.0005    1.5005    ) 0.5
+&#160;&#160;&#160;&#160;   (0.0005    3.0005    ) 0.9
+&#160;&#160;&#160;&#160;   (0.0005    7.5005    ) 2.5
+&#160;&#160;&#160;&#160;   (0.1805    0.0005    ) 0.18<br />      )<br />)<br /></pre>
+
+<p>
+<a name="pgfId-699994"></a>changes to:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-699995"></a>spacingTables(
+( minSpacing                 &quot;Metal1&quot;
+&#160;&#160;&#160;&#160;(( &quot;width&quot;   nil  nil &#160;&#160;&#160;&#160; &quot;length&quot;   nil   nil  ))
+&#160;&#160;&#160;&#160;(
+&#160;&#160;&#160;&#160;   (0.0005    0.0005    ) 0.12
+&#160;&#160;&#160;&#160;   (0.0005    0.5605    ) 0.18
+&#160;&#160;&#160;&#160;   (0.0005    1.5005    ) 0.5
+&#160;&#160;&#160;&#160;   (0.0005    3.0005    ) 0.9
+&#160;&#160;&#160;&#160;   (0.0005    7.5005    ) 2.5
+        (0.1000    0.005     ) 0.14
+&#160;&#160;&#160;&#160;   (0.1805    0.0005    ) 0.18<br />      )<br />  )</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetSpacingRuleTableEntry
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-699772"></a><a name="techGetSpacingRuleTableEntry"></a><a name="89793"></a>techGetSpacingRuleTableEntry</h3>
+<a name="pgfId-697116"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetSpacingRuleTableEntry( 
+<code><em>d_techID</em></code> 
+<code><em>t_constraintName
+</em></code>g_index | <code><em>l_index
+tx_layer1
+</em></code>[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; <code><em>g_value</em></code> / nil</pre>
+<h4>
+<a name="pgfId-697118"></a>Description</h4>
+
+<p>
+<a name="pgfId-697119"></a>Returns the value of the table constraint in the specified technology database that (a) is in the <code>foundry</code> constraint group, (b) is applied to the specified layer or layers, and (c) is the value for the table entry with the specified index or indexes.</p>
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-707450"></a>After running the <code>cdb2oa</code> translator on a CDBA table that contains table values of <code>nil</code>, the resultant OA table will display the CDBA <code>nil</code> values as OA default values when called by <code>techGetSpacingRuleTableEntry()</code>.</div>
+
+<h4>
+<a name="pgfId-697121"></a>Arguments</h4>
+<table class="webflareTable" id="#id716408">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716410"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716412"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718205"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraintName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718207"></a>The name of the spacing table constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718209"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_index</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718211"></a>The index in a one-dimensional table for which to return the table value.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718213"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_index</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718215"></a>A list specifying the pair of indexes in a two-dimensional table for which to return the table value. The list has the following syntax:</p>
+<p>
+<a name="pgfId-723274"></a><code>list( </code><span class="webflare-courier-new" style="white-space:pre"><em>g_index1</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>g_index2</em></span><code> ) </code></p>
+<p>
+<a name="pgfId-723282"></a>where, </p>
+
+<ul><li>
+<a name="pgfId-723289"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_index1</em></span> is the first table index.</li><li>
+<a name="pgfId-723296"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_index2</em></span> is the second table index.</li></ul>
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718217"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718219"></a>The first layer on which the table constraint is applied. </p>
+<p>
+<a name="pgfId-723324"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718221"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718223"></a>The optional second layer on which the table constraint is applied. </p>
+<p>
+<a name="pgfId-723335"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-697129"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715743">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715745"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715747"></a>The value of the specified index.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715749"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715751"></a>The technology database does not exist or the spacing table constraint is not defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-697132"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-697133"></a>techGetSpacingRuleTableEntry(tfID &quot;minSpacing&quot; 0 &quot;via&quot;)<br />=&gt; 5.5</pre>
+
+<p>
+<a name="pgfId-697136"></a>Returns the value (<code>5.5</code>) of the index <code>0</code> from the one-dimensional <code>minSpacing</code> table applied to layer <code>via</code> in the technology database identified by <code>tfID</code>.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-700004"></a>techGetSpacingRuleTableEntry(tfID &quot;minSpacing&quot; list(0.0005 0.0005) &quot;Metal2&quot;)<br />=&gt; 0.14</pre>
+
+<p>
+<a name="pgfId-700016"></a>Returns the value (<code>0.14</code>) of the index (<code>0.0005 0.0005</code>) from the two-dimensional <code>minSpacing</code> table applied to layer <code>Metal1</code> in the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetViaStackLimit
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-698304"></a><a name="techSetViaStackLimit"></a><a name="15506"></a>techSetViaStackLimit</h3>
+<a name="pgfId-698305"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetViaStackLimit(
+<code><em>d_techID</em></code> 
+<code><em>g_number
+</em></code>[ <code><em>tx_bottomLayer tx_topLayer</em></code> ]
+)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-698307"></a>Description</h4>
+
+<p>
+<a name="pgfId-698310"></a>Updates a <code>viaStackingLimits</code> constraint in the <code>foundry</code> constraint group in the specified technology database with one set of via stack limit data. If the specified layer range is not already specified in the database, this function creates a new constraint with the data. If the <code>viaStackingLimits</code> subsection does not exist in the <code>foundry</code> constraint group, this function creates it with the specified data.</p>
+
+<h4>
+<a name="pgfId-698314"></a>Arguments</h4>
+<table class="webflareTable" id="#id716429">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716431"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716433"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716435"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_number</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716437"></a>The maximum number of stacked vias allowed within the layer range.</p>
+<p>
+<a name="pgfId-723346"></a>Valid values: Any positive integer</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718497"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_bottomLayer</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718499"></a>The bottom layer of the layer range.</p>
+<p>
+<a name="pgfId-723353"></a>Valid values: Any routing layer name</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718501"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_topLayer</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-718503"></a>The top layer of the layer range.</p>
+<p>
+<a name="pgfId-723360"></a>Valid values: Any routing layer name</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-698320"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715767">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715769"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715771"></a>The <code>viaStackingLimits</code> subsection in the specified technology database was updated or created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715773"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715775"></a>The technology database does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-698323"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-698328"></a>techSetViaStackLimit(tfID 4  &quot;Metal1&quot;  &quot;Metal5&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-701885"></a>Creates the following in a technology database with no <code>viaStackingLimits</code> subsection in the <code>foundry</code> constraint group:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-701894"></a>viaStackingLimits(<br /> ( 4   &quot;Metal1&quot;    &quot;Metal5&quot;  )<br />) ;viaStackingLimits</pre>
+
+<p>
+<a name="pgfId-701929"></a>Then,</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-701932"></a>techSetViaStackLimit(tfID 3  &quot;Metal1&quot;  &quot;Metal5&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-701935"></a>changes the stack limit:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-701938"></a>viaStackingLimits(<br /> ( 3   &quot;Metal1&quot;    &quot;Metal5&quot;  )<br />) ;viaStackingLimits</pre>
+
+<p>
+<a name="pgfId-701930"></a>Then,</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-701944"></a>techSetViaStackLimit(tfID 2  &quot;Metal6&quot;  &quot;Metal8&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-701942"></a>Adds another constraint:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-701921"></a>viaStackingLimits(<br /> ( 3   &quot;Metal1&quot;    &quot;Metal5&quot;  )<br /> ( 3   &quot;Metal6&quot;    &quot;Metal8&quot;  )<br />) ;viaStackingLimits</pre>
+
+<p>
+<a name="pgfId-701953"></a>And,</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-701954"></a>techSetViaStackLimit(tfID 5)</pre>
+
+<p>
+<a name="pgfId-701963"></a>adds yet another constraint:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-701966"></a>viaStackingLimits(<br /> ( 3   &quot;Metal1&quot;    &quot;Metal5&quot;  )<br /> ( 3   &quot;Metal6&quot;    &quot;Metal8&quot;  )<br /> ( 5  )<br />) ;viaStackingLimits</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetViaStackLimit
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-698331"></a><a name="techGetViaStackLimit"></a><a name="41773"></a>techGetViaStackLimit</h3>
+<a name="pgfId-698332"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetViaStackLimit(
+<code><em>d_techID
+</em></code>)
+=&gt; <code><em>l_viaStackLimit</em></code> / nil</pre>
+<h4>
+<a name="pgfId-698334"></a>Description</h4>
+
+<p>
+<a name="pgfId-698338"></a>Returns the first <code>viaStackingLimits</code> constraint in the <code>foundry</code> constraint group in the specified technology database. </p>
+
+<h4>
+<a name="pgfId-701970"></a>Arguments</h4>
+<table class="webflareTable" id="#id716450">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716452"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716454"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-698341"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715788">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715790"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_viaStackLimits</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715792"></a>A list showing the via stack limit definition in the foundry constraint group of the specified technology database. If there are multiple via stack limit definitions, the function returns the first definition. The list has the following syntax:</p>
+<p>
+<a name="pgfId-718626"></a><code>( </code><span class="webflare-courier-new" style="white-space:pre"><em>g_number</em></span><code> [ </code><span class="webflare-courier-new" style="white-space:pre"><em>tx_bottomLayer</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>tx_topLayer</em></span><code> ] )</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715794"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715796"></a>The technology database does not exist or no via stack limits are defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-698345"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-698504"></a>techGetViaStackLimit(tfID)<br />=&gt; (3&#160;&#160;&quot;Metal1&quot;&#160;&#160;&quot;Metal5&quot;)</pre>
+
+<p>
+<a name="pgfId-698505"></a>Returns the first via stack limit defined in the <code>foundry</code> constraint group in the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetViaStackLimits
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-698354"></a><a name="techSetViaStackLimits"></a><a name="57128"></a>techSetViaStackLimits</h3>
+<a name="pgfId-698355"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetViaStackLimits(
+<code><em>d_techID</em></code> 
+<code><em>l_viaStackLimits
+</em></code>)
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-698357"></a>Description</h4>
+
+<p>
+<a name="pgfId-698360"></a>Updates the <code>viaStackingLimits</code> in the <code>foundry</code> constraint group in the specified technology database with one or more sets of <code>viaStackingLimits</code> data. This function updates the number for any layer range already in <code>viaStackingLimits</code> and adds a new entry for any layer range not already in <code>viaStackingLimits</code>. If a <code>viaStackingLimits</code> section does not already exist, this function creates one.</p>
+
+<h4>
+<a name="pgfId-698364"></a>Arguments</h4>
+<table class="webflareTable" id="#id716471">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716473"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716475"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716477"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_viaStackLimits</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716479"></a>A list of the via stack limits. The list has the following syntax:</p>
+<p>
+<a name="pgfId-723387"></a><code>list( list( </code><span class="webflare-courier-new" style="white-space:pre"><em>g_number</em></span><code> <br />[ </code><span class="webflare-courier-new" style="white-space:pre"><em>tx_bottomLayer</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>tx_topLayer</em></span><code> ] ) &#8230; ) </code></p>
+<p>
+<a name="pgfId-723407"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-723471"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_number</em></span> is the maximum number of stacked vias allowed within the layer range. </li><li>
+<a name="pgfId-723414"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_bottomLayer</em></span> is the bottom layer of the layer range.</li><li>
+<a name="pgfId-723421"></a>Valid values: The layer name, the layer number </li><li>
+<a name="pgfId-723432"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_topLayer</em></span> is the top layer of the layer range.</li><li>
+<a name="pgfId-723439"></a>Valid values: The layer name, the layer number</li></ul>
+
+
+
+
+
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-698370"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715809">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715811"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715813"></a>The <code>viaStackingLimits</code> constraints in the <code>foundry</code> constraint group in the specified technology database were updated or created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715815"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715817"></a>The technology database does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-701986"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-723512"></a>viaStackingLimits(<br /> ( 3   &quot;Metal1&quot;    &quot;Metal4&quot;  )<br /> ( 3   &quot;Metal6&quot;    &quot;Metal8&quot;  )<br />) ;viaStackingLimits</pre>
+
+<p>
+<a name="pgfId-723513"></a>Starts with the above <code>viaStackingLimits</code> section in the <code>foundry</code> constraint group specifying:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-701987"></a>techSetViaStackLimits(tfID list(list(2 &quot;Metal1&quot; &quot;Metal4&quot;) list(2 &quot;Metal5&quot; &quot;Metal7&quot;)))</pre>
+
+<p>
+<a name="pgfId-701998"></a>and changes the number for the layer range <code>Metal1</code> through <code>Metal4</code> from <code>3</code> to <code>2</code> and adds an entry setting the number for the layer range <code>Metal5</code> through <code>Metal7</code> to <code>2</code>. The technology database then contains the following <code>viaStackingLimits</code> section in the <code>foundry</code> constraint group:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702001"></a>viaStackingLimits(<br /> ( 2   &quot;Metal1&quot;    &quot;Metal4&quot;  )<br /> ( 3   &quot;Metal6&quot;    &quot;Metal8&quot;  )<br /> ( 2   &quot;Metal5&quot;    &quot;Metal7&quot;  )<br />) ;viaStackingLimits</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetViaStackLimits
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-698381"></a><a name="techGetViaStackLimits"></a><a name="37086"></a>techGetViaStackLimits</h3>
+<a name="pgfId-698445"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetViaStackLimits(
+<code><em>d_techID
+</em></code>)
+=&gt; <code><em>l_viaStackLimits</em></code> / nil</pre>
+<h4>
+<a name="pgfId-698447"></a>Description</h4>
+
+<p>
+<a name="pgfId-698387"></a>Returns a list of the stacked via limit data defined in the technology database. ASCII technology file location: <code>foundry</code> constraint group.</p>
+
+<h4>
+<a name="pgfId-698391"></a>Arguments</h4>
+<table class="webflareTable" id="#id716492">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716494"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716496"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-698393"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715830">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715832"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_viaStackLimits</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715834"></a>A list of the via stack limits defined in the specified technology database. The list has the following syntax:</p>
+<p>
+<a name="pgfId-723525"></a><code>( ( </code><span class="webflare-courier-new" style="white-space:pre"><em>g_number</em></span><code> [ </code><span class="webflare-courier-new" style="white-space:pre"><em>tx_bottomLayer</em></span><code> <br /></code><span class="webflare-courier-new" style="white-space:pre"><em>tx_topLayer</em></span><code> ] ) &#8230; )</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715836"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715838"></a>The technology database does not exist or no via stack limits are defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-698397"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-698398"></a>tfID = techGetTechFile(ddGetObj(&quot;newlib&quot;))<br />db:0x0180200d</pre>
+
+<p>
+<a name="pgfId-698401"></a>Returns the database identifier for the current technology database and assigns it to the variable <code>tfID</code>.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-698402"></a>techGetViaStackLimits(tfID)<br />=&gt; (( 2  &quot;Metal1&quot;  &quot;Metal4&quot;  )<br />        ( 3   &quot;Metal6&quot;    &quot;Metal8&quot;  )<br />        ( 2   &quot;Metal5&quot;    &quot;Metal7&quot;  )<br />   )</pre>
+
+<p>
+<a name="pgfId-698403"></a>Returns the via stack limits defined in the <code>foundry</code> constraint group of the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+<h2>
+<a name="pgfId-704616"></a><a name="40169"></a>Electrical Constraints and Layer Attributes Functions</h2>
+
+<p>
+<a name="pgfId-704617"></a>The following functions set and get electrical constraints:</p>
+<ul><li>
+<a name="pgfId-720946"></a><a href="chap4.html#68898">techSetElectricalRule</a></li><li>
+<a name="pgfId-720959"></a><a href="chap4.html#94000">techGetElectricalRules</a></li><li>
+<a name="pgfId-720969"></a><a href="chap4.html#77817">techGetCurrentDensityRules</a></li><li>
+<a name="pgfId-720979"></a><a href="chap4.html#46234">techGetElectricalRule</a></li><li>
+<a name="pgfId-720989"></a><a href="chap4.html#59000">techSetOrderedElectricalRule</a></li><li>
+<a name="pgfId-720999"></a><a href="chap4.html#81380">techGetOrderedElectricalRules</a></li><li>
+<a name="pgfId-721009"></a><a href="chap4.html#33802">techGetOrderedElectricalRule</a></li><li>
+<a name="pgfId-721019"></a><a href="chap4.html#16375">techCreateElectricalRuleTable</a></li><li>
+<a name="pgfId-721029"></a><a href="chap4.html#88279">techGetCurrentDensityRuleTable</a></li><li>
+<a name="pgfId-721039"></a><a href="chap4.html#60965">techGetElectricalRuleTable</a></li><li>
+<a name="pgfId-721049"></a><a href="chap4.html#46619">techGetCurrentDensityRuleTables</a></li><li>
+<a name="pgfId-721059"></a><a href="chap4.html#47156">techGetElectricalRuleTables</a></li><li>
+<a name="pgfId-721069"></a><a href="chap4.html#97461">techSetElectricalRuleTableEntry</a></li><li>
+<a name="pgfId-721079"></a><a href="chap4.html#27686">techGetElectricalRuleTableEntry</a></li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetElectricalRule
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-441441"></a><a name="techSetElectricalRule"></a><a name="68898"></a>techSetElectricalRule</h3>
+<a name="pgfId-441442"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetElectricalRule(
+<code><em>d_techID</em></code> 
+<code><em>t_constraint</em></code> 
+<code><em>g_value</em></code> 
+<code><em>tx_layer1</em></code> 
+[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-704017"></a>Description</h4>
+
+<p>
+<a name="pgfId-723578"></a>Updates the value of the layer attribute in the specified technology database that (a) is the first layer attribute with the specified name in a <code>currentDensity</code> subsection of the <code>layerRules</code> section, and (b) is applied to the specified layer or layers. If the specified attribute does not already exist, this function creates a new <code>currentDensity</code> subsection containing the layer attribute. You cannot update or add <code>antennaModels</code> constraints with this function.</p>
+
+<h4>
+<a name="pgfId-723575"></a>Arguments</h4>
+<table class="webflareTable" id="#id723554">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-723556"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-723558"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-723560"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-723562"></a>The name of the layer attribute.</p>
+<p>
+<a name="pgfId-723589"></a>Valid values: <code>peakACCurrentDensity</code>, <code>avgACCurrentDensity</code>, <code>rmsACCurrentDensity</code>, <code>avgDCCurrentDensity</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-723564"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-723566"></a>The value of the layer attribute.</p>
+<p>
+<a name="pgfId-723598"></a>Valid values: Any floating-point number, any integer</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-723568"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-723570"></a>The first layer. </p>
+<p>
+<a name="pgfId-723609"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-723572"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-723574"></a>The optional second layer. </p>
+<p>
+<a name="pgfId-723620"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-441452"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715851">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715853"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715855"></a>The <code>currentDensity</code> layer attribute was successfully updated or created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715857"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715859"></a>The technology database does not exist or the layers are not defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-441456"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-441457"></a>techSetElectricalRule(tfID &quot;peakACCurrentDensity&quot; 0.6 &quot;metal1&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-441458"></a>Sets the peak AC current density for <code>Metal1</code> to <code>0.6</code> user units in the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetElectricalRules
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-441459"></a><a name="techGetElectricalRules"></a><a name="94000"></a>techGetElectricalRules</h3>
+<a name="pgfId-441460"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetElectricalRules(
+<code><em>d_techID
+</em></code>) 
+=&gt; <code><em>l_electricalRules</em></code> / nil</pre>
+<h4>
+<a name="pgfId-441461"></a>Description</h4>
+
+<p>
+<a name="pgfId-703560"></a>Returns a list of all of the current density layer attributes and antenna models constraints defined in the specified technology database. ASCII technology file location: <code>currentDensity</code> subsection of the <code>layerRules</code> section and the <code>antennaModels</code> section of the <code>foundry</code> constraint group.</p>
+
+<h4>
+<a name="pgfId-702997"></a>Arguments</h4>
+<table class="webflareTable" id="#id716534">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716536"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716538"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-441465"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715872">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715874"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_electricalRules</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715876"></a>A list of lists containing the electrical attribute and antenna models settings. The following syntax is used to return current density layer attributes: </p>
+<p>
+<a name="pgfId-723634"></a><code>( ( </code><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer1</em></span><code> [ </code><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer2</em></span><code> ]&#160;&#160;) &#8230; ) </code></p>
+<p>
+<a name="pgfId-723641"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-723648"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span> is the name of the electrical constraint. </li><li>
+<a name="pgfId-723655"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is the value of the electrical constraint. </li><li>
+<a name="pgfId-723662"></a><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer1</em></span> is the first layer. </li><li>
+<a name="pgfId-723669"></a><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer2</em></span> is the second layer. Only returned for two-layer constraints.</li></ul>
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719020"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-723858"></a>T<a name="antennaReturn"></a>he following syntax is used to return antenna model constraints:<br />(&quot;<span class="webflare-courier-new" style="white-space:pre"><em>name</em></span>AntennaRule&quot;<br /> ( <span class="webflare-courier-new" style="white-space:pre"><em>l_areaRatio<br /></em></span> <span class="webflare-courier-new" style="white-space:pre"><em>l_sideAreaRatio<br /></em></span> <span class="webflare-courier-new" style="white-space:pre"><em>l_l_diffAreaRatio<br /></em></span> <span class="webflare-courier-new" style="white-space:pre"><em>l_diffSideAreaRatio<br /></em></span> <span class="webflare-courier-new" style="white-space:pre"><em>l_cumAreaRatio<br /></em></span> <span class="webflare-courier-new" style="white-space:pre"><em>l_cumDiffAreaRatio<br /></em></span> <span class="webflare-courier-new" style="white-space:pre"><em>l_cumSideAreaRatio<br /></em></span> <span class="webflare-courier-new" style="white-space:pre"><em>l_cumDiffSideAreaRatio<br /></em></span> <code>nil<br /></code> <code>nil</code>)<br />t_layerName )</p>
+<p>
+<a name="pgfId-719022"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-723710"></a><span class="webflare-courier-new" style="white-space:pre"><em>name</em></span> is the antenna oxide model name: <code>default</code>, <code>second</code>, <code>third</code>, or <code>fourth </code></li><li>
+<a name="pgfId-723723"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_areaRatio</em></span> is the no-side area ratio. </li><li>
+<a name="pgfId-723730"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_sideAreaRatio</em></span> is the side area ratio.</li><li>
+<a name="pgfId-723737"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_diffAreaRatio</em></span> is the no-side diffusion area ratio.</li><li>
+<a name="pgfId-723744"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_diffSideAreaRatio</em></span> is the side diffusion area ratio.</li><li>
+<a name="pgfId-723755"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_cumAreaRatio</em></span> is the no-side cumulative area ratio.</li><li>
+<a name="pgfId-723763"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_cumDiffAreaRatio</em></span> is the no-side cumulative diffusion area ratio.</li><li>
+<a name="pgfId-723771"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_cumSideAreaRatio</em></span> is the side cumulative area ratio.</li><li>
+<a name="pgfId-723779"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_cumDiffSideAreaRatio</em></span> is the side cumulative diffusion area ratio.</li></ul>
+
+
+
+
+
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715878"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715880"></a>The technology database does not exist or there are no electrical layer attributes or antenna models defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-441474"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702017"></a>techGetElectricalRules(tfID)<br />=&gt; (  (&quot;defaultAntennaRule&quot;<br />      (475.0 nil nil nil 1200.0<br />          ((0.0 1200.0)<br />          (0.099 1200.0)<br />          (0.1 55750.0)<br />          (1.0 62500.0)<br />          ) nil nil nil nil</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702024"></a>       ) &quot;Metal1&quot;<br />   ) </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702061"></a>&#8230;</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702292"></a>   (&quot;peakACCurrentDensity&quot; 2.3 &quot;Metal1&quot;) </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702293"></a>   (&quot;avgACCurrentDensity&quot; 5.0 &quot;Metal1&quot;) </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702294"></a>   (&quot;rmsACCurrentDensity&quot; 4.1 &quot;Metal1&quot;) </pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702295"></a>   (&quot;avgDCCurrentDensity&quot; 3.0 &quot;Metal1&quot;)</pre>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702062"></a>)</pre>
+
+<p>
+<a name="pgfId-676423"></a>Returns the electrical layer attributes and constraints defined in the technology database identified by <code>tfID</code>.</p>
+<p>
+<a name="pgfId-702432"></a>The antenna rule shown contains the following data:</p>
+<ul><li>
+<a name="pgfId-702437"></a>antenna oxide model name: <code>default</code></li><li>
+<a name="pgfId-702438"></a>no-side area ratio: <code>475.0</code></li><li>
+<a name="pgfId-702439"></a>side area ratio: <code>nil</code></li><li>
+<a name="pgfId-702440"></a>no-side diffusion area ratio: <code>nil</code></li><li>
+<a name="pgfId-702441"></a>side diffusion area ratio: <code>nil</code></li><li>
+<a name="pgfId-702442"></a>no-side cumulative area ratio: <code>12000.0</code></li><li>
+<a name="pgfId-702443"></a>no-side cumulative diffusion area ratio:<br />
+<a name="pgfId-702469"></a><code>((0.0 1200.0)
+          (0.099 1200.0)
+          (0.1 55750.0)
+          (1.0 62500.0)
+          )</code></li><li>
+<a name="pgfId-702444"></a>side cumulative area ratio: <code>nil</code></li><li>
+<a name="pgfId-702445"></a>side cumulative diffusion area ratio: <code>nil</code></li></ul>
+
+
+
+
+
+
+
+
+
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetCurrentDensityRules
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-703137"></a><a name="techGetCurrentDensityRules"></a><a name="77817"></a>techGetCurrentDensityRules</h3>
+<a name="pgfId-703138"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetCurrentDensityRules(
+<code><em>d_techID
+</em></code>)
+=&gt; <code><em>l_currentDensityRules</em></code> / nil</pre>
+<h4>
+<a name="pgfId-703140"></a>Description</h4>
+
+<p>
+<a name="pgfId-703143"></a>Returns a list of the current density attributes for layers from the specified technology database.</p>
+
+<h4>
+<a name="pgfId-703144"></a>Arguments</h4>
+<table class="webflareTable" id="#id716572">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716574"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716576"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-703146"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715893">
+<tbody><tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-715895"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_currentDensityRules</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719113"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719115"></a>A list of the current density constraints for layers in the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715899"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715901"></a>The technology database does not exist or no current density constraints are specified for any layers in the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-703149"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-703150"></a>techGetCurrentDensityRules (tfID)<br />=&gt; ((&quot;peakACCurrentDensity&quot; 2.3 &quot;Metal1&quot;)<br />    (&quot;avgACCurrentDensity&quot; 5.0 &quot;Metal1&quot;)<br />    (&quot;rmsACCurrentDensity&quot; 4.1 &quot;Metal1&quot;)<br />    (&quot;avgDCCurrentDensity&quot; 3.0 &quot;Metal1&quot;)<br />   )</pre>
+
+<p>
+<a name="pgfId-703151"></a>Returns a list of the current density rules specified for the layers in the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetElectricalRule
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-441478"></a><a name="techGetElectricalRule"></a><a name="46234"></a>techGetElectricalRule</h3>
+<a name="pgfId-715453"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetElectricalRule(
+<code><em>d_techID</em></code> 
+<code><em>t_constraint</em></code> 
+<code><em>tx_layer1</em></code> 
+[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; <code><em>g_value</em></code> / nil</pre>
+<h4>
+<a name="pgfId-702209"></a>Description</h4>
+
+<p>
+<a name="pgfId-702211"></a>Returns the value of the layer attribute or constraint in the specified technology database that (a) is the first hard layer attribute or constraint with the specified name and (b) is applied to the specified layer or layers.</p>
+
+<h4>
+<a name="pgfId-441482"></a>Arguments</h4>
+<table class="webflareTable" id="#id716589">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716591"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716593"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719149"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719151"></a>The name of the constraint.</p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-723877"></a>For antenna rules, append <code>AntennaRule</code> to the constraint name. For example, to get the <code>default</code> rule, enter <code>defaultAntennaRule</code> or to get the <code>second</code> rule, enter <code>secondAntennaRule</code>.</div>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719153"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719155"></a>The first layer. </p>
+<p>
+<a name="pgfId-723889"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719157"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719159"></a>The optional second layer. </p>
+<p>
+<a name="pgfId-723900"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-719342"></a>Value Returned</h4>
+<table class="webflareTable" id="#id719332">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719334"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719336"></a>The value of the constraint. For antenna rules, the syntax of the returned data is the same as that for <a href="chap4.html#antennaReturn">techGetElectricalRules</a>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719339"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719341"></a>The technology database does not exist, the specified constraint is not defined for the specified layer or layers, or the specified layer or layers do not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-719343"></a>Examples</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-441491"></a>techGetElectricalRule(tfID &quot;peakACCurrentDensity&quot; &quot;Metal1&quot;)<br />=&gt; 0.6</pre>
+
+<p>
+<a name="pgfId-441493"></a>Returns the <code>peakACCurrentDensity</code> rule defined for the <code>Metal1</code> layer in the technology database identified by <code>tfID</code>.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702305"></a>techGetElectricalRule(tfID &quot;defaultAntennaRule&quot; &quot;Metal1&quot;)<br />=&gt; (475.0 nil nil nil 1200.0<br />       ((0.0 1200.0)<br />           (0.099 1200.0)<br />           (0.1 55750.0)<br />           (1.0 62500.0)<br />        ) nil nil nil nil<br />)</pre>
+
+<p>
+<a name="pgfId-702504"></a>Returns the <code>defaultAntennaRule</code> for the <code>Metal1</code> layer in the technology database identified by <code>tfID</code>. The antenna rule shown contains the following data:</p>
+<ul><li>
+<a name="pgfId-702506"></a>no-side area ratio: <code>475.0</code></li><li>
+<a name="pgfId-702507"></a>side area ratio: <code>nil</code></li><li>
+<a name="pgfId-702508"></a>no-side diffusion area ratio: <code>nil</code></li><li>
+<a name="pgfId-702509"></a>side diffusion area ratio: <code>nil</code></li><li>
+<a name="pgfId-702510"></a>no-side cumulative area ratio: <code>12000.0</code></li><li>
+<a name="pgfId-702511"></a>no-side cumulative diffusion area ratio:<br />
+<a name="pgfId-702512"></a><code>((0.0 1200.0)
+          (0.099 1200.0)
+          (0.1 55750.0)
+          (1.0 62500.0)
+          )</code></li><li>
+<a name="pgfId-702513"></a>side cumulative area ratio: <code>nil</code></li><li>
+<a name="pgfId-702514"></a>side cumulative diffusion area ratio: <code>nil</code></li></ul>
+
+
+
+
+
+
+
+
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetOrderedElectricalRule
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-441494"></a><a name="techSetOrderedElectricalRule"></a><a name="59000"></a>techSetOrderedElectricalRule</h3>
+<a name="pgfId-441495"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetOrderedElectricalRule(
+<code><em>d_techID</em></code> 
+<code><em>t_constraint</em></code> 
+<code><em>g_value</em></code> 
+<code><em>tx_layer1</em></code> 
+<code><em>tx_layer2
+</em></code>) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-441496"></a>Description</h4>
+
+<p>
+<a name="pgfId-676703"></a>Updates the value of the first ordered electrical constraint for the specified layers in the specified technology database. ASCII technology file location: <code>orderedElectrical</code> subsection in the <code>foundry</code> constraint group. This is a legacy section of the technology file used to store data converted from a technology file containing the obsolete <code>orderedCharacterizationRules</code> subclass.</p>
+
+<h4>
+<a name="pgfId-441499"></a>Arguments</h4>
+<table class="webflareTable" id="#id716606">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716608"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716610"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719347"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719349"></a>The name of the ordered electrical constraint.</p>
+<p>
+<a name="pgfId-723803"></a>Valid values: Any string</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719351"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719353"></a>The value of the electrical constraint.</p>
+<p>
+<a name="pgfId-723810"></a>Valid values: Any floating-point number, any integer</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719355"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719357"></a>The first layer. </p>
+<p>
+<a name="pgfId-723817"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719359"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719361"></a>The second layer. </p>
+<p>
+<a name="pgfId-723824"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-441505"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715935">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715937"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715939"></a>The ordered electrical constraint was updated or created successfully.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715941"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715943"></a>The technology database does not exist or the layers are not defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-441508"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-441509"></a>techSetOrderedElectricalRule(tfID &quot;minEnclosure&quot; 0.6 &quot;via&quot; &quot;metal1&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-441510"></a>Sets the minimum enclosure constraint for the <code>via</code> and <code>metal1</code> layers to <code>0.6</code> user units in the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetOrderedElectricalRules
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-702549"></a><a name="techGetOrderedElectricalRules"></a><a name="81380"></a>techGetOrderedElectricalRules</h3>
+<a name="pgfId-702551"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetOrderedElectricalRules(
+<code><em>d_techID
+</em></code>) 
+=&gt; <code><em>l_electricalRules</em></code> / nil</pre>
+<h4>
+<a name="pgfId-441513"></a>Description</h4>
+
+<p>
+<a name="pgfId-676825"></a>Returns a list of all of the ordered electrical constraints specified in the technology database. ASCII technology file location: <code>orderedElectrical</code> constraints in the <code>foundry</code> constraint group. This is a legacy section of the technology file used to store data converted from a technology file containing an obsolete subclass.</p>
+
+<h4>
+<a name="pgfId-441515"></a>Arguments</h4>
+<table class="webflareTable" id="#id716623">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716625"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716627"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-441517"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715956">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715958"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_electricalRules</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715960"></a>A list of lists containing the ordered electrical constraint settings. The list has the following syntax:</p>
+<p>
+<a name="pgfId-723914"></a><code>( ( </code><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer1</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer2</em></span><code> ) &#8230; ) </code></p>
+<p>
+<a name="pgfId-723921"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-723928"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span> is the name of the ordered electrical constraint. </li><li>
+<a name="pgfId-723935"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span> is the value of the ordered electrical constraint.</li><li>
+<a name="pgfId-723949"></a><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer1</em></span> is the first layer. </li><li>
+<a name="pgfId-723942"></a><span class="webflare-courier-new" style="white-space:pre"><em>lt_layer2</em></span> is the second layer.</li></ul>
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715962"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715964"></a>The technology database does not exist or there are no ordered electrical constraints defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-441526"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-441527"></a>techGetOrderedElectricalRules(tfID)<br />=&gt; ( parallelCap 2.00 metal1  metal2 )<br />  ( parallelCap 2.00 metal3  metal4 )<br /></pre>
+
+<p>
+<a name="pgfId-696614"></a>Returns the ordered electrical constraints defined in the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetOrderedElectricalRule
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-176995"></a><a name="techGetOrderedElectricalRule"></a><a name="33802"></a>techGetOrderedElectricalRule</h3>
+<a name="pgfId-176996"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetOrderedElectricalRule(
+<code><em>d_techID</em></code> 
+<code><em>t_constraint</em></code> 
+<code><em>tx_layer1</em></code> 
+<code><em>tx_layer2
+</em></code>) 
+=&gt; <code><em>g_value</em></code> / nil</pre>
+<h4>
+<a name="pgfId-441532"></a>Description</h4>
+
+<p>
+<a name="pgfId-694807"></a>Returns the value of the first specified ordered electrical constraint in the <code>foundry</code> constraint group in the technology database. The <code>orderedElectrical</code> section is a legacy section of the ASCII technology file used to store data converted from a technology file containing the obsolete <code>orderedCharacterizationRules</code> subclass.</p>
+
+<h4>
+<a name="pgfId-441533"></a>Arguments</h4>
+<table class="webflareTable" id="#id716640">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716642"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716644"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719565"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719567"></a>The name of the ordered electrical constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719569"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719571"></a>The first layer. </p>
+<p>
+<a name="pgfId-723990"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719573"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719575"></a>The second layer.</p>
+<p>
+<a name="pgfId-724001"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-441539"></a>Value Returned</h4>
+<table class="webflareTable" id="#id715977">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715979"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715981"></a>The value of the ordered electrical constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715983"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-715985"></a>The technology database does not exist, the specified constraint does not exist for the specified layers, or the layers do not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-441542"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-441543"></a>techGetOrderedElectricalRule(tfID &quot;minEnclosure&quot; &quot;via&quot; &quot;metal1&quot;)<br />=&gt; 0.6</pre>
+
+<p>
+<a name="pgfId-441545"></a>Returns the <code>minEnclosure</code> ordered electrical constraint defined for the <code>via</code> and <code>metal1</code> layers in the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techCreateElectricalRuleTable
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-696838"></a><a name="techCreateElectricalRuleTable"></a><a name="16375"></a>techCreateElectricalRuleTable</h3>
+<a name="pgfId-696840"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techCreateElectricalRuleTable( 
+<code><em>d_techID</em></code> 
+<code><em>t_constraintName 
+l_indexDefinitions 
+tx_layer1 
+</em></code>[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-696842"></a>Description</h4>
+
+<p>
+<a name="pgfId-697656"></a>Creates a current density table and indexes for the named layer attribute in the specified technology database. ASCII technology file location: <code>currentDensityTables</code> subsection of the <code>layerRules</code> section. To create table entries, use <a href="chap4.html#techSetElectricalRuleTableEntry">techSetElectricalRuleTableEntry</a>. If a <code>currentDensityTables</code> subsection does not exist, this function creates one. If a current density table already exists for the named attribute applied to the specified layer or layers, this function replaces it; the original table entries are deleted.</p>
+
+<h4>
+<a name="pgfId-696845"></a>Arguments</h4>
+<table class="webflareTable" id="#id716657">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716659"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716661"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719709"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraintName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719711"></a>The name of the electrical constraint.</p>
+<p>
+<a name="pgfId-724016"></a>Valid values: <code>peakACCurrentDensity</code>, <code>avgACCurrentDensity</code>, <code>rmsACCurrentDensity</code>, <code>avgDCCurrentDensity</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-719713"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_indexDefinitions</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719786"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719788"></a>A list defining the name of the index or indexes for the table. The list has the following syntax:</p>
+<p>
+<a name="pgfId-724025"></a><code>list( [ </code><span class="webflare-courier-new" style="white-space:pre"><em>t_index1Name</em></span><code> ] nil nil <br />[ </code><span class="webflare-courier-new" style="white-space:pre"><em>t_index2Name</em></span><code> ] nil nil )</code></p>
+<p>
+<a name="pgfId-724033"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-724040"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_index1Name</em></span> is the name of the first dimension of a two-dimensional table or the only dimension of a one-dimensional table.<br />
+<a name="pgfId-724047"></a>Valid values: Any number or string </li><li>
+<a name="pgfId-724056"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_index2Name</em></span> is the name of the second dimension of a two-dimensional table.<br />
+<a name="pgfId-724070"></a>Valid values: Any number or string</li></ul>
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719804"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719806"></a>The first layer on which to apply the table constraint. </p>
+<p>
+<a name="pgfId-724109"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719815"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719817"></a>The optional second layer on which to apply the table constraint. </p>
+<p>
+<a name="pgfId-724120"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-696850"></a>Value Returned</h4>
+<table class="webflareTable" id="#id716005">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716007"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716009"></a>The current density table was created.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716011"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716013"></a>The current density table was not created.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-699699"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-699700"></a>techCreateElectricalRuleTable(tfID &quot;peakACCurrentDensity&quot; <br />list(&quot;frequency&quot; nil nil  &quot;width&quot; nil nil) &quot;Metal1&quot;)<br />=&gt; t</pre>
+
+<p>
+<a name="pgfId-699701"></a>Creates the table electrical rule <code>peakACCurrentDensity</code> with the indexes <code>frequency</code> and <code>width</code> applied to layer <code>Metal1</code> in the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetCurrentDensityRuleTable
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-703161"></a><a name="techGetCurrentDensityRuleTable"></a><a name="88279"></a>techGetCurrentDensityRuleTable</h3>
+<a name="pgfId-703162"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetCurrentDensityRuleTable(
+<code><em>d_techID
+t_ruleTableName
+tx_layer
+</em></code>)
+=&gt; <code><em>l_currentDensityRuleTable</em></code> / nil</pre>
+<h4>
+<a name="pgfId-703164"></a>Description</h4>
+
+<p>
+<a name="pgfId-703166"></a>Returns the named current density attribute table for the specified layer in the specified technology database.</p>
+
+<h4>
+<a name="pgfId-703168"></a>Arguments</h4>
+<table class="webflareTable" id="#id716674">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716676"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716678"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719908"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_ruleTableName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719910"></a>The name of the constraint table to return.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719912"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-719914"></a>The layer for which to return the constraint table.</p>
+<p>
+<a name="pgfId-724137"></a>Valid values: The layer name, layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-703172"></a>Value Returned</h4>
+<table class="webflareTable" id="#id716026">
+<tbody><tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-719996"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_currentDensityRuleTable</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720004"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720006"></a>The current density constraint table.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720000"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720002"></a>The technology database does not exist or the requested current density constraint table does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-703175"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-703180"></a>techGetCurrentDensityRuleTable (tfID &quot;avgACCurrentDensity&quot; &quot;metal1&quot;)<br />=&gt; ((&quot;frequency&quot; nil nil &quot;width&quot; nil nil)<br />    (10.0 0.25) 2.3e-07<br />    (10.0 0.35) 3.5e-07<br />    (210.0 0.25) 3.5e-07<br />    (210.0 0.35) 3.5e-07<br />   )</pre>
+
+<p>
+<a name="pgfId-703181"></a>Returns the requested current density constraint table in the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetElectricalRuleTable
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-696902"></a><a name="60965"></a>t<a name="techGetElectricalRuleTable"></a>echGetElectricalRuleTable</h3>
+<a name="pgfId-696903"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetElectricalRuleTable( 
+<code><em>d_techID</em></code> 
+<code><em>t_constraint</em></code> 
+<code><em>tx_layer1</em></code> 
+[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; <code><em>l_tables</em></code> / nil</pre>
+<h4>
+<a name="pgfId-696905"></a>Description</h4>
+
+<p>
+<a name="pgfId-696906"></a>Returns the table data for the specified layer attribute defined in the specified technology database. ASCII technology file location: <code>currentDensityTables</code> subsection of the <code>layerRules</code> section. Preferred: Use <a href="chap4.html#techGetCurrentDensityRuleTable">techGetCurrentDensityRuleTable</a> function.</p>
+
+<h4>
+<a name="pgfId-696908"></a>Arguments</h4>
+<table class="webflareTable" id="#id716691">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716693"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716695"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720038"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720040"></a>The name of the current density constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720042"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720044"></a>The first layer on which to apply the table constraint. </p>
+<p>
+<a name="pgfId-724159"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720046"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720048"></a>The optional second layer on which to apply the table constraint. </p>
+<p>
+<a name="pgfId-724148"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-696913"></a>Value Returned</h4>
+<table class="webflareTable" id="#id716054">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716056"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_tables</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716058"></a>A list defining the table entries. The list has the following syntax:</p>
+<p>
+<a name="pgfId-724177"></a><code>( ( </code><span class="webflare-courier-new" style="white-space:pre"><em>l_indexDefinitions</em></span><code> ) </code><span class="webflare-courier-new" style="white-space:pre"><em>l_table</em></span><code> ) </code></p>
+<p>
+<a name="pgfId-724185"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-724262"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_indexDefinitions</em></span> is a list naming the table indexes. This list has the following syntax:<br />
+<a name="pgfId-724263"></a><code>( </code><span class="webflare-courier-new" style="white-space:pre"><em>nt_index1Name</em></span><code>  nil nil 
+[ </code><span class="webflare-courier-new" style="white-space:pre"><em>nt_index2Name</em></span><code>  nil nil] )</code><br />
+<a name="pgfId-720175"></a>where, <span class="webflare-courier-new" style="white-space:pre"><em>nt_index1Name</em></span> is the name of the first dimension of a two-dimensional table or the only dimension of a one-dimensional table and <span class="webflare-courier-new" style="white-space:pre"><em>nt_index2Name</em></span> is the name the second dimension of a two-dimensional table.</li><li>
+<a name="pgfId-720196"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_table</em></span> is a list of the table entries.</li></ul>
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716060"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716062"></a>The technology database does not exist or there are no current density tables defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-702704"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702735"></a>techGetElectricalRuleTable(tfID &quot;peakACCurrentDensity&quot; &quot;Metal2&quot;)<br />=&gt; (((&quot;frequency&quot; nil nil &quot;width&quot; nil<br />               nil<br />           ) 5.5e-06<br />       )<br />       (1.0 0.3) 5e-06<br />       (1.0 0.4) 5.5e-06<br />       (2e+07 0.3) 5.5e-06<br />       (2e+07 0.4) 6e-07<br />   )</pre>
+
+<p>
+<a name="pgfId-702779"></a>Returns the table data for the <code>peakACCurrentDensity</code> constraint applied to layer <code>Metal2</code> in the <code>layerRules</code> section group of the technology database identified by <code>tfID</code>. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetCurrentDensityRuleTables
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-703196"></a><a name="techGetCurrentDensityRuleTables"></a><a name="46619"></a>techGetCurrentDensityRuleTables</h3>
+<a name="pgfId-703197"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetCurrentDensityRuleTables(
+<code><em>d_techID
+</em></code>)
+=&gt; <code><em>l_currentDensityRuleTables</em></code> / nil</pre>
+<h4>
+<a name="pgfId-703199"></a>Description</h4>
+
+<p>
+<a name="pgfId-703202"></a>Returns a list of the current density attribute tables for layers in the specified technology database.</p>
+
+<h4>
+<a name="pgfId-703203"></a>Arguments</h4>
+<table class="webflareTable" id="#id716708">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716710"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716712"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-703205"></a>Value Returned</h4>
+<table class="webflareTable" id="#id716075">
+<tbody><tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-716077"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_currentDensityRuleTables</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720248"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720250"></a>A list of the current density constraint tables for layers in the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716081"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716083"></a>The technology database does not exist or no current density constraint tables are specified for any layers in the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-703208"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-703209"></a>techGetCurrentDensityRuleTables (tfID)<br />=&gt; ((&quot;peakACCurrentDensity&quot; &quot;Metal1&quot;)<br />    (&quot;avgACCurrentDensity&quot; &quot;Metal1&quot;)<br />    (&quot;rmsACCurrentDensity&quot; &quot;Metal1&quot;)<br />   )</pre>
+
+<p>
+<a name="pgfId-703210"></a>Returns a list of the current density constraint tables specified for the layers in the technology database identified by <code>tfID</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetElectricalRuleTables
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-696941"></a><a name="techGetElectricalRuleTables"></a><a name="47156"></a>techGetElectricalRuleTables</h3>
+<a name="pgfId-696943"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetElectricalRuleTables( 
+<code><em>d_techID</em></code> 
+) 
+=&gt; <code><em>l_tables</em></code> / nil</pre>
+<h4>
+<a name="pgfId-696945"></a>Description</h4>
+
+<p>
+<a name="pgfId-696946"></a>Returns a list of the current density tables defined in the specified technology database. ASCII technology file location: <code>currentDensityTables</code> subsection in the <code>layerRules</code> section. Preferred: Use <a href="chap4.html#techGetCurrentDensityRuleTables">techGetCurrentDensityRuleTables</a> function.</p>
+
+<h4>
+<a name="pgfId-696948"></a>Arguments</h4>
+<table class="webflareTable" id="#id716725">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716727"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716729"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-696950"></a>Value Returned</h4>
+<table class="webflareTable" id="#id716096">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716098"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_tables</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716100"></a>A list of the current density table constraint names and the layers to which they apply. The list has the following syntax:</p>
+<p>
+<a name="pgfId-724340"></a><code>( ( </code><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span><code> <br />[ </code><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span><code> ] ) &#8230; )</code></p>
+<p>
+<a name="pgfId-724348"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-724356"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span> is the name of the electrical constraint.<br />
+<a name="pgfId-724363"></a>Valid values: Any string </li><li>
+<a name="pgfId-724374"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span> is the first layer on which the table constraint is applied.<br />
+<a name="pgfId-724381"></a>Valid values: The layer name, the layer number </li><li>
+<a name="pgfId-724392"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span> is the optional second layer on which the table constraint is applied.<br />
+<a name="pgfId-724399"></a>Valid values: The layer name, the layer number</li></ul>
+
+
+
+
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716102"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716104"></a>The technology database does not exist or there are no current density tables defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-702731"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702821"></a>techGetElectricalRuleTables(tfID)<br />=&gt; ((&quot;peakACCurrentDensity&quot; &quot;Metal1&quot;)<br />      (&quot;peakACCurrentDensity&quot; &quot;Via1&quot;)<br />      (&quot;peakACCurrentDensity&quot; &quot;Metal2&quot;)<br />      (&quot;peakACCurrentDensity&quot; &quot;Via2&quot;)<br />   )</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techSetElectricalRuleTableEntry
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-696973"></a><a name="techSetElectricalRuleTableEntry"></a><a name="97461"></a>techSetElectricalRuleTableEntry</h3>
+<a name="pgfId-696975"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techSetElectricalRuleTableEntry( 
+<code><em>d_techID</em></code> 
+<code><em>t_constraint
+</em></code>l_index
+g_value
+tx_layer1
+[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-696977"></a>Description</h4>
+
+<p>
+<a name="pgfId-696978"></a>Updates the specified current density table in the specified technology database. ASCII technology file location: <code>currentDensityTables</code> subsection of the <code>layerRules</code> section. If the specified index or index pair is in the table, this function updates the value assigned. If the specified index or index pair is not in the table, this function adds an entry to the table with the specified data.</p>
+
+<h4>
+<a name="pgfId-696980"></a>Arguments</h4>
+<table class="webflareTable" id="#id716742">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716744"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716746"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720342"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720344"></a>The name of the current density constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720346"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_index</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720348"></a>The list of indexes. The list has the following syntax:</p>
+<p>
+<a name="pgfId-724452"></a><code>( </code><span class="webflare-courier-new" style="white-space:pre"><em>g_index1</em></span><code> [ </code><span class="webflare-courier-new" style="white-space:pre"><em>g_index2</em></span><code> ] ) </code></p>
+<p>
+<a name="pgfId-724460"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-724467"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_index1</em></span> is the first index in a two-dimensional table or the only index in a one-dimensional table. </li><li>
+<a name="pgfId-724474"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_index2</em></span> is the second index in a two-dimensional table.</li></ul>
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720350"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720352"></a>The value to apply to the specified table index or index pair.</p>
+<p>
+<a name="pgfId-724505"></a>Valid values: Any number or string</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720354"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720356"></a>The first layer on which the table constraint is applied. </p>
+<p>
+<a name="pgfId-724514"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720475"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720477"></a>The optional second layer on which the table constraint is applied. </p>
+<p>
+<a name="pgfId-724525"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-696989"></a>Value Returned</h4>
+<table class="webflareTable" id="#id716117">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716119"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716121"></a>The table was successfully updated.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716123"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716125"></a>The technology database does not exist or the current density table does not exist.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-702886"></a>Example</h4>
+
+<p>
+<a name="pgfId-702956"></a>techSetElectricalRuleTableEntry(tfID &quot;peakACCurrentDensity&quot; list(1.0 0.3) 5e-08 &quot;Metal2))<br />=&gt; t</p>
+<p>
+<a name="pgfId-702965"></a>Changes the original table below:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702889"></a>currentDensityTables(<br />( &quot;peakACCurrentDensity&quot;   &quot;Metal2&quot;<br />    ((&quot;frequency&quot; nil nil &quot;width&quot; nil nil))<br />       (<br />         (1.0 0.3)     5e-05<br />         (1 0. 0.4)    5e-06<br />         (2e+07 0.3)   5.5e-06<br />         (2e+07 0.4)    6e-07<br />       )<br />)</pre>
+
+<p>
+<a name="pgfId-702917"></a>to:</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702928"></a>currentDensityTables(<br />( &quot;peakACCurrentDensity&quot;   &quot;Metal2&quot;<br />    ((&quot;frequency&quot; nil nil &quot;width&quot; nil nil))<br />       (<br />         (1.0 0.3)     5e-08<br />         (1 0. 0.4)    5e-06<br />         (2e+07 0.3)   5.5e-06<br />         (2e+07 0.4)    6e-07<br />       )<br />)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=techGetElectricalRuleTableEntry
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-696998"></a><a name="techGetElectricalRuleTableEntry"></a><a name="27686"></a>techGetElectricalRuleTableEntry</h3>
+<a name="pgfId-697000"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+techGetElectricalRuleTableEntry( 
+<code><em>d_techID</em></code> 
+<code><em>t_constraint
+</em></code>l_index
+tx_layer1
+[ <code><em>tx_layer2 </em></code>]
+) 
+=&gt; <code><em>g_value</em></code> / nil</pre>
+<h4>
+<a name="pgfId-697002"></a>Description</h4>
+
+<p>
+<a name="pgfId-703045"></a>Returns the value of the specified index in the specified current density table in the specified technology database. ASCII technology file location: <code>currentDensityTables</code> subsection of the <code>layerRules</code> section.</p>
+
+<h4>
+<a name="pgfId-703049"></a>Arguments</h4>
+<table class="webflareTable" id="#id716759">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716761"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_techID</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716763"></a>The database identifier of the technology database.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720560"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_constraint</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720562"></a>The name of the constraint.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720564"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_index</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720566"></a>The list of indexes. The list has the following syntax:</p>
+<p>
+<a name="pgfId-724548"></a><code>( </code><span class="webflare-courier-new" style="white-space:pre"><em>g_index1</em></span><code> [ </code><span class="webflare-courier-new" style="white-space:pre"><em>g_index2</em></span><code> ] ) </code></p>
+<p>
+<a name="pgfId-724556"></a>where,</p>
+
+<ul><li>
+<a name="pgfId-724563"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_index1</em></span> is the first index in a two-dimensional table or the only index in a one-dimensional table. </li><li>
+<a name="pgfId-724570"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_index2</em></span> is the second index in a two-dimensional table.</li></ul>
+
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720568"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer1</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720570"></a>The first layer on which the table constraint is applied.</p>
+<p>
+<a name="pgfId-724601"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720572"></a><span class="webflare-courier-new" style="white-space:pre"><em>tx_layer2</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-720574"></a>The optional second layer on which the table constraint is applied. </p>
+<p>
+<a name="pgfId-724612"></a>Valid values: The layer name, the layer number</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-697013"></a>Value Returned</h4>
+<table class="webflareTable" id="#id716138">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716140"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_value</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716142"></a>The value of the specified index.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716144"></a><code>nil</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-716146"></a>The technology database does not exist or the table constraint is not defined.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-702941"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-702944"></a>techGetElectricalRuleTableEntry(tfID &quot;peakACCurrentDensity&quot; list(1.0 0.3) &quot;Metal2&quot;)<br />=&gt; 5e-08</pre>
+
+<p>
+<a name="pgfId-703130"></a>Returns the requested entry from the current density constraint table in the technology database identified by <code>tfID</code>.</p>
+<p>
+<a name="pgfId-704597"></a></p>
+<p>
+<a name="pgfId-710123"></a></p>
+
+<!-- [TOPIC_END] -->
+
+<p>
+<a name="pgfId-721935"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="chap3.html" id="prev" title="Layers Functions">Layers Functions</a></em></b><b><em><a href="chap5.html" id="nex" title="Place and Route Functions">Place and Route Functions</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

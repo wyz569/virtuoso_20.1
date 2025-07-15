@@ -1,0 +1,1554 @@
+
+<html><head><title>Modeling with Wreal</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="jaini" />
+<meta name="CreateDate" content="2019-09-16" />
+<meta name="CreateTime" content="1568626968" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes the Digital-centric Mixed-signal Verification methodology that enables top-level verification at digital speed." />
+<meta name="DocTitle" content="Verilog-AMS Real Valued Modeling Guide" />
+<meta name="DocType" content="User Guide" />
+<meta name="FileTitle" content="Modeling with Wreal" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2" />
+<meta name="Keyword" content="wreal" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2019-09-16" />
+<meta name="ModifiedTime" content="1568626968" />
+<meta name="NextFile" content="Chap4.html" />
+<meta name="Group" content="Analog Mixed-Signal Simulation" />
+<meta name="Platform" content="Functional Verification" />
+<meta name="PrevFile" content="Chap2.html" />
+<meta name="Product" content="Xcelium" />
+<meta name="ProductFamily" content="Xcelium" />
+<meta name="ProductVersion" content="19.09" />
+<meta name="RightsManagement" content="Copyright 2012-2019 Cadence Design Systems Inc." />
+<meta name="Title" content="Verilog-AMS Real Valued Modeling Guide -- Modeling with Wreal" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="product_feature" content="" />
+<meta name="product_subfeature" content="" />
+<meta name="Version" content="19.09" />
+<meta name="SpaceKey" content="wreal1909" />
+<meta name="webflare-version" content="1.4" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="wrealTOC.html">Contents</a></li><li><a class="prev" href="Chap2.html" title="Verilog-AMS Wreal Features">Verilog-AMS Wreal Features</a></li><li style="float: right;"><a class="viewPrint" href="wreal.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="Chap4.html" title="Conclusion">Conclusion</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Verilog-AMS Real Valued Modeling Guide<br />Product Version 19.09, September 2019</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;">
+
+<h1>4
+<a id="pgfId-1032955"></a></h1>
+<h1>
+<a id="pgfId-1035250"></a><hr />
+<a id="36420"></a>Modeling with Wreal<hr />
+</h1>
+
+<p>
+<a id="pgfId-1035472"></a>In this section, we will focus on wreal modeling examples to illustrate the modeling process. Due to the different modeling style in the electrical domain and in wreal, it is impossible to provide a 1 to 1 mapping between all functions and modeling practices. It is also impossible to provide a &#8220;recipe&#8221; on how to create models. The best starting point is an example model that does something similar to what you need. By modifying and extending the example, you will build up enough experience to create more sophisticated wreal models. The example discussed below will help you getting a good starting point for your modeling experiences.</p>
+
+<h2>
+<a id="pgfId-1035474"></a><a id="_Toc234394663"></a>Sample Model Library</h2>
+
+<p>
+<a id="pgfId-1035475"></a>Cadence provides a sample model library of wreal models. Some of the example in this book can be found in the sample library. The entire source code of the library is accessible making it an excellent vehicle for further education. </p>
+<p>
+<a id="pgfId-1035476"></a>The sample library can be found in your IUS/IES installation directory in $IUSHOME/tools/amsd/wrealSamples/. We provide three versions of the sample library, a pure text based version for command line users, a IC5141 dfII version, and a IC61x dfII version. Command line users can directly instantiate the models. Environment users have to extend their <code>cds.lib</code> file to point to the appropriate library location.</p>
+
+<h2>
+<a id="pgfId-1035478"></a><a id="_Toc234394664"></a>First Example: Voltage Controlled Oscillator</h2>
+
+<p>
+<a id="pgfId-1035479"></a>Consider the example of voltage-controlled oscillator (VCO). VCO is a standard analog block that is used for examples in PLLs. It creates an output oscillation with a given frequency. This frequency can be modified to some range by the input voltage of the block.</p>
+<p>
+<a id="pgfId-1035480"></a>The testbench is shown below. A real variable (r_in) is changed every 10 ns from one value to another. The real variable is assigned to the wreal wire (w_in). This wreal signal is connected to the input port of the VCO block that is instantiated in the testbench.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035481"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035482"></a>`timescale 1ns / 1ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035483"></a>module top();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035484"></a>   wreal w_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035485"></a>   real r_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035486"></a>   vco vco (w_in, clk);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035487"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035488"></a>   always begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035489"></a>      r_in = 1.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035490"></a>      #10 r_in = 1.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035491"></a>      #10 r_in = 0.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035492"></a>      #10 r_in = -0.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035493"></a>      #10 r_in = 1.345;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035494"></a>      #10 $finish;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035495"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035496"></a>   assign w_in = r_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035497"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035498"></a>The VCO block takes the wreal input signal and calculates at each change of the signal (@(vin)) the required output frequency. Remember that the wreal signal is event based. That means that there are discrete events whenever the signal changes and the signal stay constant otherwise.</p>
+<p>
+<a id="pgfId-1035499"></a>The calculated output frequency is used to determine the delay time between the clock inversion operations. Please note that the frequency settings depend on the timescale used. In this case, we used a 1 ns timescale resulting in a 1 GHz frequency unit.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035500"></a>module vco(vin, clk);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035501"></a>   input vin; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035502"></a>   wreal vin;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035503"></a>   output clk;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035504"></a>   reg &#160;&#160;&#160;&#160; clk;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035505"></a>   real   freq, clk_delay;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035506"></a>   real   center_freq = 1;  // freq in GHz</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035507"></a>   real   vco_gain = 1;     // freq gain in GHz</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035508"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035509"></a>   initial clk = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035510"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035511"></a>   always @(vin) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035512"></a>      freq = center_freq + vco_gain*vin;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035513"></a>      clk_delay = 1.0/(2*freq);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035514"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035515"></a>   always #(clk_delay)  clk = !clk;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035516"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035520"></a>The following figure shows the simulation result for this example.</p>
+
+<p>
+<a id="pgfId-1036484"></a></p>
+<div class="webflare-div-image">
+<img src="images/vco-waveform1.gif" /></div>
+
+<p>
+<a id="pgfId-1035521"></a>It is obvious that this example is oversimplified. We have not used any parameters with value range restrictions for the constant definitions, input values of type <code>`wrealXState</code> and <code>`wrealZState</code> are not considered. It is possible to create negative frequency values and thus negative delay times, the clock frequency changes instantaneously with the input voltage change. All these &#8211; and probably more &#8211; issues and effects need to be considered for a good, robust, and reusable behavioral model. We will address some of these in later examples.</p>
+
+<h2>
+<a id="pgfId-1035523"></a><a id="_Toc234394665"></a>Analog Functions Translated to Wreal</h2>
+
+<p>
+<a id="pgfId-1035524"></a>Some analog operations can be implemented in wreal in a very straightforward manner, others need a real translation. In the following section, we will discuss some examples of standard tasks that are needed during wreal modeling. We are mostly using example code to highlight the modeling style.</p>
+
+<h3>
+<a id="pgfId-1035526"></a><a id="_Toc234394666"></a>Wreal Value Sources</h3>
+
+<p>
+<a id="pgfId-1035527"></a>How can we generate sources with values varying over time? The following example is a source for an analog amplifier that we will discuss later on. It creates a differential signal on the output ports P and N.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035528"></a>`include &quot;constants.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035529"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035530"></a>`timescale 1ps/1ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035531"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035532"></a>module wrealAmp_stim (P,N);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035533"></a>output P,N; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035534"></a>wreal P,N;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035535"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035536"></a>real Vin;&#160;&#160;               // input voltage</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035537"></a>real Freq=600M,Phase=0;&#160;&#160; // sinusoid params </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035538"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035539"></a>initial begin&#160;&#160;// drive input, comment on expected result:</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035540"></a>  Vin=0.1;         // out=1 for DC op point</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035541"></a>  #50  Vin=0.108;  // out=1.08 in &lt;20ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035542"></a>  #100 Vin=0.15;   // out=1.5  in 100ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035543"></a>  #150 Vin=0.5;    // out sat=3.0  in 300ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035544"></a>  #400 Vin=0;      // out=0    in 600ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035545"></a>  #700 Vin=0.2;    // out=2.0 after 400ps, but:</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035546"></a>  #300 Vin=0.1;    // prior to full change, ramp down to out=1 </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035547"></a>  #300 while ($abstime&lt;6000p) begin   <br />                                // generate ramped sine input</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035548"></a>    #20 Freq=Freq*1.007;        // gradual freq increase</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035549"></a>    Phase=Phase+20p*Freq;       // integrate freq to get phase</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035550"></a>    if (Phase&gt;1) Phase=Phase-1; // wraparound per cycle</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035551"></a>    Vin=0.1*(1+sin(`M_TWO_PI*Phase)); </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035552"></a>                                // sinusoidal waveform shape</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035553"></a>  end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035554"></a>  #200 $finish;                 // done with test</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035555"></a>end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035556"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035557"></a>assign P = Vin/2;&#160;&#160;  // drive symmetric diffl signal to inputs</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035558"></a>assign N = -Vin/2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035559"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035560"></a>A real value (<code>Vin</code>) is used to assign different values to it after certain delays. Discrete events are created on the real value, for example, at 150 ps the value is changing from 0.108 to 0.15. At 300 ps, a sinusoidal signal is generated. The loop is updated every 20 ps with a new value generated by the sin function. Note that we need to define the sampling time for these types of continuous signals. Wreal is changing at discrete events, thus, a continuous signal need to be approximated by a given sampling rate. The appropriate sampling rate and the decision on using a fixed or a flexible time step depends on the sampled signal and the accuracy requirements for the following blocks. </p>
+<p>
+<a id="pgfId-1035561"></a>The real value is assigned to the wreal outputs P and N is a symmetrical way.</p>
+
+<h3>
+<a id="pgfId-1035563"></a><a id="_Toc234394667"></a>Integration and Differentiation</h3>
+
+<p>
+<a id="pgfId-1035564"></a>The following example shows an analog integration and differentiation on a given sinusoid input function. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035565"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035566"></a>`timescale 1ns/1ns</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035567"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035568"></a>module top ();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035569"></a>   electrical x, idt_x, ddt_x;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035570"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035571"></a>   w_idt I_w_idt (x);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035572"></a>   w_ddt I_w_ddt (x);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035573"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035574"></a>   analog begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035575"></a>      V(x) &lt;+ sin($abstime*1E7);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035576"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035577"></a>      V(ddt_x) &lt;+ ddt(V(x));</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035578"></a>      V(idt_x) &lt;+ idt(V(x),0);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035579"></a>   end </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035580"></a>endmodule // top</pre>
+
+<p>
+<a id="pgfId-1035581"></a>The same input waveform is converted into a wreal signal using the E2R connect rules with a 0.1 V accuracy.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035582"></a>connectrules e2r_only;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035583"></a>  connect E2R</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035584"></a>      #( .vdelta(0.1), .vtol(0.001), .ttol(1n));</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035585"></a>endconnectrules</pre>
+
+<p>
+<a id="pgfId-1035586"></a>Two sub modules implement the integration and differentiation function in the discrete domain. The only information needed in addition to the input signal is the time point of the last event (lasttime) and the value at this time (lastval). The time difference between the last event and the current time determines the integration interval for this particular step. A simple multiplication with the last wreal input increments the integral values. The initial condition for the integral is set to 0.0.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035587"></a>module w_idt(w_x);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035588"></a>   input w_x; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035589"></a>   wreal w_x, w_idt_x;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035590"></a>   real  r_idt_x  = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035591"></a>   real  lasttime = 1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035592"></a>   real  lastval  = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035593"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035594"></a>   always begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035595"></a>      if (lasttime &lt; $abstime) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035596"></a> &#160;&#160;   r_idt_x = r_idt_x + lastval * ($abstime - lasttime);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035597"></a>      end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035598"></a>      lasttime = $abstime;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035599"></a>      lastval = w_x;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035600"></a>      @(w_x);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035601"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035602"></a>   assign w_idt_x = r_idt_x;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035603"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035604"></a>The differentiation operator is implemented very similar. Dividing value and time difference gives the derivative of the last step. Please note that this is the linear interpolated derivative over the given time period. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035605"></a>module w_ddt(w_x);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035606"></a>   input w_x; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035607"></a>   wreal w_x, w_ddt_x;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035608"></a>   real  r_ddt_x  = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035609"></a>   real  lasttime = 1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035610"></a>   real  lastval  = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035611"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035612"></a>   always begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035613"></a>      if (lasttime &lt; $abstime) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035614"></a> &#160;&#160;  r_ddt_x = (w_x - lastval) / ($abstime - lasttime);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035615"></a>      end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035616"></a>      lasttime = $abstime;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035617"></a>      lastval = w_x;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035618"></a>      @(w_x);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035619"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035620"></a>   assign w_ddt_x = r_ddt_x;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035621"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035622"></a>It should be considered that the step size of the wreal events highly influences the derivative calculation. Large steps can lead to inaccurate values. Moreover, the differentiation and integration function will update only when a wreal event occurs. For example, if you were calculating the integral of a constant value you would not get any results because there is only one event on the wreal signal at time point zero. In such cases, you need to sample the input signal appropriately, for example, by the fix rate sampling shown above.</p>
+<p>
+<a id="pgfId-1035623"></a>The <code>w_idt</code> function implements the integral of the wreal signals sample and hold behavior while the <code>w_ddt</code> assumes a linear interpolation. It is a matter of which definition concept you follow. Generally, the sample and hold behavior is more digital-like while the linear interpolation is closer to the analog signal nature. If you want to integrate wreal as linear interpolated signal, a trapezoidal integration of the values would be more appropriate. This would result in:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035624"></a>     r_idt_x = r_idt_x + </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035625"></a>               0.5 * (w_x + lastval) * ($abstime - lasttime);</pre>
+
+<p>
+<a id="pgfId-1035626"></a>The differentiation of the sample and hold interpretation of the signal results in a Dirac pulse, which is not useful for most models.</p>
+
+<h3>
+<a id="pgfId-1035628"></a><a id="_Toc234394668"></a>Value Sampling</h3>
+
+<p>
+<a id="pgfId-1035629"></a>Wreal signals are event-based. They can have a fix sampling rate or the step size from one event to another can vary from step to step. During the conversion from a continuous domain into the discrete wreal domain, events are created based on the amount of value change (see above). Even inside the event-based simulation, it is often necessary to change the sampling rate from one block to another.</p>
+<p>
+<a id="pgfId-1035630"></a>The following example shows a triangular step wave input signal that should be sampled at a lower rate. We implemented two different sample modules to show the different behavior.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035631"></a>//xrun sampler.vams -gui -access r</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035632"></a>`include &quot;constants.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035633"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035634"></a>`timescale 1ns / 1ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035635"></a>module top ( s_out );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035636"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035637"></a>   output s_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035638"></a>   wreal  s_out, s_sample, s_sample_simple;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035639"></a>   real   r_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035640"></a>  </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035641"></a>   fix_rate_sampler #(.sr(200M)) I_frs (s_out, s_sample);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035642"></a>   fix_rate_sampler_simple #(.sr(200M)) I_frss (s_out, s_sample_simple);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035643"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035644"></a>   always begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035645"></a>      repeat (5) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035646"></a>  r_out = 0.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035647"></a>  #1 r_out = 1.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035648"></a>  #1 r_out = 2.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035649"></a>  #1 r_out = 3.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035650"></a>      &#160;&#160;&#160;&#160; #1 r_out = 4.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035651"></a>  #1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035652"></a>      end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035653"></a>      $finish;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035654"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035655"></a>   assign s_out = r_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035656"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035657"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035658"></a>The first is a very simple sampling module that is triggered at the given sampling rate. At this point in time, it takes the wreal input signal, samples it and holds the value until the next sample time.</p>
+<p>
+<a id="pgfId-1035659"></a>This simple mechanism has an important draw back that every event on the real input signal between the sampling times is completely ignored. If you simulate the example, you will see that the outcome of the sampler is always 4.0 because it happens to sample the input wave on the 4.0 step. This obviously does not reflect the real behavior very well.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035660"></a>module fix_rate_sampler_simple (s_in, s_out );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035661"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035662"></a>   input s_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035663"></a>   wreal s_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035664"></a>   output s_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035665"></a>   wreal s_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035666"></a>   real   r_out, ts;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035667"></a>      </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035668"></a>   parameter sr = 1M; // sampling rate in Hz</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035669"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035670"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035671"></a>      ts= 1.0E+9/sr; // in ns</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035672"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035673"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035674"></a>   always #ts begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035675"></a>      r_out = s_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035676"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035677"></a>   assign s_out = r_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035678"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035679"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035680"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035681"></a>The following sampling block is a bit more advanced. It integrates the input signal over the period between the sampling steps. Thus, all events of the real signal are taken into account. The simulation shows that the output values results in 2.0, which is the time average of the input signal. The block also considers <code>wrealXState</code> and <code>wrealZState</code> input values. Whenever one of these values occur the output value is following this assignment.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035682"></a>module fix_rate_sampler (s_in, s_out );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035683"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035684"></a>   input s_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035685"></a>   wreal s_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035686"></a>   output s_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035687"></a>   wreal s_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035688"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035689"></a>   parameter sr = 1M; // sampling rate in Hz</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035690"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035691"></a>   // Input signal averageing based on sampling time</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035692"></a>   real T_begin, s_integ;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035693"></a>   real T_last, s_last;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035694"></a>   real ts;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035695"></a>   real avg_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035696"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035697"></a>   // initialize all values to zero</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035698"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035699"></a>      s_integ = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035700"></a>      s_last = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035701"></a>      T_begin = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035702"></a>      T_last = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035703"></a>      ts= 1.0E+9/sr; // in ns</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035704"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035705"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035706"></a>   always @(s_in) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035707"></a>      if (s_last === `wrealXState) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035708"></a> begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035709"></a> &#160;&#160; s_integ = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035710"></a> end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035711"></a>      else if ((s_last === `wrealZState) <br />            &amp;&amp; (s_integ !== `wrealXState))  </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035712"></a> begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035713"></a> &#160;&#160; s_integ = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035714"></a> end </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035715"></a>      else begin // if s_in is a normal value</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035716"></a> &#160;&#160; // collecting the value*time integral</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035717"></a> &#160;&#160; s_integ = s_integ + s_last*($abstime-T_last);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035718"></a> end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035719"></a>      T_last=$abstime; // save the time of the current event</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035720"></a>      s_last=s_in;     // save the value</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035721"></a>   end // always @ (s_in)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035722"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035723"></a>   always #ts begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035724"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035725"></a>     // add the last missing time periode to the integral</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035726"></a>      if (s_last === `wrealXState) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035727"></a> begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035728"></a> &#160;&#160; s_integ = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035729"></a> &#160;&#160; avg_out = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035730"></a> end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035731"></a>      else if ((s_last === `wrealZState) &amp;&amp; (s_integ !== `wrealXState))  </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035732"></a> begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035733"></a> &#160;&#160; s_integ = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035734"></a> &#160;&#160; avg_out = `wrealZState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035735"></a> end </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035736"></a>      else if ((s_integ !== `wrealZState) || (s_integ !== `wrealXState)) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035737"></a> begin // if s_in is a normal value</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035738"></a> &#160;&#160; // collecting the value*time integral</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035739"></a> &#160;&#160; s_integ = s_integ + s_last*($abstime-T_last);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035740"></a> &#160;&#160; avg_out = s_integ/($abstime-T_begin);&#160;&#160;// calc average</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035741"></a> end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035742"></a>      T_last=$abstime;           // same the current time</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035743"></a>      s_last=s_in;               // and value</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035744"></a>      T_begin = $abstime;        // reset time interval</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035745"></a>      s_integ = 0;                // reset integral</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035746"></a>      </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035747"></a>   end&#160;&#160;&#160;&#160;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035748"></a>   assign s_out = avg_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035749"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035750"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035751"></a>endmodule</pre>
+<h3>
+<a id="pgfId-1035753"></a><a id="_Toc234394669"></a>Slew Limiting</h3>
+
+<p>
+<a id="pgfId-1035754"></a>Digital systems mostly react instantaneously on input changes or they might have some delay until the output response is visible. On the contrary, analog systems mostly have a limited rise and fall time, which means when a signal changes from 0.0 V to 3.3 V it will take a certain amount of time for this change. During this period, the signal will &#8211; more or less &#8211; linearly raise to the final value. This effect is called slew limit. The maximal raise value per time is called slew rate.</p>
+<p>
+<a id="pgfId-1035755"></a>Describing this fundamental analog behavior in the discrete domain is not trivial. A single event causes a series of other event to mimic the linear ramp. We need to control the numbers of step that are created for the ramp carefully. Too many events will slow down the simulation unnecessarily while fewer events will be not accurate enough.</p>
+<p>
+<a id="pgfId-1035756"></a>The following example is an amplifier that limits the output values and the output slope. The testbench provides a set of different input signals.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035757"></a>`include &quot;constants.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035758"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035759"></a>`timescale 1ps/1ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035760"></a>module top();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035761"></a>   wrealAmp_stim stim (P,N);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035762"></a>   wrealAmp      amp (P,N, OUT);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035763"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035764"></a>endmodule // top</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035765"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035766"></a>module wrealAmp_stim (P,N);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035767"></a>output P,N; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035768"></a>wreal P,N;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035769"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035770"></a>real Vin;&#160;&#160;               // input voltage</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035771"></a>real Freq=600M,Phase=0;&#160;&#160; // sinusoid params </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035772"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035773"></a>initial begin&#160;&#160;// drive input, comment on expected result:</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035774"></a>  Vin=0.1;         // out=1 for DC op point</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035775"></a>  #50  Vin=0.108;  // out=1.08 in &lt;20ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035776"></a>  #100 Vin=0.15;   // out=1.5  in 100ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035777"></a>  #150 Vin=0.5;    // out sat=3.0  in 300ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035778"></a>  #400 Vin=0;      // out=0    in 600ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035779"></a>  #700 Vin=0.2;    // out=2.0 after 400ps, but:</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035780"></a>  #300 Vin=0.1;    // prior to full change, ramp down to out=1 </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035781"></a>  #300 while ($abstime&lt;6000p) begin   <br />                   // generate ramped sine input</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035782"></a>    #20 Freq=Freq*1.007;    // gradual freq increase</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035783"></a>    Phase=Phase+20p*Freq;   // integrate freq to get phase</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035784"></a>    if (Phase&gt;1) Phase=Phase-1;       // wraparound per cycle</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035785"></a>    Vin=0.1*(1+sin(`M_TWO_PI*Phase)); </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035786"></a>                            // sinusoidal waveform shape</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035787"></a>  end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035788"></a>  #200 $finish;      // done with test</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035789"></a>end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035790"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035791"></a>assign P = Vin/2;&#160;&#160;  // drive symmetric diffl signal to inputs</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035792"></a>assign N = -Vin/2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035793"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035794"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1035795"></a>The amplifier calculates the nominal output value first based on the input and the given limit values. The second always block is responsible to apply the slew limit to the output. The maximum change in value that can be performed depends on the step size since the last event. If the nominal output value change is smaller than this value (dvlast) the change can be applied directly to the output.</p>
+<p>
+<a id="pgfId-1035796"></a>Larger changes will be limited to the given maximum change value and new events are being created with the given step size of tstep. The output is stepping up/down until the nominal output value is reached.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035797"></a>// Wreal amplifier with added slew limiting of output signal.</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035798"></a>// Input does not require equally spaced timepoints.</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035799"></a>// The output waveform will add timepoints at the specified </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035800"></a>// tstep spacing when needed to simulate slewing behavior.&#160;&#160;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035801"></a>`include &quot;constants.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035802"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035803"></a>`timescale 1ps/1ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035804"></a>module wrealAmp (P,N,OUT);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035805"></a>   input P,N; output OUT; wreal P,N,OUT;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035806"></a>   parameter real vio=0, gain=10; // input offset voltage (V),</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035807"></a>                                  // gain (V/V)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035808"></a>   parameter real voh=3, vol=0;   // output voltage range (V)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035809"></a>   parameter real slewrate=5G;    // max output slew rate (V/sec)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035810"></a>   parameter real tstep=20p;      // timestep for slew ramp (sec)</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035811"></a>   real      Vnom,Vslew;          // nominal output, and slew </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035812"></a>   real      dtstep,dvstep;       // time &amp; voltage max step size</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035813"></a>   real      tlast=0,dvlast;      // last timepoint, and </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035814"></a>                                  // max dV of last step</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035815"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035816"></a>   always begin                   // compute nominal output value</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035817"></a>      Vnom &lt;= min(voh,max(vol,gain*(P-N-vio))); </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035818"></a>                                  // linear gain with hard clip</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035819"></a>      @(P,N);                     // repeat when input changes</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035820"></a>   End</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035821"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035822"></a>   always begin                   // slew limit the output signal</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035823"></a>      if ($abstime==0) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035824"></a>           dvlast = voh-vol;      // no step limit at DC</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035825"></a>      else </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035826"></a>           dvlast = slewrate*min($abstime-tlast,tstep);  </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035827"></a>                                  // max prev step</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035828"></a>      tlast = $abstime;           // save event time </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035829"></a>      if (abs(Vnom-Vslew) &lt;= dvlast) begin </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035830"></a>                                  // If change within +-dV range:</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035831"></a> &#160;&#160;    Vslew = Vnom;          //  step to new value</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035832"></a> &#160;&#160;    @(Vnom);               //  and wait for Vnom to change</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035833"></a>      end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035834"></a>      else if (Vnom&gt;Vslew) begin  // Perform slew limit, rising:</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035835"></a> &#160;&#160;    Vslew = Vslew+dvlast;  // limit max change.</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035836"></a> &#160;&#160;    #(tstep/1p);           // and wait for timestep</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035837"></a>      end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035838"></a>      else begin                  // Perform slew limit, falling:</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035839"></a> &#160;&#160;    Vslew = Vslew-dvlast;  // limit change per step.</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035840"></a> &#160;&#160;    #(tstep/1p);           // and wait for timestep</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035841"></a>      end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035842"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035843"></a>   assign OUT = Vslew;            // drive wreal output value</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035844"></a>endmodule</pre>
+<p>
+<a id="pgfId-1035848"></a></p>
+<div class="webflare-div-image">
+<img src="images/slew-limiting.gif" /></div>
+
+<p>
+<a id="pgfId-1035849"></a>The figure above shows the input and output waveform of the slew limited filter. It is clearly visible how the red output signal is not able to follow the input signal. It is ramping up or down with linear with the given slew rate.</p>
+
+<h2>
+<a id="pgfId-1035853"></a><a id="_Toc234394670"></a><a id="_Ref232310143"></a><a id="_Ref232310149"></a>Modeling Examples</h2>
+
+<p>
+<a id="pgfId-1035854"></a>In the following sections, we will discuss a few typical examples of analog models that have been converted to pure wreal models.</p>
+
+<h3>
+<a id="pgfId-1035857"></a><a id="_Ref232935631"></a><a id="_Toc234394671"></a>Low Pass Filter</h3>
+
+<p>
+<a id="pgfId-1035858"></a>The slewing effect discussed above is a typical time domain behavior of analog circuits. Other circuits are more dominated by their frequency domain behavior, similar to filters. Continuous filters, for example, RC, or analog behavioral filters using the <code>idt/ddt</code> functions can be implemented directly in the analog domain. However, an equivalent behavior in the discrete domain is not available. A translation for the continuous filter function into a discrete z domain filter is required. This process is called the bilinear transform. References and theoretical details can be found in various textbooks and white papers.</p>
+<p>
+<a id="pgfId-1035859"></a>First, let us see the testbench and the analog filter used. Study the code example below.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035860"></a>//xrun lpf.vams -input probe.tcl -access r analog.scs -gui</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035861"></a>`include &quot;constants.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035862"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035863"></a>`timescale 1ns/1ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035864"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035865"></a>module top ();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035866"></a>   electrical Vin, Vout;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035867"></a>   filter i_ctf (Vin, Vout);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035868"></a>   analog begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035869"></a>      V(Vin) &lt;+ sin($abstime * `M_TWO_PI * 1E8);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035870"></a>   end </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035871"></a>endmodule</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035872"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035873"></a>module filter (Vin, Vout);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035874"></a>   input Vin;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035875"></a>   output Vout;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035876"></a>   electrical Vout;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035877"></a>   electrical Vin;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035878"></a>           </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035879"></a>   real  r_in;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035880"></a>   real  r_in_wreal;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035881"></a>   wreal  r_out;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035882"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035883"></a>   parameter real Fp = 1e7;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035884"></a>   parameter real Dp = 0.5;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035885"></a>   real      Wp;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035886"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035887"></a> initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035888"></a>      Wp = `M_TWO_PI*Fp;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035889"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035890"></a>   // electrical implementation   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035891"></a>   analog begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035892"></a>      r_in = V(Vin);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035893"></a>      if (abs(r_in)&lt;100n) r_in=0; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035894"></a>// ignore small oscillations</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035895"></a>      &#160;&#160;&#160;&#160;   // second order low pass filter</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035896"></a>      V(Vout) &lt;+ idt(Wp*(</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035897"></a>    idt(Wp*(r_in-V(Vout)),2*Dp*(r_in),0,1e-6 ) -</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035898"></a>    2*Dp*V(Vout)),</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035899"></a>  &#160;&#160;   r_in,0,1e-6);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035900"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035901"></a>   // wreal implementation</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035902"></a>   always begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035903"></a>      r_in_wreal = V(Vin);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035904"></a>      #1;      </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035905"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035906"></a>   lpf #(.Fp(Fp), .Dp(Dp), .hfs(1G)) i_lpf_1 ( r_in_wreal, r_out );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035907"></a>endmodule // filter</pre>
+
+<p>
+<a id="pgfId-1035908"></a>A sine wave is transferred in to the filter module. The core filter is a second order low pass filter implemented by two integration functions. The corner frequency (Wp) and the damping factor (Dp) are used to parameterize the filter behavior.</p>
+<p>
+<a id="pgfId-1035909"></a>The input signal is converted into a wreal signal at a fixed sampling rate. In this example, we know that the input is a sine input signal with a well-defined maximum frequency bandwidth, thus, we do not need to use the complex fix rate sampler block described above. However, for other input signals a more complex sampling routine might be required to avoid aliasing effects. The input sampling rate for the low pass filter implementation is assumed to be a fixed rate. The rate is provided to the filter as hfs input parameter. In addition, the sampling rate is a critical factor for real live input signals. The sampling rate limits the frequency bandwidth of the sampled data by the Nyquist criteria, thus, sampling rate of at least twice the maximum frequency of the input signal is required. However, the simulation performance obviously decreases with higher sampling rates. The right sampling rate is a trade off that needs to be made based on the actual characteristics of the input signal and accuracy requirements. </p>
+<p>
+<a id="pgfId-1035910"></a>The bilinear transform takes a two-step approach. It converts the analog differential equation into the s-domain and converts the s-domain data into the discrete z-domain in the second step.</p>
+<p>
+<a id="pgfId-1035911"></a>The basis differential equation of the filter function described above is shown below:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035912"></a>Vout = idt(Wp*(idt(Wp*(Vin-Vout))-2*Dp*Vout))</pre>
+
+<p>
+<a id="pgfId-1035913"></a>For the transformation into the frequency domain, all differentiations are replaced by a multiplication by <code>s</code> while all integrations result in division by <code>s</code>. Note that we are neglecting most of the mathematical terminologies and variables naming conventions here to highlight the general process. Refer to standard literature for details. </p>
+<p>
+<a id="pgfId-1035914"></a>The above example leads to the following equation:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035915"></a>s^2*Vout = (Wp*((Wp*(Vin-Vout))-2*Dp*s*Vout))</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035916"></a>s^2*Vout + Wp^2*Vout + Wp*2*Dp*s*Vout = Wp^2*Vin </pre>
+
+<p>
+<a id="pgfId-1035917"></a>The linear transfer function <code>H(s)</code> is calculated as the s-domain output divided by the input:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035918"></a>H(s) = Vout/Vin = Wp^2 / ( +Wp^2 + Wp*2*Dp*s + s^2 )</pre>
+
+<p>
+<a id="pgfId-1035919"></a>In the second step of the transformation, we replace <code>s</code> by (g*(1-z^-1)/(1+z^-1)). Where <code>g</code> is 2 divided by the sampling rate of the discrete filter.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035920"></a>s = (g*(1-z^-1)/(1+z^-1))</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035921"></a>H(z) = Wp^2 / ( +Wp^2 + Wp*2*Dp*(g*(1-z^-1)/(1+z^-1)) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035922"></a>     + (g*(1-z^-1)/(1+z^-1))^2 )</pre>
+
+<p>
+<a id="pgfId-1035923"></a>This leads to the discrete transfer function as shown above. The only remaining part of the exercise is to transform the equation in such a way that the filter coefficients for the numerator and dominator are obvious. This is not difficult but still an error prune process, so you need to pay close attention.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035924"></a>H(z) = Wp^2*(1+z^-1)^2 / ( Wp^2*(1+z^-1)^2 </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035925"></a>        + Wp*2*Dp*g*(1-z^-1)*(1+z^-1)) + (g*(1-z^-1)^2 )</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035926"></a>H(z) = Wp^2 + 2*Wp^2*(z^-1) +Wp^2*(z^-2) / </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035927"></a>        ( Wp^2 + 2*Wp^2*(z^-1) +Wp^2*(z^-2) + Wp*2*Dp*g </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035928"></a>        - Wp*2*Dp*g(z^-2) + g^2 - 2*g^2*(z^-1) + g^2*(z^-2))</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035929"></a>H(z) = Wp^2 + 2*Wp^2*(z^-1) +Wp^2*(z^-2) / </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035930"></a>        ( (Wp^2 + g^2 + Wp*2*Dp*g) + (2*Wp^2 - 2*g^2)*(z^-1) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035931"></a>        + (Wp^2 - Wp*2*Dp*g + g^2)*(z^-2))</pre>
+
+<p>
+<a id="pgfId-1035932"></a>After this conversion, we still have the discrete filter coefficients available, so the filter implementation is very easy as shown in the below example. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1035933"></a>module lpf(Vin, Vout);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035934"></a>   // H(z) = Wp^2 + 2*Wp^2*(z^-1) +Wp^2*(z^-2) / </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035935"></a>   //        ( (Wp^2 + g^2 + Wp*2*Dp*g) + (2*Wp^2 - 2*g^2)*(z^-1) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035936"></a>   //        + (Wp^2 - Wp*2*Dp*g + g^2)*(z^-2))</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035937"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035938"></a>   output Vout; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035939"></a>   wreal Vout;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035940"></a>   input  Vin;   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035941"></a>   wreal Vin;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035942"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035943"></a>   parameter real hfs = 1G; // Filter sampling frequency</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035944"></a>   parameter real Fp = 10M;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035945"></a>   parameter real Dp = 0.5;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035946"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035947"></a>   // LOCAL VARIABLES</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035948"></a>   real     Ts, g, Wp;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035949"></a>   real     num0, num1, num2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035950"></a>   real     den0, den1, den2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035951"></a>   real     yn0, yn1, yn2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035952"></a>   real     xn0, xn1, xn2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035953"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035954"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035955"></a>      Wp = `M_TWO_PI*Fp;      </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035956"></a>      yn2 = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035957"></a>      yn1 = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035958"></a>      yn0 = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035959"></a>      xn2 = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035960"></a>      xn1 = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035961"></a>      xn0 = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035962"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035963"></a>      // Filter intermediate variables and coefficients calculation</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035964"></a>      //</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035965"></a>      Ts= 1.0E+9/hfs; // in ns</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035966"></a>      g = 2.0*hfs;    // 2/Ts in sec</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035967"></a>            </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035968"></a>      // numerator</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035969"></a>      num0 = (Wp**2);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035970"></a>      num1 = + 2*Wp**2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035971"></a>      num2 = +Wp**2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035972"></a>            </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035973"></a>      // denominator</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035974"></a>      den0 = (Wp**2 + g**2 + Wp*2*Dp*g);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035975"></a>      den1 = (2*Wp**2 - 2*g**2);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035976"></a>      den2 = (Wp**2 - Wp*2*Dp*g + g**2);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035977"></a>      </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035978"></a>   end // always begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035979"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035980"></a>   always @(Vin) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035981"></a>      // Signal flow graph intermediate values</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035982"></a>      xn2 = xn1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035983"></a>      xn1 = xn0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035984"></a>      xn0 = Vin; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035985"></a>      yn2 = yn1;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035986"></a>      yn1 = yn0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035987"></a>      yn0 = ((num0*xn0) + (num1*xn1) + (num2*xn2) </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035988"></a> &#160;&#160;  - (den1*yn1 + den2*yn2)            )/den0 ;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035989"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035990"></a>   assign Vout  = + yn0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1035991"></a>endmodule</pre>
+<p>
+<a id="pgfId-1035995"></a></p>
+<div class="webflare-div-image">
+<img src="images/lowpass_filter.gif" /></div>
+
+<p>
+<a id="pgfId-1035996"></a>The figure above shows the results of the low pass filter examples. The output results of the analog and discrete filter implementation are almost identical.</p>
+
+<h3>
+<a id="pgfId-1035998"></a><a id="_Toc234394672"></a>Event-based and Fixed Sampling Time</h3>
+
+<p>
+<a id="pgfId-1035999"></a>In the above example, the input signal is first converted into a fixed rate sampled data. The filter block is triggered by these events in the always @(Vin) section. This ensures that the filter block is triggered right after the sampling event and a series of filters would trigger one after another in the sequential order. </p>
+<p>
+<a id="pgfId-1036000"></a>However, the sampling frequency is a parameter to the filter block itself that is used to calculate the filter coefficients. A mismatch between the actual sampling rate and the filter parameter setting would result in wrong output results. A measurement of the sampling rate inside the filter replacing the instance parameter might be a useful enhancement to overcome this limitation.</p>
+<p>
+<a id="pgfId-1036001"></a>The other task would be to change the always block triggering to a time-based trigger, such as always #Ts begin. This would ensure that the filter input is sampled at the right rate and that it is not driven accidentally by a flexible sampling rate. However, the comments above about choosing the right sampling rate still apply. </p>
+<p>
+<a id="pgfId-1036002"></a>Furthermore, if a chain of filters triggers at the same time point then the sequence of execution of these filters is unpredictable. Thus, it might be that the sequence of blocks is executed in the wrong order.</p>
+<p>
+<a id="pgfId-1036003"></a>Generally, event-based modeling and modeling with fixed sample times are both adequate measures in real value modeling. However, we need to choose the appropriate technique while considering different cases.</p>
+
+<h3>
+<a id="pgfId-1036005"></a><a id="_Toc234394673"></a>ADC/DAC Example</h3>
+
+<p>
+<a id="pgfId-1036006"></a>The next example is an ADC and a DAC combination. The testbench is creating different kind of input stimuli including a ramp and a sinusoidal waveform similar to the value sources discussed earlier. In addition, VDD, VSS, and a CLK value are created.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036007"></a>`timescale 1ns/1ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036008"></a>`define Nbits 12</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036009"></a>`include &quot;constants.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036010"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036011"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036012"></a>module top ();</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036013"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036014"></a>   wreal AIN, AOUT, VDD, VSS;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036015"></a>   wire [`Nbits-1:0] DOUT;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036016"></a>   wrealADC I_ACD (DOUT,AIN,CK,VDD,VSS);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036017"></a>   wrealDAC I_DAC (AOUT,DOUT,CK,VDD,VSS);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036018"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036019"></a>   real r_ain, r_vdd, r_vss;                 // input voltage</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036020"></a>   real Freq=600K,Phase=0;   // sinusoid params </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036021"></a>   reg &#160;&#160;&#160;&#160;clk;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036022"></a>      </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036023"></a>   initial begin  </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036024"></a>      clk = 0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036025"></a>      r_vdd = 3.3;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036026"></a>      r_vss = 0.0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036027"></a>      r_ain=0.1;         // out=0.1 for DC op point</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036028"></a>      repeat (10) #10 r_ain=r_ain+0.348;  // increasing ramp</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036029"></a>      repeat (10) #10 r_ain=r_ain-0.339;   // falling ramp</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036030"></a>      #30 while ($abstime&lt;6000p) begin   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036031"></a>                                // generate ramped sine input</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036032"></a>  #2 Freq=Freq*1.0007;&#160;&#160;      // gradual freq increase</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036033"></a>  Phase=Phase+2n*Freq;&#160;&#160;      // integrate freq to get phase</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036034"></a>  if (Phase&gt;1) Phase=Phase-1; // wraparound per cycle</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036035"></a>  r_ain=1.8*(1+sin(`M_TWO_PI*Phase)); </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036036"></a>         // sinusoidal waveform shape</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036037"></a>      end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036038"></a>      #200 $finish;                 // done with test</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036039"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036040"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036041"></a>   always #2 clk = ~clk;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036042"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036043"></a>   assign AIN = r_ain;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036044"></a>   assign CK  = clk;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036045"></a>   assign VDD = r_vdd;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036046"></a>   assign VSS = r_vss;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036047"></a>   </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036048"></a>endmodule&#160;&#160; </pre>
+
+<p>
+<a id="pgfId-1036049"></a>The wreal input signals are passed to an ADC block. The first always block calculates the lower and upper limits for the output values and the input value precision (PerBit) given by the input value swing and the number of output bits. These values are updated, whenever the supply values are changing.</p>
+<p>
+<a id="pgfId-1036050"></a>The second always blocks is triggered on every change of the clock. If the input value does not exceed the lower or upper limits, the value is divided by the PerBit value providing the output value in the integer format. This value is assigned to the output bus after a given delay.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036051"></a>module wrealADC (DOUT,AIN,CK,VDD,VSS);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036052"></a>   output [`Nbits-1:0] DOUT;  </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036053"></a>   input &#160;&#160;&#160;&#160;       &#160;&#160;&#160;&#160; CK;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036054"></a>   input &#160;&#160;&#160;&#160;       &#160;&#160;&#160;&#160; AIN,VDD,VSS; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036055"></a>   wreal        &#160;&#160;&#160;&#160;AIN,VDD,VSS;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036056"></a>   parameter &#160;&#160;&#160;&#160;  &#160;&#160;&#160;&#160;Td=1n;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036057"></a>   real &#160;&#160;&#160;&#160;       &#160;&#160;&#160;&#160; PerBit, VL, VH; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036058"></a>   integer &#160;&#160;&#160;&#160;    &#160;&#160;&#160;&#160; Dval;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036059"></a>   always begin&#160;&#160;&#160;&#160;     // get dV per bit wrt supply</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036060"></a>      PerBit = (VDD-VSS) / ((1&lt;&lt;`Nbits)-1);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036061"></a>      VL = VSS;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036062"></a>      VH = VDD;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036063"></a>      @(VDD,VSS);&#160;&#160;&#160;&#160;// update if supply changes</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036064"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036065"></a>   always @(CK) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036066"></a>      if (AIN&lt;VL) Dval = &#39;b0;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036067"></a>      else if (AIN&gt;VH) Dval = {`Nbits{1&#39;b1}};</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036068"></a>      else Dval = (AIN-VSS)/PerBit;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036069"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036070"></a>   assign #(Td/1n) DOUT = Dval;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036071"></a>endmodule // wrealADC</pre>
+
+<p>
+<a id="pgfId-1036072"></a>The inverse digital to analog (or wreal in this case) operation is even simpler. The first always block is almost identical and the second just multiplies the output precision value with the input value bus. The resulting value is assigned to the wreal output wire.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036073"></a>module wrealDAC (AOUT,DIN,CK,VDD,VSS);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036074"></a>   input [`Nbits-1:0] DIN;  </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036075"></a>   input &#160;&#160;&#160;&#160;    &#160;&#160;&#160;&#160;  CK,VDD,VSS; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036076"></a>   output &#160;&#160;&#160;&#160;      &#160;&#160;&#160;&#160; AOUT;&#160;&#160;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036077"></a>   wreal          &#160;&#160;&#160;&#160;AOUT,VDD,VSS;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036078"></a>   parameter real &#160;&#160;&#160;&#160;Td=1n;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036079"></a>   real &#160;&#160;&#160;&#160;      &#160;&#160;&#160;&#160; PerBit,Aval;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036080"></a>   always begin &#160;&#160;&#160;&#160;// get dV per bit wrt supply</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036081"></a>      PerBit = (VDD-VSS) / ((1&lt;&lt;`Nbits)-1);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036082"></a>      @(VDD,VSS);&#160;&#160;&#160;&#160;// update if supply changes</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036083"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036084"></a>   always @(CK)  Aval &lt;= VSS + PerBit*DIN;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036085"></a>   assign  #(Td/1n) AOUT = Aval;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036086"></a>endmodule // wrealDAC</pre>
+
+<p>
+<a id="pgfId-1036087"></a></p>
+<p>
+<a id="pgfId-1036088"></a></p>
+<p>
+<a id="pgfId-1036092"></a>The following figure shows the simulation results for the above testcase.</p>
+
+<p>
+<a id="pgfId-1036503"></a></p>
+<div class="webflare-div-image">
+<img src="images/ADC-DAC_sample.gif" /></div>
+<h2>
+<a id="pgfId-1036094"></a><a id="_Toc234394674"></a>Case Study</h2>
+
+<p>
+<a id="pgfId-1036095"></a>We are using a phase locked loop (PLL) example to demonstrate the wreal modeling approach in a more complex scenario. The PLL was designed in the Virtuoso Schematic environment. The top-level schematic is displayed below:</p>
+
+<p>
+<a id="pgfId-1036099"></a></p>
+<div class="webflare-div-image">
+<img src="images/case_study.gif" /></div>
+
+<p>
+<a id="pgfId-1036100"></a>Let us now see the functions of all the blocks in the PLL. The upper left block is the reference clock generator, example, a crystal oscillator. The next block, PHD, is the phase detector that compares the phase of the oscillator with the phase of the signal inside the PLL loop. Depending on which signal is first in terms of phase it creates a signal on one or the other output pin. The next block is the charge pump (CP). A charge pump translates the PHD output signals in a small amount of charge that is pumped into or pulled out of the following low pass filter (LPF). In a perfectly locked PLL, the output of the charge pump would have a constant voltage. If the frequency of the PLL is too small according to the reference, the output voltage is increased a bit. If it is too high, the voltage level is decreased. The LPF block is filtering out high frequency portions of the signal to stabilize the loop. Finally, the voltage-controlled oscillator (VCO) is generating the output signal. This signal might have a higher frequency, example, three times higher, as the input reference. To close the loop, the VCO output frequency is divided by this factor, 3 in the example. Now the reference signal and the downscaled output frequency can be compared in the PHD as described above.</p>
+<p>
+<a id="pgfId-1036101"></a>The two additional blocks on the schematic is a frequency measurement block on the extreme right hand side and the source of all the power and reference signals at the bottom.</p>
+
+<p>
+<a id="pgfId-1036105"></a></p>
+<div class="webflare-div-image">
+<img src="images/case_study-1.gif" /></div>
+
+<p>
+<a id="pgfId-1036106"></a>The PLL starts in a divide by 2 mode resulting in a 1.6 GHz output frequency given the 800 MHz reference clock. At about 2.5us the mode it switches to a divide by 3, thus, the output frequency stabilizes at 2.4 GHz after some time. Now the supply voltage drops in three steps from 1.2 V down to 1.17 V where the VCO cannot deliver the 2.4 GHz anymore and the PLL goes out of lock. It recovers after the VCC voltage rose again.</p>
+<p>
+<a id="pgfId-1036107"></a>Let&#8217;s see some specific wreal modeling features used in this example. </p>
+<p>
+<a id="pgfId-1036108"></a>The supply block used is described below:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036109"></a>`include &quot;disciplines.vams&quot;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036110"></a>`timescale 100ps / 10ps</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036111"></a>module supply ( B0, B1, PDWN, VCC, VCO_enable, VSS, i_bias );</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036112"></a></pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036113"></a>   wreal  i_bias[1:0];</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036114"></a>   wreal VCC;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036115"></a>   wreal VSS;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036116"></a>  </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036117"></a>   parameter real pvcc = 1.2;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036118"></a> </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036119"></a>   real      v_supply;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036120"></a> </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036121"></a>   assign    i_bias[1] = 50u;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036122"></a>   assign    i_bias[0] = 50u;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036123"></a>   assign    VCC = v_supply;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036124"></a> </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036125"></a>   initial begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036126"></a>      // initial settings</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036127"></a>      v_supply = pvcc;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036128"></a>      #25000 // after another 2.5 us reduce v_supply</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036129"></a> v_supply = v_supply - 0.01;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036130"></a>      #25000 // after another 2.5 us reduce v_supply</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036131"></a> v_supply = v_supply - 0.01;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036132"></a>      #25000 // after another 2.5 us reduce v_supply</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036133"></a> v_supply = v_supply - 0.01;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036134"></a>      #25000 // after another 2.5 us recover VCC</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036135"></a> v_supply = pvcc;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036136"></a>   end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036137"></a>endmodule</pre>
+
+<p>
+<a id="pgfId-1036138"></a>Let us now focus on the power supply pin VCC. It is defined as an output of type wreal. Internally, we use a real variable<code> v_supply</code> to assign the different voltage levels at specific time points &#8211; as we would do in pure digital Verilog. We assign the <code>v_supply</code> real variable to the real-wire VCC. Note the concept of event-based changes of the values at specific time points (discrete time). </p>
+<p>
+<a id="pgfId-1036139"></a>Another important observation is that the wreal values have no unit. While we intuitively think of VCC being a voltage level &#8211; which is in reality &#8211; but it is not specified explicitly. The wreal port just carries a real value without a unit.</p>
+<p>
+<a id="pgfId-1036140"></a>Wreal also supports arrays as shown above. In this case, two bias current values for the charge pump are defined in the supply module. The use of arrays follows the Verilog concept and syntax.</p>
+<p>
+<a id="pgfId-1036141"></a>Let us review the use of X and Z states in this example. The concept of an unknown &#8211; X and high impedance &#8211; Z state that is used in the 4-state logic is useful for wreal signals as well. The meaning of X and Z is equivalent for the wreal case. The charge pump example uses the X value in case the enable signal is low:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036142"></a>  always @(ENABLE,upReal,dnReal,I_out) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036143"></a>      // calculate up or dn current values based </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036144"></a>      // on the validity of supply</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036145"></a>      // and enable signals</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036146"></a>      if (ENABLE===1&#39;b1) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036147"></a>         iup = (upReal&gt;0) ? IUPscale*I_out : 2u;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036148"></a>         idn = (dnReal&gt;0) ? IDNscale*I_out : 2u;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036149"></a>      end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036150"></a>      else begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036151"></a>         iup = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036152"></a>         idn = `wrealXState;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036153"></a>      end</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036154"></a>   end</pre>
+
+<p>
+<a id="pgfId-1036155"></a>See the schematic figure shown above. Find the outputs of the charge pump (Zp, Zn) connecting to the single filter input. Diving into the charge pump source code, the result was that both the output values are actively driven:</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036156"></a>assign ZP = iup;&#160;&#160;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036635"></a>assign ZN = -idn; </pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036636"></a></pre>
+<p>
+<a id="pgfId-1036640"></a></p>
+<div class="webflare-div-image">
+<img src="images/casestudy-2.gif" /></div>
+
+<p>
+<a id="pgfId-1036162"></a>In the time point shown above, iup drives the net CP_ZP to a value of 2 u while idn drives the same net to 0.15 m. This would result in a conflict since two drivers are driving the net at the same time toward different values. </p>
+<p>
+<a id="pgfId-1036163"></a>The introduced concept of wreal resolution functions resolves this limitation. In the simulation, we used the -wreal_resolution sum switch to <code>xrun</code> to resolve the connected net to the sum of both values. In the original design, this CP_ZP node was a current summing node connecting the two charge pump outputs. To mimic this behavior in wreal, the above resolution function sum is used. </p>
+<p>
+<a id="pgfId-1036164"></a>Another useful enhancement is the <code>$table_model</code> function known from analog Verilog-A and Verilog-AMS blocks. The function is now available for real values as well. The table model function enables an easy calibration of a real value behavioral model against measured data provided as a text file. The VCO in this example uses this capability. </p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036165"></a>real input_value;</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036166"></a>   always @(LVDD_VCO_1p2, LGND_VCO, VCTRL) begin</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036167"></a>      input_value = (LVDD_VCO_1p2 - LGND_VCO);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036168"></a>      tableInstantaneousFreq = $table_model(input_value, VCTRL,</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036169"></a>     &#160;&#160;  &quot;vtuneFreqControl.tbl&quot;,&quot;1CC,3CC&quot;);</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036170"></a>   end</pre>
+
+<p>
+<a id="pgfId-1036171"></a>The example above calculates the VCO output frequency according to the table in the text file <code>vtuneFreqControl.tbl</code>. The text file contains the following data that is collected during the characterization of the original VCO.</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036172"></a>#VDD&#160;&#160;  VCNTL   Freq</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036173"></a>1&#160;&#160;     0       9.81E+06</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036174"></a>1&#160;&#160;     0.4     1.05E+09</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036175"></a>1&#160;&#160;     0.8     1.41E+09</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036176"></a>1.1&#160;&#160;   0       9.88E+06</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036177"></a>1.1&#160;&#160;   0.45    1.29E+09</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036178"></a>1.1&#160;&#160;   0.9     1.52E+09</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036179"></a>1.2&#160;&#160;   0       9.95E+06</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036180"></a>1.2&#160;&#160;   0.3     1.37E+09</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036181"></a>1.2&#160;&#160;   1       2.69E+09</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036182"></a>...</pre>
+
+<p>
+<a id="pgfId-1036183"></a>Similar to the mechanism of automatically inserted connect modules (AICM) between the continuous and discrete domains (electrical/logic) are connect modules available between wreal and electrical. These are called E2R and R2E. They are also inserted automatically if needed during the elaboration process. That ensures an easy replacement of blocks from different types of representations. In this case, we chanced the filter into an electrical filter to see results. </p>
+
+<p>
+<a id="pgfId-1036187"></a></p>
+<div class="webflare-div-image">
+<img src="images/casestudy-3.gif" /></div>
+
+<p>
+<a id="pgfId-1036188"></a>You might have noticed that the <code>LPF_Pout</code> value rises higher than the supply voltage in this case (around 12 us). This is a modeling artifact because we used an ideal charge pump with a wreal signal flow output (not feedback) that creates current event though the voltage level is above the supply voltage range. In reality, the charge pump current would settle around the supply voltage level.</p>
+<p>
+<a id="pgfId-1036189"></a>The IE Report message in the <code>xrun</code> logfile (use the &#8211;iereport option).</p>
+
+<pre class="webflare-courier-new">
+<a id="pgfId-1036190"></a>IE Report Summary:</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036191"></a>  E2R ( electrical input; wreal inout; )         total: 1</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036192"></a>  ER_bidir ( wreal inout; electrical inout; )    total: 2</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036193"></a>---------------------------------------------------------------</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036194"></a>Total Number of Connect Modules&#160;&#160;              total: 3</pre>
+<pre class="webflare-courier-new">
+<a id="pgfId-1036195"></a></pre>
+
+<p>
+<a id="pgfId-1036196"></a>The proper settings of the CM parameters are critical for correct simulation results, as we will see in the next exercise. If we change the <code>vdelta</code> parameter back to it&#8217;s default value of `Vsup/64:(... #(.vdelta(`Vsup/64) ...) the simulation results look quite different. </p>
+
+<p>
+<a id="pgfId-1036200"></a></p>
+<div class="webflare-div-image">
+<img src="images/case_study-4.gif" /></div>
+
+<p>
+<a id="pgfId-1036201"></a>Vsub/64 results in about 0.028 V for the given supply of 1.2 V, thus, only changes larger than this value are creating events on the wreal net. Consequently, the first two supply voltage drops of 0.01 are not seen on the top-level VCC net. </p>
+<p>
+<a id="pgfId-1036202"></a>Consider another scenario where we change the internal resistance of the R2E_2 and R2E_bidir CM back to their default value of 200 Ohm. What will happen now?</p>
+
+<p>
+<a id="pgfId-1036206"></a></p>
+<div class="webflare-div-image">
+<img src="images/Case_Study-5.gif" /></div>
+
+<p>
+<a id="pgfId-1036207"></a>The electrical filter is consuming some amount of current from the VCC power supply that is generated from the wreal source. The power net is now connected by a 200 Ohm resistor to the wreal supply. These results in a significant IR drop on the VCC line and consequently in a changing VCC supply level. The simulation results are far from being correct anymore. As you saw in the last few simulations, the parameter settings of the wreal CM are critical and need to be set carefully to achieve good results.</p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="Chap2.html" id="prev" title="Verilog-AMS Wreal Features">Verilog-AMS Wreal Features</a></em></b><b><em><a href="Chap4.html" id="nex" title="Conclusion">Conclusion</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2019, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>

@@ -1,0 +1,1810 @@
+
+<html><head><title>Library Management Commands</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="TopicTags" content="TRUE" />
+<meta name="Approver" content="Technical Publications" />
+<meta name="Author" content="parula" />
+<meta name="CreateDate" content="2020-09-19" />
+<meta name="CreateTime" content="1600515350" />
+<meta name="DataType" content="Manuals" />
+<meta name="Description" content="Describes SKILL functions that interface with the IC schematic capture environment. They support two interfaces: human interface (to customize the schematic composer menus and bindkeys) and procedural interface (to implement primitive actions)." />
+<meta name="DocTitle" content="Virtuoso Schematic Editor SKILL Functions Reference" />
+<meta name="DocType" content="SKILL Reference" />
+<meta name="FileTitle" content="Library Management Commands" />
+<meta name="FileType" content="Chapter" />
+<meta name="FMWikiRelease" content="FM-Wiki-3.2.1" />
+<meta name="Keyword" content="skcompref" />
+<meta name="Language" content="English" />
+<meta name="ModifiedDate" content="2020-09-19" />
+<meta name="ModifiedTime" content="1600515350" />
+<meta name="NextFile" content="SMG_funcs.html" />
+<meta name="Group" content="" />
+<meta name="Platform" content="Custom IC Design" />
+<meta name="PrevFile" content="chap2.html" />
+<meta name="c_product" content="Virtuoso Schematic Editor" />
+<meta name="Product" content="Virtuoso Schematic Editor" />
+<meta name="ProductFamily" content="Virtuoso Schematic Editor" />
+<meta name="ProductVersion" content="ICADVM20.1" />
+<meta name="RightsManagement" content="Copyright 2012-2020 Cadence Design Systems Inc." />
+<meta name="Title" content="Virtuoso Schematic Editor SKILL Functions Reference -- Library Management Commands" />
+<meta name="Keywords" content="" />
+<meta name="topic_type" content="" />
+<meta name="reference_type" content="" />
+<meta name="prod_feature" content="" />
+<meta name="prod_subfeature" content="" />
+<meta name="new_topic" content="No" />
+<meta name="spotlight_topic" content="0" />
+<meta name="Version" content="ICADVM20.1" />
+<meta name="SpaceKey" content="skcomprefICADVM201" />
+<meta name="webflare-version" content="2.0" />
+<link rel="stylesheet" href="styles/webflare.css" type="text/css" /></head><body style="background-color: #FFFFFF;"><a name="pagetop"></a>
+<!-- Begin Buttons -->
+<header><div class="docHeadr">Product Documentation<img src="icons/Cadence-Logo.jpg" /></div><nav class="blueHead"><ul><li><a class="content" href="skcomprefTOC.html">Contents</a></li><li><a class="prev" href="chap2.html" title="Virtuoso Schematic Editor Procedural Interface (PI) Functions">Virtuoso Schematic Editor Proc ...</a></li><li style="float: right;"><a class="viewPrint" href="skcompref.pdf">View/Print PDF</a></li><li style="float: right;margin-right: 25px;"><a class="nextd" href="SMG_funcs.html" title="Function for amsDmv(IC6.1.8 Only)">Function for amsDmv(IC6.1.8 On ...</a></li></ul></nav></header>
+<!-- End Buttons -->
+<h5><center>Virtuoso Schematic Editor SKILL Functions Reference<br />Product Version ICADVM20.1, October 2020</center></h5><div id="main-content" style="min-height: 50vh; margin-left: 5%; margin-right: 2%;"><a name="#firstpage"></a>
+
+<h1>3
+<a name="pgfId-77307"></a><a name="41111"></a></h1>
+<h1>
+<a name="pgfId-960911"></a><hr />
+<a name="10176"></a>Library Management Commands<hr />
+</h1>
+
+<p>
+<a name="pgfId-966584"></a><a name="Library Management Commands"></a>The Cadence<sup>&#174;</sup> SKILL-based symbol and simulation library generator (S/SLG) is a library management program that generates symbol and simulation views. S/SLG generates a symbol in the library and defines the complete characterization of a symbol for use in computer-aed engineering applications.<a name="Introduction to S/SLG"></a></p>
+<p>
+<a name="pgfId-966585"></a>This chapter describes the library management SKILL functions used with S/SLG, in alphabetical order.</p>
+<p>
+<a name="pgfId-963807"></a>You can use the <code>alias</code> mechanism to give a command a shorter name. For example, the command <code>alias p lmPrintViewProp</code> makes <code>p</code> an alias name for <code>lmPrintViewProp</code>. Thus, the command <code>p( and2 symbol )</code> is equivalent to the command <code>lmPrintViewProp( and2 symbol )</code>. Then, you can use <code>p</code> whenever you would have used <code>lmPrintViewProp</code>.</p>
+
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmCheckTerm
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-959878"></a><a name="lmCheckTerm"></a><a name="20113"></a><a name="35005"></a>lmCheckTerm</h3>
+<a name="pgfId-959906"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmCheckTerm( 
+<code><em>d_cellList</em></code> 
+[ <code><em>t_filename </em></code>] 
+)</pre>
+<h4>
+<a name="pgfId-957667"></a>Description</h4>
+<p>
+<a name="pgfId-958031"></a>Checks the consistency of terminal name, type, and wth for all views of each specified cell. </p>
+
+<p>
+<a name="pgfId-963830"></a>If there is a schematic view, terminals in the schematic view are used as the basis of comparison for each cell. Otherwise, terminals in the symbol view are used as the basis of comparison. When neither schematic nor symbol view exists, no terminal checking is performed. After checking, inconsistent terminal names/wths and input/output types are entified and printed.</p>
+
+<h4>
+<a name="pgfId-963832"></a>Arguments</h4>
+<p>
+<a name="pgfId-963837"></a></p>
+<table class="webflareTable" id="#id963838">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-963840"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a name="pgfId-963860"></a>The name of the cells to be checked, in the form</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-963884"></a>{<code><em> cellName </em></code><code>&#8230; | t } </code></pre>
+
+<p>
+<a name="pgfId-963861"></a>If <span class="webflare-courier-new" style="white-space:pre"><em>d_cellList</em></span> is <code>t</code>, all views of the specified cell are checked.</p>
+
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-963844"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_filename</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a name="pgfId-963869"></a>Name of a file where the printout is stored. If not specified, output is displayed on the screen; must be enclosed in quotation marks.</p>
+
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-959889"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-958267"></a>lmCheckTerm( (and2 and3) &quot;check.out&quot; ) </pre>
+
+<p>
+<a name="pgfId-957673"></a>Checks the terminal consistency of all views for the cells <code>and2</code> and <code>and3</code> and puts output in the file <code>check.out</code>.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-958277"></a>lmCheckTerm( t ) </pre>
+
+<p>
+<a name="pgfId-957675"></a>Checks the terminal consistency of all views for each cell in the current library.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmCheckView
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957687"></a><a name="lmCheckView"></a><a name="20110"></a>lmCheckView</h3>
+<a name="pgfId-959912"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmCheckView( 
+<code><em>d_cellList</em></code> 
+<code><em>t_viewName</em></code> 
+[ <code><em>t_fileName </em></code>] 
+<code><em>t_expression</em></code> 
+)</pre>
+<h4>
+<a name="pgfId-957692"></a>Description</h4>
+<p>
+<a name="pgfId-958046"></a>Evaluates a sequence of expressions for each specified cellview. Checks the property value for consistency.</p>
+
+<p>
+<a name="pgfId-958317"></a>Property values can be included in an expression. The expressions should conform to SKILL syntax. After evaluation, the result is printed for each expression.</p>
+
+<h4>
+<a name="pgfId-958041"></a>Arguments</h4>
+<p>
+<a name="pgfId-963897"></a></p>
+<table class="webflareTable" id="#id963898">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-963900"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+
+<p>
+<a name="pgfId-963976"></a>The name of the views to be checked, in the form</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-963977"></a>{<code><em> cellName </em></code><code>&#8230; | t } </code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-963904"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_viewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-963920"></a>The view name to check.<br />Default: <code>symbol</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-963908"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_fileName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-963926"></a>Name of a file where the printout is stored. If not specified, output is displayed on the screen.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-963930"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_expression</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-963936"></a>A property used in an expression refers to the property in <code>viewName</code>.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-957698"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957700"></a>fast_process = t<br />margin = 1ns<br />lmCheckView( (and2 and3) symbol<br />    if( fast_process then<br />        sum = 5ns<br />        trmax = 4ns<br />        tfmax = 3ns<br />    else<br />        sum = 9ns<br />        trmax = 6ns<br />        tfmax = 5ns<br />    )<br />lmGetValue(tr) &lt; trmax<br />lmGetValue(tf) &lt; tfmax<br />lmGetValue(tr) + lmGetValue(tf) &lt;- sum + margin<br />)</pre>
+
+<p>
+<a name="pgfId-960340"></a>Checks some conditions for the rise and fall time in the <code>symbol</code> view of <code>and2</code> and <code>and3</code>. The property names <code>tr</code> and <code>tf</code> contain the rise and fall times. The predefined function <code>lmGetValue</code> gets the value of the specified property.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957706"></a>lmCheckView( t spice<br />    gammaValue = lmGetValue(gamma)<br />    lambdaValue = lmGetValue(lambda)<br />    gammaValue &lt; 0.4<br />    lamdaValue &lt; 0.04<br />) </pre>
+
+<p>
+<a name="pgfId-958312"></a>Checks the values of the properties <code>gamma</code> and <code>lambda</code> in the <code>spice</code> view for each cell in the current library.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmCloseLib
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957718"></a><a name="lmCloseLib"></a><a name="34506"></a>lmCloseLib</h3>
+<a name="pgfId-958057"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmCloseLib 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-958067"></a>Description</h4>
+<p>
+<a name="pgfId-960390"></a>Closes the previously opened working library. </p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-960391"></a>Call <code>lmOpenLib</code> before starting any S/SLG command or SKILL function and call <code>lmCloseLib</code> when you are done if you are not using <code>lmLoadData</code> to load the library command file.</div>
+
+<h4>
+<a name="pgfId-963810"></a>Arguments</h4>
+<p>
+<a name="pgfId-963988"></a></p>
+<table class="webflareTable" id="#id963989">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-963991"></a>None.</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-963993"></a></p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-957724"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957726"></a>lmCloseLib</pre>
+
+<p>
+<a name="pgfId-958322"></a>Closes a working library previously opened by <code>lmOpenLib</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmDefCell
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957733"></a><a name="lmDefCell"></a>lmDefCell</h3>
+<a name="pgfId-958075"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmDefCell( <code><em>cellName</em></code> <code><em>parameters</em></code> )
+; input and output declaration, and various parameters
+; for symbol generation
+[ input( <code><em>termName</em></code> <code><em>termName</em></code> &#8230; <code><em>termName</em></code> ) ]
+[ output( <code><em>termName</em></code> <code><em>termName</em></code> &#8230; <code><em>termName</em></code> ) ]
+[ io( <code><em>termName</em></code> <code><em>termName</em></code> &#8230; <code><em>termName</em></code> ) ]
+[ switch( <code><em>termName</em></code> <code><em>termName</em></code> &#8230; <code><em>termName</em></code> ) ]
+[ defsymbol( <code><em>symbolArguments</em></code> ) ]
+; delay parameters and model/element initialization for
+; a timing analyzer
+[ delayTable( <code><em>delayArguments</em></code> )
+[ taModelInit( <code><em>modelInitializationArguments</em></code> ) ]
+[ taElmInit( <code><em>elementInitializationArguments</em></code> ) ]
+[ timingViolationTable( <code><em>timingViolationArguments</em></code> ) ]
+[ &lt;any S/SLG command or SKILL function&gt; ]
+;
+; symbol generation takes place (default)
+symbolGen = t
+;
+; timing view generation takes place (default)
+taGen = t
+;
+; append properties to symbol
+[ lmDefViewProp( <code><em>viewPropertyArguments</em></code> ) ]
+; append properties to terminals of symbol
+[ lmDefTermProp( <code><em>terminalPropertyArguments</em></code> ) ]
+) </pre>
+<h4>
+<a name="pgfId-957735"></a>Description</h4>
+<p>
+<a name="pgfId-958079"></a>Defines a cell, generates a symbol, and backannotates objects. </p>
+
+<p>
+<a name="pgfId-957736"></a>You can use any S/SLG command or SKILL function as an argument. If you specify required parameters, the <code>symbol</code> view of the cell can be automatically generated. You can specify time delay information for a timing analyzer view. In addition, you can specify properties of the symbol view for simulation and other purposes.</p>
+
+<h4>
+<a name="pgfId-957737"></a>Properties</h4>
+
+<p>
+<a name="pgfId-957738"></a>Each argument specified in <code>lmDefCell</code> is sequentially run in addition to default symbol generation and timing view generation. You can add commands (such as <code>lmDefViewProp</code> and <code>lmDefTermProp</code>) to manipulate symbol properties. You can specify a complete characterization of the symbol in the argument.</p>
+
+<h4>
+<a name="pgfId-957739"></a>Variables</h4>
+
+<p>
+<a name="pgfId-965841"></a>You can set the values of several global Boolean variables to change default values. The <code>symbolGen</code> variable controls symbol generation. The default value, <code>t</code>, triggers symbol generation as the first action of <code>lmDefCell</code>. If you set <code>symbolGen</code> to <code>nil</code>, no symbol generation takes place.</p>
+<p>
+<a name="pgfId-965842"></a>The <code>taGen</code> variable controls timing view generation. The default value, <code>t</code>, enables timing view generation if <code>delayTable</code> parameters are specified. If you set <code>taGen</code> to <code>nil</code>, no timing view generation takes place.</p>
+
+<h4>
+<a name="pgfId-957744"></a>Arguments</h4>
+<p>
+<a name="pgfId-964004"></a></p>
+<table class="webflareTable" id="#id964005">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964174"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_input</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964176"></a>Input terminals. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964178"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_output</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964180"></a>Output terminals. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964182"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_io</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964184"></a>Input/output terminals.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964186"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_switch</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964188"></a>Switch terminals. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964190"></a><span class="webflare-courier-new" style="white-space:pre"><em>defsymbol</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964193"></a>Symbol generation parameters. Refer to <h-hot><a actuate="user" class="URL" href="../comphelp/appB.html" show="replace" xml:link="simple">Appendix B, &#8220;Text-to-Symbol Generator,&#8221;</a></h-hot> for the format of defsymbol arguments.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964195"></a><span class="webflare-courier-new" style="white-space:pre"><em>delayTable</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964197"></a>Timing delay for the input/output pairs of the cell. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964199"></a><span class="webflare-courier-new" style="white-space:pre"><em>taModelInit</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964201"></a>Model for a timing analyzer to initialize. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964203"></a><span class="webflare-courier-new" style="white-space:pre"><em>taElmInit</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964205"></a>Element for a timing analyzer to initialize.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-964207"></a><span class="webflare-courier-new" style="white-space:pre"><em>timingViolationTable</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964211"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964218"></a>Illegal timing.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-963565"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957757"></a>lmDefCell( aoi32<br />     input(A1 A2 A3 B1 B2)<br />     output(Y)<br />     lmDefViewProp( <br />     ; add some properties to the symbol )<br />) </pre>
+
+<p>
+<a name="pgfId-958351"></a>Generates a <code>symbol</code> view for the cell <code>aoi32</code>. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmDefTermProp
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957764"></a><a name="lmDefTermProp"></a><a name="33541"></a>lmDefTermProp</h3>
+<a name="pgfId-958083"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmDefTermProp( 
+[ <code><em>t_cellName </em></code>] 
+[ <code><em>t_viewName </em></code>] 
+( <code><em>g_terminalList</em></code> <code><em>t_propertyName</em></code> <code><em>t_propertyValue</em></code> &#8230; <code><em>t_propertyName</em></code> = <code><em>t_propertyValue</em></code> ) 
+( <code><em>g_terminalList</em></code> <code><em>t_propertyName</em></code> = <code><em>t_propertyValue</em></code> &#8230; <code><em>t_propertyName</em></code> <code><em>t_propertyValue</em></code> ) 
+)</pre>
+<h4>
+<a name="pgfId-957766"></a>Description</h4>
+<p>
+<a name="pgfId-958086"></a>Adds properties to the terminals of the specified cellview. To add terminal properties, add specified properties to the original property list and save the new file.</p>
+<h4>
+<a name="pgfId-957768"></a>Variables</h4>
+
+<p>
+<a name="pgfId-957769"></a>The <code>replaceTermProp</code> global variable controls the property-adding mode. The default value is <code>nil </code>which means the mode is appending. If you set <code>replaceTermProp</code> to <code>t</code>, the mode is replacement. <code>replaceTermProp</code> is automatically set to <code>nil</code> when you run <code>lmDefCell</code> and reset to the original value when finished.</p>
+
+<h4>
+<a name="pgfId-957772"></a>Arguments</h4>
+<p>
+<a name="pgfId-964223"></a></p>
+<table class="webflareTable" id="#id964224">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964226"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_cellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964248"></a>Optional only when <code>lmDefTermProp</code> is used in <code>lmDefCell</code>. The first name (not a terminal name) in the argument list is treated as the cell name. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964230"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_viewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964254"></a>Default: <code>symbol</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964234"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_terminalList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964260"></a>Has the following format:</p>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-964261"></a>[ <code><em>terminalName</em></code><code> | &quot;t&quot; | &quot;input&quot; | &quot;output&quot; | &quot;io&quot; | &quot;switch&quot; | ( </code><code><em>terminalName</em></code><code> &#8230; ) ]</code></pre>
+<p>
+<a name="pgfId-964262"></a>where <code>t</code> implies all terminals of the cell, <code>input</code> implies all input terminals, <code>output</code> implies all output terminals, <code>io</code> implies all input/output terminals, and <code>switch</code> implies all switch terminals. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964238"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_propertyName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964273"></a>Any SKILL symbol (entifier) or string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964242"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_propertyValue</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964279"></a>Any SKILL expression that returns proper values.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-957784"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957786"></a>lmDefTermProp( and2 symbol<br />    ( A name = &quot;A&quot; )<br />    ( B name = &quot;B&quot; )<br />    ( Y name = &quot;Y&quot; ) <br />)<br />lmDefTermProp( and2<br />    ( t create = time(&quot;Apr 15 9:00:00 2000&quot;) ) <br />    ; refer to all terminals<br />)<br />lmDefTermProp( and2 symbol<br />    ( input a = 1 ) <br />    ; refer to all input terminals<br />    ( Y b = 1.1)<br />)<br />lmDefTermProp( and2<br />    ( (A B) type = &quot;input&quot;)<br />) </pre>
+
+<p>
+<a name="pgfId-958389"></a>Cell <code>and2</code> has input terminals <code>A</code> and <code>B</code> and output terminal <code>Y</code>. Puts a list of properties into these terminals.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmDefViewProp
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957797"></a><a name="lmDefViewProp"></a><a name="21061"></a>lmDefViewProp</h3>
+<a name="pgfId-958094"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmDefViewProp( 
+[ <code><em>t_cellName </em></code>] 
+[ <code><em>t_viewName </em></code>] 
+( <code><em>t_propertyName</em></code> <code><em>t_propertyValue</em></code> &#8230; <code><em>t_propertyName</em></code> <code><em>t_propertyValue</em></code> )
+) </pre>
+<h4>
+<a name="pgfId-957799"></a>Description</h4>
+<p>
+<a name="pgfId-958101"></a>Adds properties to the specified cellview. To add properties, add the specified properties to the original property list and save the new file. </p>
+<h4>
+<a name="pgfId-957801"></a>Variables</h4>
+
+<p>
+<a name="pgfId-957802"></a>The <code>replaceViewProp</code> global variable controls the property adding mode. The default value, <code>nil</code>, means the mode is appending. If you set <code>replaceViewProp</code> to <code>t</code>, the mode is replacement. <code>replaceViewProp</code> is automatically set to <code>nil</code> when running <code>lmDefCell</code> and is reset to the original value when finished.</p>
+
+<h4>
+<a name="pgfId-957805"></a>Arguments</h4>
+<p>
+<a name="pgfId-964359"></a></p>
+<table class="webflareTable" id="#id964360">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964465"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_cellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-964467"></a>Optional only when <code>lmDefViewProp</code> is used in <code>lmDefCell</code>. The first name (not a property name) in the argument list is treated as the cell name. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964471"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_viewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-964473"></a>Default: <code>symbol</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964477"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_propertyName</em></span></p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-964479"></a>Any SKILL symbol (entifier) or string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964483"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_propertyValue</em></span></p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-964501"></a>Any SKILL expression that returns proper values. The syntax is as follows:</p>
+<p>
+<a name="pgfId-964485"></a><span class="webflare-courier-new" style="white-space:pre"><em>propertyValue</em></span><code> := </code><span class="webflare-courier-new" style="white-space:pre"><em>simpleValue</em></span><code> <br />( </code><span class="webflare-courier-new" style="white-space:pre"><em>simpleValue</em></span><code> [( </code><span class="webflare-courier-new" style="white-space:pre"><em>range </em></span><code>)]) |<br />time( </code><span class="webflare-courier-new" style="white-space:pre"><em>TimeValue</em></span><code> [(range)]) |<br />filename( </code><span class="webflare-courier-new" style="white-space:pre"><em>filenameValue</em></span><code> ) |<br />ilExpr( </code><span class="webflare-courier-new" style="white-space:pre"><em>string</em></span><code> ) |<br />nlpExpr( </code><span class="webflare-courier-new" style="white-space:pre"><em>string</em></span><code> ) |<br />proplist( </code><span class="webflare-courier-new" style="white-space:pre"><em>propertyList</em></span><code> )<br />    </code><span class="webflare-courier-new" style="white-space:pre"><em>propertyList</em></span><code> := </code><span class="webflare-courier-new" style="white-space:pre"><em>propertyPair</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>propertyList</em></span><code> | <br />    </code><span class="webflare-courier-new" style="white-space:pre"><em>propertyPair</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>propertyPair</em></span><code> := </code><span class="webflare-courier-new" style="white-space:pre"><em>propertyName</em></span><code> =<br />    </code><span class="webflare-courier-new" style="white-space:pre"><em>propertyValue<br /></em></span><code>range := </code><span class="webflare-courier-new" style="white-space:pre"><em>enumeration</em></span><code> | </code><span class="webflare-courier-new" style="white-space:pre"><em>lowerBound</em></span><code> </code><span class="webflare-courier-new" style="white-space:pre"><em>upperBound<br /></em></span><code>enumeration := </code><span class="webflare-courier-new" style="white-space:pre"><em>stringEnumeration</em></span><code> | </code><span class="webflare-courier-new" style="white-space:pre"><em>string<br /></em></span><code>lowerBound := </code><span class="webflare-courier-new" style="white-space:pre"><em>simpleValue</em></span><code> | </code><span class="webflare-courier-new" style="white-space:pre"><em>TimeValue</em></span><code> | nil<br />upperBound := </code><span class="webflare-courier-new" style="white-space:pre"><em>simpleValue</em></span><code> | </code><span class="webflare-courier-new" style="white-space:pre"><em>TimeValue</em></span><code> | nil<br />simpleValue := </code><span class="webflare-courier-new" style="white-space:pre"><em>integer</em></span><code> | </code><span class="webflare-courier-new" style="white-space:pre"><em>floatingPointNumber</em></span><code> | </code><span class="webflare-courier-new" style="white-space:pre"><em>string<br /></em></span><code>BooleanValue := yes | true | t | no | false | nil<br />TimeValue := </code><span class="webflare-courier-new" style="white-space:pre"><em>string<br /></em></span><code>filenameValue := </code><span class="webflare-courier-new" style="white-space:pre"><em>string</em></span></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964550"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964552"></a><span class="webflare-courier-new" style="white-space:pre"><em>time</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964564"></a>Indicates the property type is time. If the type of a property is <code>time</code>, <code>TimeValue</code> should contain the date, time, and year. For example, the property</p>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-965656"></a><code>lastChanged = time(&quot;Jan 20 8:17:56 2000&quot;)</code></pre>
+<p>
+<a name="pgfId-965654"></a>is a valid expression. Only the first three characters are needed to specify the month. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964544"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964546"></a><span class="webflare-courier-new" style="white-space:pre"><em>filename</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964578"></a>Indicates the property type is a filename. If the property type is <code>filename</code>, <code>filenameValue</code> should be a string indicating the filename. For example, the property</p>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-965657"></a><code>myFile = filename(&quot;magic.c&quot;)</code></pre>
+<p>
+<a name="pgfId-965658"></a>is a valid expression. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964538"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964540"></a><span class="webflare-courier-new" style="white-space:pre"><em>ilExpr</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964592"></a>Indicates the property type is a SKILL expression. This type of property should have a valid SKILL expression.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964532"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964534"></a><span class="webflare-courier-new" style="white-space:pre"><em>nlpExpr</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964610"></a>Indicates the property type is a Netlist Processor (NLP) expression. This type of property is used mainly by the NLP in generating a netlist. Refer to the <em>Open Simulation System (OSS) Reference Manual</em> for details about NLP.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964526"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964528"></a><span class="webflare-courier-new" style="white-space:pre"><em>proplist</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964624"></a>Indicates the property type is a property list. In the database, a property list can be specified as the value of a property. That is, a property list can contain other property lists to form a hierarchical property list.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964520"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964522"></a><span class="webflare-courier-new" style="white-space:pre"><em>range</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964639"></a>The values of <code>range</code> must be enclosed in parentheses. If <code>nil</code> is specified for a lower or upper bound in a range, it is unbounded. If a range is an enumeration type, each value in the range should be a string (a name in quotation marks). </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-957820"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957822"></a>lmDefViewProp( and2 symbol<br />    &quot;instance#&quot; = 1<br />    snapSpacing = 4<br />    screenGrSpacing = 20<br />    screenGrMultiple = 5<br />    drawGr? = yes<br />    drawAxes? = no<br />    userUnits = &quot;userUnits&quot;<br />    &quot;graphicsEditorUnits per userUnit&quot; = 1<br />    newFont2 = time(&quot;Mar 19 14:38:57 2000&quot;)<br />    lastChecked = time(&quot;Nov 27 14:30:57 1999&quot;)<br />    tr = 2.0 * basic_process_time<br />    tf = 0.5 * lmGetValue(tr)<br />    ; properties for simulation (a hierarchical propertylist<br />    logic = proplist(<br />        Input_Pin_List = nlpExpr(&quot;[|A] [|B]&quot;)<br />        Pin_Net_Map = nlpExpr(&quot;\\n$ 1 [|Y]=Y [|A]=A [|B]=B&quot;)<br />            ; the value of Pin_Net_map is nlpExpr(&quot;\n$ 1<br />            ; [|Y]=Y [|A]=A [|B]=b&quot;)<br />            ; the first &quot;\&quot; is used to quote the second for parsing<br />        NLPElementPostamble = nlpExpr(&quot;[@logic_AND_Image]&quot;)<br />    )<br />    ; property with name=&quot;speed&quot;, value=10, type=integer,<br />    ; lower-bound=8 and upper-bound=12<br />    speed = (10 (8 12))<br />    ; property with name=&quot;file&quot;, value=&quot;property.c&quot;, type=filename<br />    file = filename(&quot;property.c&quot;)<br />)</pre>
+
+<p>
+<a name="pgfId-958671"></a>Puts a list of properties into the <code>symbol</code> view of the cell <code>and2</code>. Before you run this function, you should define the variable <code>basic_process_time</code>. The <code>lmGetValue</code> function is a predefined function for getting the value of a named property. </p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-960488"></a>ten = 10                        ; define variable ten<br />unit = 1n                       ; define variable unit<br />lmDefViewProp( and2 &quot;cmos_sch&quot;  ; cmos_sch is double quoted because<br />                                ; the non-alphanumeric character<br />                                ; &quot;.&quot; is in the name<br />    a = 10<br />    b = (ten (8 12))<br />    c = (10)<br />    d = (ten (8 nil))<br />    e = 2*unit<br />    f = (2n (1n 4n))<br />    g = (2n)<br />    h = (2*unit (nil 4*unit))<br />    i = yes                     ; yes, true, and t are entical<br />    j = true<br />    k = t<br />    l = no                      ; no, false, and nil are entical<br />    m = false<br />    n = nil<br />    o = yes<br />    p = &quot;test&quot;<br />    q = (&quot;test&quot; (&quot;try&quot; &quot;test&quot; &quot;experiment&quot;))<br />    r = (&quot;test&quot;)<br />    s = (&quot;test&quot; (&quot;test&quot; &quot;try&quot; &quot;debug&quot;))<br />    &quot;t&quot; = filename(&quot;print.c&quot;)   ; name t is double quoted<br />                                ; to distinguish it from<br />                                ; SKILL keyword t<br />    u = filename(&quot;print.c&quot;)     ; do not specify a range<br />                                ; for filename<br />    v = time(&quot;Apr 1 12:00:00 2000&quot;)<br />    w = time(&quot;Apr 1 12:00:00 2000&quot; (&quot;Mar 1 12:00:00 2000&quot;<br />        &quot;May 1 12:00:00 2000&quot;))<br />    x = time(&quot;Apr 1 12:00:00 2000&quot;)<br />    y = time(&quot;Apr 1 12:00:00 2000&quot; (nil &quot;May 1 12:00:00 2000&quot;)<br />    z = proplist(               ; hierarchical property list<br />    aa = 1<br />    bb = 1.1<br />    cc = proplist(<br />        aaa = 2<br />        bbb = 2.2<br />        )<br />    )<br />)</pre>
+
+<p>
+<a name="pgfId-958682"></a>Property specification for the <code>cmos_sch</code> view of the cell <code>and2</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmDeleteTermProp
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957875"></a><a name="lmDeleteTermProp"></a><a name="22810"></a>lmDeleteTermProp</h3>
+<a name="pgfId-959927"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmDeleteTermProp( 
+<code><em>d_cellList</em></code> 
+<code><em>t_viewName</em></code> 
+( <code><em>g_terminalList</em></code> &#8230; <code><em>t_propertyName</em></code> <code><em>g_terminalList</em></code> &#8230; <code><em>t_propertyName</em></code> ) 
+)</pre>
+<h4>
+<a name="pgfId-958110"></a>Description</h4>
+<p>
+<a name="pgfId-958117"></a>Deletes specified properties from the terminals of specified views. </p>
+<h4>
+<a name="pgfId-957881"></a>Arguments</h4>
+<p>
+<a name="pgfId-964646"></a></p>
+<table class="webflareTable" id="#id964647">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964649"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellList</em></span></p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-964781"></a>Specifies the cells of the library, in the form</p>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-964705"></a>{ <code><em>cellName</em></code><code> | t | ( </code><code><em>cellName</em></code><code> &#8230; ) }</code></pre>
+<p>
+<a name="pgfId-964706"></a>If <span class="webflare-courier-new" style="white-space:pre"><em>d_cellList</em></span><code> </code>is <code>t</code>, all cells in the current library are implied. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964655"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_viewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-964718"></a>The view type.<br />Valid Values: <code>symbol</code>, <code>schematic<br /></code>Default: <code>symbol</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964661"></a><span class="webflare-courier-new" style="white-space:pre"><em>g_terminalList</em></span></p>
+</td>
+<td class="webflareTd" colspan="2" rowspan="1">
+<p>
+<a name="pgfId-964732"></a>The terminals from which to delete properties, in the form</p>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-964733"></a>{ <code><em>terminalName</em></code><code> | t | input | output | io | switch | <br />( </code><code><em>terminalName</em></code><code> &#8230; ) }</code></pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964818"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964820"></a><span class="webflare-courier-new" style="white-space:pre"><em>terminalName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964822"></a>Name of the terminal: must be enclosed in quotation marks.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964667"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964669"></a><code>t</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964812"></a>Implies all terminals of the cell.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964673"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964675"></a><code>input</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964751"></a>Implies all input terminals. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964679"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964681"></a><code>output</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964759"></a>Implies all output terminals. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964685"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964687"></a><code>io</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964767"></a>Implies all input/output terminals. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964691"></a></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964693"></a><code>switch</code></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964775"></a>Implies all switch terminals. </p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-957892"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957894"></a>lmDeleteTermProp( SN74181 symbol<br />    (input Iih)<br />    (output Iol Ioh)<br />) </pre>
+
+<p>
+<a name="pgfId-958439"></a>Deletes the property <code>Iih</code> from all input terminals and the properties <code>Iol</code> and <code>Ioh</code> from all output terminals for the <code>symbol</code> view of cell <code>SN74181</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmDeleteViewProp
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957832"></a><a name="lmDeleteViewProp"></a><a name="21317"></a>lmDeleteViewProp</h3>
+<a name="pgfId-959933"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmDeleteViewProp( 
+<code><em>d_cellList</em></code> 
+<code><em>t_viewName</em></code> 
+<code><em>t_propertyName</em></code> &#8230; <code><em>t_propertyName</em></code> 
+)</pre>
+<h4>
+<a name="pgfId-958124"></a>Description</h4>
+<p>
+<a name="pgfId-958131"></a>Deletes specified properties from the specified view.</p>
+<h4>
+<a name="pgfId-957838"></a>Arguments</h4>
+<p>
+<a name="pgfId-964844"></a></p>
+<table class="webflareTable" id="#id964845">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964847"></a><span class="webflare-courier-new" style="white-space:pre"><em>d_cellList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964861"></a>Has the following format:</p>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-964898"></a>{ <code><em>cellName</em></code> | t | ( <code><em>cellName</em></code> &#8230; ) }</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964851"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_viewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964867"></a>Default: symbol</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964855"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_propertyName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964873"></a>Any SKILL symbol (entifier) or string.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-958463"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957845"></a>lmDeleteViewProp( (and2 and3) symbol partName slot ) </pre>
+
+<p>
+<a name="pgfId-958834"></a>Deletes the properties <code>partName</code> and <code>slot</code> from <code>and2</code> and <code>and3</code> cells <code>symbol</code> view.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957848"></a>lmDeleteViewProp( t spice gamma lambda ) </pre>
+
+<p>
+<a name="pgfId-958845"></a>Deletes the <code>gamma</code> and <code>lambda</code> properties from the <code>spice</code> view for each cell in the current library.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmGetValue
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957860"></a><a name="lmGetValue"></a><a name="30117"></a>lmGetValue</h3>
+<a name="pgfId-959939"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmGetValue( 
+<code><em>t_propertyName</em></code> 
+)</pre>
+<h4>
+<a name="pgfId-961771"></a>Description</h4>
+<p>
+<a name="pgfId-961773"></a>Returns the value of a specified view property in the current referenced view. </p>
+
+<p>
+<a name="pgfId-961774"></a>If the specified property does not exist, <code>nil</code> is returned. The returned value can be an integer, a floating-point number, a Boolean value, or a string. </p>
+<p>
+<a name="pgfId-961776"></a>Use <code>lmGetValue</code> only in expressions in <code>lmDefViewProp</code>, <code>lmDefTermProp</code>, or <code>lmCheckView</code> to remove any ambiguity about the referenced cellview.</p>
+
+<h4>
+<a name="pgfId-960033"></a>Arguments</h4>
+<p>
+<a name="pgfId-964909"></a></p>
+<table class="webflareTable" id="#id964910">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964912"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_propertyName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964932"></a>Any SKILL symbol (entifier) or string.</p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmLoadData
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-956959"></a><a name="lmLoadData"></a><a name="23596"></a>lmLoadData</h3>
+<a name="pgfId-956963"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmLoadData( 
+<code><em>t_file</em></code> 
+<code><em>t_lib</em></code> [ { <code><em>t_path</em></code> | nil } [ { <code><em>t_config</em></code> | nil } [ { <code><em>t_mode</em></code> | nil } ] ] ] 
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-958146"></a>Description</h4>
+<p>
+<a name="pgfId-958150"></a>Opens a working library, loads the library command file, and closes the library when you are finished.</p>
+<h4>
+<a name="pgfId-956964"></a>Arguments</h4>
+<p>
+<a name="pgfId-964937"></a></p>
+<table class="webflareTable" id="#id964938">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964940"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_file</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964962"></a>S/SLG library command filename. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964944"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_lib</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964970"></a>Working library name.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964948"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_path</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964978"></a>Search path of the working library. If you specify a null string or <code>nil</code>, the program searches paths previously set up by <code>dbSetPath</code> for the named library.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964952"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_config</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964986"></a>Configuration name, which lets you to set up the working context of the library. If you specify a null string or <code>nil</code>, the program uses the default configuration.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964956"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_mode</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-964994"></a>Valid Values: <code>r</code> (read only), <code>a</code> (append), <code>w</code> (write only)<br />Default: <code>r</code></p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-956970"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-956972"></a>lmLoadData( &quot;myFile.lm&quot; &quot;myLib&quot; &quot;&quot; &quot;&quot; &quot;a&quot; )</pre>
+
+<p>
+<a name="pgfId-958480"></a>Loads a command file, where <code>myFile.lm</code> is the library command file, and <code>myLib</code> is your working library.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmOpenLib
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-956973"></a><a name="lmOpenLib"></a><a name="13479"></a>lmOpenLib</h3>
+<a name="pgfId-958156"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmOpenLib( 
+<code><em>t_lib</em></code> [ { <code><em>t_path</em></code> | nil } [ { <code><em>t_config</em></code> | nil } [ { <code><em>t_mode</em></code> | nil } ] ] ] 
+) 
+=&gt; t / nil</pre>
+<h4>
+<a name="pgfId-956974"></a>Description</h4>
+<p>
+<a name="pgfId-958159"></a>Opens a library. </p>
+
+<div class="webflare-information-macro webflare-macro-note">
+<a name="pgfId-956975"></a>Call <code>lmOpenLib</code> before starting any S/SLG command and call <code>lmCloseLib</code> when you are done if you are not using <code>lmLoadData</code> to load the library command file.</div>
+
+<h4>
+<a name="pgfId-956979"></a>Arguments</h4>
+<p>
+<a name="pgfId-965030"></a></p>
+<table class="webflareTable" id="#id965031">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965033"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_lib</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965051"></a>Working library name.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965037"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_path</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965063"></a>Search path of the working library. If you specify a null string or <code>nil</code>, the program searches paths previously set up by <code>dbSetPath</code> for the named library.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965041"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_config</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965071"></a>Configuration name, which lets you set up the working context of the library. If you specify a null string or <code>nil</code>, the program uses the default configuration.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965045"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_mode</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965079"></a>Valid Values: <code>r</code> (read only), <code>a</code> (append), <code>w</code> (write only) <br />Default: <code>r</code></p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-956984"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-956986"></a>lmOpenLib( &quot;myLib&quot; )</pre>
+
+<p>
+<a name="pgfId-958493"></a>Opens a library in read mode, where <code>myLib</code> is your working library.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmPrintLibTermProp
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957918"></a><a name="lmPrintLibTermProp"></a><a name="38910"></a>lmPrintLibTermProp</h3>
+<a name="pgfId-959945"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmPrintLibTermProp( 
+<code><em>t_viewName</em></code> 
+[ <code><em>t_filename </em></code>] 
+) </pre>
+<h4>
+<a name="pgfId-958166"></a>Description</h4>
+<p>
+<a name="pgfId-958169"></a>Prints terminal properties of the specified view for each cell in the current library. </p>
+<h4>
+<a name="pgfId-957923"></a>Arguments</h4>
+<p>
+<a name="pgfId-965108"></a></p>
+<table class="webflareTable" id="#id965109">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965111"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_viewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965162"></a>Has the following format:</p>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-965158"></a>{ <code><em>viewName</em></code> | t | ( <code><em>viewName</em></code> &#8230; ) }</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965115"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_filename</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965137"></a>Name of a file where the printout is stored. If not specified, output is displayed on the screen.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-957927"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957929"></a>lmPrintLibTermProp( symbol )</pre>
+
+<p>
+<a name="pgfId-958511"></a>Prints all terminal properties of the <code>symbol</code> view for each cell in the current library. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmPrintLibViewProp
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957955"></a><a name="lmPrintLibViewProp"></a><a name="24027"></a>lmPrintLibViewProp</h3>
+<a name="pgfId-959951"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmPrintLibViewProp( 
+<code><em>t_viewName</em></code> 
+[ <code><em>t_filename</em></code>] 
+) </pre>
+<h4>
+<a name="pgfId-958176"></a>Description</h4>
+<p>
+<a name="pgfId-958179"></a>Prints properties of the specified view for each cell in the current library. </p>
+<h4>
+<a name="pgfId-957960"></a>Arguments</h4>
+<p>
+<a name="pgfId-965169"></a></p>
+<table class="webflareTable" id="#id965170">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965172"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_viewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965190"></a>Default: <code>symbol</code></p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965176"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_filename</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965198"></a>Name of a file where the printout is stored. If not specified, output is displayed on the screen.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-957963"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957964"></a>lmPrintLibViewProp( symbol ) </pre>
+
+<p>
+<a name="pgfId-958856"></a>Prints properties of the <code>symbol</code> view for each cell in the current library.</p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957966"></a>lmPrintLibViewProp( symbol &quot;symbol.lil&quot; ) </pre>
+
+<p>
+<a name="pgfId-958867"></a>Stores output in the file <code>symbol.lil</code>. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmPrintTerm
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957110"></a><a name="lmPrintTerm"></a><a name="33098"></a>lmPrintTerm</h3>
+<a name="pgfId-959957"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmPrintTerm( 
+<code><em>t_cellName</em></code> 
+<code><em>t_viewName</em></code> 
+) </pre>
+<h4>
+<a name="pgfId-958186"></a>Description</h4>
+<p>
+<a name="pgfId-958189"></a>Prints names, types, and wths of all terminals of the specified cellviews. </p>
+<h4>
+<a name="pgfId-957115"></a>Arguments</h4>
+<p>
+<a name="pgfId-965215"></a></p>
+<table class="webflareTable" id="#id965216">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965218"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_cellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965236"></a>Optional only when <code>lmPrintTerm</code> is used in <code>lmDefCell</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965222"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_viewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965242"></a>View name of the cellview to be printed.</p>
+</td>
+</tr>
+</tbody></table>
+<h4>
+<a name="pgfId-962489"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-962497"></a>lmPrintTerm(&quot;nand2&quot; &quot;symbol&quot; )</pre>
+
+<p>
+<a name="pgfId-962498"></a>Prints names, types and wths of all terminals of the <code>nand2 symbol</code> cellview.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmPrintTermProp
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957935"></a><a name="lmPrintTermProp"></a><a name="34458"></a>lmPrintTermProp</h3>
+<a name="pgfId-959963"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmPrintTermProp( 
+<code><em>t_cellName</em></code> 
+<code><em>l_viewList</em></code> 
+[ <code><em>t_filename </em></code>] 
+) </pre>
+<h4>
+<a name="pgfId-958196"></a>Description</h4>
+<p>
+<a name="pgfId-958199"></a>Prints properties of all terminals of the specified views of a cell. </p>
+<h4>
+<a name="pgfId-957940"></a>Arguments</h4>
+<p>
+<a name="pgfId-965261"></a></p>
+<table class="webflareTable" id="#id965262">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965264"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_cellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965282"></a>Optional only when lmPrintTermProp is used in lmDefCell. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965268"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_viewList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965316"></a>Has the following format:</p>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-965288"></a>{ <code><em>viewName</em></code> | t | ( <code><em>viewName</em></code> &#8230; ) }</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965272"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_filename</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965294"></a>Name of a file where the printout is stored. If not specified, output is displayed on the screen. </p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-957946"></a>Output from <code>lmPrintTermProp</code> has the same format as that of <code>lmDefTermProp</code>, so you can edit the output file, and then put the properties back into the terminals.</p>
+
+<h4>
+<a name="pgfId-957947"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957949"></a>lmPrintTermProp( nfet t ) </pre>
+
+<p>
+<a name="pgfId-958530"></a>Prints the terminal properties of all views of the cell <code>nfet</code>. </p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmPrintViewProp
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957121"></a><a name="lmPrintViewProp"></a><a name="17713"></a>lmPrintViewProp</h3>
+<a name="pgfId-959969"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmPrintViewProp( 
+<code><em>t_cellName</em></code> 
+<code><em>l_viewList</em></code> 
+[ <code><em>t_filename</em></code> ] 
+) </pre>
+<h4>
+<a name="pgfId-958206"></a>Description</h4>
+<p>
+<a name="pgfId-958209"></a>Prints properties of all specified views of a cell. </p>
+<h4>
+<a name="pgfId-957126"></a>Arguments</h4>
+<p>
+<a name="pgfId-965335"></a></p>
+<table class="webflareTable" id="#id965336">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965338"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_cellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965360"></a>Optional only when lmPrintViewProp is used in lmDefCell. The first name (not a property name) in the argument list is treated as the cell name. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965342"></a><span class="webflare-courier-new" style="white-space:pre"><em>l_viewList</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965406"></a>Has the following format:</p>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-965368"></a>{ <code><em>viewName</em></code> | t | ( <code><em>viewName</em></code> &#8230; ) }</pre>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965346"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_filename</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965376"></a>Name of a file where the printout is stored. If not specified, the output is displayed on the screen. </p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-957132"></a>Output from <code>lmPrintViewProp</code> has the same format as that of <code>lmDefViewProp</code>, so you can edit the output file and then put the properties back into the view.</p>
+
+<h4>
+<a name="pgfId-957133"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957135"></a>lmPrintViewProp( and2 symbol &quot;and2.out&quot; ) </pre>
+
+<p>
+<a name="pgfId-958549"></a>Prints properties of the <code>symbol</code> view of the cell <code>and2</code> in the file <code>and2.out</code>. </p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957137"></a>lmPrintViewProp( and2 t &quot;and2prop&quot; ) </pre>
+
+<p>
+<a name="pgfId-958559"></a>Prints properties of all views of the cell <code>and2</code> in the file <code>and2prop</code>. </p>
+
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957139"></a>lmPrintViewProp( and2 (symbol ta) <code>&quot;and2.sim&quot;</code> ) </pre>
+
+<p>
+<a name="pgfId-958566"></a>Prints properties of views <code>symbol</code> and <code>ta</code> of the cell <code>and2</code> in the file <code>and2.sim</code>.</p>
+
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmReset
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957972"></a><a name="lmReset"></a><a name="18599"></a>lmReset</h3>
+<a name="pgfId-958215"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmReset( ) </pre>
+<h4>
+<a name="pgfId-957974"></a>Description</h4>
+<p>
+<a name="pgfId-958218"></a>Resets all global variables to their default values. </p>
+<h4>
+<a name="pgfId-963812"></a>Arguments</h4>
+<p>
+<a name="pgfId-965413"></a></p>
+<table class="webflareTable" id="#id965414">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965416"></a>None.</p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965418"></a></p>
+</td>
+</tr>
+</tbody></table>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=lmSimView
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-957215"></a><a name="lmSimView"></a><a name="28812"></a>lmSimView</h3>
+<a name="pgfId-957219"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+lmSimView( 
+<code><em>t_cellName</em></code> 
+<code><em>t_templateViewName</em></code> 
+<code><em>t_targetViewName</em></code> 
+[ t_<code><em>targetViewtype </em></code>]
+<code><em>t_propertyName</em></code> = <code><em>t_propertyValue</em></code> &#8230; <code><em>t_propertyName</em></code> <code><em>t_propertyValue</em></code> 
+) </pre>
+<h4>
+<a name="pgfId-958227"></a>Description</h4>
+<p>
+<a name="pgfId-958230"></a>Creates a view with specified properties for the specified cell. </p>
+<h4>
+<a name="pgfId-957221"></a>Arguments</h4>
+<p>
+<a name="pgfId-965433"></a></p>
+<table class="webflareTable" id="#id965434">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965436"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_cellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965462"></a>Optional only when <code>lmSimView</code> is used in <code>lmDefCell</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965440"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_templateViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965470"></a>Name of a template view, normally symbol, in which the terminal information is stored. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965444"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_targetViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965478"></a>Name of the view to be created. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965448"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_targetViewtype</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965486"></a>Type of the view to be created. Use this optional argument if you do not want to overwrite the current view type. The view type <code>schematicSymbol</code> is the default.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965452"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_propertyName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965494"></a>Any SKILL symbol (entifier) or string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965456"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_propertyValue</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965502"></a>Any SKILL expression, as long as the expression returns proper values.</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-957226"></a>All specified properties are added into the target view. The arguments <code>cellName</code> and <code>templateViewName</code> must exist in the current library.</p>
+
+<h4>
+<a name="pgfId-957227"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-957229"></a>lmSimView( and2 symbol <br />    CreationTime = time(&quot;May 1 10:00:00 2000&quot;)<br />    Input<code>_</code>Pin_List = nlpExpr(&quot;[|A] [|B]&quot;)<br />    NLPElementPostamble = nlpExpr(&quot;[|Y] .AND<br />    [@Input_Pin_List]<br />    [@NLPElement]&quot;)<br />)</pre>
+<!-- [TOPIC_END] -->
+  <!--  [TOPIC_START_OPEN]type=cmdref
+
+[TOPIC_START_ATTR]text=simRep
+
+[TOPIC_START_ATTR]description=
+
+[TOPIC_START_ATTR]keyword=
+
+[TOPIC_START_CLOSE] -->
+
+
+
+
+<h3>
+<a name="pgfId-962630"></a><a name="simRep"></a>simRep</h3>
+<a name="pgfId-962650"></a><pre class="webflare-courier-new webflare-syx-syntax codeContent">
+simRep(
+<code><em>t_cellName</em></code> 
+<code><em>t_templateViewName</em></code> 
+<code><em>t_targetViewName</em></code> 
+[ <code><em>t_targetViewtype </em></code>]
+<code><em>t_propertyName</em></code> = <code><em>t_propertyValue</em></code> &#8230; <code><em>t_propertyName</em></code> <code><em>t_propertyValue</em></code> 
+) </pre>
+<h4>
+<a name="pgfId-962636"></a>Description</h4>
+<p>
+<a name="pgfId-962640"></a>Creates a view with specified properties for the specified cell. Use this function only for backward compatibility with Edge 2.1; otherwise, use the <code>lmSimView</code> function. </p>
+<h4>
+<a name="pgfId-962637"></a>Arguments</h4>
+<p>
+<a name="pgfId-965543"></a></p>
+<table class="webflareTable" id="#id965544">
+<tbody><tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965546"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_cellName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965572"></a>Optional only when <code>lmSimView</code> is used in <code>lmDefCell</code>.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965550"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_templateViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965580"></a>Name of a template view, normally symbol, in which the terminal information is stored. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965554"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_targetViewName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965588"></a>Name of the view to be created. </p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965558"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_targetViewtype</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965596"></a>Type of the view to be created. Use this optional argument if you do not want to overwrite the current view type. The view type <code>schematicSymbol</code> is the default.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965562"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_propertyName</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965604"></a>Any SKILL symbol (entifier) or string.</p>
+</td>
+</tr>
+<tr>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965566"></a><span class="webflare-courier-new" style="white-space:pre"><em>t_t_propertyValue</em></span></p>
+</td>
+<td class="webflareTd" colspan="1" rowspan="1">
+<p>
+<a name="pgfId-965612"></a>Any SKILL expression, as long as the expression returns proper values.</p>
+</td>
+</tr>
+</tbody></table>
+
+<p>
+<a name="pgfId-962669"></a>All specified properties are added into the target view. The arguments <code>cellName</code> and <code>templateViewName</code> must exist in the current library.</p>
+
+<h4>
+<a name="pgfId-962670"></a>Example</h4>
+<pre class="webflare-courier-new codeContent">
+<a name="pgfId-962671"></a>SimRep( and2 symbol <br />    CreationTime = time(&quot;May 1 10:00:00 2000&quot;)<br />    Input<code>_</code>Pin_List = nlpExpr(&quot;[|A] [|B]&quot;)<br />    NLPElementPostamble = nlpExpr(&quot;[|Y] .AND<br />    [@Input_Pin_List]<br />    [@NLPElement]&quot;)<br />)</pre>
+
+<p>
+<a name="pgfId-968400"></a></p>
+<p>
+<a name="pgfId-971394"></a></p>
+
+<!-- [TOPIC_END] -->
+
+<p>
+<a name="pgfId-972540"></a></p>
+
+<br /><a href="#pagetop">Return to top</a><br /></div>
+<!-- Begin Buttons --><!-- End Buttons -->
+<footer><nav class="navigation"><b><em><a href="chap2.html" id="prev" title="Virtuoso Schematic Editor Procedural Interface (PI) Functions">Virtuoso Schematic Editor Proc ...</a></em></b><b><em><a href="SMG_funcs.html" id="nex" title="Function for amsDmv(IC6.1.8 Only)">Function for amsDmv(IC6.1.8 On ...</a></em></b></nav><div>
+            For further assistance, contact <a href="https://support.cadence.com">Cadence Online Support</a>. Copyright &#169; 2020, <a href="https://www.cadence.com">Cadence Design Systems, Inc.</a> All rights reserved. 
+          </div></footer>
+</body></html>
